@@ -41,6 +41,7 @@ WorkID：AIが採番する作業の識別子（ChatGPT内部IDではない）
 | WorkID | 役割 | 作業ブランチ | 設定 |
 |---|---|---|---|
 | `20260909-work-routing` | この会話での移行・運用設定整備の継続 | `dev_design_tmp_assembly` | [作業設定](Work/20260909-work-routing.md) |
+| `20260909-design-assembly` | 設計ひな形の継続検討・結果統合、試遊引継ぎの今回の再作成 | `dev_design_tmp_assembly` | [作業設定](Work/20260909-design-assembly.md) |
 
 設計検討・試遊という役割自体は下記の既存分担を維持する。別Workの個別設定を作成・開始済みと推定しない。共通の基本設計・仕様案・要検討事項・統合検討・試験条件・共通エンジンへの統合は設計検討Workが担当し、試遊Workは原記録の担当を維持する。
 
