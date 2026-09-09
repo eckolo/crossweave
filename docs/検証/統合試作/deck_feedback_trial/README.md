@@ -17,9 +17,13 @@ node docs/検証/統合試作/deck_feedback_trial/build.cjs
 
 Xの再計算は `node docs/検証/統合試作/deck_feedback_trial/study.cjs`。こちらだけが `results.json` と `recovery_checkpoint.json` を再生成する。Yの再計算は `node docs/検証/統合試作/deck_feedback_trial/ecology_study.cjs`。現在のZ画面に旧HP36状態を読み込まない。
 
-## 自作構築と次探索の接続：追加AE
+## 成長ポイントと用途限定報酬の接続：追加AF
 
-D42・基本設計0.42の初攻略時開示を採用条件として、自作構築の入力、具体報酬、精算、帰還後の選択／自動強化、次出発を接続した。仮プロフィール・入出力・再現・限界は[AEの記録](loop_notes.md)。`node docs/検証/統合試作/deck_feedback_trial/loop_study.cjs`で新しい`loop_results.json`を再生成する。操作画面は未接続で、既存の操作ZとUI-R-001を変更しない。成長の方式判断は[統合検討95章](../../../作業資料/カード探索ゲーム_統合検討.md#growth-choice-proposal)。
+D43・基本設計0.43で、使い道を選べる成長ポイントと素材・札等の用途限定報酬の併用を採用した。具体的な複数明細の精算・使用は[AFの記録](hybrid_notes.md)。`node docs/検証/統合試作/deck_feedback_trial/hybrid_study.cjs`で条件と結果を再現できる。素材名・レシピ・数値は試行で、既存UIへの接続・人評価は未完了。
+
+## 自作構築と次探索の接続：追加AE（成長方式は比較時の記録）
+
+D42・基本設計0.42の初攻略時開示を採用条件として、自作構築の入力、具体報酬、精算、帰還後の選択／自動強化、次出発を接続した。仮プロフィール・入出力・再現・限界は[AEの記録](loop_notes.md)。`node docs/検証/統合試作/deck_feedback_trial/loop_study.cjs`で新しい`loop_results.json`を再生成する。操作画面は未接続で、既存の操作ZとUI-R-001を変更しない。成長の二方式は[95章](../../../作業資料/カード探索ゲーム_統合検討.md#growth-choice-proposal)の過去比較。現在は[96章・D43](../../../作業資料/カード探索ゲーム_統合検討.md#hybrid-reward-d43)の併用方針を適用する。
 
 ## 知識・経験条件の比較：追加AD（比較時の記録）
 
