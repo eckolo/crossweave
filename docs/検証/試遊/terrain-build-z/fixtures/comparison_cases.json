@@ -1,0 +1,1575 @@
+{
+  "schema": "crossweave-ui-comparison-cases-v1",
+  "base_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
+  "seed": 32,
+  "build": "guard5",
+  "selection": "One fixed trajectory; first eligible ready state per declared predicate; stop after all three. No terminal-outcome filter.",
+  "human_play": false,
+  "engine_mutations": false,
+  "base_blobs": {
+    "engine.js": "148df4635f0fb170c8c79e9dcb993484c5a504ef",
+    "feedback.js": "9880d7a379c396cfa03041cefa5d5ff9fea1e8af",
+    "ecology.js": "887529db17fa72ae50eae503fa50724fe5e4e7dc",
+    "terrain.js": "145be355d26951363f51539fe93e3bf5bccff3ac",
+    "input.json": "6122c64539fc7021fb020296c592586e234e22b3"
+  },
+  "cases": [
+    {
+      "id": "CMP-Z-START",
+      "purpose": "入口の読み取り",
+      "build": "guard5",
+      "prefix": [],
+      "at": {
+        "player_action": 1,
+        "hp": 60,
+        "max_hp": 60,
+        "rebuilds": 0,
+        "current_event": "rock",
+        "active_actors": [
+          "O",
+          "P",
+          "V0"
+        ]
+      },
+      "expected": {
+        "save_sha256": "712a29ced246dbbb3978438b2faa57f8f245d1019f0bec477a47ad1eed1fe5c2",
+        "observable_sha256": "0fb5ac73bc3ab40034190d1b2291988991885bb903faa765c956f66792fa5687",
+        "trace_sha256": "b520a38b904c7dd807b2cd93d9518efb20b63ba5a31ba6a2b877a806bc35fa3c"
+      },
+      "observable": {
+        "public": {
+          "now": 0,
+          "outcome": null,
+          "actors": {
+            "O": {
+              "actions": 0,
+              "active": true,
+              "acts": false,
+              "cap": 0,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 0,
+              "hit": 0,
+              "hp": 20,
+              "initial_size": 0,
+              "max_hp": 20,
+              "minimum": 0,
+              "next_at": null,
+              "passives": [
+                {
+                  "id": "rock_shell",
+                  "kind": "damage_reduction",
+                  "target": "O",
+                  "value": 8
+                },
+                {
+                  "id": "rock_cover",
+                  "kind": "evasion",
+                  "target": "others",
+                  "value": 20
+                }
+              ],
+              "rebuilds": 0,
+              "role": "O",
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 8
+            },
+            "P": {
+              "actions": 0,
+              "active": true,
+              "acts": true,
+              "cap": 12,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 3,
+              "hit": 0,
+              "hp": 60,
+              "initial_size": 12,
+              "max_hp": 60,
+              "minimum": 3,
+              "next_at": 0,
+              "passives": [],
+              "rebuilds": 0,
+              "role": "P",
+              "hand_count": 3,
+              "deck_count": 9,
+              "evasion": 20,
+              "reduction": 0,
+              "hand": [
+                {
+                  "attr": "B",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 25,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": 6,
+                  "hit": 50,
+                  "id": "P_initial_0005",
+                  "kind": "attack",
+                  "life": 2,
+                  "match_cost": 12,
+                  "name": "踏み込み",
+                  "origin": "P",
+                  "place_cost": 8,
+                  "power": 4,
+                  "remaining": 2,
+                  "type": "l"
+                },
+                {
+                  "attr": "A",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 40,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": -2,
+                  "hit": 0,
+                  "id": "P_initial_0012",
+                  "kind": "guard",
+                  "life": 3,
+                  "match_cost": 10,
+                  "name": "受け流し",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 2,
+                  "remaining": 3,
+                  "type": "r"
+                },
+                {
+                  "attr": "A",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 25,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 30,
+                  "field_power": 0,
+                  "hit": 70,
+                  "id": "P_initial_0001",
+                  "kind": "attack",
+                  "life": 2,
+                  "match_cost": 10,
+                  "name": "牽制",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 3,
+                  "remaining": 2,
+                  "type": "f"
+                }
+              ]
+            },
+            "V0": {
+              "actions": 1,
+              "active": true,
+              "acts": true,
+              "cap": 12,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 1,
+              "hit": 0,
+              "hp": 40,
+              "initial_size": 12,
+              "max_hp": 40,
+              "minimum": 1,
+              "next_at": 10,
+              "passives": [],
+              "rebuilds": 0,
+              "role": "V",
+              "hand_count": 0,
+              "deck_count": 11,
+              "evasion": 20,
+              "reduction": 0
+            }
+          },
+          "field": {
+            "D": {
+              "attr": "D",
+              "birth": "initial",
+              "core": false,
+              "crit_gain": 10,
+              "destroyed": false,
+              "doomed": false,
+              "evasion": 0,
+              "field_hit": 0,
+              "field_power": 0,
+              "hit": 50,
+              "id": "V0_initial_0023",
+              "kind": "attack",
+              "life": 2,
+              "match_cost": 10,
+              "name": "弱攻撃札",
+              "origin": "V0",
+              "place_cost": 10,
+              "power": 2,
+              "remaining": null,
+              "type": "weak_D"
+            }
+          },
+          "pool_count": 0,
+          "N": 24,
+          "rules": "corrected",
+          "current_event": "rock",
+          "rewards": {}
+        },
+        "catalogue": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "read",
+              "name": "見切り",
+              "attr": "C",
+              "kind": "guard",
+              "power": 1,
+              "hit": 0,
+              "evasion": 30,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "known_attributes": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "current_choices": [
+          {
+            "choice": {
+              "card_id": "P_initial_0005",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "P_initial_0012",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "P_initial_0001",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CMP-Z-MIXED",
+      "purpose": "再構築後の札の把握",
+      "build": "guard5",
+      "prefix": [
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        }
+      ],
+      "at": {
+        "player_action": 8,
+        "hp": 60,
+        "max_hp": 60,
+        "rebuilds": 1,
+        "current_event": "followup",
+        "active_actors": [
+          "P",
+          "V1",
+          "E1"
+        ]
+      },
+      "expected": {
+        "save_sha256": "e3fd1abbc6fd5edfbca445bf41e3bb9b42c5d6b192bb86ece9a0dbb2fa3cf30b",
+        "observable_sha256": "bb089fbfd2ed1295cfb82694657109bbf127965fba51c3c62903f6f663940cd5",
+        "trace_sha256": "f46b2491dada9c8a12d897b0d3456edd6ed79a2409e137df8b236ead06d3837e"
+      },
+      "observable": {
+        "public": {
+          "now": 70,
+          "outcome": null,
+          "actors": {
+            "O": {
+              "actions": 0,
+              "active": false,
+              "acts": false,
+              "cap": 0,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 0,
+              "hit": 0,
+              "hp": 20,
+              "initial_size": 0,
+              "max_hp": 20,
+              "minimum": 0,
+              "next_at": null,
+              "passives": [
+                {
+                  "id": "rock_shell",
+                  "kind": "damage_reduction",
+                  "target": "O",
+                  "value": 8
+                },
+                {
+                  "id": "rock_cover",
+                  "kind": "evasion",
+                  "target": "others",
+                  "value": 20
+                }
+              ],
+              "rebuilds": 0,
+              "role": "O",
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "P": {
+              "actions": 7,
+              "active": true,
+              "acts": true,
+              "cap": 12,
+              "crit": 40,
+              "guard": {
+                "value": 3,
+                "evasion": 0,
+                "uses": 2
+              },
+              "hand_size": 3,
+              "hit": 30,
+              "hp": 60,
+              "initial_size": 12,
+              "max_hp": 60,
+              "minimum": 3,
+              "next_at": 70,
+              "passives": [],
+              "rebuilds": 1,
+              "role": "P",
+              "hand_count": 3,
+              "deck_count": 10,
+              "evasion": 0,
+              "reduction": 0,
+              "hand": [
+                {
+                  "attr": "C",
+                  "birth": "initial",
+                  "consume_on_recover": true,
+                  "core": false,
+                  "crit_gain": 10,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": -4,
+                  "hit": 0,
+                  "id": "P_initial_0007",
+                  "kind": "heal",
+                  "life": 16,
+                  "match_cost": 10,
+                  "name": "回復草",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 16,
+                  "remaining": 14,
+                  "type": "salve"
+                },
+                {
+                  "type": "weak_B",
+                  "name": "弱攻撃札",
+                  "attr": "B",
+                  "kind": "attack",
+                  "power": 2,
+                  "hit": 50,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 2,
+                  "core": false,
+                  "id": "V1_initial_0028",
+                  "origin": "V1",
+                  "birth": "initial",
+                  "remaining": 2,
+                  "doomed": false,
+                  "destroyed": false,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "crit_gain": 10,
+                  "evasion": 0
+                },
+                {
+                  "attr": "A",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 40,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": -2,
+                  "hit": 0,
+                  "id": "P_initial_0012",
+                  "kind": "guard",
+                  "life": 3,
+                  "match_cost": 10,
+                  "name": "受け流し",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 2,
+                  "remaining": 3,
+                  "type": "r"
+                }
+              ]
+            },
+            "V0": {
+              "actions": 5,
+              "active": false,
+              "acts": true,
+              "cap": 12,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 1,
+              "hit": 0,
+              "hp": 0,
+              "initial_size": 12,
+              "max_hp": 40,
+              "minimum": 1,
+              "next_at": null,
+              "passives": [],
+              "rebuilds": 0,
+              "role": "V",
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "V1": {
+              "role": "V",
+              "acts": true,
+              "hp": 60,
+              "max_hp": 60,
+              "hit": 0,
+              "crit": 0,
+              "guard": null,
+              "active": true,
+              "next_at": 80,
+              "actions": 3,
+              "hand_size": 1,
+              "initial_size": 12,
+              "cap": 12,
+              "minimum": 1,
+              "passives": [],
+              "rebuilds": 0,
+              "hand_count": 0,
+              "deck_count": 9,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "E1": {
+              "role": "E",
+              "acts": true,
+              "hp": 36,
+              "max_hp": 36,
+              "hit": 0,
+              "crit": 50,
+              "guard": null,
+              "active": true,
+              "next_at": 70,
+              "actions": 2,
+              "hand_size": 3,
+              "initial_size": 12,
+              "cap": 12,
+              "minimum": 3,
+              "passives": [],
+              "rebuilds": 0,
+              "hand_count": 0,
+              "deck_count": 8,
+              "evasion": 0,
+              "reduction": 0
+            }
+          },
+          "field": {
+            "B": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "core": false,
+              "id": "V1_initial_0032",
+              "origin": "V1",
+              "birth": "initial",
+              "remaining": null,
+              "doomed": false,
+              "destroyed": false,
+              "place_cost": 10,
+              "match_cost": 10,
+              "crit_gain": 10,
+              "evasion": 0
+            }
+          },
+          "pool_count": 5,
+          "N": 36,
+          "rules": "corrected",
+          "current_event": "followup",
+          "rewards": {
+            "T0": {
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 40
+            }
+          }
+        },
+        "catalogue": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 3,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "read",
+              "name": "見切り",
+              "attr": "C",
+              "kind": "guard",
+              "power": 1,
+              "hit": 0,
+              "evasion": 30,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "known_attributes": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "current_choices": [
+          {
+            "choice": {
+              "card_id": "P_initial_0007",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "V1_initial_0028",
+              "target": "V1"
+            },
+            "prediction": {
+              "mode": "attack",
+              "crit_added": 10,
+              "actual_hp_loss": 0,
+              "hit_gain": 50,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "V1_initial_0028",
+              "target": "E1"
+            },
+            "prediction": {
+              "mode": "attack",
+              "crit_added": 10,
+              "actual_hp_loss": 0,
+              "hit_gain": 50,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "P_initial_0012",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CMP-Z-LATER",
+      "purpose": "循環が進んだ複数対象の把握",
+      "build": "guard5",
+      "prefix": [
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0028",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0040",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0029",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        }
+      ],
+      "at": {
+        "player_action": 17,
+        "hp": 30,
+        "max_hp": 60,
+        "rebuilds": 2,
+        "current_event": "followup",
+        "active_actors": [
+          "P",
+          "V1",
+          "E1"
+        ]
+      },
+      "expected": {
+        "save_sha256": "7f3d13a532b8f44ae5b9177a5f06037f94b810663ca3f5e0773834c85e42c12c",
+        "observable_sha256": "eb0f7d2561cf484102637686f2e507bacc0d451f8b49b852f5017b74a83c8edd",
+        "trace_sha256": "885df7bff0faeea4e70f050d86e46d80b6f34a5bff3223abfe219a5df753aaf9"
+      },
+      "observable": {
+        "public": {
+          "now": 162,
+          "outcome": null,
+          "actors": {
+            "O": {
+              "actions": 0,
+              "active": false,
+              "acts": false,
+              "cap": 0,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 0,
+              "hit": 0,
+              "hp": 20,
+              "initial_size": 0,
+              "max_hp": 20,
+              "minimum": 0,
+              "next_at": null,
+              "passives": [
+                {
+                  "id": "rock_shell",
+                  "kind": "damage_reduction",
+                  "target": "O",
+                  "value": 8
+                },
+                {
+                  "id": "rock_cover",
+                  "kind": "evasion",
+                  "target": "others",
+                  "value": 20
+                }
+              ],
+              "rebuilds": 0,
+              "role": "O",
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "P": {
+              "actions": 16,
+              "active": true,
+              "acts": true,
+              "cap": 12,
+              "crit": 60,
+              "guard": null,
+              "hand_size": 3,
+              "hit": 0,
+              "hp": 30,
+              "initial_size": 12,
+              "max_hp": 60,
+              "minimum": 3,
+              "next_at": 162,
+              "passives": [],
+              "rebuilds": 2,
+              "role": "P",
+              "hand_count": 3,
+              "deck_count": 11,
+              "evasion": 0,
+              "reduction": 0,
+              "hand": [
+                {
+                  "attr": "C",
+                  "birth": "initial",
+                  "consume_on_recover": true,
+                  "core": false,
+                  "crit_gain": 10,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": -4,
+                  "hit": 0,
+                  "id": "P_initial_0007",
+                  "kind": "heal",
+                  "life": 16,
+                  "match_cost": 10,
+                  "name": "回復草",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 16,
+                  "remaining": 5,
+                  "type": "salve"
+                },
+                {
+                  "attr": "D",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 20,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 0,
+                  "field_power": -4,
+                  "hit": 0,
+                  "id": "P_initial_0010",
+                  "kind": "guard",
+                  "life": 2,
+                  "match_cost": 10,
+                  "name": "防御",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 3,
+                  "remaining": 1,
+                  "type": "g"
+                },
+                {
+                  "attr": "A",
+                  "birth": "initial",
+                  "core": true,
+                  "crit_gain": 25,
+                  "destroyed": false,
+                  "doomed": false,
+                  "evasion": 0,
+                  "field_hit": 30,
+                  "field_power": 0,
+                  "hit": 70,
+                  "id": "P_initial_0002",
+                  "kind": "attack",
+                  "life": 2,
+                  "match_cost": 10,
+                  "name": "牽制",
+                  "origin": "P",
+                  "place_cost": 10,
+                  "power": 3,
+                  "remaining": 2,
+                  "type": "f"
+                }
+              ]
+            },
+            "V0": {
+              "actions": 5,
+              "active": false,
+              "acts": true,
+              "cap": 12,
+              "crit": 0,
+              "guard": null,
+              "hand_size": 1,
+              "hit": 0,
+              "hp": 0,
+              "initial_size": 12,
+              "max_hp": 40,
+              "minimum": 1,
+              "next_at": null,
+              "passives": [],
+              "rebuilds": 0,
+              "role": "V",
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "V1": {
+              "role": "V",
+              "acts": true,
+              "hp": 28,
+              "max_hp": 60,
+              "hit": 0,
+              "crit": 30,
+              "guard": null,
+              "active": true,
+              "next_at": 170,
+              "actions": 12,
+              "hand_size": 1,
+              "initial_size": 12,
+              "cap": 12,
+              "minimum": 1,
+              "passives": [],
+              "rebuilds": 0,
+              "hand_count": 0,
+              "deck_count": 0,
+              "evasion": 0,
+              "reduction": 0
+            },
+            "E1": {
+              "role": "E",
+              "acts": true,
+              "hp": 36,
+              "max_hp": 36,
+              "hit": 50,
+              "crit": 0,
+              "guard": null,
+              "active": true,
+              "next_at": 166,
+              "actions": 12,
+              "hand_size": 3,
+              "initial_size": 12,
+              "cap": 12,
+              "minimum": 3,
+              "passives": [],
+              "rebuilds": 1,
+              "hand_count": 2,
+              "deck_count": 3,
+              "evasion": 0,
+              "reduction": 0
+            }
+          },
+          "field": {
+            "D": {
+              "type": "weak_D",
+              "name": "弱攻撃札",
+              "attr": "D",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "core": false,
+              "id": "V1_initial_0035",
+              "origin": "V1",
+              "birth": "initial",
+              "remaining": null,
+              "doomed": false,
+              "destroyed": false,
+              "place_cost": 10,
+              "match_cost": 10,
+              "crit_gain": 10,
+              "evasion": 0
+            }
+          },
+          "pool_count": 16,
+          "N": 36,
+          "rules": "corrected",
+          "current_event": "followup",
+          "rewards": {
+            "T0": {
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 40
+            }
+          }
+        },
+        "catalogue": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_A",
+              "name": "弱攻撃札",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 4,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "read",
+              "name": "見切り",
+              "attr": "C",
+              "kind": "guard",
+              "power": 1,
+              "hit": 0,
+              "evasion": 30,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "known_attributes": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "current_choices": [
+          {
+            "choice": {
+              "card_id": "P_initial_0007",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          },
+          {
+            "choice": {
+              "card_id": "P_initial_0010",
+              "target": null
+            },
+            "prediction": {
+              "mode": "guard",
+              "crit_added": 20,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": {
+                "value": 3,
+                "evasion": 0,
+                "uses": 2
+              }
+            }
+          },
+          {
+            "choice": {
+              "card_id": "P_initial_0002",
+              "target": null
+            },
+            "prediction": {
+              "mode": "place",
+              "crit_added": 0,
+              "actual_hp_loss": 0,
+              "hit_gain": 0,
+              "hit_connected": false,
+              "hp_restored": 0,
+              "guard": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

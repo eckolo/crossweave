@@ -17,9 +17,13 @@ node docs/検証/統合試作/deck_feedback_trial/build.cjs
 
 Xの再計算は `node docs/検証/統合試作/deck_feedback_trial/study.cjs`。こちらだけが `results.json` と `recovery_checkpoint.json` を再生成する。Yの再計算は `node docs/検証/統合試作/deck_feedback_trial/ecology_study.cjs`。現在のZ画面に旧HP36状態を読み込まない。
 
-## 最新の知識・経験条件の比較：追加AD
+## 自作構築と次探索の接続：追加AE
 
-D41・基本設計0.41として、開示済み知識は死亡・撤退後も参照する。`knowledge.js` はこの保持方式を使い、初期構成を観測のみ／初遭遇／初撃破・踏破で開く三案を比較する。開示条件の三案は未採用。共通戦闘や操作版Zは変更しない。
+D42・基本設計0.42の初攻略時開示を採用条件として、自作構築の入力、具体報酬、精算、帰還後の選択／自動強化、次出発を接続した。仮プロフィール・入出力・再現・限界は[AEの記録](loop_notes.md)。`node docs/検証/統合試作/deck_feedback_trial/loop_study.cjs`で新しい`loop_results.json`を再生成する。操作画面は未接続で、既存の操作ZとUI-R-001を変更しない。成長の方式判断は[統合検討95章](../../../作業資料/カード探索ゲーム_統合検討.md#growth-choice-proposal)。
+
+## 知識・経験条件の比較：追加AD（比較時の記録）
+
+D41・基本設計0.41として、開示済み知識は死亡・撤退後も参照する。`knowledge.js` はこの保持方式を使い、初期構成を観測のみ／初遭遇／初撃破・踏破で開く三案を比較する。AD実施時には三案とも未採用。その後、初攻略時の開示をD42・基本設計0.42へ採用した。三案の入力と結果は比較時の記録として保全する。共通戦闘や操作版Zは変更しない。
 
 ```sh
 node docs/検証/統合試作/deck_feedback_trial/knowledge_study.cjs
@@ -29,7 +33,7 @@ node docs/検証/統合試作/deck_feedback_trial/knowledge_study.cjs
 
 AD1台帳はACの公開事実に遭遇記録を加える。旧ACの知識を読み込めるが、記録されていない事実は作らない。同じ構成が再び開いても最初の根拠を保持する。`receive` は公開事実と制作者側の初期設定、`carry` は既存／今回の台帳と終了理由、`departure` は事前案内と得た知識を受け取る。現在の相手の私有札を初期構成として読まない。
 
-出力 `knowledge_results.json` の `departure_samples` はL4終了後・次回出発前の三案。`diagnostic` と `authored_initial_catalogues` は試験者の内部照合で、未知の全体数をプレイヤーへ見せるデータではない。条件・結果・限界は[試験条件AD](../カード探索ゲーム_試験条件.md#knowledge-ad)と[統合検討89章](../../../作業資料/カード探索ゲーム_統合検討.md#knowledge-ad)、採用判断案は[90章](../../../作業資料/カード探索ゲーム_統合検討.md#catalogue-unlock-proposal)。人の理解・学習効果・操作画面・製品の恒久保存は今回の確認範囲外。
+出力 `knowledge_results.json` の `departure_samples` はL4終了後・次回出発前の三案。`diagnostic` と `authored_initial_catalogues` は試験者の内部照合で、未知の全体数をプレイヤーへ見せるデータではない。条件・結果・限界は[試験条件AD](../カード探索ゲーム_試験条件.md#knowledge-ad)と[統合検討89章](../../../作業資料/カード探索ゲーム_統合検討.md#knowledge-ad)、比較提案は[90章](../../../作業資料/カード探索ゲーム_統合検討.md#catalogue-unlock-proposal)、承認の反映は[92章](../../../作業資料/カード探索ゲーム_統合検討.md#d42-recovered)。人の理解・学習効果・操作画面・製品の恒久保存は今回の確認範囲外。
 
 ## 情報データの基礎：追加AC（比較時の記録）
 
