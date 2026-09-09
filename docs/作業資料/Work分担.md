@@ -1,6 +1,6 @@
 # 設計検討と試遊のWork分担
 
-2026-09-09。試遊のたびに検討作業が長時間中断される問題を受け、作業を二つのWorkに分ける。設計・比較コード・判断経緯を引き継いでいる現在のWorkを設計検討側とし、新しいWorkを試遊側とする。ゲームの採用仕様は基本設計0.39・D39のまま。
+2026-09-09。試遊のたびに検討作業が長時間中断される問題を受け、作業を二つのWorkに分ける。設計・比較コード・判断経緯を引き継いでいる現在のWorkを設計検討側とし、新しいWorkを試遊側とする。ゲームの現行の採用仕様は[基本設計](../確定仕様/カード探索ゲーム_基本設計.md)で確認する。Workの分担自体を仕様の採用判断とは扱わない。
 
 <a id="work-start"></a>
 ## Work・chat開始時の必須登録
@@ -41,7 +41,7 @@ WorkID：AIが採番する作業の識別子（ChatGPT内部IDではない）
 | WorkID | 役割 | 作業ブランチ | 設定 |
 |---|---|---|---|
 | `20260909-work-routing` | この会話での移行・運用設定整備の継続 | `dev_design_tmp_assembly` | [作業設定](Work/20260909-work-routing.md) |
-| `20260909-design-assembly` | 設計ひな形の継続検討・結果統合、試遊引継ぎの今回の再作成 | `dev_design_tmp_assembly` | [作業設定](Work/20260909-design-assembly.md) |
+| `20260909-design-assembly` | 設計ひな形の継続検討・採用反映・機械検証・結果統合と試遊引継ぎ | `dev_design_tmp_assembly` | [作業設定](Work/20260909-design-assembly.md) |
 | `20260909-playtest-terrain-build-z` | PT-Z-001の人の試遊・所感と再現材料の原記録・試遊専用差分 | `playtest/terrain-build-z-20260909` | [作業設定（試遊ブランチ）](https://github.com/eckolo/crossweave/blob/playtest/terrain-build-z-20260909/docs/作業資料/Work/20260909-playtest-terrain-build-z.md) |
 
 設計検討・試遊という役割自体は下記の既存分担を維持する。別Workの個別設定を作成・開始済みと推定しない。共通の基本設計・仕様案・要検討事項・統合検討・試験条件・共通エンジンへの統合は設計検討Workが担当し、試遊Workは原記録の担当を維持する。

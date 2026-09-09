@@ -1,0 +1,3036 @@
+{
+  "version": "AC1",
+  "base_commit": "a8f7ab05a5d085614d2b4dd819e52aef3c3ab5c1",
+  "method": [
+    "情報データの整合診断。知識を使う人・方策の優劣や最小UIの試験ではない。",
+    "3経過は再現確認用の具体例であり、頻度や勝率の標本ではない。",
+    "E1/V0/V1のプロフィール名は診断用。全ゲームの敵種・環境識別方式は未採用。",
+    "公開使用札は完全な札面を確認できる仮条件。非公開の能力を自動開示しない。",
+    "報酬内容は元Zで未設定のため、確認できるのは報酬区分だけ。新しい札解放を付与しない。",
+    "終了後の知識保持は比較案。既存の報酬保護・精算とゲームの保存形式を変えない。"
+  ],
+  "checks": {
+    "baseline_final_hashes": 3,
+    "public_decisions": 196,
+    "nonmutating_projections": 196,
+    "hidden_state_pairs": 15,
+    "own_order_pairs": 15,
+    "own_stat_change_visible": 15,
+    "roundtrips": 196,
+    "duplicate_replays": 196,
+    "saved_tail_replays": 3,
+    "actor_scope_cases": 1,
+    "version_change_cases": 1,
+    "conflicting_evidence_rejections": 2,
+    "card_variants_separate": 1,
+    "retention_cases": 6,
+    "settled_reward_views": 6
+  },
+  "sources": {
+    "information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "information_inputs.json": "6e1cbc8a25cfa9ff966f2052f79584ce5e969d8d014ddf80ab3c1d7cf21a56fd",
+    "continuity_study.cjs": "41868be61622ff841b9f85491622160be0edf9b39bd91812e9eb06caf2569755",
+    "event_inputs.py": "e506c7b083c7ab56ffb08e53c05a1166740e83de08d836194f0ec6b62ee9180f",
+    "event_results.json": "e12d1a5e3d324c991cb85ff9d26ae2381527f34f0093692a512e8839eb64b334",
+    "engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981"
+  },
+  "departure_examples": {
+    "first_visit": {
+      "summary": "障害物の突破と敵との戦闘を含む探索。",
+      "goals": [
+        "先へ進むことと、敵の個別報酬を狙うことを選べる。"
+      ],
+      "basis": "この比較用探索について用意した事前案内",
+      "knowledge": []
+    },
+    "experienced_fixture": {
+      "summary": "障害物の突破と敵との戦闘を含む探索。",
+      "goals": [
+        "先へ進むことと、敵の個別報酬を狙うことを選べる。"
+      ],
+      "basis": "この比較用探索について用意した事前案内",
+      "knowledge": [
+        {
+          "profile": "weak-terrain-Z",
+          "initial_catalogue": {
+            "basis": "explicit_experienced_knowledge",
+            "scope": "initial_composition",
+            "cards": [
+              {
+                "card": {
+                  "type": "weak_A",
+                  "name": "弱攻撃札",
+                  "attr": "A",
+                  "kind": "attack",
+                  "power": 2,
+                  "hit": 50,
+                  "evasion": 0,
+                  "crit_gain": 10,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "weak_B",
+                  "name": "弱攻撃札",
+                  "attr": "B",
+                  "kind": "attack",
+                  "power": 2,
+                  "hit": 50,
+                  "evasion": 0,
+                  "crit_gain": 10,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 6
+              },
+              {
+                "card": {
+                  "type": "weak_C",
+                  "name": "弱攻撃札",
+                  "attr": "C",
+                  "kind": "attack",
+                  "power": 2,
+                  "hit": 50,
+                  "evasion": 0,
+                  "crit_gain": 10,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "weak_D",
+                  "name": "弱攻撃札",
+                  "attr": "D",
+                  "kind": "attack",
+                  "power": 2,
+                  "hit": 50,
+                  "evasion": 0,
+                  "crit_gain": 10,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              }
+            ],
+            "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+          },
+          "observed_by_current_actor": [],
+          "observed_elsewhere_this_run": [],
+          "observed_earlier": [],
+          "confirmed_reward_candidates": [],
+          "historical_evidence_count": 0,
+          "current_private_composition": "unknown",
+          "next_card": "unknown"
+        },
+        {
+          "profile": "core-enemy-Z",
+          "initial_catalogue": {
+            "basis": "explicit_experienced_knowledge",
+            "scope": "initial_composition",
+            "cards": [
+              {
+                "card": {
+                  "type": "f",
+                  "name": "牽制",
+                  "attr": "A",
+                  "kind": "attack",
+                  "power": 3,
+                  "hit": 70,
+                  "evasion": 0,
+                  "crit_gain": 25,
+                  "field_power": 0,
+                  "field_hit": 30,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "g",
+                  "name": "防御",
+                  "attr": "D",
+                  "kind": "guard",
+                  "power": 3,
+                  "hit": 0,
+                  "evasion": 0,
+                  "crit_gain": 20,
+                  "field_power": -4,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "h",
+                  "name": "重撃",
+                  "attr": "B",
+                  "kind": "attack",
+                  "power": 12,
+                  "hit": 30,
+                  "evasion": 0,
+                  "crit_gain": 25,
+                  "field_power": 0,
+                  "field_hit": -20,
+                  "life": 3,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "j",
+                  "name": "小突き",
+                  "attr": "C",
+                  "kind": "attack",
+                  "power": 3,
+                  "hit": 40,
+                  "evasion": 0,
+                  "crit_gain": 25,
+                  "field_power": 0,
+                  "field_hit": 0,
+                  "life": 1,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "l",
+                  "name": "踏み込み",
+                  "attr": "B",
+                  "kind": "attack",
+                  "power": 4,
+                  "hit": 50,
+                  "evasion": 0,
+                  "crit_gain": 25,
+                  "field_power": 6,
+                  "field_hit": 0,
+                  "life": 2,
+                  "place_cost": 8,
+                  "match_cost": 12,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              },
+              {
+                "card": {
+                  "type": "r",
+                  "name": "受け流し",
+                  "attr": "A",
+                  "kind": "guard",
+                  "power": 2,
+                  "hit": 0,
+                  "evasion": 0,
+                  "crit_gain": 40,
+                  "field_power": -2,
+                  "field_hit": 0,
+                  "life": 3,
+                  "place_cost": 10,
+                  "match_cost": 10,
+                  "consume_on_recover": null
+                },
+                "initial_count": 2
+              }
+            ],
+            "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+          },
+          "observed_by_current_actor": [],
+          "observed_elsewhere_this_run": [],
+          "observed_earlier": [],
+          "confirmed_reward_candidates": [],
+          "historical_evidence_count": 0,
+          "current_private_composition": "unknown",
+          "next_card": "unknown"
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "outcome": "defeat",
+      "decisions": 45,
+      "final_hash": "27fc18f8e7095f8cb14a69b123683dccda13bdc7d46803a3936314ce199b343e",
+      "evidence": 68,
+      "observed_cards": 66,
+      "observed_rewards": [
+        "T0",
+        "E"
+      ],
+      "outside_known_initial_variants": 11,
+      "phases": [
+        "terrain_first",
+        "terrain_after_rebuild",
+        "enemy_first",
+        "enemy_after_rebuild",
+        "enemy_retired"
+      ],
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0",
+          "E"
+        ],
+        "prior_growth": "unchanged"
+      }
+    },
+    {
+      "run": "Z0:guard5:rock:attack_first",
+      "outcome": "clear",
+      "decisions": 78,
+      "final_hash": "8e6e04a476670767aa9c53cefcdf5716d2c3eee5711c26e8943772455d130ddf",
+      "evidence": 104,
+      "observed_cards": 101,
+      "observed_rewards": [
+        "R",
+        "E",
+        "T1"
+      ],
+      "outside_known_initial_variants": 10,
+      "phases": [
+        "terrain_first",
+        "terrain_after_rebuild",
+        "enemy_first",
+        "enemy_after_rebuild",
+        "enemy_retired"
+      ],
+      "settlement": {
+        "reason": "clear",
+        "kept": [
+          "R",
+          "E",
+          "T1"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      }
+    },
+    {
+      "run": "Z7:guard3:environment:guard_exposed",
+      "outcome": "defeat",
+      "decisions": 73,
+      "final_hash": "fbd6708e439fc3a03b4d2d9648ce0a9af815f7340041ed40fa92a2fbdd1c3e9a",
+      "evidence": 99,
+      "observed_cards": 97,
+      "observed_rewards": [
+        "T0",
+        "E"
+      ],
+      "outside_known_initial_variants": 11,
+      "phases": [
+        "terrain_first",
+        "terrain_after_rebuild",
+        "enemy_first",
+        "enemy_after_rebuild",
+        "enemy_retired"
+      ],
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0",
+          "E"
+        ],
+        "prior_growth": "unchanged"
+      }
+    }
+  ],
+  "retention": [
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "boundary": "arrival_withdrawal_counterfactual",
+      "outcome": "withdrawal",
+      "kept": [
+        "T0"
+      ],
+      "lost": [],
+      "current_reward_view": [
+        {
+          "key": "T0",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "kept"
+        }
+      ],
+      "new_public_evidence": 18,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 18,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 18,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0"
+          ]
+        }
+      ]
+    },
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "boundary": "natural_end",
+      "outcome": "defeat",
+      "kept": [],
+      "lost": [
+        "T0",
+        "E"
+      ],
+      "current_reward_view": [
+        {
+          "key": "T0",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "lost"
+        },
+        {
+          "key": "E",
+          "status": "acquired",
+          "protected": false,
+          "settlement": "lost"
+        }
+      ],
+      "new_public_evidence": 68,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 68,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0",
+            "E"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 0,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": []
+        }
+      ]
+    },
+    {
+      "run": "Z0:guard5:rock:attack_first",
+      "boundary": "arrival_withdrawal_counterfactual",
+      "outcome": "withdrawal",
+      "kept": [],
+      "lost": [
+        "R"
+      ],
+      "current_reward_view": [
+        {
+          "key": "R",
+          "status": "acquired",
+          "protected": false,
+          "settlement": "lost"
+        }
+      ],
+      "new_public_evidence": 10,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 10,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "R"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 10,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "R"
+          ]
+        }
+      ]
+    },
+    {
+      "run": "Z0:guard5:rock:attack_first",
+      "boundary": "natural_end",
+      "outcome": "clear",
+      "kept": [
+        "R",
+        "E",
+        "T1"
+      ],
+      "lost": [],
+      "current_reward_view": [
+        {
+          "key": "R",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "kept"
+        },
+        {
+          "key": "E",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "kept"
+        },
+        {
+          "key": "T1",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "kept"
+        }
+      ],
+      "new_public_evidence": 104,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 104,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "R",
+            "E",
+            "T1"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 104,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "R",
+            "E",
+            "T1"
+          ]
+        }
+      ]
+    },
+    {
+      "run": "Z7:guard3:environment:guard_exposed",
+      "boundary": "arrival_withdrawal_counterfactual",
+      "outcome": "withdrawal",
+      "kept": [
+        "T0"
+      ],
+      "lost": [],
+      "current_reward_view": [
+        {
+          "key": "T0",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "kept"
+        }
+      ],
+      "new_public_evidence": 30,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 30,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 30,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0"
+          ]
+        }
+      ]
+    },
+    {
+      "run": "Z7:guard3:environment:guard_exposed",
+      "boundary": "natural_end",
+      "outcome": "defeat",
+      "kept": [],
+      "lost": [
+        "T0",
+        "E"
+      ],
+      "current_reward_view": [
+        {
+          "key": "T0",
+          "status": "acquired",
+          "protected": true,
+          "settlement": "lost"
+        },
+        {
+          "key": "E",
+          "status": "acquired",
+          "protected": false,
+          "settlement": "lost"
+        }
+      ],
+      "new_public_evidence": 99,
+      "alternatives": [
+        {
+          "mode": "observed_immediately",
+          "new_evidence_kept": 99,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": [
+            "T0",
+            "E"
+          ]
+        },
+        {
+          "mode": "after_safe_return",
+          "new_evidence_kept": 0,
+          "earlier_evidence_kept": 2,
+          "reward_candidate_keys": []
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "phase": "terrain_first",
+      "p_actions": 0,
+      "view": {
+        "event": "rock",
+        "outcome": null,
+        "actors": [
+          {
+            "actor": "O",
+            "hp": 20,
+            "guard": null,
+            "hit": 0,
+            "crit": 0,
+            "evasion": 0,
+            "reduction": 8,
+            "hand_count": 0,
+            "deck_count": 0,
+            "knowledge": null
+          },
+          {
+            "actor": "V0",
+            "hp": 40,
+            "guard": null,
+            "hit": 0,
+            "crit": 0,
+            "evasion": 20,
+            "reduction": 0,
+            "hand_count": 0,
+            "deck_count": 11,
+            "knowledge": {
+              "profile": "weak-terrain-Z",
+              "initial_catalogue": {
+                "basis": "explicit_experienced_knowledge",
+                "scope": "initial_composition",
+                "cards": [
+                  {
+                    "card": {
+                      "type": "weak_A",
+                      "name": "弱攻撃札",
+                      "attr": "A",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_B",
+                      "name": "弱攻撃札",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 6
+                  },
+                  {
+                    "card": {
+                      "type": "weak_C",
+                      "name": "弱攻撃札",
+                      "attr": "C",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_D",
+                      "name": "弱攻撃札",
+                      "attr": "D",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  }
+                ],
+                "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+              },
+              "observed_by_current_actor": [
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:1"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_elsewhere_this_run": [],
+              "observed_earlier": [],
+              "confirmed_reward_candidates": [],
+              "historical_evidence_count": 0,
+              "current_private_composition": "unknown",
+              "next_card": "unknown"
+            }
+          }
+        ],
+        "own_cards": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "field": {
+          "B": {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          }
+        },
+        "current_rewards": [],
+        "on_completion": [
+          {
+            "target": "O",
+            "description": "破壊すると障害物の報酬を獲得し、支援が終了する。これだけでは報酬は保護されない。"
+          },
+          {
+            "target": "V0",
+            "description": "踏破すると踏破報酬を獲得し、獲得済み報酬をまとめて保護する。探索は続く。"
+          }
+        ]
+      }
+    },
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "phase": "terrain_after_rebuild",
+      "p_actions": 6,
+      "view": {
+        "event": "rock",
+        "outcome": null,
+        "actors": [
+          {
+            "actor": "O",
+            "hp": 20,
+            "guard": null,
+            "hit": 0,
+            "crit": 0,
+            "evasion": 0,
+            "reduction": 8,
+            "hand_count": 0,
+            "deck_count": 0,
+            "knowledge": null
+          },
+          {
+            "actor": "V0",
+            "hp": 32,
+            "guard": null,
+            "hit": 10,
+            "crit": 0,
+            "evasion": 20,
+            "reduction": 0,
+            "hand_count": 0,
+            "deck_count": 5,
+            "knowledge": {
+              "profile": "weak-terrain-Z",
+              "initial_catalogue": {
+                "basis": "explicit_experienced_knowledge",
+                "scope": "initial_composition",
+                "cards": [
+                  {
+                    "card": {
+                      "type": "weak_A",
+                      "name": "弱攻撃札",
+                      "attr": "A",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_B",
+                      "name": "弱攻撃札",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 6
+                  },
+                  {
+                    "card": {
+                      "type": "weak_C",
+                      "name": "弱攻撃札",
+                      "attr": "C",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_D",
+                      "name": "弱攻撃札",
+                      "attr": "D",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  }
+                ],
+                "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+              },
+              "observed_by_current_actor": [
+                {
+                  "card": {
+                    "type": "weak_A",
+                    "name": "弱攻撃札",
+                    "attr": "A",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:7",
+                    "Z0:guard0:environment:attack_first:action:13"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:1",
+                    "Z0:guard0:environment:attack_first:action:3",
+                    "Z0:guard0:environment:attack_first:action:9"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_C",
+                    "name": "弱攻撃札",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:5",
+                    "Z0:guard0:environment:attack_first:action:11"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_elsewhere_this_run": [],
+              "observed_earlier": [],
+              "confirmed_reward_candidates": [],
+              "historical_evidence_count": 0,
+              "current_private_composition": "unknown",
+              "next_card": "unknown"
+            }
+          }
+        ],
+        "own_cards": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 1,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_C",
+              "name": "弱攻撃札",
+              "attr": "C",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "field": {
+          "D": {
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          },
+          "C": {
+            "card": {
+              "type": "weak_C",
+              "name": "弱攻撃札",
+              "attr": "C",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          },
+          "A": {
+            "card": {
+              "type": "weak_A",
+              "name": "弱攻撃札",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          }
+        },
+        "current_rewards": [],
+        "on_completion": [
+          {
+            "target": "O",
+            "description": "破壊すると障害物の報酬を獲得し、支援が終了する。これだけでは報酬は保護されない。"
+          },
+          {
+            "target": "V0",
+            "description": "踏破すると踏破報酬を獲得し、獲得済み報酬をまとめて保護する。探索は続く。"
+          }
+        ]
+      }
+    },
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "phase": "enemy_after_rebuild",
+      "p_actions": 22,
+      "view": {
+        "event": "followup",
+        "outcome": null,
+        "actors": [
+          {
+            "actor": "V1",
+            "hp": 60,
+            "guard": null,
+            "hit": 0,
+            "crit": 10,
+            "evasion": 0,
+            "reduction": 0,
+            "hand_count": 0,
+            "deck_count": 5,
+            "knowledge": {
+              "profile": "weak-terrain-Z",
+              "initial_catalogue": {
+                "basis": "explicit_experienced_knowledge",
+                "scope": "initial_composition",
+                "cards": [
+                  {
+                    "card": {
+                      "type": "weak_A",
+                      "name": "弱攻撃札",
+                      "attr": "A",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_B",
+                      "name": "弱攻撃札",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 6
+                  },
+                  {
+                    "card": {
+                      "type": "weak_C",
+                      "name": "弱攻撃札",
+                      "attr": "C",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_D",
+                      "name": "弱攻撃札",
+                      "attr": "D",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  }
+                ],
+                "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+              },
+              "observed_by_current_actor": [
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:36",
+                    "Z0:guard0:environment:attack_first:action:40",
+                    "Z0:guard0:environment:attack_first:action:45"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_C",
+                    "name": "弱攻撃札",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:33",
+                    "Z0:guard0:environment:attack_first:action:48"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_D",
+                    "name": "弱攻撃札",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:42",
+                    "Z0:guard0:environment:attack_first:action:51"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_elsewhere_this_run": [
+                {
+                  "card": {
+                    "type": "sweep",
+                    "name": "打ち払い",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 4,
+                    "hit": 60,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": 20,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:29"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "weak_A",
+                    "name": "弱攻撃札",
+                    "attr": "A",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:7",
+                    "Z0:guard0:environment:attack_first:action:13"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:1",
+                    "Z0:guard0:environment:attack_first:action:3",
+                    "Z0:guard0:environment:attack_first:action:9",
+                    "Z0:guard0:environment:attack_first:action:15",
+                    "Z0:guard0:environment:attack_first:action:17",
+                    "Z0:guard0:environment:attack_first:action:21",
+                    "Z0:guard0:environment:attack_first:action:27",
+                    "Z0:guard0:environment:attack_first:action:31"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_C",
+                    "name": "弱攻撃札",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:5",
+                    "Z0:guard0:environment:attack_first:action:11"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_D",
+                    "name": "弱攻撃札",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:19",
+                    "Z0:guard0:environment:attack_first:action:23",
+                    "Z0:guard0:environment:attack_first:action:25"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_earlier": [],
+              "confirmed_reward_candidates": [
+                {
+                  "reward_key": "T0",
+                  "label": "初区間の踏破報酬（具体内容は未設定）",
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:reward:T0"
+                  ]
+                }
+              ],
+              "historical_evidence_count": 0,
+              "current_private_composition": "unknown",
+              "next_card": "unknown"
+            }
+          },
+          {
+            "actor": "E1",
+            "hp": 34,
+            "guard": null,
+            "hit": 0,
+            "crit": 95,
+            "evasion": 0,
+            "reduction": 0,
+            "hand_count": 2,
+            "deck_count": 10,
+            "knowledge": {
+              "profile": "core-enemy-Z",
+              "initial_catalogue": {
+                "basis": "explicit_experienced_knowledge",
+                "scope": "initial_composition",
+                "cards": [
+                  {
+                    "card": {
+                      "type": "f",
+                      "name": "牽制",
+                      "attr": "A",
+                      "kind": "attack",
+                      "power": 3,
+                      "hit": 70,
+                      "evasion": 0,
+                      "crit_gain": 25,
+                      "field_power": 0,
+                      "field_hit": 30,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "g",
+                      "name": "防御",
+                      "attr": "D",
+                      "kind": "guard",
+                      "power": 3,
+                      "hit": 0,
+                      "evasion": 0,
+                      "crit_gain": 20,
+                      "field_power": -4,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "h",
+                      "name": "重撃",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 12,
+                      "hit": 30,
+                      "evasion": 0,
+                      "crit_gain": 25,
+                      "field_power": 0,
+                      "field_hit": -20,
+                      "life": 3,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "j",
+                      "name": "小突き",
+                      "attr": "C",
+                      "kind": "attack",
+                      "power": 3,
+                      "hit": 40,
+                      "evasion": 0,
+                      "crit_gain": 25,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 1,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "l",
+                      "name": "踏み込み",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 4,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 25,
+                      "field_power": 6,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 8,
+                      "match_cost": 12,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "r",
+                      "name": "受け流し",
+                      "attr": "A",
+                      "kind": "guard",
+                      "power": 2,
+                      "hit": 0,
+                      "evasion": 0,
+                      "crit_gain": 40,
+                      "field_power": -2,
+                      "field_hit": 0,
+                      "life": 3,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  }
+                ],
+                "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+              },
+              "observed_by_current_actor": [
+                {
+                  "card": {
+                    "type": "g",
+                    "name": "防御",
+                    "attr": "D",
+                    "kind": "guard",
+                    "power": 3,
+                    "hit": 0,
+                    "evasion": 0,
+                    "crit_gain": 20,
+                    "field_power": -4,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:46",
+                    "Z0:guard0:environment:attack_first:action:49"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "h",
+                    "name": "重撃",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 12,
+                    "hit": 30,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": -20,
+                    "life": 3,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:35",
+                    "Z0:guard0:environment:attack_first:action:43"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "l",
+                    "name": "踏み込み",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 4,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 6,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 8,
+                    "match_cost": 12,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:38",
+                    "Z0:guard0:environment:attack_first:action:39",
+                    "Z0:guard0:environment:attack_first:action:52"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_elsewhere_this_run": [],
+              "observed_earlier": [],
+              "confirmed_reward_candidates": [],
+              "historical_evidence_count": 0,
+              "current_private_composition": "unknown",
+              "next_card": "unknown"
+            }
+          }
+        ],
+        "own_cards": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 3,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 1,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_C",
+              "name": "弱攻撃札",
+              "attr": "C",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 2,
+            "hand": 0,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "weak_D",
+              "name": "弱攻撃札",
+              "attr": "D",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 0,
+            "doomed_remaining": 0
+          }
+        ],
+        "field": {
+          "D": {
+            "card": {
+              "type": "weak_D",
+              "name": "弱攻撃札",
+              "attr": "D",
+              "kind": "attack",
+              "power": 2,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          },
+          "B": {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "doomed": false
+          }
+        },
+        "current_rewards": [
+          {
+            "key": "T0",
+            "status": "acquired",
+            "protected": true,
+            "settlement": "pending"
+          }
+        ],
+        "on_completion": [
+          {
+            "target": "E1",
+            "description": "撃破すると敵報酬を獲得する。環境の攻略と行動は続く。"
+          },
+          {
+            "target": "V1",
+            "description": "踏破すると踏破報酬を獲得して探索クリア。未撃破の敵の報酬は獲得しない。"
+          }
+        ]
+      }
+    },
+    {
+      "run": "Z0:guard0:environment:attack_first",
+      "phase": "enemy_retired",
+      "p_actions": 36,
+      "view": {
+        "event": "followup",
+        "outcome": null,
+        "actors": [
+          {
+            "actor": "V1",
+            "hp": 60,
+            "guard": {
+              "value": 2,
+              "evasion": -20,
+              "uses": 2
+            },
+            "hit": 0,
+            "crit": 125,
+            "evasion": -20,
+            "reduction": 0,
+            "hand_count": 0,
+            "deck_count": 3,
+            "knowledge": {
+              "profile": "weak-terrain-Z",
+              "initial_catalogue": {
+                "basis": "explicit_experienced_knowledge",
+                "scope": "initial_composition",
+                "cards": [
+                  {
+                    "card": {
+                      "type": "weak_A",
+                      "name": "弱攻撃札",
+                      "attr": "A",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_B",
+                      "name": "弱攻撃札",
+                      "attr": "B",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 6
+                  },
+                  {
+                    "card": {
+                      "type": "weak_C",
+                      "name": "弱攻撃札",
+                      "attr": "C",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  },
+                  {
+                    "card": {
+                      "type": "weak_D",
+                      "name": "弱攻撃札",
+                      "attr": "D",
+                      "kind": "attack",
+                      "power": 2,
+                      "hit": 50,
+                      "evasion": 0,
+                      "crit_gain": 10,
+                      "field_power": 0,
+                      "field_hit": 0,
+                      "life": 2,
+                      "place_cost": 10,
+                      "match_cost": 10,
+                      "consume_on_recover": null
+                    },
+                    "initial_count": 2
+                  }
+                ],
+                "evidence": "診断で与える既知初期構成。実際の情報解放条件を仮定しない。"
+              },
+              "observed_by_current_actor": [
+                {
+                  "card": {
+                    "type": "f",
+                    "name": "牽制",
+                    "attr": "A",
+                    "kind": "attack",
+                    "power": 3,
+                    "hit": 70,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": 30,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:79",
+                    "Z0:guard0:environment:attack_first:action:84"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "h",
+                    "name": "重撃",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 12,
+                    "hit": 30,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": -20,
+                    "life": 3,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:70"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "j",
+                    "name": "小突き",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 3,
+                    "hit": 40,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 1,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:87"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "l",
+                    "name": "踏み込み",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 4,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 6,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 8,
+                    "match_cost": 12,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:82"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "r",
+                    "name": "受け流し",
+                    "attr": "A",
+                    "kind": "guard",
+                    "power": 2,
+                    "hit": 0,
+                    "evasion": 0,
+                    "crit_gain": 40,
+                    "field_power": -2,
+                    "field_hit": 0,
+                    "life": 3,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:93"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "weak_A",
+                    "name": "弱攻撃札",
+                    "attr": "A",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:58",
+                    "Z0:guard0:environment:attack_first:action:61",
+                    "Z0:guard0:environment:attack_first:action:73"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:36",
+                    "Z0:guard0:environment:attack_first:action:40",
+                    "Z0:guard0:environment:attack_first:action:45",
+                    "Z0:guard0:environment:attack_first:action:55",
+                    "Z0:guard0:environment:attack_first:action:64",
+                    "Z0:guard0:environment:attack_first:action:67"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_C",
+                    "name": "弱攻撃札",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:33",
+                    "Z0:guard0:environment:attack_first:action:48",
+                    "Z0:guard0:environment:attack_first:action:76"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_D",
+                    "name": "弱攻撃札",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:42",
+                    "Z0:guard0:environment:attack_first:action:51",
+                    "Z0:guard0:environment:attack_first:action:90"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_elsewhere_this_run": [
+                {
+                  "card": {
+                    "type": "sweep",
+                    "name": "打ち払い",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 4,
+                    "hit": 60,
+                    "evasion": 0,
+                    "crit_gain": 25,
+                    "field_power": 0,
+                    "field_hit": 20,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:29"
+                  ],
+                  "relation_to_initial": "outside_known_initial"
+                },
+                {
+                  "card": {
+                    "type": "weak_A",
+                    "name": "弱攻撃札",
+                    "attr": "A",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:7",
+                    "Z0:guard0:environment:attack_first:action:13"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_B",
+                    "name": "弱攻撃札",
+                    "attr": "B",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:1",
+                    "Z0:guard0:environment:attack_first:action:3",
+                    "Z0:guard0:environment:attack_first:action:9",
+                    "Z0:guard0:environment:attack_first:action:15",
+                    "Z0:guard0:environment:attack_first:action:17",
+                    "Z0:guard0:environment:attack_first:action:21",
+                    "Z0:guard0:environment:attack_first:action:27",
+                    "Z0:guard0:environment:attack_first:action:31"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_C",
+                    "name": "弱攻撃札",
+                    "attr": "C",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:5",
+                    "Z0:guard0:environment:attack_first:action:11"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                },
+                {
+                  "card": {
+                    "type": "weak_D",
+                    "name": "弱攻撃札",
+                    "attr": "D",
+                    "kind": "attack",
+                    "power": 2,
+                    "hit": 50,
+                    "evasion": 0,
+                    "crit_gain": 10,
+                    "field_power": 0,
+                    "field_hit": 0,
+                    "life": 2,
+                    "place_cost": 10,
+                    "match_cost": 10,
+                    "consume_on_recover": null
+                  },
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:action:19",
+                    "Z0:guard0:environment:attack_first:action:23",
+                    "Z0:guard0:environment:attack_first:action:25"
+                  ],
+                  "relation_to_initial": "known_initial_kind"
+                }
+              ],
+              "observed_earlier": [],
+              "confirmed_reward_candidates": [
+                {
+                  "reward_key": "T0",
+                  "label": "初区間の踏破報酬（具体内容は未設定）",
+                  "evidence_ids": [
+                    "Z0:guard0:environment:attack_first:reward:T0"
+                  ]
+                }
+              ],
+              "historical_evidence_count": 0,
+              "current_private_composition": "unknown",
+              "next_card": "unknown"
+            }
+          }
+        ],
+        "own_cards": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 2,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 1,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 1,
+            "initial": 0,
+            "doomed_remaining": 0
+          },
+          {
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "remaining": 0,
+            "hand": 0,
+            "initial": 2,
+            "doomed_remaining": 0
+          }
+        ],
+        "field": {
+          "C": {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "doomed": true
+          }
+        },
+        "current_rewards": [
+          {
+            "key": "T0",
+            "status": "acquired",
+            "protected": true,
+            "settlement": "pending"
+          },
+          {
+            "key": "E",
+            "status": "acquired",
+            "protected": false,
+            "settlement": "pending"
+          }
+        ],
+        "on_completion": [
+          {
+            "target": "V1",
+            "description": "踏破すると踏破報酬を獲得して探索クリア。未撃破の敵の報酬は獲得しない。"
+          }
+        ]
+      }
+    }
+  ],
+  "synthetic": {
+    "same_name_different_stats": {
+      "profile": "same-profile",
+      "initial_catalogue": {
+        "basis": "explicit_experienced_knowledge",
+        "scope": "initial_composition",
+        "cards": [
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": null,
+              "match_cost": null,
+              "consume_on_recover": null
+            },
+            "initial_count": 2
+          }
+        ],
+        "evidence": "人工の既知初期構成"
+      },
+      "observed_by_current_actor": [
+        {
+          "card": {
+            "type": "g",
+            "name": "防御",
+            "attr": "D",
+            "kind": "guard",
+            "power": 3,
+            "hit": 0,
+            "evasion": 30,
+            "crit_gain": 20,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": null,
+            "match_cost": null,
+            "consume_on_recover": null
+          },
+          "evidence_ids": [
+            "s:b"
+          ],
+          "relation_to_initial": "outside_known_initial"
+        }
+      ],
+      "observed_elsewhere_this_run": [
+        {
+          "card": {
+            "type": "g",
+            "name": "防御",
+            "attr": "D",
+            "kind": "guard",
+            "power": 3,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 20,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": null,
+            "match_cost": null,
+            "consume_on_recover": null
+          },
+          "evidence_ids": [
+            "s:a"
+          ],
+          "relation_to_initial": "known_initial_kind"
+        }
+      ],
+      "observed_earlier": [],
+      "confirmed_reward_candidates": [],
+      "historical_evidence_count": 0,
+      "current_private_composition": "unknown",
+      "next_card": "unknown"
+    },
+    "old_version": {
+      "profile": "same-profile",
+      "initial_catalogue": null,
+      "observed_by_current_actor": [],
+      "observed_elsewhere_this_run": [],
+      "observed_earlier": [],
+      "confirmed_reward_candidates": [],
+      "historical_evidence_count": 3,
+      "current_private_composition": "unknown",
+      "next_card": "unknown"
+    }
+  }
+}

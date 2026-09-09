@@ -1,0 +1,39 @@
+{
+  "trial": "AC1",
+  "base_commit": "a8f7ab05a5d085614d2b4dd819e52aef3c3ab5c1",
+  "card_version": "Z-roles-others50-v1",
+  "briefing": {
+    "summary": "障害物の突破と敵との戦闘を含む探索。",
+    "goals": ["先へ進むことと、敵の個別報酬を狙うことを選べる。"],
+    "basis": "この比較用探索について用意した事前案内"
+  },
+  "profiles": {"V0":"weak-terrain-Z","V1":"weak-terrain-Z","E1":"core-enemy-Z"},
+  "consequences": {
+    "rock": [
+      {"target":"O","description":"破壊すると障害物の報酬を獲得し、支援が終了する。これだけでは報酬は保護されない。"},
+      {"target":"V0","description":"踏破すると踏破報酬を獲得し、獲得済み報酬をまとめて保護する。探索は続く。"}
+    ],
+    "followup": [
+      {"target":"E1","description":"撃破すると敵報酬を獲得する。環境の攻略と行動は続く。"},
+      {"target":"V1","description":"踏破すると踏破報酬を獲得して探索クリア。未撃破の敵の報酬は獲得しない。"}
+    ]
+  },
+  "cases": [
+    {"seed":0,"build":"guard0","route":"environment","policy":"attack_first"},
+    {"seed":0,"build":"guard5","route":"rock","policy":"attack_first"},
+    {"seed":7,"build":"guard3","route":"environment","policy":"guard_exposed"}
+  ],
+  "knowledge_modes": {
+    "first_visit":"事前案内と、この経過で公開使用された札・獲得表示された報酬区分だけ。",
+    "experienced_fixture":"同じ経過に、E1/Vの初期構成を既に知っている仮の知識を与える。解放条件・回数の採用ではない。"
+  },
+  "retention_candidates": ["observed_immediately","after_safe_return"],
+  "limits": [
+    "情報データの整合診断。知識を使う人・方策の優劣や最小UIの試験ではない。",
+    "3経過は再現確認用の具体例であり、頻度や勝率の標本ではない。",
+    "E1/V0/V1のプロフィール名は診断用。全ゲームの敵種・環境識別方式は未採用。",
+    "公開使用札は完全な札面を確認できる仮条件。非公開の能力を自動開示しない。",
+    "報酬内容は元Zで未設定のため、確認できるのは報酬区分だけ。新しい札解放を付与しない。",
+    "終了後の知識保持は比較案。既存の報酬保護・精算とゲームの保存形式を変えない。"
+  ]
+}
