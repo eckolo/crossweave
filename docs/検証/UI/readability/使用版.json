@@ -1,0 +1,95 @@
+{
+  "test_id": "UI-R-001",
+  "ui_version": "0.1",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "repository": "eckolo/crossweave",
+  "baseline_test_id": "PT-Z-001",
+  "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
+  "baseline_spec": "0.39",
+  "operational_design_spec": "0.41",
+  "synchronized_design_commit": "968e9e68c7f323558d8fe7255930207ec2903790",
+  "reference_playtest_commit": "1ac403617f72d71bda5f1633aa63da7cd9c9c925",
+  "ui_code_commit": null,
+  "ui_code_commit_record": "成果Push後にWork設定と本書へ記録",
+  "entry": "W seed32",
+  "defaults": {
+    "build": "guard5",
+    "hp": 60,
+    "hand": 3,
+    "initial_deck": 12,
+    "attrs": {
+      "A": 4,
+      "B": 4,
+      "C": 2,
+      "D": 2
+    }
+  },
+  "builds": [
+    "guard5",
+    "guard3",
+    "guard0"
+  ],
+  "game_changes": [],
+  "information_scope": "Same as fixed PT-Z-001; no private opponent hands, future deck order, or next-action reveal",
+  "display_correction": "Expired doomed/filler cards: clarify disappearance on recovery using already public flags",
+  "ui_diff": "baseline-ui.patch",
+  "fixed_source_directory": "docs/検証/試遊/terrain-build-z/fixed",
+  "fragment": {
+    "bytes": 236247,
+    "sha256": "4fad3e104169661f55d89deac5392c4e4a0eea5ee52b7f4c414d0ec53c8a529e"
+  },
+  "baseline_fragment_sha256": "8eb15d38e90d5a69e5149240a756fb2221892e4d19de3d9488e1a9bc14bcdafa",
+  "files": {
+    "play.fragment.html": {
+      "bytes": 8864,
+      "sha256": "3103005cf7c236065c88505aa75c791be8dfe69c42f7a8680a261a89c205c6ff"
+    },
+    "view.js": {
+      "bytes": 19830,
+      "sha256": "4314655f30bf2ecd2ff19ac20cacbc52c046e8a72118c8492a243e109b5b556f"
+    },
+    "build.cjs": {
+      "bytes": 2710,
+      "sha256": "130ef491a5503de2c23d4b3cd1d7ebb6f9894ebf35b296211b807277b172bec2"
+    },
+    "baseline-ui.patch": {
+      "bytes": 34969,
+      "sha256": "8736b9d32ef3a4d42bd95afffecaa1c18b44b0976da695e6f14708145fb2a5fc"
+    },
+    "make-fixtures.cjs": {
+      "bytes": 2876,
+      "sha256": "fba4432cf01b61ced195474d861383a442758a4861e9281ae3a5a9dcbe62b5c1"
+    },
+    "fixtures.json": {
+      "bytes": 10207,
+      "sha256": "85291e37cde8e9e42b562b9dd21fe7450180fdccc3fd5c61256ab8a27e6ad501"
+    },
+    "verify.cjs": {
+      "bytes": 7085,
+      "sha256": "c48c14ba5560b143789a1cfc5f2950baf09b50589fceafadde3af93bbece55a6"
+    },
+    "verification.json": {
+      "bytes": 1217,
+      "sha256": "e2505db4fbbf1e7aa11cd6e0b2d52e2350b061b1542bda39b0bbad1efc259646"
+    },
+    "preview.html": {
+      "bytes": 236568,
+      "sha256": "42dbacf34d9661cd59a991ea94a0adcc62460d29b987533ff6a93ebe941c99f4"
+    }
+  },
+  "human_feedback": null,
+  "user_operation_log": null,
+  "test_fixtures": "AI generated legal sequences; fixtures.json",
+  "verified": [
+    "74 identical action transitions / state + RNG + memory",
+    "441 selection pairs / predictions and non-mutation",
+    "5 reproducible UI positions",
+    "patch reconstructs identical UI fragment"
+  ],
+  "unverified": [
+    "browser rendering (URL policy rejected local preview)",
+    "real keyboard/touch, viewport overflow and theme contrast",
+    "human readability, decision time and fun"
+  ]
+}
