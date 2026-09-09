@@ -1,0 +1,24 @@
+{
+  "trial": "AD1",
+  "base_commit": "4648187ac7c0e2edf467e96561ea605b57179906",
+  "adopted_retention": "D41: disclosed knowledge survives clear, withdrawal and defeat",
+  "information_input": "information_inputs.json",
+  "disclosure_candidates": ["observations_only", "first_encounter", "first_resolution"],
+  "learning_cases": [
+    {"id":"L1","seed":0,"build":"guard0","route":"environment","policy":"attack_first","followup":"enemy_first"},
+    {"id":"L2","seed":0,"build":"guard5","route":"rock","policy":"attack_first","followup":"enemy_first"},
+    {"id":"L3","seed":7,"build":"guard3","route":"environment","policy":"guard_exposed","followup":"enemy_first"},
+    {"id":"L4","seed":0,"build":"guard5","route":"rock","policy":"attack_first","followup":"exit_first"}
+  ],
+  "evaluation_case": {"id":"N1","seed":1,"build":"guard5","route":"rock","policy":"attack_first","followup":"enemy_first"},
+  "limits": [
+    "The learning and evaluation trajectories use existing Z/AB policies. Knowledge is not used to change actions or builds; no human or optimal-policy benefit is measured.",
+    "L1-L4 are selected examples, not a frequency or win-rate sample. L1 and L2 arrival withdrawals are dependent counterfactuals.",
+    "The evaluation seed differs from all learning seeds. Differences also include build or route for some cases; this is a referenceability check, not a controlled learning-effect estimate.",
+    "Played card faces and encounter identities are public trial inputs. Unplayed private cards and hidden abilities are not observations.",
+    "Initial catalogues are fixed authored Z profiles: V0/V1 share a weak-card profile, E1 has a core profile. They are not current private decks or a universal rule for unidentified/random loadout variants.",
+    "Only newly acquired Z reward channels are observed. Concrete reward items, unknown drop candidates and drop probabilities remain unspecified.",
+    "Public passive descriptions, field-material provenance, player-acquired borrowed cards and cards never used as an NPC main card are outside this observation adapter.",
+    "D41 is adopted. All three initial-catalogue disclosure policies are comparison candidates; UI, identification presentation and complete product persistence are not implemented."
+  ]
+}
