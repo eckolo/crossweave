@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave · UI-L-001 配置比較</title><style>:root{color-scheme:light dark}body{margin:0 auto;padding:16px;max-width:1200px;font:14px/1.5 system-ui,sans-serif}</style></head><body>
+<div id="cw-layout-options">
+  <style>
+    #cw-layout-options{--cw-bg:light-dark(#f3f2eb,#202823);--cw-panel:light-dark(#fffef8,#2c352e);--cw-ink:light-dark(#253b30,#edf2e8);--cw-muted:light-dark(#586b5d,#bac9bc);--cw-line:light-dark(#b9c9ba,#637365);--cw-field:light-dark(#dfebdf,#374d3d);--cw-active:light-dark(#245c3d,#bee4bd);--cw-active-ink:light-dark(#ffffff,#1c3523);--cw-card:light-dark(#f8edd7,#4c4534);--cw-target:light-dark(#e6e9ef,#3b424b);color:var(--cw-ink);font-family:system-ui,sans-serif}
+    #cw-layout-options *{box-sizing:border-box}
+    #cw-layout-options button{font:inherit;color:inherit;cursor:pointer}
+    #cw-layout-options .cw-switch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+    #cw-layout-options .cw-switch button{background:var(--cw-panel);border:1px solid var(--cw-line);border-radius:6px;padding:8px 12px}
+    #cw-layout-options .cw-switch button[aria-pressed=true]{background:var(--cw-active);color:var(--cw-active-ink);border-color:var(--cw-active)}
+    #cw-layout-options .cw-caption{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px;color:var(--cw-muted)}
+    #cw-layout-options .cw-caption strong{color:var(--cw-ink);font-weight:500}
+    #cw-layout-options .cw-board{background:var(--cw-bg);border:1px solid var(--cw-line);border-radius:8px;padding:12px;display:grid;gap:10px;aspect-ratio:16/9;position:relative}
+    #cw-layout-options .cw-zone{min-width:0;min-height:0;padding:10px;background:var(--cw-panel);border:1px solid var(--cw-line);border-radius:6px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+    #cw-layout-options .cw-label{font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    #cw-layout-options .cw-small{color:var(--cw-muted)}
+    #cw-layout-options .cw-hud{grid-area:hud;flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:6px 10px}
+    #cw-layout-options .cw-world{grid-area:world;background:var(--cw-target)}
+    #cw-layout-options .cw-field{grid-area:field;background:var(--cw-field)}
+    #cw-layout-options .cw-hand{grid-area:hand;background:var(--cw-card)}
+    #cw-layout-options .cw-player{grid-area:player}
+    #cw-layout-options .cw-deck{grid-area:deck}
+    #cw-layout-options .cw-action{grid-area:action}
+    #cw-layout-options .cw-actors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    #cw-layout-options .cw-actor{min-width:0;background:var(--cw-panel);padding:8px;border-radius:4px;text-align:center;display:grid;gap:6px}
+    #cw-layout-options .cw-meter{height:5px;background:var(--cw-line);border:0;display:block;border-radius:2px}
+    #cw-layout-options .cw-slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    #cw-layout-options .cw-slot{background:var(--cw-panel);border:1px solid var(--cw-line);border-radius:5px;padding:8px 4px;text-align:center;display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0}
+    #cw-layout-options .cw-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:stretch}
+    #cw-layout-options .cw-hand-card{background:var(--cw-panel);border:1px solid var(--cw-line);border-radius:5px;min-width:0;padding:8px;display:grid;gap:6px;text-align:center}
+    #cw-layout-options .cw-attribute{font-weight:500}
+    #cw-layout-options .cw-links{display:flex;flex-wrap:wrap;gap:6px}
+    #cw-layout-options .cw-token{background:var(--cw-bg);padding:4px 6px;border-radius:4px;display:inline-block}
+    #cw-layout-options .cw-commit{background:var(--cw-active);color:var(--cw-active-ink);padding:8px 12px;border-radius:5px;text-align:center;display:block}
+    #cw-layout-options .cw-deck-shape{width:48px;height:48px;background:var(--cw-card);border:1px solid var(--cw-line);border-radius:4px;box-shadow:3px 3px 0 var(--cw-panel),4px 4px 0 var(--cw-line);display:grid;place-items:center;flex-shrink:0}
+    #cw-layout-options .cw-deck-row{display:flex;align-items:center;gap:10px}
+    #cw-layout-options .cw-resources{display:flex;gap:8px;flex-wrap:wrap}
+    #cw-layout-options .cw-detail-trigger{border:1px solid var(--cw-line);background:var(--cw-panel);border-radius:4px;padding:6px 8px;align-self:flex-start}
+    #cw-layout-options .cw-short{display:none}
+    #cw-layout-options .cw-board[data-layout=A]{grid-template-columns:22fr 52fr 26fr;grid-template-rows:10fr 29fr 25fr 36fr;grid-template-areas:'hud hud hud' 'world world action' 'field field action' 'player hand deck'}
+    #cw-layout-options .cw-board[data-layout=B]{grid-template-columns:22fr 52fr 26fr;grid-template-rows:10fr 28fr 30fr 32fr;grid-template-areas:'hud hud hud' 'world field action' 'world field action' 'player hand deck'}
+    #cw-layout-options .cw-board[data-layout=B] .cw-actors{grid-template-columns:1fr}
+    #cw-layout-options .cw-board[data-layout=B] .cw-slots{grid-template-columns:repeat(2,minmax(0,1fr));flex:1}
+    #cw-layout-options .cw-board[data-layout=C]{grid-template-columns:22fr 52fr 26fr;grid-template-rows:10fr 42fr 16fr 32fr;grid-template-areas:'hud hud hud' 'world world world' 'field field action' 'player hand deck'}
+    #cw-layout-options .cw-board[data-layout=C] .cw-world .cw-actors{flex:1;align-items:center}
+    #cw-layout-options .cw-board[data-layout=C] .cw-world .cw-actor{padding:16px}
+    #cw-layout-options .cw-board[data-layout=C] .cw-field{flex-direction:row;align-items:center;gap:12px;padding:6px 10px}
+    #cw-layout-options .cw-board[data-layout=C] .cw-field .cw-slots{flex:1}
+    #cw-layout-options .cw-board[data-layout=C] .cw-field .cw-slot{padding:4px}
+    #cw-layout-options .cw-board[data-layout=C] .cw-field .cw-long,#cw-layout-options .cw-board[data-layout=C] .cw-action .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=C] .cw-field .cw-short{display:block}
+    #cw-layout-options .cw-board[data-layout=C] .cw-action{padding:6px}
+    #cw-layout-options .cw-board[data-layout=D]{grid-template-columns:30fr 46fr 24fr;grid-template-rows:10fr 26fr 28fr 20fr 16fr;grid-template-areas:'hud hud hud' 'hand world world' 'hand field field' 'action field field' 'player deck deck'}
+    #cw-layout-options .cw-board[data-layout=D] .cw-cards{grid-template-columns:1fr}
+    #cw-layout-options .cw-board[data-layout=D] .cw-hand-card{grid-template-columns:auto 1fr auto;text-align:left;align-items:center;padding:6px}
+    #cw-layout-options .cw-board[data-layout=D] .cw-hand-card .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=D] .cw-player{flex-direction:row;align-items:center;padding:6px}
+    #cw-layout-options .cw-board[data-layout=D] .cw-player .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=D] .cw-deck{flex-direction:row;align-items:center;justify-content:space-between;padding:6px 10px}
+    #cw-layout-options .cw-board[data-layout=D] .cw-deck-shape{width:32px;height:32px}
+    #cw-layout-options .cw-board[data-layout=D] .cw-field .cw-slots{flex:1}
+    #cw-layout-options .cw-board[data-layout=D] .cw-action{padding:6px}
+    #cw-layout-options .cw-board[data-layout=D] .cw-action .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=E]{grid-template-columns:22fr 52fr 26fr;grid-template-rows:10fr 24fr 28fr 38fr;grid-template-areas:'hud hud hud' 'world world action' 'field field deck' 'field field player'}
+    #cw-layout-options .cw-board[data-layout=E] .cw-field{grid-column:1/3;grid-row:3/5;z-index:1;justify-content:flex-start}
+    #cw-layout-options .cw-board[data-layout=E] .cw-field .cw-slots{flex:1;align-items:stretch}
+    #cw-layout-options .cw-board[data-layout=E] .cw-hand{display:none}
+    #cw-layout-options .cw-board[data-layout=E] .cw-player{grid-column:3;grid-row:4;padding:8px}
+    #cw-layout-options .cw-board[data-layout=E] .cw-player .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=E] .cw-deck{grid-column:3;grid-row:3;justify-content:center}
+    #cw-layout-options .cw-board[data-layout=E] .cw-action{padding:6px}
+    #cw-layout-options .cw-board[data-layout=E] .cw-action .cw-long{display:none}
+    #cw-layout-options .cw-board[data-layout=E] .cw-deck-shape{display:none}
+    #cw-layout-options .cw-lane-hand{display:none;border-top:1px solid var(--cw-line);padding-top:12px;margin-top:12px}
+    #cw-layout-options .cw-board[data-layout=E] .cw-lane-hand{display:grid;gap:8px}
+    #cw-layout-options .cw-board[data-layout=E] .cw-hand-card{padding:8px 3px}
+    #cw-layout-options .cw-overlay[hidden]{display:none}
+    #cw-layout-options .cw-overlay{position:absolute;inset:20px;z-index:5;background:var(--cw-panel);border:1px solid var(--cw-line);border-radius:6px;padding:18px;display:grid;align-content:start;gap:16px}
+    #cw-layout-options .cw-overlay-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    #cw-layout-options .cw-reference-row{padding:10px;background:var(--cw-bg);display:flex;flex-wrap:wrap;gap:10px}
+    #cw-layout-options .cw-note{margin-top:8px;color:var(--cw-muted)}
+    @media(max-width:760px){#cw-layout-options .cw-board{aspect-ratio:auto;min-height:440px;gap:7px;padding:8px}#cw-layout-options .cw-zone{padding:7px;gap:6px}#cw-layout-options .cw-slot{padding:6px 2px}#cw-layout-options .cw-cards{gap:5px}#cw-layout-options .cw-hand-card{padding:6px 3px}#cw-layout-options .cw-deck-shape{display:none}#cw-layout-options .cw-board[data-layout=C] .cw-field{flex-direction:column;align-items:stretch}}
+    @media(max-width:560px){#cw-layout-options .cw-board{display:flex;flex-direction:column;min-height:0}#cw-layout-options .cw-zone{padding:10px}#cw-layout-options .cw-board .cw-actors{grid-template-columns:repeat(2,minmax(0,1fr))}#cw-layout-options .cw-board[data-layout=B] .cw-slots{grid-template-columns:repeat(4,minmax(0,1fr))}#cw-layout-options .cw-board[data-layout=D] .cw-deck{flex-direction:column;align-items:stretch}#cw-layout-options .cw-board[data-layout=E] .cw-deck{padding-bottom:10px}#cw-layout-options .cw-board[data-layout=E] .cw-player{align-self:stretch}#cw-layout-options .cw-overlay{inset:10px;position:relative;order:8}#cw-layout-options .cw-note::after{content:' ／ 狭い表示では領域を縦並びで表示'}#cw-layout-options .cw-switch button{flex:1 1 120px}}
+    @media(pointer:coarse){#cw-layout-options button{min-height:44px}}
+  </style>
+  <div class="cw-switch" aria-label="画面構成案">
+    <button type="button" data-layout="A" aria-pressed="true">A 上下対面</button>
+    <button type="button" data-layout="B" aria-pressed="false">B 場を中央に</button>
+    <button type="button" data-layout="C" aria-pressed="false">C 情景を大きく</button>
+    <button type="button" data-layout="D" aria-pressed="false">D 操作を左に</button>
+    <button type="button" data-layout="E" aria-pressed="false">E 属性で揃える</button>
+  </div>
+  <div class="cw-caption"><strong id="cw-layout-name">A 上下対面</strong><span>配置比較図 · 横長16:9を基準</span></div>
+  <div class="cw-board" data-layout="A" role="group" aria-label="探索画面の配置比較。ゲーム進行はありません。">
+    <div class="cw-zone cw-hud"><span>crossweave ／ 現在の区間</span><span>行動時刻・公開の予約順</span><span>成果・帰還</span></div>
+    <div class="cw-zone cw-world">
+      <div class="cw-label">探索対象 <span class="cw-small">状態変化は対象の近く</span></div>
+      <div class="cw-actors">
+        <div class="cw-actor"><span>環境</span><span class="cw-meter"></span><span class="cw-small">HP・状態</span></div>
+        <div class="cw-actor"><span>敵</span><span class="cw-meter"></span><span class="cw-small">HP・状態</span></div>
+      </div>
+    </div>
+    <div class="cw-zone cw-field">
+      <div class="cw-label"><span id="cw-field-label">共有の場</span> <span class="cw-small cw-long">札・場効果</span></div>
+      <div class="cw-slots">
+        <div class="cw-slot"><span class="cw-attribute">A</span><span class="cw-long">場の札</span><span class="cw-short">効果</span><span class="cw-small cw-long">場効果</span><div class="cw-lane-hand"><span class="cw-small">手札</span><div class="cw-hand-card">Aの札<span class="cw-small">効果・期限</span></div></div></div>
+        <div class="cw-slot"><span class="cw-attribute">B</span><span class="cw-long">場の札</span><span class="cw-short">効果</span><span class="cw-small cw-long">場効果</span><div class="cw-lane-hand"><span class="cw-small">手札</span><div class="cw-hand-card">Bの札<span class="cw-small">効果・期限</span></div></div></div>
+        <div class="cw-slot"><span class="cw-attribute">C</span><span class="cw-long">場の札</span><span class="cw-short">効果</span><span class="cw-small cw-long">場効果</span><div class="cw-lane-hand"><span class="cw-small">手札</span><div class="cw-hand-card">Cの札<span class="cw-small">効果・期限</span></div></div></div>
+        <div class="cw-slot"><span class="cw-attribute">D</span><span class="cw-long">場の札</span><span class="cw-short">効果</span><span class="cw-small cw-long">場効果</span><div class="cw-lane-hand"><span class="cw-small">手札なし</span></div></div>
+      </div>
+    </div>
+    <div class="cw-zone cw-hand">
+      <div class="cw-label">手札</div>
+      <div class="cw-cards">
+        <div class="cw-hand-card"><span class="cw-attribute">A</span><span>札</span><span class="cw-small cw-long">効果・期限</span></div>
+        <div class="cw-hand-card"><span class="cw-attribute">B</span><span>札</span><span class="cw-small cw-long">効果・期限</span></div>
+        <div class="cw-hand-card"><span class="cw-attribute">C</span><span>札</span><span class="cw-small cw-long">効果・期限</span></div>
+      </div>
+    </div>
+    <div class="cw-zone cw-player"><div class="cw-label">自分の状態</div><span class="cw-meter cw-long"></span><span class="cw-small">HP・防御など</span></div>
+    <div class="cw-zone cw-deck">
+      <div class="cw-deck-row"><div class="cw-deck-shape" aria-hidden="true">山</div><div><div class="cw-label">自分の山札</div><span class="cw-small">残数・属性の要約</span></div></div>
+      <div class="cw-resources"><span class="cw-token">共通回収山</span></div>
+      <button type="button" class="cw-detail-trigger" data-open="deck">一覧の位置を見る</button>
+    </div>
+    <div class="cw-zone cw-action">
+      <div class="cw-label cw-long">選択中の一手</div>
+      <div class="cw-small cw-long">札 → 場 → 効果対象</div>
+      <div class="cw-links cw-long"><span class="cw-token">結果予測</span><span class="cw-token">期限・消滅</span></div>
+      <span class="cw-commit">予測・警告／実行</span>
+      <button type="button" class="cw-detail-trigger cw-long" data-open="history">詳細・履歴の位置</button>
+    </div>
+    <div class="cw-overlay" hidden role="group" aria-label="詳細画面の配置案">
+      <div class="cw-overlay-head"><strong id="cw-overlay-title">山札の詳細</strong><button type="button" class="cw-detail-trigger" data-close>閉じる</button></div>
+      <div id="cw-overlay-body"></div>
+    </div>
+  </div>
+  <div class="cw-note" aria-live="polite">UI-L-001 ／ 配置の模式図・操作試遊は未接続</div>
+  <script>
+  (()=>{
+    const root=document.getElementById('cw-layout-options');
+    const board=root.querySelector('.cw-board');
+    const overlay=root.querySelector('.cw-overlay');
+    let opener=null;
+    root.addEventListener('click',event=>{
+      const button=event.target.closest('button');if(!button)return;
+      if(button.dataset.layout){
+        board.dataset.layout=button.dataset.layout;
+        root.querySelectorAll('.cw-switch button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+        root.querySelector('#cw-layout-name').textContent=button.textContent;
+        root.querySelector('#cw-field-label').textContent=button.dataset.layout==='E'?'属性列：上が場・下が手札':'共有の場';
+        overlay.hidden=true;
+      }
+      if(button.dataset.open){
+        opener=button;
+        const deck=button.dataset.open==='deck';
+        root.querySelector('#cw-overlay-title').textContent=deck?'山札の詳細を重ねて表示':'選択札の詳細・経過を重ねて表示';
+        root.querySelector('#cw-overlay-body').innerHTML=deck?'<div class="cw-reference-row">札名・属性・効果・現在の残数</div><div class="cw-reference-row">手札・未ドロー・初期持込・消滅予定を区別</div>':'<div class="cw-reference-row">主効果・場効果・行動コスト</div><div class="cw-reference-row">自分の行動 → 他主体の行動 → 現在の状態</div>';
+        overlay.hidden=false;overlay.querySelector('button').focus();
+      }
+      if(button.hasAttribute('data-close')){overlay.hidden=true;opener?.focus();}
+    });
+    root.addEventListener('keydown',event=>{if(event.key==='Escape'&&!overlay.hidden){overlay.hidden=true;opener?.focus();}});
+  })();
+  </script>
+</div>
+
+</body></html>
