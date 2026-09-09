@@ -1,10 +1,10 @@
-# 山札・地形・イベント別配分の比較試作（追加X/Y/Z）
+# 山札・地形・イベント別配分の比較試作（操作Z・診断AA/AB）
 
 2026-09-09。現在の操作試作は追加Z・基本設計0.39対応。大岩自身を回避支援から除外し、弱札命中50を維持する。出発時の攻防配分を3構成から選べる。性能値は試行条件。最適構築・製品バランス・通常の勝率・面白さを実証したものではない。X/Yのコード・比較結果・HP36局面は過去の再現用に保持する。
 
 ## 保存先と実行
 
-このディレクトリのコード・入力・小規模結果の正本はGitHubの `dev_design_tmp_assembly`。大型ZIPは[外部成果物一覧](../../外部成果物.md)のDropboxに保持し、今回変更しない。旧Dropbox文書を更新しない。
+この試作の設計・共通検証の作業先は[設計Work設定](../../../作業資料/Work/20260909-design-assembly.md)に従い、現在はGitHubの `dev_design_tmp_assembly`。固定試遊の使用版と試遊専用ブランチは[試遊記録](../../試遊/terrain-build-z/試遊記録.md)に従う。大型ZIPは[外部成果物一覧](../../外部成果物.md)のDropboxに保持し、今回変更しない。旧Dropbox文書を更新しない。
 
 Zの比較にはNode.jsとPython 3の標準機能を使う。画面の組立とX/Yの比較はNode.jsだけで実行できる。リポジトリルートから実行する。
 
@@ -16,6 +16,21 @@ node docs/検証/統合試作/deck_feedback_trial/build.cjs
 前者はZの `event_results.json` を再生成する。後者は会話内の試遊用フラグメントを `/workspace/crossweave-terrain-hunt.html` に組み立てる。出力先は第1引数で指定可能。ブラウザーの実描画・端末別操作は今回未検査。
 
 Xの再計算は `node docs/検証/統合試作/deck_feedback_trial/study.cjs`。こちらだけが `results.json` と `recovery_checkpoint.json` を再生成する。Yの再計算は `node docs/検証/統合試作/deck_feedback_trial/ecology_study.cjs`。現在のZ画面に旧HP36状態を読み込まない。
+
+## 最新の機械診断：追加AA/AB
+
+操作版はZ・PT-Z-001の固定条件を維持する。AA/ABは共通演算・UIを変更せず、Z0〜Z7の同じ経過の状態を追跡し、到着HPと後続の対象優先を別々に比較する。
+
+```sh
+node docs/検証/統合試作/deck_feedback_trial/continuity_study.cjs
+node docs/検証/統合試作/deck_feedback_trial/route_choice_study.cjs
+```
+
+AAは元144経過と終端が一致する観測、95到着状態＋66敵撃破状態の無変更再開とHPのみ60の対照を行い、`continuity_results.json` を生成する。持込札の残存と手元への到着、借り防御のドローと使用を分ける。HP対照161件中33は元から満タン。途中回復規則への採用ではない。
+
+ABは元96連続条件の95到着状態で後続の対象優先だけをE1→V1からV1→E1へ変え、`route_choice_results.json` を生成する。環境経由・防御0の全体クリアは1/16→8/16、ただし敗北回避8と逆に敗北1を含み、敵報酬の持帰りは1→0。岩経由・防御0は10/16→7/16で、一律に環境優先がよいとはしない。HP対照を併用しない。
+
+同じZ入力の従属比較で、人の勝率・最適構築・推奨方策を表さない。詳細は[統合検討81〜84章](../../../作業資料/カード探索ゲーム_統合検討.md#continuity-aa)と[試験条件AA](../カード探索ゲーム_試験条件.md#continuity-aa)・[AB](../カード探索ゲーム_試験条件.md#route-choice-ab)。初訪問の準備情報は84章の未採用案であり、現在の画面へ反映していない。
 
 ## 現在の追加Z
 
