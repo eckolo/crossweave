@@ -1,5 +1,7 @@
-<div id="cw-shared-hunt" aria-label="crossweave 共有の遮蔽と継続探索">
+<div id="cw-terrain-hunt" aria-label="crossweave 地形と攻防の配分">
   <div class="cw-top"><strong>crossweave</strong><span id="cw-phase"></span></div>
+  <div class="cw-bottom"><label class="cw-history-setting">次の出発構成 <select id="cw-build"><option value="guard5">攻撃6・防御5・回復1</option><option value="guard3">攻撃8・防御3・回復1</option><option value="guard0">攻撃11・防御0・回復1</option></select></label><button id="cw-restart" type="button">この構成で入口から開始</button></div>
+  <div id="cw-build-active" class="cw-meta"></div>
   <div id="cw-progress" class="cw-meta"></div>
   <div id="cw-queue" class="cw-meta"></div>
   <div id="cw-start-state" class="cw-meta"></div>
@@ -17,49 +19,51 @@
   <details><summary>持込・補給・報酬</summary><div id="cw-resources"></div></details>
   <details><summary>相手の傾向・確認した札</summary><div id="cw-knowledge"></div></details>
   <details><summary>ここまでの経過</summary><label class="cw-history-setting">表示順 <select id="cw-history-order"><option value="newest">新しい順</option><option value="oldest">古い順</option></select></label><div id="cw-history"></div></details>
-  <div class="cw-bottom"><button id="cw-withdraw" type="button">撤退する</button><button id="cw-restart" type="button">入口から試す</button></div>
+  <div class="cw-bottom"><button id="cw-withdraw" type="button">撤退する</button></div>
 </div>
 <style>
-#cw-shared-hunt{--cw-paper:light-dark(#f7f5ee,#232720);--cw-ink:light-dark(#273b34,#edf2e9);--cw-line:light-dark(#c5cbbf,#535e50);--cw-soft:light-dark(#e8ede2,#323c2f);--cw-selected:light-dark(#345747,#c2d8ba);--cw-selected-ink:light-dark(#ffffff,#1f301e);--cw-danger:light-dark(#994130,#ffc1a6);color:var(--cw-ink);background:var(--cw-paper);padding:16px;border-radius:12px;font-family:inherit;overflow-wrap:anywhere;color-scheme:light dark}
-#cw-shared-hunt *{box-sizing:border-box}
-#cw-shared-hunt button{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:44px;white-space:normal;text-align:left}
-#cw-shared-hunt button[aria-pressed="true"],#cw-shared-hunt .cw-primary{color:var(--cw-selected-ink);background:var(--cw-selected);border-color:var(--cw-selected)}
-#cw-shared-hunt button:disabled{opacity:.55;cursor:default}
-#cw-shared-hunt .cw-top,#cw-shared-hunt .cw-bottom{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:center}
-#cw-shared-hunt .cw-meta{padding:8px 0;font-variant-numeric:tabular-nums}
-#cw-shared-hunt .cw-section{font-weight:500;margin:14px 0 6px}
-#cw-shared-hunt .cw-actors{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px}
-#cw-shared-hunt .cw-actor{padding:10px;border-radius:8px;background:var(--cw-soft)}
-#cw-shared-hunt .cw-actors button{background:var(--cw-soft)}
-#cw-shared-hunt .cw-actors button[aria-pressed="true"]{background:var(--cw-selected)}
-#cw-shared-hunt .cw-field{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px}
-#cw-shared-hunt .cw-slot{padding:8px;border:1px solid var(--cw-line);border-radius:8px;min-width:0}
-#cw-shared-hunt .cw-hand{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
-#cw-shared-hunt .cw-hand button{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
-#cw-shared-hunt .cw-name{font-weight:500}
-#cw-shared-hunt .cw-prediction{margin:12px 0;padding:12px;background:var(--cw-soft);border-radius:8px}
-#cw-shared-hunt .cw-loss{color:var(--cw-danger)}
-#cw-shared-hunt .cw-primary{width:100%;text-align:center}
-#cw-shared-hunt details{margin-top:12px;border-top:1px solid var(--cw-line);padding-top:8px}
-#cw-shared-hunt summary{cursor:pointer;min-height:36px;padding:6px 0}
-#cw-shared-hunt .cw-bottom{margin-top:16px}
-#cw-shared-hunt .cw-log{padding:5px 0}
-#cw-shared-hunt strong{font-weight:500}
-#cw-shared-hunt progress{width:100%;accent-color:var(--cw-selected);display:block;margin:6px 0}
-#cw-shared-hunt ul{padding-left:20px;margin:6px 0}
-@media(max-width:480px){#cw-shared-hunt .cw-field{grid-template-columns:repeat(2,minmax(0,1fr))}#cw-shared-hunt .cw-actors{grid-template-columns:repeat(2,minmax(0,1fr))}}
-#cw-shared-hunt .cw-deck-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--cw-line)}
-@media(max-width:480px){#cw-shared-hunt .cw-deck-row{grid-template-columns:1fr;gap:4px}}
-#cw-shared-hunt select{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:6px;padding:8px;min-height:44px;max-width:100%}
-#cw-shared-hunt .cw-history-setting{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+#cw-terrain-hunt{--cw-paper:light-dark(#f7f5ee,#232720);--cw-ink:light-dark(#273b34,#edf2e9);--cw-line:light-dark(#c5cbbf,#535e50);--cw-soft:light-dark(#e8ede2,#323c2f);--cw-selected:light-dark(#345747,#c2d8ba);--cw-selected-ink:light-dark(#ffffff,#1f301e);--cw-danger:light-dark(#994130,#ffc1a6);color:var(--cw-ink);background:var(--cw-paper);padding:16px;border-radius:12px;font-family:inherit;overflow-wrap:anywhere;color-scheme:light dark}
+#cw-terrain-hunt *{box-sizing:border-box}
+#cw-terrain-hunt button{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:44px;white-space:normal;text-align:left}
+#cw-terrain-hunt button[aria-pressed="true"],#cw-terrain-hunt .cw-primary{color:var(--cw-selected-ink);background:var(--cw-selected);border-color:var(--cw-selected)}
+#cw-terrain-hunt button:disabled{opacity:.55;cursor:default}
+#cw-terrain-hunt .cw-top,#cw-terrain-hunt .cw-bottom{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+#cw-terrain-hunt .cw-meta{padding:8px 0;font-variant-numeric:tabular-nums}
+#cw-terrain-hunt .cw-section{font-weight:500;margin:14px 0 6px}
+#cw-terrain-hunt .cw-actors{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px}
+#cw-terrain-hunt .cw-actor{padding:10px;border-radius:8px;background:var(--cw-soft)}
+#cw-terrain-hunt .cw-actors button{background:var(--cw-soft)}
+#cw-terrain-hunt .cw-actors button[aria-pressed="true"]{background:var(--cw-selected)}
+#cw-terrain-hunt .cw-field{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px}
+#cw-terrain-hunt .cw-slot{padding:8px;border:1px solid var(--cw-line);border-radius:8px;min-width:0}
+#cw-terrain-hunt .cw-hand{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+#cw-terrain-hunt .cw-hand button{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#cw-terrain-hunt .cw-name{font-weight:500}
+#cw-terrain-hunt .cw-prediction{margin:12px 0;padding:12px;background:var(--cw-soft);border-radius:8px}
+#cw-terrain-hunt .cw-loss{color:var(--cw-danger)}
+#cw-terrain-hunt .cw-primary{width:100%;text-align:center}
+#cw-terrain-hunt details{margin-top:12px;border-top:1px solid var(--cw-line);padding-top:8px}
+#cw-terrain-hunt summary{cursor:pointer;min-height:36px;padding:6px 0}
+#cw-terrain-hunt .cw-bottom{margin-top:16px}
+#cw-terrain-hunt .cw-log{padding:5px 0}
+#cw-terrain-hunt strong{font-weight:500}
+#cw-terrain-hunt progress{width:100%;accent-color:var(--cw-selected);display:block;margin:6px 0}
+#cw-terrain-hunt ul{padding-left:20px;margin:6px 0}
+@media(max-width:480px){#cw-terrain-hunt .cw-field{grid-template-columns:repeat(2,minmax(0,1fr))}#cw-terrain-hunt .cw-actors{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#cw-terrain-hunt .cw-deck-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--cw-line)}
+@media(max-width:480px){#cw-terrain-hunt .cw-deck-row{grid-template-columns:1fr;gap:4px}}
+#cw-terrain-hunt select{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:6px;padding:8px;min-height:44px;max-width:100%}
+#cw-terrain-hunt .cw-history-setting{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
 </style>
 <script>
 __CW_ENGINE__
 __CW_FEEDBACK__
 __CW_ECOLOGY__
+__CW_TERRAIN__
 (() => {
-  const bundle=CWEcology.prepare(__CW_DATA__,'shared50');
-  const root=document.getElementById('cw-shared-hunt');
+  const source=__CW_DATA__;
+  let bundle;
+  const root=document.getElementById('cw-terrain-hunt');
   const get=id=>root.querySelector('#'+id);
   const names={P:'あなた',O:'大岩',V0:'最初の環境',V1:'後続の環境',E1:'後続の敵'};
   const phases={rock:'大岩のある区間',open_rock:'開通後の区間',followup:'後続の区間',finished:'探索終了'};
@@ -88,7 +92,8 @@ __CW_ECOLOGY__
   function absorb(){last=game.trace.map(logText).filter(Boolean);history.push(...last);game.trace=[];}
   function start(){
     selected=null;target='V0';history=[];knownAttrs=new Set();
-    game=new CWEcology.Game(bundle);
+    bundle=CWTerrain.prepare(source,get('cw-build').value);
+    game=new CWTerrain.Game(bundle);
     game.advance();absorb();render();
   }
   function guardText(a){return a.guard?`防御 ${a.guard.value}／回避 ${signed(a.guard.evasion)}／残${a.guard.uses}回`:'防御なし';}
@@ -99,7 +104,7 @@ __CW_ECOLOGY__
       const d=game.s.actors[target],total=d.hit+pred.hit_gain;
       text=`${names[target]}：${pred.hit_connected?'命中':'未命中'}、HP ${d.hp} → ${d.hp-pred.actual_hp_loss}。命中蓄積 ${d.hit} → ${pred.hit_connected?0:total}。`;
       if(pred.hit_gain===0)text+=` 命中加算0（札 ${c.hit}、場 ${signed(game.s.cards[m].field_hit)}、対象回避 ${game.evasion(target)}）。`;
-      if(['O','V0'].includes(target)&&pred.actual_hp_loss===d.hp&&game.s.actors.O.active)text+=' 大岩が退場し、全員への回避支援が終了。';
+      if(['O','V0'].includes(target)&&pred.actual_hp_loss===d.hp&&game.s.actors.O.active)text+=' 大岩が退場し、周囲への回避支援が終了。';
     } else if(pred.mode==='guard')text=`防御 ${pred.guard.value}・回避 ${signed(pred.guard.evasion)}、命中した攻撃へ残2回。`;
     else if(pred.mode==='heal')text=`HP ${p.hp} → ${p.hp+pred.hp_restored}（回復 +${pred.hp_restored}、余剰 ${c.power-pred.hp_restored}）。`;
     else text='主効果なし。';
@@ -119,7 +124,8 @@ __CW_ECOLOGY__
     if(!active.includes(target))target=active[0]||null;
     if(!p.hand.some(c=>c.id===selected))selected=p.hand[0]?.id||null;
     get('cw-phase').textContent=phases[s.current_event];
-    get('cw-start-state').textContent=game.s.actors.O.active?'大岩の遮蔽：全員の回避 +20':'大岩の遮蔽：終了';
+    get('cw-start-state').textContent=game.s.actors.O.active?'大岩の遮蔽：大岩以外の回避 +20':'大岩の遮蔽：終了';
+    get('cw-build-active').textContent='今回の持込：'+CWTerrain.builds[bundle.terrain_build].label;
     get('cw-progress').textContent=`自分の${p.actions+(!s.outcome?1:0)}手目 · 山札${p.rebuilds+1}巡目（再構築${p.rebuilds}回） · 残り${p.deck_count}枚 · 共通回収山${s.pool_count}枚`;
     const queue=active.filter(w=>s.actors[w].acts).sort((a,b)=>s.actors[a].next_at-s.actors[b].next_at||({V:0,P:1,E:2}[s.actors[a].role]-{V:0,P:1,E:2}[s.actors[b].role]));
     get('cw-queue').textContent=`現在時刻 ${s.now} · 相手の予約：${queue.map(w=>names[w]+' '+s.actors[w].next_at).join('／')||'なし'}`;
