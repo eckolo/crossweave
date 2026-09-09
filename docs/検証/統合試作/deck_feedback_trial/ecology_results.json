@@ -1,0 +1,2230 @@
+{
+  "version": "Y1",
+  "input_sha256": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+  "profiles": {
+    "local20": {
+      "scope": "V0",
+      "weak_hit": 20
+    },
+    "shared20": {
+      "scope": "all",
+      "weak_hit": 20
+    },
+    "local50": {
+      "scope": "V0",
+      "weak_hit": 50
+    },
+    "shared50": {
+      "scope": "all",
+      "weak_hit": 50
+    }
+  },
+  "scope": "Same seed32 entrance. Scope V0/all × weak hit20/50 × two target priorities × three guard priorities. Dependent deterministic comparisons, not player win rates.",
+  "fixtures": {
+    "status": "PASS",
+    "checks": [
+      "all current actors including rock",
+      "new enemy/environment receives same cover",
+      "rock retirement removes cover from everyone",
+      "individual reduction stays on rock",
+      "guard stacks with cover and survives rock removal",
+      "initial/future/basic weak hit equal regardless of owner",
+      "saved global passive restores"
+    ]
+  },
+  "runs": [
+    {
+      "profile": "local20",
+      "priority": "environment_first",
+      "guard_mode": "defense",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 25,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "4d8cee180eb610127bf84db80eda50a5fb946d731488b3a4e3d1fe10fe559c2e"
+    },
+    {
+      "profile": "local20",
+      "priority": "environment_first",
+      "guard_mode": "evasion",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 25,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "4d8cee180eb610127bf84db80eda50a5fb946d731488b3a4e3d1fe10fe559c2e"
+    },
+    {
+      "profile": "local20",
+      "priority": "environment_first",
+      "guard_mode": "critical",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 25,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "4d8cee180eb610127bf84db80eda50a5fb946d731488b3a4e3d1fe10fe559c2e"
+    },
+    {
+      "profile": "local20",
+      "priority": "obstacle_first",
+      "guard_mode": "defense",
+      "decisions": 103,
+      "weak_guard_only": 31,
+      "no_matched_attack": 42,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 100,
+      "max_no_hit_option_streak": 4,
+      "P_attacks": 61,
+      "P_zero_hit": 0,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 29,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 10,
+      "NPC_weak_zero_hit": 2,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 180,
+      "NPC_bank_max": 150,
+      "P_damage": 60,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 9,
+      "predictions": 405,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 9,
+          "weak": 5,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 7,
+          "guard": 1
+        },
+        {
+          "cycle": 6,
+          "total": 11,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 8,
+          "guard": 2
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 9,
+          "total": 10,
+          "weak": 6,
+          "guard": 1
+        },
+        {
+          "cycle": 10,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 11,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 12,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 13,
+          "total": 12,
+          "weak": 7,
+          "guard": 3
+        },
+        {
+          "cycle": 14,
+          "total": 12,
+          "weak": 5,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 103,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 1030,
+          "P_actions": 103,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 1040,
+          "P_actions": 103,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "606f158e1c9685922d543bc7d8e92f1d909d424a7f036f98dd58b9cffbf8c673"
+    },
+    {
+      "profile": "local20",
+      "priority": "obstacle_first",
+      "guard_mode": "evasion",
+      "decisions": 59,
+      "weak_guard_only": 13,
+      "no_matched_attack": 26,
+      "all_attack_hit_zero": 5,
+      "no_HP_damage_option": 52,
+      "max_no_hit_option_streak": 5,
+      "P_attacks": 33,
+      "P_zero_hit": 5,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 3,
+      "P_weak_attacks": 14,
+      "P_weak_zero_hit": 5,
+      "NPC_weak_attacks": 10,
+      "NPC_weak_zero_hit": 3,
+      "P_zero_hit_with_crit_gain": 5,
+      "NPC_zero_hit_with_crit_gain": 3,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 210,
+      "NPC_bank_max": 245,
+      "P_damage": 36,
+      "P_heal": 4,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 5,
+      "predictions": 209,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 4,
+          "guard": 3
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 3,
+          "guard": 4
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 7,
+          "guard": 1
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 59,
+      "outcome": "clear",
+      "hp": 28,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 140,
+          "P_actions": 15,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 444,
+          "P_actions": 45,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 586,
+          "P_actions": 59,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "e139e7162bb65e2d207c58547e628a6066d2e4fab1f475d85f1df1e9dc4917a8"
+    },
+    {
+      "profile": "local20",
+      "priority": "obstacle_first",
+      "guard_mode": "critical",
+      "decisions": 130,
+      "weak_guard_only": 45,
+      "no_matched_attack": 55,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 125,
+      "max_no_hit_option_streak": 6,
+      "P_attacks": 75,
+      "P_zero_hit": 1,
+      "NPC_attacks": 34,
+      "NPC_zero_hit": 4,
+      "P_weak_attacks": 37,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 17,
+      "NPC_weak_zero_hit": 4,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 4,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 180,
+      "NPC_bank_max": 155,
+      "P_damage": 60,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 11,
+      "predictions": 513,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 9,
+          "weak": 5,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 7,
+          "guard": 1
+        },
+        {
+          "cycle": 6,
+          "total": 11,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 8,
+          "guard": 2
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 9,
+          "total": 10,
+          "weak": 6,
+          "guard": 1
+        },
+        {
+          "cycle": 10,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 11,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 12,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 13,
+          "total": 12,
+          "weak": 7,
+          "guard": 3
+        },
+        {
+          "cycle": 14,
+          "total": 12,
+          "weak": 5,
+          "guard": 4
+        },
+        {
+          "cycle": 15,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 16,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 17,
+          "total": 11,
+          "weak": 7,
+          "guard": 2
+        },
+        {
+          "cycle": 18,
+          "total": 12,
+          "weak": 4,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 130,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 1200,
+          "P_actions": 120,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 1302,
+          "P_actions": 130,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "0783e836bdfd7b48ddfe55d15ce1f7c39f60309d4d5363bc51ef0ef9dfa44290"
+    },
+    {
+      "profile": "shared20",
+      "priority": "environment_first",
+      "guard_mode": "defense",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "0b5807c74f3c021a17dcd336919ea01481049520580a8b8d3cf0aabdc3cc948e"
+    },
+    {
+      "profile": "shared20",
+      "priority": "environment_first",
+      "guard_mode": "evasion",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "0b5807c74f3c021a17dcd336919ea01481049520580a8b8d3cf0aabdc3cc948e"
+    },
+    {
+      "profile": "shared20",
+      "priority": "environment_first",
+      "guard_mode": "critical",
+      "decisions": 25,
+      "weak_guard_only": 0,
+      "no_matched_attack": 11,
+      "all_attack_hit_zero": 1,
+      "no_HP_damage_option": 20,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 14,
+      "P_zero_hit": 1,
+      "NPC_attacks": 13,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 4,
+      "P_weak_zero_hit": 1,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 130,
+      "P_damage": 34,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 2,
+      "predictions": 95,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 26,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 244,
+          "P_actions": 25,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "0b5807c74f3c021a17dcd336919ea01481049520580a8b8d3cf0aabdc3cc948e"
+    },
+    {
+      "profile": "shared20",
+      "priority": "obstacle_first",
+      "guard_mode": "defense",
+      "decisions": 61,
+      "weak_guard_only": 16,
+      "no_matched_attack": 28,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 50,
+      "max_no_hit_option_streak": 4,
+      "P_attacks": 32,
+      "P_zero_hit": 0,
+      "NPC_attacks": 18,
+      "NPC_zero_hit": 4,
+      "P_weak_attacks": 11,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 3,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 4,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 105,
+      "P_damage": 16,
+      "P_heal": 12,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 5,
+      "predictions": 196,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 5,
+          "guard": 4
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 6,
+          "guard": 4
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 3,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 56,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 182,
+          "P_actions": 19,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 604,
+          "P_actions": 61,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "7e273a9c118625a377acd97dbe5ccb25382a0ccc53b3bd28eeaf26b211cb5544"
+    },
+    {
+      "profile": "shared20",
+      "priority": "obstacle_first",
+      "guard_mode": "evasion",
+      "decisions": 61,
+      "weak_guard_only": 16,
+      "no_matched_attack": 28,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 50,
+      "max_no_hit_option_streak": 4,
+      "P_attacks": 32,
+      "P_zero_hit": 0,
+      "NPC_attacks": 18,
+      "NPC_zero_hit": 4,
+      "P_weak_attacks": 11,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 3,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 4,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 105,
+      "P_damage": 16,
+      "P_heal": 12,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 5,
+      "predictions": 196,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 5,
+          "guard": 4
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 6,
+          "guard": 4
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 3,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 56,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 182,
+          "P_actions": 19,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 604,
+          "P_actions": 61,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "7e273a9c118625a377acd97dbe5ccb25382a0ccc53b3bd28eeaf26b211cb5544"
+    },
+    {
+      "profile": "shared20",
+      "priority": "obstacle_first",
+      "guard_mode": "critical",
+      "decisions": 61,
+      "weak_guard_only": 16,
+      "no_matched_attack": 28,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 50,
+      "max_no_hit_option_streak": 4,
+      "P_attacks": 32,
+      "P_zero_hit": 0,
+      "NPC_attacks": 18,
+      "NPC_zero_hit": 4,
+      "P_weak_attacks": 11,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 3,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 4,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 105,
+      "P_damage": 16,
+      "P_heal": 12,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 5,
+      "predictions": 196,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 5,
+          "guard": 4
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 6,
+          "guard": 4
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 3,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 56,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 182,
+          "P_actions": 19,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 604,
+          "P_actions": 61,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "7e273a9c118625a377acd97dbe5ccb25382a0ccc53b3bd28eeaf26b211cb5544"
+    },
+    {
+      "profile": "local50",
+      "priority": "environment_first",
+      "guard_mode": "defense",
+      "decisions": 36,
+      "weak_guard_only": 1,
+      "no_matched_attack": 18,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 18,
+      "P_zero_hit": 0,
+      "NPC_attacks": 19,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 5,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 11,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 68,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 133,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 8,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 358,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "30a0e477bf196a9d3dc2e17454c0fa8f65b366bf6451f0842cc3f7bcd13c248a"
+    },
+    {
+      "profile": "local50",
+      "priority": "environment_first",
+      "guard_mode": "evasion",
+      "decisions": 36,
+      "weak_guard_only": 2,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 17,
+      "P_zero_hit": 0,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 3,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 13,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 76,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 132,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 364,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "0c82eff056532d1dbd854c94bff64b9e8325ce95047b1086fb0d01353726b7d9"
+    },
+    {
+      "profile": "local50",
+      "priority": "environment_first",
+      "guard_mode": "critical",
+      "decisions": 36,
+      "weak_guard_only": 2,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 17,
+      "P_zero_hit": 0,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 3,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 13,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 76,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 132,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 364,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "0c82eff056532d1dbd854c94bff64b9e8325ce95047b1086fb0d01353726b7d9"
+    },
+    {
+      "profile": "local50",
+      "priority": "obstacle_first",
+      "guard_mode": "defense",
+      "decisions": 39,
+      "weak_guard_only": 9,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 39,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 19,
+      "P_zero_hit": 0,
+      "NPC_attacks": 10,
+      "NPC_zero_hit": 0,
+      "P_weak_attacks": 10,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 150,
+      "NPC_bank_max": 105,
+      "P_damage": 64,
+      "P_heal": 4,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 3,
+      "predictions": 142,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 10,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "player_defeated",
+          "attacker": "V0",
+          "time": 390,
+          "P_actions": 39,
+          "from_event": "rock",
+          "to_event": "rock"
+        }
+      ],
+      "final_hash": "1366eca553b992b700fb3e843b4c2cfe0bd354debc49044e291aaee5c428e14d"
+    },
+    {
+      "profile": "local50",
+      "priority": "obstacle_first",
+      "guard_mode": "evasion",
+      "decisions": 55,
+      "weak_guard_only": 12,
+      "no_matched_attack": 26,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 52,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 29,
+      "P_zero_hit": 0,
+      "NPC_attacks": 16,
+      "NPC_zero_hit": 0,
+      "P_weak_attacks": 17,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 150,
+      "NPC_bank_max": 120,
+      "P_damage": 60,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 5,
+      "predictions": 203,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 9,
+          "weak": 5,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 9,
+          "guard": 1
+        },
+        {
+          "cycle": 6,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 7,
+          "total": 12,
+          "weak": 7,
+          "guard": 3
+        },
+        {
+          "cycle": 8,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 460,
+          "P_actions": 47,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 542,
+          "P_actions": 55,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "1957f7dd3486accabdc3f6aa2db424b43799456e338757dcba35a412691e940c"
+    },
+    {
+      "profile": "local50",
+      "priority": "obstacle_first",
+      "guard_mode": "critical",
+      "decisions": 39,
+      "weak_guard_only": 9,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 39,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 19,
+      "P_zero_hit": 0,
+      "NPC_attacks": 10,
+      "NPC_zero_hit": 0,
+      "P_weak_attacks": 10,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 5,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 150,
+      "NPC_bank_max": 105,
+      "P_damage": 64,
+      "P_heal": 4,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 3,
+      "predictions": 142,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 6,
+          "guard": 3
+        },
+        {
+          "cycle": 3,
+          "total": 11,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 10,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 7,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "player_defeated",
+          "attacker": "V0",
+          "time": 390,
+          "P_actions": 39,
+          "from_event": "rock",
+          "to_event": "rock"
+        }
+      ],
+      "final_hash": "1366eca553b992b700fb3e843b4c2cfe0bd354debc49044e291aaee5c428e14d"
+    },
+    {
+      "profile": "shared50",
+      "priority": "environment_first",
+      "guard_mode": "defense",
+      "decisions": 36,
+      "weak_guard_only": 1,
+      "no_matched_attack": 18,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 18,
+      "P_zero_hit": 0,
+      "NPC_attacks": 19,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 5,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 11,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 68,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 133,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 8,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 358,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "b2415faa93b9141a5d6cff81bdf269d87f1e866b9011bd9f0268c9c5dd9d1bb8"
+    },
+    {
+      "profile": "shared50",
+      "priority": "environment_first",
+      "guard_mode": "evasion",
+      "decisions": 36,
+      "weak_guard_only": 2,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 17,
+      "P_zero_hit": 0,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 3,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 13,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 76,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 132,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 364,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "f3d8afbae98c6a93a5a8da0386b3f8c7ad1ea87c795eab7f32c18fb43c34c838"
+    },
+    {
+      "profile": "shared50",
+      "priority": "environment_first",
+      "guard_mode": "critical",
+      "decisions": 36,
+      "weak_guard_only": 2,
+      "no_matched_attack": 19,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 25,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 17,
+      "P_zero_hit": 0,
+      "NPC_attacks": 21,
+      "NPC_zero_hit": 2,
+      "P_weak_attacks": 3,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 13,
+      "NPC_weak_zero_hit": 1,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 2,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 160,
+      "NPC_bank_max": 160,
+      "P_damage": 76,
+      "P_heal": 16,
+      "full_heal_decisions": 1,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 1,
+      "reloads": 3,
+      "predictions": 132,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 2,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 5,
+          "total": 12,
+          "weak": 4,
+          "guard": 4
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "defeat",
+      "hp": 0,
+      "events": [
+        {
+          "number": 1,
+          "event": "V0_traversed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "player_defeated",
+          "attacker": "E1",
+          "time": 364,
+          "P_actions": 36,
+          "from_event": "followup",
+          "to_event": "followup"
+        }
+      ],
+      "final_hash": "f3d8afbae98c6a93a5a8da0386b3f8c7ad1ea87c795eab7f32c18fb43c34c838"
+    },
+    {
+      "profile": "shared50",
+      "priority": "obstacle_first",
+      "guard_mode": "defense",
+      "decisions": 42,
+      "weak_guard_only": 8,
+      "no_matched_attack": 17,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 32,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 25,
+      "P_zero_hit": 0,
+      "NPC_attacks": 17,
+      "NPC_zero_hit": 1,
+      "P_weak_attacks": 12,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 205,
+      "P_damage": 48,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 3,
+      "predictions": 145,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 10,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 5,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 12,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 232,
+          "P_actions": 24,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 416,
+          "P_actions": 42,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "fbf0bbc0c553d38f026b6ac487e169cb5918743582ed1c89063ad33863fbdd74"
+    },
+    {
+      "profile": "shared50",
+      "priority": "obstacle_first",
+      "guard_mode": "evasion",
+      "decisions": 42,
+      "weak_guard_only": 8,
+      "no_matched_attack": 17,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 32,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 25,
+      "P_zero_hit": 0,
+      "NPC_attacks": 17,
+      "NPC_zero_hit": 1,
+      "P_weak_attacks": 12,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 205,
+      "P_damage": 48,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 3,
+      "predictions": 145,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 10,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 5,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 12,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 232,
+          "P_actions": 24,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 416,
+          "P_actions": 42,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "fbf0bbc0c553d38f026b6ac487e169cb5918743582ed1c89063ad33863fbdd74"
+    },
+    {
+      "profile": "shared50",
+      "priority": "obstacle_first",
+      "guard_mode": "critical",
+      "decisions": 42,
+      "weak_guard_only": 8,
+      "no_matched_attack": 17,
+      "all_attack_hit_zero": 0,
+      "no_HP_damage_option": 32,
+      "max_no_hit_option_streak": 3,
+      "P_attacks": 25,
+      "P_zero_hit": 0,
+      "NPC_attacks": 17,
+      "NPC_zero_hit": 1,
+      "P_weak_attacks": 12,
+      "P_weak_zero_hit": 0,
+      "NPC_weak_attacks": 9,
+      "NPC_weak_zero_hit": 0,
+      "P_zero_hit_with_crit_gain": 0,
+      "NPC_zero_hit_with_crit_gain": 1,
+      "NPC_zero_hit_with_alternative": 0,
+      "P_bank_max": 135,
+      "NPC_bank_max": 205,
+      "P_damage": 48,
+      "P_heal": 0,
+      "full_heal_decisions": 0,
+      "full_heal_with_damage_attack": 0,
+      "full_heal_ends_guard": 0,
+      "reloads": 3,
+      "predictions": 145,
+      "rebuild_composition": [
+        {
+          "cycle": 2,
+          "total": 12,
+          "weak": 2,
+          "guard": 4
+        },
+        {
+          "cycle": 3,
+          "total": 12,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 4,
+          "total": 12,
+          "weak": 6,
+          "guard": 2
+        },
+        {
+          "cycle": 5,
+          "total": 10,
+          "weak": 5,
+          "guard": 3
+        },
+        {
+          "cycle": 6,
+          "total": 12,
+          "weak": 5,
+          "guard": 2
+        }
+      ],
+      "X_state_matches": 0,
+      "outcome": "clear",
+      "hp": 12,
+      "events": [
+        {
+          "number": 1,
+          "event": "rock_destroyed",
+          "attacker": "P",
+          "time": 40,
+          "P_actions": 5,
+          "from_event": "rock",
+          "to_event": "followup"
+        },
+        {
+          "number": 2,
+          "event": "enemy_defeated",
+          "attacker": "P",
+          "time": 232,
+          "P_actions": 24,
+          "from_event": "followup",
+          "to_event": "followup"
+        },
+        {
+          "number": 3,
+          "event": "V1_traversed",
+          "attacker": "P",
+          "time": 416,
+          "P_actions": 42,
+          "from_event": "followup",
+          "to_event": "finished"
+        }
+      ],
+      "final_hash": "fbf0bbc0c553d38f026b6ac487e169cb5918743582ed1c89063ad33863fbdd74"
+    }
+  ]
+}
