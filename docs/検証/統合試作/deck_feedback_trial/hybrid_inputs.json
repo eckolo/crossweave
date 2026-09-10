@@ -1,0 +1,25 @@
+{
+  "trial": "AF1",
+  "base_commit": "e770d02cd8310294dbf1d140b6ae49989d6f89ba",
+  "reward_version": "AF-rewards-1",
+  "adopted": "D43: selectable growth points coexist with use-restricted materials and cards",
+  "rewards": {
+    "R": [{"kind":"points","amount":1},{"kind":"material","type":"hard_fragment","amount":1}],
+    "T0": [{"kind":"points","amount":1},{"kind":"unlock","type":"brace"}],
+    "E": [{"kind":"points","amount":1},{"kind":"unlock","type":"sharp"}],
+    "T1": [{"kind":"points","amount":2},{"kind":"material","type":"hard_fragment","amount":1}]
+  },
+  "materials": {"hard_fragment":{"name":"硬質片"}},
+  "recipes": {
+    "stored_card": {"label":"溜め打ちを解放","points":0,"materials":{"hard_fragment":1},"unlock":"stored"},
+    "material_toughness": {"label":"常時軽減 +1","points":2,"materials":{"hard_fragment":1},"hp":0,"reduction":1}
+  },
+  "duplicate_policy": "record_pending_without_automatic_conversion",
+  "limits": [
+    "Reward bundles, source assignments, amounts and recipes are provisional. D43 does not require both costs on every upgrade.",
+    "Point-only sample upgrades reuse AE values solely for wiring checks. Permanent reduction and prices are not adopted.",
+    "Duplicate card unlocks are recorded as unresolved. No additional points, physical inventory or compensation is inferred.",
+    "Materials have separate counts; they cannot implicitly substitute for points or for another material.",
+    "Natural runs reuse AE-Z seeds 0 and 1 without selecting successful endings. The adapter preserves previously supplied knowledge; AF does not add an observation UI or re-test D42."
+  ]
+}

@@ -1,0 +1,323 @@
+{
+  "trial": "AF1",
+  "base_commit": "e770d02cd8310294dbf1d140b6ae49989d6f89ba",
+  "limits": [
+    "Reward bundles, source assignments, amounts and recipes are provisional. D43 does not require both costs on every upgrade.",
+    "Point-only sample upgrades reuse AE values solely for wiring checks. Permanent reduction and prices are not adopted.",
+    "Duplicate card unlocks are recorded as unresolved. No additional points, physical inventory or compensation is inferred.",
+    "Materials have separate counts; they cannot implicitly substitute for points or for another material.",
+    "Natural runs reuse AE-Z seeds 0 and 1 without selecting successful endings. The adapter preserves previously supplied knowledge; AF does not add an observation UI or re-test D42."
+  ],
+  "checks": {
+    "settlement_bundles": 4,
+    "repeated_return": 4,
+    "payment_choices": 4,
+    "invalid_payment_atomic": 3,
+    "duplicate_card_case": 1,
+    "natural_endpoints": 2,
+    "held_rewards_survive_later_death": 1,
+    "reward_visibility": 2
+  },
+  "synthetic_settlements": [
+    {
+      "fixture": "unprotected",
+      "receipt": {
+        "reason": "withdrawal",
+        "kept": [],
+        "lost": [
+          "R"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "holdings": {
+        "points": 0,
+        "materials": [],
+        "unlocked": [
+          "f",
+          "h",
+          "l",
+          "j",
+          "g",
+          "r",
+          "fast",
+          "read",
+          "sweep",
+          "salve"
+        ],
+        "pending_card_duplicates": []
+      }
+    },
+    {
+      "fixture": "protected",
+      "receipt": {
+        "reason": "withdrawal",
+        "kept": [
+          "R",
+          "T0"
+        ],
+        "lost": [
+          "E"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "holdings": {
+        "points": 2,
+        "materials": [
+          {
+            "type": "hard_fragment",
+            "name": "硬質片",
+            "amount": 1,
+            "uses": [
+              {
+                "id": "stored_card",
+                "label": "溜め打ちを解放",
+                "points": 0,
+                "materials": {
+                  "hard_fragment": 1
+                }
+              },
+              {
+                "id": "material_toughness",
+                "label": "常時軽減 +1",
+                "points": 2,
+                "materials": {
+                  "hard_fragment": 1
+                }
+              }
+            ]
+          }
+        ],
+        "unlocked": [
+          "f",
+          "h",
+          "l",
+          "j",
+          "g",
+          "r",
+          "fast",
+          "read",
+          "sweep",
+          "salve",
+          "brace"
+        ],
+        "pending_card_duplicates": []
+      }
+    },
+    {
+      "fixture": "clear",
+      "receipt": {
+        "reason": "clear",
+        "kept": [
+          "R",
+          "T0",
+          "E",
+          "T1"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "holdings": {
+        "points": 5,
+        "materials": [
+          {
+            "type": "hard_fragment",
+            "name": "硬質片",
+            "amount": 2,
+            "uses": [
+              {
+                "id": "stored_card",
+                "label": "溜め打ちを解放",
+                "points": 0,
+                "materials": {
+                  "hard_fragment": 1
+                }
+              },
+              {
+                "id": "material_toughness",
+                "label": "常時軽減 +1",
+                "points": 2,
+                "materials": {
+                  "hard_fragment": 1
+                }
+              }
+            ]
+          }
+        ],
+        "unlocked": [
+          "f",
+          "h",
+          "l",
+          "j",
+          "g",
+          "r",
+          "fast",
+          "read",
+          "sweep",
+          "salve",
+          "brace",
+          "sharp"
+        ],
+        "pending_card_duplicates": []
+      }
+    },
+    {
+      "fixture": "death",
+      "receipt": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "R",
+          "T0",
+          "E",
+          "T1"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "holdings": {
+        "points": 0,
+        "materials": [],
+        "unlocked": [
+          "f",
+          "h",
+          "l",
+          "j",
+          "g",
+          "r",
+          "fast",
+          "read",
+          "sweep",
+          "salve"
+        ],
+        "pending_card_duplicates": []
+      }
+    }
+  ],
+  "synthetic_payments": [
+    {
+      "operation": "retain",
+      "points": 4,
+      "materials": {
+        "hard_fragment": 2
+      },
+      "stored_unlocked": false,
+      "next_hp": 60,
+      "next_reduction": 0
+    },
+    {
+      "operation": "point_hp",
+      "points": 1,
+      "materials": {
+        "hard_fragment": 2
+      },
+      "stored_unlocked": false,
+      "next_hp": 62,
+      "next_reduction": 0
+    },
+    {
+      "operation": "material_card",
+      "points": 4,
+      "materials": {
+        "hard_fragment": 1
+      },
+      "stored_unlocked": true,
+      "next_hp": 60,
+      "next_reduction": 0
+    },
+    {
+      "operation": "mixed_cost",
+      "points": 2,
+      "materials": {
+        "hard_fragment": 1
+      },
+      "stored_unlocked": false,
+      "next_hp": 60,
+      "next_reduction": 1
+    }
+  ],
+  "duplicate_fixture": {
+    "points_after_first": 1,
+    "points_after_repeat": 2,
+    "pending": [
+      {
+        "run": "card-repeat",
+        "reward": "T0",
+        "type": "brace"
+      }
+    ]
+  },
+  "natural_runs": [
+    {
+      "id": "AF-natural-0",
+      "seed": 0,
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "outcome": "withdrawal",
+      "p_actions": 5,
+      "receipt": {
+        "reason": "withdrawal",
+        "kept": [
+          "T0"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "points": 1,
+      "materials": {},
+      "new_unlocks": [
+        "brace"
+      ],
+      "final_hash": "5f56dc2d3bcc3fa92f2cc1fe3008707cb1cd5337b120be2da5d425da3f25b7e2"
+    },
+    {
+      "id": "AF-natural-1",
+      "seed": 1,
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 1,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1,
+        "brace": 1
+      },
+      "outcome": "defeat",
+      "p_actions": 34,
+      "receipt": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "points": 1,
+      "materials": {},
+      "new_unlocks": [],
+      "final_hash": "bc0b2a3311ac68c81bbf8148841c815a249fbfaf042fad38cf13be309622d7db"
+    }
+  ],
+  "sources": {
+    "hybrid_inputs.json": "3eff146d07c928b023b7e74d42ae6ba10c93f0a34e95c7eca0b4b33ab5854d37",
+    "hybrid_rewards.js": "aa13f9b2d3f591474ec69607023af7a2a2d2c50faaf15784697e808cf2ee86bc",
+    "hybrid_study.cjs": "8f89b17dfef6d667bceb416f5c21fc8af09a1ac0ad32dc405107d5bc1466470e",
+    "expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "loop_results.json": "c8a65d55f85d5415e8c24ff4f19f081e9e963ecc1276f54b1e46177dfa1b2eea",
+    "continuity_study.cjs": "41868be61622ff841b9f85491622160be0edf9b39bd91812e9eb06caf2569755",
+    "input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "event_inputs.py": "e506c7b083c7ab56ffb08e53c05a1166740e83de08d836194f0ec6b62ee9180f",
+    "event_results.json": "e12d1a5e3d324c991cb85ff9d26ae2381527f34f0093692a512e8839eb64b334",
+    "knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef"
+  }
+}
