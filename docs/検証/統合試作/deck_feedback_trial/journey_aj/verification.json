@@ -1,0 +1,109 @@
+{
+  "trial": "AJ1",
+  "checks": [
+    "Natural A reward → unlock C and brace → change deck and learn PS02 → return → free PS04 respec; committed preparation remains unchanged until valid departure",
+    "B reward unlock; C death loses protected current loot and retains knowledge / previous learned skills; settled reload does not duplicate rewards",
+    "First-boundary actor state persists; voluntary withdrawal banks only protected loot",
+    "Passive fixture predictions; quick / drag / confirm have identical effects; off-board / cancel / Esc / touch-body / stale input do not act; matched attacks require explicit target",
+    "Invalid or locked departure is atomic; no respec during expedition; explicit withdrawal settles a trial cutoff",
+    "Save JSON import, invalid draft reload, and corrupt autosave recovery without overwrite"
+  ],
+  "actions": 150,
+  "predictions": 150,
+  "restores": 7,
+  "runs": [
+    {
+      "route": "A",
+      "outcome": "clear",
+      "actions": 34,
+      "learned": [],
+      "points": 3,
+      "unlocked": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve",
+        "brace"
+      ]
+    },
+    {
+      "route": "C",
+      "outcome": "clear",
+      "actions": 25,
+      "learned": [
+        "PS02"
+      ],
+      "points": 4,
+      "unlocked": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve",
+        "brace",
+        "sharp"
+      ]
+    },
+    {
+      "route": "B",
+      "outcome": "clear",
+      "actions": 21,
+      "learned": [],
+      "points": 2,
+      "unlocked": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve",
+        "stored"
+      ]
+    },
+    {
+      "route": "C",
+      "outcome": "defeat",
+      "actions": 42,
+      "learned": [
+        "PS02"
+      ],
+      "points": 0,
+      "unlocked": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve"
+      ]
+    }
+  ],
+  "dom_errors": [],
+  "html_sha256": "d8f21a94b0f4fa5825488d0c3fa542a76c0b6be91900a8cc7f365dba8cac2a69",
+  "verification_scope": "Node controller and jsdom DOM; fixtures are automated comparisons, not human play",
+  "unverified": [
+    "real browser rendering and viewport geometry",
+    "real pointer capture and touch scrolling",
+    "download / file picker on real devices",
+    "human construction intent, effort and retry satisfaction"
+  ]
+}

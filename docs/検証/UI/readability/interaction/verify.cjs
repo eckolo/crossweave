@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -134,6 +134,76 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
   if(name==='guard_end'){assert(query(b,'#cw-brief').textContent.includes('防御終了')||query(b,'#cw-use').disabled);}
   a.window.close();b.window.close();
 }
+{
+  const b=open(build(),true),before=state(b),root=query(b,'#cw-playtable');
+  query(b,`[data-card="${first.card_id}"]`).click();
+  assert(!query(b,'#cw-drawer').hidden);assert.equal(query(b,'#cw-drawer').dataset.window,'card');
+  assert(query(b,'#cw-card-info').textContent.includes('主効果'));assert.equal(state(b),before);
+  const next=b.window.__inspect().s.actors.P.hand.find(id=>id!==first.card_id);
+  query(b,`[data-card="${next}"]`).click();assert.equal(b.window.__ui().selected,next);assert(!query(b,'#cw-drawer').hidden);
+  root.click();assert(query(b,'#cw-drawer').hidden);assert.equal(b.window.__ui().selected,next);
+  query(b,'#cw-peek-setting').checked=false;query(b,`[data-card="${first.card_id}"]`).click();assert(query(b,'#cw-drawer').hidden);
+  query(b,'#cw-show-card').click();assert(!query(b,'#cw-drawer').hidden);
+  root.dispatchEvent(new b.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert(query(b,'#cw-drawer').hidden);
+  query(b,'#cw-peek-setting').checked=true;
+  b.window.document.elementFromPoint=()=>root;
+  pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');b.window.__tick(220);
+  assert(query(b,'#cw-drawer').hidden,'hold opened inspection window');pointer(b,root,'pointercancel');assert.equal(state(b),before);
+  checks.push('one tap opens full card/prediction; another card switches; outside/Esc close; hold stays drag-only; optional manual detail');b.window.close();
+}
+for(const name of ['reference','settings','result']){
+  const b=open(build(),true),before=state(b);choose(b,first);query(b,'#cw-close').click();
+  query(b,`[data-open="${name}"]`).click();assert(!query(b,'#cw-drawer').hidden);
+  query(b,'#cw-use').click();assert(query(b,'#cw-drawer').hidden);assert.equal(state(b),before,'outside click executed underlying action');
+  query(b,`[data-open="${name}"]`).click();
+  pointer(b,query(b,'#cw-playtable'),'pointerdown');b.window.__tick(1000);
+  assert(query(b,'#cw-drawer').hidden);assert(query(b,'#cw-drag-ghost').hidden);assert.equal(state(b),before);
+  checks.push(name+': outside closes without click-through or delayed hold');b.window.close();
+}
+{
+  const b=open(build(),true),before=state(b);choose(b,first);query(b,'#cw-use').click();
+  const after=state(b);assert.notEqual(after,before);
+  assert(query(b,'#cw-history').textContent.includes('あなた：'));
+  b.window.__tick(850);assert(query(b,'#cw-event-feed').children.length>0);
+  assert(query(b,'#cw-event-feed').children.length<=2);
+  const saved=query(b,'#cw-history').textContent;
+  b.window.__tick(30000);assert.equal(query(b,'#cw-event-feed').children.length,0);
+  assert.equal(query(b,'#cw-history').textContent,saved);assert.equal(state(b),after,'feed advanced game');
+  query(b,'[data-open="result"]').click();assert.equal(query(b,'#cw-drawer-title').textContent,'履歴');
+  assert(!query(b,'#cw-history').closest('[hidden]'));
+  checks.push('transient chronological feed is bounded; full history retained after expiry; opening history changes no game state');b.window.close();
+}
+{
+  const b=open(build(),true),ids=b.window.__inspect().s.actors.P.hand;
+  let viewport=800,offset=0;
+  const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bottom:top+height,x:left,y:top});
+  b.window.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.id==='cw-playtable')return rect(0,0,viewport,1020);
+    if(this.id==='cw-action-track')return rect(20,920,viewport-40,44);
+    if(this.id==='cw-action-anchor')return rect(0,0,Math.min(340,viewport-40),44);
+    if(this.id==='cw-hand')return rect(20,634,viewport-40,170);
+    if(this.id==='cw-drawer')return rect(0,0,Math.min(380,viewport-32),300);
+    if(this.dataset.card)return rect(40+ids.indexOf(this.dataset.card)*290-offset,634,220,170);
+    return rect(0,0,0,0);
+  };
+  query(b,`[data-card="${ids[0]}"]`).click();const left=Number.parseFloat(query(b,'#cw-action-anchor').style.left);
+  query(b,`[data-card="${ids[2]}"]`).click();const right=Number.parseFloat(query(b,'#cw-action-anchor').style.left);
+  assert(right>left);assert(right+340<=viewport-40,'action dock escaped right edge');
+  offset=1100;b.window.__layout();assert(query(b,'#cw-anchor-state').textContent.includes('左の画面外'));
+  viewport=320;offset=0;b.window.__layout();assert.equal(Number.parseFloat(query(b,'#cw-action-anchor').style.left),0);
+  const popupLeft=Number.parseFloat(query(b,'#cw-drawer').style.left);assert(popupLeft>=0&&popupLeft+288<=320);
+  checks.push('supplied geometry: dock follows left/right cards, clamps edges, labels offscreen card, fits 320px');b.window.close();
+}
+for(const [name,replay]of Object.entries(fixtures.cases)){
+  const b=open(build(replay),true),s=b.window.__inspect().s;
+  assert(query(b,'#cw-scene-base'));assert(query(b,'#cw-scene-environment'));
+  const present=[...b.window.document.querySelectorAll('[data-environment]')].map(n=>n.dataset.environment);
+  assert.deepEqual(present,['O','V0','V1'].filter(id=>s.actors[id]?.active));
+  assert.equal(b.window.document.querySelectorAll('[data-art-kind="actors"]').length,Object.keys(s.actors).filter(id=>id!=='P'&&s.actors[id].active).length);
+  assert([...b.window.document.querySelectorAll('[data-card]')].every(n=>n.querySelector('[data-art-kind="cards"]')));
+  b.window.close();
+}
+checks.push('art slots beneath actor/card captions; terrain base plus active environment layers only');
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.3',verification:'DOM routing and controlled timer only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['browser geometry and pointer capture','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and repetition time']};
+const result={test_id:'UI-R-002',ui_version:'0.4',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser layout, anchoring and image contrast','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

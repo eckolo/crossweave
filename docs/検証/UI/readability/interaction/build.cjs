@@ -10,7 +10,7 @@ const expected={
 };
 function readFixed(name){const s=fs.readFileSync(path.join(fixed,name),'utf8');assert.equal(sha(s),expected[name],`固定版が異なる: ${name}`);return s;}
 function build(replay={build:'guard5',choices:[]}){
-  let view=fs.readFileSync(path.join(root,'support.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'view.js'),'utf8');
+  let view=['support.js','surface.js','view.js'].map(name=>fs.readFileSync(path.join(root,name),'utf8')).join('\n');
   view=view.replace('__CW_DATA__',()=>JSON.stringify(JSON.parse(readFixed('input.json'))).replace(/</g,'\\u003c'));
   view=view.replace('__CW_REPLAY__',()=>JSON.stringify(replay).replace(/</g,'\\u003c'));
   let fragment=fs.readFileSync(path.join(root,'play.fragment.html'),'utf8');
@@ -21,7 +21,7 @@ function build(replay={build:'guard5',choices:[]}){
 }
 if(require.main===module){
   const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone');
-  const out=pos[0]||'/workspace/crossweave-card-hold.html';
+  const out=pos[0]||'/workspace/crossweave-card-context.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
   let s=build(replay);

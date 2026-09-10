@@ -1,17 +1,17 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.3",
+  "ui_version": "0.4",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
   "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "baseline_spec": "0.39",
   "operational_design_spec": "0.47",
-  "synchronized_design_commit": "745bcb0c28c7c44d68fbdea5a7b509681b900fd8",
-  "own_source_commit": "1d23e94d0d8394b7e169961b0b105794576981ca",
-  "own_source_merge_commit": "8fb1a4a974a05e69e54362a6731212274199d6f2",
-  "required_source_merge_commit": "bd424388711c09389d4ce8825627e5bd5f457a1b",
-  "ui_code_commit": "d30ff5bcd22633a610c6b2c88588461a941d0962",
+  "synchronized_design_commit": "6d28d67996c21040aae61a4017a2da3b5758760e",
+  "own_source_commit": "dc2c26bf68e4c23fbb3747615a0edaf8a3ac2061",
+  "own_source_merge_commit": "eb30bea8c6fc9ed8da41f99f506e4879da9d8c38",
+  "required_source_merge_commit": "baa5fb97a7e2bd17eb32485a64005af56bade0bd",
+  "ui_code_commit": null,
   "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
   "entry": "W seed32 / guard5",
   "game_changes": [],
@@ -22,61 +22,70 @@
     "per_card_buttons": false,
     "matching_confirmation": true,
     "confirmation_when_other_expiring_cards_disappear": true,
-    "hold_ms": 220
+    "hold_ms": 220,
+    "tap_opens_details": true
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.2 to v0.3 source changes only; run build.cjs to regenerate preview",
+  "ui_diff_scope": "v0.3 to v0.4 source changes only; includes new surface.js; build.cjs generates preview",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 14108,
-      "sha256": "62f2337bd9a1ac35af59f0eb30562e93840c99044a27840f07100e7e58fec78c"
+      "bytes": 15018,
+      "sha256": "ac4ae7efbc993085f0163fa809a4ff4bdd04684afdd7450582ee5c5167ed5783"
     },
     "build.cjs": {
       "bytes": 2775,
-      "sha256": "394fdada9568fbf10eba7bc40f980ed284d1a99af3ef5c5b37a70fa4063e4862"
+      "sha256": "455c9434d596cd25ae7839ecff980f01b90ee144a97dabebf381e217b89960a2"
     },
     "play.fragment.html": {
-      "bytes": 13883,
-      "sha256": "88d7ddd39648e7dba03a9ecd62bcad7f90986fe8375a5b4e0c21938061ffd268"
+      "bytes": 20429,
+      "sha256": "451516aedadfdc2e57cc010874e8ce2562aecf4b650bd1c7246d4cb036696367"
     },
     "preview.html": {
-      "bytes": 253970,
-      "sha256": "ed8cb7d6277933b2f67281e4db8bd42970499832bf309016c75f02ac9c1d87f4"
+      "bytes": 267065,
+      "sha256": "3b523cf46e213f672b9626814414da4a2feeee9c20dc9b3a516a738d555218ea"
     },
     "support.js": {
-      "bytes": 11878,
-      "sha256": "31208afeb794c8b9219fc20a057cde9c585d890b69ab19f1ea0ad60ad734fe76"
+      "bytes": 12040,
+      "sha256": "e401126a6270a57db38d85a8bab6016010a2b838fca1a1d1c781826d6eab9403"
     },
     "ui-r002.patch": {
-      "bytes": 21893,
-      "sha256": "ab95006e3164fd80c53771f05d6f8e019d15a9506b6dfb5216bc51590bdd12e3"
+      "bytes": 41183,
+      "sha256": "44a9b38bf39ad47e1b9d4bac4702a5bbf7725d471d0731d39c3a5bc74c94d9fe"
     },
     "verification.json": {
-      "bytes": 2350,
-      "sha256": "604c435ed929bed33811ce02e15ee9f0e1b6e05570cd5e2cac1ea0711472867d"
+      "bytes": 3050,
+      "sha256": "baf5bd587148d3c1e99954ab566decbac52ade419b49671c55f51e88f399a09f"
     },
     "verify.cjs": {
-      "bytes": 12107,
-      "sha256": "4a77516c9c4fcf8d9d309c03d7c8bcf53275e8e54b0db9b665f3c756f3dc2cc5"
+      "bytes": 17567,
+      "sha256": "71bb9e55e5c43d83c0c35b36478d60b29704085d86b87d8805b42fe829464dbc"
     },
     "view.js": {
-      "bytes": 20334,
-      "sha256": "0960f6630de85ac778890dd7a971eaf32c8a62e96e108dea6441d35669b8f6b4"
+      "bytes": 20504,
+      "sha256": "9ac65e4d3490f17c453a550ab544336973f004e8d6af5e2e5906b7c9d735bf01"
+    },
+    "surface.js": {
+      "bytes": 6216,
+      "sha256": "7b48487621b8fa44cb05c756ee0efded05a2eaeb789ddfaf6520f82ece3bd6b3"
+    },
+    "画面操作・描画方針.md": {
+      "bytes": 7894,
+      "sha256": "f93d4631cbfaa3006a32180643a316efc8d8851f11cb00cc9e905f2409cd76d4"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-card-hold.html",
-    "sha256": "db47b55e0e59c35397c50d2de77f2e9eb4e25bf0ae200dd5969fbdd3f005b242"
+    "path": "/workspace/crossweave-card-context.html",
+    "sha256": "79cd8986e8ab42b465a9e8287ecf63671dbdc9126dd04bff1daace5acc3b8ca7"
   },
   "unverified": [
-    "browser geometry and pointer capture",
+    "real browser layout, anchoring and image contrast",
     "physical hold timing, manual touch scrolling and pinch zoom",
-    "human effort, errors and repetition time"
+    "human effort, errors and event-feed readability"
   ],
-  "previous_ui_code_commit": "46a178d898c5d86e1e0d02f79fba87b564b48af8",
-  "ui_diff_base": "46a178d898c5d86e1e0d02f79fba87b564b48af8",
+  "previous_ui_code_commit": "d30ff5bcd22633a610c6b2c88588461a941d0962",
+  "ui_diff_base": "d30ff5bcd22633a610c6b2c88588461a941d0962",
   "gesture_policy": {
     "hold_ms": 220,
     "hold_options_ms": [
@@ -90,5 +99,22 @@
     "touch_action": "pinch-zoom",
     "touch_horizontal_scroll": "manual follow; no added inertia",
     "whole_page_vertical_scroll": "outside card surfaces; also on cards when drag disabled"
+  },
+  "presentation": {
+    "action_anchor": "selected card center, clamped within viewport",
+    "outside_window": "dismiss only; card action dock belongs to inspector; card/target selection can switch context",
+    "live_history": {
+      "visible": 2,
+      "queued_limit": 8,
+      "interval_ms": 850,
+      "expiry_ms": 8000,
+      "full_history_retained": true
+    },
+    "artwork": "placeholder slots; terrain base + active environment layers + actors/cards + captions",
+    "hand_background": "separate surface provisionally; extending terrain behind hand is undecided",
+    "screen_height_px": {
+      "regular": 1020,
+      "narrow": 1060
+    }
   }
 }

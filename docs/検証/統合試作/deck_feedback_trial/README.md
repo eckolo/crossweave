@@ -1,5 +1,9 @@
 # 山札・地形・イベント別配分の比較試作（操作Z・診断AA/AB/AC/AD）
 
+## 追加AJ：準備から再挑戦までの通し操作
+
+[AJの入口](journey_aj/README.md)と[操作画面](journey_aj/crossweave-journey.html)。初期ポイント0から札編集・習得・A/B/C探索・帰還・無料取り直し・保存再開を接続。UI-R-002の派生を独立した共通試作として扱う。150手のDOM入力を既存処理へ照合済み。実描画・実端末・人評価は未確認。以下の過去条件と操作Zを保持する。
+
 ## 追加AI：報酬構築・準備変更・再挑戦
 
 [AIの記録](reward_build_notes.md)に、9構築・同予算の習得・C前半比較の1,344経過と、自然獲得から再挑戦を保存。再現は `node reward_build_study.cjs`。`reward_preparation.js`が準備変更とCへの出発を扱い、Pの手札へ来た未見の借り札も知識へ記録する。`reward_build_inputs.json`、`reward_build_inputs.py`、`reward_build_results.json`が対応する。旧AH以下の実装・入力・結果と固定画面は変更しない。

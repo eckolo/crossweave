@@ -1,12 +1,12 @@
 (() => {
-  const source=__CW_DATA__;
-  const initialReplay=__CW_REPLAY__;
+  const source=CWRequire('input.json'),seedBank=CWRequire('journey_aj/seeds.json');
+  const AH=CWRequire('expedition_choices.js'),L=CWRequire('expedition_loop.js'),I=CWRequire('information.js');
+  const CWFeedback=CWRequire('feedback.js'),AJ=CWRequire('journey_aj/session.js');
   let bundle;
   const root=document.getElementById('cw-playtable');
   const get=id=>root.querySelector('#'+id);
-  const names={P:'あなた',O:'大岩',V0:'最初の環境',V1:'後続の環境',E1:'後続の敵'};
-  const phases={rock:'大岩のある区間',open_rock:'開通後の区間',followup:'後続の区間',finished:'探索終了'};
-  const rewardNames={R:'大岩の成果',T0:'最初の踏破成果',E:'敵の成果',T1:'後続の踏破成果'};
+  let names={P:'あなた'},rewardNames={};
+  const phases={'A/start':'A · 通路の突破','A/terminal':'A · 最終環境','A/finished':'A · 完了','B/start':'B · 目的敵の撃破','B/weak':'B · 支援終了','B/finished':'B · 完了','C/start':'C · 通路の突破','C/enemy':'C · 目的敵の撃破','C/finished':'C · 完了'};
   const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const signed=n=>n>0?'+'+n:String(n);
   const cardName=c=>c.name+(c.type.startsWith('weak_')||c.type.startsWith('filler_')?' '+c.attr:'');
@@ -26,16 +26,10 @@
       return `時刻 ${r.time} · ${result}`;
     }
     if(r.type==='rebuild')return `${names[r.actor]}：山札を再構築（${r.cycle}巡目）`;
-    if(r.type==='boundary')return {rock_destroyed:'大岩を破壊し、後続の区間へ',V0_traversed:'最初の環境を踏破。ここまでの獲得成果を保護',enemy_defeated:'敵を撃破し、成果を獲得',V1_traversed:'後続の環境を踏破し、探索クリア',player_defeated:'HPが尽き、探索終了'}[r.event];
+    if(r.type==='boundary')return r.event==='player_defeated'?'HPが尽き、探索終了':`${names[r.victim]}を${r.event==='traversed'?'踏破。ここまでの獲得成果を撤退時に保護':'撃破'}`;
     return null;
   }
-  function absorb(){last=game.trace.map(logText).filter(Boolean);const extra=changes.filter(row=>!last.includes(row)).map(row=>'結果 · '+row);const rows=[...last,...extra];history.push(...rows);enqueueEvents(rows);game.trace=[];}
-  function start(){
-    version++;notice='';selected=null;target=null;history=[];knownAttrs=new Set();changes=[];beforeTime=null;resetEvents();hideWindow(false);
-    bundle=CWTerrain.prepare(source,get('cw-build').value);
-    game=new CWTerrain.Game(bundle);
-    game.advance();absorb();render();
-  }
+  function absorb(){last=game.trace.map(logText).filter(Boolean);history.push(...last);game.trace=[];}
   function guardText(a){return a.guard?`防御 ${a.guard.value}／回避 ${signed(a.guard.evasion)}／残${a.guard.uses}回`:'防御なし';}
   function previewText(c,pred){
     const p=game.s.actors.P,m=game.s.field[c.attr];let text;
@@ -44,12 +38,12 @@
       const d=game.s.actors[target],total=d.hit+pred.hit_gain;
       text=`${names[target]}：${pred.hit_connected?'命中':'未命中'}、HP ${d.hp} → ${d.hp-pred.actual_hp_loss}。命中蓄積 ${d.hit} → ${pred.hit_connected?0:total}。`;
       if(pred.hit_gain===0)text+=` 命中加算0（札 ${c.hit}、場 ${signed(game.s.cards[m].field_hit)}、対象回避 ${game.evasion(target)}）。`;
-      if(['O','V0'].includes(target)&&pred.actual_hp_loss===d.hp&&game.s.actors.O.active)text+=' 大岩が退場し、周囲への回避支援が終了。';
+
     } else if(pred.mode==='guard')text=`防御 ${pred.guard.value}・回避 ${signed(pred.guard.evasion)}、命中した攻撃へ残2回。`;
-    else if(pred.mode==='heal')text=`HP ${p.hp} → ${p.hp+pred.hp_restored}（回復 +${pred.hp_restored}、余剰 ${c.power-pred.hp_restored}）。`;
+    else if(pred.mode==='heal')text=`HP ${p.hp} → ${p.hp+pred.hp_restored}（回復 +${pred.hp_restored}、余剰 ${Math.max(0,c.power+(pred.passives.includes('PS04')?4:0)-pred.hp_restored)}）。`;
     else text='主効果なし。';
     if(m)text+=` 会心 +${pred.crit_added}。`;
-    text+=` 自分の次回予定：時刻 ${game.s.now+game.cost(c.type,!!m)}。`;
+    text+=` 自分の次回予定：時刻 ${game.s.now+pred.action_cost}。`;
     if(p.guard)text+=m?' 現在の防御・回避は終了。':' 現在の防御・回避を保持。';
     const losses=[];
     if(m&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push('使用札の'+cardName(c));
@@ -74,13 +68,13 @@
     }else if(pred.mode==='guard'){
       heading='自分の防御を開始';impacts=[`防御 ${pred.guard.value}`,`回避 ${signed(pred.guard.evasion)}`,`命中する攻撃 2回まで`];
     }else if(pred.mode==='heal'){
-      heading='自分を回復';impacts=[`HP ${p.hp} → ${p.hp+pred.hp_restored}`,`回復 +${pred.hp_restored} · 余剰 ${c.power-pred.hp_restored}`];
+      heading='自分を回復';impacts=[`HP ${p.hp} → ${p.hp+pred.hp_restored}`,`回復 +${pred.hp_restored} · 余剰 ${Math.max(0,c.power+(pred.passives.includes('PS04')?4:0)-pred.hp_restored)}`];
     }else heading='一致 · 主効果なし';
     if(mid)impacts.push(`会心 +${pred.crit_added}`);
-    impacts.push(`次の自分 時刻 ${game.s.now+game.cost(c.type,!!mid)}`);
+    impacts.push(`次の自分 時刻 ${game.s.now+pred.action_cost}`);
     const notices=[];
     if(p.guard)notices.push(mid?'現在の防御・回避は終了'+(pred.mode==='guard'?' → 新しい防御へ':''):'現在の防御・回避を保持');
-    if(pred.mode==='attack'&&['O','V0'].includes(target)&&pred.actual_hp_loss===game.s.actors[target].hp&&game.s.actors.O.active)notices.push('大岩が退場し、周囲への回避支援が終了');
+
     const losses=[];
     if(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push(cardName(c));
     if(mid&&(material.consume_on_recover||material.doomed||material.birth==='filler'))losses.push('場の'+cardName(material));
@@ -103,7 +97,7 @@
       const old=before.rewards[key];if(!old)changes.push(`${rewardNames[key]}を獲得${r.protected?'（保護済み）':'（未保護）'}`);
       else if(!old.protected&&r.protected)changes.push(`${rewardNames[key]}を保護`);
     }
-    if(before.actors.O?.active&&!after.actors.O?.active)changes.push('大岩の遮蔽が終了');
+
     // Only expose losses of cards already visible in the player's hand or shared field.
     const visible=new Map([...before.actors.P.hand,...Object.values(before.field).filter(Boolean)].map(c=>[c.id,c]));
     for(const r of game.trace){
@@ -120,15 +114,10 @@
   function renderReferencePanels(s,active){
     const initial=bundle.initial.state,counts={};
     for(const id of initial.actors.P.deck){const c=initial.cards[id],name=cardName(c)+' / '+c.attr;counts[name]=(counts[name]||0)+1;}
-    const healId=initial.actors.P.deck.find(id=>initial.cards[id].consume_on_recover),heal=game.s.cards[healId];
-    const rewards=Object.entries(s.rewards).map(([k,r])=>`${rewardNames[k]}：${r.protected?'保護済み':'未保護'}`);
-    get('cw-resources').innerHTML=`<div>持込12枚：${esc(Object.entries(counts).map(([n,v])=>n+' ×'+v).join('、'))}</div><div>回復草：${heal.destroyed?'消滅済み':'探索内に残存'}。回収時に消滅し、この探索中の追加補給はありません。</div><div>次の新しい探索では、解放済みの消費札を補充費なしで再セットできます。</div><div>${rewards.length?esc(rewards.join('／')):'獲得成果なし'}</div>`;
-    const personality={V0:'あなたを攻撃',V1:'生存しているあなた／敵を等確率で攻撃',E1:'あなたへの一致攻撃を優先'};
-    get('cw-knowledge').innerHTML=active.filter(w=>w!=='O').map(w=>{
-      const types=game.memory.observed_types[w]||[],labels=types.map(type=>{const c=Object.values(game.s.cards).find(v=>v.type===type);return c?cardName(c):type;});
-      return `<div class="cw-log"><strong>${names[w]}</strong>：${personality[w]}<br>確認した種類：${labels.length?esc(labels.join('、')):'まだなし'}</div>`;
-    }).join('')+'<div>確認した種類は、現在の手札・山札の内容を示すものではありません。</div>';
-
+    const rewards=Object.entries(s.rewards).map(([k,r])=>`${rewardNames[k]}：${r.protected?'撤退時に保護':'未保護'}`);
+    const consuming=Object.values(game.s.cards).filter(c=>c.origin==='P'&&c.birth==='initial'&&c.consume_on_recover);
+    get('cw-resources').innerHTML=`<div>持込12枚：${esc(Object.entries(counts).map(([n,v])=>n+' ×'+v).join('、'))}</div><div>持込消費札：${consuming.filter(c=>!c.destroyed).length}/${consuming.length}枚が探索内に残存。探索中の追加補給はありません。</div><p>新たな出発時に、選んだ解放済みの消費札を補充費なしで再セットします。</p><div>${rewards.length?esc(rewards.join('／')):'獲得成果なし'}</div><p>保護は撤退時に有効です。死亡すると今回の獲得成果は全て失います。</p>`;
+    get('cw-knowledge').innerHTML=knowledgeHTML(game.s.ah.knowledge,s.route,game.s.ah.run);
   }
   function renderHistory(){
     const rows=get('cw-history-order').value==='oldest'?history:[...history].reverse();

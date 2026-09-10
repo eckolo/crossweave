@@ -1,7 +1,7 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.3",
-  "verification": "DOM routing and controlled timer only; no browser rendering or real pointer/touch measurement",
+  "ui_version": "0.4",
+  "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
   "checks": [
@@ -37,13 +37,20 @@
     "deadline: match stages only",
     "guard_end: match stages only",
     "multiple: match stages only",
-    "vanishing: match stages only"
+    "vanishing: match stages only",
+    "one tap opens full card/prediction; another card switches; outside/Esc close; hold stays drag-only; optional manual detail",
+    "reference: outside closes without click-through or delayed hold",
+    "settings: outside closes without click-through or delayed hold",
+    "result: outside closes without click-through or delayed hold",
+    "transient chronological feed is bounded; full history retained after expiry; opening history changes no game state",
+    "supplied geometry: dock follows left/right cards, clamps edges, labels offscreen card, fits 320px",
+    "art slots beneath actor/card captions; terrain base plus active environment layers only"
   ],
   "errors": [],
-  "fragment_sha256": "db47b55e0e59c35397c50d2de77f2e9eb4e25bf0ae200dd5969fbdd3f005b242",
+  "fragment_sha256": "79cd8986e8ab42b465a9e8287ecf63671dbdc9126dd04bff1daace5acc3b8ca7",
   "unverified": [
-    "browser geometry and pointer capture",
+    "real browser layout, anchoring and image contrast",
     "physical hold timing, manual touch scrolling and pinch zoom",
-    "human effort, errors and repetition time"
+    "human effort, errors and event-feed readability"
   ]
 }
