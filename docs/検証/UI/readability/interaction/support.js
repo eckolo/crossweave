@@ -12,7 +12,7 @@
   const cardName=c=>c.name+(c.type.startsWith('weak_')||c.type.startsWith('filler_')?' '+c.attr:'');
   const fieldText=c=>`攻撃／防御 ${signed(c.field_power)}<br>命中／回避 ${signed(c.field_hit)}`;
   let version=0,notice='',busy=false;
-  let game,selected=null,target=null,history=[],last=[],knownAttrs=new Set(),changes=[],beforeTime=null;
+  let game,selected=null,target='V0',history=[],last=[],knownAttrs=new Set(),changes=[],beforeTime=null;
   function logText(r) {
     if(r.type==='action'){
       const c=game.s.cards[r.card_id],who=names[r.actor];let result;
@@ -31,7 +31,7 @@
   }
   function absorb(){last=game.trace.map(logText).filter(Boolean);const extra=changes.filter(row=>!last.includes(row)).map(row=>'結果 · '+row);const rows=[...last,...extra];history.push(...rows);enqueueEvents(rows);game.trace=[];}
   function start(){
-    version++;notice='';selected=null;target=null;history=[];knownAttrs=new Set();changes=[];beforeTime=null;resetEvents();hideWindow(false);
+    version++;notice='';selected=null;target='V0';history=[];knownAttrs=new Set();changes=[];beforeTime=null;resetEvents();hideWindow(false);
     bundle=CWTerrain.prepare(source,get('cw-build').value);
     game=new CWTerrain.Game(bundle);
     game.advance();absorb();render();
@@ -54,18 +54,18 @@
     const losses=[];
     if(m&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push('使用札の'+cardName(c));
     if(m){const material=game.s.cards[m];if(material.consume_on_recover||material.doomed||material.birth==='filler')losses.push('場の'+cardName(material));}
-    if(losses.length)text+=`<div class="cw-loss">この手で消滅：${esc(losses.join('、'))}</div>`;
+    if(losses.length)text+=`<div class="cw-loss">この行動で消滅：${esc(losses.join('、'))}</div>`;
     const expired=p.hand.filter(id=>id!==c.id&&game.s.cards[id].remaining===1);
-    if(expired.length)text+='<div>この手の後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return esc(cardName(x))+(x.consume_on_recover?'（消滅）':x.doomed||x.birth==='filler'?'（回収時に消滅）':'（回収）');}).join('、')+'</div>';
+    if(expired.length)text+='<div>この行動後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return esc(cardName(x))+(x.consume_on_recover?'（消滅）':x.doomed||x.birth==='filler'?'（回収時に消滅）':'（回収）');}).join('、')+'</div>';
     return text;
   }
   const attrBadge=a=>`<span class="cw-attr">${esc(a)}</span>`;
   const mainText=c=>CWFeedback.mainText(c);
-  function fullCard(c){return `<div class="cw-deck-effects"><div>主効果：${mainText(c)}<br>会心増加 ${signed(c.crit_gain)} · 期限 ${c.life}手</div><div>場：${fieldText(c)}<br>行動コスト 設置${c.place_cost}／一致${c.match_cost}</div></div>${c.consume_on_recover?'<div class="cw-loss">回収時に消滅</div>':c.doomed?'<div class="cw-loss">退場由来：次の回収で消滅</div>':''}`;}
+  function fullCard(c){return `<div class="cw-deck-effects"><div>主効果：${mainText(c)}<br>会心増加 ${signed(c.crit_gain)} · 期限 ${c.life}行動</div><div>場：${fieldText(c)}<br>行動コスト 設置${c.place_cost}／一致${c.match_cost}</div></div>${c.consume_on_recover?'<div class="cw-loss">回収時に消滅</div>':c.doomed?'<div class="cw-loss">退場由来：次の回収で消滅</div>':''}`;}
   function prediction(c,pred){
     const p=game.s.actors.P,mid=game.s.field[c.attr],material=game.s.cards[mid];let heading,impacts=[];
     if(pred.mode==='place'){
-      heading=`${c.attr}の場へ置く`;
+      heading='場に出す';
       impacts=[`次の一致へ 攻撃／防御 ${signed(c.field_power)}`,`命中／回避 ${signed(c.field_hit)}`];
     }else if(pred.mode==='attack'){
       const d=game.s.actors[target];heading=`${names[target]}へ攻撃 · ${pred.hit_connected?'命中':'未命中'}`;
@@ -84,10 +84,29 @@
     const losses=[];
     if(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push(cardName(c));
     if(mid&&(material.consume_on_recover||material.doomed||material.birth==='filler'))losses.push('場の'+cardName(material));
-    if(losses.length)notices.push('この手で消滅：'+losses.join('、'));
+    if(losses.length)notices.push('この行動で消滅：'+losses.join('、'));
     const expired=p.hand.filter(id=>id!==c.id&&game.s.cards[id].remaining===1);
-    if(expired.length)notices.push('この手の後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return cardName(x)+(x.consume_on_recover||x.doomed||x.birth==='filler'?'（消滅）':'（回収）');}).join('、'));
+    if(expired.length)notices.push('この行動後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return cardName(x)+(x.consume_on_recover||x.doomed||x.birth==='filler'?'（消滅）':'（回収）');}).join('、'));
+    if(get('cw-diagram-setting').checked)return diagramPrediction(c,pred,heading,notices);
     return `<strong>${esc(heading)}</strong><div class="cw-impact">${impacts.map(x=>`<span>${esc(x)}</span>`).join('')}</div>${notices.map(x=>`<div class="cw-warning">${esc(x)}</div>`).join('')}`;
+  }
+  function diagramPrediction(c,pred,heading,notices){
+    const s=game.public(),p=s.actors.P,material=s.field[c.attr];
+    const row=(label,before,after)=>`<div class="cw-number-flow"><span>${esc(label)}</span><span>${esc(before)}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><strong>${esc(after)}</strong></div>`;
+    const rows=[];
+    if(pred.mode==='attack'){
+      const d=s.actors[target];
+      rows.push(row('HP',d.hp,d.hp-pred.actual_hp_loss),row('命中蓄積',d.hit,pred.hit_connected?0:d.hit+pred.hit_gain));
+    }else if(pred.mode==='guard'){
+      rows.push(row('防御',p.guard?.value??'なし',pred.guard.value),row('回避',signed(p.guard?.evasion||0),signed(pred.guard.evasion)));
+    }else if(pred.mode==='heal')rows.push(row('HP',p.hp,p.hp+pred.hp_restored));
+    const accumulated=p.crit+pred.crit_added,critAfter=pred.mode==='attack'&&pred.hit_connected&&accumulated>=100?0:accumulated;
+    if(material&&critAfter!==p.crit)rows.push(row('会心',p.crit,critAfter));
+    rows.push(row('次の自分',s.now,s.now+game.cost(c.type,!!material)));
+    const flow=pred.mode==='place'
+      ?`<div class="cw-card-flow"><span>${attrBadge(c.attr)}${esc(cardName(c))}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><span>場</span></div><div class="cw-field-forecast">攻撃／防御 ${signed(c.field_power)} · 命中／回避 ${signed(c.field_hit)}</div>`
+      :`<div class="cw-card-flow"><span>${esc(cardName(c))}</span><span aria-hidden="true">＋</span><span>${esc(cardName(material))}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><span>${pred.mode==='attack'?esc(names[target]):'あなた'}</span></div>`;
+    return `<strong>${esc(heading)}</strong><div class="cw-forecast" data-forecast-mode="${pred.mode}">${flow}${rows.join('')}${pred.mode==='guard'?'<div>命中する攻撃2回まで</div>':''}</div>${notices.map(x=>`<div class="cw-warning">${esc(x)}</div>`).join('')}`;
   }
   function recordChanges(before){
     const after=game.public();changes=[];beforeTime=before.now;

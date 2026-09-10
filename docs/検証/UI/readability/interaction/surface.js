@@ -1,6 +1,6 @@
   // Presentation only. Artwork slots accept embedded assets; no game inputs are changed.
   const artwork={actors:{},cards:{},terrain:{initial:null,followup:null},environment:{O:null,V0:null,V1:null}};
-  let openName=null,feedTimer=null,feedExpiry=null,feedSequence=0,feedSkipped=0;
+  let openName=null,windowMode=null,hoverTimer=null,hoverCloseTimer=null,hoverFrom=null,feedTimer=null,feedExpiry=null,feedSequence=0,feedSkipped=0;
   const feedQueue=[];
   function artMarkup(kind,key,label){
     const asset=artwork[kind]?.[key];
@@ -50,7 +50,7 @@
     const card=selected?root.querySelector(`[data-card="${selected}"]`):null,cr=card?.getBoundingClientRect();
     dock.hidden=!card;
     const center=cr?(cr.left+cr.right)/2:tr.left+tr.width/2;
-    const width=dock.getBoundingClientRect().width||Math.min(248,tr.width);
+    const width=dock.getBoundingClientRect().width||Math.min(164,tr.width);
     const left=Math.max(0,Math.min(tr.width-width,center-tr.left-width/2));
     dock.style.left=left+'px';
     dock.style.setProperty('--cw-card-tip',Math.max(8,Math.min(width-8,center-tr.left-left))+'px');
@@ -59,45 +59,85 @@
     get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
     if(openName==='card'){
       const rr=root.getBoundingClientRect(),popup=get('cw-drawer');
-      const worldBottom=root.querySelector('.cw-world').getBoundingClientRect().bottom;
-      const available=Math.max(160,Math.min(232,hr.top-worldBottom-16));
-      popup.style.height=available+'px';
-      const pw=popup.getBoundingClientRect().width||Math.min(380,rr.width-32);
-      const ph=popup.getBoundingClientRect().height||available;
+      // Use the space above the hand, including the opponent row. Targets remain in the window.
+      popup.style.height=Math.max(200,hr.top-rr.top-24)+'px';
+      const pw=popup.getBoundingClientRect().width||Math.min(840,rr.width-32);
       popup.style.left=Math.max(16,Math.min(rr.width-pw-16,center-rr.left-pw/2))+'px';
-      popup.style.top=Math.max(16,hr.top-rr.top-ph-8)+'px';
+      popup.style.top='16px';
     }
   }
-  function showWindow(name,from,focus=true){
-    cancelDrag();opener=from||null;openName=name;
+  function cancelHover(){clearTimeout(hoverTimer);clearTimeout(hoverCloseTimer);hoverTimer=hoverCloseTimer=null;}
+  function syncWindowState(){
+    const popup=get('cw-drawer'),pinned=windowMode==='pinned';
+    popup.dataset.mode=windowMode||'';
+    popup.setAttribute('aria-modal',String(pinned&&openName!=='card'));
+    get('cw-backdrop').hidden=!pinned||openName==='card';
+    get('cw-window-state').textContent=windowMode==='peek'?'一時表示':openName&&openName!=='card'?'固定中':'';
+    root.querySelectorAll('[data-open]').forEach(el=>{el.setAttribute('aria-expanded',String(el.dataset.open===openName));el.setAttribute('aria-pressed',String(pinned&&el.dataset.open===openName));});
+  }
+  function showWindow(name,from,focus=true,mode='pinned'){
+    cancelHover();cancelDrag();opener=from||null;openName=name;windowMode=mode;
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
     popup.style.left='';popup.style.top='';popup.style.height='';
-    popup.setAttribute('aria-modal',String(name!=='card'));
-    get('cw-backdrop').hidden=name==='card';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
     get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
-    if(name==='result'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
-    if(name==='card')get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
-    placeNearCard();
+    if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
+    get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
+    syncWindowState();placeNearCard();
     if(focus)get('cw-close').focus({preventScroll:true});
   }
+  function pinWindow(from){
+    cancelHover();windowMode='pinned';if(from)opener=from;syncWindowState();
+    if(openName==='result'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');}
+  }
+  function toggleWindow(name,from){
+    if(openName===name){if(windowMode==='peek')pinWindow(from);else hideWindow();}
+    else showWindow(name,from);
+  }
   function hideWindow(restore=true){
-    get('cw-drawer').hidden=true;get('cw-backdrop').hidden=true;openName=null;
+    cancelHover();get('cw-drawer').hidden=true;openName=null;windowMode=null;hoverFrom=null;syncWindowState();
     if(restore){const candidate=opener?.isConnected?opener:selected?root.querySelector(`[data-card="${selected}"]`):null;candidate?.focus({preventScroll:true});}
   }
   function inspectCard(id,focus=false){
+    const same=selected===id,wasOpen=same&&openName==='card';
     selectCard(id,focus);
-    if(selected===id&&get('cw-peek-setting').checked)showWindow('card',root.querySelector(`[data-card="${id}"]`),false);
+    if(wasOpen){hideWindow(false);return;}
+    if(selected===id&&(same||get('cw-peek-setting').checked))showWindow('card',root.querySelector(`[data-card="${id}"]`),false);
+    else if(openName)hideWindow(false);
   }
   function dismissOutside(event){
-    if(!openName||get('cw-drawer').contains(event.target))return;
-    // The action dock belongs to the card inspector. Other card/target taps switch context.
+    if(!openName)return;
+    if(get('cw-drawer').contains(event.target)){if(windowMode==='peek')pinWindow();return;}
+    // Openers handle their own toggle, including switching from one window to another.
+    if(root.contains(event.target)&&event.target.closest('[data-open]'))return;
     if(openName==='card'){
-      if(get('cw-action-anchor').contains(event.target)||get('cw-cancel').contains(event.target))return;
-      if(root.contains(event.target)&&event.target.closest('[data-card],[data-target]')){hideWindow(false);return;}
+      if(get('cw-action-anchor').contains(event.target))return;
+      if(root.contains(event.target)&&event.target.closest('[data-card],[data-target]'))return;
     }
+    if(windowMode==='peek'){hideWindow(false);return;}
     hideWindow();cancelDrag();suppressClickUntil=Date.now()+700;
     event.preventDefault();event.stopImmediatePropagation();
+  }
+  function setupHover(){
+    const popup=get('cw-drawer');
+    const trigger=node=>node?.closest?.('.cw-menu [data-open],[data-turn-actor]');
+    const mouse=event=>event.pointerType==='mouse'&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const leave=()=>{clearTimeout(hoverTimer);clearTimeout(hoverCloseTimer);hoverCloseTimer=setTimeout(()=>{if(windowMode==='peek')hideWindow(false);},160);};
+    root.addEventListener('pointerover',event=>{
+      if(!mouse(event))return;
+      if(popup.contains(event.target)){cancelHover();return;}
+      const from=trigger(event.target);if(!from||from.contains(event.relatedTarget)||drag||busy||windowMode==='pinned')return;
+      cancelHover();hoverFrom=from;
+      hoverTimer=setTimeout(()=>{if(!from.isConnected||drag||busy||windowMode==='pinned')return;showWindow(from.dataset.open,from,false,'peek');hoverFrom=from;},180);
+    });
+    root.addEventListener('pointerout',event=>{
+      if(!mouse(event))return;
+      const from=trigger(event.target);
+      if(from){if(from.contains(event.relatedTarget)||popup.contains(event.relatedTarget))return;leave();}
+      else if(popup.contains(event.target)&&!popup.contains(event.relatedTarget)&&!hoverFrom?.contains(event.relatedTarget))leave();
+    });
+    window.addEventListener('blur',()=>{cancelHover();if(windowMode==='peek')hideWindow(false);});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelHover();if(windowMode==='peek')hideWindow(false);}});
   }
   function resetEvents(){
     clearTimeout(feedTimer);clearTimeout(feedExpiry);feedTimer=null;feedQueue.length=0;feedSkipped=0;
@@ -120,13 +160,14 @@
     else feedExpiry=setTimeout(()=>{get('cw-event-feed').replaceChildren();},8000);
   }
   function setupSurface(){
+    setupHover();
     document.addEventListener('pointerdown',dismissOutside,true);
     document.addEventListener('click',event=>{
       if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();return;}
       dismissOutside(event);
     },true);
     root.addEventListener('keydown',event=>{
-      if(event.key!=='Tab'||!openName||openName==='card')return;
+      if(event.key!=='Tab'||!openName||openName==='card'||windowMode==='peek')return;
       const nodes=[...get('cw-drawer').querySelectorAll('button,input,select,summary')].filter(n=>!n.disabled&&!n.closest('[hidden]'));
       const index=nodes.indexOf(document.activeElement),first=nodes[0],last=nodes.at(-1);
       if(event.shiftKey&&(index<=0)){event.preventDefault();last?.focus();}

@@ -6,7 +6,7 @@
   let changedAttrs=new Set();
   function render(){
     const s=game.public(),p=s.actors.P,active=Object.keys(s.actors).filter(w=>w!=='P'&&s.actors[w].active);
-    if(!active.includes(target))target=null;
+    if(!active.includes(target))target=active[0]||null;
     if(!p.hand.some(c=>c.id===selected))selected=null;
     const c=p.hand.find(x=>x.id===selected),mid=c?s.field[c.attr]:null;
     const offsets=Object.fromEntries(['cw-actors','cw-field','cw-hand'].map(id=>[id,get(id).scrollLeft]));
@@ -20,15 +20,16 @@
     get('cw-field-context').hidden=!c;
     get('cw-field').innerHTML=CWFeedback.attributes(game,knownAttrs).map(attr=>{const f=s.field[attr];return `<div class="cw-slot" data-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-changed="${changedAttrs.has(attr)}">${f?artMarkup('cards',f.type,'場札の絵'):''}<div class="cw-face-caption"><div>${attrBadge(attr)}${changedAttrs.has(attr)?' · 変化':''}</div>${f?`<strong>${esc(cardName(f))}</strong><span>${fieldText(f).replace('<br>',' · ')}</span>${f.consume_on_recover||f.doomed?'<span class="cw-loss">回収で消滅</span>':''}`:''}</div></div>`;}).join('');
     get('cw-hand-count').textContent=p.hand.length+'枚';
-    const expiring=p.hand.filter(x=>x.remaining===1);get('cw-expiry-summary').textContent=expiring.length?'この手まで '+expiring.length+'枚':'';
+    const expiring=p.hand.filter(x=>x.remaining===1);get('cw-expiry-summary').textContent=expiring.length?'今回まで '+expiring.length+'枚':'';
     const config=settings();
     root.dataset.cardDrag=String(config.drag);
-    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}>${artMarkup('cards',x.type,'手札の絵')}<span class="cw-face-caption"><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</span></button></article>`;}).join('');
-    const tapHint=get('cw-peek-setting').checked?'タップで詳細':'タップで選択';
+    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}>${artMarkup('cards',x.type,'手札の絵')}<span class="cw-face-caption"><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'今回まで':'あと'+x.remaining+'行動'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</span></button></article>`;}).join('');
+    const tapHint=get('cw-peek-setting').checked?'タップで詳細':'タップで選択 · 同じ札をもう一度押すと詳細';
     get('cw-gesture-hint').textContent=config.drag?'スワイプで見る · 少し押してつかむ · '+tapHint:'左右で手札を見る · '+tapHint;
     get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札をタップすると、予測を確認できます';
     get('cw-card-info').innerHTML=c?`<strong>${esc(cardName(c))} / ${esc(c.attr)}</strong>`+fullCard(c):'札を選んでください。';
     const needsTarget=c&&mid&&c.kind==='attack'&&!target;
+    get('cw-card-targets').innerHTML=c&&mid&&c.kind==='attack'?`<span>対象</span>`+active.map(id=>`<button type="button" data-target="${id}" aria-pressed="${target===id}">${esc(names[id])}</button>`).join(''):'';
     if(c&&!s.outcome&&!needsTarget){
       const pred=game.predict({card_id:c.id,target:c.kind==='attack'&&mid?target:null});
       get('cw-prediction').innerHTML=prediction(c,pred);get('cw-prediction-detail').innerHTML=previewText(c,pred);
@@ -40,8 +41,8 @@
       if(mid&&p.guard)brief+='。現在の防御終了';
       get('cw-brief').textContent=brief;
     }else{get('cw-brief').textContent=s.outcome?'探索終了。「山札・探索情報」から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':config.drag?'少し押して札が浮いたら、場へ運べます。選択して札の近くのボタンでも実行できます。':'札を選択し、札の近くのボタンで実行できます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
-    get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'へ攻撃':'対象を選ぶ'):'一致して使う'):c.attr+'の場へ置く'):'札を選ぶ';
-    get('cw-use').disabled=!!s.outcome||!c||!!needsTarget||busy;get('cw-cancel').disabled=!c;get('cw-show-card').disabled=!c;
+    get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'へ攻撃':'対象を選ぶ'):'一致して使う'):'場に出す'):'札を選ぶ';
+    get('cw-use').disabled=!!s.outcome||!c||!!needsTarget||busy;
     const flags=[];
     if(c){const exp=p.hand.filter(x=>x.id!==c.id&&x.remaining===1);if(exp.length)flags.push('期限切れ '+exp.length+'枚');if(lossOnPlacement(c).length||(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler')))flags.push('消滅あり');if(mid&&p.guard)flags.push('防御終了');}
     get('cw-notice').textContent=[...flags,needsTarget?'攻撃対象を選択':notice].filter(Boolean).join(' · ');
@@ -49,7 +50,7 @@
     get('cw-changes').innerHTML=changes.length?changes.map(x=>`<div class="cw-log">${esc(x)}</div>`).join(''):'まだ行動していません';
     get('cw-change-time').textContent=beforeTime===null?'':`時刻 ${beforeTime} → ${s.now}`;
     get('cw-last').innerHTML=last.map(x=>'<div class="cw-log">'+esc(x)+'</div>').join('');
-    get('cw-turn').textContent=`${p.actions+(!s.outcome?1:0)}手目 · 時刻 ${s.now}`;
+    get('cw-turn').textContent=`自分の行動 ${p.actions+(!s.outcome?1:0)}回目 · 時刻 ${s.now}`;
     get('cw-progress').textContent=`山札 ${p.deck_count}枚 · ${p.rebuilds+1}巡目 · 共通回収山 ${s.pool_count}枚`;
     const rewards=Object.values(s.rewards);get('cw-reward-summary').textContent=`成果：保護 ${rewards.filter(r=>r.protected).length}／未保護 ${rewards.filter(r=>!r.protected).length}`;
     get('cw-start-state').textContent=game.s.actors.O.active?'大岩以外の回避 +20':'大岩の遮蔽：終了';
@@ -64,7 +65,7 @@
     get('cw-deck').innerHTML='<div>残数＝未ドロー分。手札・初期持込は別集計。札順は表示しません。</div>'+catalogue.map(row=>`<article class="cw-deck-row"><strong>${attrBadge(row.card.attr)}${esc(cardName(row.card))}</strong><div>残${row.remaining} · 手札${row.hand} · 持込${row.initial}</div>${row.doomed_remaining?'<div class="cw-loss">退場由来の消滅予定 '+row.doomed_remaining+'枚</div>':''}${fullCard(row.card)}</article>`).join('');
     renderHistory();renderReferencePanels(s,active);
     for(const [id,left]of Object.entries(offsets))get(id).scrollLeft=left;
-    paintScene(s);placeNearCard();requestAnimationFrame(()=>{updateScrollHints();placeNearCard();});
+    paintScene(s);syncWindowState();placeNearCard();requestAnimationFrame(()=>{updateScrollHints();placeNearCard();});
   }
   function reveal(container,element){if(!element)return;const a=container.getBoundingClientRect(),b=element.getBoundingClientRect();if(b.left<a.left)container.scrollLeft-=a.left-b.left;else if(b.right>a.right)container.scrollLeft+=b.right-a.right;}
   function selectCard(id,focus=false){if(!game.s.actors.P.hand.includes(id)||game.s.outcome)return;selected=id;notice='';render();reveal(get('cw-field'),root.querySelector(`[data-attr="${game.s.cards[id].attr}"]`));if(focus)root.querySelector(`[data-card="${id}"]`)?.focus({preventScroll:true});}
@@ -143,20 +144,18 @@
   root.addEventListener('contextmenu',event=>{if(drag){event.preventDefault();}});
   get('cw-hand').addEventListener('wheel',cancelDrag,{passive:true});
   get('cw-hand').addEventListener('scroll',()=>{if(drag?.mode==='pending'&&Math.abs(get('cw-hand').scrollLeft-drag.scrollLeft)>1)cancelDrag();},{passive:true});
-  root.addEventListener('keydown',event=>{if(event.key==='Escape'){if(drag)cancelDrag();else if(!get('cw-drawer').hidden)closePanel();else{selected=null;notice='';render();}}});
+  root.addEventListener('keydown',event=>{if(event.key==='Escape'){if(drag)cancelDrag();else if(!get('cw-drawer').hidden)closePanel();}});
   root.addEventListener('click',event=>{if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();}},true);
   root.addEventListener('click',event=>{
-    if(event.detail>1)return;
     const button=event.target.closest('button');if(!button||button.disabled)return;
-    if(button.dataset.open){openPanel(button.dataset.open,button);return;}
+    if(button.dataset.open){toggleWindow(button.dataset.open,button);return;}
     if(button.dataset.scroll){const [id,direction]=button.dataset.scroll.split(':');const el=get(id);el.scrollBy({left:Number(direction)*Math.max(100,el.clientWidth*.75),behavior:'auto'});return;}
     if(button.dataset.target){target=button.dataset.target;render();root.querySelector(`[data-target="${target}"]`)?.focus({preventScroll:true});return;}
     if(button.dataset.card){inspectCard(button.dataset.card,true);return;}
   });
   get('cw-use').addEventListener('click',event=>{if(event.detail<=1&&selected)perform(selected,version);});
-  get('cw-cancel').addEventListener('click',()=>{cancelDrag();hideWindow(false);selected=null;notice='';render();});
   get('cw-close').addEventListener('click',closePanel);
-  for(const id of ['cw-quick-setting','cw-drag-setting','cw-hold-setting','cw-peek-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
+  for(const id of ['cw-quick-setting','cw-drag-setting','cw-hold-setting','cw-peek-setting','cw-diagram-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
   get('cw-withdraw').addEventListener('click',()=>{cancelDrag();const before=game.public();game.settle('withdrawal');version++;recordChanges(before);absorb();selected=null;render();});
   get('cw-restart').addEventListener('click',()=>{cancelDrag();changedAttrs=new Set();busy=false;start();closePanel();});
   get('cw-history-order').addEventListener('change',renderHistory);
