@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.4",
+  "ui_version": "0.5",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
@@ -43,13 +43,14 @@
     "settings: outside closes without click-through or delayed hold",
     "result: outside closes without click-through or delayed hold",
     "transient chronological feed is bounded; full history retained after expiry; opening history changes no game state",
-    "supplied geometry: dock follows left/right cards, clamps edges, labels offscreen card, fits 320px",
+    "supplied geometry: compact dock follows cards directly below hand, clamps edges, labels offscreen card, fits 320px; popup stays above hand",
+    "compact layout: central menus, bottom player status, contextual hand controls; complete prediction remains in detail window",
     "art slots beneath actor/card captions; terrain base plus active environment layers only"
   ],
   "errors": [],
-  "fragment_sha256": "79cd8986e8ab42b465a9e8287ecf63671dbdc9126dd04bff1daace5acc3b8ca7",
+  "fragment_sha256": "73a6c952c4967bef6999c118bfb37bb6b296e3c10d3f1dc6a02ad765ac3de85c",
   "unverified": [
-    "real browser layout, anchoring and image contrast",
+    "real browser landscape layout, anchoring and background contrast",
     "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ]

@@ -1,0 +1,70 @@
+<div id="cw-playtable" lang="ja" aria-label="crossweave 探索">
+  <header class="cw-top"><strong>crossweave</strong><span id="cw-phase"></span><button type="button" data-open="reference">参照</button><button type="button" data-open="settings">操作設定</button></header>
+  <section class="cw-region cw-world" aria-label="相手と環境"><div class="cw-heading"><span>相手・環境</span><span id="cw-queue"></span></div><div class="cw-scroll" id="cw-actors"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-actors:-1">前へ</button><span></span><button type="button" data-scroll="cw-actors:1">次へ</button></div></section>
+  <section class="cw-region cw-board" id="cw-drop-zone" aria-label="札を出す場"><div class="cw-heading"><span>共有の場</span><span id="cw-match-label">札をここへドラッグ</span></div><div id="cw-field" class="cw-scroll"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-field:-1">前へ</button><span></span><button type="button" data-scroll="cw-field:1">次へ</button></div></section>
+  <div class="cw-result-line"><span id="cw-result-summary" role="status"></span><button type="button" data-open="result">変化を見る</button></div>
+  <div class="cw-self" id="cw-self"></div>
+  <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span>手札 <span id="cw-hand-count"></span></span><span id="cw-expiry-summary"></span></div><div id="cw-hand" class="cw-scroll"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-hand:-1">前へ</button><span></span><button type="button" data-scroll="cw-hand:1">次へ</button></div><div id="cw-gesture-hint"></div></section>
+  <section class="cw-decision" aria-label="選択と実行"><div id="cw-selected-line"></div><div id="cw-brief" aria-live="polite"></div><div id="cw-notice" role="status"></div><div class="cw-actions"><button type="button" id="cw-cancel">選択解除</button><button type="button" data-open="card" id="cw-show-card">札・予測の詳細</button><button type="button" id="cw-use" class="cw-primary" disabled>札を選ぶ</button></div></section>
+  <div id="cw-drag-ghost" aria-hidden="true" hidden></div>
+  <section class="cw-drawer" hidden aria-label="詳細と設定" id="cw-drawer"><header><strong id="cw-drawer-title"></strong><button type="button" id="cw-close">閉じる</button></header><div class="cw-drawer-body">
+    <div data-panel="reference" hidden><div id="cw-turn"></div><div id="cw-progress"></div><div id="cw-reward-summary"></div><div id="cw-start-state"></div><h3>山札</h3><div id="cw-deck-count"></div><div id="cw-deck-summary"></div><details id="cw-deck-panel"><summary id="cw-deck-title">全種類の詳細</summary><div id="cw-deck"></div></details><details><summary>相手の状態・傾向・確認した札</summary><div id="cw-actor-details"></div><div id="cw-knowledge"></div></details><details><summary>持込・補給・成果</summary><div id="cw-resources"></div></details><details><summary>行動履歴</summary><label>表示順 <select id="cw-history-order"><option value="newest">新しい順</option><option value="oldest">古い順</option></select></label><div id="cw-history"></div></details><button type="button" id="cw-withdraw">撤退する</button><div id="cw-outcome"></div></div>
+    <div data-panel="settings" hidden><label><input id="cw-quick-setting" type="checkbox" checked> 通常の設置はすぐ出す</label><p>オフにすると、すべて予測を確認してから実行します。一致と、他の手札の消滅を伴う設置は常に確認します。</p><label><input id="cw-drag-setting" type="checkbox" checked> ドラッグを使う</label><label>つかむまでの時間 <select id="cw-hold-setting"><option value="150">短め · 0.15秒</option><option value="220" selected>標準 · 0.22秒</option><option value="320">長め · 0.32秒</option></select></label><p>札を少し押し続け、浮いたら場へ運べます。つかむ前に動かすと手札の横スクロールです。スクロール中に止まっても、指を離すまでドラッグへ切り替わりません。</p><p>場の外で離すと取消。タップで札を選び、下部のボタンでも実行できます。画面全体の縦スクロールは札の外から行えます。ドラッグをオフにすると、札の上からも縦にスクロールできます。</p><p>設定も進行と一緒に保存します。</p></div>
+    <div data-panel="card" hidden><div id="cw-card-info"></div><h3>今回の予測</h3><div id="cw-prediction"></div><div id="cw-prediction-detail"></div></div>
+    <div data-panel="result" hidden><div id="cw-change-time"></div><div id="cw-changes"></div><h3>直前の行動</h3><div id="cw-last"></div></div>
+  </div></section>
+</div>
+<style>
+#cw-playtable{--cw-paper:light-dark(#f7f8f4,#202820);--cw-ink:light-dark(#263c32,#f0f3ea);--cw-line:light-dark(#bdc8bc,#697767);--cw-soft:light-dark(#e9eee4,#303d2e);--cw-world:light-dark(#e7eef2,#28383e);--cw-selected:light-dark(#345747,#c2d8ba);--cw-selected-ink:light-dark(#fff,#20311e);--cw-danger:light-dark(#943c25,#ffc5a8);--cw-alert:light-dark(#f9e9d9,#483126);position:relative;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);padding:12px;border-radius:12px;font:14px/1.4 system-ui,sans-serif;display:grid;grid-template-rows:48px 158px 178px 40px 38px 214px minmax(0,1fr);gap:6px;height:900px;color-scheme:light dark;overflow-wrap:anywhere}
+#cw-playtable *{box-sizing:border-box;min-width:0}#cw-playtable strong{font-weight:500}
+#cw-playtable button,#cw-playtable select{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:6px;padding:6px 9px;min-height:36px;max-width:100%;cursor:pointer}
+#cw-playtable button:disabled{opacity:.5;cursor:default}#cw-playtable button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--cw-selected);background:var(--cw-soft)}
+#cw-playtable .cw-primary{background:var(--cw-selected);color:var(--cw-selected-ink);border-color:var(--cw-selected);text-align:center}
+#cw-playtable .cw-top,#cw-playtable .cw-heading,#cw-playtable .cw-self,#cw-playtable .cw-result-line,#cw-playtable .cw-actions{display:flex;align-items:center;gap:6px}
+#cw-playtable .cw-top strong{margin-right:auto}#cw-playtable .cw-top button{font-size:12px}#cw-playtable #cw-phase{font-size:12px}
+#cw-playtable .cw-region{padding:8px;border-radius:8px;display:grid;grid-template-rows:20px minmax(0,1fr) 26px;gap:4px;min-height:0}
+#cw-playtable .cw-world{background:var(--cw-world)}#cw-playtable .cw-board{background:var(--cw-soft);border:1px solid var(--cw-line)}
+#cw-playtable .cw-board[data-drag="true"]{box-shadow:inset 0 0 0 3px var(--cw-selected)}#cw-playtable .cw-board[data-over="true"]{background:var(--cw-alert)}
+#cw-playtable .cw-heading{justify-content:space-between;font-size:12px;white-space:nowrap}#cw-playtable #cw-queue{overflow:hidden;text-overflow:ellipsis}
+#cw-playtable .cw-scroll{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:var(--cw-line) transparent;overscroll-behavior-x:contain}
+#cw-playtable .cw-scroll>*{flex:0 0 196px}#cw-playtable #cw-field>*{flex-basis:max(132px,calc((100% - 24px)/4))}#cw-playtable #cw-hand>*{flex-basis:220px}
+#cw-playtable .cw-scroll-help{display:flex;align-items:center;justify-content:space-between;font-size:12px;gap:4px}#cw-playtable .cw-scroll-help button{min-height:24px;padding:1px 8px;font-size:12px}
+#cw-playtable .cw-scroll-help[data-hidden="true"]{visibility:hidden}#cw-playtable .cw-scroll-help span{text-align:center}
+#cw-playtable .cw-actor{text-align:left;display:flex;flex-direction:column;justify-content:center;gap:3px;font-size:12px}#cw-playtable .cw-actor strong{font-size:14px}
+#cw-playtable progress{width:100%;height:5px;accent-color:var(--cw-selected)}#cw-playtable .cw-slot{border:1px solid var(--cw-line);border-radius:6px;padding:6px;background:var(--cw-paper);font-size:12px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+#cw-playtable .cw-slot[data-linked="true"]{box-shadow:inset 0 0 0 2px var(--cw-selected)}#cw-playtable .cw-slot[data-changed="true"]{border-color:var(--cw-danger)}#cw-playtable .cw-attr{display:inline-block;border:1px solid currentColor;border-radius:4px;padding:0 5px;margin-right:5px}
+#cw-playtable .cw-hand-card{display:grid;grid-template-rows:minmax(0,1fr) 38px;gap:4px;border:1px solid var(--cw-line);border-radius:7px;background:var(--cw-paper);padding:4px}
+#cw-playtable .cw-hand-card[data-selected="true"]{border-color:var(--cw-selected);box-shadow:inset 0 0 0 2px var(--cw-selected)}
+#cw-playtable .cw-select{display:flex;flex-direction:column;gap:3px;text-align:left;border:0;background:transparent;font-size:12px;touch-action:pan-x pan-y;user-select:none;justify-content:center}#cw-playtable .cw-select strong{font-size:14px}
+#cw-playtable .cw-card-controls{display:flex;gap:4px}#cw-playtable .cw-card-controls button{font-size:12px;flex:1;padding:4px}#cw-playtable .cw-handle{touch-action:none;user-select:none;cursor:grab}#cw-playtable .cw-hand-card[data-dragging="true"]{opacity:.6}
+#cw-playtable .cw-self{justify-content:center;flex-wrap:wrap;font-size:12px;border-top:1px solid var(--cw-line)}#cw-playtable .cw-result-line{font-size:12px}#cw-playtable #cw-result-summary{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#cw-playtable .cw-result-line button{font-size:12px;min-height:32px}
+#cw-playtable .cw-decision{display:grid;grid-template-rows:20px minmax(20px,1fr) 20px 40px;gap:4px;padding:8px;background:var(--cw-soft);border-radius:8px;min-height:0}
+#cw-playtable #cw-selected-line{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#cw-playtable #cw-brief{font-size:12px;overflow-y:auto}#cw-playtable #cw-notice{font-size:12px;color:var(--cw-danger);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cw-playtable .cw-actions{justify-content:flex-end}#cw-playtable .cw-actions button{font-size:12px}#cw-playtable #cw-use{flex:1;max-width:320px}
+#cw-playtable #cw-drag-ghost{position:absolute;z-index:6;pointer-events:none;background:var(--cw-selected);color:var(--cw-selected-ink);border-radius:6px;padding:8px 12px;max-width:180px;font-size:12px}
+#cw-playtable .cw-drawer{position:absolute;z-index:8;inset:10px 10px 10px auto;width:min(500px,calc(100% - 20px));border:1px solid var(--cw-line);border-radius:9px;padding:12px;background:var(--cw-paper);display:grid;grid-template-rows:44px minmax(0,1fr);box-shadow:0 8px 30px light-dark(#0003,#0008)}
+#cw-playtable .cw-drawer>header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--cw-line)}#cw-playtable .cw-drawer-body{overflow-y:auto;min-height:0;padding-top:10px}
+#cw-playtable .cw-drawer label{display:block;margin:10px 0}#cw-playtable input{min-width:20px;min-height:20px;vertical-align:middle}#cw-playtable .cw-drawer p{font-size:12px}#cw-playtable .cw-drawer h3{font-size:14px;font-weight:500;margin:16px 0 6px}
+#cw-playtable details{margin-top:10px;border-top:1px solid var(--cw-line);padding-top:6px}#cw-playtable summary{cursor:pointer;min-height:36px}#cw-playtable .cw-log,#cw-playtable .cw-deck-row{padding:6px 0;border-bottom:1px solid var(--cw-line)}#cw-playtable .cw-warning,#cw-playtable .cw-loss{color:var(--cw-danger)}#cw-playtable .cw-warning{margin:6px 0}#cw-playtable .cw-impact{display:flex;gap:6px;flex-wrap:wrap}#cw-playtable .cw-deck-effects{display:grid;gap:6px;margin:6px 0}
+#cw-playtable [hidden]{display:none!important}
+@media(max-width:600px){#cw-playtable{padding:8px;height:940px;grid-template-rows:62px 158px 178px 40px 44px 220px minmax(0,1fr)}#cw-playtable .cw-top{flex-wrap:wrap}#cw-playtable #cw-phase{width:calc(100% - 130px);order:4}#cw-playtable .cw-actions{gap:4px}#cw-playtable #cw-hand>*{flex-basis:196px}#cw-playtable .cw-hand-card{grid-template-rows:minmax(0,1fr) 44px}}
+@media(pointer:coarse){#cw-playtable button{min-height:44px}#cw-playtable .cw-region{grid-template-rows:20px minmax(0,1fr) 44px}#cw-playtable .cw-scroll-help button{min-height:44px;min-width:52px}#cw-playtable .cw-hand-card{grid-template-rows:minmax(0,1fr) 44px}#cw-playtable .cw-decision{grid-template-rows:20px minmax(20px,1fr) 20px 44px}}
+#cw-playtable{height:850px;grid-template-rows:48px 130px 166px 40px 38px 214px minmax(0,1fr)}
+#cw-playtable .cw-region{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:36px minmax(0,1fr)}
+#cw-playtable .cw-heading{grid-area:1/1;overflow:hidden;text-overflow:ellipsis}
+#cw-playtable .cw-heading>span:last-child:not(:first-child){overflow:hidden;text-overflow:ellipsis}
+#cw-playtable .cw-scroll{grid-area:2/1/3/3}
+#cw-playtable .cw-scroll-help{grid-area:1/2;gap:3px}
+#cw-playtable .cw-scroll-help[data-hidden="true"]{display:none}
+#cw-playtable .cw-actor-head{display:flex;justify-content:space-between;align-items:center;gap:5px}
+@media(max-width:600px){#cw-playtable{height:890px;grid-template-rows:62px 130px 166px 40px 44px 220px minmax(0,1fr)}}
+@media(pointer:coarse){#cw-playtable .cw-region{grid-template-rows:44px minmax(0,1fr)}}
+</style>
+
+<style>
+#cw-playtable[data-card-drag="true"] #cw-hand .cw-select{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#cw-playtable[data-card-drag="false"] #cw-hand .cw-select{touch-action:pan-x pan-y}
+#cw-playtable #cw-gesture-hint{font-size:11px;color:var(--cw-muted)}
+#cw-playtable .cw-hand-card{grid-template-rows:1fr}
+#cw-playtable #cw-drag-ghost{display:flex;flex-direction:column;gap:6px;padding:12px;max-width:184px;pointer-events:none}
+</style>

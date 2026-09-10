@@ -14,14 +14,14 @@ function build(replay={build:'guard5',choices:[]}){
   view=view.replace('__CW_DATA__',()=>JSON.stringify(JSON.parse(readFixed('input.json'))).replace(/</g,'\\u003c'));
   view=view.replace('__CW_REPLAY__',()=>JSON.stringify(replay).replace(/</g,'\\u003c'));
   let fragment=fs.readFileSync(path.join(root,'play.fragment.html'),'utf8');
-  const replacements={__CW_ENGINE__:readFixed('engine.js'),__CW_FEEDBACK__:readFixed('feedback.js'),__CW_ECOLOGY__:readFixed('ecology.js'),__CW_TERRAIN__:readFixed('terrain.js'),__CW_VIEW__:view};
+  const replacements={__CW_STYLE__:fs.readFileSync(path.join(root,'table.css'),'utf8'),__CW_ENGINE__:readFixed('engine.js'),__CW_FEEDBACK__:readFixed('feedback.js'),__CW_ECOLOGY__:readFixed('ecology.js'),__CW_TERRAIN__:readFixed('terrain.js'),__CW_VIEW__:view};
   for(const [token,value]of Object.entries(replacements)){assert.equal(fragment.split(token).length,2,token);fragment=fragment.replace(token,()=>value);}
   assert(!/__CW_[A-Z]+__/.test(fragment));assert(!/<html|<!doctype/i.test(fragment));assert(Buffer.byteLength(fragment)<1000000);
   return fragment;
 }
 if(require.main===module){
   const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone');
-  const out=pos[0]||'/workspace/crossweave-card-context.html';
+  const out=pos[0]||'/workspace/crossweave-landscape.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
   let s=build(replay);
