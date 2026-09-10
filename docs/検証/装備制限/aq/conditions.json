@@ -1,0 +1,35 @@
+{
+  "trial": "AQ1",
+  "base_commit": "19e8bc65109fbd9a00c804c9e27e97ce5f51b1b5",
+  "primary_policy": "cost",
+  "base_equipment_cost": {"PS01": 2, "PS02": 3, "PS03": 2, "PS04": 2},
+  "affix_equipment_surcharge": {"borrowed": 0, "focused_B": 0, "swift": 0, "forceful": 1, "sluggish": 0},
+  "roles": {"PS01": "support", "PS02": "advance", "PS03": "guard", "PS04": "support"},
+  "policies": {
+    "same_kind": {"label": "同種2個まで", "per_base_limit": 2},
+    "slots": {"label": "4枠", "slot_limit": 4},
+    "cost": {"label": "総コスト8", "cost_limit": 8},
+    "hybrid": {"label": "総コスト8＋3枠", "cost_limit": 8, "slot_limit": 3},
+    "surcharge": {"label": "総コスト8＋同種の追加負荷", "cost_limit": 8, "duplicate_surcharge": 1},
+    "roles": {"label": "4枠＋役割別上限", "slot_limit": 4, "role_limits": {"advance": 2, "guard": 1, "support": 1}}
+  },
+  "capacity_sensitivity": [6, 8, 10],
+  "acquired_pool": [
+    {"reward": "plain_a", "base": "PS02", "affixes": []},
+    {"reward": "plain_b", "base": "PS02", "affixes": []},
+    {"reward": "borrowed", "base": "PS02", "affixes": ["borrowed"]},
+    {"reward": "forceful", "base": "PS02", "affixes": ["borrowed", "forceful"]},
+    {"reward": "guard_swift", "base": "PS03", "affixes": ["swift"]},
+    {"reward": "heal_swift", "base": "PS04", "affixes": ["swift"]}
+  ],
+  "assumptions": [
+    "D52 permits some simultaneous same-base passives while requiring a limit. The concrete policy and every number here are still trial choices.",
+    "Learning pays once per base using unchanged AH historical-cost refund. Each learned base supplies one non-saleable plain option. Extra copies or variants require distinct acquired AP possessions.",
+    "Equipment cost occupies capacity; equipping and unequipping do not spend growth points. Only selected entries contribute effects. All base types can be learned without all being equipped.",
+    "Each item has a strictly positive equipment cost calculated from authored definitions. Sale value, number of owned copies and a negative affix do not automatically create capacity or a discount. Strong forceful variants receive +1 in this first trial.",
+    "The 10-entry catalogue is four learned plain options plus six granted possessions. Identity-only swaps of equal blueprints are deduplicated when counting performance compositions.",
+    "Numeric contributions from eligible copies are summed once before the existing action resolution. Shared once-per-action pending state is updated once. Effects do not trigger additional copies recursively.",
+    "Action fixtures use frozen AM processing and AO affixes; ownership/refunds/sales use AP. No natural affix campaign, optimized strategy, user interface or human evaluation is included.",
+    "Capacity growth at milestones, diminishing effects, per-instance learning fees and simultaneous slots-plus-cost as the product default are not adopted. Old AM/AN/AO/AP artifacts remain unchanged."
+  ]
+}

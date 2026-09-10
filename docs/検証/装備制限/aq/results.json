@@ -1,0 +1,1824 @@
+{
+  "trial": "AQ1",
+  "base_commit": "19e8bc65109fbd9a00c804c9e27e97ce5f51b1b5",
+  "sources": {
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/conditions.json": "62c969eb9f30decd430989146218f06ce8792f001fba5d2f22db026b2c189676",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "docs/検証/統合試作/deck_feedback_trial/knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "docs/検証/統合試作/deck_feedback_trial/information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "docs/検証/統合試作/deck_feedback_trial/input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.py": "a76d202251cd6ca71dff004f6b76e3d3fdc6db4e8c37bb3461157d34b10754de",
+    "docs/検証/修飾/ao/affixes.cjs": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f",
+    "docs/検証/修飾/ao/conditions.json": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90",
+    "docs/検証/修飾/ap/conversion.cjs": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c",
+    "docs/検証/修飾/ap/conditions.json": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00"
+  },
+  "conditions_sha256": "ad11113aa944ef7b01ab77dfa2bf3eb0a0c368da279456a0d0fa326860e758a0",
+  "implementation_sha256": "7c551f7f4bbd34370ad2eeada8bf220d7fa53d6a5a807f099fc8d9e013afad69",
+  "study_sha256": "b30949f0e4108eb929dc3dc82134bbb0954709ae72138be4575fa048fd79b541",
+  "checks": [
+    "All bases can be learned without automatic effects or consuming equipment capacity",
+    "Equal-performance copies are counted as quantities, not new compositions from identity swaps",
+    "The same acquired instance or learned plain option cannot be equipped twice",
+    "Distinct equal copies stack within capacity and replace equipment without spending points",
+    "Cost, slot, same-kind, role and duplicate-surcharge constraints differ on concrete builds",
+    "Over-capacity, missing and unlearned equipment requests fail atomically",
+    "Authored costs stay positive and negative affixes do not automatically grant discounts",
+    "Selling a selected copy is blocked while an equal unused copy can be converted",
+    "Unequipping releases a copy for sale; sale does not erase learning or recreate the copy",
+    "Free respec refunds actual payments, removes invalid equipment, and retains possessions",
+    "Home equipment survives serialization and cannot be changed during an expedition",
+    "Only equipped entries contribute; two equal attack bonuses sum once and remain below the threshold at 90",
+    "Conditional bundles preserve their drawback while threshold and healing contributions resolve once",
+    "Four placement discounts sum before one minimum-action-cost clamp",
+    "Two strong conditional copies cost the entire capacity and reach multiplier two only at the correct excess",
+    "Two guard copies read the same pending flag and a borrowed guard re-arms only one shared flag",
+    "Player equipment does not contribute to an NPC using the same card"
+  ],
+  "raw_subsets": 1024,
+  "policies": {
+    "same_kind": {
+      "policy": {
+        "label": "同種2個まで",
+        "per_base_limit": 2
+      },
+      "raw_subsets": 512,
+      "performance_compositions": 256,
+      "max_equipped": 7,
+      "max_PS02": 2,
+      "all_four_bases": 135
+    },
+    "slots": {
+      "policy": {
+        "label": "4枠",
+        "slot_limit": 4
+      },
+      "raw_subsets": 386,
+      "performance_compositions": 200,
+      "max_equipped": 4,
+      "max_PS02": 4,
+      "all_four_bases": 20
+    },
+    "cost": {
+      "policy": {
+        "label": "総コスト8",
+        "cost_limit": 8
+      },
+      "raw_subsets": 151,
+      "performance_compositions": 93,
+      "max_equipped": 4,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    },
+    "hybrid": {
+      "policy": {
+        "label": "総コスト8＋3枠",
+        "cost_limit": 8,
+        "slot_limit": 3
+      },
+      "raw_subsets": 146,
+      "performance_compositions": 88,
+      "max_equipped": 3,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    },
+    "surcharge": {
+      "policy": {
+        "label": "総コスト8＋同種の追加負荷",
+        "cost_limit": 8,
+        "duplicate_surcharge": 1
+      },
+      "raw_subsets": 114,
+      "performance_compositions": 76,
+      "max_equipped": 3,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    },
+    "roles": {
+      "policy": {
+        "label": "4枠＋役割別上限",
+        "slot_limit": 4,
+        "role_limits": {
+          "advance": 2,
+          "guard": 1,
+          "support": 1
+        }
+      },
+      "raw_subsets": 192,
+      "performance_compositions": 96,
+      "max_equipped": 4,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    }
+  },
+  "capacitySensitivity": [
+    {
+      "policy": {
+        "cost_limit": 6
+      },
+      "raw_subsets": 62,
+      "performance_compositions": 46,
+      "max_equipped": 3,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    },
+    {
+      "policy": {
+        "cost_limit": 8
+      },
+      "raw_subsets": 151,
+      "performance_compositions": 93,
+      "max_equipped": 4,
+      "max_PS02": 2,
+      "all_four_bases": 0
+    },
+    {
+      "policy": {
+        "cost_limit": 10
+      },
+      "raw_subsets": 292,
+      "performance_compositions": 158,
+      "max_equipped": 5,
+      "max_PS02": 3,
+      "all_four_bases": 20
+    }
+  ],
+  "examples": [
+    {
+      "id": "none",
+      "label": "全習得・装備なし",
+      "ids": [],
+      "cost": 0,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": true,
+        "hybrid": true,
+        "surcharge": true,
+        "roles": true
+      }
+    },
+    {
+      "id": "double_advance",
+      "label": "同じ削り補助2個＋配置補助",
+      "ids": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "base:PS01"
+      ],
+      "cost": 8,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": true,
+        "hybrid": true,
+        "surcharge": false,
+        "roles": true
+      }
+    },
+    {
+      "id": "balanced",
+      "label": "削り・防御・回復",
+      "ids": [
+        "base:PS02",
+        "base:PS03",
+        "base:PS04"
+      ],
+      "cost": 7,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": true,
+        "hybrid": true,
+        "surcharge": true,
+        "roles": true
+      }
+    },
+    {
+      "id": "conditional",
+      "label": "借り札用の強い削り＋防御・回復",
+      "ids": [
+        "owned:[\"AP1\",\"pool\",\"forceful\"]",
+        "base:PS03",
+        "base:PS04"
+      ],
+      "cost": 8,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": true,
+        "hybrid": true,
+        "surcharge": true,
+        "roles": true
+      }
+    },
+    {
+      "id": "four_light",
+      "label": "配置・防御2個・回復",
+      "ids": [
+        "base:PS01",
+        "base:PS03",
+        "owned:[\"AP1\",\"pool\",\"guard_swift\"]",
+        "base:PS04"
+      ],
+      "cost": 8,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": true,
+        "hybrid": false,
+        "surcharge": false,
+        "roles": false
+      }
+    },
+    {
+      "id": "all_plain",
+      "label": "通常版4種を全て装備",
+      "ids": [
+        "base:PS01",
+        "base:PS02",
+        "base:PS03",
+        "base:PS04"
+      ],
+      "cost": 9,
+      "fits": {
+        "same_kind": true,
+        "slots": true,
+        "cost": false,
+        "hybrid": false,
+        "surcharge": false,
+        "roles": false
+      }
+    },
+    {
+      "id": "triple_advance",
+      "label": "同じ削り補助3個",
+      "ids": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_b\"]"
+      ],
+      "cost": 9,
+      "fits": {
+        "same_kind": false,
+        "slots": true,
+        "cost": false,
+        "hybrid": false,
+        "surcharge": false,
+        "roles": false
+      }
+    },
+    {
+      "id": "four_advance",
+      "label": "削り補助へ4個集中",
+      "ids": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"borrowed\"]",
+        "owned:[\"AP1\",\"pool\",\"forceful\"]"
+      ],
+      "cost": 13,
+      "fits": {
+        "same_kind": false,
+        "slots": true,
+        "cost": false,
+        "hybrid": false,
+        "surcharge": false,
+        "roles": false
+      }
+    }
+  ],
+  "actions": 60,
+  "restores": 60,
+  "contexts": [
+    {
+      "id": "own_attack",
+      "base": "l"
+    },
+    {
+      "id": "borrowed_attack",
+      "base": "l",
+      "origin": "E1"
+    },
+    {
+      "id": "overflow",
+      "base": "l",
+      "origin": "E1",
+      "accumulated": 70
+    },
+    {
+      "id": "road",
+      "base": "l",
+      "maximum": 1
+    },
+    {
+      "id": "borrowed_guard",
+      "base": "read",
+      "origin": "E1"
+    },
+    {
+      "id": "own_heal",
+      "base": "salve"
+    },
+    {
+      "id": "placement",
+      "base": "f",
+      "match": false
+    }
+  ],
+  "rows": [
+    {
+      "example": "none",
+      "context": "own_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "none",
+      "context": "borrowed_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "none",
+      "context": "overflow",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 50,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "none",
+      "context": "road",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 50,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "none",
+      "context": "borrowed_guard",
+      "policy": "cost",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 1,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": false
+      }
+    },
+    {
+      "example": "none",
+      "context": "own_heal",
+      "policy": "cost",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 16,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "none",
+      "context": "placement",
+      "policy": "cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "own_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 90,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "borrowed_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 90,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "overflow",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 90,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "road",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 90,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "borrowed_guard",
+      "policy": "cost",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 1,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": true,
+        "last_match_attr": "C",
+        "borrowed_guard": false
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "own_heal",
+      "policy": "cost",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 16,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "double_advance",
+      "context": "placement",
+      "policy": "cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 8,
+      "passives": [
+        "PS01"
+      ],
+      "instances": [
+        "base:PS01"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "own_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 70,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "borrowed_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 70,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "overflow",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 70,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "road",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 70,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "borrowed_guard",
+      "policy": "cost",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 3,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [
+        "PS03"
+      ],
+      "instances": [
+        "base:PS03"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "own_heal",
+      "policy": "cost",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 20,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [
+        "PS04"
+      ],
+      "instances": [
+        "base:PS04"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "balanced",
+      "context": "placement",
+      "policy": "cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "own_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "borrowed_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 90,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 13,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "owned:[\"AP1\",\"pool\",\"forceful\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "overflow",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 90,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 13,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "owned:[\"AP1\",\"pool\",\"forceful\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "road",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 50,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "borrowed_guard",
+      "policy": "cost",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 3,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [
+        "PS03"
+      ],
+      "instances": [
+        "base:PS03"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "own_heal",
+      "policy": "cost",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 20,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [
+        "PS04"
+      ],
+      "instances": [
+        "base:PS04"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "conditional",
+      "context": "placement",
+      "policy": "cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "own_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "borrowed_attack",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "overflow",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 50,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "road",
+      "policy": "cost",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 50,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "borrowed_guard",
+      "policy": "cost",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 4,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 9,
+      "passives": [
+        "PS03",
+        "PS03"
+      ],
+      "instances": [
+        "base:PS03",
+        "owned:[\"AP1\",\"pool\",\"guard_swift\"]"
+      ],
+      "pending": {
+        "after_guard": true,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "own_heal",
+      "policy": "cost",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 20,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [
+        "PS04"
+      ],
+      "instances": [
+        "base:PS04"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_light",
+      "context": "placement",
+      "policy": "cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 8,
+      "passives": [
+        "PS01"
+      ],
+      "instances": [
+        "base:PS01"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "own_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 70,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "borrowed_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 70,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "overflow",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 70,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "road",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 70,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "borrowed_guard",
+      "policy": "slots",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 3,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [
+        "PS03"
+      ],
+      "instances": [
+        "base:PS03"
+      ],
+      "pending": {
+        "after_guard": true,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "own_heal",
+      "policy": "slots",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 20,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [
+        "PS04"
+      ],
+      "instances": [
+        "base:PS04"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "all_plain",
+      "context": "placement",
+      "policy": "slots",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 8,
+      "passives": [
+        "PS01"
+      ],
+      "instances": [
+        "base:PS01"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "own_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 110,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_b\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "borrowed_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 110,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_b\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "overflow",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 110,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_b\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "road",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 8,
+      "hit": 110,
+      "connected": true,
+      "multiplier": 2,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_b\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "borrowed_guard",
+      "policy": "slots",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 1,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": false
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "own_heal",
+      "policy": "slots",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 16,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "triple_advance",
+      "context": "placement",
+      "policy": "slots",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "own_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 90,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "borrowed_attack",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 160,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 13,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"borrowed\"]",
+        "owned:[\"AP1\",\"pool\",\"forceful\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "overflow",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 8,
+      "hit": 160,
+      "connected": true,
+      "multiplier": 2,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 13,
+      "passives": [
+        "PS02",
+        "PS02",
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"borrowed\"]",
+        "owned:[\"AP1\",\"pool\",\"forceful\"]",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "road",
+      "policy": "slots",
+      "user": "P",
+      "mode": "attack",
+      "damage": 4,
+      "hit": 90,
+      "connected": true,
+      "multiplier": 1,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "base:PS02",
+        "owned:[\"AP1\",\"pool\",\"plain_a\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "borrowed_guard",
+      "policy": "slots",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 1,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": false
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "own_heal",
+      "policy": "slots",
+      "user": "P",
+      "mode": "heal",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 16,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_advance",
+      "context": "placement",
+      "policy": "slots",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 10,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "four_PS01",
+      "context": "minimum_cost",
+      "user": "P",
+      "mode": "place",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 1,
+      "passives": [
+        "PS01",
+        "PS01",
+        "PS01",
+        "PS01"
+      ],
+      "instances": [
+        "base:PS01",
+        "owned:[\"AP1\",\"discount\",\"d0\"]",
+        "owned:[\"AP1\",\"discount\",\"d1\"]",
+        "owned:[\"AP1\",\"discount\",\"d2\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "two_strong",
+      "context": "overflow",
+      "user": "P",
+      "mode": "attack",
+      "damage": 8,
+      "hit": 130,
+      "connected": true,
+      "multiplier": 2,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 14,
+      "passives": [
+        "PS02",
+        "PS02"
+      ],
+      "instances": [
+        "owned:[\"AP1\",\"strong\",\"s0\"]",
+        "owned:[\"AP1\",\"strong\",\"s1\"]"
+      ],
+      "pending": {
+        "after_guard": false,
+        "last_match_attr": "B",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "two_guard",
+      "context": "shared_pending",
+      "user": "P",
+      "mode": "guard",
+      "damage": 0,
+      "hit": 0,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": {
+        "value": 4,
+        "evasion": 30,
+        "uses": 2
+      },
+      "action_cost": 9,
+      "passives": [
+        "PS03",
+        "PS03"
+      ],
+      "instances": [
+        "base:PS03",
+        "owned:[\"AP1\",\"pool\",\"guard_swift\"]"
+      ],
+      "pending": {
+        "after_guard": true,
+        "last_match_attr": "C",
+        "borrowed_guard": true
+      }
+    },
+    {
+      "example": "npc",
+      "context": "own_attack",
+      "user": "E1",
+      "mode": "attack",
+      "damage": 0,
+      "hit": 50,
+      "connected": false,
+      "multiplier": 0,
+      "healed": 0,
+      "guard": null,
+      "action_cost": 12,
+      "passives": [],
+      "instances": [],
+      "pending": {
+        "after_guard": true,
+        "last_match_attr": "A",
+        "borrowed_guard": true
+      }
+    }
+  ]
+}
