@@ -1,0 +1,35 @@
+{
+  "trial": "AN1",
+  "base_commit": "050d146d0b7e54347c0048f940e624d0e65caeca",
+  "runtime": "AM1",
+  "variant": "terrain40_p40",
+  "seed_offsets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+  "repetition": {
+    "route": "A",
+    "build": "guard3",
+    "policy": "progress_first",
+    "stop_at": "first protected reward boundary, or natural terminal outcome",
+    "initial_points": 0,
+    "target_total_points": 8,
+    "max_expeditions": 16,
+    "learning_policies": ["save_points", "learn_affordable"],
+    "learning_priority": ["PS02", "PS01", "PS03", "PS04"]
+  },
+  "power_probe": {
+    "routes": ["A", "B", "C"],
+    "build": "guard3",
+    "policies": ["progress_first", "side_first"],
+    "skill_sets": [[], ["PS02"], ["PS01", "PS02"], ["PS01", "PS02", "PS03", "PS04"]],
+    "initial_points": 8,
+    "fixed_comparison_access": true
+  },
+  "limits": [
+    "Execution conditions fixed before this study. All offsets and failures are retained; no seed is selected for a success narrative.",
+    "The repetition probe withdraws after the first protected boundary in the trial; this is not a claim that the unfinished case has been solved.",
+    "The power probe grants 8 points and C access only as controlled comparison fixtures. It is not naturally earned progression.",
+    "Initial deck, actor HP/posture, rewards, skill effects, costs, and public action policies are inherited unchanged from AM. No new cap, equipment slot, point loss, or stage unlock is implemented.",
+    "The 16 seed offsets reuse the existing AM seed bank. They are deterministic sensitivity cases, not statistically independent samples, held-out validation, optimal players, or human play.",
+    "Analysis of AM journey-results reads the frozen prior experiment; it is not a newly executed natural route comparison.",
+    "All-learned outcomes evaluate only four existing trial effects. They cannot establish endgame balance or the fun of permanent skill exclusion."
+  ]
+}
