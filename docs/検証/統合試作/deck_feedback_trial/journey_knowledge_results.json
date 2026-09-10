@@ -1,0 +1,404 @@
+{
+  "trial": "AG1",
+  "base_commit": "16fab1028a4f7895ad7414b9edf8fc41ab4802aa",
+  "purpose": "D41/D42 knowledge and D43 typed rewards through death, return, next preparation",
+  "limits": [
+    "Fixed Z content; not the proposed A/B/C destinations or D46 unlock implementation.",
+    "Deterministic public policy and documented build swap; not user play, win rates or reward balance.",
+    "Three existing natural endpoints; no newly authored victory or guaranteed encounter.",
+    "Return/profile roundtrip checked; no new ongoing-run save UI or complete application."
+  ],
+  "checks": {
+    "natural_endpoints": 3,
+    "af_reward_parity": 3,
+    "preparation_views": 4,
+    "return_replays": 3,
+    "old_return_after_later_runs": 1,
+    "conflicting_knowledge_rejected": 1
+  },
+  "first_visit": {
+    "phase": "home",
+    "card_choices": [
+      {
+        "card": {
+          "type": "f",
+          "name": "牽制",
+          "attr": "A",
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 30,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "h",
+          "name": "重撃",
+          "attr": "B",
+          "kind": "attack",
+          "power": 12,
+          "hit": 30,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": -20,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "l",
+          "name": "踏み込み",
+          "attr": "B",
+          "kind": "attack",
+          "power": 4,
+          "hit": 50,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 6,
+          "field_hit": 0,
+          "life": 2,
+          "place_cost": 8,
+          "match_cost": 12,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "j",
+          "name": "小突き",
+          "attr": "C",
+          "kind": "attack",
+          "power": 3,
+          "hit": 40,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 0,
+          "life": 1,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "g",
+          "name": "防御",
+          "attr": "D",
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 20,
+          "field_power": -4,
+          "field_hit": 0,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "r",
+          "name": "受け流し",
+          "attr": "A",
+          "kind": "guard",
+          "power": 2,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 40,
+          "field_power": -2,
+          "field_hit": 0,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "fast",
+          "name": "速撃",
+          "attr": "A",
+          "kind": "attack",
+          "power": 2,
+          "hit": 100,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": -20,
+          "life": 1,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "read",
+          "name": "見切り",
+          "attr": "C",
+          "kind": "guard",
+          "power": 1,
+          "hit": 0,
+          "evasion": 30,
+          "crit_gain": 20,
+          "field_power": 0,
+          "field_hit": 20,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "sweep",
+          "name": "打ち払い",
+          "attr": "D",
+          "kind": "attack",
+          "power": 4,
+          "hit": 60,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 20,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "salve",
+          "name": "回復草",
+          "attr": "C",
+          "kind": "heal",
+          "power": 16,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 10,
+          "field_power": -4,
+          "field_hit": 0,
+          "life": 16,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": true
+        },
+        "limit": 2
+      }
+    ],
+    "deck_size": 12,
+    "attribute_quota": null,
+    "points": 0,
+    "upgrades": {
+      "vitality": {
+        "label": "最大HP +2",
+        "cost": 3,
+        "hp": 2,
+        "reduction": 0
+      },
+      "toughness": {
+        "label": "常時ダメージ軽減 +1",
+        "cost": 3,
+        "hp": 0,
+        "reduction": 1
+      }
+    },
+    "knowledge": {
+      "summary": "障害物の突破と敵との戦闘を含む探索。",
+      "goals": [
+        "先へ進むことと、敵の個別報酬を狙うことを選べる。"
+      ],
+      "basis": "この比較用探索について用意した事前案内",
+      "knowledge": []
+    },
+    "holdings": {
+      "points": 0,
+      "materials": [],
+      "unlocked": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve"
+      ],
+      "pending_card_duplicates": []
+    }
+  },
+  "journeys": [
+    {
+      "run": "AG-natural-1",
+      "seed": 0,
+      "policy": "environment",
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "outcome": "defeat",
+      "p_actions": 12,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "points": 0,
+      "materials": {},
+      "brace_selectable": false,
+      "knowledge_events": 21,
+      "confirmed_reward_candidates": [
+        {
+          "reward_key": "T0",
+          "label": "成長ポイント 1、踏ん張りの解放",
+          "evidence_ids": [
+            "AG-natural-1:8"
+          ]
+        }
+      ],
+      "initial_catalogues": [
+        "weak-terrain-Z"
+      ],
+      "new_public_facts": 21,
+      "final_hash": "2061ebfd116b665cd14873eb4bb90f2096a5a1abd01579a5bb7b872b0634f643"
+    },
+    {
+      "run": "AG-natural-2",
+      "seed": 0,
+      "policy": "environment_return",
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "outcome": "withdrawal",
+      "p_actions": 5,
+      "settlement": {
+        "reason": "withdrawal",
+        "kept": [
+          "T0"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "points": 1,
+      "materials": {},
+      "brace_selectable": true,
+      "knowledge_events": 27,
+      "confirmed_reward_candidates": [
+        {
+          "reward_key": "T0",
+          "label": "成長ポイント 1、踏ん張りの解放",
+          "evidence_ids": [
+            "AG-natural-1:8",
+            "AG-natural-2:8"
+          ]
+        }
+      ],
+      "initial_catalogues": [
+        "weak-terrain-Z"
+      ],
+      "new_public_facts": 6,
+      "final_hash": "5f56dc2d3bcc3fa92f2cc1fe3008707cb1cd5337b120be2da5d425da3f25b7e2"
+    },
+    {
+      "run": "AG-natural-3",
+      "seed": 1,
+      "policy": "environment_return",
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 1,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1,
+        "brace": 1
+      },
+      "outcome": "defeat",
+      "p_actions": 34,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "points": 1,
+      "materials": {},
+      "brace_selectable": true,
+      "knowledge_events": 62,
+      "confirmed_reward_candidates": [
+        {
+          "reward_key": "T0",
+          "label": "成長ポイント 1、踏ん張りの解放",
+          "evidence_ids": [
+            "AG-natural-1:8",
+            "AG-natural-2:8"
+          ]
+        }
+      ],
+      "initial_catalogues": [
+        "weak-terrain-Z"
+      ],
+      "new_public_facts": 35,
+      "final_hash": "bc0b2a3311ac68c81bbf8148841c815a249fbfaf042fad38cf13be309622d7db"
+    }
+  ],
+  "sources": {
+    "journey_knowledge.js": "cafa6cfb983938001e09d563146251269946da7031094e2e6aee58061d9087af",
+    "journey_knowledge_study.cjs": "5a0589ecaa6192e870d6a9ea6c462bf989fdb31de41729f185e3babfe9b8bcde",
+    "hybrid_rewards.js": "aa13f9b2d3f591474ec69607023af7a2a2d2c50faaf15784697e808cf2ee86bc",
+    "hybrid_inputs.json": "3eff146d07c928b023b7e74d42ae6ba10c93f0a34e95c7eca0b4b33ab5854d37",
+    "expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "loop_results.json": "c8a65d55f85d5415e8c24ff4f19f081e9e963ecc1276f54b1e46177dfa1b2eea",
+    "knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "information_inputs.json": "6e1cbc8a25cfa9ff966f2052f79584ce5e969d8d014ddf80ab3c1d7cf21a56fd",
+    "input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "continuity_study.cjs": "41868be61622ff841b9f85491622160be0edf9b39bd91812e9eb06caf2569755",
+    "event_inputs.py": "e506c7b083c7ab56ffb08e53c05a1166740e83de08d836194f0ec6b62ee9180f"
+  }
+}
