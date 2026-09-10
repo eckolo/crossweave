@@ -1,0 +1,27 @@
+{
+  "test_id": "UI-R-002",
+  "verification": "DOM routing only; no browser rendering or real pointer/touch measurement",
+  "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
+  "actions": 74,
+  "checks": [
+    "recorded choices: identical states / RNG / memory; no automatic next-card selection",
+    "quick: same placement and NPC response",
+    "drag: same placement and NPC response",
+    "confirm: same placement and NPC response",
+    "drag outside: no action",
+    "drag cancel: no action",
+    "drag escape: no action",
+    "touch body / disabled drag / hidden per-card buttons / stale request / double-click",
+    "deadline: match stages only",
+    "guard_end: match stages only",
+    "multiple: match stages only",
+    "vanishing: match stages only"
+  ],
+  "errors": [],
+  "fragment_sha256": "cbde947049e13db43f3db9b8370310a03e49afaf3e719d830cc56b1c3aea9cbc",
+  "unverified": [
+    "browser geometry and pointer capture",
+    "real touch scroll versus drag",
+    "human effort, errors and repetition time"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "test_id": "UI-R-002",
+  "ui_version": "0.1",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "baseline_test_id": "PT-Z-001",
+  "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
+  "baseline_spec": "0.39",
+  "operational_design_spec": "0.46",
+  "synchronized_design_commit": "41b1a029e973cd99f6e5e59bf5079864285b111a",
+  "own_source_commit": "94d5f43313802c722d5ba5e98343400c25cd67fe",
+  "own_source_merge_commit": "b4843235ae42c9a51a24ce70da16ee0a5ae53196",
+  "required_source_merge_commit": "4191b1956a0ce1db03b3d6d6e66071fb15e4883a",
+  "ui_code_commit": null,
+  "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
+  "entry": "W seed32 / guard5",
+  "game_changes": [],
+  "information_scope": "same fixed PT-Z-001; no private opponent hand or future order reveal",
+  "default_settings": {
+    "direct_placement": true,
+    "drag": true,
+    "per_card_buttons": true,
+    "matching_confirmation": true,
+    "confirmation_when_other_expiring_cards_disappear": true
+  },
+  "ui_diff": "ui-r002.patch",
+  "ui_diff_scope": "new source files only; run build.cjs to generate the standalone preview",
+  "fixtures": "../fixtures.json",
+  "verification": "verification.json",
+  "files": {
+    "README.md": {
+      "bytes": 10906,
+      "sha256": "d2cc327e91d6baa61104e5b1f4bbd5ef0ee3299277f31aa1cdce0747558cec10"
+    },
+    "build.cjs": {
+      "bytes": 2775,
+      "sha256": "5b41d26aec2c01c24c25899d0984bb329c27d0f4746574a131f84938c875c5fa"
+    },
+    "play.fragment.html": {
+      "bytes": 13240,
+      "sha256": "333e39761a0fd3a6907de8189250c36e86f3b004e6ad770466700bc11a82f15c"
+    },
+    "preview.html": {
+      "bytes": 251405,
+      "sha256": "392fc94001c8a89fd8595449172bd284c38a83d6010279cacaed8644e1a97d3f"
+    },
+    "support.js": {
+      "bytes": 11878,
+      "sha256": "31208afeb794c8b9219fc20a057cde9c585d890b69ab19f1ea0ad60ad734fe76"
+    },
+    "ui-r002.patch": {
+      "bytes": 47913,
+      "sha256": "ea12d6fc424a1b1c730c56a95cb2d4b4cf63766da128ffeee578f58ec1e6f5db"
+    },
+    "verification.json": {
+      "bytes": 1036,
+      "sha256": "9be0d8cabfa0e02f6e4a063dbc5c69aa1a5dd1d66dcbbda7ce02f6fc47d55279"
+    },
+    "verify.cjs": {
+      "bytes": 6254,
+      "sha256": "ecff1e475d483c1b8e0e5743128822875acd39c90ebe8d182aab9f457813e683"
+    },
+    "view.js": {
+      "bytes": 18412,
+      "sha256": "cccd21497a4a1067e18891c7853a10f12a51bc788fba0670f5cf1a5b3abd41be"
+    }
+  },
+  "fragment": {
+    "path": "/workspace/crossweave-placement.html",
+    "sha256": "cbde947049e13db43f3db9b8370310a03e49afaf3e719d830cc56b1c3aea9cbc"
+  },
+  "unverified": [
+    "browser rendering and real pointer capture",
+    "physical touch scroll versus drag",
+    "human repeated-operation effort, errors and time"
+  ]
+}
