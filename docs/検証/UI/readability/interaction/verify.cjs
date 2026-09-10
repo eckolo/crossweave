@@ -68,7 +68,7 @@ for(const method of ['touch','mouse','pen','confirm']){
   if(method==='confirm'){query(b,'#cw-quick-setting').checked=false;const before=state(b);drag(b,first.card_id);assert.equal(state(b),before);query(b,'#cw-use').click();}
   eq(a,b);checks.push(method+': same placement and NPC response');a.window.close();b.window.close();
 }
-for(const finish of ['outside','cancel','escape']){const b=open(build(),true),before=state(b);drag(b,first.card_id,finish);assert.equal(state(b),before);assert.equal(b.window.__ui().selected,null);checks.push('drag '+finish+': no action');b.window.close();}
+for(const finish of ['outside','cancel','escape']){const b=open(build(),true),before=state(b);drag(b,first.card_id,finish);assert.equal(state(b),before);assert.equal(b.window.__ui().selected,first.card_id);checks.push('drag '+finish+': no action, held card remains selected');b.window.close();}
 {
   const b=open(build(),true),before=state(b);
   query(b,'#cw-drag-setting').checked=false;drag(b,first.card_id);assert.equal(state(b),before,'disabled drag acted');
@@ -147,8 +147,8 @@ for(const finish of ['release','wheel','scroll','blur','visibility','settings','
 {
   const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
   b.window.document.elementFromPoint=()=>root;pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');b.window.__tick(220);
-  pointer(b,root,'pointerup');b.window.__tick(1000);assert.equal(state(b),before);assert.equal(b.window.__ui().selected,null);
-  checks.push('hold then release in hand: no execution, previous selection restored');b.window.close();
+  pointer(b,root,'pointerup');b.window.__tick(1000);assert.equal(state(b),before);assert.equal(b.window.__ui().selected,first.card_id);
+  checks.push('hold then release in hand: no execution, held card remains selected');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
   const a=open(old.build(replay)),b=open(build(replay),true);eq(a,b);
@@ -352,6 +352,70 @@ for(const scenario of ['place','attack','guard']){
   checks.push(scenario+': actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged');
   b.window.close();
 }
+for(const finish of ['release','escape','pointercancel','lostpointercapture','blur','early-scroll']){
+  const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b),ids=b.window.__inspect().s.actors.P.hand;
+  query(b,`[data-card="${ids[0]}"]`).click();query(b,`[data-card="${ids[0]}"]`).click();
+  b.window.document.elementFromPoint=()=>root;
+  pointer(b,query(b,`[data-card="${ids[1]}"]`),'pointerdown');
+  if(finish==='early-scroll'){pointer(b,root,'pointermove',{clientX:60});b.window.__tick(500);pointer(b,root,'pointerup',{clientX:60});}
+  else{
+    b.window.__tick(220);assert.equal(b.window.__ui().selected,ids[1]);
+    if(finish==='release')pointer(b,root,'pointerup');
+    else if(finish==='escape')root.dispatchEvent(new b.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    else if(finish==='blur')b.window.dispatchEvent(new b.window.Event('blur'));
+    else pointer(b,root,finish);
+  }
+  assert.equal(b.window.__ui().selected,ids[finish==='early-scroll'?0:1],'release/cancel unexpectedly restored old selection');
+  assert(query(b,'#cw-drag-ghost').hidden);assert(query(b,'#cw-drawer').hidden);assert.equal(state(b),before);
+  checks.push(finish+': previous selection changes only when hold starts; no restoration after hold and no game action');b.window.close();
+}
+for(const ghostHeight of [76,116]){
+  const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
+  const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bottom:top+height});
+  b.window.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.id==='cw-playtable')return rect(0,0,1024,576);
+    if(this.id==='cw-drag-ghost')return rect(parseFloat(this.style.left)||0,parseFloat(this.style.top)||0,180,ghostHeight);
+    return rect(0,0,0,0);
+  };
+  b.window.document.elementFromPoint=()=>root;
+  pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown',{pointerType:'mouse',clientX:400,clientY:400});b.window.__tick(220);
+  const ghost=query(b,'#cw-drag-ghost');assert.equal(ghost.getBoundingClientRect().bottom,406,'pointer must touch ghost at hold origin');
+  for(const [x,y]of [[250,210],[1,1],[1023,575]]){
+    pointer(b,root,'pointermove',{pointerType:'mouse',clientX:x,clientY:y});const r=ghost.getBoundingClientRect();
+    assert(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom,'pointer detached from held card');
+    assert(r.left>=0&&r.top>=0&&r.right<=1024&&r.bottom<=576,'held card escaped frame');
+  }
+  pointer(b,root,'pointercancel');assert.equal(state(b),before);
+  checks.push('held height '+ghostHeight+': pointer touches measured card at hold origin, follows movement and stays connected at edges');b.window.close();
+}
+for(const [width,height,worldBottom,boardTop,boardBottom,handTop,footerTop]of [[1024,576,194,200,338,344,533],[900,506.25,151,157,267,273,463],[320,512,151,157,267,273,461]]){
+  const b=open(build(fixtures.cases.guard_end),true),root=query(b,'#cw-playtable'),before=state(b),popup=query(b,'#cw-drawer');
+  let naturalHeight=160,fieldOffset=0;
+  const rect=(left,top,w,h)=>({left,top,width:w,height:h,right:left+w,bottom:top+h});
+  b.window.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.id==='cw-playtable')return rect(0,0,width,height);
+    if(this.classList.contains('cw-world'))return rect(11,11,width-22,worldBottom-11);
+    if(this.classList.contains('cw-board'))return rect(11,boardTop,width-22,boardBottom-boardTop);
+    if(this.classList.contains('cw-bottom'))return rect(11,footerTop,width-22,32);
+    if(this.classList.contains('cw-order-strip'))return rect(16,16,160,32);
+    if(this.id==='cw-hand')return rect(16,handTop,width-32,110);
+    if(this.id==='cw-field')return rect(16,boardTop+16,width-32,boardBottom-boardTop-22);
+    if(this.id==='cw-drawer')return rect(parseFloat(this.style.left)||0,parseFloat(this.style.top)||0,parseFloat(this.style.width)||420,parseFloat(this.style.height)||Math.min(naturalHeight,parseFloat(this.style.maxHeight)||height));
+    if(this.dataset.fieldCard)return rect(80-fieldOffset,boardTop+20,172,80);
+    if(this.dataset.inspectActor)return rect(80,50,208,100);
+    if(this.dataset.open)return rect(width-150,footerTop,120,32);
+    return rect(0,0,0,0);
+  };
+  const noOverlap=()=>{const r=popup.getBoundingClientRect();assert(r.bottom<=boardTop||r.top>=boardBottom,'field inspector covers field row');assert(r.left>=0&&r.right<=width&&r.top>=0&&r.bottom<=height);return r;};
+  query(b,'[data-field-card]').click();assert.equal(popup.style.height,'','short field window received forced height');let r=noOverlap();assert.equal(r.height,160);
+  naturalHeight=230;b.window.__layout();r=noOverlap();assert(r.height<=230);
+  naturalHeight=700;b.window.__layout();r=noOverlap();assert(r.height<700,'long field content did not cap outside source row');
+  fieldOffset=40;query(b,'#cw-field').dispatchEvent(new b.window.Event('scroll'));noOverlap();
+  naturalHeight=160;query(b,'[data-inspect-actor="V0"]').click();r=popup.getBoundingClientRect();assert(r.top>=worldBottom,'actor inspector covers actor row');assert.equal(r.height,160);
+  query(b,'[data-open="objective"]').click();r=popup.getBoundingClientRect();assert.equal(r.height,160,'short objective received maximum height');assert(r.bottom<footerTop);
+  naturalHeight=700;query(b,'[data-open="result"]').click();r=popup.getBoundingClientRect();assert(r.bottom<footerTop&&r.top>=12,'history escaped available area');
+  assert.equal(state(b),before);checks.push(width+'px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation');b.window.close();
+}
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.10',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser connector visibility/occlusion, object-window layout, hover travel and slim strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.11',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser 16:9 layout/minimum-size fallback, content-sized translucent windows and row avoidance','physical pointer contact with held card, hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

@@ -82,15 +82,51 @@
     const side=cr&&cr.right<=hr.left?'左':cr&&cr.left>=hr.right?'右':null;
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
     get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
-    if(openName==='card'){
-      const rr=root.getBoundingClientRect(),popup=get('cw-drawer');
-      // Use the space above the hand, including the opponent row. Targets remain in the window.
-      popup.style.height=Math.max(200,hr.top-rr.top-24)+'px';
-      const pw=popup.getBoundingClientRect().width||Math.min(840,rr.width-32);
-      popup.style.left=Math.max(16,Math.min(rr.width-pw-16,center-rr.left-pw/2))+'px';
-      popup.style.top='16px';
-    }
+    placeWindow(center,hr);
     drawRelations();
+  }
+  function placeWindow(handCenter,handRect){
+    if(!openName)return;
+    const rr=root.getBoundingClientRect(),popup=get('cw-drawer'),margin=12,gap=10;
+    if(!rr.width||!rr.height)return;
+    popup.style.maxHeight=Math.max(0,rr.height-margin*2)+'px';
+    if(openName==='card'){
+      // Use the space above the hand, including the opponent row. Targets remain in the window.
+      popup.style.width=Math.min(840,rr.width-32)+'px';
+      popup.style.height=Math.max(160,handRect.top-rr.top-24)+'px';
+      const pw=Math.min(840,rr.width-32);
+      popup.style.left=Math.max(16,Math.min(rr.width-pw-16,handCenter-rr.left-pw/2))+'px';
+      popup.style.top='16px';
+      return;
+    }
+    popup.style.height='';
+    const width=Math.min(['field','actor','objective','order'].includes(openName)?420:560,rr.width-margin*2);
+    popup.style.width=width+'px';
+    let height=popup.getBoundingClientRect().height,top,center=rr.right-margin-width/2;
+    if(openName==='field'||openName==='actor'){
+      // Keep the entire inspected row accessible, even when another object is inspected.
+      const region=root.querySelector(openName==='field'?'.cw-board':'.cw-world').getBoundingClientRect();
+      const anchor=openName==='field'?root.querySelector(`[data-field-card="${inspectedField}"]`):get('cw-actors').querySelector(`[data-target="${inspectedActor}"]`);
+      const ar=anchor?.getBoundingClientRect();if(ar)center=(ar.left+ar.right)/2;
+      const aboveEnd=region.top-rr.top-gap,belowStart=region.bottom-rr.top+gap;
+      const above=Math.max(0,aboveEnd-margin),below=Math.max(0,rr.height-margin-belowStart);
+      const useAbove=openName==='field'?(height<=above||height>below&&above>below):(height>below&&above>below);
+      const space=useAbove?above:below;
+      popup.style.maxHeight=space+'px';height=Math.min(height,space);
+      top=useAbove?aboveEnd-height:belowStart;
+    }else{
+      const isOrder=openName==='order';
+      const anchor=isOrder?root.querySelector('.cw-order-strip'):root.querySelector('.cw-bottom');
+      const ar=anchor.getBoundingClientRect();
+      const from=opener?.isConnected?opener:root.querySelector(`[data-open="${openName}"]`),fr=from?.getBoundingClientRect();
+      if(fr)center=(fr.left+fr.right)/2;
+      const boundary=isOrder?ar.bottom-rr.top+gap:ar.top-rr.top-gap;
+      const space=Math.max(0,isOrder?rr.height-margin-boundary:boundary-margin);
+      popup.style.maxHeight=space+'px';height=Math.min(height,space);
+      top=isOrder?boundary:boundary-height;
+    }
+    popup.style.left=Math.max(margin,Math.min(rr.width-width-margin,center-rr.left-width/2))+'px';
+    popup.style.top=Math.max(margin,top)+'px';
   }
   function cancelHover(){clearTimeout(hoverTimer);clearTimeout(hoverCloseTimer);hoverTimer=hoverCloseTimer=null;}
   function syncWindowState(){
@@ -108,7 +144,7 @@
   function showWindow(name,from,focus=true,mode='pinned'){
     cancelHover();cancelDrag();opener=from||null;openName=name;windowMode=mode;
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
-    popup.style.left='';popup.style.top='';popup.style.height='';
+    popup.style.left='';popup.style.top='';popup.style.height='';popup.style.width='';popup.style.maxHeight='';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
     get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',field:'場札の詳細',actor:'相手の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
     if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
@@ -205,5 +241,7 @@
     });
     if(typeof ResizeObserver!=='undefined')new ResizeObserver(placeNearCard).observe(root);
     get('cw-hand').addEventListener('scroll',placeNearCard,{passive:true});
-    root.querySelector('.cw-footer-state').addEventListener('scroll',drawRelations,{passive:true});
+    root.querySelector('.cw-footer-state').addEventListener('scroll',placeNearCard,{passive:true});
+    root.querySelector('.cw-menu').addEventListener('scroll',placeNearCard,{passive:true});
+    get('cw-drawer').addEventListener('toggle',placeNearCard,true);
   }

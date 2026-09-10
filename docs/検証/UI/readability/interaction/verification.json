@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.10",
+  "ui_version": "0.11",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
@@ -11,9 +11,9 @@
     "mouse: same placement and NPC response",
     "pen: same placement and NPC response",
     "confirm: same placement and NPC response",
-    "drag outside: no action",
-    "drag cancel: no action",
-    "drag escape: no action",
+    "drag outside: no action, held card remains selected",
+    "drag cancel: no action, held card remains selected",
+    "drag escape: no action, held card remains selected",
     "disabled drag / no card auxiliary controls / stale request / double-click",
     "touch: early movement locks browsing through pause and turn; no ghost click; next tap selects",
     "mouse: early movement locks browsing through pause and turn; no ghost click; next tap selects",
@@ -34,7 +34,7 @@
     "pending hold settings: timer cancelled, no delayed play",
     "pending hold restart: timer cancelled, no delayed play",
     "pending hold stale: timer cancelled, no delayed play",
-    "hold then release in hand: no execution, previous selection restored",
+    "hold then release in hand: no execution, held card remains selected",
     "deadline: match stages only",
     "guard_end: match stages only",
     "multiple: match stages only",
@@ -59,13 +59,24 @@
     "field and actor physical clicks open/switch/retoggle; field full effects; only current public actor info; hand selection retained; actor selects target; internal target stays in card detail; no outside execution",
     "place: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
     "attack: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
-    "guard: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged"
+    "guard: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
+    "release: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "escape: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "pointercancel: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "lostpointercapture: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "blur: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "early-scroll: previous selection changes only when hold starts; no restoration after hold and no game action",
+    "held height 76: pointer touches measured card at hold origin, follows movement and stays connected at edges",
+    "held height 116: pointer touches measured card at hold origin, follows movement and stays connected at edges",
+    "1024px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation",
+    "900px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation",
+    "320px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation"
   ],
   "errors": [],
-  "fragment_sha256": "d226197bc25e1fb152421eea7a0b1c075bc9030a1150838bd90513f0f16d255f",
+  "fragment_sha256": "5ae2ab3984e93e903e0c64aa4874d64cbc75c7f5bed9d4c5285b92cc9d9684e2",
   "unverified": [
-    "real browser connector visibility/occlusion, object-window layout, hover travel and slim strip readability",
-    "physical hold timing, manual touch scrolling and pinch zoom",
+    "real browser 16:9 layout/minimum-size fallback, content-sized translucent windows and row avoidance",
+    "physical pointer contact with held card, hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ]
 }
