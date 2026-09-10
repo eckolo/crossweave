@@ -1,5 +1,5 @@
-  let drag=null,opener=null;
-  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked,buttons:get('cw-button-setting').checked});
+  let drag=null,opener=null,suppressClickUntil=0;
+  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked});
   const currentCard=()=>game.public().actors.P.hand.find(c=>c.id===selected);
   const lossOnPlacement=c=>game.public().actors.P.hand.filter(x=>x.id!==c.id&&x.remaining===1&&(x.consume_on_recover||x.doomed||x.birth==='filler'));
   let changedAttrs=new Set();
@@ -20,8 +20,10 @@
     get('cw-hand-count').textContent=p.hand.length+'枚';
     const expiring=p.hand.filter(x=>x.remaining===1);get('cw-expiry-summary').textContent=expiring.length?'この手まで '+expiring.length+'枚':'';
     const config=settings();
-    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr],quickLabel=match?'一致を確認':config.quick&&!lossOnPlacement(x).length?'置く':'設置を確認';return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" ${s.outcome?'disabled':''}><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</button><div class="cw-card-controls"><button type="button" class="cw-handle" data-handle="${x.id}" aria-label="${esc(cardName(x))}をつかむ。クリックで選択" ${!config.drag?'hidden':''} ${s.outcome?'disabled':''}>つかむ</button><button type="button" data-quick="${x.id}" ${!config.buttons?'hidden':''} ${s.outcome?'disabled':''}>${quickLabel}</button></div></article>`;}).join('');
-    get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札を選ぶか、札の「置く」から出せます';
+    root.dataset.cardDrag=String(config.drag);
+    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</button></article>`;}).join('');
+    get('cw-gesture-hint').textContent=config.drag?'左右で手札を見る · 上へ動かして場へ · タップで選択':'左右で手札を見る · タップで選択';
+    get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札をタップすると、予測を確認できます';
     get('cw-card-info').innerHTML=c?`<strong>${esc(cardName(c))} / ${esc(c.attr)}</strong>`+fullCard(c):'札を選んでください。';
     const needsTarget=c&&mid&&c.kind==='attack'&&!target;
     if(c&&!s.outcome&&!needsTarget){
@@ -34,7 +36,7 @@
       if(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler'))brief+='。一致で札が消滅';
       if(mid&&p.guard)brief+='。現在の防御終了';
       get('cw-brief').textContent=brief;
-    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':'札の本文で選択。「つかむ」から場へドラッグできます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
+    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':config.drag?'札を上へ持ち上げ、場で離すと出せます。選択して下のボタンでも実行できます。':'札を選択し、下のボタンで実行できます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
     get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'へ攻撃':'対象を選ぶ'):'一致して使う'):c.attr+'の場へ置く'):'札を選ぶ';
     get('cw-use').disabled=!!s.outcome||!c||!!needsTarget||busy;get('cw-cancel').disabled=!c;get('cw-show-card').disabled=!c;
     const flags=[];
@@ -84,20 +86,32 @@
   function openPanel(name,from){cancelDrag();opener=from||null;get('cw-drawer').hidden=false;root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);get('cw-drawer-title').textContent={reference:'参照・探索の操作',settings:'操作設定',card:'札と予測',result:'行動後の変化'}[name];get('cw-close').focus();}
   function closePanel(){get('cw-drawer').hidden=true;opener?.focus({preventScroll:true});}
   function releaseCapture(d){if(root.hasPointerCapture?.(d.pointerId))root.releasePointerCapture(d.pointerId);}
-  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';if(d)releaseCapture(d);return d;}
+  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';root.querySelectorAll('[data-dragging="true"]').forEach(n=>n.dataset.dragging='false');if(d){suppressClickUntil=Date.now()+700;releaseCapture(d);}return d;}
   function cancelDrag(){if(!drag)return;const d=clearDrag();if(d.started&&d.version===version){selected=d.previous;notice='ドラッグを取り消しました。';render();}}
   function dragPosition(event){const rect=root.getBoundingClientRect(),ghost=get('cw-drag-ghost');ghost.style.left=Math.max(4,Math.min(rect.width-184,event.clientX-rect.left-80))+'px';ghost.style.top=Math.max(4,Math.min(rect.height-48,event.clientY-rect.top-24))+'px';const hit=document.elementFromPoint(event.clientX,event.clientY);drag.over=!!hit&&get('cw-drop-zone').contains(hit);get('cw-drop-zone').dataset.over=String(drag.over);}
   root.addEventListener('pointerdown',event=>{
-    if(drag||event.isPrimary===false||(event.button!==undefined&&event.button!==0)||!settings().drag||!get('cw-drawer').hidden||game.s.outcome)return;
-    const handle=event.target.closest('[data-handle]'),body=event.target.closest('[data-card]');
-    if(!handle&&!(body&&event.pointerType==='mouse'))return;
-    const id=handle?.dataset.handle||body.dataset.card;if(!game.s.actors.P.hand.includes(id))return;
-    drag={id,pointerId:event.pointerId,x:event.clientX,y:event.clientY,version,previous:selected,started:false,over:false};root.setPointerCapture?.(event.pointerId);if(handle)event.preventDefault();
+    if(event.isPrimary===false){cancelDrag();return;}
+    if(drag||(event.button!==undefined&&event.button!==0))return;
+    suppressClickUntil=0;
+    if(!get('cw-drawer').hidden||game.s.outcome)return;
+    const body=event.target.closest('[data-card]');if(!body)return;
+    const id=body.dataset.card;if(!game.s.actors.P.hand.includes(id))return;
+    drag={id,pointerId:event.pointerId,pointerType:event.pointerType,x:event.clientX,y:event.clientY,scrollLeft:get('cw-hand').scrollLeft,version,previous:selected,mode:'pending',distance:0,started:false,over:false};root.setPointerCapture?.(event.pointerId);
   });
   root.addEventListener('pointermove',event=>{
     if(!drag||event.pointerId!==drag.pointerId)return;
     if(drag.version!==version||!game.s.actors.P.hand.includes(drag.id)){clearDrag();notice='状態が変わったためドラッグを取り消しました。';render();return;}
-    if(!drag.started&&Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<8)return;
+    const dx=event.clientX-drag.x,dy=event.clientY-drag.y,ax=Math.abs(dx),ay=Math.abs(dy);
+    drag.distance=Math.max(drag.distance,Math.hypot(dx,dy));
+    if(drag.mode==='pending'){
+      if(ax>=10&&ax>=ay*1.5)drag.mode='scroll';
+      else if(dy<=-14&&ay>=ax*1.5)drag.mode=settings().drag?'drag':'cancel';
+      else if((dy>=10&&ay>=ax*1.5)||drag.distance>=32)drag.mode='cancel';
+      else return;
+    }
+    // Native touch panning owns horizontal movement; never turn that gesture into a play.
+    if(drag.mode==='scroll'){if(drag.pointerType!=='touch'){get('cw-hand').scrollLeft=drag.scrollLeft-dx;updateScrollHints();event.preventDefault();}return;}
+    if(drag.mode!=='drag')return;
     if(!drag.started){drag.started=true;selectCard(drag.id);const c=currentCard();get('cw-drag-ghost').textContent=cardName(c);get('cw-drag-ghost').hidden=false;get('cw-drop-zone').dataset.drag='true';notice=game.s.field[c.attr]?'場で離すと一致の予測へ':settings().quick&&!lossOnPlacement(c).length?'場で離すと設置':'場で離すと設置の予測へ';get('cw-notice').textContent=notice;}
     dragPosition(event);event.preventDefault();
   });
@@ -106,24 +120,24 @@
     if(drag.started)dragPosition(event);const d=clearDrag();
     if(d.started&&d.over){requestCard(d.id,d.version);event.preventDefault();}
     else if(d.started){if(d.version===version)selected=d.previous;notice='場の外で離したため取り消しました。';render();}
-    else selectCard(d.id);
+    else if(d.mode==='pending'&&d.distance<10&&Math.hypot(event.clientX-d.x,event.clientY-d.y)<10)selectCard(d.id,true);
   });
-  root.addEventListener('pointercancel',cancelDrag);root.addEventListener('lostpointercapture',()=>{if(drag)cancelDrag();});
+  root.addEventListener('pointercancel',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});root.addEventListener('lostpointercapture',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});
   window.addEventListener('blur',cancelDrag);
   root.addEventListener('keydown',event=>{if(event.key==='Escape'){if(drag)cancelDrag();else if(!get('cw-drawer').hidden)closePanel();else{selected=null;notice='';render();}}});
+  root.addEventListener('click',event=>{if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();}},true);
   root.addEventListener('click',event=>{
     if(event.detail>1)return;
     const button=event.target.closest('button');if(!button||button.disabled)return;
     if(button.dataset.open){openPanel(button.dataset.open,button);return;}
     if(button.dataset.scroll){const [id,direction]=button.dataset.scroll.split(':');const el=get(id);el.scrollBy({left:Number(direction)*Math.max(100,el.clientWidth*.75),behavior:'auto'});return;}
     if(button.dataset.target){target=button.dataset.target;render();root.querySelector(`[data-target="${target}"]`)?.focus({preventScroll:true});return;}
-    if(button.dataset.card||button.dataset.handle){selectCard(button.dataset.card||button.dataset.handle,true);return;}
-    if(button.dataset.quick){requestCard(button.dataset.quick,version);return;}
+    if(button.dataset.card){selectCard(button.dataset.card,true);return;}
   });
   get('cw-use').addEventListener('click',event=>{if(event.detail<=1&&selected)perform(selected,version);});
   get('cw-cancel').addEventListener('click',()=>{cancelDrag();selected=null;notice='';render();});
   get('cw-close').addEventListener('click',closePanel);
-  for(const id of ['cw-quick-setting','cw-drag-setting','cw-button-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
+  for(const id of ['cw-quick-setting','cw-drag-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
   get('cw-withdraw').addEventListener('click',()=>{cancelDrag();const before=game.public();game.settle('withdrawal');version++;recordChanges(before);absorb();selected=null;render();});
   get('cw-restart').addEventListener('click',()=>{cancelDrag();changedAttrs=new Set();busy=false;start();closePanel();});
   get('cw-history-order').addEventListener('change',renderHistory);
