@@ -134,3 +134,10 @@
 - 成果入口`docs/検証/UI/readability/layouts/bc1/README.md`。ソース・組立済み画面・生成手順・使用版を同梱。組立と読み戻しを確認、実ブラウザー描画・実端末の操作・人評価は未確認。
 
 - UI-L-003成果反映前の確認：自Work公開HEAD `c0a90008bc7332fb94270f92ca72e25f128f6627`、必須同期元 `817602b4e6ea513ad5e1890d2a9f71e8635e43d3`。開始後の追加更新なし、両者をローカル履歴へ取込済み。
+
+### UI-L-003の保存と統合依頼
+
+- 対象コミット：`d0bfd99d4d661b38b43ddb8fd5efa3ed59ae006c`。保存先`ui/readability-20260910`。設計Work `20260909-design-assembly`／`dev_design_tmp_assembly`へ、BC1可変枠の配置図・必要時表示の置き場の確認と必要範囲の統合を依頼する。
+- 入口`docs/検証/UI/readability/layouts/bc1/README.md`、組立済み画面`preview.html`。試遊Workが取得可能。ゲーム接続・正式採用・試遊評価の完了は含まない。
+- ローカル成果`0106beae3cfb7433e2b7186d8f98e841d78baae6`とGitHubツリー`0b995a4473dc7e57d0a29e8fc680923f079a090d`の一致、配置図ソースの全文読み戻しを確認。自Workのみを接続済みGitHub GitデータAPIで強制なし更新。
+- 変更は新規配置図5ファイル、UI READMEの案内、自Work設定。既存の操作版・配置図・固定7ファイル・試遊原記録・共通文書は変更なし。設計集約への成果Push・逆方向マージなし。
