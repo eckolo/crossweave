@@ -1,5 +1,9 @@
 # 山札・地形・イベント別配分の比較試作（操作Z・診断AA/AB/AC/AD）
 
+## 追加AI：報酬構築・準備変更・再挑戦
+
+[AIの記録](reward_build_notes.md)に、9構築・同予算の習得・C前半比較の1,344経過と、自然獲得から再挑戦を保存。再現は `node reward_build_study.cjs`。`reward_preparation.js`が準備変更とCへの出発を扱い、Pの手札へ来た未見の借り札も知識へ記録する。`reward_build_inputs.json`、`reward_build_inputs.py`、`reward_build_results.json`が対応する。旧AH以下の実装・入力・結果と固定画面は変更しない。
+
 ## 追加AH：探索先・札構築・習得パッシブ
 
 [AHの記録](choice_notes.md)に、三探索先・二構築・七習得集合等の672経過と、帰還後の習得変更・次探索を保存。再現は `node choice_study.cjs`（このディレクトリで実行）。`expedition_choices.js`、`choice_inputs.json`、`choice_inputs.py`、`choice_results.json`が対応する。新しい操作画面ではなく、以下の旧試作やPT-Z-001/UI-R-001/002を置き換えない。具体値は未採用。
