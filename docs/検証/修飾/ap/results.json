@@ -1,0 +1,1838 @@
+{
+  "trial": "AP1",
+  "base_commit": "b35c7ec341b0b4591bbf8f21cba904ebcc91179e",
+  "sources": {
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/conditions.json": "62c969eb9f30decd430989146218f06ce8792f001fba5d2f22db026b2c189676",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "docs/検証/統合試作/deck_feedback_trial/knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "docs/検証/統合試作/deck_feedback_trial/information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "docs/検証/統合試作/deck_feedback_trial/input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.py": "a76d202251cd6ca71dff004f6b76e3d3fdc6db4e8c37bb3461157d34b10754de",
+    "docs/検証/修飾/ao/affixes.cjs": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f",
+    "docs/検証/修飾/ao/conditions.json": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90",
+    "docs/検証/成長節目/an/results.json": "188d3053ea28ba761a64364ee65bd4ceb7fb9db38d5871585b0b4a867a1f2645",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/journey-results.json": "ba9a61f5c9c0cc41fd7da9532e1b3c05c081d226a3e90113e384a440c531bba6"
+  },
+  "implementation_sha256": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c",
+  "conditions_sha256": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00",
+  "study_sha256": "775e0a054c2b2bfd6371b84194f3bbaef3cdae50cc96e1d6472e212bd67fce8a",
+  "checks": [
+    "Equal passive copies retain quantity; different variants share only their base",
+    "Repeated reward identity is stable, conflicting identity is rejected",
+    "Retained possessions obey clear settlement",
+    "Retained possessions obey withdrawal settlement",
+    "Retained possessions obey defeat settlement",
+    "Protection during an expedition does not make its rewards saleable",
+    "A duplicate can be sold while the selected equal copy remains intact",
+    "Last-copy sale removes acquired availability but keeps knowledge and learned base",
+    "Locked possessions and invalid batches fail atomically",
+    "Replaying a completed sale preserves the current balance and rejects a conflicting request",
+    "Four ordinary copies convert to the two points actually used by AH learning",
+    "Free respec neither creates possessions nor changes a fractional balance",
+    "Historical learning payments are still fully refunded at their recorded cost",
+    "Card preparation and sale do not turn reusable exploration copies into saleable stock",
+    "Initial free options are not a stock of repeatedly convertible items",
+    "Old settlements replayed during a later run do not restore sold stock or leave that run",
+    "Batching and splitting conversions yield the same exact balance at all trial rates",
+    "A changed affix count does not itself raise the assigned conversion value"
+  ],
+  "rates": [
+    {
+      "rate": "low",
+      "fraction": [
+        1,
+        10
+      ],
+      "ordinary_points": 0.2,
+      "special_points": 0.4,
+      "ordinary_copies_for_one_base": 10,
+      "ordinary_copies_for_four_bases": 40
+    },
+    {
+      "rate": "primary",
+      "fraction": [
+        1,
+        4
+      ],
+      "ordinary_points": 0.5,
+      "special_points": 1,
+      "ordinary_copies_for_one_base": 4,
+      "ordinary_copies_for_four_bases": 16
+    },
+    {
+      "rate": "high",
+      "fraction": [
+        2,
+        5
+      ],
+      "ordinary_points": 0.8,
+      "special_points": 1.6,
+      "ordinary_copies_for_one_base": 3,
+      "ordinary_copies_for_four_bases": 10
+    }
+  ],
+  "repetition": {
+    "cohorts": 32,
+    "expeditions": 272,
+    "convertible_card_or_passive_copies": 0,
+    "direct_points": 256
+  },
+  "cClearSummary": [
+    {
+      "route": "A",
+      "cases": 12,
+      "direct_points": [
+        6
+      ],
+      "convertible_copies": [
+        2
+      ],
+      "duplicates": [
+        0
+      ],
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": [
+            6.4
+          ],
+          "first_kept_points": [
+            6
+          ]
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": [
+            7
+          ],
+          "first_kept_points": [
+            6
+          ]
+        },
+        {
+          "rate": "high",
+          "all_sold_points": [
+            7.6
+          ],
+          "first_kept_points": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "cases": 10,
+      "direct_points": [
+        5
+      ],
+      "convertible_copies": [
+        2
+      ],
+      "duplicates": [
+        0
+      ],
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": [
+            5.4
+          ],
+          "first_kept_points": [
+            5
+          ]
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": [
+            6
+          ],
+          "first_kept_points": [
+            5
+          ]
+        },
+        {
+          "rate": "high",
+          "all_sold_points": [
+            6.6
+          ],
+          "first_kept_points": [
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "frozenReturns": [
+    {
+      "route": "A",
+      "seed": 0,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 0,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 1,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 1,
+      "stage": "C",
+      "outcome": "defeat",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 1,
+      "stage": "retry",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 2,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 2,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 3,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 3,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 4,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 4,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 5,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 5,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 6,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 6,
+      "stage": "C",
+      "outcome": "defeat",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 6,
+      "stage": "retry",
+      "outcome": "defeat",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 7,
+      "stage": "first",
+      "outcome": "defeat",
+      "points": 0,
+      "copies": 0,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 8,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 8,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 9,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 9,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 10,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 10,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 11,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 11,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 12,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 12,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 13,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 13,
+      "stage": "C",
+      "outcome": "defeat",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 13,
+      "stage": "retry",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 14,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 14,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 15,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 3,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 3.2,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 3.5,
+          "first_kept_points": 3
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 3.8,
+          "first_kept_points": 3
+        }
+      ]
+    },
+    {
+      "route": "A",
+      "seed": 15,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 6,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 6.4,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 7,
+          "first_kept_points": 6
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 7.6,
+          "first_kept_points": 6
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 0,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 0,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 1,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 1,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 2,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 2,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 3,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 3,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 4,
+      "stage": "first",
+      "outcome": "defeat",
+      "points": 0,
+      "copies": 0,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 5,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 5,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 6,
+      "stage": "first",
+      "outcome": "defeat",
+      "points": 0,
+      "copies": 0,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 7,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 7,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 8,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 8,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 9,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 9,
+      "stage": "C",
+      "outcome": "defeat",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 9,
+      "stage": "retry",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 10,
+      "stage": "first",
+      "outcome": "defeat",
+      "points": 0,
+      "copies": 0,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 11,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 11,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 12,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 12,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 13,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 13,
+      "stage": "C",
+      "outcome": "defeat",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 13,
+      "stage": "retry",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 14,
+      "stage": "first",
+      "outcome": "defeat",
+      "points": 0,
+      "copies": 0,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 0,
+          "first_kept_points": 0
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 15,
+      "stage": "first",
+      "outcome": "clear",
+      "points": 2,
+      "copies": 1,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 2.2,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 2.5,
+          "first_kept_points": 2
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 2.8,
+          "first_kept_points": 2
+        }
+      ]
+    },
+    {
+      "route": "B",
+      "seed": 15,
+      "stage": "C",
+      "outcome": "clear",
+      "points": 5,
+      "copies": 2,
+      "duplicateCopies": 0,
+      "rates": [
+        {
+          "rate": "low",
+          "all_sold_points": 5.4,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "primary",
+          "all_sold_points": 6,
+          "first_kept_points": 5
+        },
+        {
+          "rate": "high",
+          "all_sold_points": 6.6,
+          "first_kept_points": 5
+        }
+      ]
+    }
+  ],
+  "interpretation": "Accounting only. Each existing retained card unlock is treated as one ordinary possession in the comparison. Sell-all is a post-return resource ceiling that gives up those possessions; first-kept preserves one per known type. No new drops, conversion of material M, changed actions or extra expeditions were simulated."
+}
