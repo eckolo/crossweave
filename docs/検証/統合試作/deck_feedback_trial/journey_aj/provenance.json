@@ -1,0 +1,63 @@
+{
+  "trial": "AJ1",
+  "base_commit": "745bcb0c28c7c44d68fbdea5a7b509681b900fd8",
+  "ui_ref": "fe7b6a5ae5d45e1c83eb889d1e6ba9ef8cb381c4",
+  "ui_sources": {
+    "support.js": {
+      "source": "docs/検証/UI/readability/interaction/support.js",
+      "blob": "79217478167dc510e596c8d0315efcfa83c9a495",
+      "sha256": "31208afeb794c8b9219fc20a057cde9c585d890b69ab19f1ea0ad60ad734fe76"
+    },
+    "view.js": {
+      "source": "docs/検証/UI/readability/interaction/view.js",
+      "blob": "dbd25e5769fd5bd217bdeb6e73b818e33efbe17d",
+      "sha256": "cccd21497a4a1067e18891c7853a10f12a51bc788fba0670f5cf1a5b3abd41be"
+    },
+    "play.fragment.html": {
+      "source": "docs/検証/UI/readability/interaction/play.fragment.html",
+      "blob": "de9c4f774a75c72e8f92360547a283a8475721b5",
+      "sha256": "333e39761a0fd3a6907de8189250c36e86f3b004e6ad770466700bc11a82f15c"
+    }
+  },
+  "engine_sources": {
+    "engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "choice_inputs.json": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+    "reward_build_inputs.json": "3c77b34ce84e7bce49c0e094b3a0e012b467701a83a1502c693c5c7e04d29b6b",
+    "reward_build_inputs.py": "a76d202251cd6ca71dff004f6b76e3d3fdc6db4e8c37bb3461157d34b10754de"
+  },
+  "conditions": {
+    "initial_points": 0,
+    "initial_build": "guard3",
+    "deck_size": 12,
+    "max_same_type": 2,
+    "routes": [
+      "A",
+      "B",
+      "C"
+    ],
+    "C_passage_hp": 32,
+    "learned_cost_each": 2,
+    "seed_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "next_departure": "cycle seed_order; do not re-roll a saved expedition",
+    "ui_files": "derived adaptations; original blobs remain on the UI branch"
+  }
+}

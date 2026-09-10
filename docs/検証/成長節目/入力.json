@@ -1,0 +1,24 @@
+{
+  "trial": "AK1",
+  "base_commit": "31aa9d4dfacbe3aa69f50e2f270ade1f91a03628",
+  "purpose": "有限の習得候補と反復報酬の関係を点検し、成長後の全習得を許容する方式と選択を残す方式を比較する",
+  "baseline_source": "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json",
+  "baseline_sha256": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+  "aj_verification_source": "docs/検証/統合試作/deck_feedback_trial/journey_aj/verification.json",
+  "aj_html_sha256": "d8f21a94b0f4fa5825488d0c3fa542a76c0b6be91900a8cc7f365dba8cac2a69",
+  "stages": [
+    {"id": "AJ_current", "costs": [2, 2, 2, 2], "budgets": [0, 2, 3, 6, 7, 8, 14]},
+    {"id": "after_C_example", "costs": [2, 2, 2, 2, 3, 3], "budgets": [6, 7, 8, 10, 14]},
+    {"id": "after_DE_example", "costs": [2, 2, 2, 2, 3, 3, 3, 3], "budgets": [8, 10, 14, 20]}
+  ],
+  "comparison_total_budget_cap": 8,
+  "allocation_example": {"earned_total": 10, "spent": 6, "liquid": 4},
+  "limits": [
+    "追加候補は費用の記号であり、新スキルを実装・採用していない",
+    "予算は保有ポイントと現在習得への支出の合計。所持欄の残額だけではない",
+    "節目ごとの候補数・費用・上限8は比較用仮定。推奨製品値ではない",
+    "戦闘・行動選択・獲得確率・所要時間・面白さを計算していない",
+    "候補の段階追加だけでは、反復で全候補の費用を満たす可能性を除けない",
+    "AJの入力・演算・画面・既存結果を変更しない"
+  ]
+}
