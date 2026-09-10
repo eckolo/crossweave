@@ -17,6 +17,12 @@ node docs/検証/統合試作/deck_feedback_trial/build.cjs
 
 Xの再計算は `node docs/検証/統合試作/deck_feedback_trial/study.cjs`。こちらだけが `results.json` と `recovery_checkpoint.json` を再生成する。Yの再計算は `node docs/検証/統合試作/deck_feedback_trial/ecology_study.cjs`。現在のZ画面に旧HP36状態を読み込まない。
 
+## 知識と種類別報酬を次の準備へ渡す：追加AG
+
+AD・AEの知識保持とAFの種類別精算を一つのプロフィールへ接続した。[AGの記録](journey_knowledge_notes.md)と[journey_knowledge_results.json](journey_knowledge_results.json)を参照。`node docs/検証/統合試作/deck_feedback_trial/journey_knowledge_study.cjs`で、初回の報酬喪失・再訪での持帰り・解放札を組み込んだ次出発の3自然経過を再現する。
+
+各終端は既存AEの対応状態、報酬はAFと一致する。知った札と構築へ使える札を分け、死亡時に知識から報酬を補完しない。固定Zの接続確認であり、D46の複数探索先・行先解放や新しい操作UIを実装したものではない。素材の自然獲得・使用、人の評価は今回の範囲外。旧コードと旧結果は保持する。
+
 ## 成長ポイントと用途限定報酬の接続：追加AF
 
 D43・基本設計0.43で、使い道を選べる成長ポイントと素材・札等の用途限定報酬の併用を採用した。具体的な複数明細の精算・使用は[AFの記録](hybrid_notes.md)。`node docs/検証/統合試作/deck_feedback_trial/hybrid_study.cjs`で条件と結果を再現できる。素材名・レシピ・数値は試行で、既存UIへの接続・人評価は未完了。
