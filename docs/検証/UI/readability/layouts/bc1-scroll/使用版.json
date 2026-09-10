@@ -1,0 +1,56 @@
+{
+  "test_id": "UI-L-004",
+  "version": "0.1",
+  "kind": "BC1 bounded screen and overflow candidates; no gameplay",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "synchronized_design_commit": "16fab1028a4f7895ad7414b9edf8fc41ab4802aa",
+  "local_merge_commit": "4e60d3ae2efc60896e661c1849846fbb8f90a27a",
+  "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
+  "previous_layout_code_commit": "d0bfd99d4d661b38b43ddb8fd5efa3ed59ae006c",
+  "layout_code_commit": null,
+  "screen_height_px_example": 680,
+  "overflow_condition": "measured content width exceeds available width",
+  "count_examples": {
+    "normal": [
+      2,
+      5,
+      3
+    ],
+    "field": [
+      2,
+      8,
+      3
+    ],
+    "all": [
+      5,
+      8,
+      7
+    ]
+  },
+  "count_example_order": [
+    "actors",
+    "field",
+    "hand"
+  ],
+  "interactions": [
+    "density examples",
+    "per-region native scroll and buttons",
+    "overflow hints and visible range",
+    "reference panels"
+  ],
+  "not_implemented": [
+    "gameplay",
+    "offscreen change alerts",
+    "selection pinning",
+    "expanded overview"
+  ],
+  "render_verification": "not performed",
+  "files": {
+    "README.md": "fd71465961f4e582ca3b8aab972a36cf1a565880fc3af408280546b9d7b39153",
+    "build.cjs": "b00212f403010412033bae83dc2d8b2f4740223b15695bce6a6c025696b9dcf5",
+    "layout.fragment.html": "02461b24fb134f9dc40bf7aa5575e9350c26ed113acf96389ece2f8a29b2fff6",
+    "preview.html": "e9623ec7fd6115a948fbae160caee4c738be8db88fa75afddecf9a109f8adc56"
+  },
+  "required_source_merge_commit": "b14c8e62b4d671e189da84d7d1b429f406c02c10"
+}

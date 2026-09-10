@@ -1,0 +1,143 @@
+<div id="cw-scroll-board">
+  <style>
+    #cw-scroll-board{--cw-bg:light-dark(#f7f8fa,#192129);--cw-ink:light-dark(#243445,#e6edf4);--cw-line:light-dark(#bac6d1,#526271);--cw-world:light-dark(#e8eff5,#263747);--cw-field:light-dark(#eaece2,#333d30);--cw-sheet:light-dark(#fff,#222d38);--cw-accent:light-dark(#335b71,#b4d9ed);font:14px/1.5 system-ui,sans-serif;color:var(--cw-ink);width:100%}
+    #cw-scroll-board *{box-sizing:border-box}
+    #cw-scroll-board button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--cw-line);border-radius:6px;background:var(--cw-sheet);padding:6px 10px;min-height:36px}
+    #cw-scroll-board button[aria-pressed="true"]{background:var(--cw-ink);color:var(--cw-bg);border-color:var(--cw-ink)}
+    #cw-scroll-board button:disabled{opacity:.4;cursor:default}
+    #cw-scroll-board .cw-examples{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+    #cw-scroll-board .cw-screen{height:680px;display:grid;grid-template-rows:auto minmax(0,1fr);position:relative;background:var(--cw-bg);border:1px solid var(--cw-line);border-radius:12px}
+    #cw-scroll-board .cw-chrome{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--cw-line);padding:10px 14px}
+    #cw-scroll-board .cw-chrome strong{font-weight:500;letter-spacing:.04em}
+    #cw-scroll-board .cw-tools{display:flex;gap:4px;flex-wrap:wrap}
+    #cw-scroll-board .cw-tools button{font-size:12px;padding:5px 8px}
+    #cw-scroll-board .cw-play{display:grid;grid-template-rows:minmax(126px,1fr) 194px 28px 184px;gap:8px;padding:12px;min-height:0;min-width:0}
+    #cw-scroll-board .cw-lane{--cw-lane-bg:var(--cw-bg);position:relative;min-width:0;min-height:0;display:grid;grid-template-rows:22px minmax(0,1fr) 44px;gap:4px;padding:10px 12px;border-radius:9px;background:var(--cw-lane-bg)}
+    #cw-scroll-board .cw-lane[data-lane="actors"]{--cw-lane-bg:var(--cw-world)}
+    #cw-scroll-board .cw-lane[data-lane="field"]{--cw-lane-bg:var(--cw-field);border:1px solid var(--cw-line)}
+    #cw-scroll-board .cw-lane[data-lane="hand"]{border-top:1px solid var(--cw-line);border-radius:0}
+    #cw-scroll-board .cw-lane-head{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;white-space:nowrap}
+    #cw-scroll-board .cw-viewport-wrap{min-width:0;min-height:0;position:relative}
+    #cw-scroll-board .cw-viewport{height:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--cw-line) var(--cw-lane-bg);overscroll-behavior-x:contain}
+    #cw-scroll-board .cw-track{display:flex;gap:12px;width:100%;height:100%;align-items:stretch}
+    #cw-scroll-board .cw-tile{flex:0 0 160px;min-width:0;scroll-snap-align:start;border:1px solid var(--cw-line);border-radius:6px;background:var(--cw-sheet);padding:6px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:12px}
+    #cw-scroll-board .cw-tile strong{font-weight:500;font-size:14px}
+    #cw-scroll-board [data-lane="field"] .cw-tile{flex-basis:max(112px,calc((100% - 48px)/5))}
+    #cw-scroll-board [data-lane="hand"] .cw-tile{flex-basis:148px;border-top:3px solid var(--cw-accent)}
+    #cw-scroll-board .cw-edge{position:absolute;top:0;bottom:8px;width:28px;pointer-events:none;z-index:1}
+    #cw-scroll-board .cw-edge-left{left:0;background:linear-gradient(to right,var(--cw-lane-bg),transparent)}
+    #cw-scroll-board .cw-edge-right{right:0;background:linear-gradient(to left,var(--cw-lane-bg),transparent)}
+    #cw-scroll-board .cw-scroll-nav{display:flex;justify-content:space-between;align-items:center;gap:5px;min-width:0;font-size:12px}
+    #cw-scroll-board .cw-scroll-nav button{font-size:12px;min-width:56px;min-height:36px;padding:5px 7px}
+    #cw-scroll-board .cw-position{text-align:center;font-variant-numeric:tabular-nums}
+    #cw-scroll-board .cw-position span{display:block}
+    #cw-scroll-board .cw-no-overflow .cw-scroll-nav{visibility:hidden}
+    #cw-scroll-board .cw-result{display:flex;justify-content:center;align-items:center;gap:10px;font-size:12px}
+    #cw-scroll-board .cw-reference{position:absolute;inset:60px 12px 12px auto;z-index:3;width:min(360px,calc(100% - 24px));background:var(--cw-sheet);border:1px solid var(--cw-line);border-radius:8px;padding:14px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px;box-shadow:0 8px 28px light-dark(#24344524,#0005)}
+    #cw-scroll-board .cw-reference-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    #cw-scroll-board .cw-reference-head strong{font-weight:500}
+    #cw-scroll-board .cw-reference-content{overflow-y:auto;min-height:0;display:flex;flex-direction:column;gap:10px}
+    #cw-scroll-board .cw-reference-content div{padding:12px;background:var(--cw-world);border-radius:5px}
+    #cw-scroll-board .cw-foot{font-size:12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px}
+    #cw-scroll-board [hidden]{display:none!important}
+    @media(max-width:420px){#cw-scroll-board .cw-chrome strong{width:100%}#cw-scroll-board .cw-play{padding:10px;gap:6px}#cw-scroll-board .cw-lane{padding:8px}#cw-scroll-board .cw-reference{top:104px}#cw-scroll-board .cw-tile{flex-basis:136px}#cw-scroll-board [data-lane="hand"] .cw-tile{flex-basis:124px}}
+    @media(pointer:coarse){#cw-scroll-board button,#cw-scroll-board .cw-scroll-nav button{min-height:44px;min-width:44px}}
+  </style>
+  <div class="cw-examples" role="group" aria-label="情報量の表示例">
+    <button type="button" data-example="normal" aria-pressed="false">通常量</button>
+    <button type="button" data-example="field" aria-pressed="true">場が多い</button>
+    <button type="button" data-example="all" aria-pressed="false">手札・対象も多い</button>
+  </div>
+  <section class="cw-screen" aria-label="BC1の画面枠を保ち、収まらない領域を個別にスクロールする配置案">
+    <header class="cw-chrome"><strong>crossweave</strong><nav class="cw-tools" aria-label="必要時の参照">
+      <button type="button" data-ref="order" aria-expanded="false" aria-controls="cw-scroll-reference">行動順</button>
+      <button type="button" data-ref="deck" aria-expanded="false" aria-controls="cw-scroll-reference">山札</button>
+      <button type="button" data-ref="pool" aria-expanded="false" aria-controls="cw-scroll-reference">回収山</button>
+      <button type="button" data-ref="history" aria-expanded="false" aria-controls="cw-scroll-reference">履歴</button>
+    </nav></header>
+    <div class="cw-play">
+      <section class="cw-lane" data-lane="actors" aria-label="相手と環境の表示範囲">
+        <div class="cw-lane-head"><span>相手・環境 <span data-total>2対象</span></span><span>直近の行動順</span></div>
+        <div class="cw-viewport-wrap"><div class="cw-viewport"><div class="cw-track"></div></div><span class="cw-edge cw-edge-left" hidden></span><span class="cw-edge cw-edge-right" hidden></span></div>
+        <div class="cw-scroll-nav"><button type="button" data-prev aria-label="前の対象を表示">前へ</button><div class="cw-position"><span data-range></span><span>左右にスクロール</span></div><button type="button" data-next aria-label="次の対象を表示">次へ</button></div>
+      </section>
+      <section class="cw-lane" data-lane="field" aria-label="共有の場の表示範囲">
+        <div class="cw-lane-head"><span>共有の場</span><span data-total>8枠</span></div>
+        <div class="cw-viewport-wrap"><div class="cw-viewport"><div class="cw-track"></div></div><span class="cw-edge cw-edge-left" hidden></span><span class="cw-edge cw-edge-right" hidden></span></div>
+        <div class="cw-scroll-nav"><button type="button" data-prev aria-label="前の場の枠を表示">前へ</button><div class="cw-position"><span data-range></span><span>左右にスクロール</span></div><button type="button" data-next aria-label="次の場の枠を表示">次へ</button></div>
+      </section>
+      <div class="cw-result"><span>直前の変化</span><span>要点＋詳細への入口</span></div>
+      <section class="cw-lane" data-lane="hand" aria-label="自分と手札の表示範囲">
+        <div class="cw-lane-head"><span>手札 <span data-total>3枚</span></span><span>自分 · HP・蓄積・ガード</span></div>
+        <div class="cw-viewport-wrap"><div class="cw-viewport"><div class="cw-track"></div></div><span class="cw-edge cw-edge-left" hidden></span><span class="cw-edge cw-edge-right" hidden></span></div>
+        <div class="cw-scroll-nav"><button type="button" data-prev aria-label="前の手札を表示">前へ</button><div class="cw-position"><span data-range></span><span>左右にスクロール</span></div><button type="button" data-next aria-label="次の手札を表示">次へ</button></div>
+      </section>
+    </div>
+    <section class="cw-reference" id="cw-scroll-reference" hidden aria-label="必要時に開く参照欄">
+      <div class="cw-reference-head"><strong data-ref-title></strong><button type="button" data-close>閉じる</button></div>
+      <div class="cw-reference-content"></div>
+    </section>
+  </section>
+  <div class="cw-foot"><span>BC1 · 画面と領域の高さを保持</span><span data-example-status aria-live="polite">配置の比較用／個数は表示例</span></div>
+  <script>
+    (()=>{
+      const root=document.getElementById('cw-scroll-board');
+      const lanes=[...root.querySelectorAll('[data-lane]')];
+      const examples={normal:{actors:2,field:5,hand:3},field:{actors:2,field:8,hand:3},all:{actors:5,field:8,hand:7}};
+      const units={actors:'対象',field:'枠',hand:'枚'};
+      function update(lane){
+        const viewport=lane.querySelector('.cw-viewport'),track=lane.querySelector('.cw-track');
+        if(!viewport.clientWidth)return;
+        const overflow=viewport.scrollWidth>viewport.clientWidth+2;
+        lane.classList.toggle('cw-no-overflow',!overflow);track.style.justifyContent=overflow?'flex-start':'center';
+        const atStart=viewport.scrollLeft<=2,atEnd=viewport.scrollLeft>=viewport.scrollWidth-viewport.clientWidth-2;
+        lane.querySelector('[data-prev]').disabled=!overflow||atStart;
+        lane.querySelector('[data-next]').disabled=!overflow||atEnd;
+        lane.querySelector('.cw-edge-left').hidden=!overflow||atStart;
+        lane.querySelector('.cw-edge-right').hidden=!overflow||atEnd;
+        const bounds=viewport.getBoundingClientRect();
+        const visible=[...track.children].map((tile,i)=>({i,rect:tile.getBoundingClientRect()})).filter(x=>x.rect.right>bounds.left+2&&x.rect.left<bounds.right-2);
+        const range=visible.length?(visible[0].i+1)+'–'+(visible[visible.length-1].i+1):'0';
+        lane.querySelector('[data-range]').textContent=range+' / '+track.children.length+units[lane.dataset.lane];
+      }
+      function render(name){
+        lanes.forEach(lane=>{
+          const kind=lane.dataset.lane,count=examples[name][kind],track=lane.querySelector('.cw-track');
+          track.style.justifyContent='flex-start';
+          while(track.children.length>count)track.lastElementChild.remove();
+          while(track.children.length<count){
+            const n=track.children.length+1,tile=document.createElement('div');tile.className='cw-tile';
+            const title=document.createElement('strong'),detail=document.createElement('span');
+            title.textContent=kind==='field'?'枠'+String(n).padStart(2,'0'):kind==='hand'?'手札'+n:n===1?'環境':'相手'+(n-1);
+            detail.textContent=kind==='field'?'札・主な効果':kind==='hand'?'属性・主効果・期限':'HP・主な状態';
+            tile.append(title,detail);track.append(tile);
+          }
+          lane.querySelector('[data-total]').textContent=count+units[kind];
+          requestAnimationFrame(()=>update(lane));
+        });
+        root.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===name)));
+        const e=examples[name];root.querySelector('[data-example-status]').textContent=e.actors+'対象・'+e.field+'枠・手札'+e.hand+'枚の表示例';
+      }
+      lanes.forEach(lane=>{
+        const viewport=lane.querySelector('.cw-viewport');let queued=false;
+        viewport.addEventListener('scroll',()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;update(lane);});},{passive:true});
+        const move=direction=>{const first=lane.querySelector('.cw-tile');if(!first)return;viewport.scrollBy({left:direction*(first.getBoundingClientRect().width+12),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+        lane.querySelector('[data-prev]').addEventListener('click',()=>move(-1));lane.querySelector('[data-next]').addEventListener('click',()=>move(1));
+        new ResizeObserver(()=>{lane.querySelector('.cw-track').style.justifyContent='flex-start';update(lane);}).observe(viewport);
+      });
+      root.querySelectorAll('[data-example]').forEach(button=>button.addEventListener('click',()=>render(button.dataset.example)));
+      const references={order:['行動順','直近の順序・次の行動','公開されている予定の一覧'],deck:['山札','残数・属性ごとの要約','公開範囲内の札の詳細'],pool:['回収山','回収した札の要約','札ごとの詳細'],history:['行動履歴','直前の行動と状態変化','過去の結果・計算内訳']};
+      const panel=root.querySelector('.cw-reference');let opener;
+      function close(){panel.hidden=true;root.querySelectorAll('[data-ref]').forEach(b=>b.setAttribute('aria-expanded','false'));}
+      root.querySelectorAll('[data-ref]').forEach(button=>button.addEventListener('click',()=>{
+        if(opener===button&&!panel.hidden){close();return;}
+        opener=button;const [title,...rows]=references[button.dataset.ref];root.querySelector('[data-ref-title]').textContent=title;
+        const content=root.querySelector('.cw-reference-content');content.replaceChildren();rows.forEach(text=>{const row=document.createElement('div');row.textContent=text;content.append(row);});
+        panel.hidden=false;root.querySelectorAll('[data-ref]').forEach(b=>b.setAttribute('aria-expanded',String(b===button)));
+      }));
+      root.querySelector('[data-close]').addEventListener('click',()=>{close();if(opener)opener.focus();});
+      root.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){close();if(opener)opener.focus();}});
+      render('field');
+    })();
+  </script>
+</div>
