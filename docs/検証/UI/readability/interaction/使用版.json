@@ -1,17 +1,17 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.9",
+  "ui_version": "0.10",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
   "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "baseline_spec": "0.39",
-  "operational_design_spec": "0.50",
-  "synchronized_design_commit": "b35c7ec341b0b4591bbf8f21cba904ebcc91179e",
-  "own_source_commit": "e89abb90ba235d2a922a41d7b7d6f2b841ee9f09",
-  "own_source_merge_commit": "15b547c7d94b3a8d1e1229d5dd06875868277ef0",
-  "required_source_merge_commit": "dff97d26d1962a74923e47862cc96293b7df2bb4",
-  "ui_code_commit": "17771bbfdf1fb85ac582270edfb8ae183bb3ccf1",
+  "operational_design_spec": "0.51",
+  "synchronized_design_commit": "19e8bc65109fbd9a00c804c9e27e97ce5f51b1b5",
+  "own_source_commit": "28e0a7cfa3250456e24053b3e90ccbdb4bda5878",
+  "own_source_merge_commit": "abd2d5569ea8354501d44c2c3a0ec82cac4f490d",
+  "required_source_merge_commit": "02f4c0daf7416fdd889f19476fe8b908f00efce8",
+  "ui_code_commit": null,
   "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
   "entry": "W seed32 / guard5",
   "game_changes": [],
@@ -25,76 +25,81 @@
     "hold_ms": 220,
     "tap_opens_details": true,
     "same_card_toggles_details": true,
-    "diagram_prediction": true,
     "menu_hover_peek": true,
     "dedicated_detail_button": false,
-    "dedicated_deselect_button": false
+    "dedicated_deselect_button": false,
+    "board_connections": true,
+    "field_and_actor_click_details": true
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.8 to v0.9 source changes only; build.cjs generates preview",
+  "ui_diff_scope": "v0.9 to v0.10, seven UI source files including new relations.js; build.cjs generates preview",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 20185,
-      "sha256": "a53b6db300cbc36edcd0e483e2ab81a4ab8f139d565c380f4d6cc92d675a677c"
+      "bytes": 21600,
+      "sha256": "247ec100b86479cba57f485b16dfcfb633fe52b6ee85c19622f575e8c08b0f40"
     },
     "build.cjs": {
-      "bytes": 2839,
-      "sha256": "b33b65274cdac9ab854e5f304cb76b497ae261c13c9a24c0673bc254037ac0f7"
+      "bytes": 2858,
+      "sha256": "599b4f2c3e561e92857afea03995d278dcba0afe98c6aa02f1a1f15a70e223fb"
     },
     "play.fragment.html": {
-      "bytes": 8131,
-      "sha256": "a9e87e955179c9f00e30802d185b0a47290d03a2400413ae9b55da593a85de5e"
+      "bytes": 8591,
+      "sha256": "65995779119a2a7cef954fea2a10fb73106767ac8045c625ea4b7b5dcaddc901"
     },
     "preview.html": {
-      "bytes": 279036,
-      "sha256": "2069700e31a06ebcab737df452d5306d1c3e656acc9ea62cfa377c016cc37e3a"
+      "bytes": 283403,
+      "sha256": "ac7864d82c6bf78f7cdd891deb96132b085f7c3123c4acae95e6b168284f3bc4"
     },
     "support.js": {
-      "bytes": 14080,
-      "sha256": "c5ca491133687120b0a6981664e0933e89c2d34f3739cdc819c9a5b309f3e30f"
+      "bytes": 12117,
+      "sha256": "a507d99815ddf20c98a3260e15294bfd6946c3917ddb2fafa49bbb5d17c62d17"
     },
     "ui-r002.patch": {
-      "bytes": 46867,
-      "sha256": "0ad5c0c25af2d74f079ec975f4b3298356cf13ab997d2f3e25f11abe73ffabdf"
+      "bytes": 36986,
+      "sha256": "e8bf6e15e67925f05930c14f5a385044e4e6a113241f0b0eec612005900f57b7"
     },
     "verification.json": {
-      "bytes": 4523,
-      "sha256": "bb49960d1decbe2da696422eb9dc807c123f06b720ecf448d469e957f91e24eb"
+      "bytes": 5228,
+      "sha256": "ecf6885107c8f39f49571fff130a990c6e69ac0f3df950927d3a198fb6ea8597"
     },
     "verify.cjs": {
-      "bytes": 27334,
-      "sha256": "34207fb0aa964ddf32dcd9737ce07aa2b6b9dcfd5eb7c93846007c96ce863083"
+      "bytes": 33208,
+      "sha256": "374786dfe83a5a16bd38e80bbfa3b3c54318cf856297ede3330b3ae0fa5bb214"
     },
     "view.js": {
-      "bytes": 20485,
-      "sha256": "31ef296e500590aa245fb2093acf9c557ae0c07e93ab8cd66e5085015063562d"
+      "bytes": 20826,
+      "sha256": "8fb7844ad8cbc65f94ff3d0b198bb992464f0b9c5ce45cb594339b02fa1060ab"
     },
     "surface.js": {
-      "bytes": 12459,
-      "sha256": "b77fc7e16202b6556c85e170c91ce6b105f53fd668961eadca64cc9a8dbf5200"
+      "bytes": 15002,
+      "sha256": "0f4904c88f039b7ba5e554bef4ab30550d5d7f718fc13b0b7be4de1fb87b2b59"
     },
     "画面操作・描画方針.md": {
-      "bytes": 18056,
-      "sha256": "07e62b1856a2080794fc5d914f73797714076feba3d9cae63ffb53d09f141eed"
+      "bytes": 20765,
+      "sha256": "bca89ed6111ce2f541c6cfefdc20af96ba0f064cb37961fa06b62a206b3c0100"
     },
     "table.css": {
-      "bytes": 16017,
-      "sha256": "05d3c255a67cf7d5ff7da5c63138de68db7a22d64ae499c065ceefe44ac9003a"
+      "bytes": 16132,
+      "sha256": "37bb97aae5ad133f9eb546d7466963f1e84b29fce67144157b61c99e351a63cf"
+    },
+    "relations.js": {
+      "bytes": 2870,
+      "sha256": "64f79da7006dfb9bfcfc48a47b0f958ea41663e7251754a29fd95637b5ad3f97"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-window-flow.html",
-    "sha256": "0d5cab779fb55f214248b5d7c60f82693c3d4d849ac7799721a3f33f74dcc653"
+    "path": "/workspace/crossweave-board-relations.html",
+    "sha256": "d226197bc25e1fb152421eea7a0b1c075bc9030a1150838bd90513f0f16d255f"
   },
   "unverified": [
-    "real browser large-window layout, hover travel, diagram density and slim strip readability",
+    "real browser connector visibility/occlusion, object-window layout, hover travel and slim strip readability",
     "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ],
-  "previous_ui_code_commit": "bce43519205e8aeff8e8c315ed58120e6ebe8c82",
-  "ui_diff_base": "bce43519205e8aeff8e8c315ed58120e6ebe8c82",
+  "previous_ui_code_commit": "17771bbfdf1fb85ac582270edfb8ae183bb3ccf1",
+  "ui_diff_base": "17771bbfdf1fb85ac582270edfb8ae183bb3ccf1",
   "gesture_policy": {
     "hold_ms": 220,
     "hold_options_ms": [
@@ -111,7 +116,7 @@
   },
   "presentation": {
     "action_anchor": "one execution button directly below selected card, clamped inside hand viewport; placement label is 場に出す",
-    "outside_window": "pinned windows dismiss without background action; opener toggles/switches directly; card window permits card/target switching and explicit execution; hover preview permits normal background input",
+    "outside_window": "pinned menu windows dismiss without background action; object windows permit direct object switching; only hand detail permits explicit execution; hover preview permits normal background input",
     "live_history": {
       "visible": 2,
       "queued_limit": 8,
@@ -130,9 +135,9 @@
     },
     "menu_location": "slim single-row bottom strip with horizontally scrollable status and menus when needed",
     "player_status_location": "single bottom row, HP first, hand count included",
-    "prediction": "optional numeric before/after diagram and card/field/target relationship; formulas retained in details; immediate selected action only",
+    "prediction": "faint connectors between actual hand, field and target objects below windows; public numeric prediction/formulas retained in card details",
     "card_window_height_px": "space from 16px below root top to 8px before hand; at least 200px",
-    "adoption": "v0.9 follows requested toggle, larger details, fewer buttons and hover pin trial; real-device readability remains unverified",
+    "adoption": "v0.10 corrects diagram location and adds public field/actor inspection; real-device readability remains unverified",
     "bottom_strip_height_px": {
       "regular": 32,
       "narrow_under_600": 40,
@@ -164,6 +169,28 @@
       "dismiss": "leave trigger and window when peeking; same opener/outside/Esc when pinned",
       "focus": "no hover focus transfer",
       "switch": "click different opener; hover does not replace pinned content"
+    },
+    "object_details": {
+      "field": "full public card effects/costs/expiry definition/loss conditions; preserves selected hand",
+      "actor": "current public stats, next action, existing behavior and observed card types; click also selects target",
+      "toggle": "same object closes, different visible object switches",
+      "internal_target": "changes target while retaining card detail"
+    },
+    "board_connections": {
+      "layer": "above objects, below opaque windows and drag ghost; pointer-transparent",
+      "paths": {
+        "place": "hand to empty same-attribute field; no target leg",
+        "attack": "hand to matching field card to current target",
+        "guard_heal_none": "hand to matching field card to player status"
+      },
+      "source": "actual DOM rectangles clipped to their scrolling viewport",
+      "update": "selection, target, game state, all endpoint scrolling, container resize",
+      "offscreen": "omit segment with fully offscreen endpoint; existing scrolling hints remain",
+      "window_occlusion": "covered segments are hidden; closing window retains selected card and full route",
+      "stroke_px": 2,
+      "line_opacity": 0.46,
+      "mark_opacity": 0.3,
+      "numeric_window_diagram": false
     }
   },
   "updated_at_jst": "2026-09-11"

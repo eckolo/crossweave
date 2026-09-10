@@ -2,6 +2,31 @@
   const artwork={actors:{},cards:{},terrain:{initial:null,followup:null},environment:{O:null,V0:null,V1:null}};
   let openName=null,windowMode=null,hoverTimer=null,hoverCloseTimer=null,hoverFrom=null,feedTimer=null,feedExpiry=null,feedSequence=0,feedSkipped=0;
   const feedQueue=[];
+  let inspectedField=null,inspectedActor=null;
+  const objectWindow=name=>['card','field','actor'].includes(name);
+  function renderObjectInfo(s){
+    const card=Object.values(s.field).find(c=>c?.id===inspectedField);
+    get('cw-field-info').innerHTML=card?`<strong>${esc(cardName(card))} / ${esc(card.attr)}</strong>${fullCard(card)}<p>同じ属性の手札と一致すると、場の補正を適用して回収します。場にある間は手札の期限を減らしません。</p>`:'';
+    const actor=s.actors[inspectedActor];
+    get('cw-actor-info').innerHTML=actor?.active?`<strong>${esc(names[inspectedActor]||inspectedActor)}</strong><div class="cw-impact"><span>HP ${actor.hp}/${actor.max_hp}</span><span>命中蓄積 ${actor.hit}</span><span>会心 ${actor.crit}</span></div><p>${esc(guardText(actor))}<br>回避合計 ${signed(actor.evasion)} · 軽減 ${actor.reduction||0}</p><p>${actor.acts?'次回 時刻 '+actor.next_at:'行動なし'}</p>${knownActorInfo(inspectedActor)}`:'';
+    if(openName==='field'&&!card||openName==='actor'&&!actor?.active)hideWindow(false);
+  }
+  function inspectField(id){
+    if(!Object.values(game.public().field).some(c=>c?.id===id))return;
+    const same=openName==='field'&&inspectedField===id;
+    inspectedField=id;render();
+    if(same)hideWindow(false);
+    else showWindow('field',root.querySelector(`[data-field-card="${id}"]`),false);
+    root.querySelector(`[data-field-card="${id}"]`)?.focus({preventScroll:true});
+  }
+  function inspectActor(id){
+    if(id==='P'||!game.public().actors[id]?.active)return;
+    const same=openName==='actor'&&inspectedActor===id;
+    target=id;inspectedActor=id;render();
+    if(same)hideWindow(false);
+    else showWindow('actor',get('cw-actors').querySelector(`[data-target="${id}"]`),false);
+    get('cw-actors').querySelector(`[data-target="${id}"]`)?.focus({preventScroll:true});
+  }
   function artMarkup(kind,key,label){
     const asset=artwork[kind]?.[key];
     return `<span class="cw-illustration" data-art-kind="${kind}" data-art-key="${esc(key)}" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:''}</span>`;
@@ -65,22 +90,27 @@
       popup.style.left=Math.max(16,Math.min(rr.width-pw-16,center-rr.left-pw/2))+'px';
       popup.style.top='16px';
     }
+    drawRelations();
   }
   function cancelHover(){clearTimeout(hoverTimer);clearTimeout(hoverCloseTimer);hoverTimer=hoverCloseTimer=null;}
   function syncWindowState(){
     const popup=get('cw-drawer'),pinned=windowMode==='pinned';
     popup.dataset.mode=windowMode||'';
-    popup.setAttribute('aria-modal',String(pinned&&openName!=='card'));
-    get('cw-backdrop').hidden=!pinned||openName==='card';
-    get('cw-window-state').textContent=windowMode==='peek'?'一時表示':openName&&openName!=='card'?'固定中':'';
+    popup.setAttribute('aria-modal',String(pinned&&!objectWindow(openName)));
+    get('cw-backdrop').hidden=!pinned||objectWindow(openName);
+    get('cw-window-state').textContent=windowMode==='peek'?'一時表示':openName&&!objectWindow(openName)?'固定中':'';
     root.querySelectorAll('[data-open]').forEach(el=>{el.setAttribute('aria-expanded',String(el.dataset.open===openName));el.setAttribute('aria-pressed',String(pinned&&el.dataset.open===openName));});
+    root.querySelectorAll('[data-card],[data-field-card],[data-inspect-actor]').forEach(el=>{
+      const expanded=el.dataset.card?openName==='card'&&el.dataset.card===selected:el.dataset.fieldCard?openName==='field'&&el.dataset.fieldCard===inspectedField:openName==='actor'&&el.dataset.inspectActor===inspectedActor;
+      el.setAttribute('aria-expanded',String(expanded));el.setAttribute('aria-controls','cw-drawer');
+    });
   }
   function showWindow(name,from,focus=true,mode='pinned'){
     cancelHover();cancelDrag();opener=from||null;openName=name;windowMode=mode;
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
     popup.style.left='';popup.style.top='';popup.style.height='';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
-    get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
+    get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',field:'場札の詳細',actor:'相手の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
     if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
     get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     syncWindowState();placeNearCard();
@@ -110,9 +140,9 @@
     if(get('cw-drawer').contains(event.target)){if(windowMode==='peek')pinWindow();return;}
     // Openers handle their own toggle, including switching from one window to another.
     if(root.contains(event.target)&&event.target.closest('[data-open]'))return;
-    if(openName==='card'){
-      if(get('cw-action-anchor').contains(event.target))return;
-      if(root.contains(event.target)&&event.target.closest('[data-card],[data-target]'))return;
+    if(objectWindow(openName)){
+      if(openName==='card'&&get('cw-action-anchor').contains(event.target))return;
+      if(root.contains(event.target)&&event.target.closest('[data-card],[data-target],[data-field-card]'))return;
     }
     if(windowMode==='peek'){hideWindow(false);return;}
     hideWindow();cancelDrag();suppressClickUntil=Date.now()+700;
@@ -167,7 +197,7 @@
       dismissOutside(event);
     },true);
     root.addEventListener('keydown',event=>{
-      if(event.key!=='Tab'||!openName||openName==='card'||windowMode==='peek')return;
+      if(event.key!=='Tab'||!openName||objectWindow(openName)||windowMode==='peek')return;
       const nodes=[...get('cw-drawer').querySelectorAll('button,input,select,summary')].filter(n=>!n.disabled&&!n.closest('[hidden]'));
       const index=nodes.indexOf(document.activeElement),first=nodes[0],last=nodes.at(-1);
       if(event.shiftKey&&(index<=0)){event.preventDefault();last?.focus();}
@@ -175,4 +205,5 @@
     });
     if(typeof ResizeObserver!=='undefined')new ResizeObserver(placeNearCard).observe(root);
     get('cw-hand').addEventListener('scroll',placeNearCard,{passive:true});
+    root.querySelector('.cw-footer-state').addEventListener('scroll',drawRelations,{passive:true});
   }

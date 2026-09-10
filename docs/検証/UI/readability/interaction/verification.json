@@ -1,11 +1,11 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.9",
+  "ui_version": "0.10",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
   "checks": [
-    "recorded choices: identical states / RNG / memory; numeric diagram matches immediate fixed-engine resolution; target retained/reassigned; no automatic next-card selection",
+    "recorded choices: identical states / RNG / memory; target retained/reassigned; no automatic next-card selection",
     "essential information: own turn included; no inactive/actionless schedule; exact tie order; current breakthrough and help accessible without mutating game",
     "touch: same placement and NPC response",
     "mouse: same placement and NPC response",
@@ -51,16 +51,20 @@
     "objective: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
     "settings: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
     "order: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
-    "baseline initial target and optional numeric diagram; full text remains reachable",
+    "baseline initial target and optional board connections; full text remains reachable",
     "transient chronological feed is bounded; full history retained after expiry; opening history changes no game state",
     "supplied geometry: compact dock follows cards directly below hand, clamps edges, labels offscreen card, fits 320px; popup stays above hand",
     "compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained",
-    "art slots beneath actor/card captions; terrain base plus active environment layers only"
+    "art slots beneath actor/card captions; terrain base plus active environment layers only",
+    "field and actor physical clicks open/switch/retoggle; field full effects; only current public actor info; hand selection retained; actor selects target; internal target stays in card detail; no outside execution",
+    "place: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
+    "attack: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
+    "guard: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged"
   ],
   "errors": [],
-  "fragment_sha256": "0d5cab779fb55f214248b5d7c60f82693c3d4d849ac7799721a3f33f74dcc653",
+  "fragment_sha256": "d226197bc25e1fb152421eea7a0b1c075bc9030a1150838bd90513f0f16d255f",
   "unverified": [
-    "real browser large-window layout, hover travel, diagram density and slim strip readability",
+    "real browser connector visibility/occlusion, object-window layout, hover travel and slim strip readability",
     "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ]

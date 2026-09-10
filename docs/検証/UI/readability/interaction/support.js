@@ -87,26 +87,7 @@
     if(losses.length)notices.push('この行動で消滅：'+losses.join('、'));
     const expired=p.hand.filter(id=>id!==c.id&&game.s.cards[id].remaining===1);
     if(expired.length)notices.push('この行動後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return cardName(x)+(x.consume_on_recover||x.doomed||x.birth==='filler'?'（消滅）':'（回収）');}).join('、'));
-    if(get('cw-diagram-setting').checked)return diagramPrediction(c,pred,heading,notices);
     return `<strong>${esc(heading)}</strong><div class="cw-impact">${impacts.map(x=>`<span>${esc(x)}</span>`).join('')}</div>${notices.map(x=>`<div class="cw-warning">${esc(x)}</div>`).join('')}`;
-  }
-  function diagramPrediction(c,pred,heading,notices){
-    const s=game.public(),p=s.actors.P,material=s.field[c.attr];
-    const row=(label,before,after)=>`<div class="cw-number-flow"><span>${esc(label)}</span><span>${esc(before)}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><strong>${esc(after)}</strong></div>`;
-    const rows=[];
-    if(pred.mode==='attack'){
-      const d=s.actors[target];
-      rows.push(row('HP',d.hp,d.hp-pred.actual_hp_loss),row('命中蓄積',d.hit,pred.hit_connected?0:d.hit+pred.hit_gain));
-    }else if(pred.mode==='guard'){
-      rows.push(row('防御',p.guard?.value??'なし',pred.guard.value),row('回避',signed(p.guard?.evasion||0),signed(pred.guard.evasion)));
-    }else if(pred.mode==='heal')rows.push(row('HP',p.hp,p.hp+pred.hp_restored));
-    const accumulated=p.crit+pred.crit_added,critAfter=pred.mode==='attack'&&pred.hit_connected&&accumulated>=100?0:accumulated;
-    if(material&&critAfter!==p.crit)rows.push(row('会心',p.crit,critAfter));
-    rows.push(row('次の自分',s.now,s.now+game.cost(c.type,!!material)));
-    const flow=pred.mode==='place'
-      ?`<div class="cw-card-flow"><span>${attrBadge(c.attr)}${esc(cardName(c))}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><span>場</span></div><div class="cw-field-forecast">攻撃／防御 ${signed(c.field_power)} · 命中／回避 ${signed(c.field_hit)}</div>`
-      :`<div class="cw-card-flow"><span>${esc(cardName(c))}</span><span aria-hidden="true">＋</span><span>${esc(cardName(material))}</span><span class="cw-flow-arrow" aria-hidden="true">→</span><span>${pred.mode==='attack'?esc(names[target]):'あなた'}</span></div>`;
-    return `<strong>${esc(heading)}</strong><div class="cw-forecast" data-forecast-mode="${pred.mode}">${flow}${rows.join('')}${pred.mode==='guard'?'<div>命中する攻撃2回まで</div>':''}</div>${notices.map(x=>`<div class="cw-warning">${esc(x)}</div>`).join('')}`;
   }
   function recordChanges(before){
     const after=game.public();changes=[];beforeTime=before.now;
@@ -142,12 +123,14 @@
     const healId=initial.actors.P.deck.find(id=>initial.cards[id].consume_on_recover),heal=game.s.cards[healId];
     const rewards=Object.entries(s.rewards).map(([k,r])=>`${rewardNames[k]}：${r.protected?'保護済み':'未保護'}`);
     get('cw-resources').innerHTML=`<div>持込12枚：${esc(Object.entries(counts).map(([n,v])=>n+' ×'+v).join('、'))}</div><div>回復草：${heal.destroyed?'消滅済み':'探索内に残存'}。回収時に消滅し、この探索中の追加補給はありません。</div><div>次の新しい探索では、解放済みの消費札を補充費なしで再セットできます。</div><div>${rewards.length?esc(rewards.join('／')):'獲得成果なし'}</div>`;
-    const personality={V0:'あなたを攻撃',V1:'生存しているあなた／敵を等確率で攻撃',E1:'あなたへの一致攻撃を優先'};
-    get('cw-knowledge').innerHTML=active.filter(w=>w!=='O').map(w=>{
-      const types=game.memory.observed_types[w]||[],labels=types.map(type=>{const c=Object.values(game.s.cards).find(v=>v.type===type);return c?cardName(c):type;});
-      return `<div class="cw-log"><strong>${names[w]}</strong>：${personality[w]}<br>確認した種類：${labels.length?esc(labels.join('、')):'まだなし'}</div>`;
-    }).join('')+'<div>確認した種類は、現在の手札・山札の内容を示すものではありません。</div>';
+    get('cw-knowledge').innerHTML=active.filter(w=>w!=='O').map(w=>`<div class="cw-log"><strong>${names[w]}</strong>${knownActorInfo(w)}</div>`).join('');
 
+  }
+  function knownActorInfo(id){
+    const personality={V0:'あなたを攻撃',V1:'生存しているあなた／敵を等確率で攻撃',E1:'あなたへの一致攻撃を優先'};
+    if(!personality[id])return '';
+    const types=game.memory.observed_types[id]||[],labels=types.map(type=>{const c=Object.values(game.s.cards).find(v=>v.type===type);return c?cardName(c):type;});
+    return `<p>${personality[id]}<br>確認した種類：${labels.length?esc(labels.join('、')):'まだなし'}</p><p>確認した種類は、現在の手札・山札の内容を示すものではありません。</p>`;
   }
   function renderHistory(){
     const rows=get('cw-history-order').value==='oldest'?history:[...history].reverse();

@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__resolveOwn=choice=>{const g=new CWTerrain.Game(bundle);g.s=JSON.parse(JSON.stringify(game.s));g.play("P",choice);return JSON.parse(JSON.stringify(g.s));};':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -32,11 +32,11 @@ for(const run of fixtures.runs){
   const a=open(old.build()),b=open(build(),true);
   for(const d of [a,b]){query(d,'#cw-build').value=run.build;query(d,'#cw-restart').click();}
   eq(a,b);
-  for(const choice of run.choices){const before=state(b);choose(a,choice);choose(b,choice);assert.equal(state(b),before,'selection mutated game');assert(!query(b,'#cw-use').disabled,'legal action disabled');const expected=b.window.__resolveOwn(choice),oldState=b.window.__inspect().s;for(const n of b.window.document.querySelectorAll('.cw-number-flow')){const label=n.firstElementChild.textContent,value=n.lastElementChild.textContent;const card=oldState.cards[choice.card_id],matched=oldState.field[card.attr];if(label==='HP')assert.equal(value,String(expected.actors[matched&&card.kind==='attack'?choice.target:'P'].hp),'HP diagram differs from immediate resolution');if(label==='会心')assert.equal(value,String(expected.actors.P.crit),'crit diagram differs from immediate resolution');if(label==='命中蓄積')assert.equal(value,String(expected.actors[choice.target].hit));if(label==='防御')assert.equal(value,String(expected.actors.P.guard.value));if(label==='次の自分')assert.equal(value,String(expected.actors.P.next_at));}assert.equal(state(b),before,'diagram resolution probe mutated live game');query(a,'#cw-use').click();query(b,'#cw-use').click();eq(a,b);const scheduled=b.window.__inspect().s;if(!scheduled.outcome)assert(scheduled.actors[b.window.__ui().target]?.active,'retirement left target unselected');assert.deepEqual([...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor).sort(),scheduled.outcome?[]:Object.keys(scheduled.actors).filter(id=>scheduled.actors[id].active&&scheduled.actors[id].acts).sort(),'scheduled participants did not follow state');assert.equal(b.window.__ui().selected,null,'new hand auto-selected');assert(query(b,'#cw-use').disabled,'execution remains armed');actions++;}
+  for(const choice of run.choices){const before=state(b);choose(a,choice);choose(b,choice);assert.equal(state(b),before,'selection mutated game');assert(!query(b,'#cw-use').disabled,'legal action disabled');query(a,'#cw-use').click();query(b,'#cw-use').click();eq(a,b);const scheduled=b.window.__inspect().s;if(!scheduled.outcome)assert(scheduled.actors[b.window.__ui().target]?.active,'retirement left target unselected');assert.deepEqual([...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor).sort(),scheduled.outcome?[]:Object.keys(scheduled.actors).filter(id=>scheduled.actors[id].active&&scheduled.actors[id].acts).sort(),'scheduled participants did not follow state');assert.equal(b.window.__ui().selected,null,'new hand auto-selected');assert(query(b,'#cw-use').disabled,'execution remains armed');actions++;}
   for(const d of [a,b])query(d,'#cw-withdraw').click();eq(a,b);
   a.window.close();b.window.close();
 }
-checks.push('recorded choices: identical states / RNG / memory; numeric diagram matches immediate fixed-engine resolution; target retained/reassigned; no automatic next-card selection');
+checks.push('recorded choices: identical states / RNG / memory; target retained/reassigned; no automatic next-card selection');
 {
   const b=open(build(),true),before=state(b),s=b.window.__inspect().s;
   const displayed=()=>[...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor);
@@ -218,9 +218,9 @@ for(const name of ['reference','result','objective','settings','order']){
 }
 {
   const b=open(build(),true),before=state(b);assert.equal(b.window.__ui().target,'V0','baseline default target not restored');
-  choose(b,first);assert(query(b,'[data-forecast-mode="place"]'));
-  query(b,'#cw-diagram-setting').checked=false;query(b,'#cw-diagram-setting').dispatchEvent(new b.window.Event('change'));assert(!query(b,'[data-forecast-mode]'));assert(query(b,'#cw-prediction').textContent.includes('場に出す'));
-  assert.equal(state(b),before);checks.push('baseline initial target and optional numeric diagram; full text remains reachable');b.window.close();
+  choose(b,first);b.window.__drawRelations();assert(!query(b,'#cw-relations').hasAttribute('hidden'));
+  query(b,'#cw-diagram-setting').checked=false;query(b,'#cw-diagram-setting').dispatchEvent(new b.window.Event('change'));assert(query(b,'#cw-relations').hasAttribute('hidden'));assert(!query(b,'.cw-number-flow,.cw-card-flow'));assert(query(b,'#cw-prediction').textContent.includes('場に出す'));
+  assert.equal(state(b),before);checks.push('baseline initial target and optional board connections; full text remains reachable');b.window.close();
 }
 {
   const b=open(build(),true),before=state(b);choose(b,first);query(b,'#cw-use').click();
@@ -284,6 +284,74 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
   b.window.close();
 }
 checks.push('art slots beneath actor/card captions; terrain base plus active environment layers only');
+{
+  const b=open(build(fixtures.cases.guard_end),true),before=state(b),s=b.window.__inspect().s;
+  const hand=s.actors.P.hand,card=s.cards[hand.find(id=>s.cards[id].kind==='attack'&&s.field[s.cards[id].attr])];
+  const fields=[...b.window.document.querySelectorAll('[data-field-card]')].map(n=>n.dataset.fieldCard);
+  choose(b,{card_id:card.id});
+  const clickField=id=>{const node=query(b,`[data-field-card="${id}"]`);pointer(b,node,'pointerdown',{pointerType:'mouse'});node.click();};
+  clickField(fields[0]);assert.equal(b.window.__window().openName,'field');
+  assert.equal(b.window.__ui().selected,card.id);assert.equal(query(b,`[data-field-card="${fields[0]}"]`).getAttribute('aria-expanded'),'true');
+  assert(query(b,'#cw-field-info').textContent.includes(s.cards[fields[0]].name));
+  assert(query(b,'#cw-field-info').textContent.includes('主効果'));assert(query(b,'#cw-field-info').textContent.includes('場にある間'));
+  clickField(fields[0]);assert(query(b,'#cw-drawer').hidden);
+  clickField(fields[0]);clickField(fields[1]);assert(query(b,'#cw-field-info').textContent.includes(s.cards[fields[1]].name));
+  const actorIds=[...b.window.document.querySelectorAll('[data-inspect-actor]')].map(n=>n.dataset.inspectActor);
+  const clickActor=id=>{const node=query(b,`[data-inspect-actor="${id}"]`);pointer(b,node,'pointerdown',{pointerType:'mouse'});node.click();};
+  clickActor('V0');assert.equal(b.window.__window().openName,'actor');assert.equal(b.window.__ui().target,'V0');
+  const text=query(b,'#cw-actor-info').textContent;assert(text.includes('あなたを攻撃')&&text.includes('確認した種類'));
+  assert(!text.includes('後続'));assert(text.includes(`HP ${s.actors.V0.hp}/${s.actors.V0.max_hp}`));
+  clickActor('V0');assert(query(b,'#cw-drawer').hidden);assert.equal(b.window.__ui().target,'V0');
+  clickActor('V0');clickActor(actorIds[0]);assert.equal(b.window.__ui().target,actorIds[0]);
+  query(b,`[data-card="${card.id}"]`).click();query(b,'#cw-card-targets [data-target="V0"]').click();
+  assert.equal(b.window.__window().openName,'card','window target control opened actor detail');
+  clickField(fields[0]);query(b,'#cw-use').click();assert(query(b,'#cw-drawer').hidden,'field outside click did not close');
+  assert.equal(b.window.__ui().selected,card.id);assert.equal(state(b),before,'object inspection changed game/RNG/knowledge');
+  checks.push('field and actor physical clicks open/switch/retoggle; field full effects; only current public actor info; hand selection retained; actor selects target; internal target stays in card detail; no outside execution');
+  b.window.close();
+}
+for(const scenario of ['place','attack','guard']){
+  const b=open(build(scenario==='place'?undefined:fixtures.cases.guard_end),true),before=state(b),s=b.window.__inspect().s;
+  const ids=s.actors.P.hand,c=s.cards[ids.find(id=>scenario==='place'?!s.field[s.cards[id].attr]:s.cards[id].kind===scenario&&s.field[s.cards[id].attr])];
+  let handOffset=0,fieldOffset=0,actorOffset=0,viewport=900;
+  const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bottom:top+height,x:left,y:top});
+  b.window.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.id==='cw-playtable')return rect(0,0,viewport,648);
+    if(this.id==='cw-actors')return rect(20,60,viewport-40,120);
+    if(this.id==='cw-field')return rect(20,230,viewport-40,140);
+    if(this.id==='cw-hand')return rect(20,395,viewport-40,140);
+    if(this.id==='cw-action-track')return rect(20,537,viewport-40,40);
+    if(this.classList.contains('cw-footer-state'))return rect(20,610,600,32);
+    if(this.id==='cw-self')return rect(20,610,280,32);
+    if(this.dataset.card)return rect(40+ids.indexOf(this.dataset.card)*220-handOffset,395,184,140);
+    if(this.dataset.attr)return rect(40+[...this.parentElement.children].indexOf(this)*210-fieldOffset,230,184,140);
+    if(this.dataset.inspectActor)return rect(80+[...this.parentElement.children].indexOf(this)*210-actorOffset,60,184,120);
+    return rect(0,0,0,0);
+  };
+  b.window.SVGElement.prototype.getBoundingClientRect=function(){return rect(0,0,viewport,648);};
+  query(b,`[data-card="${c.id}"]`).click();b.window.__drawRelations();
+  const svg=query(b,'#cw-relations'),links=()=>[...svg.querySelectorAll('[data-link]')],path=()=>svg.querySelector('[data-link="hand-field"]').getAttribute('d');
+  assert.equal(links().length,scenario==='place'?1:2);assert.equal(svg.querySelectorAll('[data-node]').length,scenario==='place'?2:3);
+  assert.equal(svg.dataset.mode,scenario);assert.equal(svg.dataset.target,scenario==='place'?'':scenario==='guard'?'P':'V0');
+  assert(!query(b,'#cw-drawer #cw-relations'),'connectors rendered inside detail window');
+  const previous=path();query(b,`[data-card="${c.id}"]`).click();assert(query(b,'#cw-drawer').hidden);assert.equal(path(),previous,'closing detail lost route');
+  handOffset=15;query(b,'#cw-hand').dispatchEvent(new b.window.Event('scroll'));assert.notEqual(path(),previous,'hand movement not tracked');
+  const afterHand=path();fieldOffset=10;query(b,'#cw-field').dispatchEvent(new b.window.Event('scroll'));assert.notEqual(path(),afterHand,'field movement not tracked');
+  if(scenario==='attack'){
+    const oldTarget=svg.querySelector('[data-link="field-target"]').getAttribute('d');
+    actorOffset=12;query(b,'#cw-actors').dispatchEvent(new b.window.Event('scroll'));assert.notEqual(svg.querySelector('[data-link="field-target"]').getAttribute('d'),oldTarget,'actor movement not tracked');
+    query(b,'[data-inspect-actor="O"]').click();assert.equal(svg.dataset.target,'O');
+    const targetRect=query(b,'[data-inspect-actor="O"]').getBoundingClientRect();
+    assert(svg.querySelector('[data-link="field-target"]').getAttribute('d').endsWith(`${targetRect.left+targetRect.width/2} ${targetRect.bottom-3}`),'target endpoint not on actual actor');
+  }
+  handOffset=2000;query(b,'#cw-hand').dispatchEvent(new b.window.Event('scroll'));assert(!svg.querySelector('[data-link="hand-field"]'),'offscreen card falsely attached to another card');
+  handOffset=0;viewport=640;b.window.__layout();assert.equal(svg.getAttribute('viewBox'),'0 0 640 648','resize did not update coordinates');
+  query(b,'#cw-diagram-setting').checked=false;query(b,'#cw-diagram-setting').dispatchEvent(new b.window.Event('change'));assert(svg.hasAttribute('hidden'));assert.equal(links().length,0);
+  assert.equal(state(b),before,'drawing/inspection changed game');
+  query(b,'#cw-diagram-setting').checked=true;query(b,'#cw-restart').click();assert(svg.hasAttribute('hidden'),'restart retained stale route');
+  checks.push(scenario+': actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged');
+  b.window.close();
+}
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.9',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser large-window layout, hover travel, diagram density and slim strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.10',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser connector visibility/occlusion, object-window layout, hover travel and slim strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
