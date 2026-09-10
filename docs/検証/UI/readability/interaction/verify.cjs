@@ -204,11 +204,12 @@ for(const name of ['reference','settings','result']){
   assert(query(b,'#cw-action-track').closest('.cw-hand-region'));
   assert(query(b,'#cw-self').closest('.cw-bottom'));
   for(const name of ['reference','result','settings'])assert(query(b,`[data-open="${name}"]`).closest('.cw-bottom'));
-  assert(query(b,'#cw-event-feed').closest('.cw-bottom'));
+  assert(query(b,'#cw-event-feed').closest('.cw-board'));
+  assert(!query(b,'.cw-bottom #cw-event-feed'));
   choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').hidden);
   assert(!query(b,'#cw-brief').closest('[hidden]'),'moved prediction summary must remain reachable');
   query(b,'#cw-use').click();assert(query(b,'#cw-action-anchor').hidden);
-  checks.push('compact layout: menus, transient feed and player status in bottom strip; contextual hand controls and complete prediction retained');
+  checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained');
   query(b,'[data-open="reference"]').click();assert.equal(query(b,'#cw-drawer').style.height,'','card window height leaked into full information window');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
@@ -222,5 +223,5 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
 }
 checks.push('art slots beneath actor/card captions; terrain base plus active environment layers only');
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.6',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser landscape layout, distant-ground composition and bottom-strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.7',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser landscape layout, slim strip and transient overlay readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
