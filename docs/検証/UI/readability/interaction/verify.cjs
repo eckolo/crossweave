@@ -179,17 +179,19 @@ for(const name of ['reference','settings','result']){
   const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bottom:top+height,x:left,y:top});
   b.window.HTMLElement.prototype.getBoundingClientRect=function(){
     if(this.id==='cw-playtable')return rect(0,0,viewport,648);
-    if(this.id==='cw-action-track')return rect(20,572,viewport-40,40);
+    if(this.classList.contains('cw-world'))return rect(11,11,viewport-22,184);
+    if(this.id==='cw-action-track')return rect(20,527,viewport-40,40);
     if(this.id==='cw-action-anchor')return rect(0,0,Math.min(248,viewport-40),40);
-    if(this.id==='cw-hand')return rect(20,428,viewport-40,140);
-    if(this.id==='cw-drawer')return rect(0,0,Math.min(380,viewport-32),232);
-    if(this.dataset.card)return rect(40+ids.indexOf(this.dataset.card)*250-offset,428,184,140);
+    if(this.id==='cw-hand')return rect(20,387,viewport-40,136);
+    if(this.id==='cw-drawer')return rect(0,0,Math.min(380,viewport-32),Number.parseFloat(this.style.height)||232);
+    if(this.dataset.card)return rect(40+ids.indexOf(this.dataset.card)*250-offset,389,184,129);
     return rect(0,0,0,0);
   };
   query(b,`[data-card="${ids[0]}"]`).click();const left=Number.parseFloat(query(b,'#cw-action-anchor').style.left);
   query(b,`[data-card="${ids[2]}"]`).click();const right=Number.parseFloat(query(b,'#cw-action-anchor').style.left);
   assert(right>left);assert(right+248<=viewport-40,'action dock escaped right edge');
-  assert.equal(Number.parseFloat(query(b,'#cw-drawer').style.top)+232,420,'popup must stop above hand');
+  const popup=query(b,'#cw-drawer');assert.equal(Number.parseFloat(popup.style.top)+Number.parseFloat(popup.style.height),379,'popup must stop above hand');
+  assert(Number.parseFloat(popup.style.top)>=203,'popup must leave opponent row accessible');
   offset=1100;b.window.__layout();assert(query(b,'#cw-anchor-state').textContent.includes('左の画面外'));
   viewport=320;offset=0;b.window.__layout();const narrowLeft=Number.parseFloat(query(b,'#cw-action-anchor').style.left);assert(narrowLeft>=0&&narrowLeft+248<=280);
   const popupLeft=Number.parseFloat(query(b,'#cw-drawer').style.left);assert(popupLeft>=0&&popupLeft+288<=320);
@@ -201,11 +203,13 @@ for(const name of ['reference','settings','result']){
   assert(query(b,'#cw-action-anchor').hidden);
   assert(query(b,'#cw-action-track').closest('.cw-hand-region'));
   assert(query(b,'#cw-self').closest('.cw-bottom'));
-  assert(query(b,'[data-open="reference"]').closest('.cw-middle'));
+  for(const name of ['reference','result','settings'])assert(query(b,`[data-open="${name}"]`).closest('.cw-bottom'));
+  assert(query(b,'#cw-event-feed').closest('.cw-bottom'));
   choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').hidden);
   assert(!query(b,'#cw-brief').closest('[hidden]'),'moved prediction summary must remain reachable');
   query(b,'#cw-use').click();assert(query(b,'#cw-action-anchor').hidden);
-  checks.push('compact layout: central menus, bottom player status, contextual hand controls; complete prediction remains in detail window');b.window.close();
+  checks.push('compact layout: menus, transient feed and player status in bottom strip; contextual hand controls and complete prediction retained');
+  query(b,'[data-open="reference"]').click();assert.equal(query(b,'#cw-drawer').style.height,'','card window height leaked into full information window');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
   const b=open(build(replay),true),s=b.window.__inspect().s;
@@ -218,5 +222,5 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
 }
 checks.push('art slots beneath actor/card captions; terrain base plus active environment layers only');
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.5',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser landscape layout, anchoring and background contrast','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.6',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser landscape layout, distant-ground composition and bottom-strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

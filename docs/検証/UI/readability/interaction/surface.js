@@ -29,8 +29,11 @@
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
     if(openName==='card'){
       const rr=root.getBoundingClientRect(),popup=get('cw-drawer');
+      const worldBottom=root.querySelector('.cw-world').getBoundingClientRect().bottom;
+      const available=Math.max(160,Math.min(232,hr.top-worldBottom-16));
+      popup.style.height=available+'px';
       const pw=popup.getBoundingClientRect().width||Math.min(380,rr.width-32);
-      const ph=popup.getBoundingClientRect().height||232;
+      const ph=popup.getBoundingClientRect().height||available;
       popup.style.left=Math.max(16,Math.min(rr.width-pw-16,center-rr.left-pw/2))+'px';
       popup.style.top=Math.max(16,hr.top-rr.top-ph-8)+'px';
     }
@@ -38,7 +41,7 @@
   function showWindow(name,from,focus=true){
     cancelDrag();opener=from||null;openName=name;
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
-    popup.style.left='';popup.style.top='';
+    popup.style.left='';popup.style.top='';popup.style.height='';
     popup.setAttribute('aria-modal',String(name!=='card'));
     get('cw-backdrop').hidden=name==='card';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
