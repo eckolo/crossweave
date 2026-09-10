@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.2",
+  "ui_version": "0.3",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
@@ -8,10 +8,10 @@
   "baseline_spec": "0.39",
   "operational_design_spec": "0.47",
   "synchronized_design_commit": "745bcb0c28c7c44d68fbdea5a7b509681b900fd8",
-  "own_source_commit": "fe7b6a5ae5d45e1c83eb889d1e6ba9ef8cb381c4",
-  "own_source_merge_commit": "baabd12f61b8461097db0b918ea629cff7445996",
+  "own_source_commit": "1d23e94d0d8394b7e169961b0b105794576981ca",
+  "own_source_merge_commit": "8fb1a4a974a05e69e54362a6731212274199d6f2",
   "required_source_merge_commit": "bd424388711c09389d4ce8825627e5bd5f457a1b",
-  "ui_code_commit": "46a178d898c5d86e1e0d02f79fba87b564b48af8",
+  "ui_code_commit": null,
   "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
   "entry": "W seed32 / guard5",
   "game_changes": [],
@@ -21,69 +21,74 @@
     "drag": true,
     "per_card_buttons": false,
     "matching_confirmation": true,
-    "confirmation_when_other_expiring_cards_disappear": true
+    "confirmation_when_other_expiring_cards_disappear": true,
+    "hold_ms": 220
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.1 to v0.2 source changes only; run build.cjs to regenerate preview",
+  "ui_diff_scope": "v0.2 to v0.3 source changes only; run build.cjs to regenerate preview",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 13434,
-      "sha256": "a82f70875f10d5d735b82abbcef0a833c49ac272cd7d815c9c1c6aa025b3598e"
+      "bytes": 14108,
+      "sha256": "62f2337bd9a1ac35af59f0eb30562e93840c99044a27840f07100e7e58fec78c"
     },
     "build.cjs": {
-      "bytes": 2779,
-      "sha256": "7a167e7fa2f57d45e60d625a2cdb19474ed1e8c55d1d414d5ed54e8703b6b1ac"
+      "bytes": 2775,
+      "sha256": "394fdada9568fbf10eba7bc40f980ed284d1a99af3ef5c5b37a70fa4063e4862"
     },
     "play.fragment.html": {
-      "bytes": 13494,
-      "sha256": "018164ad67c49a0c7384a7049d4dca79bf35b44b651003c173c22c53a107a592"
+      "bytes": 13883,
+      "sha256": "88d7ddd39648e7dba03a9ecd62bcad7f90986fe8375a5b4e0c21938061ffd268"
     },
     "preview.html": {
-      "bytes": 252506,
-      "sha256": "0be21018737fb1f8bd63f68d673e9c62dba725eb3036dcdfbddc1a9d94de31d3"
+      "bytes": 253970,
+      "sha256": "ed8cb7d6277933b2f67281e4db8bd42970499832bf309016c75f02ac9c1d87f4"
     },
     "support.js": {
       "bytes": 11878,
       "sha256": "31208afeb794c8b9219fc20a057cde9c585d890b69ab19f1ea0ad60ad734fe76"
     },
     "ui-r002.patch": {
-      "bytes": 25598,
-      "sha256": "25222d4f8d4a8e114db2d42498fbdeb72b5796835b0a5177fe3e97857c969cdb"
+      "bytes": 21893,
+      "sha256": "ab95006e3164fd80c53771f05d6f8e019d15a9506b6dfb5216bc51590bdd12e3"
     },
     "verification.json": {
-      "bytes": 1537,
-      "sha256": "9bbfc4cefcaad89dde2a8c5eddaa9ccb7c316200a949638590d9d7290291d749"
+      "bytes": 2350,
+      "sha256": "604c435ed929bed33811ce02e15ee9f0e1b6e05570cd5e2cac1ea0711472867d"
     },
     "verify.cjs": {
-      "bytes": 8651,
-      "sha256": "8a6dbe864afb92e1428256e6f194590419a637fc6fb3e4f82b9aba2a9d0479de"
+      "bytes": 12107,
+      "sha256": "4a77516c9c4fcf8d9d309c03d7c8bcf53275e8e54b0db9b665f3c756f3dc2cc5"
     },
     "view.js": {
-      "bytes": 19259,
-      "sha256": "90b4655bf5860663c612e92d2f709643f4a8755558f3157dc351c07e3976d816"
+      "bytes": 20334,
+      "sha256": "0960f6630de85ac778890dd7a971eaf32c8a62e96e108dea6441d35669b8f6b4"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-card-gestures.html",
-    "sha256": "2165b66614b2495082024ab6f6c3859f4a9751972d4c460c48de7eb1c9dea5f4"
+    "path": "/workspace/crossweave-card-hold.html",
+    "sha256": "db47b55e0e59c35397c50d2de77f2e9eb4e25bf0ae200dd5969fbdd3f005b242"
   },
   "unverified": [
     "browser geometry and pointer capture",
-    "native touch-action angle classification, scrolling and zoom",
+    "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and repetition time"
   ],
-  "previous_ui_code_commit": "d5d5672027e508bae2fa39ac0e06517ff04b867c",
-  "ui_diff_base": "d5d5672027e508bae2fa39ac0e06517ff04b867c",
+  "previous_ui_code_commit": "46a178d898c5d86e1e0d02f79fba87b564b48af8",
+  "ui_diff_base": "46a178d898c5d86e1e0d02f79fba87b564b48af8",
   "gesture_policy": {
-    "horizontal_px": 10,
-    "upward_px": 14,
-    "axis_ratio": 1.5,
-    "ambiguous_cancel_px": 32,
-    "lock_until_release": true,
-    "touch_action": "pan-x pinch-zoom",
-    "long_press_wait": false,
+    "hold_ms": 220,
+    "hold_options_ms": [
+      150,
+      220,
+      320
+    ],
+    "motion_tolerance_css_px": 8,
+    "motion_before_hold": "horizontal browsing regardless of direction; locked until release",
+    "motion_after_hold": "free direction drag",
+    "touch_action": "pinch-zoom",
+    "touch_horizontal_scroll": "manual follow; no added inertia",
     "whole_page_vertical_scroll": "outside card surfaces; also on cards when drag disabled"
   }
 }

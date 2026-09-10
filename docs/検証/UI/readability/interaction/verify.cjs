@@ -7,7 +7,13 @@ function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
   html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
-  return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});}});
+  return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
+    w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
+    let clock=0,serial=0;const timers=new Map();
+    w.setTimeout=(fn,ms)=>{const id=++serial;timers.set(id,{fn,at:clock+Number(ms||0)});return id;};
+    w.clearTimeout=id=>timers.delete(id);
+    w.__tick=ms=>{const until=clock+ms;for(;;){const next=[...timers].filter(([,t])=>t.at<=until).sort((a,b)=>a[1].at-b[1].at)[0];if(!next)break;clock=next[1].at;timers.delete(next[0]);next[1].fn();}clock=until;};
+  }});
 }
 const state=d=>JSON.stringify(d.window.__inspect());
 const eq=(a,b)=>assert.equal(state(a),state(b),'state / RNG / memory differ');
@@ -17,7 +23,7 @@ function pointer(d,node,type,props={}){const e=new d.window.Event(type,{bubbles:
 function drag(d,id,finish='inside',pointerType='touch'){
   const root=query(d,'#cw-playtable'),handle=query(d,`[data-card="${id}"]`);
   d.window.document.elementFromPoint=()=>finish==='inside'?query(d,'#cw-drop-zone'):root;
-  pointer(d,handle,'pointerdown',{pointerType});pointer(d,root,'pointermove',{clientX:120,clientY:100,pointerType});
+  pointer(d,handle,'pointerdown',{pointerType});d.window.__tick(220);pointer(d,root,'pointermove',{clientX:120,clientY:100,pointerType});
   if(finish==='cancel')pointer(d,root,'pointercancel');
   else if(finish==='escape')root.dispatchEvent(new d.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
   else pointer(d,root,'pointerup',{clientX:120,clientY:100});
@@ -53,8 +59,8 @@ for(const pointerType of ['touch','mouse','pen']){
   hand.scrollLeft=100;b.window.document.elementFromPoint=()=>query(b,'#cw-drop-zone');
   pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown',{pointerType});
   pointer(b,root,'pointermove',{pointerType,clientX:60,clientY:298});
-  if(pointerType!=='touch')assert.equal(hand.scrollLeft,140,'horizontal drag did not scroll');
-  else assert.equal(hand.scrollLeft,100,'native touch scroll manually duplicated');
+  assert.equal(hand.scrollLeft,140,'horizontal movement did not scroll');
+  b.window.__tick(1000);assert(query(b,'#cw-drag-ghost').hidden,'scroll pause started a hold');
   pointer(b,root,'pointermove',{pointerType,clientX:60,clientY:100});
   pointer(b,root,'pointerup',{pointerType,clientX:60,clientY:100});
   query(b,`[data-card="${first.card_id}"]`).dispatchEvent(new b.window.MouseEvent('click',{bubbles:true,detail:1}));
@@ -63,7 +69,7 @@ for(const pointerType of ['touch','mouse','pen']){
   pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown',{pointerType});
   pointer(b,root,'pointerup',{pointerType,clientX:102,clientY:299});
   assert.equal(b.window.__ui().selected,first.card_id);assert.equal(state(b),before);
-  checks.push(pointerType+': horizontal lock survives upward turn; no ghost click; next tap selects');b.window.close();
+  checks.push(pointerType+': early movement locks browsing through pause and turn; no ghost click; next tap selects');b.window.close();
 }
 for(const kind of ['diagonal','native-cancel','downward','multitouch','small-move']){
   const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
@@ -74,10 +80,51 @@ for(const kind of ['diagonal','native-cancel','downward','multitouch','small-mov
   if(kind==='multitouch')pointer(b,root,'pointerdown',{pointerId:2,isPrimary:false});
   if(kind==='downward'){pointer(b,root,'pointermove',{clientY:322});pointer(b,root,'pointermove',{clientY:100});}
   if(kind==='small-move')pointer(b,root,'pointermove',{clientX:104,clientY:296});
+  if(kind!=='small-move')b.window.__tick(1000);
   pointer(b,root,'pointerup',{clientX:kind==='small-move'?104:125,clientY:kind==='small-move'?296:100});
   query(b,`[data-card="${first.card_id}"]`).dispatchEvent(new b.window.MouseEvent('click',{bubbles:true,detail:1}));
   assert.equal(state(b),before);assert.equal(b.window.__ui().selected,kind==='small-move'?first.card_id:null);
   checks.push(kind+': no execution');b.window.close();
+}
+for(const holdMs of [150,220,320]){
+  const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
+  query(b,'#cw-hold-setting').value=String(holdMs);
+  b.window.document.elementFromPoint=()=>root;
+  pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');
+  pointer(b,root,'pointermove',{clientX:104,clientY:296}); // tremor within tolerance
+  b.window.__tick(holdMs-1);assert(query(b,'#cw-drag-ghost').hidden,'hold began early');
+  assert.equal(b.window.__ui().selected,null);
+  b.window.__tick(1);assert(!query(b,'#cw-drag-ghost').hidden,'hold did not begin at deadline');
+  assert.equal(state(b),before,'holding changed game');
+  // A diagonal path after holding is a drag, irrespective of the initial angle.
+  pointer(b,root,'pointermove',{clientX:130,clientY:270});
+  assert(!query(b,'#cw-drag-ghost').hidden);
+  b.window.document.elementFromPoint=()=>query(b,'#cw-drop-zone');
+  pointer(b,root,'pointerup',{clientX:130,clientY:100});
+  const a=open(old.build());choose(a,first);query(a,'#cw-use').click();eq(a,b);
+  checks.push(holdMs+'ms: boundary, tremor tolerance and diagonal drag');a.window.close();b.window.close();
+}
+for(const finish of ['release','wheel','scroll','blur','visibility','settings','restart','stale']){
+  const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
+  b.window.document.elementFromPoint=()=>root;
+  pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');b.window.__tick(100);
+  if(finish==='release')pointer(b,root,'pointerup');
+  if(finish==='wheel')query(b,'#cw-hand').dispatchEvent(new b.window.Event('wheel'));
+  if(finish==='scroll'){query(b,'#cw-hand').scrollLeft=20;query(b,'#cw-hand').dispatchEvent(new b.window.Event('scroll'));}
+  if(finish==='blur')b.window.dispatchEvent(new b.window.Event('blur'));
+  if(finish==='visibility'){Object.defineProperty(b.window.document,'hidden',{value:true,configurable:true});b.window.document.dispatchEvent(new b.window.Event('visibilitychange'));}
+  if(finish==='settings')query(b,'#cw-hold-setting').dispatchEvent(new b.window.Event('change'));
+  if(finish==='restart')query(b,'#cw-restart').click();
+  if(finish==='stale'){choose(b,first);query(b,'#cw-use').click();}
+  const after=state(b);b.window.__tick(1000);assert(query(b,'#cw-drag-ghost').hidden,'late hold after '+finish);
+  assert.equal(state(b),after);if(finish!=='stale')assert.equal(state(b),before);
+  checks.push('pending hold '+finish+': timer cancelled, no delayed play');b.window.close();
+}
+{
+  const b=open(build(),true),root=query(b,'#cw-playtable'),before=state(b);
+  b.window.document.elementFromPoint=()=>root;pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');b.window.__tick(220);
+  pointer(b,root,'pointerup');b.window.__tick(1000);assert.equal(state(b),before);assert.equal(b.window.__ui().selected,null);
+  checks.push('hold then release in hand: no execution, previous selection restored');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
   const a=open(old.build(replay)),b=open(build(replay),true);eq(a,b);
@@ -88,5 +135,5 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
   a.window.close();b.window.close();
 }
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.2',verification:'DOM routing only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['browser geometry and pointer capture','native touch-action angle classification, scrolling and zoom','human effort, errors and repetition time']};
+const result={test_id:'UI-R-002',ui_version:'0.3',verification:'DOM routing and controlled timer only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['browser geometry and pointer capture','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and repetition time']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

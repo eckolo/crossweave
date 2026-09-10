@@ -1,171 +1,153 @@
 diff --git "a/docs/\346\244\234\350\250\274/UI/readability/interaction/build.cjs" "b/docs/\346\244\234\350\250\274/UI/readability/interaction/build.cjs"
-index d2923cb..110552c 100644
+index 110552c..2e8e19b 100644
 --- "a/docs/\346\244\234\350\250\274/UI/readability/interaction/build.cjs"
 +++ "b/docs/\346\244\234\350\250\274/UI/readability/interaction/build.cjs"
 @@ -21,7 +21,7 @@ function build(replay={build:'guard5',choices:[]}){
  }
  if(require.main===module){
    const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone');
--  const out=pos[0]||'/workspace/crossweave-placement.html';
-+  const out=pos[0]||'/workspace/crossweave-card-gestures.html';
+-  const out=pos[0]||'/workspace/crossweave-card-gestures.html';
++  const out=pos[0]||'/workspace/crossweave-card-hold.html';
    const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
    if(fixture)assert(replay,`不明な局面: ${fixture}`);
    let s=build(replay);
 diff --git "a/docs/\346\244\234\350\250\274/UI/readability/interaction/play.fragment.html" "b/docs/\346\244\234\350\250\274/UI/readability/interaction/play.fragment.html"
-index de9c4f7..1530fe9 100644
+index 1530fe9..9b72e14 100644
 --- "a/docs/\346\244\234\350\250\274/UI/readability/interaction/play.fragment.html"
 +++ "b/docs/\346\244\234\350\250\274/UI/readability/interaction/play.fragment.html"
-@@ -4,12 +4,12 @@
-   <section class="cw-region cw-board" id="cw-drop-zone" aria-label="札を出す場"><div class="cw-heading"><span>共有の場</span><span id="cw-match-label">札をここへドラッグ</span></div><div id="cw-field" class="cw-scroll"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-field:-1">前へ</button><span></span><button type="button" data-scroll="cw-field:1">次へ</button></div></section>
-   <div class="cw-result-line"><span id="cw-result-summary" role="status"></span><button type="button" data-open="result">変化を見る</button></div>
-   <div class="cw-self" id="cw-self"></div>
--  <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span>手札 <span id="cw-hand-count"></span></span><span id="cw-expiry-summary"></span></div><div id="cw-hand" class="cw-scroll"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-hand:-1">前へ</button><span></span><button type="button" data-scroll="cw-hand:1">次へ</button></div></section>
-+  <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span>手札 <span id="cw-hand-count"></span></span><span id="cw-expiry-summary"></span></div><div id="cw-hand" class="cw-scroll"></div><div class="cw-scroll-help"><button type="button" data-scroll="cw-hand:-1">前へ</button><span></span><button type="button" data-scroll="cw-hand:1">次へ</button></div><div id="cw-gesture-hint"></div></section>
-   <section class="cw-decision" aria-label="選択と実行"><div id="cw-selected-line"></div><div id="cw-brief" aria-live="polite"></div><div id="cw-notice" role="status"></div><div class="cw-actions"><button type="button" id="cw-cancel">選択解除</button><button type="button" data-open="card" id="cw-show-card">札・予測の詳細</button><button type="button" id="cw-use" class="cw-primary" disabled>札を選ぶ</button></div></section>
+@@ -9,7 +9,7 @@
    <div id="cw-drag-ghost" aria-hidden="true" hidden></div>
    <section class="cw-drawer" hidden aria-label="詳細と設定" id="cw-drawer"><header><strong id="cw-drawer-title"></strong><button type="button" id="cw-close">閉じる</button></header><div class="cw-drawer-body">
      <div data-panel="reference" hidden><div id="cw-turn"></div><div id="cw-progress"></div><div id="cw-reward-summary"></div><div id="cw-start-state"></div><h3>山札</h3><div id="cw-deck-count"></div><div id="cw-deck-summary"></div><details id="cw-deck-panel"><summary id="cw-deck-title">全種類の詳細</summary><div id="cw-deck"></div></details><details><summary>相手の状態・傾向・確認した札</summary><div id="cw-actor-details"></div><div id="cw-knowledge"></div></details><details><summary>持込・補給・成果</summary><div id="cw-resources"></div></details><details><summary>行動履歴</summary><label>表示順 <select id="cw-history-order"><option value="newest">新しい順</option><option value="oldest">古い順</option></select></label><div id="cw-history"></div></details><details><summary>入口からやり直す</summary><div id="cw-build-active"></div><label>次の構成 <select id="cw-build"><option value="guard5">攻撃6・防御5・回復1</option><option value="guard3">攻撃8・防御3・回復1</option><option value="guard0">攻撃11・防御0・回復1</option></select></label><button type="button" id="cw-restart">この構成で入口から開始</button></details><button type="button" id="cw-withdraw">撤退する</button><div id="cw-outcome"></div></div>
--    <div data-panel="settings" hidden><label><input id="cw-quick-setting" type="checkbox" checked> 通常の設置はすぐ出す</label><p>オフにすると、すべて予測を確認してから実行します。一致と、他の手札の消滅を伴う設置は常に確認します。</p><label><input id="cw-drag-setting" type="checkbox" checked> ドラッグを使う</label><p>タッチでは「つかむ」からドラッグ。札の本文は横スクロールに使えます。</p><label><input id="cw-button-setting" type="checkbox" checked> 札ごとの出すボタンを表示</label><p>札の選択と、下部の実行ボタンはいつでも使えます。設定はこの画面を開いている間保持します。</p></div>
-+    <div data-panel="settings" hidden><label><input id="cw-quick-setting" type="checkbox" checked> 通常の設置はすぐ出す</label><p>オフにすると、すべて予測を確認してから実行します。一致と、他の手札の消滅を伴う設置は常に確認します。</p><label><input id="cw-drag-setting" type="checkbox" checked> ドラッグを使う</label><p>札のどこからでも、左右へ動かすと手札のスクロール、上へ動かすと場へのドラッグです。横移動を始めたら、指を離すまでドラッグには切り替わりません。</p><p>場の外で離すと取消。タップで札を選び、下部のボタンでも実行できます。画面全体の縦スクロールは札の外から行えます。ドラッグをオフにすると、札の上からも縦にスクロールできます。</p><p>設定はこの画面を開いている間保持します。</p></div>
+-    <div data-panel="settings" hidden><label><input id="cw-quick-setting" type="checkbox" checked> 通常の設置はすぐ出す</label><p>オフにすると、すべて予測を確認してから実行します。一致と、他の手札の消滅を伴う設置は常に確認します。</p><label><input id="cw-drag-setting" type="checkbox" checked> ドラッグを使う</label><p>札のどこからでも、左右へ動かすと手札のスクロール、上へ動かすと場へのドラッグです。横移動を始めたら、指を離すまでドラッグには切り替わりません。</p><p>場の外で離すと取消。タップで札を選び、下部のボタンでも実行できます。画面全体の縦スクロールは札の外から行えます。ドラッグをオフにすると、札の上からも縦にスクロールできます。</p><p>設定はこの画面を開いている間保持します。</p></div>
++    <div data-panel="settings" hidden><label><input id="cw-quick-setting" type="checkbox" checked> 通常の設置はすぐ出す</label><p>オフにすると、すべて予測を確認してから実行します。一致と、他の手札の消滅を伴う設置は常に確認します。</p><label><input id="cw-drag-setting" type="checkbox" checked> ドラッグを使う</label><label>つかむまでの時間 <select id="cw-hold-setting"><option value="150">短め · 0.15秒</option><option value="220" selected>標準 · 0.22秒</option><option value="320">長め · 0.32秒</option></select></label><p>札を少し押し続け、浮いたら場へ運べます。つかむ前に動かすと手札の横スクロールです。スクロール中に止まっても、指を離すまでドラッグへ切り替わりません。</p><p>場の外で離すと取消。タップで札を選び、下部のボタンでも実行できます。画面全体の縦スクロールは札の外から行えます。ドラッグをオフにすると、札の上からも縦にスクロールできます。</p><p>設定はこの画面を開いている間保持します。</p></div>
      <div data-panel="card" hidden><div id="cw-card-info"></div><h3>今回の予測</h3><div id="cw-prediction"></div><div id="cw-prediction-detail"></div></div>
      <div data-panel="result" hidden><div id="cw-change-time"></div><div id="cw-changes"></div><h3>直前の行動</h3><div id="cw-last"></div></div>
    </div></section>
-@@ -33,10 +33,10 @@
- #cw-playtable .cw-actor{text-align:left;display:flex;flex-direction:column;justify-content:center;gap:3px;font-size:12px}#cw-playtable .cw-actor strong{font-size:14px}
- #cw-playtable progress{width:100%;height:5px;accent-color:var(--cw-selected)}#cw-playtable .cw-slot{border:1px solid var(--cw-line);border-radius:6px;padding:6px;background:var(--cw-paper);font-size:12px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+@@ -35,13 +35,13 @@
  #cw-playtable .cw-slot[data-linked="true"]{box-shadow:inset 0 0 0 2px var(--cw-selected)}#cw-playtable .cw-slot[data-changed="true"]{border-color:var(--cw-danger)}#cw-playtable .cw-attr{display:inline-block;border:1px solid currentColor;border-radius:4px;padding:0 5px;margin-right:5px}
--#cw-playtable .cw-hand-card{display:grid;grid-template-rows:minmax(0,1fr) 38px;gap:4px;border:1px solid var(--cw-line);border-radius:7px;background:var(--cw-paper);padding:4px}
-+#cw-playtable .cw-hand-card{display:grid;grid-template-rows:minmax(0,1fr);border:1px solid var(--cw-line);border-radius:7px;background:var(--cw-paper)}
+ #cw-playtable .cw-hand-card{display:grid;grid-template-rows:minmax(0,1fr);border:1px solid var(--cw-line);border-radius:7px;background:var(--cw-paper)}
  #cw-playtable .cw-hand-card[data-selected="true"]{border-color:var(--cw-selected);box-shadow:inset 0 0 0 2px var(--cw-selected)}
--#cw-playtable .cw-select{display:flex;flex-direction:column;gap:3px;text-align:left;border:0;background:transparent;font-size:12px;touch-action:pan-x pan-y;user-select:none;justify-content:center}#cw-playtable .cw-select strong{font-size:14px}
--#cw-playtable .cw-card-controls{display:flex;gap:4px}#cw-playtable .cw-card-controls button{font-size:12px;flex:1;padding:4px}#cw-playtable .cw-handle{touch-action:none;user-select:none;cursor:grab}#cw-playtable .cw-hand-card[data-dragging="true"]{opacity:.6}
-+#cw-playtable .cw-select{display:flex;flex-direction:column;gap:3px;text-align:left;border:0;background:transparent;font-size:12px;touch-action:pan-x pinch-zoom;user-select:none;-webkit-user-select:none;justify-content:center;cursor:grab}#cw-playtable .cw-select strong{font-size:14px}
-+#cw-playtable[data-card-drag="false"] .cw-select{touch-action:pan-x pan-y pinch-zoom;cursor:pointer}#cw-playtable .cw-hand-card[data-dragging="true"]{opacity:.6}
+-#cw-playtable .cw-select{display:flex;flex-direction:column;gap:3px;text-align:left;border:0;background:transparent;font-size:12px;touch-action:pan-x pinch-zoom;user-select:none;-webkit-user-select:none;justify-content:center;cursor:grab}#cw-playtable .cw-select strong{font-size:14px}
++#cw-playtable .cw-select{display:flex;flex-direction:column;gap:3px;text-align:left;border:0;background:transparent;font-size:12px;touch-action:pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;justify-content:center;cursor:grab}#cw-playtable .cw-select strong{font-size:14px}
+ #cw-playtable[data-card-drag="false"] .cw-select{touch-action:pan-x pan-y pinch-zoom;cursor:pointer}#cw-playtable .cw-hand-card[data-dragging="true"]{opacity:.6}
  #cw-playtable .cw-self{justify-content:center;flex-wrap:wrap;font-size:12px;border-top:1px solid var(--cw-line)}#cw-playtable .cw-result-line{font-size:12px}#cw-playtable #cw-result-summary{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#cw-playtable .cw-result-line button{font-size:12px;min-height:32px}
  #cw-playtable .cw-decision{display:grid;grid-template-rows:20px minmax(20px,1fr) 20px 40px;gap:4px;padding:8px;background:var(--cw-soft);border-radius:8px;min-height:0}
  #cw-playtable #cw-selected-line{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#cw-playtable #cw-brief{font-size:12px;overflow-y:auto}#cw-playtable #cw-notice{font-size:12px;color:var(--cw-danger);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@@ -47,8 +47,8 @@
+ #cw-playtable .cw-actions{justify-content:flex-end}#cw-playtable .cw-actions button{font-size:12px}#cw-playtable #cw-use{flex:1;max-width:320px}
+-#cw-playtable #cw-drag-ghost{position:absolute;z-index:6;pointer-events:none;background:var(--cw-selected);color:var(--cw-selected-ink);border-radius:6px;padding:8px 12px;max-width:180px;font-size:12px}
++#cw-playtable #cw-drag-ghost{position:absolute;z-index:6;pointer-events:none;background:var(--cw-selected);color:var(--cw-selected-ink);border-radius:6px;padding:8px 12px;width:180px;min-height:76px;max-height:120px;overflow:hidden;display:flex;flex-direction:column;gap:4px;font-size:12px;box-shadow:0 8px 18px light-dark(#0004,#0008)}
+ #cw-playtable .cw-drawer{position:absolute;z-index:8;inset:10px 10px 10px auto;width:min(500px,calc(100% - 20px));border:1px solid var(--cw-line);border-radius:9px;padding:12px;background:var(--cw-paper);display:grid;grid-template-rows:44px minmax(0,1fr);box-shadow:0 8px 30px light-dark(#0003,#0008)}
+ #cw-playtable .cw-drawer>header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--cw-line)}#cw-playtable .cw-drawer-body{overflow-y:auto;min-height:0;padding-top:10px}
  #cw-playtable .cw-drawer label{display:block;margin:10px 0}#cw-playtable input{min-width:20px;min-height:20px;vertical-align:middle}#cw-playtable .cw-drawer p{font-size:12px}#cw-playtable .cw-drawer h3{font-size:14px;font-weight:500;margin:16px 0 6px}
- #cw-playtable details{margin-top:10px;border-top:1px solid var(--cw-line);padding-top:6px}#cw-playtable summary{cursor:pointer;min-height:36px}#cw-playtable .cw-log,#cw-playtable .cw-deck-row{padding:6px 0;border-bottom:1px solid var(--cw-line)}#cw-playtable .cw-warning,#cw-playtable .cw-loss{color:var(--cw-danger)}#cw-playtable .cw-warning{margin:6px 0}#cw-playtable .cw-impact{display:flex;gap:6px;flex-wrap:wrap}#cw-playtable .cw-deck-effects{display:grid;gap:6px;margin:6px 0}
- #cw-playtable [hidden]{display:none!important}
--@media(max-width:600px){#cw-playtable{padding:8px;height:940px;grid-template-rows:62px 158px 178px 40px 44px 220px minmax(0,1fr)}#cw-playtable .cw-top{flex-wrap:wrap}#cw-playtable #cw-phase{width:calc(100% - 130px);order:4}#cw-playtable .cw-actions{gap:4px}#cw-playtable #cw-hand>*{flex-basis:196px}#cw-playtable .cw-hand-card{grid-template-rows:minmax(0,1fr) 44px}}
--@media(pointer:coarse){#cw-playtable button{min-height:44px}#cw-playtable .cw-region{grid-template-rows:20px minmax(0,1fr) 44px}#cw-playtable .cw-scroll-help button{min-height:44px;min-width:52px}#cw-playtable .cw-hand-card{grid-template-rows:minmax(0,1fr) 44px}#cw-playtable .cw-decision{grid-template-rows:20px minmax(20px,1fr) 20px 44px}}
-+@media(max-width:600px){#cw-playtable{padding:8px;height:940px;grid-template-rows:62px 158px 178px 40px 44px 220px minmax(0,1fr)}#cw-playtable .cw-top{flex-wrap:wrap}#cw-playtable #cw-phase{width:calc(100% - 130px);order:4}#cw-playtable .cw-actions{gap:4px}#cw-playtable #cw-hand>*{flex-basis:196px}}
-+@media(pointer:coarse){#cw-playtable button{min-height:44px}#cw-playtable .cw-region{grid-template-rows:20px minmax(0,1fr) 44px}#cw-playtable .cw-scroll-help button{min-height:44px;min-width:52px}#cw-playtable .cw-decision{grid-template-rows:20px minmax(20px,1fr) 20px 44px}}
- #cw-playtable{height:850px;grid-template-rows:48px 130px 166px 40px 38px 214px minmax(0,1fr)}
- #cw-playtable .cw-region{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:36px minmax(0,1fr)}
- #cw-playtable .cw-heading{grid-area:1/1;overflow:hidden;text-overflow:ellipsis}
-@@ -59,6 +59,9 @@
- #cw-playtable .cw-actor-head{display:flex;justify-content:space-between;align-items:center;gap:5px}
- @media(max-width:600px){#cw-playtable{height:890px;grid-template-rows:62px 130px 166px 40px 44px 220px minmax(0,1fr)}}
- @media(pointer:coarse){#cw-playtable .cw-region{grid-template-rows:44px minmax(0,1fr)}}
-+#cw-playtable .cw-hand-region{grid-template-rows:36px minmax(0,1fr) auto}
-+#cw-playtable #cw-gesture-hint{grid-area:3/1/4/3;font-size:12px}
-+@media(pointer:coarse){#cw-playtable .cw-hand-region{grid-template-rows:44px minmax(0,1fr) auto}}
- </style>
- <script>
- __CW_ENGINE__
 diff --git "a/docs/\346\244\234\350\250\274/UI/readability/interaction/view.js" "b/docs/\346\244\234\350\250\274/UI/readability/interaction/view.js"
-index dbd25e5..4950c15 100644
+index 4950c15..89febeb 100644
 --- "a/docs/\346\244\234\350\250\274/UI/readability/interaction/view.js"
 +++ "b/docs/\346\244\234\350\250\274/UI/readability/interaction/view.js"
-@@ -1,5 +1,5 @@
--  let drag=null,opener=null;
--  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked,buttons:get('cw-button-setting').checked});
-+  let drag=null,opener=null,suppressClickUntil=0;
-+  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked});
+@@ -1,5 +1,6 @@
+   let drag=null,opener=null,suppressClickUntil=0;
+-  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked});
++  const settings=()=>({quick:get('cw-quick-setting').checked,drag:get('cw-drag-setting').checked,hold:Number(get('cw-hold-setting').value)});
++  const holdSlop=8;
    const currentCard=()=>game.public().actors.P.hand.find(c=>c.id===selected);
    const lossOnPlacement=c=>game.public().actors.P.hand.filter(x=>x.id!==c.id&&x.remaining===1&&(x.consume_on_recover||x.doomed||x.birth==='filler'));
    let changedAttrs=new Set();
-@@ -20,8 +20,10 @@
-     get('cw-hand-count').textContent=p.hand.length+'枚';
-     const expiring=p.hand.filter(x=>x.remaining===1);get('cw-expiry-summary').textContent=expiring.length?'この手まで '+expiring.length+'枚':'';
+@@ -22,7 +23,7 @@
      const config=settings();
--    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr],quickLabel=match?'一致を確認':config.quick&&!lossOnPlacement(x).length?'置く':'設置を確認';return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" ${s.outcome?'disabled':''}><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</button><div class="cw-card-controls"><button type="button" class="cw-handle" data-handle="${x.id}" aria-label="${esc(cardName(x))}をつかむ。クリックで選択" ${!config.drag?'hidden':''} ${s.outcome?'disabled':''}>つかむ</button><button type="button" data-quick="${x.id}" ${!config.buttons?'hidden':''} ${s.outcome?'disabled':''}>${quickLabel}</button></div></article>`;}).join('');
--    get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札を選ぶか、札の「置く」から出せます';
-+    root.dataset.cardDrag=String(config.drag);
-+    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</button></article>`;}).join('');
-+    get('cw-gesture-hint').textContent=config.drag?'左右で手札を見る · 上へ動かして場へ · タップで選択':'左右で手札を見る · タップで選択';
-+    get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札をタップすると、予測を確認できます';
+     root.dataset.cardDrag=String(config.drag);
+     get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'この手まで':'残り'+x.remaining+'手'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</button></article>`;}).join('');
+-    get('cw-gesture-hint').textContent=config.drag?'左右で手札を見る · 上へ動かして場へ · タップで選択':'左右で手札を見る · タップで選択';
++    get('cw-gesture-hint').textContent=config.drag?'スワイプで手札を見る · 少し押してつかむ · タップで選択':'左右で手札を見る · タップで選択';
+     get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):' → 空いている場へ'}`:'札をタップすると、予測を確認できます';
      get('cw-card-info').innerHTML=c?`<strong>${esc(cardName(c))} / ${esc(c.attr)}</strong>`+fullCard(c):'札を選んでください。';
      const needsTarget=c&&mid&&c.kind==='attack'&&!target;
-     if(c&&!s.outcome&&!needsTarget){
-@@ -34,7 +36,7 @@
+@@ -36,7 +37,7 @@
        if(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler'))brief+='。一致で札が消滅';
        if(mid&&p.guard)brief+='。現在の防御終了';
        get('cw-brief').textContent=brief;
--    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':'札の本文で選択。「つかむ」から場へドラッグできます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
-+    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':config.drag?'札を上へ持ち上げ、場で離すと出せます。選択して下のボタンでも実行できます。':'札を選択し、下のボタンで実行できます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
+-    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':config.drag?'札を上へ持ち上げ、場で離すと出せます。選択して下のボタンでも実行できます。':'札を選択し、下のボタンで実行できます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
++    }else{get('cw-brief').textContent=s.outcome?'探索終了。参照から成果を確認できます。':needsTarget?'上の相手・環境から攻撃対象を選んでください。':config.drag?'少し押して札が浮いたら、場へ運べます。選択して下のボタンでも実行できます。':'札を選択し、下のボタンで実行できます。';get('cw-prediction').textContent=get('cw-brief').textContent;get('cw-prediction-detail').textContent='';}
      get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'へ攻撃':'対象を選ぶ'):'一致して使う'):c.attr+'の場へ置く'):'札を選ぶ';
      get('cw-use').disabled=!!s.outcome||!c||!!needsTarget||busy;get('cw-cancel').disabled=!c;get('cw-show-card').disabled=!c;
      const flags=[];
-@@ -84,20 +86,32 @@
+@@ -86,9 +87,19 @@
    function openPanel(name,from){cancelDrag();opener=from||null;get('cw-drawer').hidden=false;root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);get('cw-drawer-title').textContent={reference:'参照・探索の操作',settings:'操作設定',card:'札と予測',result:'行動後の変化'}[name];get('cw-close').focus();}
    function closePanel(){get('cw-drawer').hidden=true;opener?.focus({preventScroll:true});}
    function releaseCapture(d){if(root.hasPointerCapture?.(d.pointerId))root.releasePointerCapture(d.pointerId);}
--  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';if(d)releaseCapture(d);return d;}
-+  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';root.querySelectorAll('[data-dragging="true"]').forEach(n=>n.dataset.dragging='false');if(d){suppressClickUntil=Date.now()+700;releaseCapture(d);}return d;}
+-  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';root.querySelectorAll('[data-dragging="true"]').forEach(n=>n.dataset.dragging='false');if(d){suppressClickUntil=Date.now()+700;releaseCapture(d);}return d;}
++  function clearDrag(){const d=drag;drag=null;get('cw-drag-ghost').hidden=true;get('cw-drop-zone').dataset.drag='false';get('cw-drop-zone').dataset.over='false';root.querySelectorAll('[data-dragging="true"]').forEach(n=>n.dataset.dragging='false');if(d){clearTimeout(d.timer);suppressClickUntil=Date.now()+700;releaseCapture(d);}return d;}
    function cancelDrag(){if(!drag)return;const d=clearDrag();if(d.started&&d.version===version){selected=d.previous;notice='ドラッグを取り消しました。';render();}}
-   function dragPosition(event){const rect=root.getBoundingClientRect(),ghost=get('cw-drag-ghost');ghost.style.left=Math.max(4,Math.min(rect.width-184,event.clientX-rect.left-80))+'px';ghost.style.top=Math.max(4,Math.min(rect.height-48,event.clientY-rect.top-24))+'px';const hit=document.elementFromPoint(event.clientX,event.clientY);drag.over=!!hit&&get('cw-drop-zone').contains(hit);get('cw-drop-zone').dataset.over=String(drag.over);}
+-  function dragPosition(event){const rect=root.getBoundingClientRect(),ghost=get('cw-drag-ghost');ghost.style.left=Math.max(4,Math.min(rect.width-184,event.clientX-rect.left-80))+'px';ghost.style.top=Math.max(4,Math.min(rect.height-48,event.clientY-rect.top-24))+'px';const hit=document.elementFromPoint(event.clientX,event.clientY);drag.over=!!hit&&get('cw-drop-zone').contains(hit);get('cw-drop-zone').dataset.over=String(drag.over);}
++  function dragPosition(event){const rect=root.getBoundingClientRect(),ghost=get('cw-drag-ghost');ghost.style.left=Math.max(4,Math.min(rect.width-184,event.clientX-rect.left-80))+'px';ghost.style.top=Math.max(4,Math.min(rect.height-124,event.clientY-rect.top-100))+'px';const hit=document.elementFromPoint(event.clientX,event.clientY);drag.over=!!hit&&get('cw-drop-zone').contains(hit);get('cw-drop-zone').dataset.over=String(drag.over);}
++  function beginHold(d){
++    if(drag!==d||d.mode!=='pending'||d.distance>=holdSlop)return;
++    if(!settings().drag||d.version!==version||game.s.outcome||!game.s.actors.P.hand.includes(d.id)||!get('cw-drawer').hidden){cancelDrag();return;}
++    d.mode='drag';d.started=true;selectCard(d.id);
++    const c=currentCard(),ghost=get('cw-drag-ghost');
++    ghost.innerHTML=`<strong>${attrBadge(c.attr)}${esc(cardName(c))}</strong><span>${mainText(c)}</span>`;ghost.hidden=false;
++    get('cw-drop-zone').dataset.drag='true';
++    notice='つかみました · '+(game.s.field[c.attr]?'場で離すと一致の予測へ':settings().quick&&!lossOnPlacement(c).length?'場で離すと設置':'場で離すと設置の予測へ');
++    get('cw-notice').textContent=notice;dragPosition({clientX:d.lastX,clientY:d.lastY});
++  }
    root.addEventListener('pointerdown',event=>{
--    if(drag||event.isPrimary===false||(event.button!==undefined&&event.button!==0)||!settings().drag||!get('cw-drawer').hidden||game.s.outcome)return;
--    const handle=event.target.closest('[data-handle]'),body=event.target.closest('[data-card]');
--    if(!handle&&!(body&&event.pointerType==='mouse'))return;
--    const id=handle?.dataset.handle||body.dataset.card;if(!game.s.actors.P.hand.includes(id))return;
--    drag={id,pointerId:event.pointerId,x:event.clientX,y:event.clientY,version,previous:selected,started:false,over:false};root.setPointerCapture?.(event.pointerId);if(handle)event.preventDefault();
-+    if(event.isPrimary===false){cancelDrag();return;}
-+    if(drag||(event.button!==undefined&&event.button!==0))return;
-+    suppressClickUntil=0;
-+    if(!get('cw-drawer').hidden||game.s.outcome)return;
-+    const body=event.target.closest('[data-card]');if(!body)return;
-+    const id=body.dataset.card;if(!game.s.actors.P.hand.includes(id))return;
-+    drag={id,pointerId:event.pointerId,pointerType:event.pointerType,x:event.clientX,y:event.clientY,scrollLeft:get('cw-hand').scrollLeft,version,previous:selected,mode:'pending',distance:0,started:false,over:false};root.setPointerCapture?.(event.pointerId);
+     if(event.isPrimary===false){cancelDrag();return;}
+     if(drag||(event.button!==undefined&&event.button!==0))return;
+@@ -96,34 +107,38 @@
+     if(!get('cw-drawer').hidden||game.s.outcome)return;
+     const body=event.target.closest('[data-card]');if(!body)return;
+     const id=body.dataset.card;if(!game.s.actors.P.hand.includes(id))return;
+-    drag={id,pointerId:event.pointerId,pointerType:event.pointerType,x:event.clientX,y:event.clientY,scrollLeft:get('cw-hand').scrollLeft,version,previous:selected,mode:'pending',distance:0,started:false,over:false};root.setPointerCapture?.(event.pointerId);
++    const config=settings();
++    drag={id,pointerId:event.pointerId,pointerType:event.pointerType,x:event.clientX,y:event.clientY,lastX:event.clientX,lastY:event.clientY,scrollLeft:get('cw-hand').scrollLeft,manualScroll:config.drag||event.pointerType!=='touch',version,previous:selected,mode:'pending',distance:0,started:false,over:false};root.setPointerCapture?.(event.pointerId);
++    const d=drag;if(config.drag)d.timer=setTimeout(()=>beginHold(d),config.hold);
    });
    root.addEventListener('pointermove',event=>{
      if(!drag||event.pointerId!==drag.pointerId)return;
      if(drag.version!==version||!game.s.actors.P.hand.includes(drag.id)){clearDrag();notice='状態が変わったためドラッグを取り消しました。';render();return;}
--    if(!drag.started&&Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<8)return;
-+    const dx=event.clientX-drag.x,dy=event.clientY-drag.y,ax=Math.abs(dx),ay=Math.abs(dy);
-+    drag.distance=Math.max(drag.distance,Math.hypot(dx,dy));
-+    if(drag.mode==='pending'){
-+      if(ax>=10&&ax>=ay*1.5)drag.mode='scroll';
-+      else if(dy<=-14&&ay>=ax*1.5)drag.mode=settings().drag?'drag':'cancel';
-+      else if((dy>=10&&ay>=ax*1.5)||drag.distance>=32)drag.mode='cancel';
-+      else return;
-+    }
-+    // Native touch panning owns horizontal movement; never turn that gesture into a play.
-+    if(drag.mode==='scroll'){if(drag.pointerType!=='touch'){get('cw-hand').scrollLeft=drag.scrollLeft-dx;updateScrollHints();event.preventDefault();}return;}
-+    if(drag.mode!=='drag')return;
-     if(!drag.started){drag.started=true;selectCard(drag.id);const c=currentCard();get('cw-drag-ghost').textContent=cardName(c);get('cw-drag-ghost').hidden=false;get('cw-drop-zone').dataset.drag='true';notice=game.s.field[c.attr]?'場で離すと一致の予測へ':settings().quick&&!lossOnPlacement(c).length?'場で離すと設置':'場で離すと設置の予測へ';get('cw-notice').textContent=notice;}
+-    const dx=event.clientX-drag.x,dy=event.clientY-drag.y,ax=Math.abs(dx),ay=Math.abs(dy);
++    const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
++    drag.lastX=event.clientX;drag.lastY=event.clientY;
+     drag.distance=Math.max(drag.distance,Math.hypot(dx,dy));
+     if(drag.mode==='pending'){
+-      if(ax>=10&&ax>=ay*1.5)drag.mode='scroll';
+-      else if(dy<=-14&&ay>=ax*1.5)drag.mode=settings().drag?'drag':'cancel';
+-      else if((dy>=10&&ay>=ax*1.5)||drag.distance>=32)drag.mode='cancel';
+-      else return;
++      if(drag.distance<holdSlop)return;
++      clearTimeout(drag.timer);drag.mode='scroll';
+     }
+-    // Native touch panning owns horizontal movement; never turn that gesture into a play.
+-    if(drag.mode==='scroll'){if(drag.pointerType!=='touch'){get('cw-hand').scrollLeft=drag.scrollLeft-dx;updateScrollHints();event.preventDefault();}return;}
++    // Moving before the hold deadline permanently chooses browsing, regardless of angle.
++    if(drag.mode==='scroll'){if(drag.manualScroll){get('cw-hand').scrollLeft=drag.scrollLeft-dx;updateScrollHints();event.preventDefault();}return;}
+     if(drag.mode!=='drag')return;
+-    if(!drag.started){drag.started=true;selectCard(drag.id);const c=currentCard();get('cw-drag-ghost').textContent=cardName(c);get('cw-drag-ghost').hidden=false;get('cw-drop-zone').dataset.drag='true';notice=game.s.field[c.attr]?'場で離すと一致の予測へ':settings().quick&&!lossOnPlacement(c).length?'場で離すと設置':'場で離すと設置の予測へ';get('cw-notice').textContent=notice;}
      dragPosition(event);event.preventDefault();
    });
-@@ -106,24 +120,24 @@
+   root.addEventListener('pointerup',event=>{
+     if(!drag||event.pointerId!==drag.pointerId)return;
      if(drag.started)dragPosition(event);const d=clearDrag();
-     if(d.started&&d.over){requestCard(d.id,d.version);event.preventDefault();}
+-    if(d.started&&d.over){requestCard(d.id,d.version);event.preventDefault();}
++    if(d.started&&d.over&&Math.hypot(event.clientX-d.x,event.clientY-d.y)>=holdSlop){requestCard(d.id,d.version);event.preventDefault();}
      else if(d.started){if(d.version===version)selected=d.previous;notice='場の外で離したため取り消しました。';render();}
--    else selectCard(d.id);
-+    else if(d.mode==='pending'&&d.distance<10&&Math.hypot(event.clientX-d.x,event.clientY-d.y)<10)selectCard(d.id,true);
+-    else if(d.mode==='pending'&&d.distance<10&&Math.hypot(event.clientX-d.x,event.clientY-d.y)<10)selectCard(d.id,true);
++    else if(d.mode==='pending'&&d.distance<holdSlop&&Math.hypot(event.clientX-d.x,event.clientY-d.y)<holdSlop)selectCard(d.id,true);
    });
--  root.addEventListener('pointercancel',cancelDrag);root.addEventListener('lostpointercapture',()=>{if(drag)cancelDrag();});
-+  root.addEventListener('pointercancel',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});root.addEventListener('lostpointercapture',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});
+   root.addEventListener('pointercancel',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});root.addEventListener('lostpointercapture',event=>{if(drag&&event.pointerId===drag.pointerId)cancelDrag();});
    window.addEventListener('blur',cancelDrag);
++  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelDrag();});
++  root.addEventListener('contextmenu',event=>{if(drag){event.preventDefault();}});
++  get('cw-hand').addEventListener('wheel',cancelDrag,{passive:true});
++  get('cw-hand').addEventListener('scroll',()=>{if(drag?.mode==='pending'&&Math.abs(get('cw-hand').scrollLeft-drag.scrollLeft)>1)cancelDrag();},{passive:true});
    root.addEventListener('keydown',event=>{if(event.key==='Escape'){if(drag)cancelDrag();else if(!get('cw-drawer').hidden)closePanel();else{selected=null;notice='';render();}}});
-+  root.addEventListener('click',event=>{if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();}},true);
+   root.addEventListener('click',event=>{if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();}},true);
    root.addEventListener('click',event=>{
-     if(event.detail>1)return;
-     const button=event.target.closest('button');if(!button||button.disabled)return;
-     if(button.dataset.open){openPanel(button.dataset.open,button);return;}
-     if(button.dataset.scroll){const [id,direction]=button.dataset.scroll.split(':');const el=get(id);el.scrollBy({left:Number(direction)*Math.max(100,el.clientWidth*.75),behavior:'auto'});return;}
-     if(button.dataset.target){target=button.dataset.target;render();root.querySelector(`[data-target="${target}"]`)?.focus({preventScroll:true});return;}
--    if(button.dataset.card||button.dataset.handle){selectCard(button.dataset.card||button.dataset.handle,true);return;}
--    if(button.dataset.quick){requestCard(button.dataset.quick,version);return;}
-+    if(button.dataset.card){selectCard(button.dataset.card,true);return;}
-   });
+@@ -137,7 +152,7 @@
    get('cw-use').addEventListener('click',event=>{if(event.detail<=1&&selected)perform(selected,version);});
    get('cw-cancel').addEventListener('click',()=>{cancelDrag();selected=null;notice='';render();});
    get('cw-close').addEventListener('click',closePanel);
--  for(const id of ['cw-quick-setting','cw-drag-setting','cw-button-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
-+  for(const id of ['cw-quick-setting','cw-drag-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
+-  for(const id of ['cw-quick-setting','cw-drag-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
++  for(const id of ['cw-quick-setting','cw-drag-setting','cw-hold-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
    get('cw-withdraw').addEventListener('click',()=>{cancelDrag();const before=game.public();game.settle('withdrawal');version++;recordChanges(before);absorb();selected=null;render();});
    get('cw-restart').addEventListener('click',()=>{cancelDrag();changedAttrs=new Set();busy=false;start();closePanel();});
    get('cw-history-order').addEventListener('change',renderHistory);
