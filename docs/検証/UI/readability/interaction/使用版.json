@@ -1,21 +1,21 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.7",
+  "ui_version": "0.8",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
   "baseline_code_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "baseline_spec": "0.39",
-  "operational_design_spec": "0.48",
-  "synchronized_design_commit": "050d146d0b7e54347c0048f940e624d0e65caeca",
-  "own_source_commit": "1e780157a3c91dea8107dec151aca38fcbe05c9b",
-  "own_source_merge_commit": "ead46330a1dab14d83584ee6420ea0565f803562",
-  "required_source_merge_commit": "42ea8df5f074afb4c0f24e19ad849361ca0dd5a0",
-  "ui_code_commit": "9a9ae91acdf9adec54f6379728fc0452f1e1143d",
+  "operational_design_spec": "0.49",
+  "synchronized_design_commit": "c8e4a1820ffd4bfa0862ada7156ca1a12ad7e577",
+  "own_source_commit": "ad9c38f97847ee7d8785403a1440909fab707908",
+  "own_source_merge_commit": "05d48c2dac1d68fa65ac689eb6bc97591709ed18",
+  "required_source_merge_commit": "cce18df35affe4bfdb79a022e103b293a666992a",
+  "ui_code_commit": null,
   "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
   "entry": "W seed32 / guard5",
   "game_changes": [],
-  "information_scope": "same fixed PT-Z-001; no private opponent hand or future order reveal",
+  "information_scope": "same fixed PT-Z-001; only public active actor schedules; no private opponent hand, deck order or future encounter reveal",
   "default_settings": {
     "direct_placement": true,
     "drag": true,
@@ -26,70 +26,70 @@
     "tap_opens_details": true
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.6 to v0.7 source changes only; build.cjs generates preview",
+  "ui_diff_scope": "v0.7 to v0.8 source changes only; build.cjs generates preview",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 15386,
-      "sha256": "aa18d91c8a0459410fb3587149921236c525f2b81c4f9274ce1cd20c4231cc1f"
+      "bytes": 17294,
+      "sha256": "ff17c58efee5352378465162fb71e9b24e57934bc168f32e5c75b00a373d6da8"
     },
     "build.cjs": {
-      "bytes": 2838,
-      "sha256": "4e8f269b27721d6b57307240ac67d7dc0a9e009d09b65b3057c8a81502aeb8b4"
+      "bytes": 2842,
+      "sha256": "16deed0bd7eaa9b5fbc27383d182ebaa3fa64fb513752a38e67937757fcefe86"
     },
     "play.fragment.html": {
-      "bytes": 6331,
-      "sha256": "d05e194a8c30e443b0dc11b2371012fc9ed8edfb802ccb8a03e92f410d40c137"
+      "bytes": 7462,
+      "sha256": "c2b0b8f2313bbb6b8ca8fe59a2bb888cf852818b6dbae4c1309e4db770a45171"
     },
     "preview.html": {
-      "bytes": 267542,
-      "sha256": "e4cf28c05f9ce8da51f6765a5e7ecd603a708d0eeb03f98c8b34145cb87426b7"
+      "bytes": 272131,
+      "sha256": "f29ede2d2b1c6511dd42b1e2225dc9532c01df0bda1128a93d32ebcccd07810e"
     },
     "support.js": {
       "bytes": 12040,
       "sha256": "e401126a6270a57db38d85a8bab6016010a2b838fca1a1d1c781826d6eab9403"
     },
     "ui-r002.patch": {
-      "bytes": 14466,
-      "sha256": "ebf18b9f1cbcb18805f4b40bc579d68b7bce0a0f2f5b12e4a2c518d71b969826"
+      "bytes": 35674,
+      "sha256": "c35e6bd979b96539b94266cebce91e7569a527aac7af71998a36233390ea8268"
     },
     "verification.json": {
-      "bytes": 3275,
-      "sha256": "7e86683230b17aac1bbbd0a113e18bccd2bcd15e7d5ca8a4bc984e036e87ae42"
+      "bytes": 3569,
+      "sha256": "01c90ac1e584041e8f13ce7d908b62885478d6e5b1126e5d7e06b879c9d8ba63"
     },
     "verify.cjs": {
-      "bytes": 19173,
-      "sha256": "8ae6ffacc3473b056acd8340b1d0e52a2665c8232ddb0d8ddfc21ee7e55fd4f5"
+      "bytes": 21574,
+      "sha256": "855b78da17c856fc18a3d008780fe002893e8fb0dfe3318d6b579fde24adadb5"
     },
     "view.js": {
-      "bytes": 20506,
-      "sha256": "041bcae6ea14dc14d772a3627a6b49da7e0eaf02c258192df5b4fdda3ca45d92"
+      "bytes": 20418,
+      "sha256": "d85335234bcba72b86eebf73e2ed846cd0c0c0c009d42754940d08f93fbb1599"
     },
     "surface.js": {
-      "bytes": 6893,
-      "sha256": "45b494c34acac3fb0b06a231d6811d63893a6385437a88ce412e5b6126370352"
+      "bytes": 9633,
+      "sha256": "03555d28d67b976b5b28ad89d1a6cc06466da14b66363c891dbfffb2e56d192d"
     },
     "画面操作・描画方針.md": {
-      "bytes": 13091,
-      "sha256": "9e872676551a176bb2fae43e5d5b4df6ffb9d387f0cb12ea5d42ce12a26b9733"
+      "bytes": 15511,
+      "sha256": "e3cf007c7166c1e75a33c4250f8a82335aefb936fa836833d06679e3e9a20256"
     },
     "table.css": {
-      "bytes": 13908,
-      "sha256": "58ba04dc8c9beb662aaccfa09d571f18ea4ec84d8dfd970ac41a88537527a93c"
+      "bytes": 14714,
+      "sha256": "82bf91bf3589c64284131632457b0da1fe1d6eef3b12b66af3f1a65554915d8e"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-slim-strip.html",
-    "sha256": "aeec3eb41adb5657e4ff92921eae56c4733f9b35f30b6337e0867bf2a76e3e49"
+    "path": "/workspace/crossweave-essential-info.html",
+    "sha256": "06a46f9cf2bcf37aa5be3a6d9bdb2e0f072253f687276dc76d3fc3f1c45e5ade"
   },
   "unverified": [
-    "real browser landscape layout, slim strip and transient overlay readability",
+    "real browser layout, turn icons / overflow and slim strip readability",
     "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ],
-  "previous_ui_code_commit": "59d0b7075f8ae64c21d201779a53728f4c133a13",
-  "ui_diff_base": "59d0b7075f8ae64c21d201779a53728f4c133a13",
+  "previous_ui_code_commit": "9a9ae91acdf9adec54f6379728fc0452f1e1143d",
+  "ui_diff_base": "9a9ae91acdf9adec54f6379728fc0452f1e1143d",
   "gesture_policy": {
     "hold_ms": 220,
     "hold_options_ms": [
@@ -124,15 +124,28 @@
       "narrow_coarse": 680
     },
     "menu_location": "slim single-row bottom strip with horizontally scrollable status and menus when needed",
-    "player_status_location": "single bottom row, HP first",
+    "player_status_location": "single bottom row, HP first, hand count included",
     "prediction": "complete detail window, summary first; confirmation drops open it",
     "card_window_height_px": "160–232, fitted between opponents and hand",
-    "adoption": "v0.6 background received positive feedback; thick bottom strip rejected and corrected",
+    "adoption": "v0.6 background positive; v0.7 slim strip retained; v0.8 follows request to curate persistent text and show all current actor schedules",
     "bottom_strip_height_px": {
       "regular": 32,
       "narrow_under_600": 40,
       "coarse": 48,
       "narrow_coarse": 56
+    },
+    "persistent_text": "actor/card actionable state and current next-turn icons; no region headings or idle gesture instructions",
+    "help": "on-demand operation/settings window; formal tutorial not implemented",
+    "breakthrough": "bottom-strip window; current active objectives under fixed replace_environment rules only",
+    "action_order": {
+      "participants": "all active actors that act, including player; next action once per actor",
+      "sort": "next_at ascending; ties V, P, E, then actor ID",
+      "display": "small horizontal artwork/fallback icons plus delay; full names and absolute times on demand",
+      "overflow": "horizontal scrolling and conditional previous/next controls",
+      "update": "after game state changes; selection does not assume future actions",
+      "inactive_or_actionless": "excluded",
+      "finish": "strip cleared"
     }
-  }
+  },
+  "updated_at_jst": "2026-09-11"
 }

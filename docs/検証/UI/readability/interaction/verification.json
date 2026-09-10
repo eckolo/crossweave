@@ -1,11 +1,12 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.7",
+  "ui_version": "0.8",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
   "checks": [
     "recorded choices: identical states / RNG / memory; no automatic next-card selection",
+    "essential information: own turn included; no inactive/actionless schedule; exact tie order; current breakthrough and help accessible without mutating game",
     "touch: same placement and NPC response",
     "mouse: same placement and NPC response",
     "pen: same placement and NPC response",
@@ -42,15 +43,17 @@
     "reference: outside closes without click-through or delayed hold",
     "settings: outside closes without click-through or delayed hold",
     "result: outside closes without click-through or delayed hold",
+    "objective: outside closes without click-through or delayed hold",
+    "order: outside closes without click-through or delayed hold",
     "transient chronological feed is bounded; full history retained after expiry; opening history changes no game state",
     "supplied geometry: compact dock follows cards directly below hand, clamps edges, labels offscreen card, fits 320px; popup stays above hand",
     "compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained",
     "art slots beneath actor/card captions; terrain base plus active environment layers only"
   ],
   "errors": [],
-  "fragment_sha256": "aeec3eb41adb5657e4ff92921eae56c4733f9b35f30b6337e0867bf2a76e3e49",
+  "fragment_sha256": "06a46f9cf2bcf37aa5be3a6d9bdb2e0f072253f687276dc76d3fc3f1c45e5ade",
   "unverified": [
-    "real browser landscape layout, slim strip and transient overlay readability",
+    "real browser layout, turn icons / overflow and slim strip readability",
     "physical hold timing, manual touch scrolling and pinch zoom",
     "human effort, errors and event-feed readability"
   ]

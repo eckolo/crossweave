@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -32,11 +32,35 @@ for(const run of fixtures.runs){
   const a=open(old.build()),b=open(build(),true);
   for(const d of [a,b]){query(d,'#cw-build').value=run.build;query(d,'#cw-restart').click();}
   eq(a,b);
-  for(const choice of run.choices){const before=state(b);choose(a,choice);choose(b,choice);assert.equal(state(b),before,'selection mutated game');assert(!query(b,'#cw-use').disabled,'legal action disabled');query(a,'#cw-use').click();query(b,'#cw-use').click();eq(a,b);assert.equal(b.window.__ui().selected,null,'new hand auto-selected');assert(query(b,'#cw-use').disabled,'execution remains armed');actions++;}
+  for(const choice of run.choices){const before=state(b);choose(a,choice);choose(b,choice);assert.equal(state(b),before,'selection mutated game');assert(!query(b,'#cw-use').disabled,'legal action disabled');query(a,'#cw-use').click();query(b,'#cw-use').click();eq(a,b);const scheduled=b.window.__inspect().s;assert.deepEqual([...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor).sort(),scheduled.outcome?[]:Object.keys(scheduled.actors).filter(id=>scheduled.actors[id].active&&scheduled.actors[id].acts).sort(),'scheduled participants did not follow state');assert.equal(b.window.__ui().selected,null,'new hand auto-selected');assert(query(b,'#cw-use').disabled,'execution remains armed');actions++;}
   for(const d of [a,b])query(d,'#cw-withdraw').click();eq(a,b);
   a.window.close();b.window.close();
 }
 checks.push('recorded choices: identical states / RNG / memory; no automatic next-card selection');
+{
+  const b=open(build(),true),before=state(b),s=b.window.__inspect().s;
+  const displayed=()=>[...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor);
+  assert.deepEqual(displayed(),['P','V0'],'initial order must include self and only active acting participants');
+  assert(!query(b,'[data-turn-actor="O"]'),'actionless rock received a scheduled turn');
+  query(b,'[data-open="order"]').click();
+  assert(query(b,'#cw-queue').textContent.includes('あなた'));
+  assert(!query(b,'#cw-queue').textContent.includes('後続'));
+  query(b,'#cw-close').click();query(b,'[data-open="objective"]').click();
+  const objective=query(b,'#cw-objective').textContent;
+  assert(objective.includes('大岩')&&objective.includes('最初の環境')&&!objective.includes('後続'));
+  query(b,'#cw-close').click();query(b,'[data-open="settings"]').click();
+  assert(!query(b,'#cw-gesture-hint').closest('[hidden]'),'instructions became unreachable');
+  query(b,'#cw-close').click();assert(query(b,'#cw-gesture-hint').closest('[hidden]'));
+  assert(query(b,'#cw-hand-count').closest('.cw-bottom'));
+  assert(query(b,'#cw-hand-context').hidden&&query(b,'#cw-field-context').hidden);
+  assert.equal(state(b),before,'information windows changed game state');
+  // Public scheduler tie rule: environment, player, enemy, then ID. No future action costs assumed.
+  const ties={now:4,actors:{E2:{active:true,acts:true,role:'E',next_at:4},P:{active:true,acts:true,role:'P',next_at:4},V0:{active:true,acts:true,role:'V',next_at:4},E1:{active:true,acts:true,role:'E',next_at:4},O:{active:true,acts:false,role:'O',next_at:0},V1:{active:false,acts:true,role:'V',next_at:0}}};
+  assert.deepEqual(Array.from(b.window.__order(ties)),['V0','P','E1','E2']);
+  ties.outcome='clear';assert.equal(b.window.__order(ties).length,0);
+  checks.push('essential information: own turn included; no inactive/actionless schedule; exact tie order; current breakthrough and help accessible without mutating game');
+  b.window.close();
+}
 const first=fixtures.runs[0].choices[0];
 for(const method of ['touch','mouse','pen','confirm']){
   const a=open(old.build()),b=open(build(),true);choose(a,first);query(a,'#cw-use').click();
@@ -151,7 +175,7 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
   assert(query(b,'#cw-drawer').hidden,'hold opened inspection window');pointer(b,root,'pointercancel');assert.equal(state(b),before);
   checks.push('one tap opens full card/prediction; another card switches; outside/Esc close; hold stays drag-only; optional manual detail');b.window.close();
 }
-for(const name of ['reference','settings','result']){
+for(const name of ['reference','settings','result','objective','order']){
   const b=open(build(),true),before=state(b);choose(b,first);query(b,'#cw-close').click();
   query(b,`[data-open="${name}"]`).click();assert(!query(b,'#cw-drawer').hidden);
   query(b,'#cw-use').click();assert(query(b,'#cw-drawer').hidden);assert.equal(state(b),before,'outside click executed underlying action');
@@ -206,7 +230,7 @@ for(const name of ['reference','settings','result']){
   for(const name of ['reference','result','settings'])assert(query(b,`[data-open="${name}"]`).closest('.cw-bottom'));
   assert(query(b,'#cw-event-feed').closest('.cw-board'));
   assert(!query(b,'.cw-bottom #cw-event-feed'));
-  choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').hidden);
+  choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').closest('[hidden]'));
   assert(!query(b,'#cw-brief').closest('[hidden]'),'moved prediction summary must remain reachable');
   query(b,'#cw-use').click();assert(query(b,'#cw-action-anchor').hidden);
   checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained');
@@ -223,5 +247,5 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
 }
 checks.push('art slots beneath actor/card captions; terrain base plus active environment layers only');
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.7',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser landscape layout, slim strip and transient overlay readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.8',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser layout, turn icons / overflow and slim strip readability','physical hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

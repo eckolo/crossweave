@@ -4,7 +4,37 @@
   const feedQueue=[];
   function artMarkup(kind,key,label){
     const asset=artwork[kind]?.[key];
-    return `<span class="cw-illustration" data-art-kind="${kind}" data-art-key="${esc(key)}" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:`<span class="cw-art-placeholder">${label}</span>`}</span>`;
+    return `<span class="cw-illustration" data-art-kind="${kind}" data-art-key="${esc(key)}" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:''}</span>`;
+  }
+  function actionOrder(s){
+    if(s.outcome)return [];
+    const priority={V:0,P:1,E:2};
+    return Object.keys(s.actors).filter(id=>s.actors[id].active&&s.actors[id].acts)
+      .sort((a,b)=>s.actors[a].next_at-s.actors[b].next_at
+        ||priority[s.actors[a].role]-priority[s.actors[b].role]||a.localeCompare(b));
+  }
+  function renderActionOrder(s){
+    const order=actionOrder(s),strip=get('cw-turn-order'),offset=strip.scrollLeft;
+    strip.innerHTML=order.map((id,i)=>{
+      const a=s.actors[id],asset=artwork.actors[id],wait=a.next_at-s.now;
+      const label=`${i+1}番 ${names[id]||id}。${wait===0?'現在':`あと${wait}`}、予定時刻 ${a.next_at}。行動順の詳細を開く`;
+      return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}"><span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:({P:'自',V:'環',E:'敵'})[a.role]||'・'}</span><span aria-hidden="true">+${wait}</span></button></li>`;
+    }).join('');
+    strip.scrollLeft=offset;
+    get('cw-queue').innerHTML=s.outcome?'<p>探索終了</p>':`<p>現在時刻 ${s.now}</p>`+order.map((id,i)=>`<div class="cw-log">${i+1}. ${esc(names[id]||id)}　時刻 ${s.actors[id].next_at}（+${s.actors[id].next_at-s.now}）</div>`).join('');
+  }
+  function updateOrderHints(){
+    const strip=get('cw-turn-order'),prev=strip.previousElementSibling,next=strip.nextElementSibling;
+    const overflow=strip.clientWidth>0&&strip.scrollWidth>strip.clientWidth+2;
+    prev.hidden=next.hidden=!overflow;
+    prev.disabled=strip.scrollLeft<=2;next.disabled=strip.scrollLeft>=strip.scrollWidth-strip.clientWidth-2;
+  }
+  function objectiveMarkup(s){
+    if(s.outcome)return `<p>${({clear:'この探索を突破しました。',defeat:'HPが尽き、探索は終了しました。',withdrawal:'撤退しました。',cutoff:'試行上限で終了しました。'})[s.outcome]||'探索は終了しました。'}</p>`;
+    // Fixed PT-Z-001 rules. List current participants only, without future encounter data.
+    const ids=(s.current_event==='rock'?['O','V0']:s.current_event==='open_rock'?['V0']:s.current_event==='followup'?['V1']:[]).filter(id=>s.actors[id]?.active);
+    if(!ids.length)return '<p>この場面の突破条件を確認できません。</p>';
+    return `<p>${ids.length>1?'いずれかの':'対象の'}HPを0にする</p>`+ids.map(id=>`<div class="cw-log">${esc(names[id])}　HP ${s.actors[id].hp}/${s.actors[id].max_hp}</div>`).join('')+(s.current_event==='followup'&&s.actors.E1?.active?'<p>敵の撃破は突破の必須条件ではありません。</p>':'');
   }
   function paintScene(s){
     const terrain=['followup','finished'].includes(s.current_event)?'followup':'initial';
@@ -19,7 +49,6 @@
     const tr=track.getBoundingClientRect(),hr=hand.getBoundingClientRect();
     const card=selected?root.querySelector(`[data-card="${selected}"]`):null,cr=card?.getBoundingClientRect();
     dock.hidden=!card;
-    get('cw-gesture-hint').hidden=!!card;
     const center=cr?(cr.left+cr.right)/2:tr.left+tr.width/2;
     const width=dock.getBoundingClientRect().width||Math.min(248,tr.width);
     const left=Math.max(0,Math.min(tr.width-width,center-tr.left-width/2));
@@ -27,6 +56,7 @@
     dock.style.setProperty('--cw-card-tip',Math.max(8,Math.min(width-8,center-tr.left-left))+'px');
     const side=cr&&cr.right<=hr.left?'左':cr&&cr.left>=hr.right?'右':null;
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
+    get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
     if(openName==='card'){
       const rr=root.getBoundingClientRect(),popup=get('cw-drawer');
       const worldBottom=root.querySelector('.cw-world').getBoundingClientRect().bottom;
@@ -45,7 +75,7 @@
     popup.setAttribute('aria-modal',String(name!=='card'));
     get('cw-backdrop').hidden=name==='card';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
-    get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作設定',card:'札・予測の詳細',result:'履歴'}[name];
+    get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
     if(name==='result'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
     if(name==='card')get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     placeNearCard();

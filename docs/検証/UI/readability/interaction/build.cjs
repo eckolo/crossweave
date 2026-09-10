@@ -21,7 +21,7 @@ function build(replay={build:'guard5',choices:[]}){
 }
 if(require.main===module){
   const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone');
-  const out=pos[0]||'/workspace/crossweave-slim-strip.html';
+  const out=pos[0]||'/workspace/crossweave-essential-info.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
   let s=build(replay);
