@@ -38,56 +38,45 @@
     game.advance();absorb();history.unshift('持ち込み · '+CWTerrain.builds[buildId].label,'補給 · 回復草 1枚');render();
   }
   function guardText(a){return a.guard?`防御 ${a.guard.value}／回避 ${signed(a.guard.evasion)}／残${a.guard.uses}回`:'防御なし';}
-  function previewText(c,pred){
-    const p=game.s.actors.P,m=game.s.field[c.attr];let text;
-    if(pred.mode==='place')text=`${c.attr}の場へ設置。次に一致した札へ、${fieldText(c).replace('<br>','、')}。`;
-    else if(pred.mode==='attack'){
-      const d=game.s.actors[target],total=d.hit+pred.hit_gain;
-      text=`${names[target]}：${pred.hit_connected?'命中':'未命中'}、HP ${d.hp} → ${d.hp-pred.actual_hp_loss}。命中蓄積 ${d.hit} → ${pred.hit_connected?0:total}。`;
-      if(pred.hit_gain===0)text+=` 命中加算0（札 ${c.hit}、場 ${signed(game.s.cards[m].field_hit)}、対象回避 ${game.evasion(target)}）。`;
-      if(['O','V0'].includes(target)&&pred.actual_hp_loss===d.hp&&game.s.actors.O.active)text+=' 大岩が退場し、周囲への回避支援が終了。';
-    } else if(pred.mode==='guard')text=`防御 ${pred.guard.value}・回避 ${signed(pred.guard.evasion)}、命中した攻撃へ残2回。`;
-    else if(pred.mode==='heal')text=`HP ${p.hp} → ${p.hp+pred.hp_restored}（回復 +${pred.hp_restored}、余剰 ${c.power-pred.hp_restored}）。`;
-    else text='主効果なし。';
-    if(m)text+=` 会心 +${pred.crit_added}。`;
-    text+=` 自分の次回予定：時刻 ${game.s.now+game.cost(c.type,!!m)}。`;
-    if(p.guard)text+=m?' 現在の防御・回避は終了。':' 現在の防御・回避を保持。';
-    const losses=[];
-    if(m&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push('使用札の'+cardName(c));
-    if(m){const material=game.s.cards[m];if(material.consume_on_recover||material.doomed||material.birth==='filler')losses.push('場の'+cardName(material));}
-    if(losses.length)text+=`<div class="cw-loss">この行動で消滅：${esc(losses.join('、'))}</div>`;
-    const expired=p.hand.filter(id=>id!==c.id&&game.s.cards[id].remaining===1);
-    if(expired.length)text+='<div>この行動後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return esc(cardName(x))+(x.consume_on_recover?'（消滅）':x.doomed||x.birth==='filler'?'（回収時に消滅）':'（回収）');}).join('、')+'</div>';
-    return text;
+  function calculation(c,pred){
+    const s=game.public(),p=s.actors.P,d=s.actors[target],m=s.field[c.attr];
+    const attackMultiplier=1+Math.floor((p.crit+pred.crit_added)/100);
+    const shield=d.guard?d.guard.value*(1+Math.floor(d.crit/100)):0;
+    const total=d.hit+pred.hit_gain;
+    const rows=[['命中加算',`max(0, ${c.hit} ${signed(m.field_hit)} − ${d.evasion}) = ${pred.hit_gain}`],['攻撃力',`(${c.power} ${signed(m.field_power)}) × ${attackMultiplier}`],['防御・軽減',`${shield} + ${d.reduction||0}`]];
+    if(pred.hit_connected)rows.push(['命中倍率',`1 + ⌊${total} / 100⌋ = ${1+Math.floor(total/100)}`]);
+    return `<dl class="cw-facts">${rows.map(([label,value])=>`<dt>${label}</dt><dd>${esc(value)}</dd>`).join('')}</dl>`;
   }
   const attrBadge=a=>`<span class="cw-attr">${esc(a)}</span>`;
   const mainText=c=>CWFeedback.mainText(c);
-  function fullCard(c){return `<div class="cw-deck-effects"><div>主効果：${mainText(c)}<br>会心増加 ${signed(c.crit_gain)} · 期限 ${c.life}行動</div><div>場：${fieldText(c)}<br>行動コスト 設置${c.place_cost}／一致${c.match_cost}</div></div>${c.consume_on_recover?'<div class="cw-loss">回収時に消滅</div>':c.doomed?'<div class="cw-loss">退場由来：次の回収で消滅</div>':''}`;}
+  function fullCard(c){
+    const rows=[['主効果',mainText(c)],['場',fieldText(c).replace('<br>',' · ')],['会心',signed(c.crit_gain)],['時間',`設置 ${c.place_cost} · 一致 ${c.match_cost}`],['期限',`${c.life}行動`]];
+    return `<dl class="cw-facts" data-card-facts>${rows.map(([label,value])=>`<dt>${label}</dt><dd>${value}</dd>`).join('')}</dl>${c.consume_on_recover||c.doomed?'<div class="cw-loss">回収で消滅</div>':''}`;
+  }
   function prediction(c,pred){
     const p=game.s.actors.P,mid=game.s.field[c.attr],material=game.s.cards[mid];let heading,impacts=[];
     if(pred.mode==='place'){
       heading='場に出す';
-      impacts=[`次の一致へ 攻撃／防御 ${signed(c.field_power)}`,`命中／回避 ${signed(c.field_hit)}`];
+      impacts=[];
     }else if(pred.mode==='attack'){
       const d=game.s.actors[target];heading=`${names[target]}へ攻撃 · ${pred.hit_connected?'命中':'未命中'}`;
       impacts=[`HP ${d.hp} → ${d.hp-pred.actual_hp_loss}`,`命中蓄積 ${d.hit} → ${pred.hit_connected?0:d.hit+pred.hit_gain}`];
-      if(!pred.hit_gain)impacts.push('命中加算 0');
     }else if(pred.mode==='guard'){
-      heading='自分の防御を開始';impacts=[`防御 ${pred.guard.value}`,`回避 ${signed(pred.guard.evasion)}`,`命中する攻撃 2回まで`];
+      heading='防御';impacts=[`防御 ${pred.guard.value}`,`回避 ${signed(pred.guard.evasion)}`,`命中2回分`];
     }else if(pred.mode==='heal'){
-      heading='自分を回復';impacts=[`HP ${p.hp} → ${p.hp+pred.hp_restored}`,`回復 +${pred.hp_restored} · 余剰 ${c.power-pred.hp_restored}`];
+      heading='回復';impacts=[`HP ${p.hp} → ${p.hp+pred.hp_restored}`];if(c.power>pred.hp_restored)impacts.push(`余剰 ${c.power-pred.hp_restored}`);
     }else heading='一致 · 主効果なし';
     if(mid)impacts.push(`会心 +${pred.crit_added}`);
-    impacts.push(`次の自分 時刻 ${game.s.now+game.cost(c.type,!!mid)}`);
+    impacts.push(`次回 時刻 ${game.s.now+game.cost(c.type,!!mid)}`);
     const notices=[];
-    if(p.guard)notices.push(mid?'現在の防御・回避は終了'+(pred.mode==='guard'?' → 新しい防御へ':''):'現在の防御・回避を保持');
-    if(pred.mode==='attack'&&['O','V0'].includes(target)&&pred.actual_hp_loss===game.s.actors[target].hp&&game.s.actors.O.active)notices.push('大岩が退場し、周囲への回避支援が終了');
+    if(p.guard)notices.push(mid?(pred.mode==='guard'?'防御を更新':'防御終了'):'防御を維持');
+    if(pred.mode==='attack'&&['O','V0'].includes(target)&&pred.actual_hp_loss===game.s.actors[target].hp&&game.s.actors.O.active)notices.push('大岩の遮蔽終了');
     const losses=[];
     if(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'))losses.push(cardName(c));
     if(mid&&(material.consume_on_recover||material.doomed||material.birth==='filler'))losses.push('場の'+cardName(material));
-    if(losses.length)notices.push('この行動で消滅：'+losses.join('、'));
+    if(losses.length)notices.push('消滅：'+losses.join('、'));
     const expired=p.hand.filter(id=>id!==c.id&&game.s.cards[id].remaining===1);
-    if(expired.length)notices.push('この行動後に期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return cardName(x)+(x.consume_on_recover||x.doomed||x.birth==='filler'?'（消滅）':'（回収）');}).join('、'));
+    if(expired.length)notices.push('期限切れ：'+expired.map(id=>{const x=game.s.cards[id];return cardName(x)+(x.consume_on_recover||x.doomed||x.birth==='filler'?'（消滅）':'（回収）');}).join('、'));
     return `<strong>${esc(heading)}</strong><div class="cw-impact">${impacts.map(x=>`<span>${esc(x)}</span>`).join('')}</div>${notices.map(x=>`<div class="cw-warning">${esc(x)}</div>`).join('')}`;
   }
   function recordChanges(before){

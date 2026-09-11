@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.12",
+  "ui_version": "0.13",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
@@ -41,12 +41,14 @@
     "vanishing: match stages only",
     "one tap opens full card/prediction; another card switches; outside/Esc close; hold stays drag-only; optional manual detail",
     "reference: outside closes without click-through or delayed hold",
+    "status: outside closes without click-through or delayed hold",
     "settings: outside closes without click-through or delayed hold",
     "result: outside closes without click-through or delayed hold",
     "objective: outside closes without click-through or delayed hold",
     "order: outside closes without click-through or delayed hold",
     "physical same-card clicks toggle detail and retain selection; no redundant detail or deselect controls",
     "reference: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
+    "status: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
     "result: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
     "objective: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
     "settings: mouse preview / gap transfer / leave dismissal / pin / retoggle / direct switch; no touch hover or game mutation",
@@ -76,10 +78,13 @@
     "execution hover mirrors hold ghost and field/hand emphasis; touch requires no hover; leave clears; hover does not execute; click executes exactly once",
     "withdrawal works directly from pinned menu; exact fixed settlement; re-entry starts the same build/seed; no hidden carryover or in-play restart",
     "return panel lists only actual kept/lost fixed-engine rewards across recorded fixtures",
-    "source constraints: explicit bounded centered frame; 16:9 baseline retained; actor art reserves height independently of caption (not a browser rendering assertion)"
+    "source constraints: explicit bounded centered frame; 16:9 baseline retained; actor art fills the opponent region behind caption (not a browser rendering assertion)",
+    "hover closes inspector without clearing selection/target; ghost stays 6px above button despite cursor movement, follows layout, and leave does not reopen",
+    "placement detail states own field modifiers once; no duplicate prose summary or empty calculation section; shared rules remain in settings; status has independent menu and panel",
+    "hold instruction omits redundant grabbed announcement and retains the actual drop outcome"
   ],
   "errors": [],
-  "fragment_sha256": "6c5caeaaeadd48e4070ee04bfc4f41fdeddc709e88d43bbfb7436fc71aa4d227",
+  "fragment_sha256": "869b4987c8c30bd7ac19e8486ff66c9840872aa73527525558171ab61bcd4b78",
   "unverified": [
     "real browser right edge, centered layout, art visibility and translucent-window readability",
     "physical gallery hover paths and held-card pointer contact",

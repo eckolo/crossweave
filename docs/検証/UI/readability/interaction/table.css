@@ -59,7 +59,6 @@
 #cw-playtable #cw-action-anchor:before{content:"";position:absolute;top:-4px;left:var(--cw-card-tip,50%);width:8px;height:8px;background:var(--cw-paper);transform:translateX(-50%) rotate(45deg);z-index:-1}
 #cw-playtable #cw-action-anchor button{font-size:12px;min-height:40px;padding:4px 7px}#cw-playtable #cw-use{flex:1}
 #cw-playtable .cw-selection-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}#cw-playtable #cw-selected-line{flex:1;font-size:12px}
-#cw-playtable #cw-brief{font-size:12px;margin-bottom:8px}
 #cw-playtable #cw-drag-ghost{position:absolute;z-index:6;pointer-events:none;background:var(--cw-selected);color:var(--cw-selected-ink);border-radius:6px;padding:8px 12px;width:180px;min-height:76px;max-height:120px;overflow:hidden;display:flex;flex-direction:column;gap:4px;font-size:12px;box-shadow:0 8px 18px light-dark(#0004,#0008)}
 #cw-playtable #cw-backdrop{position:absolute;inset:0;z-index:7;border-radius:9px;background:light-dark(#273b2908,#0000000a)}
 #cw-playtable .cw-drawer{position:absolute;z-index:8;inset:auto;width:min(560px,calc(100% - 24px));height:auto;max-height:calc(100% - 24px);border:1px solid var(--cw-line);border-radius:9px;padding:12px;background:var(--cw-window);display:grid;grid-template-rows:auto minmax(0,1fr);box-shadow:0 4px 14px light-dark(#0002,#0005);backdrop-filter:blur(2px)}
@@ -106,8 +105,8 @@
 /* Keep the composition centered in the available window, with no intrinsic-width expansion. */
 #cw-playtable>.cw-region,#cw-playtable>.cw-bottom{max-width:100%;width:100%;min-width:0}
 #cw-playtable .cw-icon{width:18px;height:18px;vertical-align:middle;flex-shrink:0}
-#cw-playtable .cw-actor .cw-illustration{position:relative;inset:auto;flex:1 0 42px;min-height:42px;width:100%;align-items:center;padding:0;background:radial-gradient(ellipse at 50% 90%,light-dark(#40564140,#a5b89725),transparent 62%)}
-#cw-playtable .cw-actor .cw-illustration .cw-icon{width:70px;height:48px;filter:drop-shadow(0 2px 1px light-dark(#dfe7c7,#243a29));color:light-dark(#294737,#d9e4be);stroke-width:1.6}
+#cw-playtable .cw-actor .cw-illustration{position:absolute;inset:0;min-height:0;width:100%;height:100%;align-items:center;padding:0 0 12px;background:radial-gradient(ellipse at 50% 90%,light-dark(#40564140,#a5b89725),transparent 62%)}
+#cw-playtable .cw-actor .cw-illustration .cw-icon{width:100%;height:100%;max-width:200px;filter:drop-shadow(0 2px 1px light-dark(#dfe7c7,#243a29));color:light-dark(#294737,#d9e4be);stroke-width:1.6}
 #cw-playtable .cw-actor .cw-face-caption{flex-shrink:0;background:var(--cw-window);padding:3px 6px;gap:0}
 #cw-playtable .cw-actor-head strong{font-size:12px}
 #cw-playtable .cw-illustration[data-art-kind="cards"]>.cw-icon{width:40px;height:40px;color:light-dark(#395b4c,#d0dcc0)}
@@ -127,3 +126,9 @@
 #cw-playtable #cw-deck-title{margin-top:0}
 #cw-playtable #cw-reenter{margin-top:16px}
 @media(pointer:coarse){#cw-playtable .cw-bottom>#cw-withdraw{min-height:44px}}
+
+#cw-playtable .cw-facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:7px 14px;margin:8px 0;font-size:12px}
+#cw-playtable .cw-facts dt,#cw-playtable .cw-facts dd{margin:0}
+#cw-playtable .cw-facts dt{color:var(--cw-ink);opacity:.8}
+#cw-playtable #cw-prediction>.cw-impact{margin-top:8px}
+#cw-playtable #cw-calculation{margin-top:14px}

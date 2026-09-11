@@ -1,0 +1,550 @@
+{
+  "trial": "AS1",
+  "base_commit": "b77509d1aa0e6fd522685990f9955eaa9fc415cc",
+  "source_sha256": "fd76198de04da443df62d2ca495f153f560db0d7cc3cd03b0137cd57d432b3a7",
+  "conditions_sha256": "8fbe038d9ee9cdac594a5c66af46e0eb87ccd1c12040cfc0182987b909f2397d",
+  "analysis_sha256": "3a2d7d8739eb6cf56ec0d9bb1e0cc012b3f1f363984bcaeeb0acb8806ad1799c",
+  "new_expeditions": 0,
+  "purchases_executed": 0,
+  "cohorts_reanalyzed": 32,
+  "summary": [
+    {
+      "strategy": "retain",
+      "cohorts": 16,
+      "price_points": 2,
+      "mean_available_points": 10.40625,
+      "mean_sale_points": 0.71875,
+      "mean_affordable": 4.8125,
+      "minimum_affordable": 0,
+      "maximum_affordable": 7,
+      "unable_to_buy_one": 1
+    },
+    {
+      "strategy": "retain",
+      "cohorts": 16,
+      "price_points": 4,
+      "mean_available_points": 10.40625,
+      "mean_sale_points": 0.71875,
+      "mean_affordable": 2.125,
+      "minimum_affordable": 0,
+      "maximum_affordable": 3,
+      "unable_to_buy_one": 1
+    },
+    {
+      "strategy": "retain",
+      "cohorts": 16,
+      "price_points": 6,
+      "mean_available_points": 10.40625,
+      "mean_sale_points": 0.71875,
+      "mean_affordable": 1.3125,
+      "minimum_affordable": 0,
+      "maximum_affordable": 2,
+      "unable_to_buy_one": 1
+    },
+    {
+      "strategy": "adapt",
+      "cohorts": 16,
+      "price_points": 2,
+      "mean_available_points": 10.9375,
+      "mean_sale_points": 0.75,
+      "mean_affordable": 5.0625,
+      "minimum_affordable": 1,
+      "maximum_affordable": 7,
+      "unable_to_buy_one": 0
+    },
+    {
+      "strategy": "adapt",
+      "cohorts": 16,
+      "price_points": 4,
+      "mean_available_points": 10.9375,
+      "mean_sale_points": 0.75,
+      "mean_affordable": 2.3125,
+      "minimum_affordable": 0,
+      "maximum_affordable": 3,
+      "unable_to_buy_one": 1
+    },
+    {
+      "strategy": "adapt",
+      "cohorts": 16,
+      "price_points": 6,
+      "mean_available_points": 10.9375,
+      "mean_sale_points": 0.75,
+      "mean_affordable": 1.5,
+      "minimum_affordable": 0,
+      "maximum_affordable": 2,
+      "unable_to_buy_one": 2
+    },
+    {
+      "strategy": "combined",
+      "cohorts": 32,
+      "price_points": 2,
+      "mean_available_points": 10.671875,
+      "mean_sale_points": 0.734375,
+      "mean_affordable": 4.9375,
+      "minimum_affordable": 0,
+      "maximum_affordable": 7,
+      "unable_to_buy_one": 1
+    },
+    {
+      "strategy": "combined",
+      "cohorts": 32,
+      "price_points": 4,
+      "mean_available_points": 10.671875,
+      "mean_sale_points": 0.734375,
+      "mean_affordable": 2.21875,
+      "minimum_affordable": 0,
+      "maximum_affordable": 3,
+      "unable_to_buy_one": 2
+    },
+    {
+      "strategy": "combined",
+      "cohorts": 32,
+      "price_points": 6,
+      "mean_available_points": 10.671875,
+      "mean_sale_points": 0.734375,
+      "mean_affordable": 1.40625,
+      "minimum_affordable": 0,
+      "maximum_affordable": 2,
+      "unable_to_buy_one": 3
+    }
+  ],
+  "recycling_example": [
+    {
+      "purchase_price_points": 2,
+      "ordinary_sale_points": 0.5,
+      "net_cost_points_if_immediately_sold": 1.5,
+      "effective_return_fraction_of_purchase": 0.25
+    },
+    {
+      "purchase_price_points": 4,
+      "ordinary_sale_points": 0.5,
+      "net_cost_points_if_immediately_sold": 3.5,
+      "effective_return_fraction_of_purchase": 0.125
+    },
+    {
+      "purchase_price_points": 6,
+      "ordinary_sale_points": 0.5,
+      "net_cost_points_if_immediately_sold": 5.5,
+      "effective_return_fraction_of_purchase": 0.08333333333333333
+    }
+  ],
+  "rows": [
+    {
+      "offset": 0,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 0,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1200,
+      "direct_reward_units": 1900,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 0,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 950,
+      "direct_reward_units": 1700,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 4,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 0,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 750,
+      "direct_reward_units": 1500,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 3,
+        "4": 1,
+        "6": 1
+      }
+    },
+    {
+      "offset": 2,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 2,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 2,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 700,
+      "direct_reward_units": 1500,
+      "sale_units": 0,
+      "affordable_counts": {
+        "2": 3,
+        "4": 1,
+        "6": 1
+      }
+    },
+    {
+      "offset": 2,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 700,
+      "direct_reward_units": 1500,
+      "sale_units": 0,
+      "affordable_counts": {
+        "2": 3,
+        "4": 1,
+        "6": 1
+      }
+    },
+    {
+      "offset": 4,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1150,
+      "direct_reward_units": 1900,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 5,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 4,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1350,
+      "direct_reward_units": 2100,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 4,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 100,
+      "direct_reward_units": 900,
+      "sale_units": 0,
+      "affordable_counts": {
+        "2": 0,
+        "4": 0,
+        "6": 0
+      }
+    },
+    {
+      "offset": 4,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 300,
+      "direct_reward_units": 1100,
+      "sale_units": 0,
+      "affordable_counts": {
+        "2": 1,
+        "4": 0,
+        "6": 0
+      }
+    },
+    {
+      "offset": 6,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1150,
+      "direct_reward_units": 1900,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 5,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 6,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 6,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 950,
+      "direct_reward_units": 1700,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 4,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 6,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 950,
+      "direct_reward_units": 1700,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 4,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 8,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1250,
+      "direct_reward_units": 1900,
+      "sale_units": 150,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 8,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1450,
+      "direct_reward_units": 2100,
+      "sale_units": 150,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 8,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 1300,
+      "direct_reward_units": 2000,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 8,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 1300,
+      "direct_reward_units": 2000,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 10,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1250,
+      "direct_reward_units": 1900,
+      "sale_units": 150,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 10,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1250,
+      "direct_reward_units": 1900,
+      "sale_units": 150,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 10,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 950,
+      "direct_reward_units": 1700,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 4,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 10,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 950,
+      "direct_reward_units": 1700,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 4,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 12,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1050,
+      "direct_reward_units": 1800,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 5,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 12,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1350,
+      "direct_reward_units": 2100,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 12,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 1000,
+      "direct_reward_units": 1700,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 5,
+        "4": 2,
+        "6": 1
+      }
+    },
+    {
+      "offset": 12,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 1300,
+      "direct_reward_units": 2000,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 6,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 14,
+      "first": "A",
+      "strategy": "retain",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 14,
+      "first": "A",
+      "strategy": "adapt",
+      "available_units": 1400,
+      "direct_reward_units": 2100,
+      "sale_units": 100,
+      "affordable_counts": {
+        "2": 7,
+        "4": 3,
+        "6": 2
+      }
+    },
+    {
+      "offset": 14,
+      "first": "B",
+      "strategy": "retain",
+      "available_units": 650,
+      "direct_reward_units": 1400,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 3,
+        "4": 1,
+        "6": 1
+      }
+    },
+    {
+      "offset": 14,
+      "first": "B",
+      "strategy": "adapt",
+      "available_units": 450,
+      "direct_reward_units": 1200,
+      "sale_units": 50,
+      "affordable_counts": {
+        "2": 2,
+        "4": 1,
+        "6": 0
+      }
+    }
+  ],
+  "limits": "End of each completed eight-expedition AR cohort, with all four base passives learned. This is an affordability calculation on frozen outcomes, not a new purchase policy or gameplay simulation."
+}

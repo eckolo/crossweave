@@ -6,7 +6,7 @@
   const objectWindow=name=>['card','field','actor'].includes(name);
   function renderObjectInfo(s){
     const card=Object.values(s.field).find(c=>c?.id===inspectedField);
-    get('cw-field-info').innerHTML=card?`<strong>${esc(cardName(card))} / ${esc(card.attr)}</strong>${fullCard(card)}<p>同じ属性の手札と一致すると、場の補正を適用して回収します。場にある間は手札の期限を減らしません。</p>`:'';
+    get('cw-field-info').innerHTML=card?`<strong>${esc(cardName(card))} / ${esc(card.attr)}</strong>${fullCard(card)}`:'';
     const actor=s.actors[inspectedActor];
     get('cw-actor-info').innerHTML=actor?.active?`<strong>${esc(names[inspectedActor]||inspectedActor)}</strong><div class="cw-impact"><span>HP ${actor.hp}/${actor.max_hp}</span><span>命中蓄積 ${actor.hit}</span><span>会心 ${actor.crit}</span></div><p>${esc(guardText(actor))}<br>回避合計 ${signed(actor.evasion)} · 軽減 ${actor.reduction||0}</p><p>${actor.acts?'次回 時刻 '+actor.next_at:'行動なし'}</p>${knownActorInfo(inspectedActor)}`:'';
     if(openName==='field'&&!card||openName==='actor'&&!actor?.active)hideWindow(false);
@@ -85,7 +85,7 @@
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
     get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
     placeWindow(center,hr);
-    drawRelations();placeCatalogue();
+    drawRelations();placeCatalogue();placeUsePreview();
   }
   function placeWindow(handCenter,handRect){
     if(!openName)return;
@@ -148,7 +148,7 @@
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
     popup.style.left='';popup.style.top='';popup.style.height='';popup.style.width='';popup.style.maxHeight='';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
-    get('cw-drawer-title').textContent={reference:'山札',settings:'設定',card:'予測',field:'場札',actor:'相手',result:'履歴',objective:'突破条件',order:'行動順',return:'帰還'}[name];
+    get('cw-drawer-title').textContent={reference:'山札',status:'状況',settings:'設定',card:'予測',field:'場札',actor:'相手',result:'履歴',objective:'突破条件',order:'行動順',return:'帰還'}[name];
     if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
     get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     syncWindowState();placeNearCard();

@@ -21,7 +21,7 @@ function build(replay={build:'guard5',choices:[]}){
 }
 if(require.main===module){
   const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone'&&!x.startsWith('--build='));
-  const out=pos[0]||'/workspace/crossweave-centered-table.html';
+  const out=pos[0]||'/workspace/crossweave-compact-details.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
   const buildId=args.find(x=>x.startsWith('--build='))?.split('=')[1];
