@@ -1,0 +1,17 @@
+{
+  "trial": "AR1-tempo",
+  "reason": "The initial fixed-entry action policies rarely trigger PS01 and do not deliberately seek guard-to-placement sequences. Check this specific limitation before deciding whether the minimum-time case needs a nerf.",
+  "main_result_sha256_required": true,
+  "routes": ["A", "B", "C"],
+  "builds": ["guard0", "guard5"],
+  "loadouts": ["empty", "placement4", "advance2", "placement2_guard2"],
+  "seeds": [8, 9, 10, 11, 12, 13, 14, 15],
+  "policies": ["progress_first", "guard_then_place"],
+  "sequence_policy": [
+    "Use the same public-state AH progress policy as fallback, preserving its healing choice and currently lethal attacks.",
+    "With at least two equipped PS01 copies, prefer a currently available non-healing placement costing at most 3 if the after-guard flag is armed.",
+    "Otherwise, if no guard is active and a non-healing placement of a different attribute is currently available, prefer a matching guard to arm a following placement.",
+    "No private hand, future draw, enemy action or future board state is read. The expected next placement can be disrupted before the next player turn.",
+    "This deliberate probe is not an optimal planner. Effects, costs, inventory and seeds are not adjusted after observing its results."
+  ]
+}
