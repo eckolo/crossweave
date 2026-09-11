@@ -12,19 +12,19 @@
     const c=p.hand.find(x=>x.id===selected),mid=c?s.field[c.attr]:null;
     const offsets=Object.fromEntries(['cw-actors','cw-field','cw-hand'].map(id=>[id,get(id).scrollLeft]));
     get('cw-phase').textContent=phases[s.current_event];
-    get('cw-self').innerHTML=`<span>あなた　HP ${p.hp}/${p.max_hp}</span><span>命中蓄積 ${p.hit} · 会心 ${p.crit}</span><span>${p.guard?esc(guardText(p)):'防御なし'}</span>`;
-    get('cw-actors').innerHTML=active.map(w=>{const a=s.actors[w];return `<button type="button" class="cw-actor" data-inspect-actor="${w}" data-target="${w}" aria-pressed="${target===w}">${artMarkup('actors',w,w==='E1'?'敵の絵':'環境の絵')}<span class="cw-face-caption"><span class="cw-actor-head"><strong>${names[w]}</strong><span>HP ${a.hp}/${a.max_hp}</span></span><progress value="${a.hp}" max="${a.max_hp}" aria-label="${names[w]}のHP"></progress><span>命中蓄積 ${a.hit} · 会心 ${a.crit}${a.guard?' · 防御中':''}</span></span></button>`;}).join('');
+    get('cw-self').innerHTML=`<span>あなた　${hpLabel('P')} ${p.hp}/${p.max_hp}</span><span>${term('conceal')} ${conceal(p)} · ${term('crit')} ${p.crit}</span><span>${p.guard?esc(guardText(p)):term('guard')+'なし'}</span>`;
+    get('cw-actors').innerHTML=active.map(w=>{const a=s.actors[w];return `<button type="button" class="cw-actor" data-inspect-actor="${w}" data-target="${w}" aria-pressed="${target===w}">${artMarkup('actors',w,w==='E1'?'敵の絵':'環境の絵')}<span class="cw-face-caption"><span class="cw-actor-head"><strong>${names[w]}</strong><span>${hpLabel(w)} ${a.hp}/${a.max_hp}</span></span><progress value="${a.hp}" max="${a.max_hp}" aria-label="${names[w]}の${hpLabel(w)}"></progress><span>${term('conceal')} ${conceal(a)} · ${term('crit')} ${a.crit}${a.guard?' · '+term('guard')+'中':''}</span></span></button>`;}).join('');
     renderActionOrder(s);
     get('cw-objective').innerHTML=objectiveMarkup(s);
-    get('cw-actor-details').innerHTML=['P',...active].map(w=>{const a=s.actors[w];return `<div class="cw-log">${names[w]}：HP ${a.hp}/${a.max_hp}、命中蓄積 ${a.hit}、会心 ${a.crit}、${esc(guardText(a))}、回避合計 ${signed(a.evasion)}、軽減 ${a.reduction||0}${a.acts?'、次回 '+a.next_at:''}</div>`;}).join('');
+    get('cw-actor-details').innerHTML=['P',...active].map(w=>{const a=s.actors[w];return `<div class="cw-log">${names[w]}：${hpLabel(w)} ${a.hp}/${a.max_hp}、${term('conceal')} ${conceal(a)}、${term('crit')} ${a.crit}、${esc(guardText(a))}、${term('evasion')}合計 ${signed(a.evasion)}、軽減 ${a.reduction||0}${a.acts?'、次回 '+a.next_at:''}</div>`;}).join('');
     get('cw-match-label').textContent=c?`${c.attr} · ${mid?'一致':'設置'}`:'';
     get('cw-field-context').hidden=!c;
-    get('cw-field').innerHTML=CWFeedback.attributes(game,knownAttrs).map(attr=>{const f=s.field[attr],tag=f?'button':'div';return `<${tag} ${f?`type="button" data-field-card="${f.id}" aria-label="${esc(cardName(f))}の詳細"`:''} class="cw-slot" data-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-changed="${changedAttrs.has(attr)}">${f?artMarkup('cards',f.type,''):''}<span class="cw-face-caption"><span>${attrBadge(attr)}${changedAttrs.has(attr)?' · 変化':''}</span>${f?`<strong>${esc(cardName(f))}</strong><span>${fieldText(f).replace('<br>',' · ')}</span>${f.consume_on_recover||f.doomed?'<span class="cw-loss">回収で消滅</span>':''}`:''}</span></${tag}>`;}).join('');
+    get('cw-field').innerHTML=CWFeedback.attributes(game,knownAttrs).map(attr=>{const f=s.field[attr],tag=f?'button':'div';return `<${tag} ${f?`type="button" data-field-card="${f.id}" aria-label="${esc(cardName(f))}の詳細"`:''} class="cw-slot" data-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-changed="${changedAttrs.has(attr)}">${f?artMarkup('cards',f.type,''):''}<span class="cw-face-caption"><span class="cw-field-name">${attrBadge(attr)}${f?`<strong>${esc(cardName(f))}</strong>`:''}${changedAttrs.has(attr)?'<span aria-label="場が変化">•</span>':''}</span>${f?`${fieldShort(f,!!(c&&mid&&c.kind==='guard'&&c.attr===attr))}${f.consume_on_recover||f.doomed?`<span class="cw-loss">${uiTerms.cycle.loss}</span>`:''}`:''}</span></${tag}>`;}).join('');
     get('cw-hand-count').textContent=p.hand.length+'枚';
     const expiring=p.hand.filter(x=>x.remaining===1);get('cw-expiry-summary').textContent=expiring.length?'今回まで '+expiring.length+'枚':'';
     const config=settings();
     root.dataset.cardDrag=String(config.drag);
-    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}>${artMarkup('cards',x.type,'手札の絵')}<span class="cw-face-caption"><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'今回まで':'あと'+x.remaining+'行動'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?'<span class="cw-loss">回収で消滅</span>':''}</span></button></article>`;}).join('');
+    get('cw-hand').innerHTML=p.hand.map(x=>{const match=!!s.field[x.attr];return `<article class="cw-hand-card" data-hand-id="${x.id}" data-selected="${selected===x.id}" data-dragging="${drag?.started&&drag.id===x.id}"><button type="button" class="cw-select" data-card="${x.id}" aria-pressed="${selected===x.id}" aria-describedby="cw-gesture-hint" ${s.outcome?'disabled':''}>${artMarkup('cards',x.type,'手札の絵')}<span class="cw-face-caption"><strong>${attrBadge(x.attr)}${esc(cardName(x))}</strong><span>${mainText(x)}</span><span class="${x.remaining===1?'cw-loss':''}">${x.remaining===1?'今回まで':'あと'+x.remaining+'行動'} · ${match?'一致':'設置'} ${game.cost(x.type,match)}</span>${x.consume_on_recover||x.doomed?`<span class="cw-loss">${uiTerms.cycle.loss}</span>`:''}</span></button></article>`;}).join('');
     const tapHint=get('cw-peek-setting').checked?'タップで詳細':'タップで選択 · 同じ札をもう一度押すと詳細';
     get('cw-gesture-hint').textContent=config.drag?'スワイプで見る · 少し押してつかむ · '+tapHint:'左右で手札を見る · '+tapHint;
     get('cw-selected-line').textContent=c?`${c.attr} · ${cardName(c)}${mid?' ＋ '+cardName(mid):''}`:'';
@@ -40,23 +40,23 @@
       get('cw-prediction').textContent=s.outcome?'探索終了':needsTarget?'対象を選択':'';
       get('cw-calculation').hidden=true;get('cw-prediction-detail').textContent='';
     }
-    get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'へ攻撃':'対象を選ぶ'):'一致して使う'):'場に出す'):'札を選ぶ';
+    get('cw-use').textContent=c?(mid?(c.kind==='attack'?(target?names[target]+'を'+actionName(target):'対象を選ぶ'):(c.kind==='guard'?term('guard'):c.kind==='heal'?'回復':'一致して使う')):'場に出す'):'札を選ぶ';
     get('cw-use').disabled=!!s.outcome||!c||!!needsTarget||busy;
     const flags=[];
-    if(c){const exp=p.hand.filter(x=>x.id!==c.id&&x.remaining===1);if(exp.length)flags.push('期限切れ '+exp.length+'枚');if(lossOnPlacement(c).length||(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler')))flags.push('消滅あり');if(mid&&p.guard)flags.push('防御終了');}
+    if(c){const exp=p.hand.filter(x=>x.id!==c.id&&x.remaining===1);if(exp.length)flags.push('期限切れ '+exp.length+'枚');if(lossOnPlacement(c).length||(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler')))flags.push('消滅あり');if(mid&&p.guard)flags.push(term('guard')+'終了');}
     get('cw-notice').textContent=[...flags,needsTarget?'攻撃対象を選択':notice].filter(Boolean).join(' · ');
     get('cw-turn').textContent=`自分の行動 ${p.actions+(!s.outcome?1:0)}回目 · 時刻 ${s.now}`;
-    get('cw-progress').textContent=`山札 ${p.deck_count}枚 · ${p.rebuilds+1}巡目 · 共通回収山 ${s.pool_count}枚`;
-    get('cw-start-state').textContent=game.s.actors.O.active?'大岩以外の回避 +20':'大岩の遮蔽：終了';
+    get('cw-progress').textContent=`山札 ${p.deck_count}枚 · ${p.rebuilds+1}巡目 · ${uiTerms.cycle.pool} ${s.pool_count}枚`;
+    get('cw-start-state').textContent=game.s.actors.O.active?'大岩以外の'+term('evasion')+' +20':'大岩の遮蔽：終了';
     get('cw-withdraw').disabled=false;get('cw-withdraw').textContent=s.outcome?'帰還':'撤退';get('cw-withdraw').classList.toggle('cw-withdraw',!s.outcome);
-    get('cw-outcome').textContent=s.outcome?({clear:'探索を突破しました',defeat:'HPが尽きました',withdrawal:'撤退しました',cutoff:'探索終了'}[s.outcome]):'';
+    get('cw-outcome').textContent=s.outcome?({clear:'探索を突破しました',defeat:'余力が尽きました',withdrawal:'撤退しました',cutoff:'探索終了'}[s.outcome]):'';
     const settlement=game.s.settlement;
     get('cw-loot').innerHTML=settlement?[...settlement.kept.map(k=>`<div>${esc(rewardNames[k])}</div>`),...settlement.lost.map(k=>`<div class="cw-loss">${esc(rewardNames[k])} · 失った</div>`)].join('')||'なし':'';
     get('cw-reenter').disabled=!s.outcome;
     const catalogue=CWFeedback.catalogue(game),kinds={attack:0,guard:0,heal:0,none:0},attrs={};
     for(const row of catalogue){kinds[row.card.kind]+=row.remaining;attrs[row.card.attr]=(attrs[row.card.attr]||0)+row.remaining;}
-    get('cw-deck-count').textContent=`未ドロー ${p.deck_count}枚 · 手札 ${p.hand.length}枚`;
-    get('cw-deck-summary').innerHTML=Object.entries({attack:'Sword',guard:'Shield',heal:'Sprout',none:'Wind'}).filter(([kind])=>kinds[kind]).map(([kind,symbol])=>`<span aria-label="${({attack:'攻撃',guard:'防御',heal:'回復',none:'主効果なし'})[kind]} ${kinds[kind]}枚">${icon(symbol)} ${kinds[kind]}</span>`).join('');
+    get('cw-deck-count').textContent=`残り ${p.deck_count}枚 · 手札 ${p.hand.length}枚`;
+    get('cw-deck-summary').innerHTML=Object.entries({attack:'Sword',guard:'Shield',heal:'Sprout',none:'Wind'}).filter(([kind])=>kinds[kind]).map(([kind,symbol])=>`<span aria-label="${({attack:term('power'),guard:term('guard'),heal:'回復',none:'主効果なし'})[kind]} ${kinds[kind]}枚">${icon(symbol)} ${kinds[kind]}</span>`).join('');
     get('cw-deck').innerHTML=catalogue.map((row,i)=>`<button type="button" class="cw-deck-card" data-catalogue="${i}" data-empty="${!row.remaining}" aria-label="${esc(cardName(row.card))}、${esc(row.card.attr)}、山札 ${row.remaining}枚。詳細を開く" aria-controls="cw-catalogue-peek" aria-expanded="false">${artMarkup('cards',row.card.type,'')}<span class="cw-deck-number">${row.remaining}</span><span class="cw-face-caption"><strong>${esc(cardName(row.card))}</strong>${attrBadge(row.card.attr)}</span></button>`).join('');
     renderHistory();renderReferencePanels(s,active);renderObjectInfo(s);
     for(const [id,left]of Object.entries(offsets))get(id).scrollLeft=left;

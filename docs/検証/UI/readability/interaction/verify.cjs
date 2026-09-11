@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__start=start;window.__catalogue=()=>CWFeedback.catalogue(game);window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;window.__events=()=>JSON.parse(JSON.stringify(history));window.__enqueueEvents=enqueueEvents;window.__resetEvents=resetEvents;window.__stepEvents=stepEvents;':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__start=start;window.__catalogue=()=>CWFeedback.catalogue(game);window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;window.__events=()=>JSON.parse(JSON.stringify(history));window.__enqueueEvents=enqueueEvents;window.__resetEvents=resetEvents;window.__stepEvents=stepEvents;window.__cardName=cardName;window.__renderOrder=renderOrderDetail;window.__orderFocus=()=>inspectedOrderActor;window.__fieldShort=fieldShort;window.__conceal=conceal;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -155,7 +155,7 @@ for(const [name,replay]of Object.entries(fixtures.cases)){
   const s=b.window.__inspect().s,cards=s.actors.P.hand.map(id=>s.cards[id]),match=cards.find(c=>s.field[c.attr]);
   if(match){const before=state(b);drag(b,match.id);assert.equal(state(b),before,'match executed without confirmation');if(match.kind==='attack'){assert(!query(b,'#cw-use').disabled,'retained legal target was lost');assert(query(b,'#cw-card-targets [aria-pressed="true"]'));}checks.push(name+': match stages only');}
   query(b,'[data-open="reference"]').click();const before=state(b);query(b,'#cw-close').click();assert.equal(state(b),before);
-  if(name==='guard_end'){assert(/防御終了|防御を更新/.test(query(b,'#cw-prediction').textContent)||query(b,'#cw-use').disabled);}
+  if(name==='guard_end'){assert(/身構終了|身構を更新/.test(query(b,'#cw-prediction').textContent)||query(b,'#cw-use').disabled);}
   a.window.close();b.window.close();
 }
 {
@@ -271,7 +271,7 @@ for(const name of ['reference','status','result','objective','settings','order']
   choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').closest('[hidden]'));
   assert(!query(b,'#cw-prediction').closest('[hidden]'),'moved prediction summary must remain reachable');
   query(b,'#cw-use').click();assert(query(b,'#cw-action-anchor').hidden);
-  checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays screen center; contextual hand controls and complete prediction retained');
+  checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays above bottom-right footer; contextual hand controls and complete prediction retained');
   query(b,'[data-open="reference"]').click();assert.equal(query(b,'#cw-drawer').style.height,'','card window height leaked into full information window');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
@@ -292,15 +292,15 @@ checks.push('art slots beneath actor/card captions; terrain base plus active env
   const clickField=id=>{const node=query(b,`[data-field-card="${id}"]`);pointer(b,node,'pointerdown',{pointerType:'mouse'});node.click();};
   clickField(fields[0]);assert.equal(b.window.__window().openName,'field');
   assert.equal(b.window.__ui().selected,card.id);assert.equal(query(b,`[data-field-card="${fields[0]}"]`).getAttribute('aria-expanded'),'true');
-  assert(query(b,'#cw-field-info').textContent.includes(s.cards[fields[0]].name));
+  assert(query(b,'#cw-field-info').textContent.includes(b.window.__cardName(s.cards[fields[0]])));
   assert(query(b,'#cw-field-info').textContent.includes('主効果'));assert(query(b,'[data-panel="settings"]').textContent.includes('場札の期限は減りません'));
   clickField(fields[0]);assert(query(b,'#cw-drawer').hidden);
-  clickField(fields[0]);clickField(fields[1]);assert(query(b,'#cw-field-info').textContent.includes(s.cards[fields[1]].name));
+  clickField(fields[0]);clickField(fields[1]);assert(query(b,'#cw-field-info').textContent.includes(b.window.__cardName(s.cards[fields[1]])));
   const actorIds=[...b.window.document.querySelectorAll('[data-inspect-actor]')].map(n=>n.dataset.inspectActor);
   const clickActor=id=>{const node=query(b,`[data-inspect-actor="${id}"]`);pointer(b,node,'pointerdown',{pointerType:'mouse'});node.click();};
   clickActor('V0');assert.equal(b.window.__window().openName,'actor');assert.equal(b.window.__ui().target,'V0');
   const text=query(b,'#cw-actor-info').textContent;assert(text.includes('あなたを攻撃')&&text.includes('確認済み'));
-  assert(!text.includes('後続'));assert(text.includes(`HP ${s.actors.V0.hp}/${s.actors.V0.max_hp}`));
+  assert(!text.includes('後続'));assert(text.includes(`道のり ${s.actors.V0.hp}/${s.actors.V0.max_hp}`));
   clickActor('V0');assert(query(b,'#cw-drawer').hidden);assert.equal(b.window.__ui().target,'V0');
   clickActor('V0');clickActor(actorIds[0]);assert.equal(b.window.__ui().target,actorIds[0]);
   query(b,`[data-card="${card.id}"]`).click();query(b,'#cw-card-targets [data-target="V0"]').click();
@@ -424,8 +424,8 @@ for(const [width,height,worldBottom,boardTop,boardBottom,handTop,footerTop]of [[
   assert(!root.textContent.includes('現在の手札・山札の内容を示すものではありません'));
   assert(!/持ち込み|補給/.test(query(b,'#cw-history').textContent));
   const conditions=[...b.window.document.querySelectorAll('[data-objective]')];
-  assert.equal(conditions.length,2);assert(conditions[0].textContent.includes('大岩のHPを0にする')&&conditions[0].textContent.includes('未保護'));
-  assert(conditions[1].textContent.includes('最初の環境のHPを0にする')&&conditions[1].textContent.includes('ここまでの獲得物を保護'));
+  assert.equal(conditions.length,2);assert(conditions[0].textContent.includes('大岩：耐久 0')&&conditions[0].textContent.includes('撤退時喪失'));
+  assert(conditions[1].textContent.includes('最初の環境：道のり 0')&&conditions[1].textContent.includes('ここまでの獲得物を撤退時保持'));
   assert(!query(b,'#cw-objective').textContent.includes('後続'));
   for(const actor of b.window.document.querySelectorAll('[data-inspect-actor]'))assert(actor.querySelector('.cw-illustration svg[data-icon]'));
   query(b,'[data-open="reference"]').click();
@@ -506,9 +506,9 @@ checks.push('return panel lists only actual kept/lost fixed-engine rewards acros
 {
   const b=open(build(),true),before=state(b);choose(b,first);
   const panel=query(b,'[data-panel="card"]'),text=panel.textContent;
-  assert.equal((text.match(/攻撃／防御/g)||[]).length,1);assert.equal((text.match(/命中／回避/g)||[]).length,1);
+  assert.equal((text.match(/突破／身構/g)||[]).length,1);assert.equal((text.match(/探査／攪乱/g)||[]).length,1);
   assert(!query(b,'#cw-brief'));assert(query(b,'#cw-calculation').hidden);assert.equal(query(b,'#cw-prediction-detail').textContent,'');
-  assert(!query(b,'#cw-prediction').textContent.includes('攻撃／防御'));
+  assert(!query(b,'#cw-prediction').textContent.includes('突破／身構'));
   assert(!query(b,'#cw-card-info').textContent.includes('自分が1回行動'));
   query(b,'[data-open="settings"]').click();assert(query(b,'[data-panel="settings"]').textContent.includes('場札の期限は減りません'));
   query(b,'[data-open="status"]').click();assert.equal(query(b,'#cw-drawer-title').textContent,'状況');assert(!query(b,'#cw-actor-details').closest('[hidden]'));
@@ -530,8 +530,8 @@ for(const scenario of ['place','match']){
   pointer(b,use,'pointerenter',{pointerType:'mouse'});assert.equal(ghost.dataset.mode,scenario);assert(query(b,'#cw-drawer').hidden);
   if(scenario==='place'){
     assert(ghost.textContent.includes('一致補正'));
-    assert(ghost.textContent.includes('攻撃／防御 '+(c.field_power>0?'+':'')+c.field_power));
-    assert(ghost.textContent.includes('命中／回避 '+(c.field_hit>0?'+':'')+c.field_hit));
+    assert(ghost.textContent.includes('突破／身構 '+(c.field_power>0?'+':'')+c.field_power));
+    assert(ghost.textContent.includes('探査／攪乱 '+(c.field_hit>0?'+':'')+c.field_hit));
   }else assert(!ghost.textContent.includes('一致補正'));
   const contents=ghost.innerHTML;pointer(b,use,'pointerleave',{pointerType:'mouse'});
   b.window.document.elementFromPoint=()=>query(b,'#cw-playtable');pointer(b,query(b,`[data-card="${c.id}"]`),'pointerdown');b.window.__tick(220);
@@ -541,9 +541,9 @@ for(const scenario of ['place','match']){
 {
   const b=open(build(),true),before=state(b);query(b,'[data-open="order"]').click();
   assert.equal(query(b,'[data-panel="order"]').querySelectorAll('p').length,0);
-  assert.deepEqual([...query(b,'#cw-queue').querySelectorAll('thead th')].map(n=>n.textContent),['次回','待ち時間','時刻']);
-  assert.equal(query(b,'.cw-order-tie').textContent,'同時：環境 → あなた → 敵');assert.equal(state(b),before);
-  checks.push('action order uses short column labels and tie notation; no explanatory paragraphs');b.window.close();
+  assert.deepEqual([...query(b,'#cw-queue').querySelectorAll('thead th')].map(n=>n.textContent),['順','主体','時差']);
+  assert(query(b,'[data-order-focus="P"]'));assert.equal(query(b,'[data-order-row="P"]').lastElementChild.textContent,'0');assert.equal(state(b),before);
+  checks.push('action order uses actor-relative short columns; no explanatory paragraphs');b.window.close();
 }
 {
   const b=open(build(),true),before=state(b),feed=query(b,'#cw-event-feed'),saved=query(b,'#cw-history').innerHTML;
@@ -577,7 +577,7 @@ for(const scenario of ['place','match']){
   assert(!query(b,'#cw-history-order')&&!query(b,'#cw-last')&&!query(b,'#cw-result-summary'));
   assert(!/持ち込み|補給|結果 ·|変化なし/.test(query(b,'#cw-history').textContent));
   const loss=events.findIndex(r=>r.text.includes('大岩の遮蔽：終了'));
-  if(loss>=0)assert(events.slice(0,loss).some(r=>r.time===events[loss].time&&/ → (大岩|最初の環境) · HP −/.test(r.text)),'consequence before its action');
+  if(loss>=0)assert(events.slice(0,loss).some(r=>r.time===events[loss].time&&/ → (大岩|最初の環境) · 進展 /.test(r.text)),'consequence before its action');
   checks.push('full fixed replay history: newest-first single rows, unique IDs, monotonic actual times, action precedes boundary consequences, no bring/supply or repeated summaries');b.window.close();
 }
 {
@@ -586,12 +586,84 @@ for(const scenario of ['place','match']){
   const publicState=JSON.parse(JSON.stringify(s));publicState.actors.P.hand=s.actors.P.hand.map(id=>s.cards[id]);publicState.field=Object.fromEntries(Object.entries(s.field).map(([a,id])=>[a,s.cards[id]]));
   const hidden=s.actors.V0.deck[0],visible=s.actors.P.hand[0];assert(hidden&&visible);
   const trace=[{type:'destroy',time:s.now,card_id:hidden},{type:'destroy',time:s.now,card_id:visible}];
-  let rows=b.window.__stepEvents(publicState,publicState,trace);assert.equal(rows.length,1);assert.equal(rows[0].text,'消滅：'+s.cards[visible].name);
+  let rows=b.window.__stepEvents(publicState,publicState,trace);assert.equal(rows.length,1);assert.equal(rows[0].text,'消滅：'+b.window.__cardName(s.cards[visible]));
   trace.push({type:'action',time:s.now,actor:'V0',card_id:hidden,matched_id:null,mode:'place',expired:[]});
   rows=b.window.__stepEvents(publicState,publicState,trace);assert.equal(rows.length,3);assert.equal(state(b),before);
   checks.push('public-scope filter: private opponent retirement cards hidden; own visible and actually played cards report losses');b.window.close();
 }
 
+// v0.15: each order icon is a distinct opener; field labels follow only its matching guard forecast.
+{
+  const b=open(build(),true),before=state(b),p=query(b,'[data-turn-actor="P"]'),v=query(b,'[data-turn-actor="V0"]');
+  p.click();assert.equal(b.window.__orderFocus(),'P');assert(query(b,'[data-order-focus="P"]'));
+  assert.equal(p.getAttribute('aria-expanded'),'true');assert.equal(v.getAttribute('aria-expanded'),'false');
+  const relativeToP=query(b,'[data-order-row="V0"]').lastElementChild.textContent;assert.equal(relativeToP,'+10');
+  v.click();assert(!query(b,'#cw-drawer').hidden,'different subject closed the window');assert.equal(b.window.__orderFocus(),'V0');assert(query(b,'[data-order-focus="V0"]'));
+  assert.equal(v.getAttribute('aria-expanded'),'true');assert.equal(p.getAttribute('aria-expanded'),'false');
+  assert.equal(query(b,'[data-order-row="P"]').lastElementChild.textContent,'-10');assert.equal(query(b,'[data-order-row="P"]').firstElementChild.textContent,'前');
+  v.click();assert(query(b,'#cw-drawer').hidden);v.click();assert(!query(b,'#cw-drawer').hidden);
+  query(b,'#cw-close').click();pointer(b,v,'pointerover',{pointerType:'mouse'});b.window.__tick(180);assert.equal(b.window.__orderFocus(),'V0');assert.equal(b.window.__window().windowMode,'peek');
+  pointer(b,p,'pointerover',{pointerType:'mouse'});b.window.__tick(180);assert.equal(b.window.__orderFocus(),'P');p.click();assert.equal(b.window.__window().windowMode,'pinned');
+  const tie={now:10,actors:{V0:{active:true,acts:true,role:'V',next_at:10},P:{active:true,acts:true,role:'P',next_at:10},E1:{active:true,acts:true,role:'E',next_at:10}}};
+  b.window.__renderOrder(tie);assert.equal(query(b,'[data-order-row="V0"]').firstElementChild.textContent,'前');assert.equal(query(b,'[data-order-row="E1"]').firstElementChild.textContent,'後');
+  assert.equal(query(b,'[data-order-row="V0"]').lastElementChild.textContent,'同時');assert.equal(query(b,'[data-order-row="E1"]').lastElementChild.textContent,'同時');
+  b.window.__renderOrder({now:10,outcome:'clear',actors:tie.actors});assert(query(b,'#cw-drawer').hidden);assert.equal(state(b),before);assert.equal(b.window.__ui().target,'V0');
+  checks.push('actor-relative order: distinct click/hover subjects, single expanded icon, same-icon toggle, zero-centered time deltas, tie priority, retirement closure; no target/game change');b.window.close();
+}
+for(const width of [320,736,1024]){
+  const b=open(build(),true),before=state(b),popup=query(b,'#cw-drawer'),eventRegion=query(b,'.cw-event-region');
+  const rect=(left,top,width,height)=>({left,top,width,height,right:left+width,bottom:top+height});let iconLeft=width-90,footerTop=510;
+  b.window.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.id==='cw-playtable')return rect(20,10,width,576);
+    if(this.classList.contains('cw-bottom'))return rect(30,footerTop,width-20,44);
+    if(this.classList.contains('cw-order-strip'))return rect(30,30,width-20,32);
+    if(this.dataset.turnActor==='V0')return rect(20+iconLeft,30,44,32);
+    if(this.id==='cw-drawer')return rect(20+Number.parseFloat(this.style.left||0),10+Number.parseFloat(this.style.top||0),Number.parseFloat(this.style.width)||300,180);
+    return rect(0,0,0,0);
+  };
+  query(b,'[data-turn-actor="V0"]').click();b.window.__layout();assert.equal(popup.style.top,'62px');
+  const expected=()=>Math.max(12,Math.min(width-Number.parseFloat(popup.style.width)-12,iconLeft+22-Number.parseFloat(popup.style.width)/2));
+  assert.equal(Number.parseFloat(popup.style.left),expected());
+  iconLeft=55;query(b,'#cw-turn-order').dispatchEvent(new b.window.Event('scroll'));assert.equal(Number.parseFloat(popup.style.left),expected());
+  assert.equal(eventRegion.style.right,'12px');assert.equal(eventRegion.style.bottom,'82px');
+  footerTop=490;b.window.__layout();assert.equal(eventRegion.style.bottom,'102px');assert.equal(state(b),before);
+  checks.push(width+'px supplied geometry: order follows the chosen icon on scroll; transient history stays 6px above actual footer and inside right edge');b.window.close();
+}
+{
+  const b=open(build(fixtures.cases.guard_end),true),before=state(b),s=b.window.__inspect().s;
+  const guard=s.actors.P.hand.map(id=>s.cards[id]).find(c=>c.kind==='guard'&&s.field[c.attr]);assert(guard);
+  const fieldText=()=>[...query(b,'#cw-field').querySelectorAll('[data-field-mode]')];assert(fieldText().every(n=>n.dataset.fieldMode==='attack'));
+  query(b,`[data-card="${guard.id}"]`).click();const own=query(b,`[data-attr="${guard.attr}"] [data-field-mode]`);assert.equal(own.dataset.fieldMode,'guard');assert(own.textContent.includes('身構')&&own.textContent.includes('攪乱'));assert(!own.textContent.includes('突破')&&!own.textContent.includes('／'));
+  assert(fieldText().filter(n=>n!==own).every(n=>n.dataset.fieldMode==='attack'));
+  query(b,'#cw-close').click();assert.equal(query(b,`[data-attr="${guard.attr}"] [data-field-mode]`).dataset.fieldMode,'guard','selected board forecast lost context on window close');
+  const next=s.actors.P.hand.map(id=>s.cards[id]).find(c=>c.id!==guard.id&&c.kind!=='guard');assert(next);query(b,`[data-card="${next.id}"]`).click();assert(fieldText().every(n=>n.dataset.fieldMode==='attack'));
+  assert.equal(b.window.__conceal({hit:35}),65);assert.equal(state(b),before);
+  const text=query(b,'#cw-playtable').textContent;assert(!text.includes('命中蓄積')&&!text.includes('回収で消滅'));assert(text.includes('捨て場'));assert(text.includes('余力'));
+  assert.equal(b.window.__cardName({type:'g',name:'防御',attr:'A'}),'戸締めの留め具');
+  for(const caption of query(b,'#cw-field').querySelectorAll('.cw-face-caption')){
+    assert(caption.children.length<=3,'compact field caption grew beyond three rows');
+    assert(caption.firstElementChild.classList.contains('cw-field-name'));
+    assert(caption.firstElementChild.querySelector('.cw-attr'));
+  }
+  checks.push('formal display: only matching field uses guard/evasion labels; other fields stay attack/probe, selection change restores; conceal is100-hit; card names and cycle wording preserve engine keys and state');b.window.close();
+}
+
+
+{
+  const b=open(build(fixtures.cases.multiple),true),before=state(b),s=b.window.__inspect().s;
+  for(const id of ['V1','E1']){
+    const label=id==='V1'?'道のり':'余力',button=query(b,`#cw-actors [data-target="${id}"]`);assert(button);
+    assert(button.textContent.includes(`${label} ${s.actors[id].hp}/${s.actors[id].max_hp}`));
+    assert(button.querySelector('progress').getAttribute('aria-label').endsWith('の'+label));
+    button.click();assert(query(b,'#cw-actor-info').textContent.includes(`${label} ${s.actors[id].hp}/${s.actors[id].max_hp}`));
+  }
+  assert(!query(b,'#cw-playtable').textContent.includes('踏破まで'));assert.equal(state(b),before);
+  const termSource=fs.readFileSync(path.join(__dirname,'terminology.js'),'utf8'),terms=JSON.parse(fs.readFileSync(path.join(__dirname,'terminology.json'),'utf8'));
+  terms.actors.blank={hp:'  ',attack:'  '};const helpers=new Function('uiTerms',termSource+';return {hpLabel,actionName};')(terms);
+  assert.equal(helpers.hpLabel('blank'),'余力');assert.equal(helpers.hpLabel('unknown'),'余力');assert.equal(helpers.hpLabel('O'),'耐久');assert.equal(helpers.actionName('O'),'壊す');
+  checks.push('glossary1.1: independent actor HP labels on current values, meters and details; path=道のり, rock=耐久, enemy/default/blank=余力; no state change');b.window.close();
+}
+
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.14',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser right edge, centered layout, art visibility and translucent-window readability','physical gallery hover paths and held-card pointer contact','human effort, errors and central queue readability / fade duration / backlog']};
+const result={test_id:'UI-R-002',ui_version:'0.15',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser right edge, centered layout, art visibility and translucent-window readability','physical gallery hover paths and held-card pointer contact','human effort, errors and bottom-right queue readability / fade duration / backlog and longer formal card names']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

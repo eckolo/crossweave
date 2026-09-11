@@ -10,8 +10,9 @@ const expected={
 };
 function readFixed(name){const s=fs.readFileSync(path.join(fixed,name),'utf8');assert.equal(sha(s),expected[name],`固定版が異なる: ${name}`);return s;}
 function build(replay={build:'guard5',choices:[]}){
-  let view=['support.js','icons.js','surface.js','catalogue.js','relations.js','view.js'].map(name=>fs.readFileSync(path.join(root,name),'utf8')).join('\n');
+  let view=['support.js','terminology.js','icons.js','surface.js','catalogue.js','relations.js','view.js'].map(name=>fs.readFileSync(path.join(root,name),'utf8')).join('\n');
   view=view.replace('__CW_DATA__',()=>JSON.stringify(JSON.parse(readFixed('input.json'))).replace(/</g,'\\u003c'));
+  view=view.replace('__CW_TERMS__',()=>JSON.stringify(JSON.parse(fs.readFileSync(path.join(root,'terminology.json'),'utf8'))).replace(/</g,'\\u003c'));
   view=view.replace('__CW_REPLAY__',()=>JSON.stringify(replay).replace(/</g,'\\u003c'));
   let fragment=fs.readFileSync(path.join(root,'play.fragment.html'),'utf8');
   const replacements={__CW_STYLE__:fs.readFileSync(path.join(root,'table.css'),'utf8'),__CW_ENGINE__:readFixed('engine.js'),__CW_FEEDBACK__:readFixed('feedback.js'),__CW_ECOLOGY__:readFixed('ecology.js'),__CW_TERRAIN__:readFixed('terrain.js'),__CW_VIEW__:view};
@@ -21,7 +22,7 @@ function build(replay={build:'guard5',choices:[]}){
 }
 if(require.main===module){
   const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone'&&!x.startsWith('--build='));
-  const out=pos[0]||'/workspace/crossweave-event-queue.html';
+  const out=pos[0]||'/workspace/crossweave-actor-order.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
   const buildId=args.find(x=>x.startsWith('--build='))?.split('=')[1];

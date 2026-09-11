@@ -13,7 +13,7 @@
     const popup=get('cw-catalogue-peek');popup.hidden=false;popup.dataset.mode=mode;
     pinMark(get('cw-catalogue-state'),mode==='pinned');
     get('cw-catalogue-name').textContent=cardName(row.card);
-    get('cw-catalogue-info').innerHTML=`<div>${attrBadge(row.card.attr)}山札 ${row.remaining}枚 · 手札 ${row.hand}枚</div>${fullCard(row.card)}${row.doomed_remaining?`<p class="cw-loss">回収で消滅 ${row.doomed_remaining}枚</p>`:''}`;
+    get('cw-catalogue-info').innerHTML=`<div>${attrBadge(row.card.attr)}山札 ${row.remaining}枚 · 手札 ${row.hand}枚</div>${fullCard(row.card)}${row.doomed_remaining?`<p class="cw-loss">${uiTerms.cycle.loss} ${row.doomed_remaining}枚</p>`:''}`;
     root.querySelectorAll('[data-catalogue]').forEach(n=>n.setAttribute('aria-expanded',String(Number(n.dataset.catalogue)===index)));
     if(mode==='pinned')pinWindow();else syncWindowState();
     placeCatalogue();

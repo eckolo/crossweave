@@ -4,13 +4,13 @@
   const feedQueue=[],feedVisible=[];
   let feedTimer=null;
   const feedTiming={interval:260,hold:1300,fade:1500,row:26,visible:6};
-  let inspectedField=null,inspectedActor=null;
+  let inspectedField=null,inspectedActor=null,inspectedOrderActor=null;
   const objectWindow=name=>['card','field','actor'].includes(name);
   function renderObjectInfo(s){
     const card=Object.values(s.field).find(c=>c?.id===inspectedField);
     get('cw-field-info').innerHTML=card?`<strong>${esc(cardName(card))} / ${esc(card.attr)}</strong>${fullCard(card)}`:'';
     const actor=s.actors[inspectedActor];
-    get('cw-actor-info').innerHTML=actor?.active?`<strong>${esc(names[inspectedActor]||inspectedActor)}</strong><div class="cw-impact"><span>HP ${actor.hp}/${actor.max_hp}</span><span>命中蓄積 ${actor.hit}</span><span>会心 ${actor.crit}</span></div><p>${esc(guardText(actor))}<br>回避合計 ${signed(actor.evasion)} · 軽減 ${actor.reduction||0}</p><p>${actor.acts?'次回 時刻 '+actor.next_at:'行動なし'}</p>${knownActorInfo(inspectedActor)}`:'';
+    get('cw-actor-info').innerHTML=actor?.active?`<strong>${esc(names[inspectedActor]||inspectedActor)}</strong><div class="cw-impact"><span>${hpLabel(inspectedActor)} ${actor.hp}/${actor.max_hp}</span><span>${term('conceal')} ${conceal(actor)}</span><span>${term('crit')} ${actor.crit}</span></div><p>${esc(guardText(actor))}<br>${term('evasion')}合計 ${signed(actor.evasion)} · 軽減 ${actor.reduction||0}</p><p>${actor.acts?'次回 時刻 '+actor.next_at:'行動なし'}</p>${knownActorInfo(inspectedActor)}`:'';
     if(openName==='field'&&!card||openName==='actor'&&!actor?.active)hideWindow(false);
   }
   function inspectField(id){
@@ -41,15 +41,27 @@
       .sort((a,b)=>s.actors[a].next_at-s.actors[b].next_at
         ||priority[s.actors[a].role]-priority[s.actors[b].role]||a.localeCompare(b));
   }
+  function orderFace(id,s){
+    const a=s.actors[id],asset=artwork.actors[id];
+    return `<span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:icon(({P:'Footprints',V:'Trees',E:'Bug'})[a.role]||'Mountain')}</span>`;
+  }
+  function renderOrderDetail(s){
+    const order=actionOrder(s),focus=order.includes(inspectedOrderActor)?inspectedOrderActor:null;
+    if(!focus){get('cw-queue').replaceChildren();if(openName==='order')hideWindow(false);return;}
+    const at=s.actors[focus].next_at,index=order.indexOf(focus);
+    get('cw-queue').innerHTML=`<div class="cw-order-focus" data-order-focus="${focus}">${orderFace(focus,s)}<strong>${esc(names[focus])}</strong><span>次回 +${at-s.now}</span></div><table class="cw-order-table"><thead><tr><th>順</th><th>主体</th><th>時差</th></tr></thead><tbody>${order.map((id,i)=>{
+      const difference=s.actors[id].next_at-at,relative=i<index?'前':i>index?'後':'基準';
+      return `<tr data-order-row="${id}" data-focus="${id===focus}" aria-current="${id===focus?'true':'false'}"><td>${relative}</td><th scope="row"><span class="cw-order-actor">${orderFace(id,s)}${esc(names[id])}</span></th><td>${id===focus?'0':difference===0?'同時':signed(difference)}</td></tr>`;
+    }).join('')}</tbody></table><div class="cw-order-now">現在 ${s.now} · 基準時刻 ${at}</div>`;
+  }
   function renderActionOrder(s){
     const order=actionOrder(s),strip=get('cw-turn-order'),offset=strip.scrollLeft;
     strip.innerHTML=order.map((id,i)=>{
-      const a=s.actors[id],asset=artwork.actors[id],wait=a.next_at-s.now;
-      const label=`${i+1}番 ${names[id]||id}。${wait===0?'現在':`あと${wait}`}、予定時刻 ${a.next_at}。行動順の詳細を開く`;
-      return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}"><span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:icon(({P:'Footprints',V:'Trees',E:'Bug'})[a.role]||'Mountain')}</span><span aria-hidden="true">+${wait}</span></button></li>`;
+      const a=s.actors[id],wait=a.next_at-s.now;
+      const label=`${i+1}番 ${names[id]||id}。${wait===0?'現在':`あと${wait}`}、予定時刻 ${a.next_at}。${names[id]}を基準に行動順を開く`;
+      return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}">${orderFace(id,s)}<span aria-hidden="true">+${wait}</span></button></li>`;
     }).join('');
-    strip.scrollLeft=offset;
-    get('cw-queue').innerHTML=s.outcome?'<span>探索終了</span>':`<div class="cw-order-now">現在 ${s.now}</div><table class="cw-order-table"><thead><tr><th>次回</th><th>待ち時間</th><th>時刻</th></tr></thead><tbody>${order.map(id=>`<tr><th scope="row">${esc(names[id]||id)}</th><td>+${s.actors[id].next_at-s.now}</td><td>${s.actors[id].next_at}</td></tr>`).join('')}</tbody></table><div class="cw-order-tie">同時：環境 → あなた → 敵</div>`;
+    strip.scrollLeft=offset;renderOrderDetail(s);
   }
   function updateOrderHints(){
     const strip=get('cw-turn-order'),prev=strip.previousElementSibling,next=strip.nextElementSibling;
@@ -58,12 +70,12 @@
     prev.disabled=strip.scrollLeft<=2;next.disabled=strip.scrollLeft>=strip.scrollWidth-strip.clientWidth-2;
   }
   function objectiveMarkup(s){
-    if(s.outcome)return `<p>${({clear:'この探索を突破しました。',defeat:'HPが尽き、探索は終了しました。',withdrawal:'撤退しました。',cutoff:'試行上限で終了しました。'})[s.outcome]||'探索は終了しました。'}</p>`;
+    if(s.outcome)return `<p>${({clear:'この探索を突破しました。',defeat:'余力が尽き、探索は終了しました。',withdrawal:'撤退しました。',cutoff:'試行上限で終了しました。'})[s.outcome]||'探索は終了しました。'}</p>`;
     // Fixed PT-Z-001 rules. List current participants only, without future encounter data.
     const ids=(s.current_event==='rock'?['O','V0']:s.current_event==='open_rock'?['V0']:s.current_event==='followup'?['V1']:[]).filter(id=>s.actors[id]?.active);
     if(!ids.length)return '<p>この場面の突破条件を確認できません。</p>';
-    const results={O:'獲得物を得て先へ進む（未保護）',V0:'獲得物を得て先へ進む。ここまでの獲得物を保護',V1:'探索を突破し、獲得物をすべて持ち帰る'};
-    return ids.map(id=>`<div class="cw-log" data-objective="${id}"><strong>${esc(names[id])}のHPを0にする</strong><div>HP ${s.actors[id].hp}/${s.actors[id].max_hp}</div><p>${results[id]}</p></div>`).join('')+(s.current_event==='followup'&&s.actors.E1?.active?'<p>敵の撃破で獲得物を入手（任意）</p>':'');
+    const results={O:'獲得物を得て先へ進む（撤退時喪失）',V0:'獲得物を得て先へ進む。ここまでの獲得物を撤退時保持',V1:'探索を突破し、獲得物をすべて持ち帰る'};
+    return ids.map(id=>`<div class="cw-log" data-objective="${id}"><strong>${esc(names[id])}：${hpLabel(id)} 0</strong><div>${hpLabel(id)} ${s.actors[id].hp}/${s.actors[id].max_hp}</div><p>${results[id]}</p></div>`).join('')+(s.current_event==='followup'&&s.actors.E1?.active?'<p>敵を退けると獲得物を入手（任意）</p>':'');
   }
   function paintScene(s){
     const terrain=['followup','finished'].includes(s.current_event)?'followup':'initial';
@@ -87,7 +99,13 @@
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
     get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
     placeWindow(center,hr);
-    drawRelations();placeCatalogue();placeUsePreview();
+    drawRelations();placeCatalogue();placeUsePreview();placeEventRegion();
+  }
+  function placeEventRegion(){
+    const rr=root.getBoundingClientRect(),fr=root.querySelector('.cw-bottom').getBoundingClientRect(),region=root.querySelector('.cw-event-region');
+    if(!rr.width||!fr.height)return;
+    region.style.right=Math.max(12,rr.right-fr.right)+'px';
+    region.style.bottom=rr.bottom-fr.top+6+'px';
   }
   function placeWindow(handCenter,handRect){
     if(!openName)return;
@@ -122,7 +140,7 @@
       const isOrder=openName==='order';
       const anchor=isOrder?root.querySelector('.cw-order-strip'):root.querySelector('.cw-bottom');
       const ar=anchor.getBoundingClientRect();
-      const from=opener?.isConnected?opener:root.querySelector(`[data-open="${openName}"]`),fr=from?.getBoundingClientRect();
+      const from=isOrder?root.querySelector(`[data-turn-actor="${inspectedOrderActor}"]`):opener?.isConnected?opener:root.querySelector(`[data-open="${openName}"]`),fr=from?.getBoundingClientRect();
       if(fr)center=(fr.left+fr.right)/2;
       const boundary=isOrder?ar.bottom-rr.top+gap:ar.top-rr.top-gap;
       const space=Math.max(0,isOrder?rr.height-margin-boundary:boundary-margin);
@@ -139,7 +157,7 @@
     popup.setAttribute('aria-modal',String(pinned&&!objectWindow(openName)&&get('cw-catalogue-peek').hidden));
     get('cw-backdrop').hidden=!pinned||objectWindow(openName);
     pinMark(get('cw-window-state'),pinned);
-    root.querySelectorAll('[data-open]').forEach(el=>{el.setAttribute('aria-expanded',String(el.dataset.open===openName));el.setAttribute('aria-pressed',String(pinned&&el.dataset.open===openName));});
+    root.querySelectorAll('[data-open]').forEach(el=>{const expanded=el.dataset.open===openName&&(openName!=='order'||el.dataset.turnActor===inspectedOrderActor);el.setAttribute('aria-expanded',String(expanded));el.setAttribute('aria-pressed',String(pinned&&expanded));});
     root.querySelectorAll('[data-card],[data-field-card],[data-inspect-actor]').forEach(el=>{
       const expanded=el.dataset.card?openName==='card'&&el.dataset.card===selected:el.dataset.fieldCard?openName==='field'&&el.dataset.fieldCard===inspectedField:openName==='actor'&&el.dataset.inspectActor===inspectedActor;
       el.setAttribute('aria-expanded',String(expanded));el.setAttribute('aria-controls','cw-drawer');
@@ -152,6 +170,7 @@
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
     get('cw-drawer-title').textContent={reference:'山札',status:'状況',settings:'設定',card:'予測',field:'場札',actor:'相手',result:'履歴',objective:'突破条件',order:'行動順',return:'帰還'}[name];
     if(name==='result')renderHistory();
+    if(name==='order'){inspectedOrderActor=from?.dataset.turnActor||inspectedOrderActor;renderOrderDetail(game.public());}
     get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     syncWindowState();placeNearCard();
     if(focus)get('cw-close').focus({preventScroll:true});
@@ -160,7 +179,7 @@
     cancelHover();windowMode='pinned';if(from)opener=from;syncWindowState();
   }
   function toggleWindow(name,from){
-    if(openName===name){if(windowMode==='peek')pinWindow(from);else hideWindow();}
+    if(openName===name&&(name!=='order'||from?.dataset.turnActor===inspectedOrderActor)){if(windowMode==='peek')pinWindow(from);else hideWindow();}
     else showWindow(name,from);
   }
   function hideWindow(restore=true){
@@ -255,6 +274,7 @@
     });
     if(typeof ResizeObserver!=='undefined')new ResizeObserver(placeNearCard).observe(root);
     get('cw-hand').addEventListener('scroll',placeNearCard,{passive:true});
+    get('cw-turn-order').addEventListener('scroll',placeNearCard,{passive:true});
     root.querySelector('.cw-footer-state').addEventListener('scroll',placeNearCard,{passive:true});
     root.querySelector('.cw-menu').addEventListener('scroll',placeNearCard,{passive:true});
     get('cw-drawer').addEventListener('toggle',placeNearCard,true);

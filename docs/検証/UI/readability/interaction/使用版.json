@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.14",
+  "ui_version": "0.15",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
@@ -8,11 +8,11 @@
   "baseline_spec": "0.39",
   "operational_design_spec": "0.52",
   "synchronized_design_commit": "e827d35b58afcf7e47b73f9ef401bd83fd65313d",
-  "own_source_commit": "200a917435f931d89ab6f45d7a0a7155547f1d26",
-  "own_source_merge_commit": "1c0c44fa03a26ebb2a5014c5dff780b80af2f0ae",
+  "own_source_commit": "ede773fd358cbaed6db2152a9a57669359f48334",
+  "own_source_merge_commit": "f023e41113394cf53dd6f52d9d9421a5cac9a173",
   "required_source_merge_commit": "a387b418a5a4c652083b30323a3b400396f064eb",
-  "ui_code_commit": "07b0c4f6a8d20e19202cf8c71b705e8163ef5f03",
-  "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
+  "ui_code_commit": null,
+  "reference_ui_code_commit": "07b0c4f6a8d20e19202cf8c71b705e8163ef5f03",
   "entry": "W seed32 / guard5",
   "game_changes": [],
   "information_scope": "same fixed PT-Z-001; only public active actor schedules; no private opponent hand, deck order or future encounter reveal",
@@ -34,83 +34,99 @@
     "deck_hover_details": true
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.13 to v0.14 UI sources; nine-source reproduction; fixed engine and input unchanged",
+  "ui_diff_scope": "v0.14 to v0.15 UI sources; eleven-source reproduction including terminology mapping and adapter; fixed engine/input unchanged",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 31904,
-      "sha256": "a9ee4a3c8d2235b63dc9c8099060b33d95862306e96a58c6fb9683c7277d8053"
+      "bytes": 34470,
+      "sha256": "676d42f57ab5044582c0d57dbde55da2779d5cd882fb0670a7d4f0275ac04dca"
     },
     "build.cjs": {
-      "bytes": 3177,
-      "sha256": "6d49000a0520508fd2ec6aac3de5b2018e37f553532e8c31c3851bffb1c03591"
+      "bytes": 3346,
+      "sha256": "fd5d918e27ee101d2687458143d511fc2712e1bb1c4d6febe6f0bdf1b0c293d4"
     },
     "catalogue.js": {
-      "bytes": 4487,
-      "sha256": "03d3f1d491200a80136179196db309aa00b7a2f8da67deb0d369964e14181e96"
+      "bytes": 4493,
+      "sha256": "12668a4be2c7bcdb68a18dbb8b83487897d8c042cdd727071fa7f0e8f88be535"
+    },
+    "check-terms.cjs": {
+      "bytes": 1360,
+      "sha256": "baef1599b63fb7e7efa7d72505f8db6d8b8688423c9ba992e30f8a0aed469083"
     },
     "icons.js": {
       "bytes": 6252,
       "sha256": "fbc392b0d604e8d261cc4c510ff6eb61630d6db5b6aaebfce7939c33c4d79103"
     },
     "play.fragment.html": {
-      "bytes": 7917,
-      "sha256": "2537fc49ad730556711b178dd8e7450e47c71e7b86ab5719e4d1c44f9e8fad0a"
+      "bytes": 8002,
+      "sha256": "a3a44ec4882754bd21e70c9639c2a0d1eafc5cfd9d39b9032df4072dd24e2a48"
     },
     "preview.html": {
-      "bytes": 298824,
-      "sha256": "c1ed04c8c6f34060002075299a4653bd229d8787b9e4ca954e01b1178ab1e8b2"
+      "bytes": 324789,
+      "sha256": "9d882ee4e3e598401486a54ca19ab6f9d368dc22f72548662181fab07865929b"
     },
     "relations.js": {
       "bytes": 2870,
       "sha256": "64f79da7006dfb9bfcfc48a47b0f958ea41663e7251754a29fd95637b5ad3f97"
     },
     "support.js": {
-      "bytes": 9860,
-      "sha256": "964aa9bada3bc1a9605cdb709ae08ff100a68c5cdd36ff308d235994d9954362"
+      "bytes": 10225,
+      "sha256": "1bb44eb0c1fdcb81568c56ac972a6728f67f5b597f0ec19e44b24bd57f86a0f5"
     },
     "surface.js": {
-      "bytes": 18326,
-      "sha256": "a3aac7b1f113ea60da5575c4505816dd38d66735eb0638cc28c56aba083904f3"
+      "bytes": 19972,
+      "sha256": "f26dadc9307f96772c554c33aa7bc7b5590f8bd3ac9ed271798d250836197a56"
     },
     "table.css": {
-      "bytes": 20545,
-      "sha256": "bb202270c60b12a6a7a9cec523e9aa33559c7d4a5a9b8eeb4ba88bf0a9955b98"
+      "bytes": 21360,
+      "sha256": "a357011d6a14f7bd4b21aadcd8e4c899f5e4ae0353f9d97109ed67af53df9f71"
+    },
+    "terminology.js": {
+      "bytes": 1096,
+      "sha256": "bba5ef22e8725717fd63af1d8c2cacd77a7961a08936644d8c00699ad944a6a2"
+    },
+    "terminology.json": {
+      "bytes": 29819,
+      "sha256": "af7c8d98262a2cbe9f9b1b6c4f88d8a74e3ea454f0da0932b39a1c969fdd1413"
     },
     "ui-r002.patch": {
-      "bytes": 34725,
-      "sha256": "af122a5da6d8bb1074294ae0a8a5d982e2494255cbb925d0f7a03d76f526a43a"
+      "bytes": 83776,
+      "sha256": "34cf32a171bb38f8a3ba2df5c8adb40eacaf4da9fdb6cb551bb5a24bef0b0b7a"
     },
     "verification.json": {
-      "bytes": 9184,
-      "sha256": "f69fc8aedc54a9845c6d509f00a7a63cc40b3e33daf0f094a89d859999c774f6"
+      "bytes": 10203,
+      "sha256": "c7123967d66a7e3fa4af81af7f1353dfe3a3fe2ad0f01e6bc5ea403e3962fee7"
     },
     "verify.cjs": {
-      "bytes": 56628,
-      "sha256": "4b832c44bc95cec3ee12db04322ed4c191fda9f5afed2c4dbfb85d045924dbbf"
+      "bytes": 64421,
+      "sha256": "48aea3a72ad6f15184434b548ca40e96800e1194287a56a9a427e22db9895d0d"
     },
     "view.js": {
-      "bytes": 20667,
-      "sha256": "c39f1fd0fca31c71fc94e6916d69f9795d855e7b0c5cd4ada16adea6f3e5db4e"
+      "bytes": 20995,
+      "sha256": "b36e59bc7504b27cc1efbefe4326483e6ca498d802c68928d28f9cb780892158"
+    },
+    "用語連携.md": {
+      "bytes": 5654,
+      "sha256": "6db82196da00653c2cda3786e028c8a2fc6f37f7b76d177f3b782d7a98145ae7"
     },
     "画面操作・描画方針.md": {
-      "bytes": 31583,
-      "sha256": "998217f763429f24e2fb44e649ead68c444a0d338a0d1c1cf419c415707b71ef"
+      "bytes": 33407,
+      "sha256": "30d5db20a7353d9fc9e6cb46eb4e02ba3de80c6d7acf0d375ba556120015b91d"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-event-queue.html",
-    "bytes": 298470,
-    "sha256": "b210a170b197103c26c6b7d682815e4fd654407b15412c444b017f3592f13d1f"
+    "path": "/workspace/crossweave-actor-order.html",
+    "bytes": 324435,
+    "sha256": "4fe11e738c45ff1920e18e99ccdbef90aa2ed190ab007702c86d4bb9e3d4ea3d"
   },
   "unverified": [
-    "real browser actor art and caption overlap, centered 16:9 layout and narrow footer",
-    "physical pointer path from hand to execution button and anchored preview readability",
-    "human effort and interpretation of concise details"
+    "real browser centered16:9 layout, field caption width/height and actor art",
+    "actual pointer/touch paths and selected-icon popover placement",
+    "long formal names and bottom-right queue readability/overlap/fade speed"
   ],
-  "previous_ui_code_commit": "85f94fc9adebf411ff495eb6b8e34f78f5daa7ce",
-  "ui_diff_base": "0a0b6427dbdbf2f4e43a05015ec7c288b5f03282",
+  "previous_ui_code_commit": "07b0c4f6a8d20e19202cf8c71b705e8163ef5f03",
+  "ui_diff_base": "07b0c4f6a8d20e19202cf8c71b705e8163ef5f03",
   "gesture_policy": {
     "hold_ms": 220,
     "hold_options_ms": [
@@ -151,7 +167,7 @@
       "downward_transition_ms": 180,
       "order": "newest on top; oldest visible anchored at bottom; removal lowers remaining rows",
       "full_history_retained": true,
-      "location": "pointer-transparent centered overlay; bottom 47%, width max680px; no reserved layout height",
+      "location": "pointer-transparent overlay above bottom-right menu strip; actual footer top minus6px, width max440px, right inset at least12px; no reserved layout height",
       "overflow": "keep pending events until a visible slot opens; do not push out oldest; may lag during rapid input",
       "reset": "reentry clears queue and all per-row timers",
       "reduced_motion": "immediate row repositioning; opacity fade retained"
@@ -159,10 +175,10 @@
     "artwork": "same offline Lucide 1.8.0 subset; actor illustration spans full actor frame behind caption, width up to 200px and height 100%; terrain unchanged",
     "hand_background": "continuous terrain across entire game screen",
     "menu_location": "slim single-row bottom strip with horizontally scrollable status and menus when needed",
-    "player_status_location": "single bottom row, HP first, hand count included",
+    "player_status_location": "single bottom row, actor HP label first (default余力), hand count included",
     "prediction": "one immediate outcome, next own time and consequential notices; intrinsic card facts once; optional attack-calculation provenance only; common rules in settings",
     "card_window_height_px": "space from 16px below root top to 8px before hand; at least 160px",
-    "adoption": "v0.14: placement ghost uses field contribution; compact action-order table; newest-first one-line history; upward central queue with individual fade and downward shift",
+    "adoption": "v0.15: actor-relative order; transient queue immediately above bottom-right footer; compact context-dependent field quantities; approved glossary1.1 display mapping",
     "bottom_strip_height_px": {
       "regular": 32,
       "narrow_under_600": 40,
@@ -180,7 +196,8 @@
       "update": "after game state changes; selection does not assume future actions",
       "inactive_or_actionless": "excluded",
       "finish": "strip cleared",
-      "details": "current time; next actor / wait / scheduled time table; compact tie priority; no explanatory paragraphs"
+      "details": "selected actor icon/name; zero-centered delta to its next scheduled action; before/base/after in actual order, same-time tag; current/base absolute time",
+      "interaction": "distinct icon openers; different actor switches anchor, same actor toggles, hover peeks; independent from attack target; close if actor stops participating"
     },
     "card_window_width_px": 840,
     "card_window_targets": "legal active targets selectable within the large inspector",
@@ -256,7 +273,7 @@
       "hand": "wide area above hand, up to 840px",
       "field": "natural height, up to 420px; above entire field row if fitting, else below; cap in larger free region if neither fits",
       "actor": "natural height, up to 420px; below entire actor row preferred",
-      "objective_order": "natural height up to 420px width; above bottom strip / below order strip",
+      "objective_order": "natural height up to420px width; objectives above footer, order below selected actor icon and follows horizontal scrolling",
       "reference_history_settings": "natural height up to 560px width, capped above bottom strip",
       "window_background_alpha": {
         "light": "224/255",
@@ -281,7 +298,39 @@
     "copy_policy": "prioritize repeated play: each fact in one place; no repeated paraphrases; separate result, intrinsic facts, optional calculation and shared rules",
     "history_window": "fixed newest-first, one timestamp and concise message per line; horizontal scrolling for long lines; no bring/supply or duplicated summaries",
     "history_source": "public state per completed fixed-engine step plus existing trace; same advance stop/budget; public card losses only; no private opponent draws/expiry/retirement cards",
-    "held_content": "placement: own field_power/field_hit labeled 一致補正; matching: primary effect; shared by hold and execution hover"
+    "held_content": "placement: own field_power/field_hit labeled 一致補正; matching: primary effect; shared by hold and execution hover",
+    "formal_terms": {
+      "source_version": "1.1",
+      "display_adapter": "terminology.js",
+      "mapping": "terminology.json",
+      "conceal": "100 minus fixed public hit accumulation; no D48 mechanics",
+      "actor_hp": "individual label; empty/whitespace/unset uses余力; provisional O=耐久,V0/V1=道のり",
+      "deferred": "A-D attribute assignment; unadopted growth terms/mechanics",
+      "user_short_copy": "予測/獲得物/あとN行動/再突入 retained"
+    },
+    "field_caption": {
+      "default": "突破 / 探査",
+      "matching_guard": "身構 / 攪乱 on matching field card only",
+      "retention": "selected forecast remains after closing inspector, reevaluated on new selection/action",
+      "layout": "attribute plus name, two quantities, conditional loss; max3 compact rows; no caption scroll; only long name may ellipsize, full details on click"
+    }
   },
-  "updated_at_jst": "2026-09-11"
+  "updated_at_jst": "2026-09-12",
+  "worldbuilding_reference": {
+    "branch": "design/worldbuilding-20260910",
+    "commit": "89dace9b101382263b4d95ab245bac418d2e4a0d",
+    "path": "docs/確定仕様/世界観/正式用語集.md",
+    "version": "1.1",
+    "sha256": "94554c0d6857a169d7a09fb057ae1d98cb83552b24418a8acc3e3837af7981a3",
+    "world_version": "1.5",
+    "mandatory_merge_source": false,
+    "initial_confirmed_commit": "47f0227a15042287820c4890e58be051f4dfb53f",
+    "reference_check": "at work start and before publication; fetch, inspect settings/diffs, run check-terms.cjs; adopted display mappings only",
+    "prepublication_updates": [
+      "B18",
+      "B19",
+      "HP naming policy section2.1"
+    ],
+    "notes": "用語連携.md"
+  }
 }
