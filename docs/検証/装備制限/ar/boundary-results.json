@@ -1,0 +1,26 @@
+{
+  "trial": "AR1-boundaries",
+  "base_commit": "4678bdf2d77f118a1d508c0ac75b667440bf1be9",
+  "checks": [
+    "New protected rewards stay uncredited as inventory until return",
+    "Reward synchronization is repeatable and never consumes an engine random stream",
+    "Save and resume preserve the same generated reward before outcome",
+    "Artificial outcome boundary clear preserves old stock and obeys source protection",
+    "Artificial outcome boundary withdrawal preserves old stock and obeys source protection",
+    "Artificial outcome boundary defeat preserves old stock and obeys source protection",
+    "A completed action saved before return collection recovers the reward exactly once",
+    "Changing equipment or learning during exploration is rejected without a partial edit",
+    "Mismatched owned equipment cannot be loaded as the same active expedition",
+    "Illegal action leaves the active session unchanged",
+    "Free relearning preserves fractional sale funds and acquired variants after return",
+    "Conservative surplus sale retains usable duplicates and does not multiply resources on replay",
+    "Learning and route gates are still required at a zero-point start"
+  ],
+  "artificial_outcome_cases": 3,
+  "own_hashes": {
+    "conditions.json": "acb59e787cbdf5b8c6121d9cc1938fd11760bc45ca005ba790c4182826f32bb0",
+    "common.cjs": "396b342521c4464406b59cd8e430aa9eb596e3972b890047d74909bd1c40f56f",
+    "session.cjs": "179379131345f2289be89be4be438697e4e66c49082b95530d93f2dfafcae16c",
+    "boundaries.cjs": "d6e435b3341ce04341be25b70f22b219e77307b93375d31e1c0d86aa6bca67bb"
+  }
+}
