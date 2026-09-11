@@ -28,8 +28,9 @@
     get('cw-actors').querySelector(`[data-target="${id}"]`)?.focus({preventScroll:true});
   }
   function artMarkup(kind,key,label){
-    const asset=artwork[kind]?.[key];
-    return `<span class="cw-illustration" data-art-kind="${kind}" data-art-key="${esc(key)}" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:''}</span>`;
+    const asset=artwork[kind]?.[key],card=kind==='cards'?Object.values(game.s.cards).find(c=>c.type===key):null;
+    const symbol=kind==='actors'?({O:'Mountain',V0:'Trees',V1:'Trees',E1:'Bug',P:'Footprints'})[key]:({attack:'Sword',guard:'Shield',heal:'Sprout',none:'Wind'})[card?.kind];
+    return `<span class="cw-illustration" data-art-kind="${kind}" data-art-key="${esc(key)}" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:icon(symbol||'Wind')}</span>`;
   }
   function actionOrder(s){
     if(s.outcome)return [];
@@ -43,7 +44,7 @@
     strip.innerHTML=order.map((id,i)=>{
       const a=s.actors[id],asset=artwork.actors[id],wait=a.next_at-s.now;
       const label=`${i+1}番 ${names[id]||id}。${wait===0?'現在':`あと${wait}`}、予定時刻 ${a.next_at}。行動順の詳細を開く`;
-      return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}"><span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:({P:'自',V:'環',E:'敵'})[a.role]||'・'}</span><span aria-hidden="true">+${wait}</span></button></li>`;
+      return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}"><span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:icon(({P:'Footprints',V:'Trees',E:'Bug'})[a.role]||'Mountain')}</span><span aria-hidden="true">+${wait}</span></button></li>`;
     }).join('');
     strip.scrollLeft=offset;
     get('cw-queue').innerHTML=s.outcome?'<p>探索終了</p>':`<p>現在時刻 ${s.now}</p>`+order.map((id,i)=>`<div class="cw-log">${i+1}. ${esc(names[id]||id)}　時刻 ${s.actors[id].next_at}（+${s.actors[id].next_at-s.now}）</div>`).join('');
@@ -59,7 +60,8 @@
     // Fixed PT-Z-001 rules. List current participants only, without future encounter data.
     const ids=(s.current_event==='rock'?['O','V0']:s.current_event==='open_rock'?['V0']:s.current_event==='followup'?['V1']:[]).filter(id=>s.actors[id]?.active);
     if(!ids.length)return '<p>この場面の突破条件を確認できません。</p>';
-    return `<p>${ids.length>1?'いずれかの':'対象の'}HPを0にする</p>`+ids.map(id=>`<div class="cw-log">${esc(names[id])}　HP ${s.actors[id].hp}/${s.actors[id].max_hp}</div>`).join('')+(s.current_event==='followup'&&s.actors.E1?.active?'<p>敵の撃破は突破の必須条件ではありません。</p>':'');
+    const results={O:'獲得物を得て先へ進む（未保護）',V0:'獲得物を得て先へ進む。ここまでの獲得物を保護',V1:'探索を突破し、獲得物をすべて持ち帰る'};
+    return ids.map(id=>`<div class="cw-log" data-objective="${id}"><strong>${esc(names[id])}のHPを0にする</strong><div>HP ${s.actors[id].hp}/${s.actors[id].max_hp}</div><p>${results[id]}</p></div>`).join('')+(s.current_event==='followup'&&s.actors.E1?.active?'<p>敵の撃破で獲得物を入手（任意）</p>':'');
   }
   function paintScene(s){
     const terrain=['followup','finished'].includes(s.current_event)?'followup':'initial';
@@ -83,7 +85,7 @@
     get('cw-anchor-state').textContent=side?`${cardName(currentCard())}は${side}の画面外`:'';
     get('cw-hand-context').hidden=!get('cw-notice').textContent&&!get('cw-anchor-state').textContent;
     placeWindow(center,hr);
-    drawRelations();
+    drawRelations();placeCatalogue();
   }
   function placeWindow(handCenter,handRect){
     if(!openName)return;
@@ -132,9 +134,9 @@
   function syncWindowState(){
     const popup=get('cw-drawer'),pinned=windowMode==='pinned';
     popup.dataset.mode=windowMode||'';
-    popup.setAttribute('aria-modal',String(pinned&&!objectWindow(openName)));
+    popup.setAttribute('aria-modal',String(pinned&&!objectWindow(openName)&&get('cw-catalogue-peek').hidden));
     get('cw-backdrop').hidden=!pinned||objectWindow(openName);
-    get('cw-window-state').textContent=windowMode==='peek'?'一時表示':openName&&!objectWindow(openName)?'固定中':'';
+    pinMark(get('cw-window-state'),pinned);
     root.querySelectorAll('[data-open]').forEach(el=>{el.setAttribute('aria-expanded',String(el.dataset.open===openName));el.setAttribute('aria-pressed',String(pinned&&el.dataset.open===openName));});
     root.querySelectorAll('[data-card],[data-field-card],[data-inspect-actor]').forEach(el=>{
       const expanded=el.dataset.card?openName==='card'&&el.dataset.card===selected:el.dataset.fieldCard?openName==='field'&&el.dataset.fieldCard===inspectedField:openName==='actor'&&el.dataset.inspectActor===inspectedActor;
@@ -142,11 +144,11 @@
     });
   }
   function showWindow(name,from,focus=true,mode='pinned'){
-    cancelHover();cancelDrag();opener=from||null;openName=name;windowMode=mode;
+    cancelHover();cancelDrag();clearUsePreview();hideCatalogue();opener=from||null;openName=name;windowMode=mode;
     const popup=get('cw-drawer');popup.hidden=false;popup.dataset.window=name;
     popup.style.left='';popup.style.top='';popup.style.height='';popup.style.width='';popup.style.maxHeight='';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
-    get('cw-drawer-title').textContent={reference:'山札・探索の詳細情報',settings:'操作説明・設定',card:'札・予測の詳細',field:'場札の詳細',actor:'相手の詳細',result:'履歴',objective:'突破条件',order:'行動順予測'}[name];
+    get('cw-drawer-title').textContent={reference:'山札',settings:'設定',card:'予測',field:'場札',actor:'相手',result:'履歴',objective:'突破条件',order:'行動順',return:'帰還'}[name];
     if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
     get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     syncWindowState();placeNearCard();
@@ -161,7 +163,7 @@
     else showWindow(name,from);
   }
   function hideWindow(restore=true){
-    cancelHover();get('cw-drawer').hidden=true;openName=null;windowMode=null;hoverFrom=null;syncWindowState();
+    cancelHover();clearUsePreview();hideCatalogue();get('cw-drawer').hidden=true;openName=null;windowMode=null;hoverFrom=null;syncWindowState();
     if(restore){const candidate=opener?.isConnected?opener:selected?root.querySelector(`[data-card="${selected}"]`):null;candidate?.focus({preventScroll:true});}
   }
   function inspectCard(id,focus=false){
@@ -173,6 +175,9 @@
   }
   function dismissOutside(event){
     if(!openName)return;
+    if(get('cw-catalogue-peek').contains(event.target))return;
+    if(!event.target.closest?.('[data-catalogue]'))hideCatalogue();
+    if(event.target.closest?.('#cw-withdraw'))return;
     if(get('cw-drawer').contains(event.target)){if(windowMode==='peek')pinWindow();return;}
     // Openers handle their own toggle, including switching from one window to another.
     if(root.contains(event.target)&&event.target.closest('[data-open]'))return;
@@ -185,13 +190,13 @@
     event.preventDefault();event.stopImmediatePropagation();
   }
   function setupHover(){
-    const popup=get('cw-drawer');
+    const popup=get('cw-drawer'),inside=node=>node&&(popup.contains(node)||get('cw-catalogue-peek').contains(node));
     const trigger=node=>node?.closest?.('.cw-menu [data-open],[data-turn-actor]');
     const mouse=event=>event.pointerType==='mouse'&&window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const leave=()=>{clearTimeout(hoverTimer);clearTimeout(hoverCloseTimer);hoverCloseTimer=setTimeout(()=>{if(windowMode==='peek')hideWindow(false);},160);};
     root.addEventListener('pointerover',event=>{
       if(!mouse(event))return;
-      if(popup.contains(event.target)){cancelHover();return;}
+      if(inside(event.target)){cancelHover();return;}
       const from=trigger(event.target);if(!from||from.contains(event.relatedTarget)||drag||busy||windowMode==='pinned')return;
       cancelHover();hoverFrom=from;
       hoverTimer=setTimeout(()=>{if(!from.isConnected||drag||busy||windowMode==='pinned')return;showWindow(from.dataset.open,from,false,'peek');hoverFrom=from;},180);
@@ -199,8 +204,8 @@
     root.addEventListener('pointerout',event=>{
       if(!mouse(event))return;
       const from=trigger(event.target);
-      if(from){if(from.contains(event.relatedTarget)||popup.contains(event.relatedTarget))return;leave();}
-      else if(popup.contains(event.target)&&!popup.contains(event.relatedTarget)&&!hoverFrom?.contains(event.relatedTarget))leave();
+      if(from){if(from.contains(event.relatedTarget)||inside(event.relatedTarget))return;leave();}
+      else if(inside(event.target)&&!inside(event.relatedTarget)&&!hoverFrom?.contains(event.relatedTarget))leave();
     });
     window.addEventListener('blur',()=>{cancelHover();if(windowMode==='peek')hideWindow(false);});
     document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelHover();if(windowMode==='peek')hideWindow(false);}});
@@ -226,14 +231,14 @@
     else feedExpiry=setTimeout(()=>{get('cw-event-feed').replaceChildren();},8000);
   }
   function setupSurface(){
-    setupHover();
+    setupHover();setupCatalogue();
     document.addEventListener('pointerdown',dismissOutside,true);
     document.addEventListener('click',event=>{
       if(event.detail>0&&Date.now()<suppressClickUntil){event.preventDefault();event.stopImmediatePropagation();return;}
       dismissOutside(event);
     },true);
     root.addEventListener('keydown',event=>{
-      if(event.key!=='Tab'||!openName||objectWindow(openName)||windowMode==='peek')return;
+      if(event.key!=='Tab'||!get('cw-catalogue-peek').hidden||!openName||objectWindow(openName)||windowMode==='peek')return;
       const nodes=[...get('cw-drawer').querySelectorAll('button,input,select,summary')].filter(n=>!n.disabled&&!n.closest('[hidden]'));
       const index=nodes.indexOf(document.activeElement),first=nodes[0],last=nodes.at(-1);
       if(event.shiftKey&&(index<=0)){event.preventDefault();last?.focus();}

@@ -10,7 +10,7 @@ const expected={
 };
 function readFixed(name){const s=fs.readFileSync(path.join(fixed,name),'utf8');assert.equal(sha(s),expected[name],`固定版が異なる: ${name}`);return s;}
 function build(replay={build:'guard5',choices:[]}){
-  let view=['support.js','surface.js','relations.js','view.js'].map(name=>fs.readFileSync(path.join(root,name),'utf8')).join('\n');
+  let view=['support.js','icons.js','surface.js','catalogue.js','relations.js','view.js'].map(name=>fs.readFileSync(path.join(root,name),'utf8')).join('\n');
   view=view.replace('__CW_DATA__',()=>JSON.stringify(JSON.parse(readFixed('input.json'))).replace(/</g,'\\u003c'));
   view=view.replace('__CW_REPLAY__',()=>JSON.stringify(replay).replace(/</g,'\\u003c'));
   let fragment=fs.readFileSync(path.join(root,'play.fragment.html'),'utf8');
@@ -20,12 +20,14 @@ function build(replay={build:'guard5',choices:[]}){
   return fragment;
 }
 if(require.main===module){
-  const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone');
-  const out=pos[0]||'/workspace/crossweave-landscape-inspectors.html';
+  const args=process.argv.slice(2),standalone=args.includes('--standalone'),pos=args.filter(x=>x!=='--standalone'&&!x.startsWith('--build='));
+  const out=pos[0]||'/workspace/crossweave-centered-table.html';
   const fixture=pos[1],replay=fixture?JSON.parse(fs.readFileSync(path.join(root,'../fixtures.json'),'utf8')).cases[fixture]:undefined;
   if(fixture)assert(replay,`不明な局面: ${fixture}`);
-  let s=build(replay);
-  if(standalone)s='<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave · UI-R-002</title><style>:root{color-scheme:light dark}body{margin:0 auto;padding:16px;max-width:1056px;font-family:system-ui,sans-serif}</style></head><body>\n'+s+'\n</body></html>\n';
+  const buildId=args.find(x=>x.startsWith('--build='))?.split('=')[1];
+  if(buildId)assert(['guard5','guard3','guard0'].includes(buildId)&&!fixture,'構成の指定は開始局面のみ');
+  let s=build(replay||(buildId?{build:buildId,choices:[]}:undefined));
+  if(standalone)s='<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave · UI-R-002</title><style>:root{color-scheme:light dark}body{box-sizing:border-box;width:100%;margin:0 auto;padding:16px;max-width:1440px;font-family:system-ui,sans-serif}</style></head><body>\n'+s+'\n</body></html>\n';
   fs.writeFileSync(out,s);console.log(JSON.stringify({test_id:'UI-R-002',path:out,case:fixture||'start',standalone,bytes:Buffer.byteLength(s),sha256:sha(s)}));
 }
 module.exports={build,expected,sha};

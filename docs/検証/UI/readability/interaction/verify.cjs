@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__start=start;window.__catalogue=()=>CWFeedback.catalogue(game);window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -30,7 +30,7 @@ function drag(d,id,finish='inside',pointerType='touch'){
 }
 for(const run of fixtures.runs){
   const a=open(old.build()),b=open(build(),true);
-  for(const d of [a,b]){query(d,'#cw-build').value=run.build;query(d,'#cw-restart').click();}
+  query(a,'#cw-build').value=run.build;query(a,'#cw-restart').click();b.window.__start(run.build);
   eq(a,b);
   for(const choice of run.choices){const before=state(b);choose(a,choice);choose(b,choice);assert.equal(state(b),before,'selection mutated game');assert(!query(b,'#cw-use').disabled,'legal action disabled');query(a,'#cw-use').click();query(b,'#cw-use').click();eq(a,b);const scheduled=b.window.__inspect().s;if(!scheduled.outcome)assert(scheduled.actors[b.window.__ui().target]?.active,'retirement left target unselected');assert.deepEqual([...b.window.document.querySelectorAll('[data-turn-actor]')].map(n=>n.dataset.turnActor).sort(),scheduled.outcome?[]:Object.keys(scheduled.actors).filter(id=>scheduled.actors[id].active&&scheduled.actors[id].acts).sort(),'scheduled participants did not follow state');assert.equal(b.window.__ui().selected,null,'new hand auto-selected');assert(query(b,'#cw-use').disabled,'execution remains armed');actions++;}
   for(const d of [a,b])query(d,'#cw-withdraw').click();eq(a,b);
@@ -138,7 +138,7 @@ for(const finish of ['release','wheel','scroll','blur','visibility','settings','
   if(finish==='blur')b.window.dispatchEvent(new b.window.Event('blur'));
   if(finish==='visibility'){Object.defineProperty(b.window.document,'hidden',{value:true,configurable:true});b.window.document.dispatchEvent(new b.window.Event('visibilitychange'));}
   if(finish==='settings')query(b,'#cw-hold-setting').dispatchEvent(new b.window.Event('change'));
-  if(finish==='restart')query(b,'#cw-restart').click();
+  if(finish==='restart')b.window.__start();
   if(finish==='stale'){choose(b,first);query(b,'#cw-use').click();}
   const after=state(b);b.window.__tick(1000);assert(query(b,'#cw-drag-ghost').hidden,'late hold after '+finish);
   assert.equal(state(b),after);if(finish!=='stale')assert.equal(state(b),before);
@@ -299,7 +299,7 @@ checks.push('art slots beneath actor/card captions; terrain base plus active env
   const actorIds=[...b.window.document.querySelectorAll('[data-inspect-actor]')].map(n=>n.dataset.inspectActor);
   const clickActor=id=>{const node=query(b,`[data-inspect-actor="${id}"]`);pointer(b,node,'pointerdown',{pointerType:'mouse'});node.click();};
   clickActor('V0');assert.equal(b.window.__window().openName,'actor');assert.equal(b.window.__ui().target,'V0');
-  const text=query(b,'#cw-actor-info').textContent;assert(text.includes('あなたを攻撃')&&text.includes('確認した種類'));
+  const text=query(b,'#cw-actor-info').textContent;assert(text.includes('あなたを攻撃')&&text.includes('確認済み'));
   assert(!text.includes('後続'));assert(text.includes(`HP ${s.actors.V0.hp}/${s.actors.V0.max_hp}`));
   clickActor('V0');assert(query(b,'#cw-drawer').hidden);assert.equal(b.window.__ui().target,'V0');
   clickActor('V0');clickActor(actorIds[0]);assert.equal(b.window.__ui().target,actorIds[0]);
@@ -348,7 +348,7 @@ for(const scenario of ['place','attack','guard']){
   handOffset=0;viewport=640;b.window.__layout();assert.equal(svg.getAttribute('viewBox'),'0 0 640 648','resize did not update coordinates');
   query(b,'#cw-diagram-setting').checked=false;query(b,'#cw-diagram-setting').dispatchEvent(new b.window.Event('change'));assert(svg.hasAttribute('hidden'));assert.equal(links().length,0);
   assert.equal(state(b),before,'drawing/inspection changed game');
-  query(b,'#cw-diagram-setting').checked=true;query(b,'#cw-restart').click();assert(svg.hasAttribute('hidden'),'restart retained stale route');
+  query(b,'#cw-diagram-setting').checked=true;b.window.__start();assert(svg.hasAttribute('hidden'),'restart retained stale route');
   checks.push(scenario+': actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged');
   b.window.close();
 }
@@ -416,6 +416,80 @@ for(const [width,height,worldBottom,boardTop,boardBottom,handTop,footerTop]of [[
   naturalHeight=700;query(b,'[data-open="result"]').click();r=popup.getBoundingClientRect();assert(r.bottom<footerTop&&r.top>=12,'history escaped available area');
   assert.equal(state(b),before);checks.push(width+'px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation');b.window.close();
 }
+{
+  const b=open(build(),true),before=state(b),root=query(b,'#cw-playtable');
+  assert(!query(b,'#cw-restart')&&!query(b,'#cw-build')&&!query(b,'#cw-resources'));
+  assert(query(b,'#cw-withdraw').closest('.cw-bottom'));
+  assert(query(b,'#cw-withdraw').classList.contains('cw-withdraw'));
+  assert(!root.textContent.includes('現在の手札・山札の内容を示すものではありません'));
+  assert(query(b,'#cw-history').textContent.includes('持ち込み')&&query(b,'#cw-history').textContent.includes('補給'));
+  const conditions=[...b.window.document.querySelectorAll('[data-objective]')];
+  assert.equal(conditions.length,2);assert(conditions[0].textContent.includes('大岩のHPを0にする')&&conditions[0].textContent.includes('未保護'));
+  assert(conditions[1].textContent.includes('最初の環境のHPを0にする')&&conditions[1].textContent.includes('ここまでの獲得物を保護'));
+  assert(!query(b,'#cw-objective').textContent.includes('後続'));
+  for(const actor of b.window.document.querySelectorAll('[data-inspect-actor]'))assert(actor.querySelector('.cw-illustration svg[data-icon]'));
+  query(b,'[data-open="reference"]').click();
+  assert.equal(query(b,'#cw-drawer-title').textContent,'山札');assert.equal(query(b,'#cw-deck-title').textContent,'山札一覧');
+  const catalogue=b.window.__catalogue(),cards=[...b.window.document.querySelectorAll('[data-catalogue]')];
+  assert.equal(cards.length,catalogue.length);
+  cards.forEach((n,i)=>{assert(n.querySelector('.cw-illustration svg'));assert.equal(n.querySelector('.cw-deck-number').textContent,String(catalogue[i].remaining));assert(!n.textContent.includes('主効果：'));});
+  assert.equal(state(b),before);checks.push('public gallery: same catalogue counts and shared art, no prose per tile; bring/supply moved to history; distinct current objectives; direct cautionary withdrawal; obsolete restart/resource sections absent');b.window.close();
+}
+{
+  const b=open(build(),true),before=state(b),firstCard=query(b,'[data-catalogue]');
+  const over=(n,relatedTarget=null)=>pointer(b,n,'pointerover',{pointerType:'mouse',relatedTarget});
+  const out=(n,relatedTarget=null)=>pointer(b,n,'pointerout',{pointerType:'mouse',relatedTarget});
+  const menu=query(b,'[data-open="reference"]'),popup=query(b,'#cw-catalogue-peek');
+  over(menu);b.window.__tick(180);assert(query(b,'#cw-window-state [data-icon="PinOff"]'));
+  over(firstCard);b.window.__tick(180);assert(!popup.hidden);assert(query(b,'#cw-catalogue-state [data-icon="PinOff"]'));
+  assert(query(b,'#cw-catalogue-info').textContent.includes('主効果：'));
+  out(firstCard,popup);over(popup,firstCard);b.window.__tick(500);assert(!popup.hidden&&!query(b,'#cw-drawer').hidden);
+  firstCard.click();assert(query(b,'#cw-catalogue-state [data-icon="Pin"]'));assert(query(b,'#cw-window-state [data-icon="Pin"]'));
+  assert.equal(query(b,'#cw-window-state').textContent,'');assert.equal(query(b,'#cw-window-state').getAttribute('role'),'img');
+  out(popup);b.window.__tick(500);assert(!popup.hidden);
+  firstCard.click();assert(popup.hidden);firstCard.click();assert(!popup.hidden);
+  query(b,'#cw-playtable').dispatchEvent(new b.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert(popup.hidden);assert(!query(b,'#cw-drawer').hidden);
+  firstCard.click();query(b,'#cw-drawer-title').click();assert(popup.hidden&&!query(b,'#cw-drawer').hidden);
+  firstCard.click();query(b,'#cw-playtable').click();assert(popup.hidden&&query(b,'#cw-drawer').hidden);
+  assert.equal(state(b),before);assert.equal(b.window.__ui().selected,null);
+  checks.push('gallery hover / leave grace / click pin / repeated click toggle / Escape / outside dismissal; pin glyphs without status prose; no game or hand-selection changes');b.window.close();
+}
+{
+  const a=open(old.build()),b=open(build(),true),before=state(b),root=query(b,'#cw-playtable');
+  query(b,`[data-card="${first.card_id}"]`).click();const use=query(b,'#cw-use');assert.equal(use.textContent,'場に出す');
+  pointer(b,use,'pointerenter',{pointerType:'touch'});assert(query(b,'#cw-drag-ghost').hidden);
+  pointer(b,use,'pointerenter',{pointerType:'mouse'});
+  assert(!query(b,'#cw-drag-ghost').hidden);assert.equal(query(b,'#cw-drop-zone').dataset.drag,'true');assert.equal(query(b,`[data-hand-id="${first.card_id}"]`).dataset.dragging,'true');
+  const visual=query(b,'#cw-drag-ghost').innerHTML;assert.equal(state(b),before);
+  pointer(b,use,'pointerleave',{pointerType:'mouse'});assert(query(b,'#cw-drag-ghost').hidden);assert.equal(query(b,'#cw-drop-zone').dataset.drag,'false');
+  query(b,'#cw-close').click();b.window.document.elementFromPoint=()=>root;pointer(b,query(b,`[data-card="${first.card_id}"]`),'pointerdown');b.window.__tick(220);assert.equal(query(b,'#cw-drag-ghost').innerHTML,visual);pointer(b,root,'pointercancel');
+  pointer(b,use,'pointerenter',{pointerType:'mouse'});assert(!query(b,'#cw-drag-ghost').hidden);use.click();choose(a,first);query(a,'#cw-use').click();eq(a,b);assert(query(b,'#cw-drag-ghost').hidden);
+  checks.push('execution hover mirrors hold ghost and field/hand emphasis; touch requires no hover; leave clears; hover does not execute; click executes exactly once');a.window.close();b.window.close();
+}
+{
+  const a=open(old.build()),b=open(build(),true),initial=state(b);
+  query(b,'[data-open="settings"]').click();query(a,'#cw-withdraw').click();query(b,'#cw-withdraw').click();eq(a,b);
+  assert.equal(b.window.__window().openName,'return');assert(!query(b,'#cw-reenter').disabled);assert(query(b,'#cw-outcome').textContent.includes('撤退'));assert.equal(query(b,'#cw-loot').textContent,'なし');
+  query(b,'#cw-reenter').click();assert.equal(state(b),initial);assert(query(b,'#cw-drawer').hidden);assert.equal(query(b,'#cw-withdraw').textContent,'撤退');
+  checks.push('withdrawal works directly from pinned menu; exact fixed settlement; re-entry starts the same build/seed; no hidden carryover or in-play restart');a.window.close();b.window.close();
+}
+for(const entry of Object.values(fixtures.cases)){
+  const b=open(build(entry),true),s=b.window.__inspect().s;
+  if(!s.outcome)query(b,'#cw-withdraw').click();
+  const settlement=b.window.__inspect().s.settlement;
+  if(settlement){const loot=query(b,'#cw-loot');assert.equal(loot.children.length,settlement.kept.length+settlement.lost.length);assert.equal(loot.querySelectorAll('.cw-loss').length,settlement.lost.length);}
+  b.window.close();
+}
+checks.push('return panel lists only actual kept/lost fixed-engine rewards across recorded fixtures');
+{
+  const css=fs.readFileSync(path.join(__dirname,'table.css'),'utf8'),rootRule=css.slice(0,css.indexOf('}'));
+  assert(rootRule.includes('width:100%;max-width:100%;min-width:0;margin-inline:auto'));
+  assert(rootRule.includes('aspect-ratio:16/9'));
+  assert(css.includes('.cw-actor .cw-illustration{position:relative;inset:auto;flex:1 0 42px;min-height:42px'));
+  assert(css.includes('.cw-actor .cw-face-caption{flex-shrink:0'));
+  checks.push('source constraints: explicit bounded centered frame; 16:9 baseline retained; actor art reserves height independently of caption (not a browser rendering assertion)');
+}
+
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.11',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser 16:9 layout/minimum-size fallback, content-sized translucent windows and row avoidance','physical pointer contact with held card, hold timing, manual touch scrolling and pinch zoom','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.12',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser right edge, centered layout, art visibility and translucent-window readability','physical gallery hover paths and held-card pointer contact','human effort, errors and event-feed readability']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

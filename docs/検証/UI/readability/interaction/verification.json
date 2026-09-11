@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.11",
+  "ui_version": "0.12",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
@@ -70,13 +70,19 @@
     "held height 116: pointer touches measured card at hold origin, follows movement and stays connected at edges",
     "1024px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation",
     "900px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation",
-    "320px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation"
+    "320px supplied layout: natural short windows, field/actor row avoidance, long-content cap and source scroll following; no game mutation",
+    "public gallery: same catalogue counts and shared art, no prose per tile; bring/supply moved to history; distinct current objectives; direct cautionary withdrawal; obsolete restart/resource sections absent",
+    "gallery hover / leave grace / click pin / repeated click toggle / Escape / outside dismissal; pin glyphs without status prose; no game or hand-selection changes",
+    "execution hover mirrors hold ghost and field/hand emphasis; touch requires no hover; leave clears; hover does not execute; click executes exactly once",
+    "withdrawal works directly from pinned menu; exact fixed settlement; re-entry starts the same build/seed; no hidden carryover or in-play restart",
+    "return panel lists only actual kept/lost fixed-engine rewards across recorded fixtures",
+    "source constraints: explicit bounded centered frame; 16:9 baseline retained; actor art reserves height independently of caption (not a browser rendering assertion)"
   ],
   "errors": [],
-  "fragment_sha256": "5ae2ab3984e93e903e0c64aa4874d64cbc75c7f5bed9d4c5285b92cc9d9684e2",
+  "fragment_sha256": "6c5caeaaeadd48e4070ee04bfc4f41fdeddc709e88d43bbfb7436fc71aa4d227",
   "unverified": [
-    "real browser 16:9 layout/minimum-size fallback, content-sized translucent windows and row avoidance",
-    "physical pointer contact with held card, hold timing, manual touch scrolling and pinch zoom",
+    "real browser right edge, centered layout, art visibility and translucent-window readability",
+    "physical gallery hover paths and held-card pointer contact",
     "human effort, errors and event-feed readability"
   ]
 }
