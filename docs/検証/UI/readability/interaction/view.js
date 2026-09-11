@@ -45,10 +45,6 @@
     const flags=[];
     if(c){const exp=p.hand.filter(x=>x.id!==c.id&&x.remaining===1);if(exp.length)flags.push('期限切れ '+exp.length+'枚');if(lossOnPlacement(c).length||(mid&&(c.consume_on_recover||c.doomed||c.birth==='filler'||mid.consume_on_recover||mid.doomed||mid.birth==='filler')))flags.push('消滅あり');if(mid&&p.guard)flags.push('防御終了');}
     get('cw-notice').textContent=[...flags,needsTarget?'攻撃対象を選択':notice].filter(Boolean).join(' · ');
-    get('cw-result-summary').textContent=changes.length?changes[0]+(changes.length>1?`／ほか${changes.length-1}件`:''):'まだ行動していません';
-    get('cw-changes').innerHTML=changes.length?changes.map(x=>`<div class="cw-log">${esc(x)}</div>`).join(''):'まだ行動していません';
-    get('cw-change-time').textContent=beforeTime===null?'':`時刻 ${beforeTime} → ${s.now}`;
-    get('cw-last').innerHTML=last.map(x=>'<div class="cw-log">'+esc(x)+'</div>').join('');
     get('cw-turn').textContent=`自分の行動 ${p.actions+(!s.outcome?1:0)}回目 · 時刻 ${s.now}`;
     get('cw-progress').textContent=`山札 ${p.deck_count}枚 · ${p.rebuilds+1}巡目 · 共通回収山 ${s.pool_count}枚`;
     get('cw-start-state').textContent=game.s.actors.O.active?'大岩以外の回避 +20':'大岩の遮蔽：終了';
@@ -74,7 +70,7 @@
     const c=game.s.cards[id],mid=game.s.field[c.attr];
     if(mid&&c.kind==='attack'&&(!target||!game.s.actors[target]?.active)){selected=id;notice='攻撃対象を選んでください。';render();return false;}
     hideWindow(false);const before=game.public();busy=true;
-    try{game.step({card_id:id,target:c.kind==='attack'&&mid?target:null});game.advance();version++;recordChanges(before);changedAttrs=new Set(Object.keys(game.public().field).filter(attr=>before.field[attr]?.id!==game.public().field[attr]?.id));absorb();selected=null;notice='';busy=false;render();if(game.s.outcome)showWindow('return',get('cw-withdraw'));return true;}
+    try{advanceWithHistory({card_id:id,target:c.kind==='attack'&&mid?target:null});version++;changedAttrs=new Set(Object.keys(game.public().field).filter(attr=>before.field[attr]?.id!==game.public().field[attr]?.id));selected=null;notice='';busy=false;render();if(game.s.outcome)showWindow('return',get('cw-withdraw'));return true;}
     catch(error){notice='処理を中断しました：'+error.message;render();return false;}
   }
   function requestCard(id,expectedVersion){
@@ -106,7 +102,8 @@
   }
   function showHeldCard(c){
     const ghost=get('cw-drag-ghost');
-    ghost.innerHTML=`<strong>${attrBadge(c.attr)}${esc(cardName(c))}</strong><span>${mainText(c)}</span>`;ghost.hidden=false;
+    const place=!game.s.field[c.attr];ghost.dataset.mode=place?'place':'match';
+    ghost.innerHTML=`<strong>${attrBadge(c.attr)}${esc(cardName(c))}</strong><span>${place?'一致補正<br>'+fieldText(c):mainText(c)}</span>`;ghost.hidden=false;
     get('cw-drop-zone').dataset.drag='true';
     root.querySelector(`[data-hand-id="${c.id}"]`)?.setAttribute('data-dragging','true');
   }
@@ -192,12 +189,11 @@
   get('cw-use').addEventListener('click',event=>{if(event.detail<=1&&selected)perform(selected,version);});
   get('cw-close').addEventListener('click',closePanel);
   for(const id of ['cw-quick-setting','cw-drag-setting','cw-hold-setting','cw-peek-setting','cw-diagram-setting'])get(id).addEventListener('change',()=>{cancelDrag();render();});
-  get('cw-withdraw').addEventListener('click',()=>{if(game.s.outcome){toggleWindow('return',get('cw-withdraw'));return;}cancelDrag();hideWindow(false);const before=game.public();game.settle('withdrawal');version++;recordChanges(before);absorb();selected=null;render();showWindow('return',get('cw-withdraw'));});
+  get('cw-withdraw').addEventListener('click',()=>{if(game.s.outcome){toggleWindow('return',get('cw-withdraw'));return;}cancelDrag();hideWindow(false);const before=game.public();game.settle('withdrawal');version++;last=[];absorb(before);selected=null;render();showWindow('return',get('cw-withdraw'));});
   get('cw-reenter').addEventListener('click',()=>{if(game.s.outcome)start(bundle.terrain_build);});
-  get('cw-history-order').addEventListener('change',renderHistory);
   get('cw-turn-order').addEventListener('scroll',updateOrderHints,{passive:true});
   for(const id of ['cw-actors','cw-field','cw-hand']){get(id).addEventListener('scroll',updateScrollHints,{passive:true});if(typeof ResizeObserver!=='undefined')new ResizeObserver(updateScrollHints).observe(get(id));}
   setupSurface();start();
-  for(const choice of initialReplay.choices){const before=game.public();game.step(choice);game.advance();recordChanges(before);absorb();version++;}
+  for(const choice of initialReplay.choices){advanceWithHistory(choice);version++;}
   if(initialReplay.choices.length){selected=null;resetEvents();enqueueEvents(last);render();}
 })();

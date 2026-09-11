@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.13",
+  "ui_version": "0.14",
   "verification": "DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement",
   "engine_input_commit": "e9b5b0a27b6fc51694c347c7e941a28ff97856f5",
   "actions": 74,
@@ -56,7 +56,7 @@
     "baseline initial target and optional board connections; full text remains reachable",
     "transient chronological feed is bounded; full history retained after expiry; opening history changes no game state",
     "supplied geometry: compact dock follows cards directly below hand, clamps edges, labels offscreen card, fits 320px; popup stays above hand",
-    "compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained",
+    "compact layout: menus and player status in slim bottom strip; transient feed overlays screen center; contextual hand controls and complete prediction retained",
     "art slots beneath actor/card captions; terrain base plus active environment layers only",
     "field and actor physical clicks open/switch/retoggle; field full effects; only current public actor info; hand selection retained; actor selects target; internal target stays in card detail; no outside execution",
     "place: actual-object connectors with supplied rectangles; close retains route, scroll/resize follow, offscreen endpoints omitted, setting/restart clear; game unchanged",
@@ -81,13 +81,20 @@
     "source constraints: explicit bounded centered frame; 16:9 baseline retained; actor art fills the opponent region behind caption (not a browser rendering assertion)",
     "hover closes inspector without clearing selection/target; ghost stays 6px above button despite cursor movement, follows layout, and leave does not reopen",
     "placement detail states own field modifiers once; no duplicate prose summary or empty calculation section; shared rules remain in settings; status has independent menu and panel",
-    "hold instruction omits redundant grabbed announcement and retains the actual drop outcome"
+    "hold instruction omits redundant grabbed announcement and retains the actual drop outcome",
+    "place: hold and execution hover share field contribution for placement / primary effect for matching; no game change",
+    "match: hold and execution hover share field contribution for placement / primary effect for matching; no game change",
+    "action order uses short column labels and tie notation; no explanatory paragraphs",
+    "10-event burst: newest above oldest fixed bottom; individual fade then one-row downward shift; six visible, all pending events delivered, no state mutation",
+    "later batches do not prolong oldest line; reentry cancels all pending/fade/removal timers without stale history",
+    "full fixed replay history: newest-first single rows, unique IDs, monotonic actual times, action precedes boundary consequences, no bring/supply or repeated summaries",
+    "public-scope filter: private opponent retirement cards hidden; own visible and actually played cards report losses"
   ],
   "errors": [],
-  "fragment_sha256": "869b4987c8c30bd7ac19e8486ff66c9840872aa73527525558171ab61bcd4b78",
+  "fragment_sha256": "b210a170b197103c26c6b7d682815e4fd654407b15412c444b017f3592f13d1f",
   "unverified": [
     "real browser right edge, centered layout, art visibility and translucent-window readability",
     "physical gallery hover paths and held-card pointer contact",
-    "human effort, errors and event-feed readability"
+    "human effort, errors and central queue readability / fade duration / backlog"
   ]
 }

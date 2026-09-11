@@ -1,6 +1,6 @@
 {
   "test_id": "UI-R-002",
-  "ui_version": "0.13",
+  "ui_version": "0.14",
   "work_id": "20260910-ui-readability",
   "branch": "ui/readability-20260910",
   "baseline_test_id": "PT-Z-001",
@@ -8,10 +8,10 @@
   "baseline_spec": "0.39",
   "operational_design_spec": "0.52",
   "synchronized_design_commit": "e827d35b58afcf7e47b73f9ef401bd83fd65313d",
-  "own_source_commit": "3aa93fe8570c6d69a73ee0fbe4c9add8bbc9fa3c",
-  "own_source_merge_commit": "1ed16f259de5183ef06ffcfee53222603854116e",
+  "own_source_commit": "200a917435f931d89ab6f45d7a0a7155547f1d26",
+  "own_source_merge_commit": "1c0c44fa03a26ebb2a5014c5dff780b80af2f0ae",
   "required_source_merge_commit": "a387b418a5a4c652083b30323a3b400396f064eb",
-  "ui_code_commit": "85f94fc9adebf411ff495eb6b8e34f78f5daa7ce",
+  "ui_code_commit": null,
   "reference_ui_code_commit": "36994df65be28926bd3a6a10735552c7e37618ec",
   "entry": "W seed32 / guard5",
   "game_changes": [],
@@ -34,61 +34,17 @@
     "deck_hover_details": true
   },
   "ui_diff": "ui-r002.patch",
-  "ui_diff_scope": "v0.12 to v0.13 UI sources; nine-source reproduction including existing icons/catalogue/relations",
+  "ui_diff_scope": "v0.13 to v0.14 UI sources; nine-source reproduction; fixed engine and input unchanged",
   "fixtures": "../fixtures.json",
   "verification": "verification.json",
   "files": {
     "README.md": {
-      "bytes": 29284,
-      "sha256": "465a6d004d2d6bc4e1f86b499eaae3bd29fab473f3930d867f56c80d243c51f0"
+      "bytes": 31904,
+      "sha256": "a9ee4a3c8d2235b63dc9c8099060b33d95862306e96a58c6fb9683c7277d8053"
     },
     "build.cjs": {
-      "bytes": 3181,
-      "sha256": "083436d8b1bff5c1659046c96bb910f832452e2746b52d5399f4ec5a9c3931d4"
-    },
-    "play.fragment.html": {
-      "bytes": 8513,
-      "sha256": "e6932741ceb6c64f0b9932f414bdc42214d43d0c9315a6be65f275ce7193384b"
-    },
-    "preview.html": {
-      "bytes": 298430,
-      "sha256": "958ff36861e07270bb7ad228e3ea0e841e9c0bdaa4be9b07b7b72918a207e89c"
-    },
-    "support.js": {
-      "bytes": 9662,
-      "sha256": "19159fbe6632d747a295ea6ab9d75181e2551223774d6091480a7a81ac6ac8a8"
-    },
-    "ui-r002.patch": {
-      "bytes": 34912,
-      "sha256": "34f75b9008b2051f2dc147d26e8c65806a5446f34e46f629128925e58d5c57be"
-    },
-    "verification.json": {
-      "bytes": 8233,
-      "sha256": "4ec34860af4f204016fd6a0d2ae34f4f424e04d97c77bd23c303891c5ad56c97"
-    },
-    "verify.cjs": {
-      "bytes": 49676,
-      "sha256": "72b216cea89de56247ce3c5767236ca080e27186509d31c4027c4059dc9e79d0"
-    },
-    "view.js": {
-      "bytes": 21214,
-      "sha256": "cafa27e451960aa92367abcc616ac5d3b896ee349e7372739901319e3588b5b3"
-    },
-    "surface.js": {
-      "bytes": 18081,
-      "sha256": "51fcf61d08d9357e5859b57cafa8aec51204f31fb5c9ac01a5aa9befba7353ae"
-    },
-    "画面操作・描画方針.md": {
-      "bytes": 29082,
-      "sha256": "ce4281ecb7b25c3e546b885b916b80814201b6ae192f67caaec061fbe138e6fd"
-    },
-    "table.css": {
-      "bytes": 19451,
-      "sha256": "e5e9086c11f6291d652442d17fbffe1cd2d91391dd84d6205567ad711548076e"
-    },
-    "relations.js": {
-      "bytes": 2870,
-      "sha256": "64f79da7006dfb9bfcfc48a47b0f958ea41663e7251754a29fd95637b5ad3f97"
+      "bytes": 3177,
+      "sha256": "6d49000a0520508fd2ec6aac3de5b2018e37f553532e8c31c3851bffb1c03591"
     },
     "catalogue.js": {
       "bytes": 4487,
@@ -97,18 +53,63 @@
     "icons.js": {
       "bytes": 6252,
       "sha256": "fbc392b0d604e8d261cc4c510ff6eb61630d6db5b6aaebfce7939c33c4d79103"
+    },
+    "play.fragment.html": {
+      "bytes": 7917,
+      "sha256": "2537fc49ad730556711b178dd8e7450e47c71e7b86ab5719e4d1c44f9e8fad0a"
+    },
+    "preview.html": {
+      "bytes": 298824,
+      "sha256": "c1ed04c8c6f34060002075299a4653bd229d8787b9e4ca954e01b1178ab1e8b2"
+    },
+    "relations.js": {
+      "bytes": 2870,
+      "sha256": "64f79da7006dfb9bfcfc48a47b0f958ea41663e7251754a29fd95637b5ad3f97"
+    },
+    "support.js": {
+      "bytes": 9860,
+      "sha256": "964aa9bada3bc1a9605cdb709ae08ff100a68c5cdd36ff308d235994d9954362"
+    },
+    "surface.js": {
+      "bytes": 18326,
+      "sha256": "a3aac7b1f113ea60da5575c4505816dd38d66735eb0638cc28c56aba083904f3"
+    },
+    "table.css": {
+      "bytes": 20545,
+      "sha256": "bb202270c60b12a6a7a9cec523e9aa33559c7d4a5a9b8eeb4ba88bf0a9955b98"
+    },
+    "ui-r002.patch": {
+      "bytes": 34725,
+      "sha256": "af122a5da6d8bb1074294ae0a8a5d982e2494255cbb925d0f7a03d76f526a43a"
+    },
+    "verification.json": {
+      "bytes": 9184,
+      "sha256": "f69fc8aedc54a9845c6d509f00a7a63cc40b3e33daf0f094a89d859999c774f6"
+    },
+    "verify.cjs": {
+      "bytes": 56628,
+      "sha256": "4b832c44bc95cec3ee12db04322ed4c191fda9f5afed2c4dbfb85d045924dbbf"
+    },
+    "view.js": {
+      "bytes": 20667,
+      "sha256": "c39f1fd0fca31c71fc94e6916d69f9795d855e7b0c5cd4ada16adea6f3e5db4e"
+    },
+    "画面操作・描画方針.md": {
+      "bytes": 31583,
+      "sha256": "998217f763429f24e2fb44e649ead68c444a0d338a0d1c1cf419c415707b71ef"
     }
   },
   "fragment": {
-    "path": "/workspace/crossweave-compact-details.html",
-    "sha256": "869b4987c8c30bd7ac19e8486ff66c9840872aa73527525558171ab61bcd4b78"
+    "path": "/workspace/crossweave-event-queue.html",
+    "bytes": 298470,
+    "sha256": "b210a170b197103c26c6b7d682815e4fd654407b15412c444b017f3592f13d1f"
   },
   "unverified": [
     "real browser actor art and caption overlap, centered 16:9 layout and narrow footer",
     "physical pointer path from hand to execution button and anchored preview readability",
     "human effort and interpretation of concise details"
   ],
-  "previous_ui_code_commit": "0a0b6427dbdbf2f4e43a05015ec7c288b5f03282",
+  "previous_ui_code_commit": "85f94fc9adebf411ff495eb6b8e34f78f5daa7ce",
   "ui_diff_base": "0a0b6427dbdbf2f4e43a05015ec7c288b5f03282",
   "gesture_policy": {
     "hold_ms": 220,
@@ -140,12 +141,20 @@
     "action_anchor": "one execution button directly below selected card, clamped inside hand viewport; placement label is 場に出す",
     "outside_window": "pinned menu windows dismiss without background action; direct withdrawal remains actionable; object windows allow direct switching and card inspector allows execution; catalogue has its own outside/Escape dismissal",
     "live_history": {
-      "visible": 2,
-      "queued_limit": 8,
-      "interval_ms": 850,
-      "expiry_ms": 8000,
+      "visible": 6,
+      "queued_limit": null,
+      "interval_ms": 260,
+      "hold_ms": 1300,
+      "fade_ms": 1500,
+      "expiry_ms": 2800,
+      "row_step_px": 26,
+      "downward_transition_ms": 180,
+      "order": "newest on top; oldest visible anchored at bottom; removal lowers remaining rows",
       "full_history_retained": true,
-      "location": "transient pointer-transparent overlay at field lower right; no reserved layout height"
+      "location": "pointer-transparent centered overlay; bottom 47%, width max680px; no reserved layout height",
+      "overflow": "keep pending events until a visible slot opens; do not push out oldest; may lag during rapid input",
+      "reset": "reentry clears queue and all per-row timers",
+      "reduced_motion": "immediate row repositioning; opacity fade retained"
     },
     "artwork": "same offline Lucide 1.8.0 subset; actor illustration spans full actor frame behind caption, width up to 200px and height 100%; terrain unchanged",
     "hand_background": "continuous terrain across entire game screen",
@@ -153,7 +162,7 @@
     "player_status_location": "single bottom row, HP first, hand count included",
     "prediction": "one immediate outcome, next own time and consequential notices; intrinsic card facts once; optional attack-calculation provenance only; common rules in settings",
     "card_window_height_px": "space from 16px below root top to 8px before hand; at least 160px",
-    "adoption": "v0.13: hover closes hand inspector and anchors ghost above button; larger art behind captions; concise nonrepetitive card details; independent status menu",
+    "adoption": "v0.14: placement ghost uses field contribution; compact action-order table; newest-first one-line history; upward central queue with individual fade and downward shift",
     "bottom_strip_height_px": {
       "regular": 32,
       "narrow_under_600": 40,
@@ -170,7 +179,8 @@
       "overflow": "horizontal scrolling and conditional previous/next controls",
       "update": "after game state changes; selection does not assume future actions",
       "inactive_or_actionless": "excluded",
-      "finish": "strip cleared"
+      "finish": "strip cleared",
+      "details": "current time; next actor / wait / scheduled time table; compact tie priority; no explanatory paragraphs"
     },
     "card_window_width_px": 840,
     "card_window_targets": "legal active targets selectable within the large inspector",
@@ -266,9 +276,12 @@
       "knowledge": "known types are observations, not current opponent composition; scope annotation retained only in docs"
     },
     "exit_flow": "direct cautionary 撤退 in footer → exact fixed settlement → 帰還 with kept/lost items → 再突入 of same build/seed; no persistent growth added",
-    "in_play_resources": "removed separate bring/supply/reward section; bring/supply in history, kept/lost items after settlement",
+    "in_play_resources": "no bring/supply history; acquired/protected/lost items as events, final kept/lost in return window",
     "status": "independent bottom-strip 状況 menu and panel, not nested under 山札",
-    "copy_policy": "prioritize repeated play: each fact in one place; no repeated paraphrases; separate result, intrinsic facts, optional calculation and shared rules"
+    "copy_policy": "prioritize repeated play: each fact in one place; no repeated paraphrases; separate result, intrinsic facts, optional calculation and shared rules",
+    "history_window": "fixed newest-first, one timestamp and concise message per line; horizontal scrolling for long lines; no bring/supply or duplicated summaries",
+    "history_source": "public state per completed fixed-engine step plus existing trace; same advance stop/budget; public card losses only; no private opponent draws/expiry/retirement cards",
+    "held_content": "placement: own field_power/field_hit labeled 一致補正; matching: primary effect; shared by hold and execution hover"
   },
   "updated_at_jst": "2026-09-11"
 }

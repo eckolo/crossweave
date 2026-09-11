@@ -1,7 +1,9 @@
   // Presentation only. Artwork slots accept embedded assets; no game inputs are changed.
   const artwork={actors:{},cards:{},terrain:{initial:null,followup:null},environment:{O:null,V0:null,V1:null}};
-  let openName=null,windowMode=null,hoverTimer=null,hoverCloseTimer=null,hoverFrom=null,feedTimer=null,feedExpiry=null,feedSequence=0,feedSkipped=0;
-  const feedQueue=[];
+  let openName=null,windowMode=null,hoverTimer=null,hoverCloseTimer=null,hoverFrom=null;
+  const feedQueue=[],feedVisible=[];
+  let feedTimer=null;
+  const feedTiming={interval:260,hold:1300,fade:1500,row:26,visible:6};
   let inspectedField=null,inspectedActor=null;
   const objectWindow=name=>['card','field','actor'].includes(name);
   function renderObjectInfo(s){
@@ -47,7 +49,7 @@
       return `<li><button type="button" data-open="order" data-turn-actor="${id}" data-current="${id==='P'&&wait===0}" aria-label="${esc(label)}"><span class="cw-turn-face" aria-hidden="true">${asset?`<img src="${esc(asset)}" alt="">`:icon(({P:'Footprints',V:'Trees',E:'Bug'})[a.role]||'Mountain')}</span><span aria-hidden="true">+${wait}</span></button></li>`;
     }).join('');
     strip.scrollLeft=offset;
-    get('cw-queue').innerHTML=s.outcome?'<p>探索終了</p>':`<p>現在時刻 ${s.now}</p>`+order.map((id,i)=>`<div class="cw-log">${i+1}. ${esc(names[id]||id)}　時刻 ${s.actors[id].next_at}（+${s.actors[id].next_at-s.now}）</div>`).join('');
+    get('cw-queue').innerHTML=s.outcome?'<span>探索終了</span>':`<div class="cw-order-now">現在 ${s.now}</div><table class="cw-order-table"><thead><tr><th>次回</th><th>待ち時間</th><th>時刻</th></tr></thead><tbody>${order.map(id=>`<tr><th scope="row">${esc(names[id]||id)}</th><td>+${s.actors[id].next_at-s.now}</td><td>${s.actors[id].next_at}</td></tr>`).join('')}</tbody></table><div class="cw-order-tie">同時：環境 → あなた → 敵</div>`;
   }
   function updateOrderHints(){
     const strip=get('cw-turn-order'),prev=strip.previousElementSibling,next=strip.nextElementSibling;
@@ -149,14 +151,13 @@
     popup.style.left='';popup.style.top='';popup.style.height='';popup.style.width='';popup.style.maxHeight='';
     root.querySelectorAll('[data-panel]').forEach(el=>el.hidden=el.dataset.panel!==name);
     get('cw-drawer-title').textContent={reference:'山札',status:'状況',settings:'設定',card:'予測',field:'場札',actor:'相手',result:'履歴',objective:'突破条件',order:'行動順',return:'帰還'}[name];
-    if(name==='result'&&mode==='pinned'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');renderHistory();}
+    if(name==='result')renderHistory();
     get('cw-drawer').querySelector('.cw-drawer-body').scrollTop=0;
     syncWindowState();placeNearCard();
     if(focus)get('cw-close').focus({preventScroll:true});
   }
   function pinWindow(from){
     cancelHover();windowMode='pinned';if(from)opener=from;syncWindowState();
-    if(openName==='result'){feedSkipped=0;get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');}
   }
   function toggleWindow(name,from){
     if(openName===name){if(windowMode==='peek')pinWindow(from);else hideWindow();}
@@ -211,24 +212,32 @@
     document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelHover();if(windowMode==='peek')hideWindow(false);}});
   }
   function resetEvents(){
-    clearTimeout(feedTimer);clearTimeout(feedExpiry);feedTimer=null;feedQueue.length=0;feedSkipped=0;
-    get('cw-event-feed').replaceChildren();get('cw-feed-more').textContent='';get('cw-feed-more').removeAttribute('aria-label');
+    clearTimeout(feedTimer);feedTimer=null;feedQueue.length=0;
+    for(const entry of feedVisible){clearTimeout(entry.fadeTimer);clearTimeout(entry.removeTimer);}
+    feedVisible.length=0;get('cw-event-feed').replaceChildren();
   }
   function enqueueEvents(rows){
-    if(!rows.length)return;
-    clearTimeout(feedExpiry);feedQueue.push(...rows);
-    if(feedQueue.length>8){feedSkipped+=feedQueue.length-8;feedQueue.splice(0,feedQueue.length-8);}
-    get('cw-feed-more').textContent=feedSkipped?` +${feedSkipped}`:'';
-    get('cw-feed-more').setAttribute('aria-label',feedSkipped?`画面で省略した${feedSkipped}件を含む全文`:'' );
+    feedQueue.push(...rows);
     if(feedTimer===null)pumpEvent();
   }
+  function positionEvents(){
+    // Oldest survives at bottom=0. New entries grow upward; removing the bottom row lowers the rest.
+    feedVisible.forEach((entry,index)=>entry.node.style.bottom=index*feedTiming.row+'px');
+  }
   function pumpEvent(){
-    feedTimer=null;const text=feedQueue.shift();if(!text)return;
-    const item=document.createElement('div');item.className='cw-live-event';item.dataset.eventId=String(++feedSequence);item.textContent=text;
-    get('cw-event-feed').append(item);
-    while(get('cw-event-feed').children.length>2)get('cw-event-feed').firstElementChild.remove();
-    if(feedQueue.length)feedTimer=setTimeout(pumpEvent,850);
-    else feedExpiry=setTimeout(()=>{get('cw-event-feed').replaceChildren();},8000);
+    feedTimer=null;
+    if(!feedQueue.length||feedVisible.length>=feedTiming.visible)return;
+    const row=feedQueue.shift(),node=document.createElement('li');
+    node.className='cw-live-event';node.dataset.eventId=String(row.id);node.innerHTML=eventMarkup(row);
+    const entry={node};feedVisible.push(entry);get('cw-event-feed').prepend(node);positionEvents();
+    entry.fadeTimer=setTimeout(()=>{node.dataset.fading='true';},feedTiming.hold);
+    entry.removeTimer=setTimeout(()=>{
+      const index=feedVisible.indexOf(entry);if(index<0)return;
+      feedVisible.splice(index,1);node.remove();positionEvents();
+      if(feedTimer===null&&feedQueue.length)pumpEvent();
+    },feedTiming.hold+feedTiming.fade);
+    // Do not reset this interval when a second action batch arrives.
+    feedTimer=setTimeout(pumpEvent,feedTiming.interval);
   }
   function setupSurface(){
     setupHover();setupCatalogue();

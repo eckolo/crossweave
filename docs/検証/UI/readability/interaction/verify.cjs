@@ -5,7 +5,7 @@ const {build,sha}=require('./build.cjs'),old=require('../build.cjs'),fixtures=re
 const errors=[];let actions=0;const checks=[];
 function open(html,modern=false){
   const hook='window.__inspect=()=>JSON.parse(JSON.stringify({s:game.s,memory:game.memory,rng:Object.fromEntries(Object.entries(game.rng).map(([k,v])=>[k,v.state()]))}));';
-  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__start=start;window.__catalogue=()=>CWFeedback.catalogue(game);window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;':''));
+  html=html.replace('  function render(){','  function render(){'+hook+(modern?'window.__ui=()=>({version,selected,target});window.__start=start;window.__catalogue=()=>CWFeedback.catalogue(game);window.__request=requestCard;window.__layout=placeNearCard;window.__order=actionOrder;window.__window=()=>({openName,windowMode});window.__relationPlan=relationPlan;window.__drawRelations=drawRelations;window.__events=()=>JSON.parse(JSON.stringify(history));window.__enqueueEvents=enqueueEvents;window.__resetEvents=resetEvents;window.__stepEvents=stepEvents;':''));
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
   return new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
     w.HTMLElement.prototype.scrollBy=function({left}){this.scrollLeft+=left;};w.matchMedia=()=>({matches:true});
@@ -227,7 +227,7 @@ for(const name of ['reference','status','result','objective','settings','order']
   const after=state(b);assert.notEqual(after,before);
   assert(query(b,'#cw-history').textContent.includes('あなた：'));
   b.window.__tick(850);assert(query(b,'#cw-event-feed').children.length>0);
-  assert(query(b,'#cw-event-feed').children.length<=2);
+  assert(query(b,'#cw-event-feed').children.length<=6);
   const saved=query(b,'#cw-history').textContent;
   b.window.__tick(30000);assert.equal(query(b,'#cw-event-feed').children.length,0);
   assert.equal(query(b,'#cw-history').textContent,saved);assert.equal(state(b),after,'feed advanced game');
@@ -266,12 +266,12 @@ for(const name of ['reference','status','result','objective','settings','order']
   assert(query(b,'#cw-action-track').closest('.cw-hand-region'));
   assert(query(b,'#cw-self').closest('.cw-bottom'));
   for(const name of ['reference','result','settings'])assert(query(b,`[data-open="${name}"]`).closest('.cw-bottom'));
-  assert(query(b,'#cw-event-feed').closest('.cw-board'));
+  assert.equal(query(b,'#cw-event-feed').closest('.cw-event-region').parentElement.id,'cw-playtable');
   assert(!query(b,'.cw-bottom #cw-event-feed'));
   choose(b,first);assert(!query(b,'#cw-action-anchor').hidden);assert(query(b,'#cw-gesture-hint').closest('[hidden]'));
   assert(!query(b,'#cw-prediction').closest('[hidden]'),'moved prediction summary must remain reachable');
   query(b,'#cw-use').click();assert(query(b,'#cw-action-anchor').hidden);
-  checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays board; contextual hand controls and complete prediction retained');
+  checks.push('compact layout: menus and player status in slim bottom strip; transient feed overlays screen center; contextual hand controls and complete prediction retained');
   query(b,'[data-open="reference"]').click();assert.equal(query(b,'#cw-drawer').style.height,'','card window height leaked into full information window');b.window.close();
 }
 for(const [name,replay]of Object.entries(fixtures.cases)){
@@ -422,7 +422,7 @@ for(const [width,height,worldBottom,boardTop,boardBottom,handTop,footerTop]of [[
   assert(query(b,'#cw-withdraw').closest('.cw-bottom'));
   assert(query(b,'#cw-withdraw').classList.contains('cw-withdraw'));
   assert(!root.textContent.includes('現在の手札・山札の内容を示すものではありません'));
-  assert(query(b,'#cw-history').textContent.includes('持ち込み')&&query(b,'#cw-history').textContent.includes('補給'));
+  assert(!/持ち込み|補給/.test(query(b,'#cw-history').textContent));
   const conditions=[...b.window.document.querySelectorAll('[data-objective]')];
   assert.equal(conditions.length,2);assert(conditions[0].textContent.includes('大岩のHPを0にする')&&conditions[0].textContent.includes('未保護'));
   assert(conditions[1].textContent.includes('最初の環境のHPを0にする')&&conditions[1].textContent.includes('ここまでの獲得物を保護'));
@@ -522,6 +522,76 @@ checks.push('return panel lists only actual kept/lost fixed-engine rewards acros
   checks.push('hold instruction omits redundant grabbed announcement and retains the actual drop outcome');b.window.close();
 }
 
+for(const scenario of ['place','match']){
+  const b=open(build(scenario==='match'?fixtures.cases.guard_end:undefined),true),before=state(b),s=b.window.__inspect().s;
+  const c=s.actors.P.hand.map(id=>s.cards[id]).find(c=>Boolean(s.field[c.attr])===(scenario==='match'));
+  assert(c,'missing '+scenario+' fixture');query(b,`[data-card="${c.id}"]`).click();
+  const use=query(b,'#cw-use'),ghost=query(b,'#cw-drag-ghost');
+  pointer(b,use,'pointerenter',{pointerType:'mouse'});assert.equal(ghost.dataset.mode,scenario);assert(query(b,'#cw-drawer').hidden);
+  if(scenario==='place'){
+    assert(ghost.textContent.includes('一致補正'));
+    assert(ghost.textContent.includes('攻撃／防御 '+(c.field_power>0?'+':'')+c.field_power));
+    assert(ghost.textContent.includes('命中／回避 '+(c.field_hit>0?'+':'')+c.field_hit));
+  }else assert(!ghost.textContent.includes('一致補正'));
+  const contents=ghost.innerHTML;pointer(b,use,'pointerleave',{pointerType:'mouse'});
+  b.window.document.elementFromPoint=()=>query(b,'#cw-playtable');pointer(b,query(b,`[data-card="${c.id}"]`),'pointerdown');b.window.__tick(220);
+  assert.equal(ghost.innerHTML,contents);assert.equal(ghost.dataset.mode,scenario);assert.equal(state(b),before);
+  pointer(b,query(b,'#cw-playtable'),'pointercancel');checks.push(scenario+': hold and execution hover share field contribution for placement / primary effect for matching; no game change');b.window.close();
+}
+{
+  const b=open(build(),true),before=state(b);query(b,'[data-open="order"]').click();
+  assert.equal(query(b,'[data-panel="order"]').querySelectorAll('p').length,0);
+  assert.deepEqual([...query(b,'#cw-queue').querySelectorAll('thead th')].map(n=>n.textContent),['次回','待ち時間','時刻']);
+  assert.equal(query(b,'.cw-order-tie').textContent,'同時：環境 → あなた → 敵');assert.equal(state(b),before);
+  checks.push('action order uses short column labels and tie notation; no explanatory paragraphs');b.window.close();
+}
+{
+  const b=open(build(),true),before=state(b),feed=query(b,'#cw-event-feed'),saved=query(b,'#cw-history').innerHTML;
+  b.window.__resetEvents();const rows=Array.from({length:10},(_,i)=>({id:1000+i,time:i,text:'出来事 '+i}));
+  b.window.__enqueueEvents(rows);const oldest=feed.lastElementChild;assert.equal(oldest.dataset.eventId,'1000');assert.equal(oldest.style.bottom,'0px');
+  b.window.__tick(260);assert.equal(feed.firstElementChild.dataset.eventId,'1001');assert.equal(oldest.style.bottom,'0px');
+  const second=feed.firstElementChild;assert.equal(second.style.bottom,'26px');
+  b.window.__tick(1040);assert.equal(feed.children.length,6);assert.equal(oldest.dataset.fading,'true');assert(oldest.isConnected);
+  const seen=new Set([...feed.children].map(n=>n.dataset.eventId));
+  b.window.__tick(1499);assert(oldest.isConnected);assert.equal(second.style.bottom,'26px');
+  b.window.__tick(1);assert(!oldest.isConnected);assert.equal(second.style.bottom,'0px');assert.equal(feed.lastElementChild,second);assert.equal(feed.firstElementChild.dataset.eventId,'1006');
+  for(let i=0;i<70;i++){for(const node of feed.children)seen.add(node.dataset.eventId);b.window.__tick(260);assert(feed.children.length<=6);}
+  assert.equal(seen.size,10,'burst lost pending events');assert.equal(feed.children.length,0);assert.equal(query(b,'#cw-history').innerHTML,saved);assert.equal(state(b),before);
+  checks.push('10-event burst: newest above oldest fixed bottom; individual fade then one-row downward shift; six visible, all pending events delivered, no state mutation');b.window.close();
+}
+{
+  const b=open(build(),true),feed=query(b,'#cw-event-feed');b.window.__resetEvents();
+  b.window.__enqueueEvents([{id:900,time:0,text:'旧い出来事'}]);b.window.__tick(1200);
+  b.window.__enqueueEvents([{id:901,time:1,text:'新しい出来事'}]);b.window.__tick(100);
+  assert.equal(feed.lastElementChild.dataset.fading,'true','new action reset old lifetime');assert(!feed.firstElementChild.dataset.fading);
+  b.window.__start();const after=state(b),initialHistory=query(b,'#cw-history').innerHTML;b.window.__tick(30000);assert.equal(feed.children.length,0);assert.equal(query(b,'#cw-history').innerHTML,initialHistory);assert(!query(b,'#cw-history').textContent.includes('出来事'));assert.equal(state(b),after);
+  checks.push('later batches do not prolong oldest line; reentry cancels all pending/fade/removal timers without stale history');b.window.close();
+}
+{
+  const b=open(build(fixtures.runs[0]),true),events=b.window.__events(),rows=[...query(b,'#cw-history').children];
+  assert(events.length>fixtures.runs[0].choices.length);
+  assert(events.every((r,i)=>i===0||r.time>=events[i-1].time),'public consequences logged at wrong step/time');
+  assert.equal(new Set(events.map(r=>r.id)).size,events.length);
+  assert.deepEqual(rows.map(n=>Number(n.dataset.eventId)),Array.from(events,r=>r.id).reverse());
+  assert(rows.every(n=>n.tagName==='LI'&&n.querySelectorAll('time').length===1&&n.querySelectorAll('span').length===1));
+  assert(!query(b,'#cw-history-order')&&!query(b,'#cw-last')&&!query(b,'#cw-result-summary'));
+  assert(!/持ち込み|補給|結果 ·|変化なし/.test(query(b,'#cw-history').textContent));
+  const loss=events.findIndex(r=>r.text.includes('大岩の遮蔽：終了'));
+  if(loss>=0)assert(events.slice(0,loss).some(r=>r.time===events[loss].time&&/ → (大岩|最初の環境) · HP −/.test(r.text)),'consequence before its action');
+  checks.push('full fixed replay history: newest-first single rows, unique IDs, monotonic actual times, action precedes boundary consequences, no bring/supply or repeated summaries');b.window.close();
+}
+{
+  const b=open(build(),true),before=state(b),s=b.window.__inspect().s;
+  // Private retirement card IDs and NPC expiry are not public history. A played card becomes public.
+  const publicState=JSON.parse(JSON.stringify(s));publicState.actors.P.hand=s.actors.P.hand.map(id=>s.cards[id]);publicState.field=Object.fromEntries(Object.entries(s.field).map(([a,id])=>[a,s.cards[id]]));
+  const hidden=s.actors.V0.deck[0],visible=s.actors.P.hand[0];assert(hidden&&visible);
+  const trace=[{type:'destroy',time:s.now,card_id:hidden},{type:'destroy',time:s.now,card_id:visible}];
+  let rows=b.window.__stepEvents(publicState,publicState,trace);assert.equal(rows.length,1);assert.equal(rows[0].text,'消滅：'+s.cards[visible].name);
+  trace.push({type:'action',time:s.now,actor:'V0',card_id:hidden,matched_id:null,mode:'place',expired:[]});
+  rows=b.window.__stepEvents(publicState,publicState,trace);assert.equal(rows.length,3);assert.equal(state(b),before);
+  checks.push('public-scope filter: private opponent retirement cards hidden; own visible and actually played cards report losses');b.window.close();
+}
+
 assert.deepEqual(errors,[]);
-const result={test_id:'UI-R-002',ui_version:'0.13',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser right edge, centered layout, art visibility and translucent-window readability','physical gallery hover paths and held-card pointer contact','human effort, errors and event-feed readability']};
+const result={test_id:'UI-R-002',ui_version:'0.14',verification:'DOM routing, controlled timer and supplied geometry only; no browser rendering or real pointer/touch measurement',engine_input_commit:fixtures.code_input_commit,actions,checks,errors,fragment_sha256:sha(build()),unverified:['real browser right edge, centered layout, art visibility and translucent-window readability','physical gallery hover paths and held-card pointer contact','human effort, errors and central queue readability / fade duration / backlog']};
 fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
