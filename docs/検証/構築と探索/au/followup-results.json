@@ -1,0 +1,609 @@
+{
+  "trial": "AU1-C-public-switch",
+  "fixed_results_sha256": "9d57c9c6a7bca10b45aaeed9b2077cb9e7c8ea96e589477d67c0fb3feebdc5ef",
+  "checkpoint_runs": [
+    {
+      "offset": 0,
+      "first": "A",
+      "outcome": "clear",
+      "owned": 2
+    },
+    {
+      "offset": 0,
+      "first": "B",
+      "outcome": "clear",
+      "owned": 2
+    },
+    {
+      "offset": 8,
+      "first": "A",
+      "outcome": "clear",
+      "owned": 2
+    },
+    {
+      "offset": 8,
+      "first": "B",
+      "outcome": "clear",
+      "owned": 2
+    }
+  ],
+  "predictions": 424,
+  "continuation_pairs": 8,
+  "rows": [
+    {
+      "offset": 0,
+      "first": "A",
+      "deck": "initial",
+      "seed": 1,
+      "outcome": "clear",
+      "actions": 28,
+      "hp": 35,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 28,
+        "hp": 35
+      },
+      "changes": {
+        "progress_default": 28
+      },
+      "examples": [],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 50,
+          "P_actions": 6,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "V1",
+          "time": 284,
+          "P_actions": 28,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 0,
+      "first": "A",
+      "deck": "use_owned",
+      "seed": 1,
+      "outcome": "clear",
+      "actions": 37,
+      "hp": 36,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 63,
+        "hp": 31
+      },
+      "changes": {
+        "progress_default": 36,
+        "public_order_material": 1
+      },
+      "examples": [
+        {
+          "action": 29,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 36,
+          "choice": {
+            "card_id": "V1_initial_0029",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 200,
+          "P_actions": 21,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "V1",
+          "time": 362,
+          "P_actions": 37,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 0,
+      "first": "B",
+      "deck": "initial",
+      "seed": 1,
+      "outcome": "clear",
+      "actions": 29,
+      "hp": 33,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 29,
+        "hp": 33
+      },
+      "changes": {
+        "progress_default": 29
+      },
+      "examples": [],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 50,
+          "P_actions": 6,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 288,
+          "P_actions": 29,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 0,
+      "first": "B",
+      "deck": "use_owned",
+      "seed": 1,
+      "outcome": "clear",
+      "actions": 34,
+      "hp": 32,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 34,
+        "hp": 32
+      },
+      "changes": {
+        "progress_default": 33,
+        "public_order_material": 1
+      },
+      "examples": [
+        {
+          "action": 29,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 38,
+          "choice": {
+            "card_id": "V1_initial_0025",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 110,
+          "P_actions": 12,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 336,
+          "P_actions": 34,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 8,
+      "first": "A",
+      "deck": "initial",
+      "seed": 9,
+      "outcome": "clear",
+      "actions": 34,
+      "hp": 34,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 34,
+        "hp": 31
+      },
+      "changes": {
+        "progress_default": 32,
+        "public_order_material": 2
+      },
+      "examples": [
+        {
+          "action": 27,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 34,
+          "choice": {
+            "card_id": "V1_initial_0027",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        },
+        {
+          "action": 28,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 34,
+          "choice": {
+            "card_id": "P_initial_0005",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 154,
+          "P_actions": 16,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 332,
+          "P_actions": 34,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 8,
+      "first": "A",
+      "deck": "use_owned",
+      "seed": 9,
+      "outcome": "clear",
+      "actions": 45,
+      "hp": 17,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 58,
+        "hp": 3
+      },
+      "changes": {
+        "progress_default": 44,
+        "public_order_material": 1
+      },
+      "examples": [
+        {
+          "action": 29,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 21,
+          "choice": {
+            "card_id": "P_initial_0006",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 124,
+          "P_actions": 13,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 444,
+          "P_actions": 45,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 8,
+      "first": "B",
+      "deck": "initial",
+      "seed": 9,
+      "outcome": "clear",
+      "actions": 33,
+      "hp": 32,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 40,
+        "hp": 16
+      },
+      "changes": {
+        "progress_default": 32,
+        "public_order_material": 1
+      },
+      "examples": [
+        {
+          "action": 23,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 36,
+          "choice": {
+            "card_id": "E1_initial_0043",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 164,
+          "P_actions": 17,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 324,
+          "P_actions": 33,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    },
+    {
+      "offset": 8,
+      "first": "B",
+      "deck": "use_owned",
+      "seed": 9,
+      "outcome": "clear",
+      "actions": 51,
+      "hp": 9,
+      "baseline": {
+        "outcome": "clear",
+        "actions": 41,
+        "hp": 3
+      },
+      "changes": {
+        "progress_default": 46,
+        "public_order_material": 5
+      },
+      "examples": [
+        {
+          "action": 23,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 30,
+          "choice": {
+            "card_id": "E1_initial_0040",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        },
+        {
+          "action": 24,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 30,
+          "choice": {
+            "card_id": "V1_initial_0035",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        },
+        {
+          "action": 29,
+          "reason": "public_order_material",
+          "event": "C/enemy",
+          "hp": 24,
+          "choice": {
+            "card_id": "P_initial_0008",
+            "target": null
+          },
+          "prediction": {
+            "mode": "place",
+            "crit_added": 0,
+            "actual_hp_loss": 0,
+            "hit_gain": 0,
+            "hit_connected": false,
+            "posture_before": null,
+            "posture_after": null,
+            "posture_overflow": 0,
+            "posture_multiplier": 0,
+            "hp_restored": 0,
+            "guard": null,
+            "passives": [],
+            "action_cost": 10,
+            "affixes": [],
+            "passive_instances": []
+          }
+        }
+      ],
+      "boundaries": [
+        {
+          "number": 1,
+          "event": "traversed",
+          "victim": "V0",
+          "attacker": "P",
+          "time": 104,
+          "P_actions": 11,
+          "from_event": "C/start",
+          "to_event": "C/enemy"
+        },
+        {
+          "number": 2,
+          "event": "defeated",
+          "victim": "E1",
+          "attacker": "P",
+          "time": 512,
+          "P_actions": 51,
+          "from_event": "C/enemy",
+          "to_event": "C/finished"
+        }
+      ]
+    }
+  ]
+}

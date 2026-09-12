@@ -1,0 +1,168 @@
+<div id="cw-vd001-motion">
+  <div class="viz-controls">
+    <label class="form-label">対象
+      <select class="form-select" data-target>
+        <option value="road">道</option><option value="rock">岩</option><option value="enemy">敵（仮の姿）</option>
+      </select>
+    </label>
+    <label class="form-label">結果の見本
+      <select class="form-select" data-effect>
+        <option value="survey">探査のみ・進展なし</option>
+        <option value="progress" selected>突破による進展</option>
+        <option value="flash">一閃を伴う進展</option>
+      </select>
+    </label>
+    <button class="btn btn-primary" data-play type="button">再生</button>
+    <label class="form-check"><input class="form-check-input" type="checkbox" data-slow><span class="form-check-label">ゆっくり見る</span></label>
+  </div>
+  <div class="viz-row text-small"><span>一行動の演出分解・仮案</span><span data-clock class="tabular-nums">600 ms</span></div>
+  <canvas data-scene role="img" aria-label="札の一致から対象への作用と残った変化を示す模式的な演出"></canvas>
+  <div class="viz-controls" aria-label="演出の場面">
+    <button class="btn" type="button" data-step="0" aria-pressed="false">携行</button>
+    <button class="btn" type="button" data-step="100" aria-pressed="false">一致</button>
+    <button class="btn" type="button" data-step="330" aria-pressed="false">作用</button>
+    <button class="btn" type="button" data-step="600" aria-pressed="true">結果</button>
+  </div>
+  <div data-caption aria-live="polite">道のりが減り、進んだ足場が残る。</div>
+</div>
+<style>
+#cw-vd001-motion [data-scene] {display:block;width:100%;height:270px;}
+#cw-vd001-motion .viz-controls {margin-bottom:8px;}
+</style>
+<script>
+(() => {
+  const root = document.getElementById('cw-vd001-motion');
+  const canvas = root.querySelector('[data-scene]');
+  const ctx = canvas.getContext('2d');
+  const targetInput = root.querySelector('[data-target]');
+  const effectInput = root.querySelector('[data-effect]');
+  const caption = root.querySelector('[data-caption]');
+  const clock = root.querySelector('[data-clock]');
+  const slow = root.querySelector('[data-slow]');
+  const playButton = root.querySelector('[data-play]');
+  const stepButtons = [...root.querySelectorAll('[data-step]')];
+  let time = 600, frame = 0, running = false, width = 640;
+  const duration = 600;
+  const clamp = x => Math.max(0, Math.min(1, x));
+  const results = {
+    road: {survey:'今の足場の輪郭を捉えた。道のりはまだ減らない。',progress:'道のりが減り、進んだ足場が残る。',flash:'作用する箇所が一度そろう。同じ一回の進展を強調する。'},
+    rock: {survey:'継ぎ目を捉えた。耐久はまだ減らない。',progress:'継ぎ目が開く。耐久が残る岩は場に残る。',flash:'圧が一点へ集まり、一回の割れを強調する。'},
+    enemy:{survey:'足運びを捉えた。まだ怯ませない。',progress:'支えを崩し、相手が姿勢を立て直す。',flash:'作用点が一度そろう。追撃や気絶を加えない。'}
+  };
+  function theme(name) {
+    const el = document.createElement('span');
+    el.style.color = `var(${name})`; root.appendChild(el);
+    const color = getComputedStyle(el).color; el.remove(); return color;
+  }
+  let palette;
+  function colors() {palette={ink:theme('--foreground'),faint:theme('--border'),effect:theme('--viz-series-1'),paper:theme('--background')};}
+  function path(points, fill, stroke, alpha=1, lineWidth=2) {
+    ctx.globalAlpha=alpha;ctx.beginPath();
+    points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+    ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}ctx.globalAlpha=1;
+  }
+  function line(points, color, lineWidth=2, alpha=1) {
+    ctx.globalAlpha=alpha;ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
+    ctx.strokeStyle=color;ctx.lineWidth=lineWidth;ctx.stroke();ctx.globalAlpha=1;
+  }
+  function circle(x,y,r,fill,stroke) {ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}}
+  function card(x,y,s,alpha,active) {
+    const outline=[[x,y],[x+40*s,y],[x+40*s,y+58*s],[x,y+58*s]];
+    path(outline,palette.paper,null,alpha*.22);
+    path(outline,null,active?palette.effect:palette.ink,alpha,active?3:1.5);
+    line([[x+10*s,y+20*s],[x+29*s,y+20*s]],palette.ink,2,alpha);
+    line([[x+10*s,y+31*s],[x+25*s,y+31*s]],palette.ink,2,alpha);
+  }
+  function scene(){
+    if(!palette)return;
+    const h=270;ctx.clearRect(0,0,width,h);
+    const x=width*.70, base=206;
+    const target=targetInput.value, effect=effectInput.value;
+    const acting=clamp((time-220)/200), resolved=clamp((time-380)/150);
+    const progress=effect==='survey'?0:resolved;
+    const focus=effect==='survey'?acting:acting*(1-.72*resolved);
+    line([[12,base+30],[width-12,base+30]],palette.faint,1);
+    // Quiet distant planes are structural marks, not final game backgrounds.
+    path([[width*.32,base],[width*.43,66],[width*.5,78],[width*.58,base]],palette.faint,null,.23);
+    path([[width*.80,base],[width*.89,40],[width*.96,58],[width-8,base]],palette.faint,null,.20);
+    if(target==='road'){
+      for(let i=0;i<4;i++){
+        const y=base-i*31+progress*16, half=58-i*9;
+        path([[x-half,y],[x+half,y],[x+half-7,y-17],[x-half+7,y-17]],palette.paper,palette.ink,1,1.8);
+        if(i===1)line([[x-half+7,y-18],[x+half-7,y-18]],palette.effect,4,focus);
+      }
+      if(progress>0)line([[x-15,base+14],[x-3,base+14],[x+5,base+4],[x+17,base+4]],palette.effect,3,progress);
+    }else if(target==='rock'){
+      const dx=progress*10;
+      path([[x-58-dx,base],[x-65-dx,130],[x-33-dx,94],[x+4-dx,89],[x-9-dx,135],[x+7-dx,166],[x-5-dx,base]],palette.paper,palette.ink);
+      path([[x+6+dx,89],[x+41+dx,115],[x+56+dx,base],[x-5+dx,base],[x+7+dx,166],[x-9+dx,135]],palette.paper,palette.ink);
+      line([[x+5,93],[x-8,135],[x+7,166],[x-5,200]],palette.effect,3,focus);
+      if(progress>0)path([[x+27,base+8],[x+35,base+19],[x+17,base+20]],palette.ink,null,progress);
+    }else{
+      ctx.save();ctx.translate(x,base);ctx.rotate(progress*.12);
+      path([[-44,0],[-25,-79],[-14,-100],[0,-91],[14,-100],[26,-77],[44,0],[14,-10],[0,-4],[-18,-10]],palette.paper,palette.ink);
+      line([[-14,-66],[10,-66]],palette.ink,2);
+      line([[-21,-5],[-10,-9],[5,-3],[20,-8]],palette.effect,4,focus);ctx.restore();
+      if(progress>0)line([[x-48,base+11],[x-34,base+11]],palette.effect,3,progress);
+    }
+    // Two cards form the match; only one main effect travels to the target.
+    const returning=clamp((time-440)/160);
+    // Ordinary disposal keeps the card outline; it does not depict disappearance.
+    ctx.font='12px system-ui,sans-serif';ctx.fillStyle=palette.faint;
+    ctx.fillText('捨て場',22,258);
+    line([[18,235],[93,235]],palette.faint,1);
+    if(time<220){card(18,base-57,1,1,time>=60);card(73,base-80,.75,1,time>=60);}
+    else{card(18,base-57+returning*23,.8,1,false);card(59,base-80+returning*58,.65,1,false);}
+    if(time>=100&&time<225)line([[57,base-25],[74,base-53]],palette.effect,3);
+    if(time>=180&&time<460){
+      const px=width*.32, py=base-36;
+      if(effect==='survey'){
+        circle(px,py,17,palette.paper,palette.effect);
+        line([[px-8,py+8],[px+9,py-9]],palette.effect,3);
+      }else{
+        line([[px-10,py-12],[px+9,py-12],[px+9,py+9],[px-10,py+9]],palette.effect,3);
+        line([[px+9,py],[px+23,py+17]],palette.effect,2);
+        path([[px+23,py+13],[px+31,py+27],[px+18,py+29]],palette.effect,null);
+      }
+      if(time>=220){
+        const tx=x,ty=target==='rock'?147:target==='enemy'?190:base-49;
+        const endX=px+(tx-px)*acting,endY=py+(ty-py)*acting;
+        ctx.setLineDash([4,5]);line([[px+18,py],[endX,endY]],palette.effect,2,.7);ctx.setLineDash([]);
+      }
+    }
+    if(effect==='flash'&&time>=310&&time<=390){
+      const tx=x,ty=target==='rock'?145:target==='road'?base-49:base-12;
+      const q=clamp((time-310)/80),r=27*(1-q)+6;
+      for(let i=0;i<6;i++){let a=i*Math.PI/3;line([[tx+Math.cos(a)*r,ty+Math.sin(a)*r],[tx+Math.cos(a)*(r+8),ty+Math.sin(a)*(r+8)]],palette.effect,2);}
+    }
+    clock.textContent=`${Math.round(time)} ms`;
+    root.dataset.state=`${target}:${effect}:${Math.round(time)}`;
+  }
+  function updateText(){
+    const t=targetInput.value,e=effectInput.value;
+    const message=time<50?'主人公の使用札と、共有の場札。':time<=150?'使用札と場札が一致する。':time<420?(e==='survey'?'道具が今の手掛かりを捉える。':'道具が捉えた箇所へ働きかける。'):results[t][e]+' 使用済みの二枚は捨て場へ移る。';
+    if(caption.textContent!==message)caption.textContent=message;
+    const step=time<50?0:time<=150?100:time<420?330:600;
+    stepButtons.forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.step)===step?'true':'false'));
+  }
+  function stop(){cancelAnimationFrame(frame);running=false;playButton.textContent='再生';}
+  function setTime(t){stop();time=t;scene();updateText();}
+  function play(){
+    if(running){stop();updateText();return;}
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){setTime(duration);return;}
+    time=0;running=true;playButton.textContent='停止';updateText();
+    const start=performance.now(),factor=slow.checked?3:1;
+    function tick(now){time=Math.min(duration,(now-start)/factor);scene();updateText();if(time<duration){frame=requestAnimationFrame(tick);}else{stop();}}
+    frame=requestAnimationFrame(tick);
+  }
+  function resize(){const displayWidth=Math.max(1,canvas.clientWidth);width=Math.max(640,displayWidth);const scale=displayWidth/width;const ratio=window.devicePixelRatio||1;canvas.width=Math.round(displayWidth*ratio);canvas.height=Math.round(270*scale*ratio);canvas.style.height=`${270*scale}px`;ctx.setTransform(ratio*scale,0,0,ratio*scale,0,0);colors();scene();}
+  playButton.addEventListener('click',play);
+  stepButtons.forEach(b=>b.addEventListener('click',()=>setTime(Number(b.dataset.step))));
+  targetInput.addEventListener('change',()=>setTime(600));effectInput.addEventListener('change',()=>setTime(600));
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+  new ResizeObserver(resize).observe(canvas);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{colors();scene();});
+  resize();updateText();
+})();
+</script>
