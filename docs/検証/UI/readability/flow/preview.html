@@ -1,0 +1,376 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave — 拠点・準備・帰還</title><style>body{margin:0;padding:16px;max-width:1440px;margin-inline:auto;background:light-dark(#f6f6f0,#171f1b);color-scheme:light dark;font-family:system-ui,sans-serif}</style></head><body><div id="crossweave-flow-001" lang="ja">
+  <style>#crossweave-flow-001 {color-scheme:light dark;--cf-ink:light-dark(#243a34,#ecebdd);--cf-muted:light-dark(#52675e,#b9c1b8);--cf-paper:light-dark(#eee9d9,#293330);--cf-line:light-dark(#bec6b6,#56645c);--cf-accent:light-dark(#3d6556,#a5c3a5);--cf-active:light-dark(#34594c,#b5c9a9);--cf-active-ink:light-dark(#f9f6e8,#182c23);--cf-warn:light-dark(#a1432e,#f1aa89);--cf-shadow:light-dark(#24382d25,#00000060);font:14px/1.5 system-ui,"Noto Sans JP",sans-serif;color:var(--cf-ink);background:transparent;width:100%;min-width:0}
+#crossweave-flow-001 *,#crossweave-flow-001 *::before,#crossweave-flow-001 *::after {box-sizing:border-box}
+#crossweave-flow-001 [hidden]{display:none!important}
+#crossweave-flow-001 button,#crossweave-flow-001 select {font:inherit;color:inherit}
+#crossweave-flow-001 button {cursor:pointer;touch-action:manipulation}
+#crossweave-flow-001 button:disabled {cursor:default;opacity:.45}
+#crossweave-flow-001 button:focus-visible,#crossweave-flow-001 select:focus-visible {outline:2px solid var(--cf-accent);outline-offset:3px}
+#crossweave-flow-001 h2,#crossweave-flow-001 h3,#crossweave-flow-001 p {margin:0}
+#crossweave-flow-001 h2{font-size:24px;font-weight:500}#crossweave-flow-001 h3{font-size:17px;font-weight:500}
+#crossweave-flow-001 i[data-lucide]{display:inline-flex;width:18px;height:18px;align-items:center;justify-content:center;font-style:normal}
+#crossweave-flow-001 i[data-lucide]::before{content:attr(data-fallback)}
+#crossweave-flow-001 svg.lucide{width:18px;height:18px;flex:none;stroke-width:1.6}
+#crossweave-flow-001 .cf-example-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin-bottom:8px;color:var(--cf-muted);font-size:12px}
+#crossweave-flow-001 .cf-example-bar label{display:flex;align-items:center;gap:6px}
+#crossweave-flow-001 .cf-example-bar select{background:var(--cf-paper);border:1px solid var(--cf-line);border-radius:4px;padding:3px 6px;max-width:100%}
+#crossweave-flow-001 .cf-shell{position:relative;isolation:isolate;display:flex;flex-direction:column;width:100%;max-width:1440px;margin-inline:auto;aspect-ratio:16/9;min-height:500px;overflow:hidden;background:light-dark(#c0b997,#262c2b);border-radius:8px;box-shadow:0 8px 32px var(--cf-shadow)}
+#crossweave-flow-001 .cf-scene{position:absolute;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 32% 25%,light-dark(#d7c79199,#a6975545),transparent 56%),linear-gradient(120deg,light-dark(#b4baa4,#34403b),light-dark(#a89879,#34302c))}
+#crossweave-flow-001 .cf-light{position:absolute;inset:0;background:linear-gradient(118deg,transparent 17%,light-dark(#f8e5a845,#d5c28218) 18%,transparent 70%)}
+#crossweave-flow-001 .cf-window-light{position:absolute;left:12%;top:9%;width:23%;height:44%;border:12px solid light-dark(#6d786a,#313e38);background:linear-gradient(90deg,transparent 47%,light-dark(#6d786a,#313e38) 47% 53%,transparent 53%),linear-gradient(0deg,transparent 44%,light-dark(#6d786a,#313e38) 44% 50%,transparent 50%),linear-gradient(140deg,light-dark(#e4dfb9,#8f9a82),light-dark(#a4b2a4,#556d64));box-shadow:0 0 65px light-dark(#ffefae40,#b7ad6930);transform:rotate(-2deg)}
+#crossweave-flow-001 .cf-shelves{position:absolute;right:6%;top:12%;width:31%;height:52%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px;padding:12px;background:light-dark(#666759,#1e2925);border:9px solid light-dark(#8a8169,#4d4d40);transform:rotate(1deg)}
+#crossweave-flow-001 .cf-shelves b{align-self:end;height:73%;margin-inline:10%;background:light-dark(#adb095,#576859);border-radius:45% 35% 8% 6%;box-shadow:inset 10px 2px 0 light-dark(#c1c0a3,#677364)}
+#crossweave-flow-001 .cf-shelves b:nth-child(2n){height:90%;border-radius:5% 35% 10% 4%;background:light-dark(#9c8a6e,#73664c);transform:rotate(-5deg)}
+#crossweave-flow-001 .cf-shelves b:nth-child(3n){height:42%;border-radius:50%;background:light-dark(#b3b4aa,#747f76)}
+#crossweave-flow-001 .cf-curtain{position:absolute;left:42%;top:9%;height:65%;width:13%;background:linear-gradient(90deg,light-dark(#7b8d80,#40534a),light-dark(#8fa091,#4c6455),light-dark(#63776c,#253e35));border-radius:4% 0 25% 3%;box-shadow:10px 0 16px var(--cf-shadow)}
+#crossweave-flow-001 .cf-floor{position:absolute;inset:64% -5% -15%;background:repeating-linear-gradient(90deg,transparent 0 14%,light-dark(#4c463716,#12191622) 14% 14.5%),linear-gradient(light-dark(#8f8165,#474237),light-dark(#b2a37d,#645b46));transform:perspective(450px) rotateX(25deg)}
+#crossweave-flow-001 .cf-counter{position:absolute;right:9%;bottom:16%;width:48%;height:23%;background:linear-gradient(light-dark(#b5a17d,#8b7957) 0 9%,light-dark(#887d62,#534e3e) 9% 13%,light-dark(#92886d,#494d3e) 13% 100%);border-radius:9px 3px 2px 2px;box-shadow:0 20px 28px var(--cf-shadow)}
+#crossweave-flow-001 .cf-lamp{position:absolute;right:19%;bottom:39%;height:15%;width:8%;background:linear-gradient(transparent 0 60%,light-dark(#686954,#3b4e3a) 60%);clip-path:polygon(20% 0,80% 0,100% 60%,58% 63%,58% 94%,88% 94%,88% 100%,12% 100%,12% 94%,42% 94%,42% 63%,0 60%);background-color:light-dark(#d2c699,#b5b48a)}
+#crossweave-flow-001 .cf-top{display:flex;gap:12px;justify-content:space-between;align-items:center;padding:10px 22px;min-height:40px;background:light-dark(#ede9d331,#13282030);font-size:12px;color:light-dark(#2e463a,#dfe5d4)}
+#crossweave-flow-001 .cf-stage{position:relative;flex:1;min-height:0;margin:0 18px}
+#crossweave-flow-001 .cf-stage>section{height:100%;min-height:0}
+#crossweave-flow-001 .cf-bottom{position:relative;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:7px 16px;background:light-dark(#eee9dbea,#26332fea);backdrop-filter:blur(4px);min-height:48px;border-top:1px solid light-dark(#eff3df55,#a0b59635)}
+#crossweave-flow-001 .cf-self{display:flex;gap:14px;font-size:12px;white-space:nowrap}
+#crossweave-flow-001 nav{display:flex;gap:6px;align-items:center;min-width:0}
+#crossweave-flow-001 .cf-primary,#crossweave-flow-001 .cf-quiet{display:inline-flex;justify-content:center;gap:7px;align-items:center;border-radius:5px;min-height:32px;border:1px solid transparent;padding:5px 10px;text-decoration:none;white-space:nowrap}
+#crossweave-flow-001 .cf-primary{background:var(--cf-active);color:var(--cf-active-ink)}
+#crossweave-flow-001 .cf-quiet{background:light-dark(#d0d6c62b,#536b552d)}
+#crossweave-flow-001 .cf-quiet:hover{border-color:var(--cf-line)}
+#crossweave-flow-001 button[aria-expanded=true]{box-shadow:inset 0 -2px var(--cf-accent)}
+#crossweave-flow-001 .cf-text-button{border:0;background:none;padding:0;color:var(--cf-muted);text-align:left}
+#crossweave-flow-001 .cf-small{font-size:12px;color:var(--cf-muted)}
+#crossweave-flow-001 .cf-shop-title{position:absolute;left:3%;top:5%;color:light-dark(#233e30,#f0ecce);text-shadow:0 1px 10px var(--cf-shadow)}
+#crossweave-flow-001 .cf-shop-title>span{letter-spacing:.16em;font-size:12px}
+#crossweave-flow-001 .cf-shop-title h2{font-size:30px}
+#crossweave-flow-001 .cf-request-paper{position:absolute;left:14%;top:36%;width:260px;max-width:75%;padding:26px 24px;display:grid;gap:10px;text-align:left;transform:rotate(-2deg);border:none;background:light-dark(#f3edcf,#d3c8a2);color:#2b3e30;box-shadow:1px 10px 18px var(--cf-shadow)}
+#crossweave-flow-001 .cf-request-paper .cf-small{color:#5a6955}
+#crossweave-flow-001 .cf-request-paper strong{font-size:22px;font-weight:500}
+#crossweave-flow-001 .cf-request-paper:hover{transform:rotate(0);box-shadow:1px 13px 20px var(--cf-shadow)}
+#crossweave-flow-001 .cf-pin-dot{position:absolute;top:9px;left:48%;height:7px;width:7px;border-radius:50%;background:#787557;box-shadow:0 1px 3px #27372d70}
+#crossweave-flow-001 .cf-paper-go{position:absolute;right:13px;bottom:8px}
+#crossweave-flow-001 .cf-hub-message{position:absolute;right:6%;bottom:11%;max-width:45%;color:light-dark(#243c2d,#e5e7d2);padding:9px 12px;background:light-dark(#d5d4b8aa,#24372caa);border-radius:4px}
+#crossweave-flow-001 .cf-hub-message:empty{display:none}
+#crossweave-flow-001 #cf-preparation{display:flex;flex-direction:column;padding:12px 14px 4px;background:light-dark(#eeeadddf,#26332fe3);border-radius:8px 8px 0 0;backdrop-filter:blur(3px)}
+#crossweave-flow-001 .cf-prep-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 2px 13px}
+#crossweave-flow-001 .cf-prep-heading .cf-quiet{flex-wrap:wrap}
+#crossweave-flow-001 .cf-prep-heading .cf-quiet span{color:var(--cf-muted);font-size:12px}
+#crossweave-flow-001 .cf-deck-heading{display:flex;justify-content:space-between;gap:12px;padding:7px 2px;border-bottom:1px solid var(--cf-line)}
+#crossweave-flow-001 #cf-total{margin-left:10px;font-variant-numeric:tabular-nums}
+#crossweave-flow-001 #cf-balance{color:var(--cf-muted);font-size:12px}
+#crossweave-flow-001 .cf-collection{position:relative;flex:1;min-height:0}
+#crossweave-flow-001 .cf-card-grid{height:100%;overflow:auto;scrollbar-width:thin;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:minmax(126px,1fr);align-content:start;gap:12px;padding:14px 4px 20px}
+#crossweave-flow-001 .cf-card{position:relative;min-width:0;display:grid;grid-template-rows:1fr auto;gap:4px;background:light-dark(#e1e1ce,#374a3c);color:var(--cf-ink);border:1px solid light-dark(#aab39a,#617662);border-radius:8px;padding:8px;text-align:left;box-shadow:0 3px 7px var(--cf-shadow);min-height:126px}
+#crossweave-flow-001 .cf-card.zero{filter:saturate(.3);background:light-dark(#dbdfd4,#303c36);border-style:dashed}
+#crossweave-flow-001 .cf-card.zero .cf-art{opacity:.45}
+#crossweave-flow-001 .cf-card[aria-expanded=true]{border-color:var(--cf-accent);box-shadow:0 0 0 2px var(--cf-accent)}
+#crossweave-flow-001 .cf-art{display:flex;align-items:center;justify-content:center;min-height:64px;border-radius:5px;background:radial-gradient(ellipse at 45% 45%,light-dark(#f3ead2,#91a18266),transparent 70%),linear-gradient(145deg,light-dark(#b8c9b9,#385949),light-dark(#d4c6a2,#6b6d4b));color:light-dark(#516755,#e3e3bd)}
+#crossweave-flow-001 .cf-art i[data-lucide],#crossweave-flow-001 .cf-art svg.lucide{width:40px;height:40px;font-size:36px;stroke-width:1.35}
+#crossweave-flow-001 .cf-card-name{font-size:13px;overflow-wrap:anywhere}
+#crossweave-flow-001 .cf-count{position:absolute;right:6px;top:6px;min-width:26px;padding:1px 6px;text-align:center;border-radius:14px;font-size:12px;background:var(--cf-paper);box-shadow:0 1px 3px var(--cf-shadow)}
+#crossweave-flow-001 .cf-attr{position:absolute;left:7px;top:6px;font-size:12px;background:var(--cf-paper);border-radius:3px;padding:0 4px}
+#crossweave-flow-001 .cf-new{position:absolute;right:7px;bottom:25px;font-size:11px;color:var(--cf-active-ink);background:var(--cf-active);padding:0 5px;border-radius:8px}
+#crossweave-flow-001 .cf-scroll-cue{position:absolute;right:14px;bottom:7px;width:32px;height:32px;border-radius:50%;border:1px solid var(--cf-line);background:var(--cf-paper);box-shadow:0 2px 10px var(--cf-shadow)}
+#crossweave-flow-001 .cf-error{min-height:24px;padding:2px 4px;color:var(--cf-warn);font-size:12px}
+#crossweave-flow-001 #cf-return{display:flex;flex-direction:column;margin:10px auto 0;width:90%;height:calc(100% - 10px);padding:20px 24px;background:light-dark(#f0eadbec,#25332fe8);border-radius:8px 8px 0 0;overflow:auto;backdrop-filter:blur(3px)}
+#crossweave-flow-001 .cf-result-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+#crossweave-flow-001 .cf-result-mark{font-size:12px;color:var(--cf-muted);border:1px solid var(--cf-line);padding:2px 9px;border-radius:12px}
+#crossweave-flow-001 .cf-result-story{color:var(--cf-muted);margin-bottom:20px}
+#crossweave-flow-001 .cf-result-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;margin-top:20px;flex:1;align-content:start}
+#crossweave-flow-001 .cf-result-items{display:flex;align-items:stretch;flex-wrap:wrap;gap:14px;margin-top:10px}
+#crossweave-flow-001 .cf-point-tile{display:grid;gap:2px;place-content:center;justify-items:center;min-width:115px;padding:16px;background:light-dark(#d5dece,#405143);border-radius:6px}
+#crossweave-flow-001 .cf-point-tile strong{font-size:30px;font-weight:500;font-variant-numeric:tabular-nums}
+#crossweave-flow-001 .cf-unlock{max-width:145px;min-width:125px}
+#crossweave-flow-001 .cf-unlock .cf-card{width:100%;min-height:128px}
+#crossweave-flow-001 .cf-record-link{display:flex;align-items:center;gap:10px;justify-content:space-between;background:none;color:var(--cf-ink);border:0;border-bottom:1px solid var(--cf-line);padding:10px 0;width:100%;text-align:left}
+#crossweave-flow-001 .cf-loss{color:var(--cf-warn);margin-top:18px;font-size:13px}
+#crossweave-flow-001 .cf-loss span{display:block;margin-top:5px}
+#crossweave-flow-001 .cf-empty{color:var(--cf-muted);padding:14px 0}
+#crossweave-flow-001 #cf-departure{display:grid;place-items:center;text-align:center;background:radial-gradient(ellipse at 50% 35%,light-dark(#729c9966,#37635c55),light-dark(#899f95cc,#243a36ee));border-radius:8px 8px 0 0}
+#crossweave-flow-001 #cf-departure>div{display:grid;gap:15px;justify-items:center;padding:25px}
+#crossweave-flow-001 #cf-departure p{color:var(--cf-muted)}
+#crossweave-flow-001 #cf-windows{position:absolute;inset:0;pointer-events:none;z-index:5}
+#crossweave-flow-001 .cf-window{pointer-events:auto;position:absolute;inset:6% 4%;max-height:90%;padding:18px 22px;overflow:auto;border:1px solid var(--cf-line);border-radius:9px;background:light-dark(#f4efdfef,#27372fef);box-shadow:0 10px 32px var(--cf-shadow);backdrop-filter:blur(4px)}
+#crossweave-flow-001 .cf-window[data-size=small]{inset:auto;width:340px;max-width:calc(100% - 16px);max-height:calc(100% - 16px);padding:16px 18px}
+#crossweave-flow-001 .cf-window-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+#crossweave-flow-001 .cf-window-tools{display:flex;gap:10px;align-items:center;color:var(--cf-muted)}
+#crossweave-flow-001 .cf-close{border:0;background:transparent;width:28px;height:28px;padding:2px;font-size:20px}
+#crossweave-flow-001 .cf-quest-content{display:grid;grid-template-columns:minmax(160px,.8fr) minmax(0,1.3fr);gap:25px}
+#crossweave-flow-001 .cf-quest-cover{display:flex;align-items:end;min-height:205px;padding:18px;background:radial-gradient(ellipse at 55% 0,light-dark(#c0d0ba,#b9b79655),transparent 50%),repeating-linear-gradient(-8deg,transparent 0 22%,light-dark(#cfdbcb55,#b1cdb12a) 24% 25%,transparent 26% 31%),linear-gradient(150deg,light-dark(#647d74,#2c403b),light-dark(#acbfb4,#496b64));border-radius:5px;color:light-dark(#faf5df,#edf0d7)}
+#crossweave-flow-001 .cf-quest-cover h3{font-size:24px}
+#crossweave-flow-001 .cf-quest-copy{display:grid;align-content:start;gap:15px}
+#crossweave-flow-001 .cf-quest-copy details{font-size:13px;color:var(--cf-muted)}
+#crossweave-flow-001 .cf-quest-copy summary{cursor:pointer;padding-bottom:5px}
+#crossweave-flow-001 .cf-quest-copy .cf-primary{justify-self:start;margin-top:5px}
+#crossweave-flow-001 .cf-detail-art{float:left;width:68px;height:68px;margin:0 14px 12px 0}
+#crossweave-flow-001 .cf-detail-attr{font-size:12px;color:var(--cf-muted);margin-bottom:6px}
+#crossweave-flow-001 .cf-data{clear:both;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:15px 0;font-size:13px}
+#crossweave-flow-001 .cf-data dt{color:var(--cf-muted)}#crossweave-flow-001 .cf-data dd{margin:0;text-align:right}
+#crossweave-flow-001 .cf-stepper{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--cf-line);padding-top:12px}
+#crossweave-flow-001 .cf-stepper>div{display:flex;align-items:center;gap:12px}
+#crossweave-flow-001 .cf-stepper button{width:34px;height:32px;font-size:18px;padding:0}
+#crossweave-flow-001 .cf-record-list{margin:0;padding:0;list-style:none}
+#crossweave-flow-001 .cf-record-list li{padding:13px 0;border-top:1px solid var(--cf-line)}
+#crossweave-flow-001 .cf-record-list p{margin-top:5px;color:var(--cf-muted);font-size:13px}
+@container cf-flow (max-width:760px){#crossweave-flow-001 .cf-shell{min-height:510px}#crossweave-flow-001 .cf-card-grid{gap:8px;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:130px}#crossweave-flow-001 .cf-stage{margin-inline:10px}#crossweave-flow-001 #cf-balance{display:none}#crossweave-flow-001 .cf-bottom{padding-inline:10px;gap:6px}#crossweave-flow-001 .cf-self{gap:8px}#crossweave-flow-001 .cf-quiet,#crossweave-flow-001 .cf-primary{padding-inline:7px}#crossweave-flow-001 #cf-return{width:98%;padding:18px}#crossweave-flow-001 .cf-result-grid{gap:16px}}
+@container cf-flow (max-width:520px){#crossweave-flow-001 .cf-shell{aspect-ratio:auto;height:640px}#crossweave-flow-001 .cf-top{padding:8px 14px}#crossweave-flow-001 .cf-shop-title{top:8%}#crossweave-flow-001 .cf-request-paper{left:8%;top:37%;max-width:84%;width:250px}#crossweave-flow-001 .cf-bottom{flex-wrap:wrap;justify-content:center;padding:6px 8px;gap:4px}#crossweave-flow-001 .cf-self{width:100%;justify-content:space-between}#crossweave-flow-001 nav{width:100%;justify-content:space-between;gap:1px}#crossweave-flow-001 .cf-quiet,#crossweave-flow-001 .cf-primary{min-height:38px;padding:5px 6px;font-size:13px}#crossweave-flow-001 .cf-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:143px}#crossweave-flow-001 .cf-prep-heading h2{font-size:22px}#crossweave-flow-001 #cf-preparation{padding:10px 7px 3px}#crossweave-flow-001 .cf-prep-heading .cf-quiet{max-width:95px;gap:3px}#crossweave-flow-001 .cf-window{inset:3% 1%;max-height:94%;padding:14px}#crossweave-flow-001 .cf-quest-content{grid-template-columns:1fr;gap:14px}#crossweave-flow-001 .cf-quest-cover{min-height:95px;padding:12px}#crossweave-flow-001 .cf-result-grid{grid-template-columns:1fr;gap:18px}#crossweave-flow-001 .cf-result-story{font-size:13px}#crossweave-flow-001 #cf-return{padding:14px}#crossweave-flow-001 .cf-hub-message{max-width:80%;right:5%;bottom:6%}#crossweave-flow-001 #cf-context{max-width:60%;text-align:right}}
+@media(pointer:coarse){#crossweave-flow-001 button,#crossweave-flow-001 .cf-stepper button,#crossweave-flow-001 select{min-height:44px}#crossweave-flow-001 .cf-close{min-width:44px}#crossweave-flow-001 .cf-example-bar select{font-size:16px}}
+@media(prefers-reduced-motion:reduce){#crossweave-flow-001 *{scroll-behavior:auto!important}}
+#crossweave-flow-001{container-type:inline-size;container-name:cf-flow}
+</style>
+  <div class="cf-example-bar" aria-label="構成試作の表示例">
+    <span>構成試作</span>
+    <label>表示例 <select id="cf-example"><option value="initial">出発前</option><option value="clear">踏破後</option><option value="withdrawal">撤退後</option><option value="defeat">緊急脱出後</option></select></label>
+    <span id="cf-boundary-note" role="status"></span>
+  </div>
+  <div class="cf-shell">
+    <div class="cf-scene" aria-hidden="true">
+      <div class="cf-light"></div><div class="cf-window-light"></div>
+      <div class="cf-shelves"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+      <div class="cf-curtain"></div><div class="cf-floor"></div><div class="cf-counter"></div><div class="cf-lamp"></div>
+    </div>
+    <header class="cf-top"><span id="cf-location">古道具屋</span><span id="cf-context"></span></header>
+    <main class="cf-stage">
+      <section id="cf-hub" aria-label="古道具屋">
+        <div class="cf-shop-title"><span>crossweave</span><h2>古道具屋</h2></div>
+        <button type="button" class="cf-request-paper" data-open="quest"><span class="cf-pin-dot" aria-hidden="true"></span><span class="cf-small">依頼</span><strong>夜潮の排水路</strong><span id="cf-hub-symptom">地下へ入り込む海水</span><span class="cf-paper-go" aria-hidden="true">↗</span></button>
+        <div class="cf-hub-message" id="cf-hub-message"></div>
+      </section>
+      <section id="cf-preparation" hidden aria-labelledby="cf-prep-heading">
+        <div class="cf-prep-heading"><div><h2 id="cf-prep-heading">準備</h2><button type="button" class="cf-text-button" data-open="quest" id="cf-prep-quest">夜潮の排水路 ↗</button></div><button type="button" class="cf-quiet" data-open="passives"><i data-lucide="book-open" data-fallback="▤" aria-hidden="true"></i>心得 <span>未装備</span></button></div>
+        <div class="cf-deck-heading"><span>持っていく札 <output id="cf-total"></output></span><span id="cf-balance"></span></div>
+        <div class="cf-collection"><div id="cf-card-grid" class="cf-card-grid" aria-label="利用できる札"></div><button type="button" class="cf-scroll-cue" id="cf-more" hidden aria-label="さらに下の札を見る">↓</button></div>
+        <p id="cf-deck-error" class="cf-error" role="status"></p>
+      </section>
+      <section id="cf-return" hidden aria-labelledby="cf-return-heading"></section>
+      <section id="cf-departure" hidden aria-label="探索画面への接続位置"><div><span>夜潮の排水路</span><h2>水路へ</h2><p>ここから探索画面につながります。</p></div></section>
+      <div id="cf-windows" hidden></div>
+    </main>
+    <footer class="cf-bottom"><div class="cf-self"><span id="cf-vigor">余力 40</span><span id="cf-points">着想 0</span></div><nav aria-label="拠点のメニュー"><button type="button" class="cf-quiet" data-nav="hub" id="cf-home-button"><i data-lucide="house" data-fallback="⌂" aria-hidden="true"></i><span>拠点</span></button><button type="button" class="cf-quiet" data-open="quest"><i data-lucide="scroll-text" data-fallback="▤" aria-hidden="true"></i>依頼</button><button type="button" class="cf-quiet" data-open="records"><i data-lucide="notebook-pen" data-fallback="▥" aria-hidden="true"></i>記録</button><button type="button" class="cf-primary" id="cf-main-action" data-nav="preparation">準備へ <span aria-hidden="true">→</span></button></nav></footer>
+  </div>
+  <script>(()=>{
+'use strict';
+function createFlowModel(data) {
+  const copy = x => JSON.parse(JSON.stringify(x));
+  const drafts = {initial: copy(data.counts)};
+  const state = {page: 'hub', example: 'initial', dialog: null, windowMode: 'pinned', card: null};
+  const available = () => [...data.unlocked, ...(data.returns[state.example]?.receipt.unlocked || [])];
+  const counts = () => drafts[state.example];
+  function inspect() {
+    const receipt = data.returns[state.example]?.receipt || null;
+    const total = Object.values(counts()).reduce((a, b) => a + b, 0);
+    return copy({...state, counts: counts(), available: available(), total, valid: total === data.limits.total,
+      receipt, points: receipt?.points || 0, resolved: state.example === 'clear'});
+  }
+  function navigate(page) {
+    if (!['hub', 'preparation', 'return'].includes(page)) throw Error('Unknown screen');
+    if (page === 'return' && state.example === 'initial') return false;
+    state.page = page; state.dialog = null; state.card = null; return true;
+  }
+  function example(kind) {
+    if (kind !== 'initial' && !data.returns[kind]) throw Error('Unknown example');
+    state.example = kind;
+    drafts[kind] ||= copy(data.counts);
+    state.page = kind === 'initial' ? 'hub' : 'return';
+    state.dialog = null; state.card = null;
+  }
+  function open(name, card = null, mode = 'pinned') {
+    if (!['quest', 'records', 'card', 'passives'].includes(name)) throw Error('Unknown window');
+    if (name === 'card' && !data.cards.some(c => c.type === card)) throw Error('Unknown card');
+    if (mode === 'peek' && state.dialog && state.windowMode === 'pinned') return;
+    if (state.dialog === name && state.card === card && state.windowMode === mode && mode === 'pinned') return close();
+    state.dialog = name; state.card = card; state.windowMode = mode;
+  }
+  function close() { state.dialog = null; state.card = null; }
+  function adjust(card, delta) {
+    if (state.page !== 'preparation' || !available().includes(card) || ![-1, 1].includes(delta)) return false;
+    const next = (counts()[card] || 0) + delta;
+    if (next < 0 || next > data.limits.perType) return false;
+    counts()[card] = next; return true;
+  }
+  function depart() {
+    if (state.page !== 'preparation' || !inspect().valid || state.dialog) return null;
+    state.page = 'departure';
+    return copy({schema: 'UI-F-001-departure-v1',quest: data.quest.id,example: state.example,
+      revisit: state.example === 'clear',counts: counts(),unlocked: available()});
+  }
+  return {inspect, navigate, example, open, close, adjust, depart};
+}
+if (typeof module !== 'undefined') module.exports = {createFlowModel};
+
+const DATA={"id":"UI-F-001","version":"0.1","source":{"code":"169686cd77d5d35e4d4b2dd2f6723851fff4491c","records":"54d701026ffeaf82b81a4a379b88ce036532d230","baseTrial":"PT-NT-001"},"counts":{"l":2,"fast":1,"f":2,"sweep":1,"h":2,"read":1,"r":1,"salve":1,"g":1},"unlocked":["f","h","l","j","g","r","fast","read","sweep","salve"],"cards":[{"type":"f","name":"返り音の笛","attr":"A","kind":"attack","power":3,"hit":70,"evasion":0,"crit_gain":25,"field_power":0,"field_hit":30,"life":2,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"music-2"},{"type":"h","name":"沈み石の槌","attr":"B","kind":"attack","power":12,"hit":30,"evasion":0,"crit_gain":25,"field_power":0,"field_hit":-20,"life":3,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"hammer"},{"type":"l","name":"先渡りの靴","attr":"B","kind":"attack","power":4,"hit":50,"evasion":0,"crit_gain":25,"field_power":6,"field_hit":0,"life":2,"place_cost":8,"match_cost":12,"consume_on_recover":null,"icon":"footprints"},{"type":"j","name":"小突き","attr":"C","kind":"attack","power":3,"hit":40,"evasion":0,"crit_gain":25,"field_power":0,"field_hit":0,"life":1,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"move-up-right"},{"type":"g","name":"戸締めの留め具","attr":"D","kind":"guard","power":3,"hit":0,"evasion":0,"crit_gain":20,"field_power":-4,"field_hit":0,"life":2,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"lock-keyhole"},{"type":"r","name":"流し手袋","attr":"A","kind":"guard","power":2,"hit":0,"evasion":0,"crit_gain":40,"field_power":-2,"field_hit":0,"life":3,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"hand"},{"type":"fast","name":"隙縫いの針","attr":"A","kind":"attack","power":2,"hit":100,"evasion":0,"crit_gain":25,"field_power":0,"field_hit":-20,"life":1,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"needle"},{"type":"read","name":"輪郭灯","attr":"C","kind":"guard","power":1,"hit":0,"evasion":30,"crit_gain":20,"field_power":0,"field_hit":20,"life":3,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"lamp"},{"type":"sweep","name":"幕払いの扇","attr":"D","kind":"attack","power":4,"hit":60,"evasion":0,"crit_gain":25,"field_power":0,"field_hit":20,"life":2,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"wind"},{"type":"salve","name":"ひと息の休息","attr":"C","kind":"heal","power":16,"hit":0,"evasion":0,"crit_gain":10,"field_power":-4,"field_hit":0,"life":16,"place_cost":10,"match_cost":10,"consume_on_recover":true,"icon":"leaf"},{"type":"nt_stop","name":"汐留め","attr":"D","kind":"guard","power":3,"hit":0,"field_power":2,"field_hit":20,"life":2,"evasion":20,"crit_gain":20,"place_cost":10,"match_cost":10,"consume_on_recover":null,"icon":"anchor"}],"limits":{"total":12,"perType":2},"quest":{"id":"SCN-001","title":"夜潮の排水路","symptom":"雨の降らない夜にも、商店街の地下へ海水が入り込む。","request":"品物は上へ移しましたが、いつまでも使わないわけにはいかなくて。","goal":"浸水の原因を確かめる","tendency":"流れに逆らい、障害を越えて奥へ進む。","place":"商店街の地下"},"returns":{"clear":{"receipt":{"outcome":"clear","settlement":{"reason":"clear","kept":["A/V0","A/V1"],"lost":[],"prior_growth":"unchanged"},"points":3,"unlocked":["nt_stop"],"actions":25,"expedition_end_hp":36,"return_hp":40},"seen":["entry","port","gate","clear"],"kind":"recorded","story":"流れが戻り、地下への浸水が止まった。"},"withdrawal":{"receipt":{"outcome":"withdrawal","settlement":{"reason":"withdrawal","kept":["A/V0"],"lost":[],"prior_growth":"unchanged"},"points":1,"unlocked":[],"actions":15,"expedition_end_hp":36,"return_hp":40},"seen":["entry","port"],"kind":"replayed-port-withdrawal","story":"港まで辿った道を戻り、店に帰った。"},"defeat":{"receipt":{"outcome":"defeat","settlement":{"reason":"defeat","kept":[],"lost":["A/V0"],"prior_growth":"unchanged"},"points":0,"unlocked":[],"actions":15,"expedition_end_hp":0,"return_hp":40},"seen":["entry","port"],"kind":"injected-boundary","story":"余力を失い、緊急脱出した。"}}};
+const root = document.getElementById('crossweave-flow-001');
+const get = id => root.querySelector('#' + id);
+const model = createFlowModel(DATA);
+const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fallbackIcons={'music-2':'♪',hammer:'⚒',footprints:'👞','move-up-right':'↗','lock-keyhole':'🔒',hand:'✋',needle:'🪡',lamp:'🏮',wind:'彡',leaf:'🍃',anchor:'⚓'};
+const icon = (name, fallback = '◇') => `<i data-lucide="${name}" data-fallback="${fallbackIcons[name]||fallback}" aria-hidden="true"></i>`;
+const cardFor = type => DATA.cards.find(c => c.type === type);
+let hoverTimer = null, closeTimer = null, lastTrigger = null, departureRequest = null;
+function icons() { if (typeof lucide !== 'undefined') lucide.createIcons({attrs:{width:18,height:18}}); }
+function art(card) { return `<span class="cf-art">${icon(card.icon)}</span>`; }
+function cardButton(type, count, unlocked = false) {
+  const c = cardFor(type), s = model.inspect();
+  return `<button type="button" class="cf-card ${count === 0 ? 'zero' : ''}" data-card="${c.type}" aria-label="${esc(c.name)}${count === null ? 'の詳細' : `、持込${count}枚`}、属性${c.attr}" aria-expanded="${s.dialog === 'card' && s.card === type}">${art(c)}<span class="cf-attr">${c.attr}</span>${count === null ? '' : `<span class="cf-count">${count ? '×' + count : '—'}</span>`}<span class="cf-card-name">${esc(c.name)}</span>${unlocked ? '<span class="cf-new">解放</span>' : ''}</button>`;
+}
+function balance(s) {
+  const totals = {attack:0,guard:0,heal:0};
+  for (const [type,count] of Object.entries(s.counts)) totals[cardFor(type).kind] += count;
+  return `突破 ${totals.attack} · 身構 ${totals.guard} · 回復 ${totals.heal}`;
+}
+function facts(s) {
+  if (!s.receipt) return [];
+  const seen = DATA.returns[s.example].seen;
+  const rows = [{name:'逆流の跡',text:'下り坂に逆らう流れ。壁の白い筋は、奥へ続いていた。'}];
+  if (seen.includes('port')) rows.push({name:'頭上の海',text:'地下水路を抜けた先に港がある。壁には同じ高さの水位線。'});
+  if (seen.includes('gate')) rows.push({name:'奥の水門',text:'鎖の噛み込みと、擦れた正常位置を確認した。'});
+  if (seen.includes('clear')) rows.push({name:'戻った流れ',text:'水門が戻り、日常側への流入が止まった。'});
+  return rows;
+}
+function returnMarkup(s) {
+  const labels = {clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'};
+  const r = s.receipt, known = facts(s), unlocked = r.unlocked;
+  return `<div class="cf-result-head"><h2 id="cf-return-heading">帰還</h2><span class="cf-result-mark">${labels[s.example]}</span></div><p class="cf-result-story">${esc(DATA.returns[s.example].story)}</p><div class="cf-result-grid"><div><h3>持ち帰り</h3><div class="cf-result-items">${r.points ? `<div class="cf-point-tile">${icon('sparkles','✦')}<span>着想</span><strong>+${r.points}</strong></div>` : '<p class="cf-empty">今回はなし</p>'}${unlocked.map(t=>`<div class="cf-unlock">${cardButton(t,null,true)}</div>`).join('')}</div>${r.settlement.lost.length ? `<div class="cf-loss">${icon('package-x','×')} 失ったもの<span>地下水路の成果</span></div>` : ''}</div><div><h3>調査記録</h3><button type="button" class="cf-record-link" data-open="records"><span>${s.resolved ? '水門と正常な流れ' : '港へ続く道'}</span><span aria-hidden="true">↗</span></button><p class="cf-small">${known.length}件を確認</p></div></div>`;
+}
+function heading(title, size = 'large') {
+  const pinned = model.inspect().windowMode === 'pinned';
+  return `<section class="cf-window" data-size="${size}" role="dialog" aria-modal="false" aria-labelledby="cf-window-heading"><div class="cf-window-top"><h3 id="cf-window-heading">${esc(title)}</h3><div class="cf-window-tools"><span aria-label="${pinned?'ピン留め':'一時表示'}">${icon(pinned?'pin':'pin-off',pinned?'◆':'◇')}</span><button type="button" class="cf-close" data-close="true" aria-label="窓を閉じる">×</button></div></div>`;
+}
+function questMarkup(s) {
+  const goal = s.resolved ? '管理用の道筋を確かめる' : DATA.quest.goal;
+  return `${heading('依頼')}<div class="cf-quest-content"><article class="cf-quest-cover"><div><span class="cf-small" style="color:inherit">${s.resolved?'再訪':'商店街の地下'}</span><h3>${DATA.quest.title}</h3></div></article><div class="cf-quest-copy"><span class="cf-small">${s.resolved?'浸水は解決済み':'未解決'}</span><h3>${goal}</h3><p>${esc(s.resolved?'港で見つけた古い案内。使われなくなった道の先を辿る。':DATA.quest.symptom)}</p><span class="cf-small">${DATA.quest.tendency}</span><details><summary>${s.resolved?'前回の記録':'相談'}</summary><p>${esc(s.resolved?'水門が正常位置へ戻り、地下への流入が止まった。':DATA.quest.request)}</p></details><button type="button" class="cf-primary" data-nav="preparation">準備へ <span aria-hidden="true">→</span></button></div></div></section>`;
+}
+function recordsMarkup(s) {
+  const rows = facts(s);
+  return `${heading('調査記録')}<h3>夜潮の排水路</h3>${rows.length ? `<ul class="cf-record-list">${rows.map(r=>`<li>${esc(r.name)}<p>${esc(r.text)}</p></li>`).join('')}</ul>` : '<p class="cf-empty">まだ調べた記録はない。</p>'}</section>`;
+}
+function detailMarkup(s) {
+  const c = cardFor(s.card), guard = c.kind === 'guard', heal = c.kind === 'heal';
+  const powerLabel = guard ? '身構' : heal ? '回復' : '突破';
+  const primary = `${powerLabel} ${c.power}${guard ? ` · 攪乱 ${c.evasion}` : heal ? '' : ` · 探査 ${c.hit}`}`;
+  const signed = n => n > 0 ? '+' + n : String(n);
+  const field = `${guard?'身構':'突破'} ${signed(c.field_power)} · ${guard?'攪乱':'探査'} ${signed(c.field_hit)}`;
+  const editable = s.page === 'preparation' && s.available.includes(c.type) && s.windowMode === 'pinned';
+  return `${heading(c.name,'small')}<div class="cf-detail-art">${art(c)}</div><div class="cf-detail-attr">属性 ${c.attr}</div><p>${primary}</p><dl class="cf-data"><dt>場の補正</dt><dd>${field}</dd><dt>期限</dt><dd>${c.life}行動</dd><dt>設置／一致</dt><dd>${c.place_cost}／${c.match_cost}</dd>${c.consume_on_recover?'<dt>消費</dt><dd>捨てると消滅</dd>':''}</dl>${editable ? `<div class="cf-stepper"><span>持っていく</span><div><button type="button" class="cf-quiet" id="cf-minus" data-delta="-1" aria-label="${esc(c.name)}を1枚減らす" ${!s.counts[c.type]?'disabled':''}>−</button><output aria-live="polite">${s.counts[c.type]||0}</output><button type="button" class="cf-quiet" id="cf-plus" data-delta="1" aria-label="${esc(c.name)}を1枚増やす" ${(s.counts[c.type]||0)>=DATA.limits.perType?'disabled':''}>＋</button></div></div>` : ''}</section>`;
+}
+function positionSmall() {
+  const s = model.inspect(), win = get('cf-windows').querySelector('[data-size=small]');
+  if (!win || s.dialog !== 'card') return;
+  const stage = root.querySelector('.cf-stage').getBoundingClientRect();
+  const anchor = [...root.querySelectorAll(`[data-card="${s.card}"]`)].find(e=>!e.closest('section[hidden]'));
+  const fallback = {left:stage.left+stage.width/2,right:stage.left+stage.width/2,top:stage.top+stage.height/2,bottom:stage.top+stage.height/2};
+  const a = anchor?.getBoundingClientRect() || fallback;
+  const width = Math.min(340,Math.max(0,stage.width-16));
+  win.style.width = width + 'px';
+  const height = Math.min(win.getBoundingClientRect().height,Math.max(0,stage.height-16));
+  let left = a.right-stage.left+10;
+  if (left+width > stage.width-8) left = a.left-stage.left-width-10;
+  if (left < 8) left = (stage.width-width)/2;
+  const top = Math.min(stage.height-height-8,Math.max(8,a.top-stage.top));
+  win.style.left = Math.max(8,left)+'px';win.style.top = Math.max(8,top)+'px';
+}
+function windowRender() {
+  const s = model.inspect(), layer = get('cf-windows');
+  layer.hidden = !s.dialog;
+  if (!s.dialog) { layer.replaceChildren(); return; }
+  layer.innerHTML = s.dialog === 'quest' ? questMarkup(s) : s.dialog === 'records' ? recordsMarkup(s) : s.dialog === 'card' ? detailMarkup(s) : `${heading('心得','small')}<p class="cf-empty">装備している心得はない。</p><p class="cf-small">習得済み 0 · 所持 0</p></section>`;
+  if (s.dialog === 'passives') {
+    const win=layer.firstElementChild;win.style.right='8px';win.style.top='8px';
+  }
+  icons(); positionSmall();
+}
+function cue() {
+  const grid = get('cf-card-grid');
+  get('cf-more').hidden = model.inspect().page !== 'preparation' || grid.scrollHeight-grid.clientHeight-grid.scrollTop < 12;
+}
+function render() {
+  const s = model.inspect(), scroll = get('cf-card-grid').scrollTop;
+  for (const page of ['hub','preparation','return','departure']) get('cf-'+page).hidden = s.page !== page;
+  get('cf-example').value = s.example;
+  get('cf-location').textContent = s.page === 'departure' ? DATA.quest.title : '古道具屋';
+  get('cf-context').textContent = s.page === 'return' ? DATA.quest.title : s.resolved ? '浸水は解決済み' : '';
+  get('cf-hub-symptom').textContent = s.resolved ? '港の先に残る道筋' : '地下へ入り込む海水';
+  get('cf-hub-message').textContent = s.example === 'initial' ? '' : s.resolved ? '相談のあった地下に、棚が戻り始めている。' : '調べたことを手掛かりに、次の準備へ。';
+  get('cf-total').textContent = `${s.total} / ${DATA.limits.total}`;
+  get('cf-balance').textContent = balance(s);
+  get('cf-deck-error').textContent = s.valid ? '' : s.total < DATA.limits.total ? `あと${DATA.limits.total-s.total}枚` : `${s.total-DATA.limits.total}枚減らす`;
+  get('cf-prep-quest').textContent = DATA.quest.title+(s.resolved?' · 再訪':'')+' ↗';
+  get('cf-card-grid').innerHTML = s.available.map(t=>cardButton(t,s.counts[t]||0,s.receipt?.unlocked.includes(t))).join('');
+  get('cf-card-grid').scrollTop = scroll;
+  if (s.receipt) get('cf-return').innerHTML = returnMarkup(s);
+  get('cf-points').textContent = `着想 ${s.points}`;
+  get('cf-vigor').textContent = s.page === 'return' ? '余力 40 · 全回復' : '余力 40';
+  get('cf-home-button').setAttribute('aria-current',s.page==='hub'?'page':'false');
+  const main = get('cf-main-action');
+  delete main.dataset.action;delete main.dataset.nav;
+  if (s.page === 'preparation') {main.dataset.action='depart';main.innerHTML='出発 <span aria-hidden="true">→</span>';main.disabled=!s.valid;}
+  else {main.dataset.nav='preparation';main.innerHTML=(s.page==='return'?'次の準備へ':'準備へ')+' <span aria-hidden="true">→</span>';main.disabled=false;}
+  get('cf-boundary-note').textContent = s.page==='departure'?'探索は省略。帰還は上の表示例から確認。':'探索の演算は未接続';
+  root.querySelectorAll('[data-open]').forEach(el=>el.setAttribute('aria-expanded',String(el.dataset.open===s.dialog)));
+  windowRender();icons();cue();
+}
+function clearTimers() {clearTimeout(hoverTimer);clearTimeout(closeTimer);}
+function markers() {
+  const s=model.inspect();
+  root.querySelectorAll('[data-card]').forEach(el=>el.setAttribute('aria-expanded',String(s.dialog==='card'&&el.dataset.card===s.card)));
+  root.querySelectorAll('[data-open]').forEach(el=>el.setAttribute('aria-expanded',String(el.dataset.open===s.dialog)));
+}
+function open(name,card=null,mode='pinned',trigger=null) {
+  const s=model.inspect();
+  if(mode==='peek'&&s.dialog&&s.windowMode==='pinned')return;
+  clearTimers();lastTrigger = trigger || lastTrigger; model.open(name,card,mode);markers();windowRender();
+}
+function close(restore=false) {
+  clearTimers(); const s=model.inspect(); model.close();markers();windowRender();
+  if (restore) {
+    const trigger=s.card?[...root.querySelectorAll(`[data-card="${s.card}"]`)].find(e=>!e.closest('section[hidden]')):lastTrigger;
+    if(trigger?.isConnected)trigger.focus({preventScroll:true});
+  }
+}
+root.addEventListener('click', e => {
+  const button=e.target.closest('button');
+  const state=model.inspect();
+  if(state.dialog&&!e.target.closest('.cf-window')&&!button?.matches('[data-card],[data-open]')) {
+    close();return;
+  }
+  if(!button||button.disabled)return;
+  if(button.dataset.close) {close(true);return;}
+  if(button.dataset.open) {open(button.dataset.open,null,'pinned',button);return;}
+  if(button.dataset.card) {open('card',button.dataset.card,'pinned',button);return;}
+  if(button.dataset.delta) {
+    const delta=Number(button.dataset.delta),id=button.id;
+    model.adjust(state.card,delta);render();
+    const next=get(id);if(next&&!next.disabled)next.focus({preventScroll:true});else get(delta===1?'cf-minus':'cf-plus')?.focus({preventScroll:true});return;
+  }
+  if(button.dataset.nav) {clearTimers();model.navigate(button.dataset.nav);render();return;}
+  if(button.dataset.action==='depart') {
+    departureRequest=model.depart();render();
+    if(departureRequest)root.dispatchEvent(new CustomEvent('crossweave:departure-preview',{detail:departureRequest,bubbles:true}));return;
+  }
+  if(button.id==='cf-more') {
+    get('cf-card-grid').scrollBy({top:Math.max(120,get('cf-card-grid').clientHeight*.7),behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }
+});
+root.addEventListener('keydown',e=>{if(e.key==='Escape'&&model.inspect().dialog){e.preventDefault();close(true);}});
+get('cf-example').addEventListener('change',e=>{clearTimers();model.example(e.target.value);departureRequest=null;render();});
+get('cf-card-grid').addEventListener('scroll',()=>{if(model.inspect().windowMode==='peek'&&model.inspect().dialog)close();else positionSmall();cue();},{passive:true});
+root.addEventListener('pointerover',e=>{
+  if(e.pointerType!=='mouse'||!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches)return;
+  if(e.target.closest('.cf-window')){clearTimeout(closeTimer);return;}
+  const card=e.target.closest('[data-card]');if(!card||card.contains(e.relatedTarget))return;
+  clearTimers();hoverTimer=setTimeout(()=>open('card',card.dataset.card,'peek',card),180);
+});
+root.addEventListener('pointerout',e=>{
+  if(e.pointerType!=='mouse')return;
+  const card=e.target.closest('[data-card]'),win=e.target.closest('.cf-window');
+  if(!card&&!win)return;
+  if(card?.contains(e.relatedTarget)||win?.contains(e.relatedTarget)||e.relatedTarget?.closest?.('.cf-window'))return;
+  clearTimers();closeTimer=setTimeout(()=>{if(model.inspect().windowMode==='peek')close();},180);
+});
+window.addEventListener('blur',()=>{clearTimers();if(model.inspect().windowMode==='peek')close();});
+if(typeof ResizeObserver!=='undefined') new ResizeObserver(()=>{positionSmall();cue();}).observe(root);
+render();
+
+
+})();</script>
+</div>
+</body></html>
