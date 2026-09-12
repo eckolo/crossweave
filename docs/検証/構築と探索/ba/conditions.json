@@ -1,0 +1,92 @@
+{
+  "trial": "BA1-explicit-refund-or-learning",
+  "base_commit": "dd2a79847cc2f64239916d52f266e3907a52af8d",
+  "execution_head": "b55c333e66f93369a9aa400e18a40efecda5a8fa",
+  "reconstruction": {
+    "source": "AU1 natural histories",
+    "checkpoints": [
+      {
+        "offset": 0,
+        "first": "A",
+        "return_index": 2,
+        "next_seed": 3,
+        "expected_unspent_units": 300,
+        "expected_paid_learning_units": 600,
+        "expected_refund_bases": [
+          "PS04"
+        ]
+      },
+      {
+        "offset": 0,
+        "first": "B",
+        "return_index": 1,
+        "next_seed": 2,
+        "expected_unspent_units": 300,
+        "expected_paid_learning_units": 200,
+        "expected_refund_bases": [
+          "PS02"
+        ]
+      },
+      {
+        "offset": 8,
+        "first": "A",
+        "return_index": 2,
+        "next_seed": 11,
+        "expected_unspent_units": 300,
+        "expected_paid_learning_units": 600,
+        "expected_refund_bases": [
+          "PS04"
+        ]
+      },
+      {
+        "offset": 8,
+        "first": "B",
+        "return_index": 1,
+        "next_seed": 10,
+        "expected_unspent_units": 300,
+        "expected_paid_learning_units": 200,
+        "expected_refund_bases": [
+          "PS02"
+        ]
+      }
+    ],
+    "selection": "The four AU returns excluded by AY because unspent funds are below 400 units while unlearned bases remain and explicit free learning refunds can fund one purchase. Reconstruct each necessary prefix once (10 expeditions total), without new seeds.",
+    "checkpoint_boundary": "After return settlement and offer generation, before current-return purchase and surplus conversion. Earlier prefix returns keep original AU purchase, preparation and surplus conversion.",
+    "C_status": "All four checkpoints have already cleared C."
+  },
+  "comparison": {
+    "route": "C",
+    "policies": [
+      "learning_first",
+      "refund_acquisition_first"
+    ],
+    "expected_runs": 8,
+    "combat_policy": "AH.progress_first",
+    "preparation": "Unchanged AR C adapt learning/equipment and AU use_owned card preparation.",
+    "learning_first": "Perform existing AR/AU preparation, then consider a candidate using remaining unspent funds only. Re-prepare only after an actual purchase.",
+    "refund_acquisition_first": "On a copy, cancel only enough whole learned bases to afford a candidate, then purchase and prepare. If any candidate enters the resulting legal preparation, perform that explicit Q.learn cancellation on the real branch, purchase through existing Session.buy, and prepare. If no candidate is selected, perform neither refund nor purchase; verify unchanged save before normal preparation.",
+    "refund_rule": "Use reverse existing AR learning priority PS01, PS04, PS03, PS02, restricted to currently learned bases; stop once the candidate price is covered. Refund each removed base at its actual paid cost. This predeclared heuristic is not a product auto-cancel rule or an optimal selection claim. Each present case needs 100 units but the minimum whole-base refund is 200: A removes PS04; B removes PS02.",
+    "candidate_order": "AY: evaluate each candidate on a copy using the stated explicit refund (only refund_acquisition_first), purchase, AR C adapt and AU use_owned. Keep only candidates selected in the resulting legal deck/equipment. Cards first; passives use existing C home_value plus affix_value divided by equipment cost; finally candidate ID. Do not compare card and passive role scores or inspect combat actions/draws/outcomes.",
+    "price_units": 400,
+    "units_per_point": 100,
+    "equipment_capacity": 8,
+    "deck_size": 12,
+    "per_base_cap": 2,
+    "seed": "Each pair shares its native next seed: 3, 2, 11, 10. Histories share previous seed sequences; paired branches and structurally similar budgets are not independent human win-rate samples."
+  },
+  "record": [
+    "Actual unspent funds, historical learning payments, full refundable learning amount, required shortage, explicit removed bases and refund units, retained learning payment, newly learned/relearned payment, purchase spending, remaining balance",
+    "Each candidate: affordable now, affordable after explicit refund, learned-base eligibility and actual legal-preparation selection; skipped reason",
+    "Old inventory and bought item separately: owned, eligible/available, selected, player use before/after refill, NPC/field-material use; passive ID trace unavailability and limited receipt-based derivation",
+    "Clear/defeat, actions, time, HP, receipts, decisions and checkpoint/input hashes",
+    "AU prefix departure/receipt/boundary equality; underfunded purchase rejection without refund; refund replay/undo; no-choice unchanged save; purchase replay and save restoration; first action restore; return replay; old possessions and original checkpoint preserved"
+  ],
+  "limits": [
+    "No implicit refund added to purchase API; only existing public Q.learn and Session.buy operations. No sale or offer reroll in comparison branches.",
+    "Minimum refund heuristic holds only for these equal 2pt bases; do not generalize to heterogeneous historical fees or claim optimality.",
+    "No exhaustive candidate/deck optimization, new seed search, price/capacity changes, human enjoyment claim, UI or runtime changes.",
+    "All four are C-postclear diagnostic next expeditions, not first C attempts or the original subsequent A/B route.",
+    "Basic design 0.53 and D53 remain unchanged."
+  ],
+  "execution_head_note": "Parent saved Work-start records only after the design base; the AU/AT/AR inputs are unchanged."
+}

@@ -1,0 +1,7096 @@
+{
+  "trial": "AW1-natural-risk-return",
+  "base_commit": "d82f47b497b07850f934eac3a6d6de05a73a1a82",
+  "source_hashes": {
+    "docs/検証/修飾/ao/affixes.cjs": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f",
+    "docs/検証/修飾/ao/conditions.json": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90",
+    "docs/検証/修飾/ap/conditions.json": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00",
+    "docs/検証/修飾/ap/conversion.cjs": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c",
+    "docs/検証/構築と探索/au/conditions.json": "8877196d724d5243172fbaa4f6d61bfa956e5cf9609e732645383f5670f2b58c",
+    "docs/検証/構築と探索/au/results.json": "9d57c9c6a7bca10b45aaeed9b2077cb9e7c8ea96e589477d67c0fb3feebdc5ef",
+    "docs/検証/構築と探索/au/session.cjs": "f95e73d3fce89df8960d6db80c1bc512ee95315bf94c1e4ee7958e181318d3a0",
+    "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+    "docs/検証/統合試作/deck_feedback_trial/ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "docs/検証/統合試作/deck_feedback_trial/feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "docs/検証/統合試作/deck_feedback_trial/information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "docs/検証/統合試作/deck_feedback_trial/input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "docs/検証/統合試作/deck_feedback_trial/knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "docs/検証/統合試作/deck_feedback_trial/loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/conditions.json": "62c969eb9f30decd430989146218f06ce8792f001fba5d2f22db026b2c189676",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.json": "3c77b34ce84e7bce49c0e094b3a0e012b467701a83a1502c693c5c7e04d29b6b",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.py": "a76d202251cd6ca71dff004f6b76e3d3fdc6db4e8c37bb3461157d34b10754de",
+    "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "docs/検証/統合試作/deck_feedback_trial/terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "docs/検証/装備制限/aq/conditions.json": "ad11113aa944ef7b01ab77dfa2bf3eb0a0c368da279456a0d0fa326860e758a0",
+    "docs/検証/装備制限/aq/equipment.cjs": "7c551f7f4bbd34370ad2eeada8bf220d7fa53d6a5a807f099fc8d9e013afad69",
+    "docs/検証/装備制限/ar/common.cjs": "396b342521c4464406b59cd8e430aa9eb596e3972b890047d74909bd1c40f56f",
+    "docs/検証/装備制限/ar/conditions.json": "acb59e787cbdf5b8c6121d9cc1938fd11760bc45ca005ba790c4182826f32bb0",
+    "docs/検証/装備制限/ar/session.cjs": "179379131345f2289be89be4be438697e4e66c49082b95530d93f2dfafcae16c",
+    "docs/検証/資源用途/at/conditions.json": "92c658c96c83f1e86dc9a7c95dbf7f095548e30c530ac1a410df7c64c2d54594",
+    "docs/検証/資源用途/at/offers.cjs": "13c2d3b215a8b723010fae951ba126a0ce72e82d8648430151079adabd743af7"
+  },
+  "own_hashes": {
+    "conditions.json": "abcd006d67d4418c5142b55aa814d72a60b4b7ac58a8d16117739f7f16ff5c88",
+    "study.cjs": "495710de1f773afab135d7aad2f7377e65370e9940a9dfd13dfe1371cf659ea5"
+  },
+  "summary": {
+    "reconstructed_histories": 4,
+    "C_runs": 8,
+    "C_seed_values": [
+      1,
+      9
+    ],
+    "endpoints": {
+      "defeat": 5,
+      "clear": 3
+    },
+    "states": 13,
+    "criteria": {
+      "first_protected_item": {
+        "states": 8,
+        "hp": [
+          38,
+          40,
+          40,
+          40,
+          40,
+          38,
+          40,
+          40
+        ],
+        "continue_outcomes": {
+          "defeat": 5,
+          "clear": 3
+        },
+        "held_finite_healing_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "withdraw_points": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "withdraw_item_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "current_protected_item_losses": [
+          1,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "first_protected_low_hp": {
+        "states": 4,
+        "hp": [
+          15,
+          18,
+          17,
+          14
+        ],
+        "continue_outcomes": {
+          "defeat": 4
+        },
+        "held_finite_healing_counts": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "withdraw_points": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "withdraw_item_counts": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "current_protected_item_losses": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "first_protected_low_hp_no_held_finite_heal": {
+        "states": 4,
+        "hp": [
+          15,
+          18,
+          17,
+          14
+        ],
+        "continue_outcomes": {
+          "defeat": 4
+        },
+        "held_finite_healing_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "withdraw_points": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "withdraw_item_counts": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "current_protected_item_losses": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "missing_criteria": [
+      {
+        "trunk": "0-B-initial",
+        "missing": [
+          "first_protected_low_hp",
+          "first_protected_low_hp_no_held_finite_heal"
+        ]
+      },
+      {
+        "trunk": "0-B-use_owned",
+        "missing": [
+          "first_protected_low_hp",
+          "first_protected_low_hp_no_held_finite_heal"
+        ]
+      },
+      {
+        "trunk": "8-A-initial",
+        "missing": [
+          "first_protected_low_hp",
+          "first_protected_low_hp_no_held_finite_heal"
+        ]
+      },
+      {
+        "trunk": "8-B-initial",
+        "missing": [
+          "first_protected_low_hp",
+          "first_protected_low_hp_no_held_finite_heal"
+        ]
+      }
+    ],
+    "independence_note": "Repeated states of one trunk share its terminal outcome. Eight trunks share four first-return histories and two seed values."
+  },
+  "verification": {
+    "reconstructed_first_returns": 4,
+    "first_return_purchase_checks": 4,
+    "C_preparation_matches": 8,
+    "C_terminal_matches": 8,
+    "prediction_checks": 412,
+    "restored_first_actions": 8,
+    "withdrawal_replays": 13,
+    "withdrawal_reward_checks": 13,
+    "terminal_reward_checks": 8,
+    "prior_inventory_checks": 21,
+    "original_branch_unchanged": 13
+  },
+  "histories": [
+    {
+      "id": "au-natural-0-A",
+      "offset": 0,
+      "first": "A",
+      "seed": 0,
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "E1_initial_0036",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0029",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0018",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0032",
+          "target": "V0"
+        },
+        {
+          "card_id": "E1_initial_0034",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0024",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0044",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0038",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0038",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0041",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0037",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0041",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0038",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0042",
+          "target": "V1"
+        }
+      ],
+      "outcome": "clear",
+      "hp": 27,
+      "time": 422,
+      "first_return_sha256": "1eda0b06841a40a90ad30b53bdf4ddcd39e8a1b71493cf8244657d2dc018002f",
+      "first_return_economy_sha256": "74cff2d02ad810e4f3b4d13d9c2cb81b4a2a4651377009a96c12be11fbe69e53",
+      "au_match": true
+    },
+    {
+      "id": "au-natural-0-B",
+      "offset": 0,
+      "first": "B",
+      "seed": 0,
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0036",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0029",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0018",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0017",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0030",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0022",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0034",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0025",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0026",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0036",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0031",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0022",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0033",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0017",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0034",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0036",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0029",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0032",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0023",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0025",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0021",
+          "target": "E1"
+        }
+      ],
+      "outcome": "clear",
+      "hp": 29,
+      "time": 430,
+      "first_return_sha256": "30f92e99108a06f54252053b7609e3e25dce567f7555cc694dfeb703e975c4c5",
+      "first_return_economy_sha256": "9f0cc42aeb21910e3fe50cff33138d5e508ea757172b10fb264934645b890cf9",
+      "au_match": true
+    },
+    {
+      "id": "au-natural-8-A",
+      "offset": 8,
+      "first": "A",
+      "seed": 8,
+      "actions": [
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0028",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V1"
+        },
+        {
+          "card_id": "E1_initial_0032",
+          "target": "V1"
+        },
+        {
+          "card_id": "E1_initial_0030",
+          "target": "V1"
+        },
+        {
+          "card_id": "E1_initial_0026",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0048",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0043",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0039",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0046",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0038",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0048",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0041",
+          "target": "V1"
+        }
+      ],
+      "outcome": "clear",
+      "hp": 30,
+      "time": 336,
+      "first_return_sha256": "b37a2fab603236895136d88e8130ef55229578d4531b7873cd9dac91d661f5b6",
+      "first_return_economy_sha256": "8192a19e8e8790e0613887611490394c7742748d15ad175a4490d3225c4049e1",
+      "au_match": true
+    },
+    {
+      "id": "au-natural-8-B",
+      "offset": 8,
+      "first": "B",
+      "seed": 8,
+      "actions": [
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0020",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0028",
+          "target": "E1"
+        }
+      ],
+      "outcome": "clear",
+      "hp": 31,
+      "time": 128,
+      "first_return_sha256": "30bb38a162cd634ab7cc2d34b0e7f8d118f8bc65f27e4ee66826ce87631b4257",
+      "first_return_economy_sha256": "4990617e3ea1d08b36f5c86245ca2b7f71ffefb4174d5514428ff823de70b5fe",
+      "au_match": true
+    }
+  ],
+  "trunks": [
+    {
+      "label": "0-A-initial",
+      "offset": 0,
+      "first": "A",
+      "deck": "initial",
+      "seed": 1,
+      "original_au_label": "0-A-first_clear-C-side_first-initial",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02",
+          "owned:[\"AP1\",\"AR1-au-natural-0-A-0\",\"passive-V1\"]"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "4139b476e5d00e9ab47ae236e76d6431288c6c24875749fe75a9d916734960f8"
+      },
+      "launch_history": "au-natural-0-A",
+      "actions": [
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0017",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0024",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0021",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0022",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0043",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0049",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0058",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0052",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0046",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0043",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0060",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0037",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0054",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0055",
+          "target": null
+        }
+      ],
+      "outcome": "defeat",
+      "player_actions": 32,
+      "hp": 0,
+      "time": 320,
+      "receipt": {
+        "run": "AR1-au-natural-0-A-1",
+        "route": "C",
+        "index": 1,
+        "seed": 1,
+        "outcome": "defeat",
+        "actions": 32,
+        "hp": 0,
+        "time": 320,
+        "triggers": {
+          "PS02": 12
+        },
+        "instances": {
+          "PS02": 24
+        },
+        "action_time": 322,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 0,
+        "predictions": 32,
+        "gained_points": 0,
+        "new_unlocks": [],
+        "opened": [],
+        "kept": [],
+        "lost": [
+          "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+        ],
+        "kept_blueprints": []
+      },
+      "protection_timeline": [
+        {
+          "actions": 4,
+          "time": 40,
+          "hp": 38,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 13,
+          "time": 134,
+          "hp": 36,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "0-A-initial/P4",
+        "0-A-initial/P18"
+      ],
+      "missing_criteria": [],
+      "au_match": true,
+      "final_saved_state_sha256": "58ad010730b324fb8b2f2c354a5b32f874327817d545b5735fa907ff38fcb543"
+    },
+    {
+      "label": "0-A-use_owned",
+      "offset": 0,
+      "first": "A",
+      "deck": "use_owned",
+      "seed": 1,
+      "original_au_label": "0-A-first_clear-C-side_first-use_owned",
+      "preparation": {
+        "deck_ids": [
+          "owned:[\"AP1\",\"AR1-au-natural-0-A-0\",\"card-V1-1\"]",
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02",
+          "owned:[\"AP1\",\"AR1-au-natural-0-A-0\",\"passive-V1\"]"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "4139b476e5d00e9ab47ae236e76d6431288c6c24875749fe75a9d916734960f8"
+      },
+      "launch_history": "au-natural-0-A",
+      "actions": [
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "V2_initial_0046",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0024",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0023",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0018",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0048",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": "V0"
+        },
+        {
+          "card_id": "V2_initial_0043",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0044",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0046",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0049",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0055",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        }
+      ],
+      "outcome": "defeat",
+      "player_actions": 33,
+      "hp": 0,
+      "time": 324,
+      "receipt": {
+        "run": "AR1-au-natural-0-A-1",
+        "route": "C",
+        "index": 1,
+        "seed": 1,
+        "outcome": "defeat",
+        "actions": 33,
+        "hp": 0,
+        "time": 324,
+        "triggers": {
+          "PS02": 10
+        },
+        "instances": {
+          "PS02": 20
+        },
+        "action_time": 332,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 0,
+        "predictions": 33,
+        "gained_points": 0,
+        "new_unlocks": [],
+        "opened": [],
+        "kept": [],
+        "lost": [
+          "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+        ],
+        "kept_blueprints": []
+      },
+      "protection_timeline": [
+        {
+          "actions": 2,
+          "time": 20,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 22,
+          "time": 226,
+          "hp": 30,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "0-A-use_owned/P2",
+        "0-A-use_owned/P26"
+      ],
+      "missing_criteria": [],
+      "au_match": true,
+      "final_saved_state_sha256": "93fa055a827413a1b39e0bb8b01b17cb192b244fb7bbe4b884750b11ec795d2c"
+    },
+    {
+      "label": "0-B-initial",
+      "offset": 0,
+      "first": "B",
+      "deck": "initial",
+      "seed": 1,
+      "original_au_label": "0-B-first_clear-C-side_first-initial",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "69beb8c6bf82ee36c00f191bfad1269833d0345d96366c48de8ae2f24c140079"
+      },
+      "launch_history": "au-natural-0-B",
+      "actions": [
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0021",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": "V0"
+        },
+        {
+          "card_id": "V2_initial_0042",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0024",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0048",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0045",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0038",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0054",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "E1"
+        }
+      ],
+      "outcome": "clear",
+      "player_actions": 33,
+      "hp": 36,
+      "time": 322,
+      "receipt": {
+        "run": "AR1-au-natural-0-B-1",
+        "route": "C",
+        "index": 1,
+        "seed": 1,
+        "outcome": "clear",
+        "actions": 33,
+        "hp": 36,
+        "time": 322,
+        "triggers": {
+          "PS02": 12
+        },
+        "instances": {
+          "PS02": 12
+        },
+        "action_time": 332,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 6,
+        "predictions": 33,
+        "gained_points": 4,
+        "new_unlocks": [
+          "sharp"
+        ],
+        "opened": [],
+        "kept": [
+          "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]",
+          "[\"AP1\",\"AR1-au-natural-0-B-1\",\"card-E1-2\"]",
+          "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-E1\"]"
+        ],
+        "lost": [],
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp:echoing",
+          "AO1:passive:PS02:borrowed:forceful"
+        ]
+      },
+      "protection_timeline": [
+        {
+          "actions": 3,
+          "time": 30,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 20,
+          "time": 206,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "0-B-initial/P3"
+      ],
+      "missing_criteria": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "au_match": true,
+      "final_saved_state_sha256": "ca3dae15f049f9cfb9a6cb4364eeb835655b6522690eb18620498763a31175e5"
+    },
+    {
+      "label": "0-B-use_owned",
+      "offset": 0,
+      "first": "B",
+      "deck": "use_owned",
+      "seed": 1,
+      "original_au_label": "0-B-first_clear-C-side_first-use_owned",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "owned:[\"AP1\",\"AR1-au-natural-0-B-0\",\"card-E1-1\"]",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "69beb8c6bf82ee36c00f191bfad1269833d0345d96366c48de8ae2f24c140079"
+      },
+      "launch_history": "au-natural-0-B",
+      "actions": [
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0017",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0037",
+          "target": "E1"
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0042",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0040",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0041",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0049",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0037",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0043",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        }
+      ],
+      "outcome": "defeat",
+      "player_actions": 33,
+      "hp": 0,
+      "time": 326,
+      "receipt": {
+        "run": "AR1-au-natural-0-B-1",
+        "route": "C",
+        "index": 1,
+        "seed": 1,
+        "outcome": "defeat",
+        "actions": 33,
+        "hp": 0,
+        "time": 326,
+        "triggers": {
+          "PS02": 10
+        },
+        "instances": {
+          "PS02": 10
+        },
+        "action_time": 330,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 8,
+        "predictions": 33,
+        "gained_points": 0,
+        "new_unlocks": [],
+        "opened": [],
+        "kept": [],
+        "lost": [
+          "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]"
+        ],
+        "kept_blueprints": []
+      },
+      "protection_timeline": [
+        {
+          "actions": 4,
+          "time": 42,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 18,
+          "time": 182,
+          "hp": 32,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "0-B-use_owned/P4"
+      ],
+      "missing_criteria": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "au_match": true,
+      "final_saved_state_sha256": "839b1386e581d45a6e7e5b09af4d4c2ade64510dd288f5d03e13576867127d95"
+    },
+    {
+      "label": "8-A-initial",
+      "offset": 8,
+      "first": "A",
+      "deck": "initial",
+      "seed": 9,
+      "original_au_label": "8-A-first_clear-C-side_first-initial",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02",
+          "owned:[\"AP1\",\"AR1-au-natural-8-A-0\",\"passive-V1\"]"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "614d3a61c4b4dde57b0dc37524fae68a517a5474410db84f4c44b443ca009ec2"
+      },
+      "launch_history": "au-natural-8-A",
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0020",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0048",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0044",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0040",
+          "target": "E1"
+        }
+      ],
+      "outcome": "clear",
+      "player_actions": 26,
+      "hp": 34,
+      "time": 262,
+      "receipt": {
+        "run": "AR1-au-natural-8-A-1",
+        "route": "C",
+        "index": 1,
+        "seed": 9,
+        "outcome": "clear",
+        "actions": 26,
+        "hp": 34,
+        "time": 262,
+        "triggers": {
+          "PS02": 10
+        },
+        "instances": {
+          "PS02": 15
+        },
+        "action_time": 262,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 0,
+        "predictions": 26,
+        "gained_points": 4,
+        "new_unlocks": [
+          "sharp"
+        ],
+        "opened": [],
+        "kept": [
+          "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+          "[\"AP1\",\"AR1-au-natural-8-A-1\",\"card-E1-2\"]",
+          "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-E1\"]"
+        ],
+        "lost": [],
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp",
+          "AO1:passive:PS04:forceful"
+        ]
+      },
+      "protection_timeline": [
+        {
+          "actions": 4,
+          "time": 42,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 17,
+          "time": 174,
+          "hp": 34,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "8-A-initial/P4"
+      ],
+      "missing_criteria": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "au_match": true,
+      "final_saved_state_sha256": "992bfd11a7e01986bf683777d43b216661fe94568e562f7436ca7f9674c63c9f"
+    },
+    {
+      "label": "8-A-use_owned",
+      "offset": 8,
+      "first": "A",
+      "deck": "use_owned",
+      "seed": 9,
+      "original_au_label": "8-A-first_clear-C-side_first-use_owned",
+      "preparation": {
+        "deck_ids": [
+          "owned:[\"AP1\",\"AR1-au-natural-8-A-0\",\"card-V1-1\"]",
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02",
+          "owned:[\"AP1\",\"AR1-au-natural-8-A-0\",\"passive-V1\"]"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "614d3a61c4b4dde57b0dc37524fae68a517a5474410db84f4c44b443ca009ec2"
+      },
+      "launch_history": "au-natural-8-A",
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V1_initial_0028",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V1"
+        },
+        {
+          "card_id": "V1_initial_0034",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0021",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0019",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0046",
+          "target": "V0"
+        },
+        {
+          "card_id": "V2_initial_0048",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0045",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0015",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0055",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0041",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0049",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0040",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0060",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0049",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0058",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0045",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0057",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0055",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0047",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0053",
+          "target": "E1"
+        },
+        {
+          "card_id": "E1_initial_0055",
+          "target": null
+        }
+      ],
+      "outcome": "defeat",
+      "player_actions": 58,
+      "hp": 0,
+      "time": 583,
+      "receipt": {
+        "run": "AR1-au-natural-8-A-1",
+        "route": "C",
+        "index": 1,
+        "seed": 9,
+        "outcome": "defeat",
+        "actions": 58,
+        "hp": 0,
+        "time": 583,
+        "triggers": {
+          "PS02": 24
+        },
+        "instances": {
+          "PS02": 34
+        },
+        "action_time": 587,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 2,
+        "predictions": 58,
+        "gained_points": 0,
+        "new_unlocks": [],
+        "opened": [],
+        "kept": [],
+        "lost": [
+          "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]"
+        ],
+        "kept_blueprints": []
+      },
+      "protection_timeline": [
+        {
+          "actions": 12,
+          "time": 122,
+          "hp": 38,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 30,
+          "time": 303,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "8-A-use_owned/P12",
+        "8-A-use_owned/P47"
+      ],
+      "missing_criteria": [],
+      "au_match": true,
+      "final_saved_state_sha256": "da142253873f1b46dda6f698a7aede80add806ec8dfb0baf153938843c8a9735"
+    },
+    {
+      "label": "8-B-initial",
+      "offset": 8,
+      "first": "B",
+      "deck": "initial",
+      "seed": 9,
+      "original_au_label": "8-B-first_clear-C-side_first-initial",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "ffa8dbb845e32ff49660ddcb21a614563a5a205af936683561cadd56afb93b1c"
+      },
+      "launch_history": "au-natural-8-B",
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0020",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0014",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0013",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0048",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0044",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0040",
+          "target": "E1"
+        }
+      ],
+      "outcome": "clear",
+      "player_actions": 26,
+      "hp": 34,
+      "time": 262,
+      "receipt": {
+        "run": "AR1-au-natural-8-B-1",
+        "route": "C",
+        "index": 1,
+        "seed": 9,
+        "outcome": "clear",
+        "actions": 26,
+        "hp": 34,
+        "time": 262,
+        "triggers": {
+          "PS02": 10
+        },
+        "instances": {
+          "PS02": 10
+        },
+        "action_time": 262,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 0,
+        "predictions": 26,
+        "gained_points": 4,
+        "new_unlocks": [
+          "sharp"
+        ],
+        "opened": [],
+        "kept": [
+          "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+          "[\"AP1\",\"AR1-au-natural-8-B-1\",\"card-E1-2\"]",
+          "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-E1\"]"
+        ],
+        "lost": [],
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp",
+          "AO1:passive:PS04:forceful"
+        ]
+      },
+      "protection_timeline": [
+        {
+          "actions": 4,
+          "time": 42,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 17,
+          "time": 174,
+          "hp": 34,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "8-B-initial/P4"
+      ],
+      "missing_criteria": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "au_match": true,
+      "final_saved_state_sha256": "d69990cb7ad23f785c2431a622c803771818393fea0c2684baa3e21c0f9d356b"
+    },
+    {
+      "label": "8-B-use_owned",
+      "offset": 8,
+      "first": "B",
+      "deck": "use_owned",
+      "seed": 9,
+      "original_au_label": "8-B-first_clear-C-side_first-use_owned",
+      "preparation": {
+        "deck_ids": [
+          "base:f",
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:l",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "owned:[\"AP1\",\"AR1-au-natural-8-B-0\",\"card-E1-1\"]",
+          "base:sweep"
+        ],
+        "equipped": [
+          "base:PS02"
+        ],
+        "learned": [
+          "PS02"
+        ],
+        "inventory_sha256": "ffa8dbb845e32ff49660ddcb21a614563a5a205af936683561cadd56afb93b1c"
+      },
+      "launch_history": "au-natural-8-B",
+      "actions": [
+        {
+          "card_id": "P_initial_0007",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V1"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0012",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0011",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0016",
+          "target": null
+        },
+        {
+          "card_id": "V0_initial_0021",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": "V0"
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": "V0"
+        },
+        {
+          "card_id": "V2_initial_0044",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0005",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0039",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0006",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0003",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0037",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0038",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0004",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0043",
+          "target": "E1"
+        },
+        {
+          "card_id": "V2_initial_0045",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0001",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0052",
+          "target": null
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": "E1"
+        },
+        {
+          "card_id": "P_initial_0009",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0046",
+          "target": null
+        },
+        {
+          "card_id": "E1_initial_0051",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0041",
+          "target": null
+        },
+        {
+          "card_id": "V2_initial_0044",
+          "target": "E1"
+        }
+      ],
+      "outcome": "defeat",
+      "player_actions": 38,
+      "hp": 0,
+      "time": 382,
+      "receipt": {
+        "run": "AR1-au-natural-8-B-1",
+        "route": "C",
+        "index": 1,
+        "seed": 9,
+        "outcome": "defeat",
+        "actions": 38,
+        "hp": 0,
+        "time": 382,
+        "triggers": {
+          "PS02": 10
+        },
+        "instances": {
+          "PS02": 10
+        },
+        "action_time": 382,
+        "time_saved": 0,
+        "minimum_time_actions": 0,
+        "healed": 0,
+        "predictions": 38,
+        "gained_points": 0,
+        "new_unlocks": [],
+        "opened": [],
+        "kept": [],
+        "lost": [
+          "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]"
+        ],
+        "kept_blueprints": []
+      },
+      "protection_timeline": [
+        {
+          "actions": 4,
+          "time": 42,
+          "hp": 40,
+          "protected_sources": [
+            "C/V1"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        },
+        {
+          "actions": 18,
+          "time": 184,
+          "hp": 26,
+          "protected_sources": [
+            "C/V1",
+            "C/V0"
+          ],
+          "protected_items": [
+            "passive-V1"
+          ]
+        }
+      ],
+      "states": [
+        "8-B-use_owned/P4",
+        "8-B-use_owned/P21",
+        "8-B-use_owned/P22"
+      ],
+      "missing_criteria": [],
+      "au_match": true,
+      "final_saved_state_sha256": "e6222f86c089be1583a26097a3f410395fc42a33a518c9ec32aa640899c8c497"
+    }
+  ],
+  "states": [
+    {
+      "id": "0-A-initial/P4",
+      "trunk": "0-A-initial",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "c128bec1260912fbb0b8f72ea639620c70090ca060655a4509e90358aed84242",
+      "before": {
+        "time": 40,
+        "actions": 4,
+        "hp": 38,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 30,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 14,
+            "matches_current_field": false
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 40,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 50,
+            "delay": 10
+          },
+          {
+            "id": "V2",
+            "next_at": 60,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 38,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 40,
+            "hand_count": 3,
+            "deck_count": 4
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 7
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 60,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 14,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "read",
+            "name": "見切り",
+            "attr": "C",
+            "kind": "guard",
+            "power": 1,
+            "hit": 0,
+            "evasion": 30,
+            "crit_gain": 20,
+            "field_power": 0,
+            "field_hit": 20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0010",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "sweep",
+            "name": "打ち払い",
+            "attr": "D",
+            "kind": "attack",
+            "power": 4,
+            "hit": 60,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": 20,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0012",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {},
+        "pool_count": 11,
+        "live_card_count": 36,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 38,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 4,
+          "hp": 38,
+          "time": 40,
+          "triggers": {
+            "PS02": 2
+          },
+          "instances": {
+            "PS02": 4
+          },
+          "action_time": 40,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 4,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "635379a9c0050079ecfe9ad1a1ad7e71552a11557bac22010061871f34f6644b"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-A-initial",
+        "suffix_start_index": 4,
+        "additional_player_actions": 28,
+        "elapsed_time": 280,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 1,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1"
+        ],
+        "final_saved_state_sha256": "58ad010730b324fb8b2f2c354a5b32f874327817d545b5735fa907ff38fcb543"
+      }
+    },
+    {
+      "id": "0-A-initial/P18",
+      "trunk": "0-A-initial",
+      "tags": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "saved_state_sha256": "312e7f10510e67bbc95cca0fcf054ec58cbcd3ac24f0a3bbc57e287a2b31d94a",
+      "before": {
+        "time": 182,
+        "actions": 18,
+        "hp": 15,
+        "max_hp": 40,
+        "event": "C/enemy",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 30,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            },
+            {
+              "key": "C/V0",
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 124,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 2,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [],
+        "public_next_actions": [
+          {
+            "id": "E1",
+            "next_at": 182,
+            "delay": 0
+          },
+          {
+            "id": "P",
+            "next_at": 182,
+            "delay": 0
+          },
+          {
+            "id": "V2",
+            "next_at": 200,
+            "delay": 18
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 15,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 182,
+            "hand_count": 3,
+            "deck_count": 10
+          },
+          "V0": {
+            "active": false,
+            "purpose": "passage",
+            "hp": 0,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 200,
+            "hand_count": 0,
+            "deck_count": 4
+          },
+          "E1": {
+            "active": true,
+            "purpose": "goal_enemy",
+            "hp": 24,
+            "max_hp": 32,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 182,
+            "hand_count": 0,
+            "deck_count": 3
+          }
+        },
+        "hand": [
+          {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V0_initial_0022",
+            "origin": "V0",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          {
+            "type": "l",
+            "name": "踏み込み",
+            "attr": "B",
+            "kind": "attack",
+            "power": 4,
+            "hit": 50,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 6,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 8,
+            "match_cost": 12,
+            "consume_on_recover": null,
+            "id": "P_initial_0007",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "read",
+            "name": "見切り",
+            "attr": "C",
+            "kind": "guard",
+            "power": 1,
+            "hit": 0,
+            "evasion": 30,
+            "crit_gain": 20,
+            "field_power": 0,
+            "field_hit": 20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0010",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 3,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0009",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false
+          },
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0045",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 14,
+        "live_card_count": 36,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 15,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 18,
+          "hp": 15,
+          "time": 182,
+          "triggers": {
+            "PS02": 7
+          },
+          "instances": {
+            "PS02": 14
+          },
+          "action_time": 182,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 18,
+          "gained_points": 2,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "eb22939fc06c2a876666775e28732b327645fea25b3baf543d66a09466681ec5"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-A-initial",
+        "suffix_start_index": 18,
+        "additional_player_actions": 14,
+        "elapsed_time": 138,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 2,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1",
+          "C/V0"
+        ],
+        "final_saved_state_sha256": "58ad010730b324fb8b2f2c354a5b32f874327817d545b5735fa907ff38fcb543"
+      }
+    },
+    {
+      "id": "0-A-use_owned/P2",
+      "trunk": "0-A-use_owned",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "bc538b5857847e303e887b0514d2ca0523c4ea6b9a1949c22d286a49e7d614d6",
+      "before": {
+        "time": 20,
+        "actions": 2,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 10,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 15,
+            "matches_current_field": false
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 20,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 30,
+            "delay": 10
+          },
+          {
+            "id": "V2",
+            "next_at": 40,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 50,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 20,
+            "hand_count": 3,
+            "deck_count": 6
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 30,
+            "hand_count": 0,
+            "deck_count": 9
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 40,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0009",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 15,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "g",
+            "name": "防御",
+            "attr": "D",
+            "kind": "guard",
+            "power": 3,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 20,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0005",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "type": "weak_A",
+            "name": "弱攻撃札",
+            "attr": "A",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0026",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "B": {
+            "type": "weak_B",
+            "name": "弱攻撃札",
+            "attr": "B",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V0_initial_0016",
+            "origin": "V0",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 6,
+        "live_card_count": 37,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 2,
+          "hp": 40,
+          "time": 20,
+          "triggers": {
+            "PS02": 1
+          },
+          "instances": {
+            "PS02": 2
+          },
+          "action_time": 20,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 2,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "4254932a0751947f976f97224820febfbef099376ea52790040628a38e08d365"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-A-use_owned",
+        "suffix_start_index": 2,
+        "additional_player_actions": 31,
+        "elapsed_time": 304,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 1,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1"
+        ],
+        "final_saved_state_sha256": "93fa055a827413a1b39e0bb8b01b17cb192b244fb7bbe4b884750b11ec795d2c"
+      }
+    },
+    {
+      "id": "0-A-use_owned/P26",
+      "trunk": "0-A-use_owned",
+      "tags": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "saved_state_sha256": "93c1eb20b7a50d05ba9cd1669dc09eba81901e8da2143d758a87dc4f84dfa809",
+      "before": {
+        "time": 268,
+        "actions": 26,
+        "hp": 18,
+        "max_hp": 40,
+        "event": "C/enemy",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 10,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            },
+            {
+              "key": "C/V0",
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 216,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 2,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 268,
+            "delay": 0
+          },
+          {
+            "id": "E1",
+            "next_at": 274,
+            "delay": 6
+          },
+          {
+            "id": "V2",
+            "next_at": 280,
+            "delay": 12
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 18,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 268,
+            "hand_count": 3,
+            "deck_count": 6
+          },
+          "V0": {
+            "active": false,
+            "purpose": "passage",
+            "hp": 0,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 280,
+            "hand_count": 0,
+            "deck_count": 11
+          },
+          "E1": {
+            "active": true,
+            "purpose": "goal_enemy",
+            "hp": 21,
+            "max_hp": 32,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 274,
+            "hand_count": 1,
+            "deck_count": 2
+          }
+        },
+        "hand": [
+          {
+            "type": "h",
+            "name": "重撃",
+            "attr": "B",
+            "kind": "attack",
+            "power": 12,
+            "hit": 30,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0046",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          {
+            "type": "l",
+            "name": "踏み込み",
+            "attr": "B",
+            "kind": "attack",
+            "power": 4,
+            "hit": 50,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 6,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 8,
+            "match_cost": 12,
+            "consume_on_recover": null,
+            "id": "P_initial_0007",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "attr": "A",
+            "core": true,
+            "field_hit": 0,
+            "field_power": -2,
+            "hit": 0,
+            "kind": "guard",
+            "life": 3,
+            "name": "受け流し",
+            "power": 2,
+            "type": "r",
+            "id": "E1_initial_0059",
+            "origin": "E1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 40,
+            "evasion": 0
+          },
+          "D": {
+            "type": "weak_D",
+            "name": "弱攻撃札",
+            "attr": "D",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0048",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 10,
+        "live_card_count": 35,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 18,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 26,
+          "hp": 18,
+          "time": 268,
+          "triggers": {
+            "PS02": 9
+          },
+          "instances": {
+            "PS02": 18
+          },
+          "action_time": 268,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 26,
+          "gained_points": 2,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "002a2e1096bd48908c5f58b90a8b0623fda921c0ec398bd60507a290736d7fe9"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-A-use_owned",
+        "suffix_start_index": 26,
+        "additional_player_actions": 7,
+        "elapsed_time": 56,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 2,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-0-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1",
+          "C/V0"
+        ],
+        "final_saved_state_sha256": "93fa055a827413a1b39e0bb8b01b17cb192b244fb7bbe4b884750b11ec795d2c"
+      }
+    },
+    {
+      "id": "0-B-initial/P3",
+      "trunk": "0-B-initial",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "630f632b740479e662d8205039e415793be144ea8eadc2cee80bd54b532e4ed4",
+      "before": {
+        "time": 30,
+        "actions": 3,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 20,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 15,
+            "matches_current_field": true
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 30,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 40,
+            "delay": 10
+          },
+          {
+            "id": "V2",
+            "next_at": 50,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 20,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 30,
+            "hand_count": 3,
+            "deck_count": 6
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 40,
+            "hand_count": 0,
+            "deck_count": 8
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0009",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 15,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "h",
+            "name": "重撃",
+            "attr": "B",
+            "kind": "attack",
+            "power": 12,
+            "hit": 30,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0005",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 3,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0046",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 7,
+        "live_card_count": 36,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 3,
+          "hp": 40,
+          "time": 30,
+          "triggers": {
+            "PS02": 1
+          },
+          "instances": {
+            "PS02": 1
+          },
+          "action_time": 30,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 3,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "a03ef0d9ac095973ddd68531e5ce86d557566e594b2ae178d5fc9d6baefdb83b"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-B-initial",
+        "suffix_start_index": 3,
+        "additional_player_actions": 30,
+        "elapsed_time": 292,
+        "outcome": "clear",
+        "hp": 36,
+        "gained_points": 4,
+        "kept_item_count": 3,
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp:echoing",
+          "AO1:passive:PS02:borrowed:forceful"
+        ],
+        "lost_current_protected_points": 0,
+        "lost_current_protected_items": [],
+        "lost_current_protected_sources": [],
+        "final_saved_state_sha256": "ca3dae15f049f9cfb9a6cb4364eeb835655b6522690eb18620498763a31175e5"
+      }
+    },
+    {
+      "id": "0-B-use_owned/P4",
+      "trunk": "0-B-use_owned",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "c400d35fa2fdc20124986cf61b5c28c8bfb41939d274ccc18e3ecb300bb44f12",
+      "before": {
+        "time": 42,
+        "actions": 4,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0010",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 15,
+            "matches_current_field": true
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 42,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 50,
+            "delay": 8
+          },
+          {
+            "id": "V2",
+            "next_at": 62,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 20,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 42,
+            "hand_count": 3,
+            "deck_count": 4
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 7
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 62,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "AO1:card:stored:precise",
+            "name": "精密な・溜め打ち",
+            "attr": "B",
+            "kind": "attack",
+            "power": 8,
+            "hit": 40,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 4,
+            "field_hit": 0,
+            "life": 4,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "base_type": "stored",
+            "variant_key": "AO1:card:stored:precise",
+            "affixes": [
+              "precise"
+            ],
+            "cost_delta": 0,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0010",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 15,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "sweep",
+            "name": "打ち払い",
+            "attr": "D",
+            "kind": "attack",
+            "power": 4,
+            "hit": 60,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": 20,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0012",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "type": "weak_A",
+            "name": "弱攻撃札",
+            "attr": "A",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0026",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0046",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 10,
+        "live_card_count": 37,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-0-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 1,
+          "outcome": "withdrawal",
+          "actions": 4,
+          "hp": 40,
+          "time": 42,
+          "triggers": {
+            "PS02": 2
+          },
+          "instances": {
+            "PS02": 2
+          },
+          "action_time": 42,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 4,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "6082fc018551e6fe8f300de46fb3058dfefbc5b444a0bdf759efd6c881c3ed67"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "0-B-use_owned",
+        "suffix_start_index": 4,
+        "additional_player_actions": 29,
+        "elapsed_time": 284,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 1,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-0-B-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1"
+        ],
+        "final_saved_state_sha256": "839b1386e581d45a6e7e5b09af4d4c2ade64510dd288f5d03e13576867127d95"
+      }
+    },
+    {
+      "id": "8-A-initial/P4",
+      "trunk": "8-A-initial",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "4bf131a8b68d9feb250da2c965658863614a06f0dce1caa268ca7260cf99a69f",
+      "before": {
+        "time": 42,
+        "actions": 4,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 16,
+            "matches_current_field": true
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 42,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 50,
+            "delay": 8
+          },
+          {
+            "id": "V2",
+            "next_at": 62,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 10,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 42,
+            "hand_count": 3,
+            "deck_count": 3
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 7
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 62,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "h",
+            "name": "重撃",
+            "attr": "B",
+            "kind": "attack",
+            "power": 12,
+            "hit": 30,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "f",
+            "name": "牽制",
+            "attr": "A",
+            "kind": "attack",
+            "power": 3,
+            "hit": 70,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": 30,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0002",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 16,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0033",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "B": {
+            "type": "weak_B",
+            "name": "弱攻撃札",
+            "attr": "B",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0039",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 11,
+        "live_card_count": 37,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 4,
+          "hp": 40,
+          "time": 42,
+          "triggers": {
+            "PS02": 1
+          },
+          "instances": {
+            "PS02": 2
+          },
+          "action_time": 42,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 4,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "0ec53601c7dd3ccae341e1846fe3b07cbe7e6e1630d7c7a377cef63553fb19d3"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-A-initial",
+        "suffix_start_index": 4,
+        "additional_player_actions": 22,
+        "elapsed_time": 220,
+        "outcome": "clear",
+        "hp": 34,
+        "gained_points": 4,
+        "kept_item_count": 3,
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp",
+          "AO1:passive:PS04:forceful"
+        ],
+        "lost_current_protected_points": 0,
+        "lost_current_protected_items": [],
+        "lost_current_protected_sources": [],
+        "final_saved_state_sha256": "992bfd11a7e01986bf683777d43b216661fe94568e562f7436ca7f9674c63c9f"
+      }
+    },
+    {
+      "id": "8-A-use_owned/P12",
+      "trunk": "8-A-use_owned",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "53bca5b6095b7e1051e80f2c6b8b702ca520ac5dab02c77f7d8de3cc57019852",
+      "before": {
+        "time": 122,
+        "actions": 12,
+        "hp": 38,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 112,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 7,
+            "matches_current_field": true
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 122,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 130,
+            "delay": 8
+          },
+          {
+            "id": "V2",
+            "next_at": 142,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 38,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 122,
+            "hand_count": 3,
+            "deck_count": 4
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 130,
+            "hand_count": 0,
+            "deck_count": 11
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 142,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 7,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "l",
+            "name": "踏み込み",
+            "attr": "B",
+            "kind": "attack",
+            "power": 4,
+            "hit": 50,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 6,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 8,
+            "match_cost": 12,
+            "consume_on_recover": null,
+            "id": "P_initial_0008",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0034",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        ],
+        "field": {
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V0_initial_0022",
+            "origin": "V0",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "A": {
+            "type": "weak_A",
+            "name": "弱攻撃札",
+            "attr": "A",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V0_initial_0013",
+            "origin": "V0",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 7,
+        "live_card_count": 38,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 38,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 12,
+          "hp": 38,
+          "time": 122,
+          "triggers": {
+            "PS02": 4
+          },
+          "instances": {
+            "PS02": 6
+          },
+          "action_time": 122,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 12,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "c41dc449aa1657caed6b4d20d0295ee00517856524e51d294e3c703266dffae5"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-A-use_owned",
+        "suffix_start_index": 12,
+        "additional_player_actions": 46,
+        "elapsed_time": 461,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 1,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1"
+        ],
+        "final_saved_state_sha256": "da142253873f1b46dda6f698a7aede80add806ec8dfb0baf153938843c8a9735"
+      }
+    },
+    {
+      "id": "8-A-use_owned/P47",
+      "trunk": "8-A-use_owned",
+      "tags": [
+        "first_protected_low_hp",
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "saved_state_sha256": "f899db2131d601abb9249e3ac86fcae1a939432eab06223cef1e30de4ccbc384",
+      "before": {
+        "time": 475,
+        "actions": 47,
+        "hp": 17,
+        "max_hp": 40,
+        "event": "C/enemy",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 112,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            },
+            {
+              "key": "C/V0",
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 291,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 2,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 475,
+            "delay": 0
+          },
+          {
+            "id": "E1",
+            "next_at": 477,
+            "delay": 2
+          },
+          {
+            "id": "V2",
+            "next_at": 480,
+            "delay": 5
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 17,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 475,
+            "hand_count": 3,
+            "deck_count": 4
+          },
+          "V0": {
+            "active": false,
+            "purpose": "passage",
+            "hp": 0,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 480,
+            "hand_count": 0,
+            "deck_count": 4
+          },
+          "E1": {
+            "active": true,
+            "purpose": "goal_enemy",
+            "hp": 22,
+            "max_hp": 32,
+            "posture_remaining": 50,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 477,
+            "hand_count": 1,
+            "deck_count": 7
+          }
+        },
+        "hand": [
+          {
+            "type": "weak_D",
+            "name": "弱攻撃札",
+            "attr": "D",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0047",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          {
+            "attr": "D",
+            "core": true,
+            "field_hit": 0,
+            "field_power": -4,
+            "hit": 0,
+            "kind": "guard",
+            "life": 2,
+            "name": "防御",
+            "power": 3,
+            "type": "g",
+            "id": "E1_initial_0058",
+            "origin": "E1",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 20,
+            "evasion": 0
+          },
+          {
+            "type": "h",
+            "name": "重撃",
+            "attr": "B",
+            "kind": "attack",
+            "power": 12,
+            "hit": 30,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 3,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "attr": "A",
+            "core": true,
+            "field_hit": 30,
+            "field_power": 0,
+            "hit": 70,
+            "kind": "attack",
+            "life": 2,
+            "name": "牽制",
+            "power": 3,
+            "type": "f",
+            "id": "E1_initial_0049",
+            "origin": "E1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 25,
+            "evasion": 0
+          }
+        },
+        "pool_count": 15,
+        "live_card_count": 35,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 17,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-A-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 47,
+          "hp": 17,
+          "time": 475,
+          "triggers": {
+            "PS02": 20
+          },
+          "instances": {
+            "PS02": 28
+          },
+          "action_time": 475,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 2,
+          "predictions": 47,
+          "gained_points": 2,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "5e326eb7167d5fca370bd328b312f2fc3abe02e348528391e55be922c0b50e73"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-A-use_owned",
+        "suffix_start_index": 47,
+        "additional_player_actions": 11,
+        "elapsed_time": 108,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 2,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-8-A-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1",
+          "C/V0"
+        ],
+        "final_saved_state_sha256": "da142253873f1b46dda6f698a7aede80add806ec8dfb0baf153938843c8a9735"
+      }
+    },
+    {
+      "id": "8-B-initial/P4",
+      "trunk": "8-B-initial",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "5f624df5ecf11b9f42c255579101be82ae6d450e0921eccff74d59104a0d92d0",
+      "before": {
+        "time": 42,
+        "actions": 4,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0011",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 16,
+            "matches_current_field": true
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 42,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 50,
+            "delay": 8
+          },
+          {
+            "id": "V2",
+            "next_at": 62,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 10,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 42,
+            "hand_count": 3,
+            "deck_count": 3
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 7
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 62,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "h",
+            "name": "重撃",
+            "attr": "B",
+            "kind": "attack",
+            "power": 12,
+            "hit": 30,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "f",
+            "name": "牽制",
+            "attr": "A",
+            "kind": "attack",
+            "power": 3,
+            "hit": 70,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": 30,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0002",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0011",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 16,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0033",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "B": {
+            "type": "weak_B",
+            "name": "弱攻撃札",
+            "attr": "B",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0039",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 11,
+        "live_card_count": 37,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 4,
+          "hp": 40,
+          "time": 42,
+          "triggers": {
+            "PS02": 1
+          },
+          "instances": {
+            "PS02": 1
+          },
+          "action_time": 42,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 4,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "adcdc387a3e016b89bcbd887ecd613e9571feda5bb168f36520d0afc7fe6128a"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-B-initial",
+        "suffix_start_index": 4,
+        "additional_player_actions": 22,
+        "elapsed_time": 220,
+        "outcome": "clear",
+        "hp": 34,
+        "gained_points": 4,
+        "kept_item_count": 3,
+        "kept_blueprints": [
+          "AO1:passive:PS04:swift",
+          "AO1:card:sharp",
+          "AO1:passive:PS04:forceful"
+        ],
+        "lost_current_protected_points": 0,
+        "lost_current_protected_items": [],
+        "lost_current_protected_sources": [],
+        "final_saved_state_sha256": "d69990cb7ad23f785c2431a622c803771818393fea0c2684baa3e21c0f9d356b"
+      }
+    },
+    {
+      "id": "8-B-use_owned/P4",
+      "trunk": "8-B-use_owned",
+      "tags": [
+        "first_protected_item"
+      ],
+      "saved_state_sha256": "e0015e7dd068414e574ccb26a01aa6a26748da460c5f4d3dab1d1dd924f54ddb",
+      "before": {
+        "time": 42,
+        "actions": 4,
+        "hp": 40,
+        "max_hp": 40,
+        "event": "C/start",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 1,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 42,
+            "delay": 0
+          },
+          {
+            "id": "V0",
+            "next_at": 50,
+            "delay": 8
+          },
+          {
+            "id": "V2",
+            "next_at": 62,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 10,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 42,
+            "hand_count": 3,
+            "deck_count": 4
+          },
+          "V0": {
+            "active": true,
+            "purpose": "passage",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 50,
+            "hand_count": 0,
+            "deck_count": 7
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 62,
+            "hand_count": 0,
+            "deck_count": 11
+          }
+        },
+        "hand": [
+          {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0008",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "l",
+            "name": "踏み込み",
+            "attr": "B",
+            "kind": "attack",
+            "power": 4,
+            "hit": 50,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 6,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 8,
+            "match_cost": 12,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "f",
+            "name": "牽制",
+            "attr": "A",
+            "kind": "attack",
+            "power": 3,
+            "hit": 70,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": 30,
+            "life": 2,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0002",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "C": {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V1_initial_0033",
+            "origin": "V1",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": true,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          "B": {
+            "type": "weak_B",
+            "name": "弱攻撃札",
+            "attr": "B",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0039",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 10,
+        "live_card_count": 37,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 40,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 4,
+          "hp": 40,
+          "time": 42,
+          "triggers": {
+            "PS02": 1
+          },
+          "instances": {
+            "PS02": 1
+          },
+          "action_time": 42,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 4,
+          "gained_points": 1,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "7c30e3887b836799293e5cd51a78f760076602d4e3f896fb0b3062ef502d4c96"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-B-use_owned",
+        "suffix_start_index": 4,
+        "additional_player_actions": 34,
+        "elapsed_time": 340,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 1,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1"
+        ],
+        "final_saved_state_sha256": "e6222f86c089be1583a26097a3f410395fc42a33a518c9ec32aa640899c8c497"
+      }
+    },
+    {
+      "id": "8-B-use_owned/P21",
+      "trunk": "8-B-use_owned",
+      "tags": [
+        "first_protected_low_hp"
+      ],
+      "saved_state_sha256": "5cd0bd7deb413d0ee583284bfa1500fad05c9923efa2870f6d7c4023cf44c7c8",
+      "before": {
+        "time": 214,
+        "actions": 21,
+        "hp": 14,
+        "max_hp": 40,
+        "event": "C/enemy",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            },
+            {
+              "key": "C/V0",
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 174,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 2,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [
+          {
+            "id": "P_initial_0010",
+            "name": "回復草",
+            "origin": "P",
+            "power": 16,
+            "remaining": 1,
+            "matches_current_field": false
+          }
+        ],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 214,
+            "delay": 0
+          },
+          {
+            "id": "E1",
+            "next_at": 216,
+            "delay": 2
+          },
+          {
+            "id": "V2",
+            "next_at": 222,
+            "delay": 8
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 14,
+            "max_hp": 40,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 214,
+            "hand_count": 3,
+            "deck_count": 7
+          },
+          "V0": {
+            "active": false,
+            "purpose": "passage",
+            "hp": 0,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 222,
+            "hand_count": 0,
+            "deck_count": 3
+          },
+          "E1": {
+            "active": true,
+            "purpose": "goal_enemy",
+            "hp": 32,
+            "max_hp": 32,
+            "posture_remaining": 70,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 216,
+            "hand_count": 2,
+            "deck_count": 6
+          }
+        },
+        "hand": [
+          {
+            "type": "salve",
+            "name": "回復草",
+            "attr": "C",
+            "kind": "heal",
+            "power": 16,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 10,
+            "field_power": -4,
+            "field_hit": 0,
+            "life": 16,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": true,
+            "id": "P_initial_0010",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "l",
+            "name": "踏み込み",
+            "attr": "B",
+            "kind": "attack",
+            "power": 4,
+            "hit": 50,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 6,
+            "field_hit": 0,
+            "life": 2,
+            "place_cost": 8,
+            "match_cost": 12,
+            "consume_on_recover": null,
+            "id": "P_initial_0006",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0046",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": 2,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        ],
+        "field": {
+          "A": {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0008",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false
+          }
+        },
+        "pool_count": 14,
+        "live_card_count": 36,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 14,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 21,
+          "hp": 14,
+          "time": 214,
+          "triggers": {
+            "PS02": 5
+          },
+          "instances": {
+            "PS02": 5
+          },
+          "action_time": 214,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 21,
+          "gained_points": 2,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "c7df3ef250994d3aa9c84ba3fcd439cf279fe55cab0ccb8873e679766c6473e7"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-B-use_owned",
+        "suffix_start_index": 21,
+        "additional_player_actions": 17,
+        "elapsed_time": 168,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 2,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1",
+          "C/V0"
+        ],
+        "final_saved_state_sha256": "e6222f86c089be1583a26097a3f410395fc42a33a518c9ec32aa640899c8c497"
+      }
+    },
+    {
+      "id": "8-B-use_owned/P22",
+      "trunk": "8-B-use_owned",
+      "tags": [
+        "first_protected_low_hp_no_held_finite_heal"
+      ],
+      "saved_state_sha256": "82686248c92e72c76fb9f267fcb9527084add35cd1f12a4ca4f6d70ea94124dd",
+      "before": {
+        "time": 222,
+        "actions": 22,
+        "hp": 14,
+        "max_hp": 40,
+        "event": "C/enemy",
+        "reward": {
+          "protected_sources": [
+            {
+              "key": "C/V1",
+              "status": "acquired",
+              "protected": true,
+              "source": "V1",
+              "time": 32,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            },
+            {
+              "key": "C/V0",
+              "status": "acquired",
+              "protected": true,
+              "source": "V0",
+              "time": 174,
+              "items": [
+                {
+                  "kind": "points",
+                  "amount": 1
+                },
+                {
+                  "kind": "material",
+                  "type": "M",
+                  "amount": 1
+                }
+              ],
+              "points": 1
+            }
+          ],
+          "unprotected_sources": [],
+          "protected_points": 2,
+          "unprotected_points": 0,
+          "protected_items": [
+            {
+              "id": "passive-V1",
+              "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+              "protected": true,
+              "blueprint": {
+                "version": "AO1",
+                "kind": "passive",
+                "base": "PS04",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS04:swift"
+              }
+            }
+          ],
+          "unprotected_items": []
+        },
+        "held_finite_healing": [],
+        "public_next_actions": [
+          {
+            "id": "P",
+            "next_at": 222,
+            "delay": 0
+          },
+          {
+            "id": "E1",
+            "next_at": 228,
+            "delay": 6
+          },
+          {
+            "id": "V2",
+            "next_at": 242,
+            "delay": 20
+          }
+        ],
+        "actors": {
+          "P": {
+            "active": true,
+            "purpose": "player",
+            "hp": 14,
+            "max_hp": 40,
+            "posture_remaining": 50,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 222,
+            "hand_count": 3,
+            "deck_count": 5
+          },
+          "V0": {
+            "active": false,
+            "purpose": "passage",
+            "hp": 0,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V1": {
+            "active": false,
+            "purpose": "support",
+            "hp": 0,
+            "max_hp": 12,
+            "posture_remaining": 100,
+            "evasion": 0,
+            "guard": null,
+            "next_at": null,
+            "hand_count": 0,
+            "deck_count": 0
+          },
+          "V2": {
+            "active": true,
+            "purpose": "weak_environment",
+            "hp": 40,
+            "max_hp": 40,
+            "posture_remaining": 1,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 242,
+            "hand_count": 0,
+            "deck_count": 2
+          },
+          "E1": {
+            "active": true,
+            "purpose": "goal_enemy",
+            "hp": 32,
+            "max_hp": 32,
+            "posture_remaining": 70,
+            "evasion": 0,
+            "guard": null,
+            "next_at": 228,
+            "hand_count": 1,
+            "deck_count": 5
+          }
+        },
+        "hand": [
+          {
+            "type": "weak_C",
+            "name": "弱攻撃札",
+            "attr": "C",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0046",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          },
+          {
+            "type": "read",
+            "name": "見切り",
+            "attr": "C",
+            "kind": "guard",
+            "power": 1,
+            "hit": 0,
+            "evasion": 30,
+            "crit_gain": 20,
+            "field_power": 0,
+            "field_hit": 20,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0009",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 3,
+            "doomed": false,
+            "destroyed": false
+          },
+          {
+            "type": "fast",
+            "name": "速撃",
+            "attr": "A",
+            "kind": "attack",
+            "power": 2,
+            "hit": 100,
+            "evasion": 0,
+            "crit_gain": 25,
+            "field_power": 0,
+            "field_hit": -20,
+            "life": 1,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0003",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": 1,
+            "doomed": false,
+            "destroyed": false
+          }
+        ],
+        "field": {
+          "A": {
+            "type": "r",
+            "name": "受け流し",
+            "attr": "A",
+            "kind": "guard",
+            "power": 2,
+            "hit": 0,
+            "evasion": 0,
+            "crit_gain": 40,
+            "field_power": -2,
+            "field_hit": 0,
+            "life": 3,
+            "place_cost": 10,
+            "match_cost": 10,
+            "consume_on_recover": null,
+            "id": "P_initial_0008",
+            "origin": "P",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false
+          },
+          "D": {
+            "type": "weak_D",
+            "name": "弱攻撃札",
+            "attr": "D",
+            "kind": "attack",
+            "power": 2,
+            "hit": 50,
+            "field_power": 0,
+            "field_hit": 0,
+            "life": 2,
+            "core": false,
+            "id": "V2_initial_0047",
+            "origin": "V2",
+            "birth": "initial",
+            "remaining": null,
+            "doomed": false,
+            "destroyed": false,
+            "place_cost": 10,
+            "match_cost": 10,
+            "crit_gain": 10,
+            "evasion": 0
+          }
+        },
+        "pool_count": 17,
+        "live_card_count": 35,
+        "next_action_note": "Only public actor times are shown; NPC future card, target and draw order are not inferred."
+      },
+      "withdraw": {
+        "outcome": "withdrawal",
+        "hp": 14,
+        "elapsed_time": 0,
+        "additional_player_actions": 0,
+        "receipt": {
+          "run": "AR1-au-natural-8-B-1",
+          "route": "C",
+          "index": 1,
+          "seed": 9,
+          "outcome": "withdrawal",
+          "actions": 22,
+          "hp": 14,
+          "time": 222,
+          "triggers": {
+            "PS02": 5
+          },
+          "instances": {
+            "PS02": 5
+          },
+          "action_time": 222,
+          "time_saved": 0,
+          "minimum_time_actions": 0,
+          "healed": 0,
+          "predictions": 22,
+          "gained_points": 2,
+          "new_unlocks": [],
+          "opened": [],
+          "kept": [
+            "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]"
+          ],
+          "lost": [],
+          "kept_blueprints": [
+            "AO1:passive:PS04:swift"
+          ]
+        },
+        "kept_blueprints": [
+          {
+            "version": "AO1",
+            "kind": "passive",
+            "base": "PS04",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS04:swift"
+          }
+        ],
+        "lost_blueprints": [],
+        "final_saved_state_sha256": "1f98f7c32f6d80a88e73386443c3f347465991cf233dfe1c13d9d5fd12f941a4"
+      },
+      "continue_existing_journey": {
+        "source": "The actual remaining suffix of the single reconstructed historical AU journey; no separate terminal replay.",
+        "action_sequence": "8-B-use_owned",
+        "suffix_start_index": 22,
+        "additional_player_actions": 16,
+        "elapsed_time": 160,
+        "outcome": "defeat",
+        "hp": 0,
+        "gained_points": 0,
+        "kept_item_count": 0,
+        "kept_blueprints": [],
+        "lost_current_protected_points": 2,
+        "lost_current_protected_items": [
+          {
+            "id": "passive-V1",
+            "uid": "[\"AP1\",\"AR1-au-natural-8-B-1\",\"passive-V1\"]",
+            "protected": true,
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "swift"
+              ],
+              "key": "AO1:passive:PS04:swift"
+            }
+          }
+        ],
+        "lost_current_protected_sources": [
+          "C/V1",
+          "C/V0"
+        ],
+        "final_saved_state_sha256": "e6222f86c089be1583a26097a3f410395fc42a33a518c9ec32aa640899c8c497"
+      }
+    }
+  ]
+}

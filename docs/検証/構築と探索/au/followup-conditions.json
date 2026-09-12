@@ -1,0 +1,17 @@
+{
+  "trial": "AU1-C-public-switch",
+  "reason": "AU1 first-clear acquired decks cleared C in 4/4 progress-first cases and 0/4 side-first cases. Distinguish a rigid target-order problem from a blanket stat imbalance before changing content durability.",
+  "fixed_results": "results.json",
+  "checkpoints": "Recreate the four AU1 first-clear checkpoints at offsets 0/8 via A/B using the identical natural tags, equipment, deck policy and next seed; no purchases or extra grants are needed at the first return.",
+  "runs": "Four checkpoint reconstruction runs plus eight C forks: initial/use-owned with one new public-state policy. The original sixteen C progress/side runs are read from AU1 results, not rerun or retuned.",
+  "policy": [
+    "Start from AH progress_first, including its current healing and guard rules.",
+    "When its choice is an attack, keep a goal that can be completed immediately. Otherwise allow a support target to interrupt only when a visible prediction completes it now; order such candidates by action cost then card ID.",
+    "For placement only, among non-healing placements with the same remaining lifetime as the default choice, prefer lower field power + field hit/10 if a visible active enemy acts before the player's next action. Do not inspect enemy hands or future draw/order. This potential-material score is a heuristic, not an expected damage forecast."
+  ],
+  "limits": [
+    "Follow-up defined after AU1 to diagnose a specific observed contrast. Not an independent holdout or a globally optimal policy.",
+    "Same content HP, concealment, deck, passive capacity and reward rules. Record all outcomes, including deterioration, with exact paired labels.",
+    "The new policy changes target and placement heuristics together; aggregate results do not isolate the causal contribution of either one. Changes are counted separately."
+  ]
+}
