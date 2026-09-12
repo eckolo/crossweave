@@ -1,0 +1,147 @@
+{
+  "trial": "AH1",
+  "base_commit": "22c6d837fdcbee1dd777a30a636e8cf6362177fc",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "seed_namespace": "crossweave:AH1",
+  "builds": [
+    "guard5",
+    "guard0"
+  ],
+  "policies": [
+    "progress_first",
+    "side_first"
+  ],
+  "skill_sets": [
+    [],
+    [
+      "PS01"
+    ],
+    [
+      "PS02"
+    ],
+    [
+      "PS03"
+    ],
+    [
+      "PS04"
+    ],
+    [
+      "PS01",
+      "PS02"
+    ],
+    [
+      "PS03",
+      "PS04"
+    ]
+  ],
+  "skills": {
+    "PS01": {
+      "cost": 2,
+      "placement_discount": 2
+    },
+    "PS02": {
+      "cost": 2,
+      "hit_bonus": 20
+    },
+    "PS03": {
+      "cost": 2,
+      "guard_bonus": 2
+    },
+    "PS04": {
+      "cost": 2,
+      "heal_bonus": 4
+    }
+  },
+  "routes": {
+    "A": {
+      "start": [
+        "V0",
+        "E1"
+      ],
+      "briefing": "流れに逆らい、障害を越えて奥へ進む探索。途中の相手を調べる余地もある。",
+      "actors": {
+        "V0": {
+          "hp": 40,
+          "hand_size": 1,
+          "purpose": "passage",
+          "targets": [
+            "P"
+          ],
+          "max_posture": 1
+        },
+        "E1": {
+          "hp": 24,
+          "hand_size": 3,
+          "purpose": "optional_enemy",
+          "targets": [
+            "P"
+          ],
+          "max_posture": 100
+        },
+        "V1": {
+          "hp": 20,
+          "hand_size": 1,
+          "purpose": "terminal",
+          "targets": [
+            "P"
+          ],
+          "max_posture": 100
+        }
+      },
+      "rewards": {
+        "V0": [
+          {
+            "kind": "points",
+            "amount": 1
+          },
+          {
+            "kind": "material",
+            "type": "M",
+            "amount": 1
+          }
+        ],
+        "E1": [
+          {
+            "kind": "points",
+            "amount": 1
+          },
+          {
+            "kind": "unlock",
+            "type": "nt_pressure"
+          }
+        ],
+        "V1": [
+          {
+            "kind": "points",
+            "amount": 2
+          },
+          {
+            "kind": "unlock",
+            "type": "nt_stop"
+          }
+        ]
+      }
+    }
+  },
+  "max_player_actions": 160,
+  "limits": [
+    "Conditions fixed before execution: 3 routes x 2 builds x 7 skill sets x 2 public policies x 8 seeds = 672 runs.",
+    "HP, aura, decks, deterministic rewards, skill effects and equal cost are trial inputs, not adopted product rules.",
+    "Learned skills are active; no separate equipment slots, ranks or prerequisites are introduced.",
+    "Initial skill budget is a controlled fixture, not a naturally earned growth curve. All matrix decks use initial unlocked cards.",
+    "A or B clear unlocks C after return in this trial. Knowledge of C and its actual playability are separate.",
+    "The weak replacement environment has an explicit HP floor of 1 and twice the action interval; it gives no repeat traversal reward.",
+    "Policies use current public choices and predictions, never future draws, opponent hands or authored hidden catalogues.",
+    "No automatic withdrawal policy in the matrix. Cutoff is censored, not defeat or voluntary withdrawal. Separate return checks cover withdrawal.",
+    "No tuning or seed selection on outcome. Both policies are simple probes, not optimal agents or human play."
+  ]
+}

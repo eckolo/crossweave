@@ -1,0 +1,205 @@
+{
+  "trial": "AI1",
+  "base_commit": "194c5f73915230113d77e402d8402aa6e9cfa538",
+  "seed_namespace": "crossweave:AH1",
+  "main_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "unseen_seeds": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "builds": {
+    "I_guard3": {
+      "base": "guard3",
+      "swaps": [],
+      "unlocks": [],
+      "intent": "初期札だけで攻防を配分する"
+    },
+    "A_brace1_guard3": {
+      "base": "guard3",
+      "swaps": [
+        [
+          "h",
+          "brace",
+          1
+        ]
+      ],
+      "unlocks": [
+        "brace"
+      ],
+      "intent": "B属性の重撃1枚を防御へ替え、同属性の踏み込みを攻撃に残す"
+    },
+    "B_stored1_guard3": {
+      "base": "guard3",
+      "swaps": [
+        [
+          "h",
+          "stored",
+          1
+        ]
+      ],
+      "unlocks": [
+        "stored"
+      ],
+      "intent": "B属性の重撃1枚を期限の長い溜め打ちへ替え、設置の威力補助と保持を狙う"
+    },
+    "I_guard5": {
+      "base": "guard5",
+      "swaps": [],
+      "unlocks": [],
+      "intent": "初期札だけで攻防を配分する"
+    },
+    "A_brace1_guard5": {
+      "base": "guard5",
+      "swaps": [
+        [
+          "h",
+          "brace",
+          1
+        ]
+      ],
+      "unlocks": [
+        "brace"
+      ],
+      "intent": "B属性の重撃1枚を防御へ替え、同属性の踏み込みを攻撃に残す"
+    },
+    "B_stored1_guard5": {
+      "base": "guard5",
+      "swaps": [
+        [
+          "h",
+          "stored",
+          1
+        ]
+      ],
+      "unlocks": [
+        "stored"
+      ],
+      "intent": "B属性の重撃1枚を期限の長い溜め打ちへ替え、設置の威力補助と保持を狙う"
+    },
+    "A_brace2_guard3": {
+      "base": "guard3",
+      "swaps": [
+        [
+          "h",
+          "brace",
+          2
+        ]
+      ],
+      "unlocks": [
+        "brace"
+      ],
+      "intent": "B属性の防御を2枚にし、防御機会と突破力の交換を見る"
+    },
+    "B_stored2_guard3": {
+      "base": "guard3",
+      "swaps": [
+        [
+          "h",
+          "stored",
+          2
+        ]
+      ],
+      "unlocks": [
+        "stored"
+      ],
+      "intent": "長く保持できるB属性攻撃を2枚にする"
+    },
+    "A_optional_sharp_guard3": {
+      "base": "guard3",
+      "swaps": [
+        [
+          "f",
+          "sharp",
+          1
+        ]
+      ],
+      "unlocks": [
+        "sharp"
+      ],
+      "intent": "A任意敵の成果で瞬間威力を増す。期限と命中の低下を受け入れる"
+    }
+  },
+  "budget": 2,
+  "skill_sets": [
+    [],
+    [
+      "PS02"
+    ],
+    [
+      "PS03"
+    ],
+    [
+      "PS04"
+    ]
+  ],
+  "policies": [
+    "progress_first",
+    "side_first"
+  ],
+  "variants": {
+    "C32": 32,
+    "C24": 24
+  },
+  "unseen_builds": [
+    "I_guard3",
+    "A_brace1_guard3",
+    "B_stored1_guard3"
+  ],
+  "unseen_skills": [
+    [
+      "PS02"
+    ],
+    [
+      "PS03"
+    ]
+  ],
+  "journey": {
+    "entrances": [
+      "A",
+      "B"
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "base_build": "I_guard3",
+    "policy": "progress_first",
+    "first_skill": "PS02",
+    "retry_skill": "PS04",
+    "variants": [
+      "keep_initial",
+      "use_reward"
+    ]
+  },
+  "limits": [
+    "Main 2 contents x 9 builds x 4 skill sets x 2 policies x 8 seeds = 1152 runs; new seeds 8-15 cover 3 builds x 2 skills x 2 policies x 2 contents = 192 runs. Total 1344.",
+    "All matrix profiles have exactly 2 points; no-skill retains 2. Unlocks are controlled availability fixtures, not claimed natural rewards.",
+    "C24 changes only passage V0 HP32 to24. Enemy, support, rewards, skills, card effects and schedules remain AH values.",
+    "Card-count proposals and comparisons are authored before outcomes. They are not user-built decks or exhaustive optimisation.",
+    "Natural sequences: each entrance seed s, C seed (s+1)%8, one retry after C death at seed (s+2)%8. No reroll to seek success. No C attempt if entrance did not clear.",
+    "Fork keep-initial and use-earned-reward from the same return. Use earned points only, PS02 first then free reallocation to PS04 on death; same policy. These are alternatives, not duplicate receipts collected by one profile.",
+    "Runtime policies use AH public choices. They do not optimise placement for stored-card bonuses or infer plans from retained knowledge.",
+    "No formal adoption, UI deployment, automatic enemy scaling, new slots, material use or old-result replacement."
+  ]
+}
