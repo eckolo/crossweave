@@ -1,0 +1,40 @@
+{
+  "trial": "BD1-read-only-preparation-preview",
+  "base_commit": "002804daa8942c3faedb7b85d70152015f220c11",
+  "purpose": "共通UI接続用の仮データ契約。現在の合法な帰還・拠点状態と人が明示した計画だけから準備前後差を返す。新画面・人評価・正式ルール変更ではない。",
+  "sources": {
+    "snapshots": "../bc/checkpoints-manifest.json#snapshots",
+    "checkpoint_ids": ["0-A", "0-B", "8-A", "8-B"],
+    "comparison": "../bc/results.json#branches",
+    "comparison_rows": 8,
+    "prior_evaluation_reference": "../ba/study.cjs",
+    "snapshot_storage": "完全snapshotは複製せず、BCパス・入口ID・SHA-256で参照する。"
+  },
+  "contract": {
+    "input": "帰還/拠点snapshotと明示計画。残す既習得基礎、取消基礎、購入候補またはnull、購入前/後の時点、次準備で追加習得する基礎・装備・未順序札組を指定する。購入個体は候補参照で指定できる。",
+    "execution": "コピー上で既存Q.learn/Q.equip、M.view/M.purchase、U.canonical/U.assessを使う。BC照合の明示準備計画だけAR.equipForRoute/U.chooseDeckで作る。候補選択・推薦関数は製品契約に置かない。",
+    "funds": "未使用と既払習得額を分離。実取消基礎と実返還額、購入費、習得費、各時点残額を示す。不足購入は拒否し暗黙返還しない。",
+    "outputs": ["現在/取消後/購入直前/購入後/準備後の経済", "習得増減と実取消で外れる装備", "既存所持維持と所有中だが未習得で装備不可の区別", "購入候補の金額上可否と任意構築への採用可否の区別", "実装備差・容量8・未順序の実札組差・12枚/同基礎2枚の合法性"],
+    "privacy": "表示出力は許可した公開項目から新規構成する。seed/乱数/相手私有札/山札順/隠し状態/過去検証勝敗/元保存全文・ハッシュを表示データへ含めない。自分の公開所持と未順序の構成一覧は可。",
+    "failure": "不正計画は構造化拒否。拒否前のコピー状態・部分適用用状態は返さない。入力snapshotは成功/拒否とも不変。"
+  },
+  "verification": [
+    "固定BC4入口のハッシュ一致、8明示計画のpreparedと全経済時点の一致。購入2対・見送り2対を区別し、基礎優先の候補判断は準備後、返還購入の候補判断は準備前とする。",
+    "元snapshot/明示計画不変、同じプレビューの再評価一致、コピー破棄で保存に適用されない。",
+    "候補購入だけの不足拒否、合法明示取消+購入、合法取消のみ、無料返還の実払い額、習得/装備/札組の不正計画拒否。",
+    "BC方策が見送った札も人が合法に選択できる例を確認し、見送りを購入禁止へ変えない。",
+    "非表示の戦闘snapshot・乱数・相手私有札・山札順・過去結果を変えても公開プレビュー不変。"
+  ],
+  "limits": {
+    "new_combat_runs": 0,
+    "legacy_study_reruns": 0,
+    "ui_changes": 0,
+    "legacy_runtime_changes": 0,
+    "old_artifact_changes": 0,
+    "apply_to_saved_runtime": false,
+    "candidate_recommendation": false,
+    "automatic_refund_or_purchase": false,
+    "basic_design": "0.53・D53据置。価格400units、基礎費用は既存API、容量8・持込12枚・同基礎2枚据置。",
+    "scope": "docs/検証/構築と探索/bd/ 内の条件/code/study/results/verification/検討結果だけ。"
+  }
+}
