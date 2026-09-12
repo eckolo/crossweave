@@ -1,0 +1,49 @@
+{
+  "trial": "AY1-learning-or-acquisition",
+  "base_commit": "3e9b9448093220eabfadde7b23e400a593a665d3",
+  "execution_head": "2f2fa4231fce6d6731e17e67f5f3fcfc02a8b014",
+  "execution_head_note": "The later HEAD registers Work progress only; the AU/AT/AR runtime and saved comparison inputs are unchanged.",
+  "reconstruction": {
+    "source": "AU1 natural histories",
+    "checkpoints": [
+      {"offset": 0, "first": "A", "return_index": 1, "next_seed": 2},
+      {"offset": 0, "first": "B", "return_index": 2, "next_seed": 3},
+      {"offset": 8, "first": "A", "return_index": 1, "next_seed": 10},
+      {"offset": 8, "first": "B", "return_index": 2, "next_seed": 11}
+    ],
+    "selection": "All four AU natural returns with unlearned bases, at least 400 unspent units and a fresh unpurchased offer before that return's purchase and surplus conversion. Prefixes are reconstructed once each and checked against AU. No synthetic funds, altered offer or respec to afford a purchase.",
+    "checkpoint_boundary": "After return settlement and offer generation, before purchase and current-return surplus conversion. Earlier prefix returns retain AU's original sale/preparation policy. Neither comparison branch converts surplus at this boundary."
+  },
+  "comparison": {
+    "route": "C",
+    "policies": ["learning_first", "acquisition_first"],
+    "expected_runs": 8,
+    "combat_policy": "AH.progress_first",
+    "preparation": "AR adapt for C and AU use_owned deck, including their existing deterministic tie breaks.",
+    "learning_first": "Run existing AR preparation first, then consider a candidate using only remaining unspent funds; after an actual purchase, prepare again.",
+    "acquisition_first": "Consider one candidate using the checkpoint's actual 400 unspent units; then run exactly the same AR preparation and AU deck selection. No learning refund is performed to finance the purchase.",
+    "candidate_order": "Evaluate each affordable candidate only on a copy: purchase, AR C adapt, AU use_owned deck. Keep candidates actually selected into the resulting legal deck or equipment. Order cards first as in AU; passive candidates then use the existing C home_value plus affix_value divided by equipment cost; finally candidate ID. Card and passive scores are never directly compared. Skip if no candidate is selected. Do not inspect combat draws, actions or outcomes.",
+    "price_units": 400,
+    "units_per_point": 100,
+    "equipment_capacity": 8,
+    "deck_size": 12,
+    "per_base_cap": 2,
+    "seed": "Use each checkpoint's native next seed: 2, 3, 10, 11. Both policies share it within each pair. The four histories also share portions of earlier seed sequences, so they are not independent human win-rate samples."
+  },
+  "record": [
+    "Checkpoint unspent units, actual paid learning fees, fully refundable learning amount, available candidates and owned copies",
+    "Purchase affordable, learned-base equipment eligibility, legal preparation selection, reason for skipping each candidate",
+    "Actual before-purchase funds, purchase spending, paid learning fee allocation before/after, preparation differences, remaining units",
+    "Bought card or passive selected at departure, player use before/after refill, NPC use and field material use, exact passive-instance trigger counts",
+    "Clear/defeat, player actions, time, remaining HP, receipts, preserved old ownership and unchanged checkpoint",
+    "AU prefix preparation/receipt/boundary equality, purchase replay, first-action save restoration and input hashes"
+  ],
+  "limits": [
+    "Only one diagnostic next C expedition per branch, not the original automatic A/B route after clearing C.",
+    "All four checkpoints have already cleared C. This does not show that early purchases help the first C clear.",
+    "A purchase that requires explicitly refunding learned bases is a separate choice and is excluded.",
+    "Current-return surplus conversion is deferred in both branches; no claim about strategies funding purchases by sale.",
+    "No exhaustive candidate/deck optimization, new combat seeds, price changes, formal numerical adoption, UI implementation or human enjoyment claim.",
+    "Basic design 0.53 and D53 remain unchanged."
+  ]
+}

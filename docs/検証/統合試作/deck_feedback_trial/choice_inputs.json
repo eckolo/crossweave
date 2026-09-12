@@ -1,0 +1,71 @@
+{
+  "trial": "AH1",
+  "base_commit": "22c6d837fdcbee1dd777a30a636e8cf6362177fc",
+  "seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+  "seed_namespace": "crossweave:AH1",
+  "builds": ["guard5", "guard0"],
+  "policies": ["progress_first", "side_first"],
+  "skill_sets": [[], ["PS01"], ["PS02"], ["PS03"], ["PS04"], ["PS01", "PS02"], ["PS03", "PS04"]],
+  "skills": {
+    "PS01": {"cost": 2, "placement_discount": 2},
+    "PS02": {"cost": 2, "hit_bonus": 20},
+    "PS03": {"cost": 2, "guard_bonus": 2},
+    "PS04": {"cost": 2, "heal_bonus": 4}
+  },
+  "routes": {
+    "A": {
+      "start": ["V0", "E1"],
+      "briefing": "環境二段の突破。入口の敵は任意の追加目標。成長・素材と札候補。",
+      "actors": {
+        "V0": {"hp": 32, "hand_size": 1, "purpose": "passage", "targets": ["P"]},
+        "E1": {"hp": 36, "hand_size": 3, "purpose": "optional_enemy", "targets": ["P"]},
+        "V1": {"hp": 40, "hand_size": 1, "purpose": "terminal", "targets": ["P"]}
+      },
+      "rewards": {
+        "V0": [{"kind": "points", "amount": 1}, {"kind": "material", "type": "M", "amount": 1}],
+        "E1": [{"kind": "points", "amount": 1}, {"kind": "unlock", "type": "sharp"}],
+        "V1": [{"kind": "points", "amount": 2}, {"kind": "unlock", "type": "brace"}]
+      }
+    },
+    "B": {
+      "start": ["V0", "E1"],
+      "briefing": "目的敵の撃破。周囲への回避支援を持つ環境は先に踏破してもよい。成長・素材と札候補。",
+      "actors": {
+        "V0": {"hp": 24, "hand_size": 1, "purpose": "support", "evasion_others": 20, "targets": ["P", "E1"]},
+        "E1": {"hp": 36, "hand_size": 3, "purpose": "goal_enemy", "targets": ["P"]},
+        "V1": {"hp": 40, "hand_size": 1, "purpose": "weak_environment", "hp_floor": 1, "action_cost_scale": 2, "targets": ["P", "E1"]}
+      },
+      "rewards": {
+        "V0": [{"kind": "points", "amount": 1}, {"kind": "material", "type": "M", "amount": 1}],
+        "E1": [{"kind": "points", "amount": 2}, {"kind": "unlock", "type": "stored"}]
+      }
+    },
+    "C": {
+      "start": ["V0", "V1"],
+      "briefing": "通路踏破の先で目的敵を撃破。支援環境と消耗は後半へ続く。成長・素材と札候補。",
+      "actors": {
+        "V0": {"hp": 32, "hand_size": 1, "purpose": "passage", "targets": ["P"]},
+        "V1": {"hp": 24, "hand_size": 1, "purpose": "support", "evasion_others": 20, "targets": ["P", "E1"]},
+        "E1": {"hp": 44, "hand_size": 3, "purpose": "goal_enemy", "targets": ["P"]},
+        "V2": {"hp": 40, "hand_size": 1, "purpose": "weak_environment", "hp_floor": 1, "action_cost_scale": 2, "targets": ["P", "E1"]}
+      },
+      "rewards": {
+        "V0": [{"kind": "points", "amount": 1}, {"kind": "material", "type": "M", "amount": 1}],
+        "V1": [{"kind": "points", "amount": 1}, {"kind": "material", "type": "M", "amount": 1}],
+        "E1": [{"kind": "points", "amount": 2}, {"kind": "material", "type": "M", "amount": 1}, {"kind": "unlock", "type": "sharp"}]
+      }
+    }
+  },
+  "max_player_actions": 160,
+  "limits": [
+    "Conditions fixed before execution: 3 routes x 2 builds x 7 skill sets x 2 public policies x 8 seeds = 672 runs.",
+    "HP, aura, decks, deterministic rewards, skill effects and equal cost are trial inputs, not adopted product rules.",
+    "Learned skills are active; no separate equipment slots, ranks or prerequisites are introduced.",
+    "Initial skill budget is a controlled fixture, not a naturally earned growth curve. All matrix decks use initial unlocked cards.",
+    "A or B clear unlocks C after return in this trial. Knowledge of C and its actual playability are separate.",
+    "The weak replacement environment has an explicit HP floor of 1 and twice the action interval; it gives no repeat traversal reward.",
+    "Policies use current public choices and predictions, never future draws, opponent hands or authored hidden catalogues.",
+    "No automatic withdrawal policy in the matrix. Cutoff is censored, not defeat or voluntary withdrawal. Separate return checks cover withdrawal.",
+    "No tuning or seed selection on outcome. Both policies are simple probes, not optimal agents or human play."
+  ]
+}

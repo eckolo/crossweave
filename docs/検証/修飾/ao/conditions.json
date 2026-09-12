@@ -1,0 +1,39 @@
+{
+  "trial": "AO1",
+  "base_commit": "c8e4a1820ffd4bfa0862ada7156ca1a12ad7e577",
+  "runtime": "AM1 terrain40_p40",
+  "card_bases": ["l", "f", "read", "salve"],
+  "passive_bases": ["PS01", "PS02", "PS03", "PS04"],
+  "max_affixes": 3,
+  "card_affixes": {
+    "heavy": {"label": "重い", "kinds": ["attack"], "family": "tempo", "benefit": true, "delta": {"power": 2, "cost": 1}},
+    "light": {"label": "軽い", "kinds": ["attack", "guard", "heal"], "family": "tempo", "benefit": true, "delta": {"power": -1, "cost": -1}},
+    "precise": {"label": "精密な", "kinds": ["attack"], "family": "aim", "benefit": true, "delta": {"hit": 20, "power": -1}},
+    "echoing": {"label": "響く", "kinds": ["attack"], "family": "field", "benefit": true, "delta": {"field_hit": 20, "hit": -10}},
+    "sturdy": {"label": "堅い", "kinds": ["guard"], "family": "guard", "benefit": true, "delta": {"power": 2, "evasion": -10}},
+    "rich": {"label": "濃い", "kinds": ["heal"], "family": "concentration", "benefit": true, "delta": {"power": 4, "cost": 2}},
+    "dull": {"label": "鈍い", "kinds": ["attack"], "family": "aim", "benefit": false, "delta": {"hit": -20}},
+    "frail": {"label": "短命な", "kinds": ["attack", "guard", "heal"], "family": "life", "benefit": false, "delta": {"life": -1}}
+  },
+  "passive_affixes": {
+    "borrowed": {"label": "借り技の", "bases": ["PS01", "PS02", "PS03", "PS04"], "family": "origin", "benefit": true, "strength": 1, "gate": "borrowed"},
+    "focused_B": {"label": "B属性に専心する", "bases": ["PS01", "PS02", "PS03", "PS04"], "family": "attribute", "benefit": true, "strength": 1, "gate": "attribute_B"},
+    "swift": {"label": "速効の", "bases": ["PS02", "PS03", "PS04"], "family": "tempo", "benefit": true, "strength": -1, "discount": 1},
+    "forceful": {"label": "強引な", "bases": ["PS02", "PS03", "PS04"], "family": "tempo", "benefit": true, "strength": 1, "discount": -1},
+    "sluggish": {"label": "鈍重な", "bases": ["PS01", "PS02", "PS03", "PS04"], "family": "tempo", "benefit": false, "strength": 0, "discount": -1}
+  },
+  "passive_strength_units": {"PS01": 1, "PS02": 10, "PS03": 1, "PS04": 2},
+  "contexts": {"maximum_posture": [1, 100, 140], "accumulated": [0, 40, 70], "users": ["P", "E1"], "origins": ["own", "borrowed"], "attributes": ["B", "C"]},
+  "reward_seed_cases": 32,
+  "precheck_correction": "Initial prototype retained as precheck-* for audit. PS04 + B-only gate has no eligible healing card in the current catalogue and is now rejected. Passive microstates now select authored B/C cards or the authored salve attribute (C) instead of changing a card's authored attribute. A stale D assumption was caught by the identity assertion and replaced with catalogue lookup. No favorable seed selection or parameter tuning on outcome.",
+  "limits": [
+    "Fixed before execution. Effects and names are hypothetical. No power ranges or numerical rerolls; random selection chooses discrete compatible bundles.",
+    "Zero to three affixes and the same-family exclusions are trial constraints, not adopted final caps. Negative-only combinations are inspected but omitted from this trial's nonempty reward pool.",
+    "Combat checks are constructed AM microstates, not natural expeditions, optimized builds, drop-rate balance, or human play.",
+    "Trial preparation keeps exact acquired bundles as reusable choices. One selected variant per learned passive base, all base types may coexist. No global equipment capacity, affix extraction, crafting, or reroll API.",
+    "Historical paid base learning cost is refunded by unchanged AH logic. Trial variant selection adds no cost. Long-term point spending is not decided by this fixture.",
+    "Reward lifecycle is an independent model exercising grant/protection/settlement/restore; not integrated into AM campaign or UI. Loot RNG is independent from combat RNG.",
+    "Variant/base/instance identity is separate. Starting card cap is checked per base in this proposal; circulation checks do not enforce a deck construction cap.",
+    "Existing AM/AN code, input, and results remain unchanged."
+  ]
+}

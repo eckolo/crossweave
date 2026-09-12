@@ -1,0 +1,67 @@
+{
+  "trial": "AR1",
+  "base_commit": "4678bdf2d77f118a1d508c0ac75b667440bf1be9",
+  "variant": "terrain40_p40",
+  "power_probe": {
+    "routes": ["A", "B", "C"],
+    "builds": ["guard0", "guard5"],
+    "policies": ["progress_first", "side_first"],
+    "seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+    "loadouts": [
+      {"id": "empty", "label": "装備なし", "policy": "cost", "items": []},
+      {"id": "balanced", "label": "削り・防御・回復", "policy": "cost", "items": [["PS02", [], 1], ["PS03", [], 1], ["PS04", [], 1]]},
+      {"id": "placement4", "label": "配置短縮4個", "policy": "cost", "items": [["PS01", [], 4]]},
+      {"id": "advance2", "label": "削り2個＋配置短縮", "policy": "cost", "items": [["PS02", [], 2], ["PS01", [], 1]]},
+      {"id": "guard4", "label": "防御補助4個", "policy": "cost", "items": [["PS03", [], 4]]},
+      {"id": "heal4", "label": "回復補助4個", "policy": "cost", "items": [["PS04", [], 4]]},
+      {"id": "swift_guard4", "label": "迅速な防御補助4個", "policy": "cost", "items": [["PS03", ["swift"], 4]]},
+      {"id": "borrowed_strong2", "label": "借り札限定・強引な削り2個", "policy": "cost", "items": [["PS02", ["borrowed", "forceful"], 2]]},
+      {"id": "placement2_guard2", "label": "配置短縮2個＋防御補助2個", "policy": "cost", "items": [["PS01", [], 2], ["PS03", [], 2]]},
+      {"id": "swift_mix", "label": "削り＋迅速な防御・回復", "policy": "cost", "items": [["PS02", [], 1], ["PS03", ["swift"], 1], ["PS04", ["swift"], 1]]},
+      {"id": "slots_all4", "label": "4枠で通常4種", "policy": "slots", "items": [["PS01", [], 1], ["PS02", [], 1], ["PS03", [], 1], ["PS04", [], 1]]},
+      {"id": "slots_advance4", "label": "4枠で通常削り4個", "policy": "slots", "items": [["PS02", [], 4]]}
+    ]
+  },
+  "journey": {
+    "offsets": [0, 2, 4, 6, 8, 10, 12, 14],
+    "first_routes": ["A", "B"],
+    "preparations": ["retain", "adapt"],
+    "expeditions": 8,
+    "build": "guard3",
+    "policy": "progress_first",
+    "learning_order": ["PS02", "PS03", "PS04", "PS01"],
+    "home_value": {
+      "A": {"PS01": 2, "PS02": 4, "PS03": 2, "PS04": 2},
+      "B": {"PS01": 2, "PS02": 3, "PS03": 3, "PS04": 2},
+      "C": {"PS01": 2, "PS02": 4, "PS03": 3, "PS04": 3}
+    },
+    "affix_value": {"borrowed": -0.25, "focused_B": -0.25, "swift": 0.1, "forceful": 0.3, "sluggish": -0.5},
+    "same_base_value_factors": [1, 0.85, 0.7, 0.55],
+    "sale": "Keep one copy of each acquired card blueprint and up to the cost-cap maximum of each passive blueprint; sell only excess unselected identical copies after return",
+    "route_rule": "Use first route until it is cleared; then attempt C; after defeat retry the first route once before C; after clearing C alternate A and B",
+    "card_rule": "Retain the guard3 deck; report acquired cards as possessions but do not auto-swap the deck"
+  },
+  "loot": {
+    "namespace": "crossweave:AR1:loot",
+    "events": {
+      "A/V0": {"chance": [1, 4], "passives": [["PS01", []], ["PS02", []], ["PS02", ["borrowed"]]]},
+      "A/E1": {"chance": [1, 1], "passives": [["PS02", []], ["PS02", ["swift"]], ["PS02", ["borrowed", "forceful"]]]},
+      "A/V1": {"chance": [1, 1], "passives": [["PS01", []], ["PS02", []], ["PS02", ["focused_B"]]]},
+      "B/V0": {"chance": [1, 1], "passives": [["PS03", []], ["PS03", ["swift"]], ["PS03", ["borrowed"]]]},
+      "B/E1": {"chance": [1, 1], "passives": [["PS03", []], ["PS03", ["swift"]], ["PS03", ["borrowed", "forceful"]]]},
+      "C/V1": {"chance": [1, 1], "passives": [["PS04", []], ["PS04", ["swift"]], ["PS03", ["swift"]]]},
+      "C/E1": {"chance": [1, 1], "passives": [["PS02", ["borrowed", "forceful"]], ["PS03", ["borrowed", "forceful"]], ["PS04", ["forceful"]]]}
+    }
+  },
+  "limits": [
+    "D52 and basic design 0.52 remain unchanged. Cost capacity, selection, free variant equipment and loot rules are trial choices, not new adopted rules.",
+    "Power probe is 12 loadouts x 3 routes x 2 decks x 2 public action policies x 8 seeds = 1152 independent fixed-entry runs. Ownership and 8 learning points are given solely for that comparison.",
+    "Slots examples can contain more total effect cost; their outcomes do not measure fairness between calibrated equivalent budgets.",
+    "Natural-start journey begins with 0 points and no acquired possessions, uses existing route unlocks and real traversals/resolutions, and adds the declared passive drop tables. It is not the unmodified AM/AN economy.",
+    "Loot uses a separate deterministic hash of seed, expedition index, route and reward source, independent of preparation policy and all engine random streams. Results are generated once per actual reward identity.",
+    "Home preparation uses authored route preferences and visible owned items, with no future encounter/draw/reward access. Factors for repeated bases are a selection heuristic, not diminishing game effects.",
+    "New drops inherit the originating reward's protection and outcome; sellable inventory is credited only at return. Previously owned items and actual historical learning refunds are preserved.",
+    "Retain and adapt use the same learning and sale rules; retain fills remaining capacity without removing already equipped items, adapt can choose a whole loadout again. All card decks remain guard3 in the journey.",
+    "Mechanical probes are not optimal agents or human evaluation. Clear-only timing is separate from defeats and cutoffs. No UI, world database content mechanics or final prices are adopted."
+  ]
+}

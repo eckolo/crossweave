@@ -1,0 +1,669 @@
+{
+  "trial": "AE1",
+  "base_commit": "968e9e68c7f323558d8fe7255930207ec2903790",
+  "limits": [
+    "AE is a separate integration trial, not a change to PT-Z-001 or UI-R-001.",
+    "Deck limits, unlocked set, concrete rewards, repeat points and upgrades are provisional.",
+    "No attribute quota is imposed. A chosen fixed size is a trial boundary, not a product size rule.",
+    "Automatic HP spends each 3 accumulated points immediately after settlement. Choice mode may buy either sample upgrade or retain points.",
+    "Equal prices are a wiring fixture, not a claim of balanced utility. Permanent reduction could suppress weak attacks.",
+    "The two sequential seeds are fixed before execution, without selecting successful endings. Human decisions and UI are not evaluated."
+  ],
+  "checks": {
+    "legal_decks": 3,
+    "rejected_decks": 5,
+    "initial_reward_overlap": 3,
+    "natural_runs": 12,
+    "unsettled_rejected": 1,
+    "return_replays": 12,
+    "game_unchanged_on_return": 12,
+    "saved_tail_replays": 10,
+    "canonical_deck_order": 1,
+    "reward_cases": 4,
+    "growth_choices": 4,
+    "knowledge_cases": 2
+  },
+  "legal_initial_count_vectors": 6765,
+  "purchase_fixture": [
+    {
+      "mode": "choose",
+      "choice": "retain",
+      "remaining_points": 3,
+      "next_hp": 60,
+      "next_reduction": 0
+    },
+    {
+      "mode": "choose",
+      "choice": "vitality",
+      "remaining_points": 0,
+      "next_hp": 62,
+      "next_reduction": 0
+    },
+    {
+      "mode": "choose",
+      "choice": "toughness",
+      "remaining_points": 0,
+      "next_hp": 60,
+      "next_reduction": 1
+    },
+    {
+      "mode": "automatic_hp",
+      "choice": "automatic",
+      "remaining_points": 0,
+      "next_hp": 62,
+      "next_reduction": 0
+    }
+  ],
+  "natural_runs": [
+    {
+      "run": "AE-choose-rock-1",
+      "seed": 0,
+      "route": "rock",
+      "mode": "choose",
+      "outcome": "defeat",
+      "p_actions": 126,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [],
+      "final_hash": "4214493341e7f8bb69cdf17c7a3198db514b5d76aea2f856e89094aa5ed710e9"
+    },
+    {
+      "run": "AE-choose-rock-2",
+      "seed": 1,
+      "route": "rock",
+      "mode": "choose",
+      "outcome": "defeat",
+      "p_actions": 150,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [],
+      "final_hash": "f5ac94367df5bf1f678b0d5a20c43a6e946f5df9795f75860d53da477bad4a29"
+    },
+    {
+      "run": "AE-choose-environment-1",
+      "seed": 0,
+      "route": "environment",
+      "mode": "choose",
+      "outcome": "defeat",
+      "p_actions": 12,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "2061ebfd116b665cd14873eb4bb90f2096a5a1abd01579a5bb7b872b0634f643"
+    },
+    {
+      "run": "AE-choose-environment-2",
+      "seed": 1,
+      "route": "environment",
+      "mode": "choose",
+      "outcome": "defeat",
+      "p_actions": 52,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0",
+          "E"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z",
+        "core-enemy-Z"
+      ],
+      "final_hash": "993aa025c51794e2f3cef857902b898be2d1134cc145dc25564f5cdd2a54b77e"
+    },
+    {
+      "run": "AE-choose-environment_return-1",
+      "seed": 0,
+      "route": "environment_return",
+      "mode": "choose",
+      "outcome": "withdrawal",
+      "p_actions": 5,
+      "settlement": {
+        "reason": "withdrawal",
+        "kept": [
+          "T0"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [
+        "brace"
+      ],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "5f56dc2d3bcc3fa92f2cc1fe3008707cb1cd5337b120be2da5d425da3f25b7e2"
+    },
+    {
+      "run": "AE-choose-environment_return-2",
+      "seed": 1,
+      "route": "environment_return",
+      "mode": "choose",
+      "outcome": "defeat",
+      "p_actions": 34,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 1,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1,
+        "brace": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "bc0b2a3311ac68c81bbf8148841c815a249fbfaf042fad38cf13be309622d7db"
+    },
+    {
+      "run": "AE-automatic_hp-rock-1",
+      "seed": 0,
+      "route": "rock",
+      "mode": "automatic_hp",
+      "outcome": "defeat",
+      "p_actions": 126,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [],
+      "final_hash": "4214493341e7f8bb69cdf17c7a3198db514b5d76aea2f856e89094aa5ed710e9"
+    },
+    {
+      "run": "AE-automatic_hp-rock-2",
+      "seed": 1,
+      "route": "rock",
+      "mode": "automatic_hp",
+      "outcome": "defeat",
+      "p_actions": 150,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [],
+      "final_hash": "f5ac94367df5bf1f678b0d5a20c43a6e946f5df9795f75860d53da477bad4a29"
+    },
+    {
+      "run": "AE-automatic_hp-environment-1",
+      "seed": 0,
+      "route": "environment",
+      "mode": "automatic_hp",
+      "outcome": "defeat",
+      "p_actions": 12,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "2061ebfd116b665cd14873eb4bb90f2096a5a1abd01579a5bb7b872b0634f643"
+    },
+    {
+      "run": "AE-automatic_hp-environment-2",
+      "seed": 1,
+      "route": "environment",
+      "mode": "automatic_hp",
+      "outcome": "defeat",
+      "p_actions": 52,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [
+          "T0",
+          "E"
+        ],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z",
+        "core-enemy-Z"
+      ],
+      "final_hash": "993aa025c51794e2f3cef857902b898be2d1134cc145dc25564f5cdd2a54b77e"
+    },
+    {
+      "run": "AE-automatic_hp-environment_return-1",
+      "seed": 0,
+      "route": "environment_return",
+      "mode": "automatic_hp",
+      "outcome": "withdrawal",
+      "p_actions": 5,
+      "settlement": {
+        "reason": "withdrawal",
+        "kept": [
+          "T0"
+        ],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 2,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1
+      },
+      "new_unlocks": [
+        "brace"
+      ],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "5f56dc2d3bcc3fa92f2cc1fe3008707cb1cd5337b120be2da5d425da3f25b7e2"
+    },
+    {
+      "run": "AE-automatic_hp-environment_return-2",
+      "seed": 1,
+      "route": "environment_return",
+      "mode": "automatic_hp",
+      "outcome": "defeat",
+      "p_actions": 34,
+      "settlement": {
+        "reason": "defeat",
+        "kept": [],
+        "lost": [],
+        "prior_growth": "unchanged"
+      },
+      "deck": {
+        "f": 2,
+        "h": 2,
+        "l": 1,
+        "g": 2,
+        "r": 2,
+        "read": 1,
+        "salve": 1,
+        "brace": 1
+      },
+      "new_unlocks": [],
+      "points": 0,
+      "hp_bonus": 0,
+      "known_initial_profiles": [
+        "weak-terrain-Z"
+      ],
+      "final_hash": "bc0b2a3311ac68c81bbf8148841c815a249fbfaf042fad38cf13be309622d7db"
+    }
+  ],
+  "initial_preparation": {
+    "phase": "home",
+    "card_choices": [
+      {
+        "card": {
+          "type": "f",
+          "name": "牽制",
+          "attr": "A",
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 30,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "h",
+          "name": "重撃",
+          "attr": "B",
+          "kind": "attack",
+          "power": 12,
+          "hit": 30,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": -20,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "l",
+          "name": "踏み込み",
+          "attr": "B",
+          "kind": "attack",
+          "power": 4,
+          "hit": 50,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 6,
+          "field_hit": 0,
+          "life": 2,
+          "place_cost": 8,
+          "match_cost": 12,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "j",
+          "name": "小突き",
+          "attr": "C",
+          "kind": "attack",
+          "power": 3,
+          "hit": 40,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 0,
+          "life": 1,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "g",
+          "name": "防御",
+          "attr": "D",
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 20,
+          "field_power": -4,
+          "field_hit": 0,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "r",
+          "name": "受け流し",
+          "attr": "A",
+          "kind": "guard",
+          "power": 2,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 40,
+          "field_power": -2,
+          "field_hit": 0,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "fast",
+          "name": "速撃",
+          "attr": "A",
+          "kind": "attack",
+          "power": 2,
+          "hit": 100,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": -20,
+          "life": 1,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "read",
+          "name": "見切り",
+          "attr": "C",
+          "kind": "guard",
+          "power": 1,
+          "hit": 0,
+          "evasion": 30,
+          "crit_gain": 20,
+          "field_power": 0,
+          "field_hit": 20,
+          "life": 3,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "sweep",
+          "name": "打ち払い",
+          "attr": "D",
+          "kind": "attack",
+          "power": 4,
+          "hit": 60,
+          "evasion": 0,
+          "crit_gain": 25,
+          "field_power": 0,
+          "field_hit": 20,
+          "life": 2,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": null
+        },
+        "limit": 2
+      },
+      {
+        "card": {
+          "type": "salve",
+          "name": "回復草",
+          "attr": "C",
+          "kind": "heal",
+          "power": 16,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 10,
+          "field_power": -4,
+          "field_hit": 0,
+          "life": 16,
+          "place_cost": 10,
+          "match_cost": 10,
+          "consume_on_recover": true
+        },
+        "limit": 2
+      }
+    ],
+    "deck_size": 12,
+    "attribute_quota": null,
+    "points": 0,
+    "upgrades": {
+      "vitality": {
+        "label": "最大HP +2",
+        "cost": 3,
+        "hp": 2,
+        "reduction": 0
+      },
+      "toughness": {
+        "label": "常時ダメージ軽減 +1",
+        "cost": 3,
+        "hp": 0,
+        "reduction": 1
+      }
+    },
+    "knowledge": {
+      "summary": "障害物の突破と敵との戦闘を含む探索。",
+      "goals": [
+        "先へ進むことと、敵の個別報酬を狙うことを選べる。"
+      ],
+      "basis": "この比較用探索について用意した事前案内",
+      "knowledge": []
+    }
+  },
+  "sources": {
+    "loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "loop_study.cjs": "358e7e3e2d42f748667fac7c9a318f845315079d6c12e99b00c4d3fcce4ce157",
+    "input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "information_inputs.json": "6e1cbc8a25cfa9ff966f2052f79584ce5e969d8d014ddf80ab3c1d7cf21a56fd",
+    "continuity_study.cjs": "41868be61622ff841b9f85491622160be0edf9b39bd91812e9eb06caf2569755",
+    "event_inputs.py": "e506c7b083c7ab56ffb08e53c05a1166740e83de08d836194f0ec6b62ee9180f",
+    "event_results.json": "e12d1a5e3d324c991cb85ff9d26ae2381527f34f0093692a512e8839eb64b334"
+  }
+}

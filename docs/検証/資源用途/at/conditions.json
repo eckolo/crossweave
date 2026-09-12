@@ -1,0 +1,25 @@
+{
+  "trial": "AT1",
+  "base_commit": "e827d35b58afcf7e47b73f9ef401bd83fd65313d",
+  "namespace": "crossweave-AT1-offers",
+  "tiers": {
+    "I": {"rank": 1, "count": [2, 4], "affix_count_weights": [6, 4, 0, 0]},
+    "II": {"rank": 2, "count": [3, 5], "affix_count_weights": [3, 5, 2, 0]},
+    "III": {"rank": 3, "count": [4, 6], "affix_count_weights": [2, 3, 4, 1]}
+  },
+  "event_tiers": {"A/V0": "I", "A/E1": "I", "A/V1": "I", "B/V0": "I", "B/E1": "I", "C/V0": "I", "C/V1": "II", "C/E1": "II"},
+  "passive_base_weights": {
+    "A": {"PS01": 2, "PS02": 4, "PS03": 1, "PS04": 1},
+    "B": {"PS01": 1, "PS02": 1, "PS03": 4, "PS04": 2},
+    "C": {"PS01": 1, "PS02": 2, "PS03": 2, "PS04": 4}
+  },
+  "kind_weights": {"card": 1, "passive": 1},
+  "price_units": 400,
+  "value_band": "ordinary",
+  "max_purchases_per_batch": 1,
+  "generation": "Fixed compatible AO blueprints. Plain or at least one beneficial affix; negative effects may accompany benefits. No numerical rerolls. Unique performance keys within one batch; the second candidate uses a different base when possible. Duplicates across returns remain purchasable.",
+  "refresh": "One batch per return with retained authored reward sources; source difficulty is the highest retained completed event. Defeat and empty withdrawal retain the previous batch. Visiting a route alone, purchase, resale and respec do not refresh. Next eligible return replaces the previous offer, including unpurchased candidates.",
+  "distribution_probe": {"seeds": 64, "routes": ["A", "B", "C"], "tiers": ["I", "II", "III"], "synthetic": true},
+  "journey": {"offsets": [0, 8], "first_routes": ["A", "B"], "strategies": ["skip", "buy"], "expeditions": 6, "build": "guard3", "policy": "progress_first", "preparation": "adapt", "purchase_policy": "Reserve enough unspent points to finish learning the four bases; prefer a learned passive using existing AR home weights, then an unlocked card. Purchase at most one if affordable. Cards are materialized in boundary checks but not swapped into the fixed journey deck."},
+  "limits": ["All tiers, count ranges, weights, prices, refresh and one-purchase limit are trial values.", "Tier III exists only in constructed offer examples; no new high-difficulty expedition is implemented.", "The small journey comparison checks integration, not optimal purchases, collection pacing or human enjoyment.", "Frozen AS, AR, AQ, AP and AO are unchanged; no new UI."]
+}

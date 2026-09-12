@@ -1,0 +1,26 @@
+{
+  "trial": "AM1",
+  "base_commit": "6d28d67996c21040aae61a4017a2da3b5758760e",
+  "main_seeds": [0,1,2,3,4,5,6,7],
+  "holdout_seeds": [8,9,10,11,12,13,14,15],
+  "routes": ["A","B","C"],
+  "builds": ["guard0","guard3","guard5"],
+  "skills": [[],["PS01"],["PS02"],["PS03"],["PS04"]],
+  "policies": ["progress_first","side_first"],
+  "variants": {
+    "old": {"engine":"old","player_hp":60,"description":"修正前の初回2倍・旧値。履歴比較専用"},
+    "corrected": {"engine":"AM1","player_hp":60,"description":"全主体100・HP等旧値、式のみ修正"},
+    "terrain32": {"engine":"AM1","player_hp":60,"road_hp":32,"fog_hp":20,"support_hp":12,"enemy_hp":24,"goal_c_hp":32,"description":"道1、霧・敵100。環境・敵HPを調整"},
+    "terrain40": {"engine":"AM1","player_hp":60,"road_hp":40,"fog_hp":20,"support_hp":12,"enemy_hp":24,"goal_c_hp":32,"description":"terrain32から道の総量のみ40へ"},
+    "terrain40_p40": {"engine":"AM1","player_hp":40,"road_hp":40,"fog_hp":20,"support_hp":12,"enemy_hp":24,"goal_c_hp":32,"description":"terrain40から自分のHPのみ40へ"}
+  },
+  "fixed": [
+    "既存AIの乱数入力16種をそのまま使用。0〜7で候補選択後、8〜15を初めて評価する。",
+    "札性能・行動間隔・回避支援20・4パッシブの効果と費用・報酬・共有循環は保持。",
+    "道はA/V0とC/V0、霧はA/V1とB/V0とC/V1。霧の呼称は機能例であり世界観の確定名ではない。",
+    "通常の敵とプレイヤーの最大体勢は100。弱まった環境は最大体勢1・HP下限1という旧試行の後続主体。",
+    "各技能単独比較の予算2は人工条件。自然A/B帰還からのCは別に実獲得ポイントで確認する。",
+    "総行動・クリア時行動・死亡・cutoffを分け、敗北の短さをテンポ改善と数えない。",
+    "機械方策は公開情報のみ。人の難度・最適戦術・楽しさの証拠にはしない。"
+  ]
+}
