@@ -1,0 +1,64 @@
+{
+  "trial": "AV1-C-support-and-return",
+  "base_commit": "915de66959d0bc506a7e75072d019410a85aeb80",
+  "frozen_runtime_commit": "3d6b5d6",
+  "purpose": "AU public-policy did not fire its immediate support-finishing rule. Compare deliberate support targeting with leaving support active from identical naturally reached states, without adjusting content statistics.",
+  "preserve": [
+    "AM terrain40_p40 runtime, road concealment 1, other concealment 100, HP, aura, actor replacement and retirement rules",
+    "AO/AP/AQ/AR/AT/AU cards, ownership, equipment capacity 8, learning, reward protection, death loss, purchase price and deck selection",
+    "Four AU first-return histories at offsets 0 and 8 after A and B, with original tags and next seed; initial and use_owned C decks"
+  ],
+  "natural_reconstruction": {
+    "offsets": [0, 8],
+    "first_routes": ["A", "B"],
+    "decks": ["initial", "use_owned"],
+    "first_return_policy": "AH progress_first; identical prepare, return and sale-0 to AU",
+    "C_trunk_policy": "AU public placement heuristic, AH progress_first healing/guard/card choice, with support-finishing override disabled",
+    "counting": "Four recreated first returns are input reconstruction, not new independent evidence. Eight C trunks share those four histories and use two seed values; checkpoints from one trunk are correlated."
+  },
+  "support_comparison": {
+    "strata": ["entrance/no_borrowed", "entrance/borrowed", "enemy/no_borrowed", "enemy/borrowed"],
+    "selection": "First player-ready trunk state in each stratum where the common policy chooses an attack against a passage or goal enemy and the same card legally targets active support. Borrowed means any current hand card has origin other than P. No hidden-state or outcome-based checkpoint selection.",
+    "branches": ["leave_support", "target_support"],
+    "horizon_player_actions": 12,
+    "maximum_pairs": 32,
+    "change": "Only redirect the common policy's chosen attack card to active support; tie by visible predicted HP loss, probe gain, target ID. Never override healing, guard or placement; once support exits, use the same common policy.",
+    "placement_control": "At any identical public state both branches select the same card and mode. Placement uses precisely the same heuristic. After the target choices change the game state, realized later placements need not be identical.",
+    "censoring": "Stop each branch at terminal outcome or 12 additional player actions. A live horizon endpoint is ongoing, not clear, defeat or withdrawal. Compare action budget and elapsed time; unequal elapsed times are reported.",
+    "measurements": ["support retirement and direct attack cost", "player HP and damage/healing", "passage/enemy progress", "P and enemy aura", "support attacks on P and enemy", "borrowed plays and field materials", "retired-origin borrowed cards still live/doomed", "protected and unprotected rewards"]
+  },
+  "protection_comparison": {
+    "selection": "First player-ready live state of each C trunk immediately after the action/cascade that first adds a protected reward; up to eight states, even if the just-entered enemy has already acted.",
+    "branches": ["withdraw_now", "continue_common_policy_to_terminal"],
+    "termination": "Use unchanged runtime limit (160 total P actions). Cutoff is censored, never counted as defeat or automatically settled.",
+    "measurements": ["starting HP", "currently held finite healing", "known P-origin finite healing still unconsumed", "protected/unprotected rewards and AP grant counts", "kept/lost items and gained points", "HP and additional actions/time", "preservation of previously owned inventory"]
+  },
+  "checks": [
+    "Fix this file before reconstructing histories or collecting outcomes",
+    "Assert recreated first-return outcomes/action counts/HP and C loadouts/seed against frozen AU",
+    "Both support branches start from byte-equivalent saved state including RNG; record SHA256 and persist compressed checkpoints",
+    "Assert public-only policy does not mutate session and both policies differ only in target on each evaluated state",
+    "Compare each P prediction with actual trace via unchanged AU Session.action; restore and compare continued save state for the first action of every branch",
+    "Compare full continue-from-protection endpoint to the natural trunk endpoint, proving saved continuation at that boundary",
+    "Check immediate withdrawal replay and prior ownership preservation; preserve hashes of source files"
+  ],
+  "review_triggers": [
+    "If immediate finishing never triggers but deliberate attacks retire support and change later damage/progress, revisit the switching criterion before changing HP or concealment",
+    "If a stratum is absent or support rarely retires within 12 actions, explicitly leave the corresponding claim untested; a terminal extension requires separate conditions, not silent horizon extension",
+    "If clearing support consistently consumes actions without observable payoff in sampled post-enemy states, prioritize remaining-life/benefit visibility and localized burden review, without adopting a universal no-removal rule",
+    "If continue loses protected rewards at a naturally low-HP boundary, connect the measured known healing and future public threats to retreat guidance; if all continue branches survive, death risk remains untested"
+  ],
+  "artifact_storage_after_execution": {
+    "reason": "The initial run saved complete compressed checkpoints (6,883,466 bytes). To keep the repository's normal results lightweight, preserve that original in scratch and persist a reconstructable manifest in Git instead.",
+    "supersedes": "The earlier check's requirement to persist compressed checkpoints refers to execution-time preservation, not a required Git artifact. This is a storage-only amendment after observing file size; selection, seeds, policies, horizon, measurements and results remain unchanged.",
+    "reproduction": "The normal command writes checkpoints-manifest.json with source hashes, IDs, original run and action position, and saved-state SHA256. Pass --checkpoints-out <path> only when a complete compressed checkpoint archive is needed.",
+    "verification": "Repeat the same deterministic comparison once after the output-only code change, compare all measured results to the original, and check every reconstructed checkpoint hash against the preserved original archive. Do not count this replay as a new sample."
+  },
+  "limits": [
+    "No new seeds, artificial HP/card grants, scenario content, price changes, optimal-policy search or human playtest",
+    "Finite deterministic paired diagnostic; not a population win rate, absolute risk estimate, optimal target rule, or evidence of human enjoyment",
+    "Hidden card locations and traces may be used for audit/measurement only, never policy or checkpoint selection",
+    "Legacy AU and earlier source, condition and output files remain untouched; new artifacts belong only to av/",
+    "Basic design 0.53 and D53 remain unchanged; no formal adoption of trial numbers or progression rules"
+  ]
+}
