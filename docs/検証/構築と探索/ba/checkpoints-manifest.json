@@ -1,0 +1,68 @@
+{
+  "trial": "BA1-explicit-refund-or-learning",
+  "count": 4,
+  "full_snapshots_included": false,
+  "reconstruction_command": "node docs/検証/構築と探索/ba/study.cjs",
+  "checkpoints": [
+    {
+      "id": "0-A",
+      "offset": 0,
+      "first": "A",
+      "return_index": 2,
+      "next_seed": 3,
+      "expected_unspent_units": 300,
+      "expected_paid_learning_units": 600,
+      "expected_refund_bases": [
+        "PS04"
+      ],
+      "saved_state_sha256": "152dde9588d1a23ade0df3eb43dafcc3e4eb2e451e2a9ffb1b2e1a548c79c560",
+      "economy_sha256": "4c1647714ab3bb6b76e8593e3ed568e0991aa3aa07685a7d13ff8db1e0c73cfd",
+      "reconstruction": "Replay the saved prefix with the unchanged AU tag and seed rotation; stop before target-return purchase/surplus conversion."
+    },
+    {
+      "id": "0-B",
+      "offset": 0,
+      "first": "B",
+      "return_index": 1,
+      "next_seed": 2,
+      "expected_unspent_units": 300,
+      "expected_paid_learning_units": 200,
+      "expected_refund_bases": [
+        "PS02"
+      ],
+      "saved_state_sha256": "448d632c0d3d8cc6e224c90b297f0928ce46961bf791781dbe21999151f1866a",
+      "economy_sha256": "c10d6767660ac080b565eff9e5518ef416747235e26d734acc190a729ce8d8d8",
+      "reconstruction": "Replay the saved prefix with the unchanged AU tag and seed rotation; stop before target-return purchase/surplus conversion."
+    },
+    {
+      "id": "8-A",
+      "offset": 8,
+      "first": "A",
+      "return_index": 2,
+      "next_seed": 11,
+      "expected_unspent_units": 300,
+      "expected_paid_learning_units": 600,
+      "expected_refund_bases": [
+        "PS04"
+      ],
+      "saved_state_sha256": "f1c3fbc1da32fd0dd2dd5ac56b689b45b957962715f0240117d796377471865a",
+      "economy_sha256": "4b6ebb7edb132b30de1dbbaa0603390a45737b8ac04d905c7d4be2b160e94212",
+      "reconstruction": "Replay the saved prefix with the unchanged AU tag and seed rotation; stop before target-return purchase/surplus conversion."
+    },
+    {
+      "id": "8-B",
+      "offset": 8,
+      "first": "B",
+      "return_index": 1,
+      "next_seed": 10,
+      "expected_unspent_units": 300,
+      "expected_paid_learning_units": 200,
+      "expected_refund_bases": [
+        "PS02"
+      ],
+      "saved_state_sha256": "69bb2561f418ce2774aed9ec32131ae21cd6c8f33e8682afac2077bc12a50728",
+      "economy_sha256": "8a3e8c7a33b5a5e55083530d0276379b933a4e09a0fa1ddfe2b54cf8f4bbcff0",
+      "reconstruction": "Replay the saved prefix with the unchanged AU tag and seed rotation; stop before target-return purchase/surplus conversion."
+    }
+  ]
+}
