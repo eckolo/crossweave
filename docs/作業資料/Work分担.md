@@ -47,8 +47,26 @@ WorkID：AIが採番する作業の識別子（ChatGPT内部IDではない）
 | `20260910-worldbuilding` | 世界観候補8案の比較、ユーザーの反応・採用判断の原記録、設計側への接続提案 | `design/worldbuilding-20260910` | [作業設定（世界観ブランチ）](https://github.com/eckolo/crossweave/blob/design/worldbuilding-20260910/docs/作業資料/Work/20260910-worldbuilding.md) |
 | `20260912-scenario-content` | 代表案件の依頼から探索・帰還・準備・再訪までの場面・本文・素材対応と仕様接続案 | `design/scenario-content-20260912` | [作業設定（シナリオブランチ）](https://github.com/eckolo/crossweave/blob/design/scenario-content-20260912/docs/作業資料/Work/20260912-scenario-content.md) |
 | `20260912-visual-direction` | ビジュアル・空間・札と道具・行動演出の比較見本、UI接続条件 | `design/visual-direction-20260912` | [作業設定（ビジュアルブランチ）](https://github.com/eckolo/crossweave/blob/design/visual-direction-20260912/docs/作業資料/Work/20260912-visual-direction.md) |
+| `20260913-project-coordination` | 全Workのマイルストーン・優先度・依存関係・目標別実施計画と計画必須同期を管轄 | `ops/project-coordination-20260913` | [作業設定（とりまとめブランチ）](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/Work/20260913-project-coordination.md)・[全体計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/全体計画.md)・[Work別実施計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/Work別実施計画.md) |
 
 設計検討・試遊という役割自体は下記の既存分担を維持する。別Workの個別設定を作成・開始済みと推定しない。共通の基本設計・仕様案・要検討事項・統合検討・試験条件・共通エンジンへの統合は設計検討Workが担当し、試遊Workは原記録の担当を維持する。
+
+### 全Workの計画必須同期（2026-09-13追加）
+
+ユーザーの追加依頼により、とりまとめWorkの計画を全Workの必須同期対象とする。現在の計画担当は `20260913-project-coordination`／`ops/project-coordination-20260913`。専門分野の原本・共通コード・成果統合の担当は維持する。
+
+| 対象 | 必須同期元・順序 |
+|---|---|
+| とりまとめWork | なし。循環を避け、設計・専門成果は最新原本を必ず参考確認 |
+| 設計集約・同じブランチの運用Work | ①とりまとめ計画 |
+| 試遊・UI・世界観・シナリオ・ビジュアル | ①とりまとめ計画 → ②設計集約 `dev_design_tmp_assembly` |
+| 今後の新規Work | とりまとめ計画を必ず含め、必要な技術同期元を続ける |
+
+計画同期は `docs/作業資料/とりまとめ/` 全体を対象に自Workへ実ファイルを取り込み、元コミットと全対象blobを `docs/作業資料/計画同期/<WorkID>.json` に記録する。とりまとめの古いコードまで取り込む全ブランチマージにはせず、技術前提の同期は設計集約から維持する。2本が必要なのは優先度・依存計画と採用仕様・実装の両方を受け取るため。
+
+開始・再開時と成果反映前に最新計画を確認・同期し、自Workの優先タスクと依存を読む。詳細は[計画同期手順](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/計画同期手順.md)、現行の共通規則は[プロジェクト設定](プロジェクト設定.md#current-settings)。以前の「別同期元なし／設計集約の1本」は各記録当時の設定であり、現行設定は本節と各Workの最新同期節を優先する。
+
+初回導入のファイル同期はとりまとめWorkが担当し、専門担当の読了・着手とは区別する。会話の自動起動や常時監視を前提にしない。
 
 ## 担当
 
