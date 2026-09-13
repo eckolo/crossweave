@@ -1,0 +1,538 @@
+{
+  "schema": "BE1-public-decision-context",
+  "rule_notes": [
+    "残期限は本人が行動した後、使わなかった手札だけ1減る。内部時刻の1進行ではない。",
+    "ここで期限0になる通常札は共有の回収山へ移り、破壊や永久喪失を意味しない。消耗品等の回収例外を全札へ一般化しない。",
+    "設置は場へ出す行動で、主効果は発動しない。一致時は札の種類に応じた主効果と適用される場効果を解決する。",
+    "場札に手札の期限切れはない。他主体による利用は共有の場の循環であり、一方的な損失とは判定しない。",
+    "公開済みの次行動予約だけを並べる。同時刻はV→P→E、同じ種では主体ID順。予約後の新しい行動や配分は予測しない。"
+  ],
+  "cases": [
+    {
+      "id": "az-time-94",
+      "now": 94,
+      "self": {
+        "hp": 38,
+        "max_hp": 40
+      },
+      "hand": [
+        {
+          "id": "P_initial_0011",
+          "name": "回復草",
+          "attr": "C",
+          "kind": "heal",
+          "remaining": 8
+        },
+        {
+          "id": "V1_initial_0027",
+          "name": "弱攻撃札",
+          "attr": "B",
+          "kind": "attack",
+          "remaining": 2
+        },
+        {
+          "id": "P_initial_0010",
+          "name": "見切り",
+          "attr": "C",
+          "kind": "guard",
+          "remaining": 3
+        }
+      ],
+      "field": [
+        {
+          "id": "V1_initial_0036",
+          "name": "弱攻撃札",
+          "attr": "D",
+          "hand_expiry": null
+        }
+      ],
+      "other_current_reservations": [
+        {
+          "actor": "V0",
+          "purpose": "passage",
+          "role": "V",
+          "next_at": 100
+        },
+        {
+          "actor": "V1",
+          "purpose": "support",
+          "role": "V",
+          "next_at": 100
+        }
+      ],
+      "legal_actions": [
+        {
+          "card_id": "P_initial_0011",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 10,
+          "next_self_reservation": 104,
+          "unused_hand_after_action": [
+            {
+              "card_id": "V1_initial_0027",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            },
+            {
+              "card_id": "P_initial_0010",
+              "remaining_after_action": 2,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 100,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 100,
+              "relation": "earlier_time"
+            }
+          ]
+        },
+        {
+          "card_id": "V1_initial_0027",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 10,
+          "next_self_reservation": 104,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 7,
+              "destination": "hand"
+            },
+            {
+              "card_id": "P_initial_0010",
+              "remaining_after_action": 2,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 100,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 100,
+              "relation": "earlier_time"
+            }
+          ]
+        },
+        {
+          "card_id": "P_initial_0010",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 10,
+          "next_self_reservation": 104,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 7,
+              "destination": "hand"
+            },
+            {
+              "card_id": "V1_initial_0027",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 100,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 100,
+              "relation": "earlier_time"
+            }
+          ]
+        }
+      ],
+      "decision_materials": [
+        {
+          "question": "いま一致で使える手札はあるか",
+          "fact": "手札の属性と場の属性が一致せず、現在の合法行動は設置だけ。",
+          "legal_match_card_ids": []
+        },
+        {
+          "question": "設置した材料は次の自分まで残るか",
+          "fact": "設置では札の主効果は発動しない。場札に手札の期限切れはないが、公開予約上は次の自分より先に行動する主体がいる。相手の次札は不明で、材料が残る保証も、使われる確定予測もない。"
+        }
+      ]
+    },
+    {
+      "id": "az-time-114",
+      "now": 114,
+      "self": {
+        "hp": 36,
+        "max_hp": 40
+      },
+      "hand": [
+        {
+          "id": "P_initial_0011",
+          "name": "回復草",
+          "attr": "C",
+          "kind": "heal",
+          "remaining": 6
+        },
+        {
+          "id": "V1_initial_0025",
+          "name": "弱攻撃札",
+          "attr": "A",
+          "kind": "attack",
+          "remaining": 1
+        },
+        {
+          "id": "P_initial_0008",
+          "name": "踏み込み",
+          "attr": "B",
+          "kind": "attack",
+          "remaining": 2
+        }
+      ],
+      "field": [
+        {
+          "id": "P_initial_0010",
+          "name": "見切り",
+          "attr": "C",
+          "hand_expiry": null
+        }
+      ],
+      "other_current_reservations": [
+        {
+          "actor": "V0",
+          "purpose": "passage",
+          "role": "V",
+          "next_at": 120
+        },
+        {
+          "actor": "V1",
+          "purpose": "support",
+          "role": "V",
+          "next_at": 120
+        }
+      ],
+      "legal_actions": [
+        {
+          "card_id": "P_initial_0011",
+          "target": null,
+          "mode": "heal",
+          "matched_field_id": "P_initial_0010",
+          "current_hp_restored": 4,
+          "action_cost": 10,
+          "next_self_reservation": 124,
+          "unused_hand_after_action": [
+            {
+              "card_id": "V1_initial_0025",
+              "remaining_after_action": 0,
+              "destination": "shared_recovery"
+            },
+            {
+              "card_id": "P_initial_0008",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 120,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 120,
+              "relation": "earlier_time"
+            }
+          ]
+        },
+        {
+          "card_id": "V1_initial_0025",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 10,
+          "next_self_reservation": 124,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 5,
+              "destination": "hand"
+            },
+            {
+              "card_id": "P_initial_0008",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 120,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 120,
+              "relation": "earlier_time"
+            }
+          ]
+        },
+        {
+          "card_id": "P_initial_0008",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 8,
+          "next_self_reservation": 122,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 5,
+              "destination": "hand"
+            },
+            {
+              "card_id": "V1_initial_0025",
+              "remaining_after_action": 0,
+              "destination": "shared_recovery"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 120,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 120,
+              "relation": "earlier_time"
+            }
+          ]
+        }
+      ],
+      "decision_materials": [
+        {
+          "question": "いま一致で使える手札はあるか",
+          "fact": "現在の一致は回復草だけ。攻撃・防御の一致はない。",
+          "legal_match_card_ids": [
+            "P_initial_0011"
+          ]
+        },
+        {
+          "question": "小回復を使うと、いまの他の手札期限はどうなるか",
+          "fact": "4回復できる。使わない手札の残期限は1減り、期限1の札は共有の回収山へ移る。",
+          "action_card_id": "P_initial_0011",
+          "expiring_card_ids": [
+            "V1_initial_0025"
+          ]
+        },
+        {
+          "question": "設置した材料は次の自分まで残るか",
+          "fact": "設置では札の主効果は発動しない。場札に手札の期限切れはないが、公開予約上は次の自分より先に行動する主体がいる。相手の次札は不明で、材料が残る保証も、使われる確定予測もない。"
+        }
+      ]
+    },
+    {
+      "id": "az-time-142",
+      "now": 142,
+      "self": {
+        "hp": 36,
+        "max_hp": 40
+      },
+      "hand": [
+        {
+          "id": "P_initial_0011",
+          "name": "回復草",
+          "attr": "C",
+          "kind": "heal",
+          "remaining": 3
+        },
+        {
+          "id": "P_initial_0007",
+          "name": "踏み込み",
+          "attr": "B",
+          "kind": "attack",
+          "remaining": 1
+        },
+        {
+          "id": "P_initial_0002",
+          "name": "牽制",
+          "attr": "A",
+          "kind": "attack",
+          "remaining": 2
+        }
+      ],
+      "field": [
+        {
+          "id": "P_initial_0010",
+          "name": "見切り",
+          "attr": "C",
+          "hand_expiry": null
+        },
+        {
+          "id": "P_initial_0012",
+          "name": "打ち払い",
+          "attr": "D",
+          "hand_expiry": null
+        }
+      ],
+      "other_current_reservations": [
+        {
+          "actor": "V0",
+          "purpose": "passage",
+          "role": "V",
+          "next_at": 150
+        },
+        {
+          "actor": "V1",
+          "purpose": "support",
+          "role": "V",
+          "next_at": 150
+        }
+      ],
+      "legal_actions": [
+        {
+          "card_id": "P_initial_0011",
+          "target": null,
+          "mode": "heal",
+          "matched_field_id": "P_initial_0010",
+          "current_hp_restored": 4,
+          "action_cost": 10,
+          "next_self_reservation": 152,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0007",
+              "remaining_after_action": 0,
+              "destination": "shared_recovery"
+            },
+            {
+              "card_id": "P_initial_0002",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 150,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 150,
+              "relation": "earlier_time"
+            }
+          ]
+        },
+        {
+          "card_id": "P_initial_0007",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 8,
+          "next_self_reservation": 150,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 2,
+              "destination": "hand"
+            },
+            {
+              "card_id": "P_initial_0002",
+              "remaining_after_action": 1,
+              "destination": "hand"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 150,
+              "relation": "same_time_V_before_P"
+            },
+            {
+              "actor": "V1",
+              "next_at": 150,
+              "relation": "same_time_V_before_P"
+            }
+          ]
+        },
+        {
+          "card_id": "P_initial_0002",
+          "target": null,
+          "mode": "place",
+          "matched_field_id": null,
+          "current_hp_restored": 0,
+          "action_cost": 10,
+          "next_self_reservation": 152,
+          "unused_hand_after_action": [
+            {
+              "card_id": "P_initial_0011",
+              "remaining_after_action": 2,
+              "destination": "hand"
+            },
+            {
+              "card_id": "P_initial_0007",
+              "remaining_after_action": 0,
+              "destination": "shared_recovery"
+            }
+          ],
+          "currently_reserved_before_next_self": [
+            {
+              "actor": "V0",
+              "next_at": 150,
+              "relation": "earlier_time"
+            },
+            {
+              "actor": "V1",
+              "next_at": 150,
+              "relation": "earlier_time"
+            }
+          ]
+        }
+      ],
+      "decision_materials": [
+        {
+          "question": "いま一致で使える手札はあるか",
+          "fact": "現在の一致は回復草だけ。攻撃・防御の一致はない。",
+          "legal_match_card_ids": [
+            "P_initial_0011"
+          ]
+        },
+        {
+          "question": "小回復を使うと、いまの他の手札期限はどうなるか",
+          "fact": "4回復できる。使わない手札の残期限は1減り、期限1の札は共有の回収山へ移る。",
+          "action_card_id": "P_initial_0011",
+          "expiring_card_ids": [
+            "P_initial_0007"
+          ]
+        },
+        {
+          "question": "設置した材料は次の自分まで残るか",
+          "fact": "設置では札の主効果は発動しない。場札に手札の期限切れはないが、公開予約上は次の自分より先に行動する主体がいる。相手の次札は不明で、材料が残る保証も、使われる確定予測もない。"
+        },
+        {
+          "question": "次の自分と他主体が同時刻ならどちらが先か",
+          "fact": "Bの踏み込みを設置すると次の自分の予約は150。V0・V1の公開予約も150で、既存の同時刻順により予約はV0、V1、自分の順に並ぶ。使用札や再予約・退場後までの全順序、自分の次手番への到達は保証しない。"
+        }
+      ]
+    }
+  ],
+  "omitted": []
+}

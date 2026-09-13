@@ -1,0 +1,3357 @@
+{
+  "schema": "CO-D01-existing-api-examples-1",
+  "status": "既存APIのコピー上で限定確認。新本体API・UI・永続保存・出発は未実行。BD比較は保存済みdisplay_dataを再利用。",
+  "source": {
+    "commit": "f2449fab9f61fd5444079416972c3f3c3f161eeb",
+    "snapshot_path": "docs/検証/構築と探索/bc/checkpoints-manifest.json#/snapshots/0-B",
+    "snapshot_sha256": "279718dcb8353b1b201e85015890f76249463cc88122642c6597d4ec7962fb96"
+  },
+  "display_data": {
+    "empty_initial": {
+      "schema": "BD1-current-public",
+      "ok": true,
+      "economy": {
+        "unspent_units": 0,
+        "paid_learning_units": 0,
+        "learned": []
+      },
+      "equipment": {
+        "entries": [],
+        "capacity": 8,
+        "used": 0,
+        "remaining": 8,
+        "legal": true
+      },
+      "deck": {
+        "composition": [
+          {
+            "id": "base:f",
+            "blueprint": {
+              "kind": "card",
+              "base": "f",
+              "affixes": [],
+              "key": "AO1:card:f"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:fast",
+            "blueprint": {
+              "kind": "card",
+              "base": "fast",
+              "affixes": [],
+              "key": "AO1:card:fast"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:g",
+            "blueprint": {
+              "kind": "card",
+              "base": "g",
+              "affixes": [],
+              "key": "AO1:card:g"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:h",
+            "blueprint": {
+              "kind": "card",
+              "base": "h",
+              "affixes": [],
+              "key": "AO1:card:h"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:l",
+            "blueprint": {
+              "kind": "card",
+              "base": "l",
+              "affixes": [],
+              "key": "AO1:card:l"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:r",
+            "blueprint": {
+              "kind": "card",
+              "base": "r",
+              "affixes": [],
+              "key": "AO1:card:r"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:read",
+            "blueprint": {
+              "kind": "card",
+              "base": "read",
+              "affixes": [],
+              "key": "AO1:card:read"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:salve",
+            "blueprint": {
+              "kind": "card",
+              "base": "salve",
+              "affixes": [],
+              "key": "AO1:card:salve"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:sweep",
+            "blueprint": {
+              "kind": "card",
+              "base": "sweep",
+              "affixes": [],
+              "key": "AO1:card:sweep"
+            },
+            "count": 1
+          }
+        ],
+        "order_semantics": "unordered_composition",
+        "size": 12,
+        "required_size": 12,
+        "per_base_cap": 2,
+        "base_counts": {
+          "f": 2,
+          "fast": 1,
+          "g": 1,
+          "h": 2,
+          "l": 2,
+          "r": 1,
+          "read": 1,
+          "salve": 1,
+          "sweep": 1
+        },
+        "legal": true
+      },
+      "owned": [],
+      "candidates": [],
+      "free_card_options": [
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:h",
+        "base:j",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "base:sweep"
+      ],
+      "learning_options": [
+        {
+          "base": "PS01",
+          "cost_units": 200
+        },
+        {
+          "base": "PS02",
+          "cost_units": 200
+        },
+        {
+          "base": "PS03",
+          "cost_units": 200
+        },
+        {
+          "base": "PS04",
+          "cost_units": 200
+        }
+      ]
+    },
+    "current_home": {
+      "schema": "BD1-current-public",
+      "ok": true,
+      "economy": {
+        "unspent_units": 300,
+        "paid_learning_units": 200,
+        "learned": [
+          {
+            "base": "PS02",
+            "paid_units": 200
+          }
+        ]
+      },
+      "equipment": {
+        "entries": [
+          {
+            "id": "base:PS02",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [],
+              "key": "AO1:passive:PS02"
+            },
+            "cost": 3
+          }
+        ],
+        "capacity": 8,
+        "used": 3,
+        "remaining": 5,
+        "legal": true
+      },
+      "deck": {
+        "composition": [
+          {
+            "id": "base:f",
+            "blueprint": {
+              "kind": "card",
+              "base": "f",
+              "affixes": [],
+              "key": "AO1:card:f"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:fast",
+            "blueprint": {
+              "kind": "card",
+              "base": "fast",
+              "affixes": [],
+              "key": "AO1:card:fast"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:g",
+            "blueprint": {
+              "kind": "card",
+              "base": "g",
+              "affixes": [],
+              "key": "AO1:card:g"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:h",
+            "blueprint": {
+              "kind": "card",
+              "base": "h",
+              "affixes": [],
+              "key": "AO1:card:h"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:l",
+            "blueprint": {
+              "kind": "card",
+              "base": "l",
+              "affixes": [],
+              "key": "AO1:card:l"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:r",
+            "blueprint": {
+              "kind": "card",
+              "base": "r",
+              "affixes": [],
+              "key": "AO1:card:r"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:read",
+            "blueprint": {
+              "kind": "card",
+              "base": "read",
+              "affixes": [],
+              "key": "AO1:card:read"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:salve",
+            "blueprint": {
+              "kind": "card",
+              "base": "salve",
+              "affixes": [],
+              "key": "AO1:card:salve"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:sweep",
+            "blueprint": {
+              "kind": "card",
+              "base": "sweep",
+              "affixes": [],
+              "key": "AO1:card:sweep"
+            },
+            "count": 1
+          },
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "kind": "card",
+              "base": "stored",
+              "affixes": [
+                "precise"
+              ],
+              "key": "AO1:card:stored:precise"
+            },
+            "count": 1
+          }
+        ],
+        "order_semantics": "unordered_composition",
+        "size": 12,
+        "required_size": 12,
+        "per_base_cap": 2,
+        "base_counts": {
+          "f": 2,
+          "fast": 1,
+          "g": 1,
+          "h": 1,
+          "l": 2,
+          "r": 1,
+          "read": 1,
+          "salve": 1,
+          "stored": 1,
+          "sweep": 1
+        },
+        "legal": true
+      },
+      "owned": [
+        {
+          "id": "owned-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "stored",
+            "affixes": [
+              "precise"
+            ],
+            "key": "AO1:card:stored:precise"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": true
+        },
+        {
+          "id": "owned-2",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [],
+            "key": "AO1:passive:PS03"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": false,
+          "eligibility_reason": "owned_but_base_not_learned",
+          "equipment_cost": 2,
+          "selected": false
+        },
+        {
+          "id": "owned-3",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "sturdy"
+            ],
+            "key": "AO1:card:brace:sturdy"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": false
+        },
+        {
+          "id": "owned-4",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "borrowed"
+            ],
+            "key": "AO1:passive:PS02:borrowed"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": 3,
+          "selected": false
+        },
+        {
+          "id": "owned-5",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [],
+            "key": "AO1:passive:PS02"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": 3,
+          "selected": false
+        }
+      ],
+      "candidates": [
+        {
+          "id": "choice-0",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS02:swift"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "light"
+            ],
+            "key": "AO1:card:brace:light"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-2",
+          "blueprint": {
+            "kind": "card",
+            "base": "r",
+            "affixes": [],
+            "key": "AO1:card:r"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-3",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [
+              "forceful"
+            ],
+            "key": "AO1:passive:PS03:forceful"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        }
+      ],
+      "free_card_options": [
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:h",
+        "base:j",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "base:sweep"
+      ],
+      "learning_options": [
+        {
+          "base": "PS01",
+          "cost_units": 200
+        },
+        {
+          "base": "PS02",
+          "cost_units": 200
+        },
+        {
+          "base": "PS03",
+          "cost_units": 200
+        },
+        {
+          "base": "PS04",
+          "cost_units": 200
+        }
+      ]
+    },
+    "preparation_comparison": {
+      "schema": "BD1-preparation-preview",
+      "ok": true,
+      "read_only": true,
+      "units_per_point": 100,
+      "current": {
+        "economy": {
+          "unspent_units": 300,
+          "paid_learning_units": 200,
+          "learned": [
+            {
+              "base": "PS02",
+              "paid_units": 200
+            }
+          ]
+        },
+        "equipment": {
+          "entries": [
+            {
+              "id": "base:PS02",
+              "blueprint": {
+                "kind": "passive",
+                "base": "PS02",
+                "affixes": [],
+                "key": "AO1:passive:PS02"
+              },
+              "cost": 3
+            }
+          ],
+          "capacity": 8,
+          "used": 3,
+          "remaining": 5,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "base:f",
+              "blueprint": {
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:h",
+              "blueprint": {
+                "kind": "card",
+                "base": "h",
+                "affixes": [],
+                "key": "AO1:card:h"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            },
+            {
+              "id": "owned-1",
+              "blueprint": {
+                "kind": "card",
+                "base": "stored",
+                "affixes": [
+                  "precise"
+                ],
+                "key": "AO1:card:stored:precise"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "h": 1,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "stored": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "kind": "card",
+              "base": "stored",
+              "affixes": [
+                "precise"
+              ],
+              "key": "AO1:card:stored:precise"
+            },
+            "owned": true,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": true
+          },
+          {
+            "id": "owned-2",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS03",
+              "affixes": [],
+              "key": "AO1:passive:PS03"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": false,
+            "eligibility_reason": "owned_but_base_not_learned",
+            "equipment_cost": 2,
+            "selected": false
+          },
+          {
+            "id": "owned-3",
+            "blueprint": {
+              "kind": "card",
+              "base": "brace",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:brace:sturdy"
+            },
+            "owned": true,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": false
+          },
+          {
+            "id": "owned-4",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS02:borrowed"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": 3,
+            "selected": false
+          },
+          {
+            "id": "owned-5",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [],
+              "key": "AO1:passive:PS02"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": 3,
+            "selected": false
+          }
+        ]
+      },
+      "purchase_timing": "before_preparation",
+      "candidate_consideration": {
+        "timing": "before_cancellation_and_preparation",
+        "economy": {
+          "unspent_units": 300,
+          "paid_learning_units": 200,
+          "learned": [
+            {
+              "base": "PS02",
+              "paid_units": 200
+            }
+          ]
+        }
+      },
+      "stages": {
+        "after_cancellation": {
+          "unspent_units": 500,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "before_purchase": {
+          "unspent_units": 500,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "after_purchase": {
+          "unspent_units": 100,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "prepared": {
+          "unspent_units": 100,
+          "paid_learning_units": 0,
+          "learned": []
+        }
+      },
+      "cancellation": {
+        "bases": [
+          "PS02"
+        ],
+        "actual_refund_units": 200,
+        "equipment_removed": [
+          {
+            "id": "base:PS02",
+            "count": 1
+          }
+        ]
+      },
+      "purchase": {
+        "requested": "choice-1",
+        "performed_on_copy": true,
+        "cost_units": 400,
+        "requested_price_units": 400,
+        "funds_before_purchase_units": 500,
+        "selected_in_preparation": true,
+        "item": {
+          "candidate": "choice-1",
+          "item": "$purchase",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "light"
+            ],
+            "key": "AO1:card:brace:light"
+          },
+          "cost_units": 400
+        }
+      },
+      "learning": {
+        "retained": [],
+        "newly_learned": [],
+        "relearned": [],
+        "removed_at_end": [
+          "PS02"
+        ],
+        "payment_units": 0,
+        "paid_learning_before_units": 200,
+        "paid_learning_after_units": 0
+      },
+      "prepared": {
+        "economy": {
+          "unspent_units": 100,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "equipment": {
+          "entries": [],
+          "capacity": 8,
+          "used": 0,
+          "remaining": 8,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "$purchase",
+              "blueprint": {
+                "kind": "card",
+                "base": "brace",
+                "affixes": [
+                  "light"
+                ],
+                "key": "AO1:card:brace:light"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:f",
+              "blueprint": {
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            },
+            {
+              "id": "owned-1",
+              "blueprint": {
+                "kind": "card",
+                "base": "stored",
+                "affixes": [
+                  "precise"
+                ],
+                "key": "AO1:card:stored:precise"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "brace": 1,
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "stored": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [
+          {
+            "id": "$purchase",
+            "blueprint": {
+              "kind": "card",
+              "base": "brace",
+              "affixes": [
+                "light"
+              ],
+              "key": "AO1:card:brace:light"
+            },
+            "owned": true,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": true
+          },
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "kind": "card",
+              "base": "stored",
+              "affixes": [
+                "precise"
+              ],
+              "key": "AO1:card:stored:precise"
+            },
+            "owned": true,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": true
+          },
+          {
+            "id": "owned-2",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS03",
+              "affixes": [],
+              "key": "AO1:passive:PS03"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": false,
+            "eligibility_reason": "owned_but_base_not_learned",
+            "equipment_cost": 2,
+            "selected": false
+          },
+          {
+            "id": "owned-3",
+            "blueprint": {
+              "kind": "card",
+              "base": "brace",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:brace:sturdy"
+            },
+            "owned": true,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": false
+          },
+          {
+            "id": "owned-4",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS02:borrowed"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": false,
+            "eligibility_reason": "owned_but_base_not_learned",
+            "equipment_cost": 3,
+            "selected": false
+          },
+          {
+            "id": "owned-5",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [],
+              "key": "AO1:passive:PS02"
+            },
+            "owned": true,
+            "selection_kind": "equipment",
+            "eligible": false,
+            "eligibility_reason": "owned_but_base_not_learned",
+            "equipment_cost": 3,
+            "selected": false
+          }
+        ]
+      },
+      "differences": {
+        "equipment": {
+          "removed": [
+            {
+              "id": "base:PS02",
+              "count": 1
+            }
+          ],
+          "added": []
+        },
+        "deck": {
+          "removed": [
+            {
+              "id": "base:h",
+              "count": 1
+            }
+          ],
+          "added": [
+            {
+              "id": "$purchase",
+              "count": 1
+            }
+          ]
+        },
+        "existing_possessions_preserved": true,
+        "owned_but_ineligible_after": [
+          "owned-2",
+          "owned-4",
+          "owned-5"
+        ]
+      }
+    },
+    "after_lower_level_application": {
+      "schema": "BD1-current-public",
+      "ok": true,
+      "economy": {
+        "unspent_units": 100,
+        "paid_learning_units": 0,
+        "learned": []
+      },
+      "equipment": {
+        "entries": [],
+        "capacity": 8,
+        "used": 0,
+        "remaining": 8,
+        "legal": true
+      },
+      "deck": {
+        "composition": [
+          {
+            "id": "base:f",
+            "blueprint": {
+              "kind": "card",
+              "base": "f",
+              "affixes": [],
+              "key": "AO1:card:f"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:fast",
+            "blueprint": {
+              "kind": "card",
+              "base": "fast",
+              "affixes": [],
+              "key": "AO1:card:fast"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:g",
+            "blueprint": {
+              "kind": "card",
+              "base": "g",
+              "affixes": [],
+              "key": "AO1:card:g"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:l",
+            "blueprint": {
+              "kind": "card",
+              "base": "l",
+              "affixes": [],
+              "key": "AO1:card:l"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:r",
+            "blueprint": {
+              "kind": "card",
+              "base": "r",
+              "affixes": [],
+              "key": "AO1:card:r"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:read",
+            "blueprint": {
+              "kind": "card",
+              "base": "read",
+              "affixes": [],
+              "key": "AO1:card:read"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:salve",
+            "blueprint": {
+              "kind": "card",
+              "base": "salve",
+              "affixes": [],
+              "key": "AO1:card:salve"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:sweep",
+            "blueprint": {
+              "kind": "card",
+              "base": "sweep",
+              "affixes": [],
+              "key": "AO1:card:sweep"
+            },
+            "count": 1
+          },
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "kind": "card",
+              "base": "stored",
+              "affixes": [
+                "precise"
+              ],
+              "key": "AO1:card:stored:precise"
+            },
+            "count": 1
+          },
+          {
+            "id": "owned-6",
+            "blueprint": {
+              "kind": "card",
+              "base": "brace",
+              "affixes": [
+                "light"
+              ],
+              "key": "AO1:card:brace:light"
+            },
+            "count": 1
+          }
+        ],
+        "order_semantics": "unordered_composition",
+        "size": 12,
+        "required_size": 12,
+        "per_base_cap": 2,
+        "base_counts": {
+          "brace": 1,
+          "f": 2,
+          "fast": 1,
+          "g": 1,
+          "l": 2,
+          "r": 1,
+          "read": 1,
+          "salve": 1,
+          "stored": 1,
+          "sweep": 1
+        },
+        "legal": true
+      },
+      "owned": [
+        {
+          "id": "owned-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "stored",
+            "affixes": [
+              "precise"
+            ],
+            "key": "AO1:card:stored:precise"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": true
+        },
+        {
+          "id": "owned-2",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [],
+            "key": "AO1:passive:PS03"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": false,
+          "eligibility_reason": "owned_but_base_not_learned",
+          "equipment_cost": 2,
+          "selected": false
+        },
+        {
+          "id": "owned-3",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "sturdy"
+            ],
+            "key": "AO1:card:brace:sturdy"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": false
+        },
+        {
+          "id": "owned-4",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "borrowed"
+            ],
+            "key": "AO1:passive:PS02:borrowed"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": false,
+          "eligibility_reason": "owned_but_base_not_learned",
+          "equipment_cost": 3,
+          "selected": false
+        },
+        {
+          "id": "owned-5",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [],
+            "key": "AO1:passive:PS02"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": false,
+          "eligibility_reason": "owned_but_base_not_learned",
+          "equipment_cost": 3,
+          "selected": false
+        },
+        {
+          "id": "owned-6",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "light"
+            ],
+            "key": "AO1:card:brace:light"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": true
+        }
+      ],
+      "candidates": [
+        {
+          "id": "choice-0",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS02:swift"
+          },
+          "price_units": 400,
+          "available": false,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "light"
+            ],
+            "key": "AO1:card:brace:light"
+          },
+          "price_units": 400,
+          "available": false,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-2",
+          "blueprint": {
+            "kind": "card",
+            "base": "r",
+            "affixes": [],
+            "key": "AO1:card:r"
+          },
+          "price_units": 400,
+          "available": false,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-3",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [
+              "forceful"
+            ],
+            "key": "AO1:passive:PS03:forceful"
+          },
+          "price_units": 400,
+          "available": false,
+          "affordable_now": false
+        }
+      ],
+      "free_card_options": [
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:h",
+        "base:j",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "base:sweep"
+      ],
+      "learning_options": [
+        {
+          "base": "PS01",
+          "cost_units": 200
+        },
+        {
+          "base": "PS02",
+          "cost_units": 200
+        },
+        {
+          "base": "PS03",
+          "cost_units": 200
+        },
+        {
+          "base": "PS04",
+          "cost_units": 200
+        }
+      ]
+    },
+    "return_receipt": {
+      "outcome": "clear",
+      "gained_units": 300,
+      "new_unlocks": [
+        "brace"
+      ],
+      "kept_count": 3,
+      "lost_count": 0,
+      "available_units": 300,
+      "paid_learning_units": 200
+    },
+    "conversion": {
+      "quote_units": 50,
+      "units_before": 100,
+      "units_after": 150,
+      "point_gain": 0,
+      "remainder_after": 50,
+      "removed_count": 1
+    },
+    "boundaries": [
+      {
+        "result": {
+          "schema": "BD1-preparation-preview",
+          "ok": false,
+          "read_only": true,
+          "current": {
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            },
+            "equipment": {
+              "entries": [
+                {
+                  "id": "base:PS02",
+                  "blueprint": {
+                    "kind": "passive",
+                    "base": "PS02",
+                    "affixes": [],
+                    "key": "AO1:passive:PS02"
+                  },
+                  "cost": 3
+                }
+              ],
+              "capacity": 8,
+              "used": 3,
+              "remaining": 5,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "refusal": {
+            "stage": "purchase",
+            "code": "insufficient_unspent_funds",
+            "purchase_request": {
+              "candidate": "choice-0",
+              "price_units": 400,
+              "funds_before_purchase_units": 300,
+              "shortage_units": 100
+            }
+          },
+          "draft_discarded": true
+        },
+        "example_id": "insufficient_funds"
+      },
+      {
+        "result": {
+          "schema": "BD1-preparation-preview",
+          "ok": true,
+          "read_only": true,
+          "units_per_point": 100,
+          "current": {
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            },
+            "equipment": {
+              "entries": [
+                {
+                  "id": "base:PS02",
+                  "blueprint": {
+                    "kind": "passive",
+                    "base": "PS02",
+                    "affixes": [],
+                    "key": "AO1:passive:PS02"
+                  },
+                  "cost": 3
+                }
+              ],
+              "capacity": 8,
+              "used": 3,
+              "remaining": 5,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "purchase_timing": "before_preparation",
+          "candidate_consideration": {
+            "timing": "before_cancellation_and_preparation",
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            }
+          },
+          "stages": {
+            "after_cancellation": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "before_purchase": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "after_purchase": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "prepared": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            }
+          },
+          "cancellation": {
+            "bases": [
+              "PS02"
+            ],
+            "actual_refund_units": 200,
+            "equipment_removed": [
+              {
+                "id": "base:PS02",
+                "count": 1
+              }
+            ]
+          },
+          "purchase": {
+            "requested": null,
+            "performed_on_copy": false,
+            "cost_units": 0,
+            "requested_price_units": 0,
+            "funds_before_purchase_units": 500,
+            "selected_in_preparation": false,
+            "item": null
+          },
+          "learning": {
+            "retained": [],
+            "newly_learned": [],
+            "relearned": [],
+            "removed_at_end": [
+              "PS02"
+            ],
+            "payment_units": 0,
+            "paid_learning_before_units": 200,
+            "paid_learning_after_units": 0
+          },
+          "prepared": {
+            "economy": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "equipment": {
+              "entries": [],
+              "capacity": 8,
+              "used": 0,
+              "remaining": 8,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "differences": {
+            "equipment": {
+              "removed": [
+                {
+                  "id": "base:PS02",
+                  "count": 1
+                }
+              ],
+              "added": []
+            },
+            "deck": {
+              "removed": [],
+              "added": []
+            },
+            "existing_possessions_preserved": true,
+            "owned_but_ineligible_after": [
+              "owned-2",
+              "owned-4",
+              "owned-5"
+            ]
+          }
+        },
+        "example_id": "cancel_only"
+      },
+      {
+        "result": {
+          "schema": "BD1-preparation-preview",
+          "ok": true,
+          "read_only": true,
+          "units_per_point": 100,
+          "current": {
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            },
+            "equipment": {
+              "entries": [
+                {
+                  "id": "base:PS02",
+                  "blueprint": {
+                    "kind": "passive",
+                    "base": "PS02",
+                    "affixes": [],
+                    "key": "AO1:passive:PS02"
+                  },
+                  "cost": 3
+                }
+              ],
+              "capacity": 8,
+              "used": 3,
+              "remaining": 5,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "purchase_timing": "before_preparation",
+          "candidate_consideration": {
+            "timing": "before_cancellation_and_preparation",
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            }
+          },
+          "stages": {
+            "after_cancellation": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "before_purchase": {
+              "unspent_units": 500,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "after_purchase": {
+              "unspent_units": 100,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "prepared": {
+              "unspent_units": 100,
+              "paid_learning_units": 0,
+              "learned": []
+            }
+          },
+          "cancellation": {
+            "bases": [
+              "PS02"
+            ],
+            "actual_refund_units": 200,
+            "equipment_removed": [
+              {
+                "id": "base:PS02",
+                "count": 1
+              }
+            ]
+          },
+          "purchase": {
+            "requested": "choice-0",
+            "performed_on_copy": true,
+            "cost_units": 400,
+            "requested_price_units": 400,
+            "funds_before_purchase_units": 500,
+            "selected_in_preparation": false,
+            "item": {
+              "candidate": "choice-0",
+              "item": "$purchase",
+              "blueprint": {
+                "kind": "passive",
+                "base": "PS02",
+                "affixes": [
+                  "swift"
+                ],
+                "key": "AO1:passive:PS02:swift"
+              },
+              "cost_units": 400
+            }
+          },
+          "learning": {
+            "retained": [],
+            "newly_learned": [],
+            "relearned": [],
+            "removed_at_end": [
+              "PS02"
+            ],
+            "payment_units": 0,
+            "paid_learning_before_units": 200,
+            "paid_learning_after_units": 0
+          },
+          "prepared": {
+            "economy": {
+              "unspent_units": 100,
+              "paid_learning_units": 0,
+              "learned": []
+            },
+            "equipment": {
+              "entries": [],
+              "capacity": 8,
+              "used": 0,
+              "remaining": 8,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "$purchase",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "swift"
+                  ],
+                  "key": "AO1:passive:PS02:swift"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "differences": {
+            "equipment": {
+              "removed": [
+                {
+                  "id": "base:PS02",
+                  "count": 1
+                }
+              ],
+              "added": []
+            },
+            "deck": {
+              "removed": [],
+              "added": []
+            },
+            "existing_possessions_preserved": true,
+            "owned_but_ineligible_after": [
+              "$purchase",
+              "owned-2",
+              "owned-4",
+              "owned-5"
+            ]
+          }
+        },
+        "example_id": "purchase_unlearned"
+      },
+      {
+        "result": {
+          "schema": "BD1-preparation-preview",
+          "ok": false,
+          "read_only": true,
+          "current": {
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            },
+            "equipment": {
+              "entries": [
+                {
+                  "id": "base:PS02",
+                  "blueprint": {
+                    "kind": "passive",
+                    "base": "PS02",
+                    "affixes": [],
+                    "key": "AO1:passive:PS02"
+                  },
+                  "cost": 3
+                }
+              ],
+              "capacity": 8,
+              "used": 3,
+              "remaining": 5,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "refusal": {
+            "stage": "equipment",
+            "code": "unlearned_equipment_base",
+            "purchase_request": {
+              "candidate": "choice-0",
+              "price_units": 400,
+              "funds_before_purchase_units": 500,
+              "shortage_units": 0
+            }
+          },
+          "draft_discarded": true
+        },
+        "example_id": "unlearned_equipment"
+      },
+      {
+        "result": {
+          "schema": "BD1-preparation-preview",
+          "ok": false,
+          "read_only": true,
+          "current": {
+            "economy": {
+              "unspent_units": 300,
+              "paid_learning_units": 200,
+              "learned": [
+                {
+                  "base": "PS02",
+                  "paid_units": 200
+                }
+              ]
+            },
+            "equipment": {
+              "entries": [
+                {
+                  "id": "base:PS02",
+                  "blueprint": {
+                    "kind": "passive",
+                    "base": "PS02",
+                    "affixes": [],
+                    "key": "AO1:passive:PS02"
+                  },
+                  "cost": 3
+                }
+              ],
+              "capacity": 8,
+              "used": 3,
+              "remaining": 5,
+              "legal": true
+            },
+            "deck": {
+              "composition": [
+                {
+                  "id": "base:f",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "f",
+                    "affixes": [],
+                    "key": "AO1:card:f"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:fast",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "fast",
+                    "affixes": [],
+                    "key": "AO1:card:fast"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:g",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "g",
+                    "affixes": [],
+                    "key": "AO1:card:g"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:h",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "h",
+                    "affixes": [],
+                    "key": "AO1:card:h"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:l",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "l",
+                    "affixes": [],
+                    "key": "AO1:card:l"
+                  },
+                  "count": 2
+                },
+                {
+                  "id": "base:r",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "r",
+                    "affixes": [],
+                    "key": "AO1:card:r"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:read",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "read",
+                    "affixes": [],
+                    "key": "AO1:card:read"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:salve",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "salve",
+                    "affixes": [],
+                    "key": "AO1:card:salve"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "base:sweep",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "sweep",
+                    "affixes": [],
+                    "key": "AO1:card:sweep"
+                  },
+                  "count": 1
+                },
+                {
+                  "id": "owned-1",
+                  "blueprint": {
+                    "kind": "card",
+                    "base": "stored",
+                    "affixes": [
+                      "precise"
+                    ],
+                    "key": "AO1:card:stored:precise"
+                  },
+                  "count": 1
+                }
+              ],
+              "order_semantics": "unordered_composition",
+              "size": 12,
+              "required_size": 12,
+              "per_base_cap": 2,
+              "base_counts": {
+                "f": 2,
+                "fast": 1,
+                "g": 1,
+                "h": 1,
+                "l": 2,
+                "r": 1,
+                "read": 1,
+                "salve": 1,
+                "stored": 1,
+                "sweep": 1
+              },
+              "legal": true
+            },
+            "owned": [
+              {
+                "id": "owned-1",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "stored",
+                  "affixes": [
+                    "precise"
+                  ],
+                  "key": "AO1:card:stored:precise"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": true
+              },
+              {
+                "id": "owned-2",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS03",
+                  "affixes": [],
+                  "key": "AO1:passive:PS03"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": false,
+                "eligibility_reason": "owned_but_base_not_learned",
+                "equipment_cost": 2,
+                "selected": false
+              },
+              {
+                "id": "owned-3",
+                "blueprint": {
+                  "kind": "card",
+                  "base": "brace",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:brace:sturdy"
+                },
+                "owned": true,
+                "selection_kind": "deck",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": null,
+                "selected": false
+              },
+              {
+                "id": "owned-4",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [
+                    "borrowed"
+                  ],
+                  "key": "AO1:passive:PS02:borrowed"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              },
+              {
+                "id": "owned-5",
+                "blueprint": {
+                  "kind": "passive",
+                  "base": "PS02",
+                  "affixes": [],
+                  "key": "AO1:passive:PS02"
+                },
+                "owned": true,
+                "selection_kind": "equipment",
+                "eligible": true,
+                "eligibility_reason": "owned_and_base_requirement_met",
+                "equipment_cost": 3,
+                "selected": false
+              }
+            ]
+          },
+          "refusal": {
+            "stage": "equipment",
+            "code": "equipment_capacity_exceeded",
+            "purchase_request": null
+          },
+          "draft_discarded": true
+        },
+        "example_id": "capacity_limit"
+      }
+    ]
+  },
+  "explicit_plan": {
+    "retain_learning": [],
+    "cancel_learning": [
+      "PS02"
+    ],
+    "candidate": "choice-1",
+    "purchase_timing": "before_preparation",
+    "next_preparation": {
+      "learn": [],
+      "equipment": [],
+      "deck": [
+        "$purchase",
+        "base:f",
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:l",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "owned-1",
+        "base:sweep"
+      ]
+    }
+  }
+}
