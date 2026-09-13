@@ -1,0 +1,49 @@
+{
+  "trial": "AU1",
+  "base_commit": "b4594629cd721ab9b288f7b57daf4e66fda4639e",
+  "runtime": "AM1 terrain40_p40 + AO/AP/AQ/AR/AT",
+  "deck": {
+    "size": 12,
+    "per_base_cap": 2,
+    "initial_build": "guard3",
+    "free": "Only the initial ten normal bases; acquired copies each authorize one starting instance. A historical unlock alone does not authorize a free acquired card.",
+    "swaps": {
+      "A": [["h", "stored"], ["h", "brace"], ["f", "sharp"]],
+      "B": [["h", "brace"], ["h", "stored"], ["f", "sharp"]],
+      "C": [["h", "brace"], ["h", "stored"], ["f", "sharp"]]
+    },
+    "variant_selection": "One copy per reward base in the listed order; then replace one initial normal card per base with an owned affixed copy. Prefer fewer affixes, canonical key, then possession ID. This deliberately simple rule does not claim optimal builds."
+  },
+  "journey": {
+    "offsets": [0, 8],
+    "first_routes": ["A", "B"],
+    "expeditions": 8,
+    "policy": "progress_first",
+    "passives": "AR adapt with cost capacity 8; unchanged learning priority and sale policy",
+    "purchase": "Reserve the cost of unlearned bases; among affordable AT candidates prefer a card, otherwise a learned passive, then candidate ID. One purchase per batch at the unchanged AT price. No future draw or reward lookup."
+  },
+  "paired": {
+    "checkpoints": ["first_clear", "after_eight_returns"],
+    "routes": ["A", "B", "C"],
+    "decks": ["initial", "use_owned"],
+    "policies": ["progress_first", "side_first"],
+    "seed": "Next seed in each checkpoint's existing sequence, identical across deck/policy/route alternatives",
+    "expected_runs_if_all_checkpoints_exist": 96
+  },
+  "measurements": [
+    "Natural returns, purchase, owned card selection, learning and changing available routes",
+    "Paired clear/defeat and clear-only player actions, separated by route, stage and policy",
+    "Before/after the player's first refill from the shared discard pool; this is NOT the start of all mixing, because other actors can refill earlier",
+    "Owned initial cards used by P, used by NPCs, or consumed as field material; borrowed card use",
+    "Distinct target choice opportunities, progress/side policy disagreement and consecutive same target/mode actions within an unchanged event",
+    "Actual traversal boundaries, reward protection and immediate-withdrawal alternatives at those boundaries"
+  ],
+  "limits": [
+    "Conditions fixed before the AU comparison; natural 32 runs plus at most 96 paired forks. No favorable seed selection, runtime-stat adjustment, exhaustive optimization, new scenario content or actual human test.",
+    "Free deck selection and acquired-copy selection are preparation APIs, not an implemented preparation UI. The old browser prototypes remain unchanged.",
+    "The count-based AH runtime is adapted at launch; persistent AP possession IDs remain separate from exploration card IDs. No saleable copy is minted by launch, refill, use or return.",
+    "The two deck alternatives share one checkpoint, learning/equipment and combat seed. Subsequent rewards in paired forks are not accumulated into the natural history.",
+    "Repeated target/mode is only a review cue. Public values, hand, field and timing can still change. Mechanical counts do not establish boredom, comprehension or fun.",
+    "Progression stages are a design proposal. Basic design 0.53 and D53 remain unchanged; no formal capacity, price, card-count or campaign-end adoption."
+  ]
+}

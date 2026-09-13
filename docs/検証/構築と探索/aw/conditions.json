@@ -1,0 +1,65 @@
+{
+  "trial": "AW1-natural-risk-return",
+  "base_commit": "d82f47b497b07850f934eac3a6d6de05a73a1a82",
+  "purpose": "Reconstruct eight existing AU first_clear/C/side_first journeys with known adverse outcomes, then measure actual immediate withdrawal at naturally reached protection/risk states. This is not a policy superiority comparison.",
+  "runtime": "Unchanged AM terrain40_p40 + AO/AP/AQ/AR/AT/AU; AH.side_first for C; no edits to old inputs or outputs.",
+  "reconstruction": {
+    "offsets": [
+      0,
+      8
+    ],
+    "first_routes": [
+      "A",
+      "B"
+    ],
+    "first_return_policy": "AH.progress_first",
+    "C_policy": "AH.side_first",
+    "decks": [
+      "initial",
+      "use_owned"
+    ],
+    "preparation": "Exact AU adapt, same tag au-natural-<offset>-<first>, original seed rotation, prepare and sale-0. Verify first-return purchase eligibility; AU first-return rows have no purchase.",
+    "first_returns": 4,
+    "C_runs": 8,
+    "comparison_source": "au/results.json paired stage first_clear route C policy side_first"
+  },
+  "selection": {
+    "where": "First player-ready live state satisfying each criterion within each natural C run, before the next P choice; never select by unseen future outcome.",
+    "criteria": {
+      "first_protected_item": "Current AP grants protected count >=1",
+      "first_protected_low_hp": "At least one protected runtime reward and P.hp<=20",
+      "first_protected_low_hp_no_held_finite_heal": "At least one protected runtime reward, P.hp<=20, and no finite heal in current public P hand"
+    },
+    "low_hp_threshold": 20,
+    "threshold_status": "Diagnostic half-of-40 cutoff, not an adopted withdrawal rule.",
+    "deduplication": "One saved state for simultaneously first-satisfied criteria, multiple tags.",
+    "maximum_states": 24,
+    "absent": "Report each missing criterion; do not modify HP, draws, item grants, route statistics, price, learning, or selection scope to create it."
+  },
+  "branches": {
+    "withdraw_now": "Restore selected saved state and invoke unchanged Session.withdraw, then inspect actual point and AP receipt.",
+    "continue_existing_journey": "Use the actual suffix and terminal result of the same single reconstructed natural AU journey. Do not replay each suffix; do not treat it as an independent new sample.",
+    "cutoff": "Unchanged runtime action budget. An action cutoff is censored, not defeat, and not automatically settled."
+  },
+  "checks": [
+    "Save conditions before executing reconstruction or collecting AW outcomes.",
+    "Verify natural first returns and C endpoint outcome/actions/HP/time/rewards/receipt against AU, and C seed/equipment/learning/acquired blueprints.",
+    "All real actions pass unchanged Session.action prediction checks.",
+    "At the first captured state in each run, replay the same next choice after restore and compare the full save; at most eight restored one-action checks.",
+    "All withdrawals run from their captured state; compare an independent same-state withdrawal replay, check protected AP items kept and unprotected lost, and unchanged previous inventory.",
+    "Check existing journey settlement preserves prior inventory and keeps/loses exactly the acquired protected IDs by outcome.",
+    "Hash only used runtime/input source files and AW conditions/code; preserve actual action sequences and state SHA256 in a small manifest. Do not emit or change AU/AV outputs."
+  ],
+  "measurements": [
+    "Protection time, current public HP, finite healing cards and deadlines, next actor action times, current target HP/posture, hand/field and public remaining deck/pool counts.",
+    "Immediate withdrawal gained points and kept/lost blueprints, compared to continuation outcome, endpoint HP, elapsed time and additional P actions.",
+    "Loss of currently protected points/items on actual defeat only; never add rewards not yet acquired at capture to current loss.",
+    "AU reproduction matches, missing criteria, restored-action/withdrawal/ownership checks."
+  ],
+  "limits": [
+    "Only four reconstructed histories and two C seed values; eight correlated runs and up to 24 correlated states, not a general defeat probability.",
+    "AH side_first is the fixed historical policy, not a recommended human strategy; no averaging into optimal HP threshold and no inference of human enjoyment.",
+    "defeat is the legacy runtime identifier; world-setting interpretation is emergency escape (緊急脱出), not necessarily literal death.",
+    "No formal adoption IDs, spec changes, new content, or expansion of the trial."
+  ]
+}

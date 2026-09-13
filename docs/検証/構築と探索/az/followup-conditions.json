@@ -1,0 +1,37 @@
+{
+  "trial": "AZ2-one-early-heal",
+  "purpose": "AZ1の6設置中で初めて正の回復が合法になる公開局面で4回復を1回早く選び、その機会費用・期限切れ・循環・進展を元保存suffixと比較する。",
+  "preserve": "基礎仕様0.53/D53、旧価格・枠・札・HP・隠蔽・期限・乱数・準備・自然prefix、AZ1 conditions/study/results/manifest/verificationを保全する。",
+  "selection": {
+    "baseline_id": "0-A-use_owned/entrance/borrowed",
+    "baseline_mode": "leave_support",
+    "baseline_checkpoint_sha256": "5598215859e2a5d3a69f65c9264cd67bf9686329309bf91447a72ac84677bf94",
+    "baseline_player_index": 3,
+    "completed_player_actions": 11,
+    "time": 114,
+    "choice": {"card_id": "P_initial_0011", "target": null},
+    "predicted_hp_restored": 4,
+    "healing_remaining": 6,
+    "baseline_expiring_nonheal_card": "V1_initial_0025",
+    "basis": "既存AZ1観測の最初の正の合法回復。結果を見て位置・札を選び直さない。"
+  },
+  "comparison": {
+    "baseline": "AZ1とAVに保存済みのindex3〜11の9P手suffixを再利用。全12手基準もsuffixも再実行しない。",
+    "new_branch": "選定公開局面で指定の合法回復を一度だけ選び、その後は既存AV leave_supportを毎手公開評価する。",
+    "horizon_player_actions": 9,
+    "stop": "9追加P手または既存の自然終端の早い方。最終踏破まで延長しない。",
+    "reconstruction": "必要な元A42手、C自然prefix8手、既存基準の先頭3手のみを再構成する。元checkpoint SHA・先頭3手行動列・時刻114公開状態を照合し、新枝1本だけを実行する。"
+  },
+  "measurements": [
+    "同じP手数予算での対象別HP/探査進展、P余力/受傷/回復、経過時刻、終端または打切り時点",
+    "実際の手札失効・設置・自他主体の借り札/場素材使用・保護成果",
+    "開始時期限1のV1_initial_0025が失効/使用/回収後に誰へ循環するか。失効による回収山への移動と札の破壊を区別する。",
+    "元保存列で監査できる項目と保存不足の項目を明記する。未保存の期限/補充履歴を0や推定実績に変換しない。"
+  ],
+  "checks": [
+    "この条件を新枝結果取得前に保存する。旧入力とAZ1成果物のSHAを前後照合する。",
+    "公開方策はpublic/choices/predictのみ。未来札・私有山札・将来の行動列を選択に使わない。強制初手も現在の合法選択と回復予測を照合する。",
+    "全P実行は既存Session.actionの予測対実績検査を通す。新枝の初期保存を復元してSHA一致を確認する。追加の初手再実行は行わない。",
+    "追加比較枝はこの1枝で終了。設置連続が回復で切れたこと自体を改善指標にしない。正式採用・発生率・人の退屈の判断は行わない。"
+  ]
+}

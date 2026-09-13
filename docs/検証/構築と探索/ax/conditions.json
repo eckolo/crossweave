@@ -1,0 +1,51 @@
+{
+  "trial": "AX1-local-target-hp",
+  "base_commit": "3e9b9448093220eabfadde7b23e400a593a665d3",
+  "status": "Fixed before reconstruction and local HP comparison",
+  "source_audit": {
+    "AU": "Read all 32 natural and 96 paired saved summaries. AU has streak/segment summaries rather than full action sequences.",
+    "AV": "Read existing 52 finite branch traces; count consecutive player mode+target. Branch interventions and a different policy mean they are supporting examples, not pooled independent natural journeys.",
+    "AW": "Existing 8 C action sequences cover first_clear and side_first, not the selected after_eight_returns and progress_first sample; do not substitute them for the missing AU sequence."
+  },
+  "selection": {
+    "population": "AU paired saved runs",
+    "rule": "Select greatest saved max_same_mode_target_streak; break ties by label in ascending ASCII order. Reconstruct just that checkpoint history and run, select the first equal-maximum streak in chronological order, and assert its length equals the saved maximum.",
+    "label": "0-A-after_eight_returns-C-progress_first-initial",
+    "saved_maximum": 11,
+    "ties": ["0-A-after_eight_returns-C-progress_first-initial", "0-B-after_eight_returns-C-progress_first-initial"],
+    "offset": 0,
+    "first_route": "A",
+    "returns": 8,
+    "route": "C",
+    "deck": "initial",
+    "policy": "progress_first",
+    "note": "Outcome-independent longest-streak selection from old results. The two ties share a combat seed; only one is reconstructed and neither is counted as an independent replication."
+  },
+  "reconstruction": {
+    "journey": "Use unchanged AU routeFor, public progress_first, public purchase eligibility/ranking and surplus sale policy; reproduce all eight saved natural endpoints, preparation, receipts, purchase results, boundaries and home totals.",
+    "paired": "Recreate the selected paired preparation and complete that one original natural-state branch once, retaining each public pre-action view and save in memory; verify endpoint, receipt, boundaries and streak summary against AU.",
+    "extra_seeds": 0
+  },
+  "intervention": {
+    "branches": [{"id": "hp100", "ratio": 1}, {"id": "hp75", "ratio": 0.75}, {"id": "hp50", "ratio": 0.5}],
+    "changed_field": "game.state.actors[selected_target].hp",
+    "rule": "max(1, ceil(checkpoint target current HP * ratio)); do not change max_hp, posture, field, hand, cards, RNG, schedule, rewards, economy or any other saved field.",
+    "policy": "Unchanged AH progress_first through only public(), choices() and predict(); re-evaluate after intervention and every action. Changed target HP may change card rankings, so this fixes the policy rather than all subsequent actions.",
+    "stop": "First of selected-target retirement, existing game terminal outcome, or 24 additional P actions.",
+    "max_player_actions": 24,
+    "settlement": "For natural terminal outcomes inspect the existing settlement. Otherwise make a separate withdrawal clone at the measured stop; never add its settlement to the measured branch or continue combat after target retirement."
+  },
+  "measurements": [
+    "Additional P actions and game ticks until the fixed stop; target HP/posture progress and player HP",
+    "Zero-HP attacks with probe progress separately from zero-HP-and-zero-probe attacks",
+    "Public pre-action states, actual action trace, hand/field/target-posture changes, distinct cards/materials and support actions",
+    "Leading same-mode/target streak, all nonattack preparation actions, legal attack targets and public alternative target policy",
+    "Exact initial save diff, source SHA256, original replay, restored first action, prediction/policy purity, existing reward settlement and preservation of previous possessions"
+  ],
+  "limits": [
+    "The original checkpoint is reached without manual state editing. hp75 and hp50 are diagnostic artificial states, not naturally observed encounters or adopted target values.",
+    "One selected checkpoint with three paired local branches; no population win rate, balance optimum, difficulty curve, boredom or human comprehension claim.",
+    "Same mode/target does not establish absent decisions or absent progress. Public hand, matching field, posture and timing can still change.",
+    "Game ticks are not wall-clock playtime. No fee, protection, actor count, event count, posture reset or formal specification changes."
+  ]
+}

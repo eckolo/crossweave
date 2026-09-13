@@ -1,0 +1,46 @@
+{
+  "trial": "AZ1-natural-placement-run-diagnosis",
+  "base_commit": "dd2a79847cc2f64239916d52f266e3907a52af8d",
+  "purpose": "AVに保存された6連続場置きの自然局面を1本だけ再構成し、合法一致の欠如と公開方策による設置選択、設置材料の主体別消費、手札期限と補充を区別する。",
+  "selection": {
+    "source": "AV support_pairs",
+    "id": "0-A-use_owned/entrance/borrowed",
+    "branch": "leave_support",
+    "offset": 0,
+    "first": "A",
+    "deck": "use_owned",
+    "tag": "au-natural-0-A",
+    "seed": 1,
+    "completed_player_actions": 8,
+    "time": 84,
+    "saved_state_sha256": "5598215859e2a5d3a69f65c9264cd67bf9686329309bf91447a72ac84677bf94",
+    "placement_first_player_index": 1,
+    "placement_count": 6,
+    "horizon_player_actions": 12,
+    "basis": "AXによる保存行動列の既存抽出。新しい局面・seed・結果で選び直さない。両AV方策の保存済み6設置が同じであることは静的照合し、公開局面を再構成するのはleave_supportのみ。"
+  },
+  "reconstruction": [
+    "この条件を実行前に保存する。AU Session、C.seeds offset0、元tagでAを既存準備・AH progress_firstにより初回帰還まで進め、旧AU終端を照合する。",
+    "元AVと同じhome、sale-0、C adapt/use_owned準備、出発を行い、旧AU装備・選択札・seedを照合する。",
+    "AV leave_supportの公開方策で最初のentrance/borrowed適格局面まで自然prefixだけ進め、P8・時刻84と元保存SHAを照合する。C幹全体を完走しない。",
+    "当該保存からleave_supportの基準12手1本を再現する。チェックポイント復元後の初手だけ1回照合し、全12手の行動列と終端保存SHAを元AVと照合する。"
+  ],
+  "measurements": [
+    "6手の操作可能時点の公開状態、全合法選択と公開予測、AH基礎選択・AV理由、合法一致の種類、非回復札の一致有無、回復採用閾値と期限",
+    "Pの手札保持・失効・補充、場の前後、他主体の時刻表、各P行動後から次の操作可能時点までの実現した行動・回収・補充・再配分",
+    "6設置それぞれの最初の材料消費主体・使用種・時刻、次のP手番までの消費有無、12手終点での未消費状態",
+    "合法一致なし／合法一致はあるが設置を選択、設置材料が他主体に消費、などを排他的でない別軸で記録する"
+  ],
+  "checks": [
+    "公開方策はpublic/choices/predictだけを受け取り、未来札・私有山札・乱数・将来の行動列を読めない。観測後のtraceは説明と監査にのみ使用する。",
+    "各P行動は既存Session.actionの予測対実績検査を通す。公開方策が保存状態を変更しないことを確認する。",
+    "旧AU〜AYの全ファイルと使用元依存をSHA256で実行前後照合する。条件・コード・生成物のSHAを保存する。",
+    "既存全52枝の再実行、追加seed、追加の最終確認用シミュレーションを行わない。"
+  ],
+  "limits": [
+    "基礎仕様0.53/D53、既存HP・隠蔽・価格・枠・カード・準備・乱数・手札寿命・方策を変更しない。",
+    "自然経過の公開観測で説明できた範囲をまず報告する。方策変更など比較枝はこの条件では実行しない。",
+    "単一の既存局面の診断であり、発生率、最適方策、人の退屈、無意味さ、設計値の正式採用を判定しない。",
+    "変更・成果物は新規az/だけ。旧AU〜AY・共通文書・Git操作は担当外。"
+  ]
+}

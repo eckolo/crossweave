@@ -1,0 +1,175 @@
+{
+  "task_id": "CO-S01",
+  "version": "0.2",
+  "date": "2026-09-13",
+  "kind": "document-and-existing-catalogue-inspection",
+  "new_game_runs": 0,
+  "human_playtests": 0,
+  "technical_source_commit": "f2449fab9f61fd5444079416972c3f3c3f161eeb",
+  "plan_source_commit": "7f6a495132ec41860c524c70f3280a572e816625",
+  "checks": {
+    "markdown_files": 15,
+    "missing_local_links": [],
+    "text_id_definitions": 35,
+    "duplicate_text_ids": [],
+    "undefined_text_ids": [],
+    "maximum_text_cell_characters": 67,
+    "plan_file_count": 7,
+    "plan_all_blobs_match": true,
+    "technical_ancestor_present": true,
+    "fixed_pt_nt_unchanged": true
+  },
+  "content_checks": "意味上の点検はSCN-001_資料点検.md。EX01〜04は未実行の接続例。",
+  "source_files": {
+    "docs/仕様案/シナリオ・探索内容/README.md": "64c3925c38a8bcdb914b0c520dec1dc8a7411b88b5a8cab724365d480abac8e3",
+    "docs/仕様案/シナリオ・探索内容/案件候補比較.md": "53c1e4462d313bf01fc9cf3f0ed35126da508ecd9b905b3f3525783048f60239",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/対象と手段.md": "83eef1bddd5a4758af6e1d10f81b7e562ca87dd57ab9ebeb5fa7fdbf90246523",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/接続例.md": "258d1446718bd4b39ab2d7a47b1a40067cfb096ccec03c0a782a5fba9068c36f",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/概要.md": "eb0217d06c80dfd3985e4d5ce0fca0514b7647c8211095247bf871c3b0638c7b",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/本文.md": "49d2dcac8ddf28ba19c55a11778645fe90bc9f6c62f8a9b0ad2873e509f0e270",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/札と成果の接続.md": "44c3d735cd0a7900c57c6d34d4af3a7d0ae654eed7f34543a9b276355c691ada",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/場面と進行.md": "c74292cbc87c39e7f237bcd06c4e1c415ac8931c5d63c9ba44b18a69f4b3aaa0",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/接続と素材.md": "511af02a83d3e4db17ef38a2bf5bb5a8e963ce3be91b60cc4c3413c1d55af9bb",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/判断と比較仮説.md": "bfb0424c0525880251e81240286dfd663d135708af7147eb3ac3d9e42ffeaf83",
+    "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/内容切替と帰還.md": "899eb705bc40c19916c0d01455b31579b6cc30ec74b61186f4f1b4dfa119544a"
+  },
+  "existing_catalogue_read": {
+    "method": "公開された定義の読取。出発・行動・帰還試験なし",
+    "pt_prepare_types": [
+      "f",
+      "h",
+      "l",
+      "j",
+      "g",
+      "r",
+      "fast",
+      "sharp",
+      "brace",
+      "stored",
+      "read",
+      "sweep",
+      "salve"
+    ],
+    "common_ao_types": [
+      "f",
+      "h",
+      "l",
+      "j",
+      "g",
+      "r",
+      "fast",
+      "sharp",
+      "brace",
+      "stored",
+      "read",
+      "sweep",
+      "salve"
+    ],
+    "cards": [
+      {
+        "id": "nt_flow",
+        "spec": {
+          "type": "nt_flow",
+          "name": "返し潮",
+          "attr": "A",
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "field_power": 0,
+          "field_hit": 30,
+          "life": 2,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "pt_preparation_registered": false,
+        "common_registered": false
+      },
+      {
+        "id": "nt_pressure",
+        "spec": {
+          "type": "nt_pressure",
+          "name": "潮底の踏み足",
+          "attr": "B",
+          "kind": "attack",
+          "power": 4,
+          "hit": 50,
+          "field_power": 6,
+          "field_hit": 0,
+          "life": 2,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "pt_preparation_registered": false,
+        "common_registered": false
+      },
+      {
+        "id": "nt_stop",
+        "spec": {
+          "type": "nt_stop",
+          "name": "汐留め",
+          "attr": "D",
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "field_power": 2,
+          "field_hit": 20,
+          "life": 2,
+          "evasion": 20,
+          "crit_gain": 20
+        },
+        "pt_preparation_registered": false,
+        "common_registered": false
+      }
+    ],
+    "nearby_types": {
+      "f": {
+        "type": "f",
+        "name": "牽制",
+        "attr": "A",
+        "kind": "attack",
+        "power": 3,
+        "hit": 70,
+        "evasion": 0,
+        "crit_gain": 25,
+        "field_power": 0,
+        "field_hit": 30,
+        "life": 2,
+        "place_cost": 10,
+        "match_cost": 10,
+        "consume_on_recover": null
+      },
+      "l": {
+        "type": "l",
+        "name": "踏み込み",
+        "attr": "B",
+        "kind": "attack",
+        "power": 4,
+        "hit": 50,
+        "evasion": 0,
+        "crit_gain": 25,
+        "field_power": 6,
+        "field_hit": 0,
+        "life": 2,
+        "place_cost": 8,
+        "match_cost": 12,
+        "consume_on_recover": null
+      },
+      "g": {
+        "type": "g",
+        "name": "防御",
+        "attr": "D",
+        "kind": "guard",
+        "power": 3,
+        "hit": 0,
+        "evasion": 0,
+        "crit_gain": 20,
+        "field_power": -4,
+        "field_hit": 0,
+        "life": 2,
+        "place_cost": 10,
+        "match_cost": 10,
+        "consume_on_recover": null
+      }
+    }
+  }
+}
