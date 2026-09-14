@@ -42,5 +42,26 @@ test('DOM空状態・購入済み・未接続と短い理由／次操作を区�
 test('DOM公開用ラベルだけを表示、操作すべてに名前、ネットワーク／実保存なし',()=>{for(const e of ['return','home','empty','capacity','purchased','disconnected','nt']){setup(e);assert(!/CW-M1|revision|schema|view_token|owned-\d|choice-\d|SCN-001/.test(text()));for(const b of root.querySelectorAll('button'))assert(b.textContent.trim()||b.getAttribute('aria-label'));}assert(!errors.length,errors.join('\n'));const html=build();assert(Buffer.byteLength(html)<1e6);assert(!/fetch\s*\(|XMLHttpRequest|WebSocket|localStorage|indexedDB\s*\./.test(html));assert(!/__GROWTH_/.test(html));});
 // A deterministic fake clock verifies the hover affordance without claiming real pointer QA.
 test('DOM仮時計：180msの一時詳細、クリック固定、再クリック閉じる',()=>{setup();const jobs=new Map();let i=0;const oldSet=w.setTimeout,oldClear=w.clearTimeout;w.setTimeout=(fn,ms)=>{jobs.set(++i,{fn,ms});return i;};w.clearTimeout=id=>jobs.delete(id);const b=find('[data-detail="base:f"]');b.dispatchEvent(new w.MouseEvent('mouseover',{bubbles:true}));assert(!root.querySelector('[role=dialog]'));assert([...jobs.values()].some(x=>x.ms===180));for(const x of jobs.values())if(x.ms===180)x.fn();assert(ui.win&&!ui.win.pinned);b.click();assert(ui.win.pinned);b.click();assert(!ui.win);w.setTimeout=oldSet;w.clearTimeout=oldClear;});
-const result={id:'CO-U01 / UI-G-001',version:'0.1',runtime:process.version,jsdom:require((process.env.CW_JSDOM_PATH||'/tmp/crossweave-co-u01-deps/node_modules/jsdom')+'/package.json').version,checks,total:checks.length,scope:'mock controller + DOM + fake timers only',not_checked:['actual browser rendering','real pointer/touch device','IndexedDB or real API','new game play or balance'],old_game_replays:0};
+test('DOM長い準備内容と確定操作を分離し、全メニューをスクロール外へ保持',()=>{
+ setup();
+ for(const name of ['deck','skills','owned','offers']){
+  action('nav-'+name);
+  const pane=find('.cw-draft'),scroll=find('.cw-draft-content'),actions=find('.cw-draft-actions'),footer=find('[data-footer]');
+  assert(pane.contains(scroll)&&pane.contains(actions));assert(!scroll.contains(actions));
+  assert(!find('.cw-workspace').contains(footer));assert.equal(find('[data-workspace]').dataset.screen,name);
+  assert(actions.querySelector('[data-action=depart]'));
+ }
+ action('nav-deck');card('base:h');action('deck-remove');
+ for(const name of ['review','save-draft','discard-confirm'])assert(find('.cw-draft-actions').contains(find('[data-action="'+name+'"]')));
+ setup('return');assert.equal(find('[data-workspace]').dataset.screen,'return');assert(!root.querySelector('.cw-draft'));
+ setup('nt');action('ack');assert.equal(find('[data-workspace]').dataset.screen,'unconnected');
+});
+test('DOM表示枠の変更でも選択・ピン・下書き・制御viewを維持',()=>{
+ setup();card('base:h');action('deck-remove');card('base:f');
+ const dialog=find('[role=dialog]'),plan=copy(ui.plan),view=copy(ui.view),snap=ui.controller.testing.snapshot();
+ for(let i=0;i<3;i++)w.dispatchEvent(new w.Event('resize'));
+ assert.strictEqual(find('[role=dialog]'),dialog);eq(ui.plan,plan);eq(ui.view,view);assert(ui.win.pinned);
+ assert.equal(ui.controller.testing.snapshot(),snap);
+});
+const result={id:'CO-U01 / UI-G-001',version:'0.1.1',runtime:process.version,jsdom:require((process.env.CW_JSDOM_PATH||'/tmp/crossweave-co-u01-deps/node_modules/jsdom')+'/package.json').version,checks,total:checks.length,scope:'mock controller + DOM + fake timers only',not_checked:['actual browser rendering','real pointer/touch device','IndexedDB or real API','new game play or balance'],old_game_replays:0};
 fs.writeFileSync(path.join(__dirname,'verification/checks.json'),JSON.stringify(result,null,2)+'\n');fs.writeFileSync(path.join(__dirname,'verification/request-traces.json'),JSON.stringify({execution:'mock_only',traces},null,2)+'\n');dom.window.close();console.log(JSON.stringify({passed:checks.length,runtime:process.version}));

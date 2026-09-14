@@ -1,6 +1,6 @@
 {
   "id": "CO-U01 / UI-G-001",
-  "version": "0.1",
+  "version": "0.1.1",
   "runtime": "v24.19.0",
   "jsdom": "26.1.0",
   "checks": [
@@ -107,9 +107,17 @@
     {
       "name": "DOM仮時計：180msの一時詳細、クリック固定、再クリック閉じる",
       "status": "pass"
+    },
+    {
+      "name": "DOM長い準備内容と確定操作を分離し、全メニューをスクロール外へ保持",
+      "status": "pass"
+    },
+    {
+      "name": "DOM表示枠の変更でも選択・ピン・下書き・制御viewを維持",
+      "status": "pass"
     }
   ],
-  "total": 26,
+  "total": 28,
   "scope": "mock controller + DOM + fake timers only",
   "not_checked": [
     "actual browser rendering",

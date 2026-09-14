@@ -1,6 +1,11 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave — 準備と成長</title><style>body{margin:0;padding:12px;max-width:1440px;margin-inline:auto;font-family:system-ui,sans-serif;color-scheme:light dark}</style></head><body><div id="crossweave-growth-001">
-  <style>#crossweave-growth-001{--cw-paper:light-dark(#f2ecde,#252a27);--cw-ink:light-dark(#293a35,#efe9d8);--cw-muted:light-dark(#58665d,#b7c4b5);--cw-line:light-dark(#a7ad9b,#626f61);--cw-surface:light-dark(#e6e7d8,#343d35);--cw-active:light-dark(#315d4e,#bad0a7);--cw-on-active:light-dark(#f5f4e9,#20372c);--cw-warn:light-dark(#993c2d,#ffc1a6);--cw-glow:light-dark(#f0d399,#795b32);--cw-wood:light-dark(#a8ad95,#2d4037);color:var(--cw-ink);font-family:system-ui,sans-serif;color-scheme:light dark;container-type:inline-size}
-#crossweave-growth-001 *{box-sizing:border-box}
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave — 準備と成長</title><style>body{box-sizing:border-box;margin:0;padding:12px;width:100%;max-width:min(1440px,calc((100dvh - 96px)*16/9 + 24px));margin-inline:auto;font-family:system-ui,sans-serif;color-scheme:light dark}@media(max-width:624px),(max-height:480px){body{max-width:1440px}}</style></head><body><div id="crossweave-growth-001">
+  <style>#crossweave-growth-001{--cw-paper:light-dark(#f2ecde,#252a27);--cw-ink:light-dark(#293a35,#efe9d8);--cw-muted:light-dark(#58665d,#b7c4b5);--cw-line:light-dark(#a7ad9b,#626f61);--cw-surface:light-dark(#e6e7d8,#343d35);--cw-active:light-dark(#315d4e,#bad0a7);--cw-on-active:light-dark(#f5f4e9,#20372c);--cw-warn:light-dark(#993c2d,#ffc1a6);--cw-glow:light-dark(#f0d399,#795b32);--cw-wood:light-dark(#a8ad95,#2d4037);color:var(--cw-ink);font-family:system-ui,sans-serif;color-scheme:light dark;container:cw-growth / inline-size;display:block;width:100%;max-width:100%;min-width:0;margin-inline:auto;font-size:14px;line-height:1.4}
+#crossweave-growth-001,#crossweave-growth-001 *{box-sizing:border-box}
+#crossweave-growth-001 [hidden]{display:none!important}
+#crossweave-growth-001 :where(section,main,aside,header,footer,div,span,small,p,h2,h3,dl,dt,dd){min-width:0}
+#crossweave-growth-001 :where(p,small,h2,h3,dt,dd){overflow-wrap:anywhere}
+#crossweave-growth-001 :where(button,select){min-width:0;white-space:normal}
+#crossweave-growth-001 .cw-mini svg,#crossweave-growth-001 .cw-pin svg,#crossweave-growth-001 .cw-actions svg{width:16px;height:16px;flex-shrink:0}
 #crossweave-growth-001 button,#crossweave-growth-001 select{font:inherit;color:inherit;background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:5px;padding:7px 10px;cursor:pointer;max-width:100%}
 #crossweave-growth-001 button:hover{background:var(--cw-surface)}
 #crossweave-growth-001 button[aria-pressed=true],#crossweave-growth-001 .cw-primary{color:var(--cw-on-active);background:var(--cw-active);border-color:var(--cw-active)}
@@ -10,22 +15,24 @@
 #crossweave-growth-001 h2{font-size:1.3em;font-weight:500}
 #crossweave-growth-001 h3{font-size:1em;font-weight:500}
 #crossweave-growth-001 small{font-size:.86em;color:var(--cw-muted)}
-#crossweave-growth-001 .cw-lab{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 0 10px;font-size:12px}
-#crossweave-growth-001 .cw-lab select{padding:4px}
-#crossweave-growth-001 .cw-test-tools{position:relative}
-#crossweave-growth-001 .cw-test-tools>div{position:absolute;right:0;top:100%;width:220px;z-index:30;padding:10px;background:var(--cw-paper);display:grid;gap:6px;border:1px solid var(--cw-line)}
-#crossweave-growth-001 .cw-game{position:relative;isolation:isolate;aspect-ratio:16/9;min-height:550px;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden;background:var(--cw-wood);border:1px solid var(--cw-line)}
+#crossweave-growth-001 .cw-lab{position:relative;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 0 10px;font-size:12px}
+#crossweave-growth-001 .cw-lab label{display:flex;align-items:center;gap:6px;min-width:0;max-width:100%}
+#crossweave-growth-001 .cw-lab select{padding:4px;min-width:0;max-width:100%;flex:1}
+#crossweave-growth-001 .cw-test-tools{position:static}
+#crossweave-growth-001 .cw-test-tools>div{position:absolute;right:0;top:100%;width:min(260px,100%);z-index:30;padding:10px;background:var(--cw-paper);display:grid;gap:6px;border:1px solid var(--cw-line)}
+#crossweave-growth-001 .cw-game{position:relative;isolation:isolate;width:100%;max-width:100%;min-width:0;min-height:0;height:576px;height:56.25cqw;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden;background:var(--cw-wood);border:1px solid var(--cw-line)}
 #crossweave-growth-001 .cw-place{position:absolute;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 18% 25%,var(--cw-glow),transparent 58%),linear-gradient(140deg,var(--cw-wood),var(--cw-surface))}
 #crossweave-growth-001 .cw-window-light{position:absolute;left:7%;top:7%;width:22%;height:53%;background:linear-gradient(90deg,transparent 48%,var(--cw-wood) 48% 52%,transparent 52%),linear-gradient(transparent 48%,var(--cw-wood) 48% 52%,transparent 52%),var(--cw-glow);border:12px solid var(--cw-wood);opacity:.6;transform:skewY(-4deg)}
 #crossweave-growth-001 .cw-shelves{position:absolute;right:3%;top:8%;height:61%;width:43%;border:10px solid var(--cw-wood);background:repeating-linear-gradient(transparent 0 28%,var(--cw-wood) 28% 33%);opacity:.65}
 #crossweave-growth-001 .cw-counter{position:absolute;inset:66% -5% -35%;background:linear-gradient(170deg,var(--cw-wood),var(--cw-paper));transform:perspective(500px) rotateX(35deg);border-top:5px solid var(--cw-line)}
-#crossweave-growth-001 .cw-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;background:color-mix(in srgb,var(--cw-paper) 92%,transparent);border-bottom:1px solid var(--cw-line)}
-#crossweave-growth-001 .cw-top-title{display:flex;gap:12px;align-items:baseline}
-#crossweave-growth-001 .cw-wallet{display:flex;gap:16px;align-items:baseline;font-variant-numeric:tabular-nums}
-#crossweave-growth-001 .cw-workspace{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 262px;gap:14px;padding:16px}
+#crossweave-growth-001 .cw-top{grid-row:1;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;background:color-mix(in srgb,var(--cw-paper) 92%,transparent);border-bottom:1px solid var(--cw-line)}
+#crossweave-growth-001 .cw-top-title{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+#crossweave-growth-001 .cw-wallet{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;font-variant-numeric:tabular-nums}
+#crossweave-growth-001 .cw-workspace{grid-row:2;min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr);overflow:hidden;grid-template-columns:minmax(0,1fr) 262px;gap:14px;padding:16px}
 #crossweave-growth-001 .cw-main,#crossweave-growth-001 .cw-draft{min-width:0;min-height:0;background:color-mix(in srgb,var(--cw-paper) 94%,transparent);padding:14px;border:1px solid var(--cw-line);border-radius:7px}
-#crossweave-growth-001 .cw-main{display:flex;flex-direction:column;gap:12px}
-#crossweave-growth-001 .cw-scroll{min-height:0;overflow:auto;scrollbar-gutter:stable;padding:2px 4px 12px 2px;overscroll-behavior:contain}
+#crossweave-growth-001 .cw-main{display:flex;flex-direction:column;gap:10px;overflow:hidden}
+#crossweave-growth-001 .cw-main>.cw-row,#crossweave-growth-001 [data-scroll-hint]{flex-shrink:0}
+#crossweave-growth-001 .cw-scroll{flex:1 1 0;min-width:0;min-height:0;overflow:auto;scrollbar-gutter:stable;padding:2px 4px 12px 2px;overscroll-behavior:contain}
 #crossweave-growth-001 .cw-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 #crossweave-growth-001 .cw-section-title{margin:14px 0 8px;display:block;color:var(--cw-muted)}
 #crossweave-growth-001 .cw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:9px}
@@ -37,45 +44,70 @@
 #crossweave-growth-001 .cw-count{position:absolute;right:6px;top:4px;font-size:12px;background:var(--cw-paper);padding:1px 4px;border-radius:3px;color:var(--cw-ink)}
 #crossweave-growth-001 .cw-tile.cw-planned{border-style:dashed;border-color:var(--cw-active)}
 #crossweave-growth-001 .cw-tile[aria-pressed=true] .cw-art,#crossweave-growth-001 .cw-tile[aria-pressed=true] small{color:inherit}
-#crossweave-growth-001 .cw-draft{display:flex;flex-direction:column;gap:10px;overflow:auto}
+#crossweave-growth-001 .cw-draft{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;overflow:hidden}
+#crossweave-growth-001 .cw-draft-content{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;display:flex;flex-direction:column;gap:10px}
+#crossweave-growth-001 .cw-draft-content>*{flex-shrink:0}
+#crossweave-growth-001 .cw-draft-actions{display:grid;gap:6px}
 #crossweave-growth-001 .cw-mini-grid{display:flex;flex-wrap:wrap;gap:5px}
 #crossweave-growth-001 .cw-mini{position:relative;width:42px;min-height:40px;display:grid;place-items:center;padding:4px!important}
 #crossweave-growth-001 .cw-mini small{font-size:11px}
 #crossweave-growth-001 .cw-mini.cw-planned{border-style:dashed}
-#crossweave-growth-001 .cw-ledger{display:grid;grid-template-columns:1fr auto;gap:5px 8px;font-size:13px;font-variant-numeric:tabular-nums;margin:0}
+#crossweave-growth-001 .cw-ledger{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 8px;font-size:13px;font-variant-numeric:tabular-nums;margin:0}
 #crossweave-growth-001 .cw-ledger dt,#crossweave-growth-001 .cw-ledger dd{margin:0}
 #crossweave-growth-001 .cw-ledger dd{text-align:right}
 #crossweave-growth-001 .cw-result{font-size:1.2em;padding-top:6px;border-top:1px solid var(--cw-line)}
 #crossweave-growth-001 .cw-error{color:var(--cw-warn);font-size:13px}
 #crossweave-growth-001 .cw-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-#crossweave-growth-001 .cw-actions>button{flex:1}
+#crossweave-growth-001 .cw-actions>button{flex:1;overflow-wrap:anywhere}
 #crossweave-growth-001 .cw-draft>.cw-actions{margin-top:auto}
 #crossweave-growth-001 .cw-notice:empty{display:none}
-#crossweave-growth-001 .cw-notice{padding:8px 16px;background:var(--cw-paper);border-top:1px solid var(--cw-line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-#crossweave-growth-001 .cw-footer{min-height:46px;padding:5px 14px;background:var(--cw-paper);display:flex;align-items:center;gap:5px;border-top:1px solid var(--cw-line);flex-wrap:wrap}
+#crossweave-growth-001 .cw-notice{grid-row:3;max-height:84px;overflow:auto;padding:8px 16px;background:var(--cw-paper);border-top:1px solid var(--cw-line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#crossweave-growth-001 .cw-footer{grid-row:4;min-height:46px;padding:5px 14px;background:var(--cw-paper);display:flex;align-items:center;gap:5px;border-top:1px solid var(--cw-line);flex-wrap:wrap}
 #crossweave-growth-001 .cw-footer .cw-spacer{flex:1}
 #crossweave-growth-001 .cw-footer button{border-color:transparent;padding:5px 9px;font-size:13px}
-#crossweave-growth-001 .cw-return{grid-column:1/-1;align-self:center;max-width:750px;width:100%;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:25px;background:color-mix(in srgb,var(--cw-paper) 94%,transparent);border:1px solid var(--cw-line);border-radius:7px}
+#crossweave-growth-001 .cw-return{grid-column:1/-1;align-self:center;min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain;max-width:750px;width:100%;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:25px;background:color-mix(in srgb,var(--cw-paper) 94%,transparent);border:1px solid var(--cw-line);border-radius:7px}
 #crossweave-growth-001 .cw-return-head{display:grid;align-content:center;gap:14px}
 #crossweave-growth-001 .cw-return h2{font-size:1.6em}
 #crossweave-growth-001 .cw-return-list{display:flex;flex-direction:column;gap:14px}
 #crossweave-growth-001 .cw-return-actions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 #crossweave-growth-001 .cw-empty{padding:24px 10px;display:grid;gap:12px;justify-items:start}
 #crossweave-growth-001 .cw-overlay{position:absolute;inset:0;z-index:10;pointer-events:none}
-#crossweave-growth-001 .cw-shade{position:absolute;inset:0;pointer-events:auto;background:color-mix(in srgb,var(--cw-ink) 12%,transparent);display:grid;place-items:center;padding:18px}
-#crossweave-growth-001 .cw-popup{pointer-events:auto;background:color-mix(in srgb,var(--cw-paper) 97%,transparent);color:var(--cw-ink);border:1px solid var(--cw-line);border-radius:8px;box-shadow:0 12px 36px color-mix(in srgb,var(--cw-ink) 25%,transparent);padding:18px;display:flex;flex-direction:column;gap:14px;width:min(390px,100%);max-height:calc(100% - 12px);overflow:auto}
+#crossweave-growth-001 .cw-shade{position:absolute;inset:0;pointer-events:auto;background:color-mix(in srgb,var(--cw-ink) 12%,transparent);display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);place-items:center;padding:14px}
+#crossweave-growth-001 .cw-popup{pointer-events:auto;background:color-mix(in srgb,var(--cw-paper) 97%,transparent);color:var(--cw-ink);border:1px solid var(--cw-line);border-radius:8px;box-shadow:0 12px 36px color-mix(in srgb,var(--cw-ink) 25%,transparent);padding:18px;display:flex;flex-direction:column;gap:14px;width:min(390px,100%);min-width:0;min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain}
+#crossweave-growth-001 .cw-popup>*{flex-shrink:0}
 #crossweave-growth-001 .cw-popup.cw-review{width:min(660px,100%)}
 #crossweave-growth-001 .cw-popup .cw-art{min-height:80px}
 #crossweave-growth-001 .cw-pin{min-width:32px;padding:4px!important}
-#crossweave-growth-001 .cw-review-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+#crossweave-growth-001 .cw-review-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
 #crossweave-growth-001 .cw-review-list{display:grid;gap:8px;align-content:start}
 #crossweave-growth-001 .cw-quiet{color:var(--cw-muted);font-size:12px}
 #crossweave-growth-001 .cw-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@container(max-width:760px){#crossweave-growth-001 .cw-workspace{grid-template-columns:minmax(0,1fr) 210px;padding:10px;gap:8px}#crossweave-growth-001 .cw-main,#crossweave-growth-001 .cw-draft{padding:10px}#crossweave-growth-001 .cw-grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}#crossweave-growth-001 .cw-game{min-height:600px}}
-@container(max-width:540px){#crossweave-growth-001 .cw-game{aspect-ratio:auto;min-height:700px;grid-template-rows:auto auto auto auto}#crossweave-growth-001 .cw-workspace{grid-template-columns:1fr}#crossweave-growth-001 .cw-main{max-height:340px}#crossweave-growth-001 .cw-draft{max-height:none}#crossweave-growth-001 .cw-mini-grid{max-height:92px;overflow:auto}#crossweave-growth-001 .cw-return{grid-template-columns:1fr;padding:16px;gap:14px}#crossweave-growth-001 .cw-top{padding:10px}#crossweave-growth-001 .cw-wallet{font-size:13px}#crossweave-growth-001 .cw-review-cols{grid-template-columns:1fr;gap:14px}#crossweave-growth-001 .cw-lab label{max-width:100%}#crossweave-growth-001 .cw-test-tools>div{left:0;right:auto}#crossweave-growth-001 .cw-footer{padding:6px;gap:3px}}
+/* The game height comes from the host width. No aspect-ratio + minimum-height feedback. */
+@container cw-growth (max-width:760px){
+ #crossweave-growth-001 .cw-workspace{grid-template-columns:minmax(0,1fr) 210px;padding:10px;gap:8px}
+ #crossweave-growth-001 .cw-main,#crossweave-growth-001 .cw-draft{padding:10px}
+ #crossweave-growth-001 .cw-grid{grid-template-columns:repeat(auto-fill,minmax(min(92px,100%),1fr))}
+ #crossweave-growth-001 .cw-top{padding:8px 12px}
+ #crossweave-growth-001 .cw-return{padding:16px;gap:14px}
+}
+@container cw-growth (max-width:600px){
+ #crossweave-growth-001 .cw-game{height:620px}
+ #crossweave-growth-001 .cw-workspace{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+ #crossweave-growth-001 .cw-workspace[data-screen=return],#crossweave-growth-001 .cw-workspace[data-screen=unconnected]{grid-template-rows:minmax(0,1fr)}
+ #crossweave-growth-001 .cw-return{grid-template-columns:minmax(0,1fr);padding:16px;gap:14px}
+ #crossweave-growth-001 .cw-return-head{gap:8px}
+ #crossweave-growth-001 .cw-return-list{gap:10px}
+ #crossweave-growth-001 .cw-top{padding:8px 10px;gap:6px}
+ #crossweave-growth-001 .cw-wallet{font-size:13px}
+ #crossweave-growth-001 .cw-review-cols{grid-template-columns:minmax(0,1fr);gap:14px}
+ #crossweave-growth-001 .cw-footer{padding:5px;gap:3px}
+ #crossweave-growth-001 .cw-footer button{padding-inline:7px}
+ #crossweave-growth-001 .cw-popup{padding:12px;gap:10px}
+ #crossweave-growth-001 .cw-shade{padding:10px}
+}
 @media(pointer:coarse){#crossweave-growth-001 button,#crossweave-growth-001 select{min-height:44px}#crossweave-growth-001 .cw-mini{min-width:44px}}
 
-#crossweave-growth-001 .cw-detail-layer{position:absolute;inset:58px 16px 55px;pointer-events:none;display:grid;align-items:start;justify-items:end}
+#crossweave-growth-001 .cw-detail-layer{position:absolute;inset:var(--cw-detail-top,58px) 12px var(--cw-detail-bottom,55px);pointer-events:none;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:start;justify-items:end}
 #crossweave-growth-001 .cw-detail-layer .cw-popup{width:min(345px,100%);max-height:100%}
 </style>
   <div class="cw-lab">
@@ -227,7 +259,7 @@ function initialize(example){controller=createMockController(DATA,example);view=
 function tile(id,origin,amount){const d=detail(id);return `<button type="button" class="cw-tile ${origin==='予定'?'cw-planned':''}" data-detail="${esc(id)}" data-origin="${origin}" aria-label="${esc(d.name+'・'+origin)}" aria-pressed="${win?.id===id&&win?.pinned?'true':'false'}"><span class="cw-art">${icon(d.icon)}</span><span class="cw-name">${esc(d.name)}</span><small>${origin==='初期札'?'初期札':origin==='候補'?'取得候補':origin==='心得'?(isLearned(d.base_id)?'習得予定':'未習得'):origin}</small>${amount?`<span class="cw-count">${origin==='候補'?amount:amount+'枚'}</span>`:''}</button>`;}
 function mini(id,count=1){return `<button type="button" class="cw-mini ${id==='$purchase'?'cw-planned':''}" data-detail="${esc(id)}" data-origin="予定" aria-label="${esc(name(id)+'・予定'+count)}">${icon(detail(id).icon)}${count>1?`<small>×${count}</small>`:''}</button>`;}
 function ledger(c){if(!c?.ok)return c?`<div class="cw-error" role="alert">${esc(noticeFor(c.refusal))}</div>`:'';const s=c.stages;return `<dl class="cw-ledger"><dt>取消による返還</dt><dd>+${pt(c.cancellation.actual_refund_units)}</dd><dt>取消後</dt><dd>${pt(s.after_cancellation.unspent_units)}</dd><dt>購入予定</dt><dd>−${pt(c.purchase.cost_units)}</dd><dt>習得予定</dt><dd>−${pt(c.learning.payment_units)}</dd><dt class="cw-result">確定後の残額</dt><dd class="cw-result">${pt(s.prepared.unspent_units)}</dd><dt>確定後の既払</dt><dd>${pt(s.prepared.paid_learning_units)}</dd></dl>`;}
-function draftPane(){if(!home())return '';const p=plan.next_preparation,used=p.equipment.reduce((s,id)=>s+(detail(id).equipment_cost||0),0),c=comparison;return `<aside class="cw-draft" aria-label="変更案"><div class="cw-row"><h3>${dirty()?'変更案':'今の準備'}</h3><small>${dirty()?'未確定':''}</small></div><div class="cw-row"><span>札組</span><small>${p.deck.length} / ${home().deck.required_size} 枚</small></div><div class="cw-mini-grid">${counts(p.deck).map(x=>mini(x.id,x.count)).join('')}</div><div class="cw-row"><span>装備</span><small>${used} / ${home().equipment.capacity}</small></div><div class="cw-mini-grid">${p.equipment.length?p.equipment.map(id=>mini(id)).join(''):'<small>なし</small>'}</div>${plan.candidate?`<small>購入予定 · ${esc(name('$purchase'))}</small>`:''}${dirty()?(c?.ok?`<dl class="cw-ledger"><dt>返還予定</dt><dd>+${pt(c.cancellation.actual_refund_units)}</dd><dt>支出予定</dt><dd>−${pt(c.purchase.cost_units+c.learning.payment_units)}</dd><dt class="cw-result">確定後</dt><dd class="cw-result">${pt(c.stages.prepared.unspent_units)}</dd></dl>`:ledger(c)):''}${dirty()?`<div class="cw-actions">${button('比較','review','','cw-primary')}</div><div class="cw-actions">${button('下書きを保存','save-draft',stale?'disabled':'')}${button('戻す','discard-confirm')}</div>`:`<div class="cw-actions">${button('出発','depart','','cw-primary')}</div>`}</aside>`;}
+function draftPane(){if(!home())return '';const p=plan.next_preparation,used=p.equipment.reduce((s,id)=>s+(detail(id).equipment_cost||0),0),c=comparison;return `<aside class="cw-draft" aria-label="変更案"><div class="cw-row"><h3>${dirty()?'変更案':'今の準備'}</h3><small>${dirty()?'未確定':''}</small></div><div class="cw-draft-content"><div class="cw-row"><span>札組</span><small>${p.deck.length} / ${home().deck.required_size} 枚</small></div><div class="cw-mini-grid">${counts(p.deck).map(x=>mini(x.id,x.count)).join('')}</div><div class="cw-row"><span>装備</span><small>${used} / ${home().equipment.capacity}</small></div><div class="cw-mini-grid">${p.equipment.length?p.equipment.map(id=>mini(id)).join(''):'<small>なし</small>'}</div>${plan.candidate?`<small>購入予定 · ${esc(name('$purchase'))}</small>`:''}${dirty()?(c?.ok?`<dl class="cw-ledger"><dt>返還予定</dt><dd>+${pt(c.cancellation.actual_refund_units)}</dd><dt>支出予定</dt><dd>−${pt(c.purchase.cost_units+c.learning.payment_units)}</dd><dt class="cw-result">確定後</dt><dd class="cw-result">${pt(c.stages.prepared.unspent_units)}</dd></dl>`:ledger(c)):''}</div><div class="cw-draft-actions">${dirty()?`<div class="cw-actions">${button('比較','review','','cw-primary')}</div><div class="cw-actions">${button('下書きを保存','save-draft',stale?'disabled':'')}${button('戻す','discard-confirm')}</div>`:`<div class="cw-actions">${button('出発','depart','','cw-primary')}</div>`}</div></aside>`;}
 function content(){const h=home();if(!h)return `<div class="cw-main" style="grid-column:1/-1"><h2>準備</h2><div class="cw-empty"><p>準備データの接続待ち</p><small>帰還結果は保持されています</small></div></div>`;let body='',heading='',summary='';
  if(section==='deck'){heading='札組';summary='初期札と所持札';body=`<span class="cw-section-title">初期札</span><div class="cw-grid">${h.free_card_options.map(id=>tile(id,'初期札',plan.next_preparation.deck.filter(x=>x===id).length)).join('')}</div><span class="cw-section-title">所持札</span><div class="cw-grid">${h.owned.filter(o=>o.selection_kind==='deck').map(o=>tile(o.id,'所持',plan.next_preparation.deck.includes(o.id)?1:0)).join('')||'<small>なし</small>'}</div>${plan.candidate&&detail('$purchase').kind==='card'?`<span class="cw-section-title">購入予定</span><div class="cw-grid">${tile('$purchase','予定',plan.next_preparation.deck.includes('$purchase')?1:0)}</div>`:''}`;}
  if(section==='skills'){heading='心得';summary='習得と装備';body=`<span class="cw-section-title">基礎心得</span><div class="cw-grid">${h.learning_options.map(o=>tile('base:'+o.base,'心得')).join('')}</div><span class="cw-section-title">所持している心得</span><div class="cw-grid">${h.owned.filter(o=>o.selection_kind==='equipment').map(o=>tile(o.id,'所持')).join('')||'<small>なし</small>'}</div>${plan.candidate&&detail('$purchase').kind==='passive'?`<span class="cw-section-title">購入予定</span><div class="cw-grid">${tile('$purchase','予定')}</div>`:''}`;}
@@ -238,10 +270,11 @@ function content(){const h=home();if(!h)return `<div class="cw-main" style="grid
 function returnPage(){const r=dd().return_receipt,nt=!home(),unspent=r.unspent_after_units??r.available_units;return `<main class="cw-return"><div class="cw-return-head"><small>${nt?'夜潮の排水路':'探索から戻った'}</small><h2>帰還</h2><div>着想 <strong>+${pt(r.gained_units)}</strong></div><small>精算済み</small></div><div class="cw-return-list"><div class="cw-row"><span>持ち帰り</span><span>${r.kept_count??r.kept_items?.length??'—'}個</span></div><div class="cw-row"><span>喪失</span><span>${r.lost_count??r.lost_items?.length??'—'}個</span></div><div><small>種類解放</small><p>${nt?'汐留め':'踏ん張り'}</p></div>${nt?'<div><small>案件</small><p>解決済み · 次は連絡路の調査</p></div>':''}<dl class="cw-ledger"><dt>未使用</dt><dd>${pt(unspent)}</dd><dt>既払</dt><dd>${pt(r.paid_learning_units)}</dd></dl></div><div class="cw-return-actions">${!nt?button('心得の取り直しを比較','return-compare'):''}${button('次の準備へ','ack','','cw-primary')}</div></main>`;}
 function render(){
  const h=home(),returning=section==='return';$('[data-top]').innerHTML=`<div class="cw-top-title"><span>crossweave</span><small>${returning?'古道具屋':'出発準備'}</small></div><div class="cw-wallet">${h?`<span>着想 <strong>${pt(h.economy.unspent_units)}</strong></span><small>既払 ${pt(h.economy.paid_learning_units)}</small>`:''}</div>`;
+ $('[data-workspace]').dataset.screen=returning?'return':h?section:'unconnected';
  $('[data-workspace]').innerHTML=returning?returnPage():content();
  $('[data-footer]').innerHTML=returning?'<small>古道具屋</small>':`${[['deck','札組'],['skills','心得'],['owned','所持'],['offers','取得']].map(([s,l])=>button(l,'nav-'+s,`aria-pressed="${section===s}" ${!h?'disabled':''}`)).join('')}<span class="cw-spacer"></span><small>${plan?'札 '+plan.next_preparation.deck.length+'枚':''}</small>`;
  $('[data-notice]').innerHTML=notice?`<span ${failed||stale?'role="alert"':''}>${esc(notice)}</span>${failed?button('再試行','retry'):''}${stale?button('最新を読む','refresh'):''}`:'';
- renderWindow();icons();queueMicrotask(()=>{const s=$('[data-scroll]'),hint=$('[data-scroll-hint]');if(s&&hint)hint.hidden=s.scrollHeight<=s.clientHeight+4;});
+ renderWindow();icons();queueMicrotask(updateLayout);
 }
 function icons(){if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:16,height:16}});}
 function popupHeader(title){return `<div class="cw-row"><h2>${esc(title)}</h2>${button(icon(win?.pinned?'pin':'pin-off',win?.pinned?'◆':'◇'),'pin',`aria-label="${win?.pinned?'ピン留めを解除':'ピン留め'}" aria-pressed="${!!win?.pinned}"`,'cw-pin')}</div>`;}
@@ -270,7 +303,7 @@ function renderWindow(){const overlay=$('[data-overlay]');if(!win){overlay.inner
   body=popupHeader('変換');if(quote){body+=`<div class="cw-art">${icon(detail(win.id).icon)}</div><p>${esc(name(win.id))}</p><dl class="cw-ledger"><dt>手放す</dt><dd>${quote.removed_count}個</dd><dt>着想</dt><dd>+${pt(quote.total_units)}</dd><dt>確定後</dt><dd>${pt(quote.unspent_after_units)}</dd></dl><div class="cw-actions">${button('戻る','close')}${button('変換する','convert',`data-id="${esc(win.id)}"`,'cw-danger')}</div>`;}else body+=`<p class="cw-error" role="alert">${esc(notice)}</p><div class="cw-actions">${button(unsaved()?'下書きを保存':'準備へ','conversion-recover')}</div>`;
  }
  if(win.type==='discard'){body=popupHeader('変更を戻す')+'<p>未確定の変更を取り消します</p><div class="cw-actions">'+button('続ける','close')+button('今の準備に戻す','discard','','cw-danger')+'</div>';}
- overlay.innerHTML=`<div class="${win.type==='detail'?'cw-detail-layer':'cw-shade'}" data-outside><section class="cw-popup ${review?'cw-review':''}" role="dialog" aria-label="${esc(win.type==='detail'?name(win.id):win.type==='review'?'変更の比較':win.type==='conversion'?'変換':'変更を戻す')}">${body}</section></div>`;if(win.type==='detail'){const source=[...root.querySelectorAll('[data-detail]')].find(n=>n.dataset.detail===win.id);const g=$('.cw-game').getBoundingClientRect(),r=source?.getBoundingClientRect();const layer=$('.cw-detail-layer');layer.style.justifyItems=r&&r.left-g.left>g.width/2?'start':'end';}icons();
+ overlay.innerHTML=`<div class="${win.type==='detail'?'cw-detail-layer':'cw-shade'}" data-outside><section class="cw-popup ${review?'cw-review':''}" role="dialog" aria-label="${esc(win.type==='detail'?name(win.id):win.type==='review'?'変更の比較':win.type==='conversion'?'変換':'変更を戻す')}">${body}</section></div>`;positionDetail();icons();
 }
 function openDetail(id,origin,pinned){if(win?.type==='detail'&&win.id===id&&pinned){if(win.pinned){win=null;renderWindow();return;}win.pinned=true;renderWindow();return;}if(!pinned&&win?.pinned)return;win={type:'detail',id,origin,pinned};renderWindow();}
 root.addEventListener('click',event=>{
@@ -312,6 +345,30 @@ root.addEventListener('change',e=>{if(e.target.matches('[data-example]'))initial
 root.addEventListener('mouseover',e=>{if(e.target.closest('.cw-popup')){clearTimeout(leaveTimer);return;}const b=e.target.closest('[data-detail]');if(!b||b.contains(e.relatedTarget))return;clearTimeout(hoverTimer);if(win?.pinned)return;hoverTimer=setTimeout(()=>openDetail(b.dataset.detail,b.dataset.origin,false),180);});
 root.addEventListener('mouseout',e=>{const b=e.target.closest('[data-detail]');if(b&&!b.contains(e.relatedTarget))clearTimeout(hoverTimer);if((b||e.target.closest('.cw-popup'))&&!e.relatedTarget?.closest?.('.cw-popup')){leaveTimer=setTimeout(()=>{if(win&&!win.pinned){win=null;renderWindow();}},140);}});
 root.addEventListener('keydown',e=>{if(e.key==='Escape'&&win){win=null;renderWindow();}});
+// Dimensions follow this fragment's container, never the surrounding window or a fixed canvas.
+function updateScrollCue(){const s=$('[data-scroll]'),hint=$('[data-scroll-hint]');if(s&&hint)hint.hidden=s.scrollHeight-s.scrollTop<=s.clientHeight+4;}
+function positionDetail(){
+ if(win?.type!=='detail')return;
+ const source=[...root.querySelectorAll('[data-detail]')].find(n=>n.dataset.detail===win.id),layer=$('.cw-detail-layer');
+ const g=$('.cw-game').getBoundingClientRect(),r=source?.getBoundingClientRect();
+ if(layer)layer.style.justifyItems=r&&r.left-g.left>g.width/2?'start':'end';
+}
+function updateLayout(){
+ const game=$('.cw-game'),g=game.getBoundingClientRect();
+ if(g.height>0){
+  const top=$('[data-top]').getBoundingClientRect(),foot=$('[data-footer]').getBoundingClientRect(),message=$('[data-notice]').getBoundingClientRect();
+  const lower=message.height>0?Math.min(message.top,foot.top):foot.top;
+  game.style.setProperty('--cw-detail-top',Math.ceil(top.bottom-g.top+8)+'px');
+  game.style.setProperty('--cw-detail-bottom',Math.ceil(g.bottom-lower+8)+'px');
+ }
+ updateScrollCue();positionDetail();
+}
+if(typeof ResizeObserver!=='undefined'){
+ const observer=new ResizeObserver(updateLayout);
+ for(const selector of ['.cw-game','[data-top]','[data-workspace]','[data-notice]','[data-footer]'])observer.observe($(selector));
+}
+root.addEventListener('scroll',updateScrollCue,true);
+window.addEventListener('resize',updateLayout);
 
 initialize('return');
 

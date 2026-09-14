@@ -1,0 +1,238 @@
+{
+  "id": "CO-01A-static-reconcile-1",
+  "version": "0.1",
+  "status": "conditions-fixed-before-input-generation-and-check",
+  "own_base_commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+  "scenario_reference_commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+  "coordination_commit": "af9e99e226842152aa7a8d038db150bb72113554",
+  "purpose": "D01/S01の意味ID・型・数値・精算条件を一つの試行入力へ揃える。性能・テンポ・面白さの比較ではない。",
+  "input_file": "docs/仕様案/接続データ/co-01a/m1-input.v0.1.json",
+  "selected_proposals": {
+    "P-01": "M1試行に使用",
+    "P-02": "M1試行に使用"
+  },
+  "allowed": [
+    "固定Git blobの静的読取・本文表の転記",
+    "既存AO/情報APIのカタログ生成・blueprint検証・compile・signatureのみ。コピー上の新札カタログ注入を許す",
+    "ID一意性・全参照・型・基礎と修飾値・間隔・RW精算表・公開契約差分の検査",
+    "保存済み成果のハッシュ確認"
+  ],
+  "forbidden": [
+    "Session.depart/Game.step/advance/戦闘/候補乱数抽選/試遊ビルド",
+    "旧AU〜BF・BD/BE・PT-NT証跡の再実行・上書き",
+    "新runtime/UI/実保存の実装、人的評価の代替"
+  ],
+  "exit_conditions": [
+    "ST01〜09・MODE/ACT/TXT/END/ACH・CRD/RWを版付き入力へ対応付け",
+    "3札の基礎・合法修飾・情報署名・間隔と参照の静的一致",
+    "終了表・重複キー・候補適格/保持/価格・P-01/P-02の一案固定",
+    "接続条件・固定引継ぎを更新し通常保存とGitHub読戻し後に今回の単位を終了"
+  ],
+  "sources": [
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/仕様案/カード探索ゲーム_継続本体の接続条件.md",
+      "blob": "c70f094465af779ff33bd1c67677a6b5467de689",
+      "sha256": "8f75b69238e1140a3c2ca9d63e710073ffb37eeef3e196037d4c3e55a4d02cd1"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/修飾/ao/affixes.cjs",
+      "blob": "f4d4977aad111ab079256aa788bbd6aee5c85a0d",
+      "sha256": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/修飾/ao/conditions.json",
+      "blob": "7588b925432123480ded7ad999de799a4ef8852f",
+      "sha256": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/修飾/ap/conditions.json",
+      "blob": "4522af11f013d1163b34de51dbb6d821e70d09c3",
+      "sha256": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/装備制限/aq/conditions.json",
+      "blob": "85c8eddbf382b09fe5dd33b82f88e1a3bb279db2",
+      "sha256": "ad11113aa944ef7b01ab77dfa2bf3eb0a0c368da279456a0d0fa326860e758a0"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/資源用途/at/offers.cjs",
+      "blob": "2a2b7e1bf080e8c91f8562cc5b48f3d205188cc8",
+      "sha256": "13c2d3b215a8b723010fae951ba126a0ce72e82d8648430151079adabd743af7"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/資源用途/at/conditions.json",
+      "blob": "498c431ea5e1b9b6a44e3d75145ce8fddf4aa027",
+      "sha256": "92c658c96c83f1e86dc9a7c95dbf7f095548e30c530ac1a410df7c64c2d54594"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/構築と探索/au/session.cjs",
+      "blob": "107ad0f96106c72f941da18b3d7ea60679ef3519",
+      "sha256": "f95e73d3fce89df8960d6db80c1bc512ee95315bf94c1e4ee7958e181318d3a0"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/構築と探索/au/conditions.json",
+      "blob": "a37be15013040d137bb0ecaa3271c95dbd740a1c",
+      "sha256": "8877196d724d5243172fbaa4f6d61bfa956e5cf9609e732645383f5670f2b58c"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js",
+      "blob": "ee77356705ed0d02b665020210dc19bda84cfc43",
+      "sha256": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/expedition_loop.js",
+      "blob": "99b35fdd4b6831d18cddb59563c268390064eb4c",
+      "sha256": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/loop_inputs.json",
+      "blob": "c49f197e2b5ebc91c68af08e8c15cf2af6bb9b01",
+      "sha256": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/terrain.js",
+      "blob": "145be355d26951363f51539fe93e3bf5bccff3ac",
+      "sha256": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/ecology.js",
+      "blob": "887529db17fa72ae50eae503fa50724fe5e4e7dc",
+      "sha256": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/input.json",
+      "blob": "6122c64539fc7021fb020296c592586e234e22b3",
+      "sha256": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/information.js",
+      "blob": "06031f1992fc7a9915ac7c4526c98409ffea6446",
+      "sha256": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/knowledge.js",
+      "blob": "b8eb32762a096d5a3629660f561054801f5f7230",
+      "sha256": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json",
+      "blob": "fc885b8806bc8149df6e5c4404e1470a8c763595",
+      "sha256": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+      "blob": "15e9ba95375e837f5e40eaf26273553cbb648dbc",
+      "sha256": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs",
+      "blob": "90a0234b3182ea9869ae01044b6273a20f917d3a",
+      "sha256": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/posture_am/conditions.json",
+      "blob": "ddbef50d585529661b764741a7976384ae8fec0a",
+      "sha256": "62c969eb9f30decd430989146218f06ce8792f001fba5d2f22db026b2c189676"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/試遊/night-tide/src/scenario.js",
+      "blob": "873ab690bb4f5648538f64e4ea320849b0f0c794",
+      "sha256": "efc2ff225ff539daff8fb748b84aa76b7d6401f1f59afb619eee53916d93a055"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/試遊/night-tide/src/vendor/choice_inputs.json",
+      "blob": "393f4f2742929e5854e43f5df683149836a5d5e4",
+      "sha256": "d0a4cb24898976cfc1bb94290296b11a2e34497ebe55fe9369f09179cfa31e9e"
+    },
+    {
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "path": "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/内容切替と帰還.md",
+      "blob": "c692edf15b414ca83f14e27fb20def5c8681bf75",
+      "sha256": "899eb705bc40c19916c0d01455b31579b6cc30ec74b61186f4f1b4dfa119544a"
+    },
+    {
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "path": "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/札と成果の接続.md",
+      "blob": "a62c0dbeb137c5e744cc1bb9d6b6b69a805740fa",
+      "sha256": "44c3d735cd0a7900c57c6d34d4af3a7d0ae654eed7f34543a9b276355c691ada"
+    },
+    {
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "path": "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/本文.md",
+      "blob": "2b871ad1a014bd82d4fa53257b76ba6e88fccbc2",
+      "sha256": "49d2dcac8ddf28ba19c55a11778645fe90bc9f6c62f8a9b0ad2873e509f0e270"
+    },
+    {
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "path": "docs/仕様案/シナリオ・探索内容/SCN-001_夜潮の排水路/接続例.md",
+      "blob": "b6d5ea14472820389520044ca0724fcbcea0c2cf",
+      "sha256": "258d1446718bd4b39ab2d7a47b1a40067cfb096ccec03c0a782a5fba9068c36f"
+    },
+    {
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "path": "docs/作業資料/シナリオ・探索内容/CO-S01_受け渡し記録.md",
+      "blob": "fff34314cf3352c437eae14dfb90061446496000",
+      "sha256": "f06314578b3f3ba1f231c729b84acc082624c78acc965cf5ff2be2cf629a7fe7"
+    },
+    {
+      "commit": "af9e99e226842152aa7a8d038db150bb72113554",
+      "path": "docs/作業資料/とりまとめ/着手指示/CO-01A_接続データ照合.md",
+      "blob": "0e4e28a41aa39c63cd4c9610ac947ca1a8e88594",
+      "sha256": "fe91dfd2d1060b44ecd95f1147ad9f172f6d870a5d6298aae8b28e5036d884c5"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/choice_inputs.py",
+      "blob": "1b6ec94eee4a4c7ad718dc55b6e4a89d20e1995c",
+      "sha256": "9e67970b535504c7a68f8be603bdb71143b476939837c05224578bafcbb90e57"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js",
+      "blob": "a2ce3aaa77fe86ca9aa80baa92e4e57f0ea65fca",
+      "sha256": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/装備制限/ar/session.cjs",
+      "blob": "533306ae5a1a1577bb4520aaa49ce6d13e947521",
+      "sha256": "179379131345f2289be89be4be438697e4e66c49082b95530d93f2dfafcae16c"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/装備制限/aq/equipment.cjs",
+      "blob": "896d1f49bb1116d91edc897f2db138026f5fa626",
+      "sha256": "7c551f7f4bbd34370ad2eeada8bf220d7fa53d6a5a807f099fc8d9e013afad69"
+    },
+    {
+      "commit": "9d5d2638a3209d03371d82cc4c3006b70a0005b7",
+      "path": "docs/検証/修飾/ap/conversion.cjs",
+      "blob": "c3865a72755f1a9c913899f182909dbbc6c2f8e3",
+      "sha256": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c"
+    }
+  ],
+  "provenance_note": "組立前に固定した目的・基点・試行値は維持。追加で読んだ既存の個体付与/知識/装備/返還/seed初期化5ファイルを静的出典へ補足。戦闘・保存の実行条件を追加したものではない。"
+}
