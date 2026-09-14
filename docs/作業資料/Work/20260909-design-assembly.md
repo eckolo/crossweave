@@ -1,3 +1,13 @@
+## CO-D02 先行受渡し0.1（実API・自然進行確認）
+
+開始条件commitは `eb28efb3fde17cda6305cbbca8ebb6d03f7bad4d`。本節追加commitに実装と公開入口を保存する。WorkID `20260909-design-assembly`／作業・統合 `dev_design_tmp_assembly`／必須同期元 `ops/project-coordination-20260913` のとりまとめ全体／統合担当は本Workを維持する。
+
+`src/runtime/campaign.mjs` の `Campaign/createCampaign/versions` が実入口。読み・比較・明示確定、基礎習得／取消・装備・札組、同保存のNT初回／再挑戦／再訪、停止・3帰還・一回精算・ack・次出発、保存validationとIndexedDBアダプターを実装。公開契約と起動URLは `docs/検証/接続条件/co-d02/README.md`。UI専用原本は参照のみ、受領・接続を宣言していない。
+
+`CW-M1-A-001 code-01` と `smoke-01.json`：seed0の自然初回が39本人行動clear／300units。PS01習得・装備と回復札→2枚目防御を明示確定、100unitsを残して同保存revisitへ。再訪は34本人行動defeat。機械の接続確認であり、面白さ・UI理解・人評価ではない。
+
+本節時点の未保存分は先行受渡し一式（src、scripts、test/runtime、co-d02 README/入口/固定コード/結果、Work・本引継ぎ）。保存後の次操作はMT初期化CPython照合、失敗不変・要求重複・別タブ相当CAS・本文／3札境界、保存例の採取。IndexedDBの実ブラウザー確認をNodeから分ける。未接続の個体／修飾／候補購入／変換はD03へ残す。完了一式保存後にCO-D02を終了し枠解放する。
+
 # Work設定：20260909-design-assembly
 
 ## 2026-09-15 CO-D02受領：継続本体・途中到達A

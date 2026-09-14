@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><title>CO-D02 本体接続確認</title>
+<style>body{max-width:76rem;margin:2rem auto;padding:0 1rem;font-family:system-ui;line-height:1.6}button,input,textarea{font:inherit}button{margin:.25rem;padding:.4rem .8rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:1rem}textarea{width:95%;height:12rem}#actions{display:flex;flex-wrap:wrap}</style>
+<h1>CO-D02 本体接続確認</h1><p>開発確認用の入口です。UI Workの画面完成・人評価を表すものではありません。</p>
+<label>保存枠 <input id="slot" value="m1-local"></label>
+<button id="create">新規作成</button><button id="open">読込</button><button id="refresh">現在状態</button>
+<button id="depart">出発</button><button id="continue">続ける</button><button id="withdraw">明示撤退</button><button id="ack">帰還を確認</button>
+<h2>現在</h2><div id="story"></div><div id="actions"></div><pre id="state">未読込</pre>
+<h2>本人が明示する準備計画</h2><textarea id="plan" aria-label="準備計画"></textarea><br>
+<button id="preview">比較</button><button id="draft">下書き保存</button><button id="commit">準備確定</button>
+<h2>新形式JSON</h2><textarea id="save" aria-label="保存JSON"></textarea><br><button id="export">書き出す</button><button id="import">空枠へ読み込む</button>
+<h2>専用テスト枠</h2><button id="verify">IndexedDBの接続確認</button><pre id="verification">未実行</pre>
+<script type="module">
+import {Campaign,versions} from '../../../../src/runtime/campaign.mjs';
+import {browserSmoke} from '../../../../test/runtime/browser-smoke.mjs';
+let controller=null,view=null;const $=id=>document.getElementById(id),showError=e=>{$('state').textContent=JSON.stringify({error:{code:e.code||e.message}},null,2);};
+function draw(v){view=v;const d=v.display_data;$('state').textContent=JSON.stringify(d,null,2);$('story').replaceChildren();$('actions').replaceChildren();
+  for(const id of d.scene?.text_ids||[]){const p=document.createElement('p');p.textContent=d.texts[id].short_text;$('story').append(p);}
+  for(const id of d.scene?.optional_text_ids||[]){const b=document.createElement('button');b.textContent='詳細を開く: '+id;b.onclick=()=>perform('continue_scene',{scene_id:d.scene.id,advance:false,displayed_text_ids:[id]});$('story').append(b);}
+  for(const ch of d.exploration?.legal_actions||[]){const b=document.createElement('button'),card=d.exploration.hand.find(c=>c.id===ch.card_id);b.textContent=card.name+(ch.target?' → '+d.exploration.actors[ch.target].name:' を設置');b.onclick=()=>perform('play',{choice:ch});$('actions').append(b);}
+  if(d.draft)$('plan').value=JSON.stringify(d.draft.plan,null,2);
+}
+async function perform(type,payload){try{draw(await controller.execute({request_id:crypto.randomUUID(),expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload}));}catch(e){showError(e);}}
+$('create').onclick=async()=>{try{controller=await Campaign.create({slot_id:$('slot').value,...versions,request_id:crypto.randomUUID()});draw(controller.inspect());}catch(e){showError(e);}};
+$('open').onclick=async()=>{try{controller=await Campaign.open({slot_id:$('slot').value});draw(controller.inspect());}catch(e){showError(e);}};
+$('refresh').onclick=()=>controller&&draw(controller.inspect());
+$('depart').onclick=()=>perform('depart',{case_id:'SCN-001'});$('continue').onclick=()=>perform('continue_scene',{scene_id:view.display_data.scene.id});
+$('withdraw').onclick=()=>perform('withdraw',{});$('ack').onclick=()=>perform('ack_return',{});
+$('preview').onclick=()=>{try{draw(controller.previewPreparation({view_token:view.meta.view_token,plan:JSON.parse($('plan').value)}));}catch(e){showError(e);}};
+$('draft').onclick=()=>perform('save_draft',{plan:JSON.parse($('plan').value)});$('commit').onclick=()=>perform('commit_preparation',{plan:JSON.parse($('plan').value)});
+$('export').onclick=()=>{$('save').value=JSON.stringify(controller.exportSave(),null,2);};
+$('import').onclick=async()=>{try{controller=await Campaign.importSave({slot_id:$('slot').value,document:$('save').value,request_id:crypto.randomUUID()});draw(controller.inspect());}catch(e){showError(e);}};
+$('verify').onclick=async()=>{const button=$('verify');button.disabled=true;$('verification').textContent='実行中';try{$('verification').textContent=JSON.stringify(await browserSmoke(),null,2);}catch(e){$('verification').textContent=JSON.stringify({ok:false,error:e.code||e.message,stack:e.stack});}finally{button.disabled=false;}};
+</script></html>
