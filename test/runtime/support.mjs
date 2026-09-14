@@ -13,7 +13,8 @@ export class MemoryStore {
 export function assert(value,message){if(!value)throw Error(message);}
 export function equal(a,b,message){assert(JSON.stringify(a)===JSON.stringify(b),message);}
 export let serial=0;
-export function command(controller,type,payload){const view=controller.inspect();return {request_id:'test-'+(++serial),expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload};}
+const requestPrefix=crypto.randomUUID();
+export function command(controller,type,payload){const view=controller.inspect();return {request_id:'test-'+requestPrefix+'-'+(++serial),expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload};}
 export async function execute(controller,type,payload){const result=await controller.execute(command(controller,type,payload));assert(!result.display_data.error,JSON.stringify({type,error:result.display_data.error}));return result;}
 export function currentPlan(c){return structuredClone(c.inspect().display_data.draft.plan);}
 // Fixed public-only probe for CW-M1-A-001. This is NOT a recommendation/player AI.

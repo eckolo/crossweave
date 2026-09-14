@@ -93,7 +93,18 @@ class CampaignController {
       next.view_nonce=uuid();if(next.draft)next.draft=draftFor(next.session,next.draft.plan,next.revision);
       next.request_log[command.request_id]={signature,committed_revision:next.revision};
       validateDocument(next);
-      await this.#store.commit(this.#slot,current.revision,next);
+      try {await this.#store.commit(this.#slot,current.revision,next);}
+      catch(error){
+        // Another tab may have committed this SAME request while we computed.
+        // Re-read only; never replay the game calculation after a lost CAS.
+        if(error.code==='stale_revision'){
+          const latest=validateDocument(await this.#store.load(this.#slot));
+          const same=Object.hasOwn(latest.request_log,command.request_id)?latest.request_log[command.request_id]:null;
+          if(same){check(same.signature===signature,'request_conflict','request_id');this.#document=latest;
+            return project(latest,{operation:{status:'replayed',committed_revision:same.committed_revision}});}
+        }
+        throw error;
+      }
       this.#document=next;return project(next,{operation:{status:'committed',committed_revision:next.revision}});
     }catch(error){return project(this.#document,{error:typedError(error)});}
   }

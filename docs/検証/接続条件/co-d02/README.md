@@ -1,6 +1,6 @@
 # CO-D02 継続本体・途中到達A
 
-2026-09-15 JST／先行受渡し0.1。Work `20260909-design-assembly`、作業・統合先 `dev_design_tmp_assembly`。基本設計0.53/D53は変更しない。容量8・12枚・同基礎2・習得200units等は入力0.1の試行値。
+2026-09-15 JST／成果提出0.2（先行受渡しは68da4ff0）。Work `20260909-design-assembly`、作業・統合先 `dev_design_tmp_assembly`。基本設計0.53/D53は変更しない。容量8・12枚・同基礎2・習得200units等は入力0.1の試行値。
 
 ## 公開入口と起動
 
@@ -64,7 +64,7 @@ planは`{retain_learning,cancel_learning,candidate:null,purchase_timing:'before_
 
 先行確認 `code-01` / `smoke-01.json`：seed 0、初期資金0から39本人行動で踏破し300units。帰還後PS01習得・装備、回復札1枚を防御へ変更し100unitsを残して同保存からrevisitへ出発。再訪は34本人行動で緊急脱出。これは公開情報だけの固定機械方策による接続確認で、構成の優劣・面白さ・人の理解を証明しない。
 
-IndexedDB実ブラウザー、MT初期化のCPython照合、全失敗境界・保存例は後続確認中。先行Node確認を実ブラウザー合格に読み替えない。UI担当による受領・接続・人評価は未了。`test/runtime/browser-smoke.mjs`をharnessの「IndexedDBの接続確認」から実行できる。旧PT-NT原本・HTML・キーは読み書きしない。
+最終確認は `verification.json` と `report.md`。code-06で保存／公開／進行の21項目、基礎心得／容量の5項目が合格。最終code-07は、UI最新記録を踏まえた保持済み解放札の公開詳細を追加し、5固定保存で未知札の非公開・無料／所持／選択条件の維持を確認した。MTはCPythonと80系列一致。自然進行の5保存例を最終本体で復元・JSON輸入確認した。実ブラウザーは確認入口がERR_BLOCKED_BY_CLIENTで開けず、IndexedDB実行0・DOM確認0・人評価0。先行Node確認を実ブラウザー合格に読み替えない。UI59c96caの停止記録で先行本体68da4ffの同期報告を確認した。新UIコードは先方の保存制限によりブランチ未反映で、設計側のUI実装取込み・実接続・人評価は今回完了していない。`test/runtime/browser-smoke.mjs`をharnessの「IndexedDBの接続確認」から実行できる。旧PT-NT原本・HTML・キーは読み書きしない。
 
 ## 出典とA→B
 
@@ -82,4 +82,33 @@ IndexedDB実ブラウザー、MT初期化のCPython照合、全失敗境界・�
 
 Bはこれらの元条件を使い、一回の明示互換移行で適格帰還contextを消費してAT台帳へ接続する必要がある。閲覧のたびに再抽選しない。古い適格contextをどう有効化し最新候補へ対応するかはD03が記録し、過去の点・報酬を再加算しない。現AはBの新engine版や非空個体保存を拒否する。後方互換を崩す場合は新しい版と明示変換が必要で、自動初期化は行わない。
 
-今回の完了時に固定確認記録・保存例・最終コードを追記してCO-D02を終了する。CO-D03/D04/D05へ自動続行しない。
+本体・条件・固定確認記録・保存例を成果提出してCO-D02を終了する。CO-D03/D04/D05へ自動続行しない。
+
+
+## 保存例と再現
+
+`saves/`に自然進行から採取したentry（入口停止）、port（港停止）、return（初回踏破帰還）、home（PS01習得・構成変更後）、second-return（再訪緊急脱出帰還）の完全保存JSONをgzipで収録。圧縮は運搬用で保存schemaの変更ではない。`saves/manifest.json`は展開前後のSHA-256を持つ。境界用にHPを作った再訪踏破状態はこの自然保存例へ混ぜていない。
+
+```sh
+python - <<'PYTHON'
+from pathlib import Path
+import gzip
+out = Path('/tmp/crossweave-m1-a-001')
+out.mkdir(exist_ok=True)
+for p in Path('docs/検証/接続条件/co-d02/saves').glob('*.gz'):
+    (out / p.name.removesuffix('.gz')).write_bytes(gzip.decompress(p.read_bytes()))
+PYTHON
+```
+
+例のJSONを開発入口の「保存JSON」へ入れ、未使用の保存枠名を指定して「空枠へ読み込む」。同じoriginで読込／再読込し、phase・停止・本文・資源・案件が保たれることを確認する。IndexedDB実機確認は未了なので、担当がこの結果とブラウザー版を記録する。
+
+必要な場合だけ次の固定確認を再現できる。既存結果を再生成する開始条件にはしない。出力先は毎回新しいフォルダを指定する。
+
+```sh
+python test/runtime/check-random.py
+node test/runtime/run-boundaries.mjs /tmp/crossweave-m1-a-001 /tmp/crossweave-m1-check-new
+```
+
+自然進行を新しい診断として再現する場合のみ `node test/runtime/run-node.mjs /tmp/crossweave-m1-natural-new`。表示の正しさ・人の選択理由はこの方策の結果では評価しない。
+
+保持済みの解放札は、探索／帰還／拠点の `details["base:" + base_id]` から名前と性能を読める。detailsの存在は無料選択権や所持を表さず、札組の選択可能集合はhome.free_card_optionsと将来のownedから読む。

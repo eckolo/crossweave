@@ -29,15 +29,17 @@ function cardDetail(c) {
 }
 function passiveDetail(base) {
   const input=C.rules.learning.bases[base];
-  const triggers={PS01:'本人が防御一致を行った後の次の設置',PS02:'直前の本人の一致と異なる属性で攻撃一致',PS03:'他主体由来の札で本人が一致し、その後に防御一致',PS04:'消耗する回復札で本人が回復一致'};
+  const triggers={PS01:'直前の本人行動が防御一致で、今回が設置',PS02:'直前の本人の一致と異なる属性で攻撃一致',PS03:'他主体由来の札で本人が一致し、その後に防御一致',PS04:'消耗する回復札で本人が回復一致'};
   const effects={PS01:`行動間隔を${input.placement_discount}短縮（最小1）`,PS02:`探査を${input.hit_bonus}加算`,PS03:`身構の基礎値を${input.guard_bonus}加算（使用後に消費）`,PS04:`回復量を${input.heal_bonus}加算（最大余力まで）`};
   return {name:passiveLabels[base],base_name:passiveLabels[base],base_id:base,kind:'passive',affixes:[],primary:null,field:null,life:null,action_intervals:null,recovery_rule:null,
     trigger_text:triggers[base],effect_text:effects[base],equipment_cost:C.rules.equipment.base_cost[base],learning_cost_units:C.rules.learning.cost_units[base]};
 }
 export function project(d, extras={}) {
   const s=d.session,story=publicStory(d),details={},home=['home','return'].includes(s.phase)?inspectPreparation(s):null;
+  // Kept unlock names/details are public, independently of free deck eligibility.
+  // UI never needs to parse a knowledge-history label or read the private registry.
+  for(const base of s.economy.profile.unlocked)details['base:'+base]=cardDetail(C.cards[base].card);
   if(home){home.offers={status:'none',refresh_rule:'eligible_return',carried_from_previous_return:false,connected:false,reason:'feature_not_connected'};
-    for(const base of C.initial.free_card_bases)details['base:'+base]=cardDetail(C.cards[base].card);
     for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);}
   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
   const knownTargets=Object.values(C.targets).filter(t=>ledger.encounters.some(e=>e.profile===t.knowledge_profile_id));

@@ -9,7 +9,7 @@ import {rewardLedger,receiptSignature} from './settlement.mjs';
 const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
 export function safeID(x,field) {check(typeof x==='string'&&x.length>0&&x.length<=1024&&!['__proto__','prototype','constructor'].includes(x),'invalid_identifier',field);}
 function rng(state) {return Array.isArray(state)&&state.length===625&&state.slice(0,624).every(n=>integer(n)&&n<=0xffffffff)&&integer(state[624])&&state[624]<=624;}
-export function validateDocument(d) {
+function validate(d) {
   check(object(d)&&d.schema==='CW-M1-save-1','unsupported_save_schema');
   check(d.rule_set_id===C.rule_set_id,'unsupported_rule_set');check(d.content_set_id===C.content_set_id,'unsupported_content_set');
   check(d.engine_version===C.engine_version,'unsupported_engine_version');
@@ -35,16 +35,32 @@ export function validateDocument(d) {
   for(const [run,r] of Object.entries(s.receipts)) {
     check(r.run===run&&integer(r.index)&&r.seed===r.index&&run===JSON.stringify(['CW-M1-run-1',s.campaign_id,r.index]),'invalid_receipt_run');
     check(r.content_set_id===C.content_set_id&&r.case_id==='SCN-001'&&['clear','withdrawal','defeat'].includes(r.outcome)&&r.signature===receiptSignature(r),'invalid_receipt');
+    check(['first','retry','revisit'].includes(r.mode)&&(r.index===0?r.mode==='first':r.mode!=='first'),'invalid_receipt_mode');
+    const setID=r.mode==='revisit'?'SCN-001-SET-REVISIT':'SCN-001-SET-UNRESOLVED';
+    check(r.target_set_id===setID,'invalid_receipt_target_set');
     check(r.settlement_event_id===JSON.stringify(['CW-M1-settlement-1',run]),'invalid_settlement_event');
     check(unique(r.kept)&&unique(r.lost)&&!r.kept.some(k=>r.lost.includes(k))&&canonical([...r.kept,...r.lost].sort())===canonical(Object.keys(r.reward_ledger).sort()),'invalid_reward_partition');
     for(const [key,row] of Object.entries(r.reward_ledger)) {
       const spec=C.rewards[row.reward_id];check(spec&&row.run===run&&key===JSON.stringify(['CW-M1-reward-1',run,spec.id,spec.source_event_id])&&row.source_event_id===spec.source_event_id&&canonical(row.items)===canonical(spec.items),'invalid_reward_reference');
+      const target=C.targets[spec.target_id];
+      check(row.key===key&&row.case_id===r.case_id&&row.mode===r.mode&&row.target_set_id===r.target_set_id&&row.content_set_id===C.content_set_id&&
+        row.target_id===target.id&&row.catalogue_version===target.catalogue_version&&row.legacy_engine_key===spec.legacy_engine_key&&C.target_sets[setID].targets.includes(target.id),'invalid_reward_source');
+      check(typeof row.protected==='boolean','invalid_reward_protection');
       check(r.kept.includes(key)===(r.outcome==='clear'||r.outcome==='withdrawal'&&row.protected),'invalid_reward_retention');
     }
     const gained=r.kept.flatMap(k=>r.reward_ledger[k].items).filter(x=>x.kind==='points').reduce((n,x)=>n+x.amount_units,0);
     check(gained===r.gained_units&&integer(r.unspent_after_units)&&integer(r.paid_learning_units)&&r.home_hp===40&&integer(r.expedition_end_hp)&&r.expedition_end_hp<=40,'invalid_receipt_funds');
     check(e.profile.returns[run]===r.signature,'invalid_profile_receipt');
+    if(r.outcome==='clear')check(Object.values(r.reward_ledger).some(row=>row.reward_id===(r.mode==='revisit'?'SCN-001-RW05':'SCN-001-RW03')),'invalid_clear_receipt');
+    check(canonical([...r.source_events].sort())===canonical(Object.values(r.reward_ledger).map(row=>row.source_event_id).sort()),'invalid_receipt_sources');
   }
+  const receipts=Object.values(s.receipts);
+  check(funds(e)+paid(e)===receipts.reduce((n,r)=>n+r.gained_units,0),'invalid_economy_total');
+  const keptItems=receipts.flatMap(r=>r.kept.flatMap(k=>r.reward_ledger[k].items));
+  const unlocked=[...new Set([...C.initial.unlocked,...keptItems.filter(x=>x.kind==='unlock').map(x=>x.type)])].sort();
+  check(canonical([...e.profile.unlocked].sort())===canonical(unlocked),'invalid_unlock_provenance');
+  const materialCount=keptItems.filter(x=>x.kind==='material').reduce((n,x)=>n+x.amount,0);
+  check((e.profile.materials.M||0)===materialCount,'invalid_material_provenance');
   check(integer(c.attempts)&&['unresolved','resolved'].includes(c.status)&&unique(c.visible_clue_ids)&&unique(c.read_text_ids)&&object(c.first_clue_events)&&object(c.run_achievements),'invalid_case');
   const active=s.active;
   if(s.phase==='home')check(active===null&&s.game===null&&e.profile.phase==='home'&&e.profile.run===null,'invalid_home');
@@ -57,17 +73,23 @@ export function validateDocument(d) {
     const setID=mode==='revisit'?'SCN-001-SET-REVISIT':'SCN-001-SET-UNRESOLVED';check(active.target_set_id===setID&&canonical(active.targets)===canonical(C.target_sets[setID].slot_map),'invalid_target_reference');
     check(unique(active.published_scene_ids)&&active.published_scene_ids.every(id=>C.scenes[id])&&unique(active.read_text_ids)&&unique(active.published_clue_ids)&&unique(active.emitted_conditionals),'invalid_active_story');
     const game=restoreGame(s);game.assert();check(game.s.ah.run===active.run,'invalid_game_run');
+    check(game.s.pending_scene===null&&integer(game.s.now)&&integer(s.game.next_card_number),'invalid_game_checkpoint');
+    check(canonical([...game.s.ah.learned].sort())===canonical(Object.keys(e.profile.learned).sort())&&canonical(game.s.ah.equipped)===canonical(e.aq.equipped),'invalid_run_preparation');
     check(Object.values(s.game.rng).every(rng)&&Object.values(s.game.future_rng).every(rng),'invalid_rng');
     for(const w of ['P','V0','E1','V1'])for(const purpose of ['initial','allocation','generation','selection','target']) {
       const key=w+'|'+purpose;check(rng(s.game.future_rng[key]),'missing_future_rng');if(game.s.actors[w])check(rng(s.game.rng[key]),'missing_actor_rng');
     }
-    for(const card of Object.values(game.s.cards))check(cardSpec(card.type)&&canonical(I.card(card))===canonical(I.card(cardSpec(card.type))),'invalid_card_registry');
+    for(const [id,card] of Object.entries(game.s.cards))check(card.id===id&&typeof card.destroyed==='boolean'&&typeof card.doomed==='boolean'&&cardSpec(card.type)&&canonical(I.card(card))===canonical(I.card(cardSpec(card.type))),'invalid_card_registry');
+    const playerInitial=Object.values(game.s.cards).filter(c=>c.origin==='P'&&c.birth==='initial').map(c=>'base:'+c.type).sort();
+    check(canonical(playerInitial)===canonical([...s.au.deck].sort()),'invalid_initial_player_cards');
     for(const [w,a] of Object.entries(game.s.actors)){check(w==='P'||active.targets[w],'unknown_actor');const spec=w==='P'?C.rules.player:C.targets[active.targets[w]].spec;
       check(a.max_hp===spec.hp&&a.max_posture===spec.max_posture&&a.hand_size===spec.hand_size,'invalid_actor_spec');}
+    check(!game.s.actors.V1||game.s.actors.V0.active===false,'invalid_target_transition');
     check(canonical(K.validate(game.s.ah.knowledge))===canonical(game.s.ah.knowledge),'invalid_game_knowledge');
     check(canonical(active.reward_ledger)===canonical(rewardLedger(s)),'invalid_active_reward_ledger');
     if(s.phase==='return'){
       const r=s.receipts[active.run];check(r&&game.s.outcome===r.outcome&&game.s.settlement?.reason===r.outcome&&r.expedition_end_hp===game.s.actors.P.hp,'invalid_saved_return');
+      check(r.outcome==='defeat'?game.s.actors.P.hp===0:game.s.actors.P.hp>0,'invalid_outcome_hp');
       check(canonical(r.reward_ledger)===canonical(active.reward_ledger)&&r.unspent_after_units===funds(e)&&r.paid_learning_units===paid(e)&&e.profile.phase==='home'&&e.profile.run===null,'invalid_return_economy');
     }else {check(!game.s.outcome&&!game.s.settlement&&!s.receipts[active.run]&&e.profile.phase==='exploring'&&e.profile.run===active.run,'invalid_saved_exploration');runs.push(active.run);}
   }
@@ -85,6 +107,11 @@ export function validateDocument(d) {
     const ev=d.public_history.find(e=>e.id===sc.publication_event_id);check(ev?.scene_id===sc.id,'invalid_scene_publication');
     for(const id of sc.text_ids)check(C.texts[id]&&d.public_history.some(e=>e.scene_id===sc.id&&e.text_ids.includes(id)),'unpublished_scene_text');
     for(const id of sc.optional_text_ids)check(C.texts[id]?.kind==='detail'&&eligible(C.texts[id].eligible_when,sc.context),'invalid_optional_text');}
+  if(s.phase==='exploring'&&!s.scene?.pause&&!s.game.state.diagnostic)check(s.game.state.ready,'invalid_unpaused_checkpoint');
   for(const ctx of e.at.pending_contexts){const r=s.receipts[ctx.run];check(r&&r.kept.length&&ctx.seed===r.seed&&ctx.index===r.index&&ctx.tier==='I'&&canonical(ctx.sources)===canonical([...r.kept].sort()),'invalid_pending_offer_context');}
   return copy(d);
+}
+export function validateDocument(d) {
+  try {return validate(d);}
+  catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
 }

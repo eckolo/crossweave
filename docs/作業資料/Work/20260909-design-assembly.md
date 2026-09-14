@@ -1,3 +1,11 @@
+## CO-D02 検証終了・最終成果保存
+
+`CW-M1-A-001 code-06`：Campaign境界21項目、基礎心得・容量5項目を確認。最終code-07は保持済み解放札の公開詳細を補い、5固定保存で未知情報・無料選択権・所持との境界を確認。MTはCPythonと80系列一致。自然初回は39手clear・300units、PS01習得／装備と札組変更後の再訪は34手defeat。再訪clearは明示した固定境界で別確認し、自然成功へ置換しない。自然な入口・港・初回帰還・習得後home・再訪緊急脱出の5完全保存をgzipで保全し、最終本体で復元・空枠輸入確認した。
+
+開始保存eb28efb、先行API68da4ff。最終成果は `docs/検証/接続条件/co-d02/README.md`・`report.md`・`verification.json`・`saves/` と `src/`。同じWorkID `20260909-design-assembly`／作業・統合先 `dev_design_tmp_assembly`／同期元opsのとりまとめ全体／統合担当は本Work。計画b25e7ab（0.6）・最新UI59c96caを確認。UIは先行本体68da4ffの同期を報告したが、新UIは保存制限で枝未反映、会話添付を受領依頼している。本Workは停止記録と検証サマリーの参照まで。添付現物の照合・UI実装取込み・代行再送はしていない。
+
+未保存は本節・最終コード修正・試験コード／固定記録・保存例。次操作は明示範囲をstage→通常commit／非強制Push→GitHubの親・完全tree・主要本文・gzip blob・PT-NT専用tree読戻し。成功後に本引継ぎへ実commitと終了を追記し、CO-D02で区切る。IndexedDB実ブラウザーはERR_BLOCKED_BY_CLIENTで未実行、別経路へ迂回なし。UI受領・実接続・人評価は未確認。D03の個体・修飾・購入・変換やD04/D05へ続行しない。
+
 ## CO-D02 先行受渡し0.1（実API・自然進行確認）
 
 開始条件commitは `eb28efb3fde17cda6305cbbca8ebb6d03f7bad4d`。本節追加commitに実装と公開入口を保存する。WorkID `20260909-design-assembly`／作業・統合 `dev_design_tmp_assembly`／必須同期元 `ops/project-coordination-20260913` のとりまとめ全体／統合担当は本Workを維持する。

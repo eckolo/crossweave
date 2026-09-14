@@ -33,7 +33,10 @@ function clueFacts(d, ids, eventID) {
   const c=d.casebook[caseID],a=d.session.active;
   for(const [id,clue] of Object.entries(C.clues))if(clue.publication_text_ids.some(t=>ids.includes(t))) {
     if(id==='SCN-001-CL04'&&!(a&&d.session.receipts[a.run]?.outcome==='clear'&&a.mode!=='revisit'))continue;
-    if(!c.visible_clue_ids.includes(id)){c.visible_clue_ids.push(id);c.first_clue_events[id]=eventID;}
+    if(!c.visible_clue_ids.includes(id)){
+      c.visible_clue_ids.push(id);c.first_clue_events[id]=eventID;
+      if(a){c.run_achievements[a.run]??=[];c.run_achievements[a.run].push(JSON.stringify(['CW-M1-achievement-1','SCN-001-ACH-CLUE',JSON.stringify([caseID,id])]));}
+    }
     if(a&&!a.published_clue_ids.includes(id))a.published_clue_ids.push(id);
   }
 }
