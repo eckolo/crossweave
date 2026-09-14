@@ -1,0 +1,100 @@
+{
+  "id": "CW-M1-A-001",
+  "task_id": "CO-D02",
+  "version": "0.1",
+  "status": "conditions-before-implementation",
+  "purpose": "単一保存の基礎成長・再出発・3帰還・本文と知識・保存失敗境界の接続確認。勝率/面白さの比較ではない。",
+  "own_base_commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+  "coordination_commit": "b25e7abe423ff72f93aa858c42bc09ad9daf04b2",
+  "ui_reference_commit": "3db916313e70817a05f0ea6cb3afd0f3c5e86630",
+  "input_version": "CW-M1-input-1 / 0.1",
+  "sources": [
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/仕様案/接続データ/co-01a/m1-input.v0.1.json",
+      "blob": "8487b2288b4e701953887be90949242f4d951a71",
+      "sha256": "5e030a86aa67c5029a4e2b54236bd99b459cacc3c69755d4e04f704942d436d6"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/仕様案/カード探索ゲーム_継続本体の接続条件.md",
+      "blob": "93b2eed4305e262217ae3edca233543a440b3d21",
+      "sha256": "9574bb4fac516c9a5ed0f8d5ea62091f1b26ba21469ad453f44d75d9dd11ccd5"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+      "blob": "15e9ba95375e837f5e40eaf26273553cbb648dbc",
+      "sha256": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js",
+      "blob": "ee77356705ed0d02b665020210dc19bda84cfc43",
+      "sha256": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js",
+      "blob": "a2ce3aaa77fe86ca9aa80baa92e4e57f0ea65fca",
+      "sha256": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/information.js",
+      "blob": "06031f1992fc7a9915ac7c4526c98409ffea6446",
+      "sha256": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/knowledge.js",
+      "blob": "b8eb32762a096d5a3629660f561054801f5f7230",
+      "sha256": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/統合試作/deck_feedback_trial/choice_inputs.py",
+      "blob": "1b6ec94eee4a4c7ad718dc55b6e4a89d20e1995c",
+      "sha256": "9e67970b535504c7a68f8be603bdb71143b476939837c05224578bafcbb90e57"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/構築と探索/au/session.cjs",
+      "blob": "107ad0f96106c72f941da18b3d7ea60679ef3519",
+      "sha256": "f95e73d3fce89df8960d6db80c1bc512ee95315bf94c1e4ee7958e181318d3a0"
+    },
+    {
+      "commit": "aa301ef6d77c4a1e81d5bc8048468996b5c3cc97",
+      "path": "docs/検証/試遊/night-tide/src/scenario.js",
+      "blob": "873ab690bb4f5648538f64e4ea320849b0f0c794",
+      "sha256": "efc2ff225ff539daff8fb748b84aa76b7d6401f1f59afb619eee53916d93a055"
+    }
+  ],
+  "scope": [
+    "new Campaign API and static content",
+    "AH-compatible MT seed initialization and saved RNG continuation",
+    "initial return -> explicit learn/equip/deck -> new departure",
+    "resolved revisit, protected/unprotected withdrawal, defeat",
+    "home/exploring/return reopen, atomic storage error, duplicate request/depart/return, stale revision/CAS",
+    "eligible optional text, no inspect effects, nt base interval/stats/restore"
+  ],
+  "natural_path": {
+    "seed_start": 0,
+    "progression": "one current-public legal policy for automated integration only; max160 player actions per run",
+    "stop": "one initial clear and one next-departure/revisit settlement if reachable; failure is reported before adding a bounded explicit fixture, never hidden by seed selection"
+  },
+  "boundary_fixtures": "Construct only missing scene/protection/defeat/3-card and error states with exact construction recorded; not natural-play outcomes. No public fixture mutator.",
+  "deferred": [
+    "individuals/affix inventory/purchase/conversion D03",
+    "UI original integration and human evaluation",
+    "old comparison reruns"
+  ],
+  "environment": "Node; actual IndexedDB in supported browser if available. Node/DOM/memory checks do not stand in for real browser persistence.",
+  "code_freeze": "record complete src and test SHA-256 manifest before validation; changes followed by a new manifest/run record; preserve source commits and old trials",
+  "exit_conditions": [
+    "usable modules + async Campaign/controller public API and README saved early",
+    "required natural/boundary checks with save examples and explicit environment limits",
+    "A->B save continuity conditions",
+    "final non-force save and GitHub readback; stop at CO-D02"
+  ]
+}
