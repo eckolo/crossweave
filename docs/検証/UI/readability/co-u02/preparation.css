@@ -1,0 +1,31 @@
+/* The existing container sizing and scroll access stay in screen.css. */
+.cw-m1 .cw-state { min-height:1.1em;font-size:.85em }
+.cw-m1 .cw-tile .cw-name { min-height:2.1em }
+.cw-m1 .cw-tile .cw-art { min-height:50px }
+.cw-m1 .cw-tile { min-height:112px }
+.cw-m1 .cw-tile.cw-removing .cw-art,.cw-m1 .cw-tile.cw-removing .cw-name { opacity:.5 }
+.cw-m1 .cw-tile.cw-removing .cw-name { text-decoration:line-through }
+.cw-m1 .cw-mini-grid { display:grid;grid-template-columns:minmax(0,1fr);gap:5px }
+.cw-m1 .cw-mini { width:auto;min-height:34px;grid-template-columns:20px minmax(0,1fr) auto;gap:6px;text-align:left }
+.cw-m1 .cw-mini>span { min-width:0;overflow-wrap:anywhere }
+.cw-m1 .cw-stale { display:block }
+.cw-m1 .cw-money { display:grid;gap:10px }
+.cw-m1 .cw-money-pair { display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;font-variant-numeric:tabular-nums }
+.cw-m1 .cw-money-pair>div { display:grid;gap:3px }
+.cw-m1 .cw-money-pair>div:last-child { text-align:right }
+.cw-m1 .cw-money-pair strong { font-size:1.6em;font-weight:500 }
+.cw-m1 .cw-change { display:flex;justify-content:space-between;align-items:center;gap:10px }
+.cw-m1 .cw-change>div { display:grid;gap:4px;min-width:0;overflow-wrap:anywhere }
+.cw-m1 .cw-change strong { flex-shrink:0;font-weight:500;font-variant-numeric:tabular-nums }
+.cw-m1 .cw-change small:empty { display:none }
+.cw-m1 .cw-choice-block { display:grid;gap:8px;padding-block:10px;border-top:1px solid var(--cw-line) }
+.cw-m1 .cw-price { display:flex;gap:8px;flex-wrap:wrap;align-items:baseline }
+.cw-m1 .cw-price strong { font-size:1.3em;font-weight:500 }
+.cw-m1 .cw-result-group { display:grid;gap:6px }
+.cw-m1 .cw-payment-order { border-top:1px solid var(--cw-line);padding-top:10px }
+.cw-m1 .cw-payment-order label { display:grid;gap:8px;margin-top:8px }
+.cw-m1 .cw-popup .cw-close { flex:0 0 auto }
+.cw-m1 .cw-popup>.cw-row h2 { flex:1 1 150px }
+.cw-m1 .cw-review-list { gap:14px }
+.cw-m1 .cw-section-title:first-child { margin-top:0 }
+.cw-m1 .cw-draft-content>.cw-money { padding-top:10px;border-top:1px solid var(--cw-line) }

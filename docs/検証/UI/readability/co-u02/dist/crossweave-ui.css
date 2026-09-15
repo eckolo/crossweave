@@ -109,6 +109,38 @@
 .cw-m1 .cw-detail-layer{position:absolute;inset:var(--cw-detail-top,58px) 12px var(--cw-detail-bottom,55px);pointer-events:none;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);align-items:start;justify-items:end}
 .cw-m1 .cw-detail-layer .cw-popup{width:min(345px,100%);max-height:100%}
 
+/* The existing container sizing and scroll access stay in screen.css. */
+.cw-m1 .cw-state { min-height:1.1em;font-size:.85em }
+.cw-m1 .cw-tile .cw-name { min-height:2.1em }
+.cw-m1 .cw-tile .cw-art { min-height:50px }
+.cw-m1 .cw-tile { min-height:112px }
+.cw-m1 .cw-tile.cw-removing .cw-art,.cw-m1 .cw-tile.cw-removing .cw-name { opacity:.5 }
+.cw-m1 .cw-tile.cw-removing .cw-name { text-decoration:line-through }
+.cw-m1 .cw-mini-grid { display:grid;grid-template-columns:minmax(0,1fr);gap:5px }
+.cw-m1 .cw-mini { width:auto;min-height:34px;grid-template-columns:20px minmax(0,1fr) auto;gap:6px;text-align:left }
+.cw-m1 .cw-mini>span { min-width:0;overflow-wrap:anywhere }
+.cw-m1 .cw-stale { display:block }
+.cw-m1 .cw-money { display:grid;gap:10px }
+.cw-m1 .cw-money-pair { display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;font-variant-numeric:tabular-nums }
+.cw-m1 .cw-money-pair>div { display:grid;gap:3px }
+.cw-m1 .cw-money-pair>div:last-child { text-align:right }
+.cw-m1 .cw-money-pair strong { font-size:1.6em;font-weight:500 }
+.cw-m1 .cw-change { display:flex;justify-content:space-between;align-items:center;gap:10px }
+.cw-m1 .cw-change>div { display:grid;gap:4px;min-width:0;overflow-wrap:anywhere }
+.cw-m1 .cw-change strong { flex-shrink:0;font-weight:500;font-variant-numeric:tabular-nums }
+.cw-m1 .cw-change small:empty { display:none }
+.cw-m1 .cw-choice-block { display:grid;gap:8px;padding-block:10px;border-top:1px solid var(--cw-line) }
+.cw-m1 .cw-price { display:flex;gap:8px;flex-wrap:wrap;align-items:baseline }
+.cw-m1 .cw-price strong { font-size:1.3em;font-weight:500 }
+.cw-m1 .cw-result-group { display:grid;gap:6px }
+.cw-m1 .cw-payment-order { border-top:1px solid var(--cw-line);padding-top:10px }
+.cw-m1 .cw-payment-order label { display:grid;gap:8px;margin-top:8px }
+.cw-m1 .cw-popup .cw-close { flex:0 0 auto }
+.cw-m1 .cw-popup>.cw-row h2 { flex:1 1 150px }
+.cw-m1 .cw-review-list { gap:14px }
+.cw-m1 .cw-section-title:first-child { margin-top:0 }
+.cw-m1 .cw-draft-content>.cw-money { padding-top:10px;border-top:1px solid var(--cw-line) }
+
 .cw-app{--cw-app-ink:light-dark(#263c32,#f0f3ea);--cw-app-paper:light-dark(#f7f8f4,#202820);color-scheme:light dark;container-type:inline-size;box-sizing:border-box;max-width:100%;font:14px/1.5 system-ui,sans-serif;color:var(--cw-app-ink)}.cw-app *{box-sizing:border-box;min-width:0}.cw-app button,.cw-app select,.cw-app textarea,.cw-app input{font:inherit}.cw-app button{cursor:pointer}.cw-app button:disabled{cursor:default;opacity:.5}.cw-appbar{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px}.cw-appbar>div{display:flex;gap:8px}.cw-app-message:empty{display:none}.cw-app-message{padding:7px 10px;background:light-dark(#f2e7cf,#493c28);overflow-wrap:anywhere}.cw-start,.cw-save,.cw-scene{padding:18px;border:1px solid light-dark(#aaafa1,#697767);background:var(--cw-app-paper)}.cw-start{min-height:300px;display:grid;align-content:center;justify-items:center}.cw-start h1{font-weight:500;font-size:30px}.cw-save label{display:block;margin:10px 0}.cw-save textarea{width:100%;resize:vertical}.cw-save input{display:block;max-width:100%}.cw-save [role=alert]:empty{display:none}.cw-app [hidden]{display:none!important}.cw-app .cw-actions{display:flex;gap:7px;flex-wrap:wrap}.cw-scene{height:clamp(350px,56.25cqi,620px);display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;gap:10px}.cw-scene h2{margin:0}.cw-scene nav{display:flex;gap:5px;flex-wrap:wrap;max-height:110px;overflow:auto}.cw-scene-body{overflow:auto;overscroll-behavior:contain}.cw-scene-body p{white-space:pre-wrap;overflow-wrap:anywhere}
 .cw-appbar button,.cw-start button,.cw-save button,.cw-scene button{padding:6px 10px;min-height:36px;color:var(--cw-app-ink);background:var(--cw-app-paper);border:1px solid light-dark(#acbdad,#697767);border-radius:5px}.cw-scene button[aria-pressed=true]{background:light-dark(#345747,#c2d8ba);color:light-dark(#fff,#20311e)}
 @media(pointer:coarse){.cw-app button{min-height:44px}.cw-app textarea,.cw-app input{font-size:16px}}

@@ -1,4 +1,8 @@
-# CO-U02 実データ接続（0.2／2026-09-15 Workモード再開）
+# CO-U02 実データ接続（0.3／2026-09-15 操作と言葉の見直し）
+
+UI-G-001 v0.2の検討版を追加。用語の列を対象名と増減へ置き換え、帰還の一括取消を個別選択へ変更した。今回の操作版・24項目の検査・残件は[操作と言葉の見直し](操作と言葉の見直し.md)と`verification/choice-ui/`。正式採用・ユーザー受入は未了。
+
+今回の検査入口は`verify-preparation-choice.cjs`。以下の33c7ac6の検査記録は、その時点のソースを対象とする履歴。
 
 保存コード：[33c7ac6747452bafd6b35e0f85933c5903bd4fa4](https://github.com/eckolo/crossweave/commit/33c7ac6747452bafd6b35e0f85933c5903bd4fa4)。ブランチref・全637treeエントリー・主要本文の読戻し済み。
 
@@ -21,7 +25,7 @@ entry.mjsは実Campaignと保存枠m1-localを使う。「続きから」「は�
 |---|---|---|
 | session.js | inspect／previewPreparation／previewAction／execute、pending、二重入力抑止、同request_id再試行、古い応答排除 | 実Campaign＋設計MemoryStoreで確認 |
 | 起動・再開・輸出入 | Campaign.create/open/importSave、controller.exportSave | 失敗時に元保存と入力を保持。open失敗をcreateへ切り替えない |
-| 準備・心得・札組 | UI-G v0.1.1の描画抽出、明示plan、比較、下書き保存、確定 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
+| 準備・心得・札組 | UI-G v0.2の公開view描画、v0.1.1の配置、明示plan、比較、下書き保存、確定 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
 | 本文・任意詳細 | 実phase／scene、text_ids＋optional_text_ids、continue_scene | 見出しではなく本文段落の可視通知でadvance:false。実DETAIL06→CL05、未表示本文の未記録を確認 |
 | 出発・探索・撤退・帰還 | depart／play／withdraw／continue_scene／ack_return | 実初回出発→一手→撤退→帰還→次準備をDOM操作で確認 |
 | exploration.js | 正式UI-R v0.15の配置CSS、相手・場・手札、詳細・予測、行動予約、履歴 | 公開viewのみ。窓・ドラッグ・関係線の実描画と視覚一致は未確認 |
@@ -30,7 +34,7 @@ entry.mjsは実Campaignと保存枠m1-localを使う。「続きから」「は�
 
 帰還後へ引き継ぐのは取消対象の基礎IDの意図だけ。新viewで再検証・再比較し、実取消は未確定のまま残す。個体・購入入り任意planや古いhandleを帰還から運ばない。
 
-## 今回の検証と操作画面
+## 33c7ac6時点の検証と操作画面（履歴）
 
 - 会話内の先行提示は **UI-G-001 v0.1.1の模擬応答版・実保存なし**。元co-u01/build.cjsと全fixturesから生成し、120316 bytes／SHA-256 caa5dc8e2703764ff9362840e00f237422660186f6a8c7d8dad0c99d1c6adeabが一致する。新実接続版とは区別する。
 - CW-M1-UI-001：実Campaign＋設計MemoryStore **46件**、実Campaign＋JSDOM 26.1.0 **28件**合格。Node v24.19.0。条件・全項目・ソースSHAは verification/work-mode/。

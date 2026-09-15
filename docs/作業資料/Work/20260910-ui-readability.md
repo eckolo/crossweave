@@ -64,3 +64,9 @@ Gitの通常Pushは認証情報なしで失敗。承認拒否ではなく、接�
 成果コミット [33c7ac6747452bafd6b35e0f85933c5903bd4fa4](https://github.com/eckolo/crossweave/commit/33c7ac6747452bafd6b35e0f85933c5903bd4fa4) を同じUI枝へ通常コミット・非強制ref更新で保存した。技術同期コミットはb20fccf374aeb652406ecb99084d4eb872e03019。GitHubのブランチrefと全637treeエントリー（blob・subtree）をローカル内容と照合し、application.jsと新規検査2結果の本文もSHA-256まで一致。計画全12blob・正式UIと固定試遊5範囲の不変を再確認。詳細はdocs/検証/UI/readability/co-u02/verification/work-mode/save-readback.json。
 
 保存済み操作画面は模擬応答・実セーブなし。実接続コードは別入口index.html。実Campaign＋設計MemoryStore46件、実Campaign＋JSDOM28件合格。実ブラウザー描画・IndexedDB、正式UI完全移植、D03、ユーザー確認は未了。今回の作業単位を終了しUIの稼働枠を解放する。設計20260909-design-assemblyへ、この成果コミットのco-u02一式・自設定・受領記録の統合を依頼する。UIからの逆方向統合・相手の受領済み扱いは行わない。
+
+## 2026-09-15：用語と操作対象の見直し
+
+ユーザーから、取り消し・購入・習得・取得といった用語の列、修正する／次の準備への作用が分からないとの指摘を受領。用語を統一することと反復表示することを分け、言葉を極力減らす。対象名・個数・価格・現在と変更後を優先し、帰還の全取消ショートカットを個別選択へ変更した。UI-G-001 v0.2としてco-u02の同じ実接続描画・会話内模擬版に反映。検討版であり受入・正式採用は未了。
+
+今回の変更に対する24項目（BC模擬応答、実Campaign＋設計MemoryStore、JSDOM）が合格。実表示・4幅・resize・IndexedDB・ユーザー理解度は未確認。詳細は[操作と言葉の見直し](../../検証/UI/readability/co-u02/操作と言葉の見直し.md)。旧原本と検査記録を保持する。設計20260909-design-assemblyへ対象差分の統合を依頼し、逆統合・受領済み扱いは行わない。今回の単位を終了して枠を解放する。
