@@ -1,0 +1,113 @@
+{
+  "trial_id": "CW-M1-UI-001",
+  "group": "async-contract-double",
+  "environment": "Node v22.16.0",
+  "result": "pass",
+  "count": 25,
+  "checks": [
+    {
+      "name": "inspect is awaited; no initial data is invented",
+      "pass": true
+    },
+    {
+      "name": "read-only comparison leaves current money unchanged",
+      "pass": true
+    },
+    {
+      "name": "latest comparison wins over a late response",
+      "pass": true
+    },
+    {
+      "name": "edit invalidates in-flight preview and clears read pending",
+      "pass": true
+    },
+    {
+      "name": "commit waits for save; duplicate write is suppressed",
+      "pass": true
+    },
+    {
+      "name": "save failure keeps exact view/draft; retry has the same full command",
+      "pass": true
+    },
+    {
+      "name": "lost committed response replays once with original request ID",
+      "pass": true
+    },
+    {
+      "name": "stale view preserves local intent but prohibits handle reuse",
+      "pass": true
+    },
+    {
+      "name": "older success response cannot roll back newer current state",
+      "pass": true
+    },
+    {
+      "name": "disposed component ignores late execute completion",
+      "pass": true
+    },
+    {
+      "name": "unconnected capability never invokes a fake success path",
+      "pass": true
+    },
+    {
+      "name": "commit and conversion require fresh comparison/quote",
+      "pass": true
+    },
+    {
+      "name": "only current-public legal action can be previewed or played",
+      "pass": true
+    },
+    {
+      "name": "unseen/unknown/other-scene text is not recorded by the boundary",
+      "pass": true
+    },
+    {
+      "name": "failed display annotation retries exact ID and does not rerecord",
+      "pass": true
+    },
+    {
+      "name": "unrelated command cannot discard an unsaved UI draft",
+      "pass": true
+    },
+    {
+      "name": "ack return carries only revalidated stable base cancellation intent",
+      "pass": true
+    },
+    {
+      "name": "open missing save never falls back to create",
+      "pass": true
+    },
+    {
+      "name": "invalid and unsupported import retain original document",
+      "pass": true
+    },
+    {
+      "name": "Campaign create is awaited and duplicate startup is suppressed",
+      "pass": true
+    },
+    {
+      "name": "failed Campaign import retry uses same request and document",
+      "pass": true
+    },
+    {
+      "name": "save export is a separate opaque channel, not public view",
+      "pass": true
+    },
+    {
+      "name": "generated real-path bundle contains no mock/testing/catalogue fallback",
+      "pass": true
+    },
+    {
+      "name": "D02 home text-record capability is independent of scene progression",
+      "pass": true
+    },
+    {
+      "name": "D02 stale refresh reopens saved controller while preserving UI intent",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "No real Campaign, IndexedDB, game, or persistent save.",
+    "Text boundary tests rely on caller reporting actual visibility; browser tests cover visibility separately."
+  ]
+}

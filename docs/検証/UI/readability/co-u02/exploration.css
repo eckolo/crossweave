@@ -1,0 +1,22 @@
+/* Same structural CSS as UI-R-002 v0.15, with the M1 public-data adapter. */
+.cw-explore{container-type:inline-size;--cw-window:var(--cw-paper)}
+.cw-explore #cw-scene-base{background:linear-gradient(180deg,light-dark(#88a6ae,#23343e),light-dark(#d2d9d0,#384847))}
+.cw-explore #cw-scene-base:before,.cw-explore #cw-scene-base:after{display:none}
+.cw-explore .cw-illustration>span{font-size:2em}
+.cw-explore .cw-ledger{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+.cw-explore .cw-ledger dt,.cw-explore .cw-ledger dd{margin:0;overflow-wrap:anywhere}
+.cw-explore .cw-ledger dd{font-variant-numeric:tabular-nums}
+.cw-explore #cw-action-anchor{width:min(240px,100%)}
+.cw-explore #cw-window-state{padding:3px 7px;min-width:32px}
+.cw-explore .cw-drawer{background:var(--cw-paper)}
+.cw-explore .cw-drawer-body{overscroll-behavior:contain}
+.cw-explore #cw-relations{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:.5;color:var(--cw-selected)}
+@container(max-width:600px){
+ .cw-explore .cw-bottom{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px}
+ .cw-explore .cw-footer-state{grid-area:1/1}
+ .cw-explore .cw-menu{grid-area:2/1/3/3}
+ .cw-explore [data-x="withdraw"]{grid-area:1/2}
+ .cw-explore .cw-self{font-size:12px}
+}
+@media(max-width:600px){.cw-explore{--cw-footer-height:76px}}
+@media(pointer:coarse){.cw-explore{--cw-footer-height:96px}.cw-explore #cw-window-state{min-width:44px;min-height:44px}}

@@ -1,0 +1,1182 @@
+{
+  "id": "UI-G-001-render-projection",
+  "source_commit": "3db916313e70817a05f0ea6cb3afd0f3c5e86630",
+  "source_blob": "4263b6a51d58647cbd0728466cd30e93626c99da",
+  "note": "BC/empty display inputs only. Reconstructed from retrieved source ranges and the original declared label generator. Not a full copy of fixtures.json; no reference snapshots or NT/purchased scenarios.",
+  "homes": {
+    "bc": {
+      "schema": "BD1-current-public",
+      "ok": true,
+      "economy": {
+        "unspent_units": 300,
+        "paid_learning_units": 200,
+        "learned": [
+          {
+            "base": "PS02",
+            "paid_units": 200
+          }
+        ]
+      },
+      "equipment": {
+        "entries": [
+          {
+            "id": "base:PS02",
+            "blueprint": {
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [],
+              "key": "AO1:passive:PS02"
+            },
+            "cost": 3
+          }
+        ],
+        "capacity": 8,
+        "used": 3,
+        "remaining": 5,
+        "legal": true
+      },
+      "deck": {
+        "composition": [
+          {
+            "id": "base:f",
+            "blueprint": {
+              "kind": "card",
+              "base": "f",
+              "affixes": [],
+              "key": "AO1:card:f"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:fast",
+            "blueprint": {
+              "kind": "card",
+              "base": "fast",
+              "affixes": [],
+              "key": "AO1:card:fast"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:g",
+            "blueprint": {
+              "kind": "card",
+              "base": "g",
+              "affixes": [],
+              "key": "AO1:card:g"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:h",
+            "blueprint": {
+              "kind": "card",
+              "base": "h",
+              "affixes": [],
+              "key": "AO1:card:h"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:l",
+            "blueprint": {
+              "kind": "card",
+              "base": "l",
+              "affixes": [],
+              "key": "AO1:card:l"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:r",
+            "blueprint": {
+              "kind": "card",
+              "base": "r",
+              "affixes": [],
+              "key": "AO1:card:r"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:read",
+            "blueprint": {
+              "kind": "card",
+              "base": "read",
+              "affixes": [],
+              "key": "AO1:card:read"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:salve",
+            "blueprint": {
+              "kind": "card",
+              "base": "salve",
+              "affixes": [],
+              "key": "AO1:card:salve"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:sweep",
+            "blueprint": {
+              "kind": "card",
+              "base": "sweep",
+              "affixes": [],
+              "key": "AO1:card:sweep"
+            },
+            "count": 1
+          },
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "kind": "card",
+              "base": "stored",
+              "affixes": [
+                "precise"
+              ],
+              "key": "AO1:card:stored:precise"
+            },
+            "count": 1
+          }
+        ],
+        "order_semantics": "unordered_composition",
+        "size": 12,
+        "required_size": 12,
+        "per_base_cap": 2,
+        "base_counts": {
+          "f": 2,
+          "fast": 1,
+          "g": 1,
+          "h": 1,
+          "l": 2,
+          "r": 1,
+          "read": 1,
+          "salve": 1,
+          "sweep": 1,
+          "stored": 1
+        },
+        "legal": true
+      },
+      "owned": [
+        {
+          "id": "owned-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "stored",
+            "affixes": [
+              "precise"
+            ],
+            "key": "AO1:card:stored:precise"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": true
+        },
+        {
+          "id": "owned-2",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [],
+            "key": "AO1:passive:PS03"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": false,
+          "eligibility_reason": "owned_but_base_not_learned",
+          "equipment_cost": 2,
+          "selected": false
+        },
+        {
+          "id": "owned-3",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "sturdy"
+            ],
+            "key": "AO1:card:brace:sturdy"
+          },
+          "owned": true,
+          "selection_kind": "deck",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": null,
+          "selected": false
+        },
+        {
+          "id": "owned-4",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "borrowed"
+            ],
+            "key": "AO1:passive:PS02:borrowed"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": 3,
+          "selected": false
+        },
+        {
+          "id": "owned-5",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [],
+            "key": "AO1:passive:PS02"
+          },
+          "owned": true,
+          "selection_kind": "equipment",
+          "eligible": true,
+          "eligibility_reason": "owned_and_base_requirement_met",
+          "equipment_cost": 3,
+          "selected": false
+        }
+      ],
+      "candidates": [
+        {
+          "id": "choice-0",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS02",
+            "affixes": [
+              "swift"
+            ],
+            "key": "AO1:passive:PS02:swift"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-1",
+          "blueprint": {
+            "kind": "card",
+            "base": "brace",
+            "affixes": [
+              "light"
+            ],
+            "key": "AO1:card:brace:light"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-2",
+          "blueprint": {
+            "kind": "card",
+            "base": "r",
+            "affixes": [],
+            "key": "AO1:card:r"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        },
+        {
+          "id": "choice-3",
+          "blueprint": {
+            "kind": "passive",
+            "base": "PS03",
+            "affixes": [
+              "forceful"
+            ],
+            "key": "AO1:passive:PS03:forceful"
+          },
+          "price_units": 400,
+          "available": true,
+          "affordable_now": false
+        }
+      ],
+      "free_card_options": [
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:h",
+        "base:j",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "base:sweep"
+      ],
+      "learning_options": [
+        {
+          "base": "PS01",
+          "cost_units": 200
+        },
+        {
+          "base": "PS02",
+          "cost_units": 200
+        },
+        {
+          "base": "PS03",
+          "cost_units": 200
+        },
+        {
+          "base": "PS04",
+          "cost_units": 200
+        }
+      ]
+    },
+    "empty": {
+      "schema": "BD1-current-public",
+      "ok": true,
+      "economy": {
+        "unspent_units": 0,
+        "paid_learning_units": 0,
+        "learned": []
+      },
+      "equipment": {
+        "entries": [],
+        "capacity": 8,
+        "used": 0,
+        "remaining": 8,
+        "legal": true
+      },
+      "deck": {
+        "composition": [
+          {
+            "id": "base:f",
+            "blueprint": {
+              "kind": "card",
+              "base": "f",
+              "affixes": [],
+              "key": "AO1:card:f"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:fast",
+            "blueprint": {
+              "kind": "card",
+              "base": "fast",
+              "affixes": [],
+              "key": "AO1:card:fast"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:g",
+            "blueprint": {
+              "kind": "card",
+              "base": "g",
+              "affixes": [],
+              "key": "AO1:card:g"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:h",
+            "blueprint": {
+              "kind": "card",
+              "base": "h",
+              "affixes": [],
+              "key": "AO1:card:h"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:l",
+            "blueprint": {
+              "kind": "card",
+              "base": "l",
+              "affixes": [],
+              "key": "AO1:card:l"
+            },
+            "count": 2
+          },
+          {
+            "id": "base:r",
+            "blueprint": {
+              "kind": "card",
+              "base": "r",
+              "affixes": [],
+              "key": "AO1:card:r"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:read",
+            "blueprint": {
+              "kind": "card",
+              "base": "read",
+              "affixes": [],
+              "key": "AO1:card:read"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:salve",
+            "blueprint": {
+              "kind": "card",
+              "base": "salve",
+              "affixes": [],
+              "key": "AO1:card:salve"
+            },
+            "count": 1
+          },
+          {
+            "id": "base:sweep",
+            "blueprint": {
+              "kind": "card",
+              "base": "sweep",
+              "affixes": [],
+              "key": "AO1:card:sweep"
+            },
+            "count": 1
+          }
+        ],
+        "order_semantics": "unordered_composition",
+        "size": 12,
+        "required_size": 12,
+        "per_base_cap": 2,
+        "base_counts": {
+          "f": 2,
+          "fast": 1,
+          "g": 1,
+          "h": 2,
+          "l": 2,
+          "r": 1,
+          "read": 1,
+          "salve": 1,
+          "sweep": 1
+        },
+        "legal": true
+      },
+      "owned": [],
+      "candidates": [],
+      "free_card_options": [
+        "base:f",
+        "base:fast",
+        "base:g",
+        "base:h",
+        "base:j",
+        "base:l",
+        "base:r",
+        "base:read",
+        "base:salve",
+        "base:sweep"
+      ],
+      "learning_options": [
+        {
+          "base": "PS01",
+          "cost_units": 200
+        },
+        {
+          "base": "PS02",
+          "cost_units": 200
+        },
+        {
+          "base": "PS03",
+          "cost_units": 200
+        },
+        {
+          "base": "PS04",
+          "cost_units": 200
+        }
+      ]
+    }
+  },
+  "details": {
+    "bc": {
+      "base:f": {
+        "name": "返り音の笛",
+        "base_name": "返り音の笛",
+        "base_id": "f",
+        "kind": "card",
+        "icon": "music-2",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:fast": {
+        "name": "早駆け",
+        "base_name": "早駆け",
+        "base_id": "fast",
+        "kind": "card",
+        "icon": "wind",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:g": {
+        "name": "防御",
+        "base_name": "防御",
+        "base_id": "g",
+        "kind": "card",
+        "icon": "shield",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:h": {
+        "name": "沈み石の槌",
+        "base_name": "沈み石の槌",
+        "base_id": "h",
+        "kind": "card",
+        "icon": "hammer",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:l": {
+        "name": "先渡りの靴",
+        "base_name": "先渡りの靴",
+        "base_id": "l",
+        "kind": "card",
+        "icon": "footprints",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:r": {
+        "name": "手当て",
+        "base_name": "手当て",
+        "base_id": "r",
+        "kind": "card",
+        "icon": "heart",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:read": {
+        "name": "見切り",
+        "base_name": "見切り",
+        "base_id": "read",
+        "kind": "card",
+        "icon": "eye",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:salve": {
+        "name": "軟膏",
+        "base_name": "軟膏",
+        "base_id": "salve",
+        "kind": "card",
+        "icon": "flask-conical",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:sweep": {
+        "name": "薙ぎ払い",
+        "base_name": "薙ぎ払い",
+        "base_id": "sweep",
+        "kind": "card",
+        "icon": "swords",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "owned-1": {
+        "name": "精密な溜め打ち",
+        "base_name": "溜め打ち",
+        "base_id": "stored",
+        "kind": "card",
+        "icon": "hourglass",
+        "affixes": [
+          {
+            "id": "precise",
+            "label": "精密な",
+            "description": "探査 +20・突破 −1"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "owned-2": {
+        "name": "借り札の守り",
+        "base_name": "借り札の守り",
+        "base_id": "PS03",
+        "kind": "passive",
+        "icon": "shield-plus",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "借りた防御札の一致後 → 次の防御一致の身構 +2",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      },
+      "owned-3": {
+        "name": "堅い踏ん張り",
+        "base_name": "踏ん張り",
+        "base_id": "brace",
+        "kind": "card",
+        "icon": "shield-check",
+        "affixes": [
+          {
+            "id": "sturdy",
+            "label": "堅い",
+            "description": "身構 +2・攪乱 −10"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "owned-4": {
+        "name": "借り技の属性連携",
+        "base_name": "属性連携",
+        "base_id": "PS02",
+        "kind": "passive",
+        "icon": "link",
+        "affixes": [
+          {
+            "id": "borrowed",
+            "label": "借り技の",
+            "description": "借り札で発動"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "owned-5": {
+        "name": "属性連携",
+        "base_name": "属性連携",
+        "base_id": "PS02",
+        "kind": "passive",
+        "icon": "link",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "前の攻撃一致と異なる属性 → 探査 +20",
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "choice-0": {
+        "name": "速効の属性連携",
+        "base_name": "属性連携",
+        "base_id": "PS02",
+        "kind": "passive",
+        "icon": "link",
+        "affixes": [
+          {
+            "id": "swift",
+            "label": "速効の",
+            "description": "効果を抑え、行動間隔を短縮"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "choice-1": {
+        "name": "軽い踏ん張り",
+        "base_name": "踏ん張り",
+        "base_id": "brace",
+        "kind": "card",
+        "icon": "shield-check",
+        "affixes": [
+          {
+            "id": "light",
+            "label": "軽い",
+            "description": "主効果 −1・行動間隔 −1"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "choice-2": {
+        "name": "手当て",
+        "base_name": "手当て",
+        "base_id": "r",
+        "kind": "card",
+        "icon": "heart",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "choice-3": {
+        "name": "強引な借り札の守り",
+        "base_name": "借り札の守り",
+        "base_id": "PS03",
+        "kind": "passive",
+        "icon": "shield-plus",
+        "affixes": [
+          {
+            "id": "forceful",
+            "label": "強引な",
+            "description": "効果を高め、行動間隔を延長"
+          }
+        ],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "base:PS02": {
+        "name": "属性連携",
+        "base_name": "属性連携",
+        "base_id": "PS02",
+        "kind": "passive",
+        "icon": "link",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "前の攻撃一致と異なる属性 → 探査 +20",
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "base:j": {
+        "name": "小突き",
+        "base_name": "小突き",
+        "base_id": "j",
+        "kind": "card",
+        "icon": "move-up-right",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:PS01": {
+        "name": "守りからの設置",
+        "base_name": "守りからの設置",
+        "base_id": "PS01",
+        "kind": "passive",
+        "icon": "layers",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "防御一致の後、次の設置間隔 −2",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      },
+      "base:PS03": {
+        "name": "借り札の守り",
+        "base_name": "借り札の守り",
+        "base_id": "PS03",
+        "kind": "passive",
+        "icon": "shield-plus",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "借りた防御札の一致後 → 次の防御一致の身構 +2",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      },
+      "base:PS04": {
+        "name": "回復の工夫",
+        "base_name": "回復の工夫",
+        "base_id": "PS04",
+        "kind": "passive",
+        "icon": "heart-handshake",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "消耗回復札の一致 → 回復 +4",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      }
+    },
+    "empty": {
+      "base:f": {
+        "name": "返り音の笛",
+        "base_name": "返り音の笛",
+        "base_id": "f",
+        "kind": "card",
+        "icon": "music-2",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:fast": {
+        "name": "早駆け",
+        "base_name": "早駆け",
+        "base_id": "fast",
+        "kind": "card",
+        "icon": "wind",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:g": {
+        "name": "防御",
+        "base_name": "防御",
+        "base_id": "g",
+        "kind": "card",
+        "icon": "shield",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:h": {
+        "name": "沈み石の槌",
+        "base_name": "沈み石の槌",
+        "base_id": "h",
+        "kind": "card",
+        "icon": "hammer",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:l": {
+        "name": "先渡りの靴",
+        "base_name": "先渡りの靴",
+        "base_id": "l",
+        "kind": "card",
+        "icon": "footprints",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:r": {
+        "name": "手当て",
+        "base_name": "手当て",
+        "base_id": "r",
+        "kind": "card",
+        "icon": "heart",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:read": {
+        "name": "見切り",
+        "base_name": "見切り",
+        "base_id": "read",
+        "kind": "card",
+        "icon": "eye",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:salve": {
+        "name": "軟膏",
+        "base_name": "軟膏",
+        "base_id": "salve",
+        "kind": "card",
+        "icon": "flask-conical",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:sweep": {
+        "name": "薙ぎ払い",
+        "base_name": "薙ぎ払い",
+        "base_id": "sweep",
+        "kind": "card",
+        "icon": "swords",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:j": {
+        "name": "小突き",
+        "base_name": "小突き",
+        "base_id": "j",
+        "kind": "card",
+        "icon": "move-up-right",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:PS01": {
+        "name": "守りからの設置",
+        "base_name": "守りからの設置",
+        "base_id": "PS01",
+        "kind": "passive",
+        "icon": "layers",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "防御一致の後、次の設置間隔 −2",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      },
+      "base:PS02": {
+        "name": "属性連携",
+        "base_name": "属性連携",
+        "base_id": "PS02",
+        "kind": "passive",
+        "icon": "link",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "前の攻撃一致と異なる属性 → 探査 +20",
+        "equipment_cost": 3,
+        "learning_cost_units": 200
+      },
+      "base:PS03": {
+        "name": "借り札の守り",
+        "base_name": "借り札の守り",
+        "base_id": "PS03",
+        "kind": "passive",
+        "icon": "shield-plus",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "借りた防御札の一致後 → 次の防御一致の身構 +2",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      },
+      "base:PS04": {
+        "name": "回復の工夫",
+        "base_name": "回復の工夫",
+        "base_id": "PS04",
+        "kind": "passive",
+        "icon": "heart-handshake",
+        "affixes": [],
+        "primary": null,
+        "field": null,
+        "life": null,
+        "action_intervals": null,
+        "recovery_rule": null,
+        "trigger_text": null,
+        "effect_text": "消耗回復札の一致 → 回復 +4",
+        "equipment_cost": 2,
+        "learning_cost_units": 200
+      }
+    }
+  },
+  "return_receipt": {
+    "outcome": "clear",
+    "gained_units": 300,
+    "new_unlocks": [
+      "brace"
+    ],
+    "kept_count": 3,
+    "lost_count": 0,
+    "available_units": 300,
+    "paid_learning_units": 200
+  },
+  "mock_only": {
+    "units_per_point": 100,
+    "equipment_costs": {
+      "PS01": 2,
+      "PS02": 3,
+      "PS03": 2,
+      "PS04": 2
+    },
+    "ordinary_conversion_units": 50
+  }
+}
