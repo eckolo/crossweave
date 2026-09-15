@@ -3,16 +3,79 @@
   "work_id": "20260910-ui-readability",
   "date_jst": "2026-09-15",
   "groups": [
-    {"group":"UI-G-001-v0.1.1-real-rendering","count":29,"result":"pass","engine":"Chromium 144.0.7559.96","parent_widths":[1024,736,600,320],"checks":"return, preparation, final card, comparison confirmation, affix detail, resize preservation and BC sequence"},
-    {"group":"async-contract-double","count":25,"result":"pass","engine":"Node v22.16.0","checks":"await, unchanged current values before commit, exact retries, stale view, no handle remap, visible-text boundary, independent startup/import/export, D02 record capability and reopen"},
-    {"group":"in-memory-browser-components","count":13,"result":"pass","engine":"Chromium 144.0.7559.96","checks":"pending and failed commit/retry, four widths, export channel, missing save, retained import input, heading/offscreen/unopened optional text, visible annotation and legal action"}
+    {
+      "group": "UI-G-001-v0.1.1-real-rendering",
+      "count": 29,
+      "result": "pass",
+      "engine": "Chromium 144.0.7559.96",
+      "parent_widths": [
+        1024,
+        736,
+        600,
+        320
+      ],
+      "checks": "return, preparation, final card, comparison confirmation, affix detail, resize preservation and BC sequence"
+    },
+    {
+      "group": "async-contract-double",
+      "count": 25,
+      "result": "pass",
+      "engine": "Node v22.16.0",
+      "checks": "await, unchanged current values before commit, exact retries, stale view, no handle remap, visible-text boundary, independent startup/import/export, D02 record capability and reopen"
+    },
+    {
+      "group": "in-memory-browser-components",
+      "count": 13,
+      "result": "pass",
+      "engine": "Chromium 144.0.7559.96",
+      "checks": "pending and failed commit/retry, four widths, export channel, missing save, retained import input, heading/offscreen/unopened optional text, visible annotation and legal action"
+    }
   ],
-  "full_reports": "会話添付crossweave-co-u02-handoff.zip内 docs/検証/UI/readability/co-u02/verification/",
+  "full_reports": "verification/（前回）、verification/work-mode/（今回）",
   "old_28_checks_rerun": false,
   "real_campaign_indexeddb_verified": false,
   "user_accepted": false,
   "ui_r002_full_port_complete": false,
-  "new_ui_code_published_to_branch": false,
-  "code_save_constraint": "application.jsの保存要求がOpenAIによりブロック。別経路での再送なし。全コード・検査・入力・目録を会話添付に保全。",
-  "limits": ["headless desktop, no physical touch-device acceptance", "file navigation blocked; new components tested with direct in-memory DOM input", "short hosts retain vertical page scrolling rather than clipping", "D02 real API entry written but real Campaign and same-origin persistence not exercised"]
+  "new_ui_code_published_to_branch": true,
+  "code_save_constraint": "前回拒否を履歴として保全。今回は修正済みソースの正規GitHub要求が受理され、通常コミット・非強制ref更新で保存。Git CLIのPushは認証情報なしで失敗したが承認拒否ではない。",
+  "limits": [
+    "Current Browser local navigation returned ERR_BLOCKED_BY_CLIENT; no alternate route used.",
+    "Real rendering at 1024/736/600/320 px, pointer and resize checks are not newly verified.",
+    "Actual IndexedDB and same-origin persistence remain unverified.",
+    "Formal UI-R-002 v0.15 full port, D03 and user acceptance remain incomplete."
+  ],
+  "groups_scope": "前回Chatの検査。保全ZIPのソース・ハッシュ・条件を今回照合。今回の再実行結果ではない。",
+  "previous_chat_publication": {
+    "new_ui_code_published_to_branch": false,
+    "code_save_constraint": "application.jsの保存要求がOpenAIによりブロック。別経路での再送なし。全コード・検査・入力・目録を会話添付に保全。",
+    "full_reports": "会話添付crossweave-co-u02-handoff.zip内 docs/検証/UI/readability/co-u02/verification/",
+    "limits": [
+      "headless desktop, no physical touch-device acceptance",
+      "file navigation blocked; new components tested with direct in-memory DOM input",
+      "short hosts retain vertical page scrolling rather than clipping",
+      "D02 real API entry written but real Campaign and same-origin persistence not exercised"
+    ]
+  },
+  "work_mode_resumption": {
+    "code_commit": "33c7ac6747452bafd6b35e0f85933c5903bd4fa4",
+    "technical_source": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+    "node": "v24.19.0",
+    "groups": [
+      {
+        "group": "real-Campaign-design-MemoryStore",
+        "count": 46,
+        "result": "pass"
+      },
+      {
+        "group": "real-Campaign-JSDOM",
+        "count": 28,
+        "result": "pass",
+        "jsdom": "26.1.0",
+        "layout_verified": false
+      }
+    ],
+    "save_readback": "verification/work-mode/save-readback.json",
+    "unit_closed": true,
+    "own_slot_released": true
+  }
 }

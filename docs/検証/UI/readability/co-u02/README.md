@@ -1,5 +1,7 @@
 # CO-U02 実データ接続（0.2／2026-09-15 Workモード再開）
 
+保存コード：[33c7ac6747452bafd6b35e0f85933c5903bd4fa4](https://github.com/eckolo/crossweave/commit/33c7ac6747452bafd6b35e0f85933c5903bd4fa4)。ブランチref・全637treeエントリー・主要本文の読戻し済み。
+
 **提供済みD02への接続を提出。CO-U02全体・正式探索UIの完全移植・実ブラウザー保存・ユーザー受入は未了。** 現在の結果は [実接続結果](実接続結果.md)。以下の「前回Chatの記録」以降は更新前の履歴である。
 
 WorkID `20260910-ui-readability`、作業先 `ui/readability-20260910`、統合先・担当 `dev_design_tmp_assembly`／設計集約Work `20260909-design-assembly`。今回の設計同期版は **7a0ce6fad3ce873638ad0e8d923c7559b420a6ed**（D02提出版）。実入口は `src/runtime/campaign.mjs` の Campaign／createCampaign／versions。
