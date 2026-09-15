@@ -43,7 +43,8 @@ export function settle(d) {
   for(const base of newUnlocks)achievements.push(JSON.stringify(['CW-M1-achievement-1','SCN-001-ACH-UNLOCK',base]));
   const newKnowledge=e.profile.knowledge.events.filter(ev=>!previousKnowledge.events.some(old=>old.id===ev.id));
   for(const ev of newKnowledge.filter(ev=>ev.kind==='initial_catalogue_grant'))achievements.push(JSON.stringify(['CW-M1-achievement-1','SCN-001-ACH-CATALOGUE',JSON.stringify([ev.profile,ev.version])]));
-  c.run_achievements[a.run]=achievements;
+  c.run_achievements[a.run]=[...new Set([...(c.run_achievements[a.run]||[]),...achievements])];
+  if(outcome==='clear'&&!e.profile.clears.includes('A'))e.profile.clears.push('A');
   const receipt={run:a.run,index:a.index,seed:a.seed,outcome,mode:a.mode,case_id:a.case_id,target_set_id:a.target_set_id,content_set_id:C.content_set_id,
     settlement_event_id:event,source_events:Object.values(ledger).map(r=>r.source_event_id),reward_ledger:ledger,kept,lost,
     gained_units:gained,unspent_after_units:funds(e),paid_learning_units:paid(e),

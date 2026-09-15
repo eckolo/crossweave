@@ -23,7 +23,7 @@ export class IndexedDBStore {
       const tx=db.transaction('slots','readonly'),request=tx.objectStore('slots').get(slot);
       tx.oncomplete=()=>resolve(request.result??null);
       tx.onabort=tx.onerror=()=>reject(Object.assign(new Error('storage_read_failed'),{code:'storage_read_failed'}));
-    });
+    }).catch(error=>{throw typeof error.code==='string'?error:Object.assign(new Error('storage_read_failed'),{code:'storage_read_failed'});});
   }
   async commit(slot, expectedRevision, document) {
     const db=await this.db();
@@ -40,6 +40,6 @@ export class IndexedDBStore {
       tx.oncomplete=()=>resolve();
       tx.onerror=()=>{};
       tx.onabort=()=>reject(error?.code?error:Object.assign(new Error('storage_write_failed'),{code:'storage_write_failed'}));
-    });
+    }).catch(error=>{throw typeof error.code==='string'?error:Object.assign(new Error('storage_write_failed'),{code:'storage_write_failed'});});
   }
 }

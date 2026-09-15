@@ -1,0 +1,140 @@
+{
+  "schema": "CW-M1-A-001-verification-1",
+  "version": "0.2",
+  "status": "runtime_A_submitted_with_actual_browser_gate_unverified",
+  "work_id": "20260909-design-assembly",
+  "branch": "dev_design_tmp_assembly",
+  "start_commit": "eb28efb3fde17cda6305cbbca8ebb6d03f7bad4d",
+  "early_api_commit": "68da4ff0b402af1d3607660a5b6d4156fbb7d2bb",
+  "plan_head": "b25e7abe423ff72f93aa858c42bc09ad9daf04b2",
+  "ui_reference_head": "59c96ca347c52654bda5cf41ae89aa119003799a",
+  "formal_baseline": {
+    "basic_design": "0.53",
+    "last_decision": "D53",
+    "changed": false
+  },
+  "input": {
+    "schema": "CW-M1-input-1",
+    "version": "0.1",
+    "blob": "8487b2288b4e701953887be90949242f4d951a71"
+  },
+  "runtime_code": "code-07.json",
+  "runtime_engine": "CW-M1-engine-0.1",
+  "natural_code": "code-03.json",
+  "natural": [
+    {
+      "natural": "clear",
+      "actions": 39,
+      "gained_units": 300
+    },
+    {
+      "growth": "PS01 + second guard",
+      "unspent": 100
+    },
+    {
+      "second_mode": "revisit"
+    },
+    {
+      "second_outcome": "defeat",
+      "actions": 34
+    }
+  ],
+  "node_boundaries": {
+    "passed": 21,
+    "failed": 0,
+    "file": "boundaries-06.json",
+    "code": "code-06.json"
+  },
+  "resolver_passives": {
+    "passed": 5,
+    "failed": 0,
+    "file": "passives-06.json",
+    "code": "code-06.json"
+  },
+  "rng": {
+    "streams": 80,
+    "exact_match": true,
+    "file": "rng-03.json"
+  },
+  "save_examples": {
+    "count": 5,
+    "all_gzip_and_raw_hashes_verified": true,
+    "all_restored_and_imported_with_current_runtime": true,
+    "file": "artifact-check.json"
+  },
+  "browser": {
+    "status": "origin_blocked_ERR_BLOCKED_BY_CLIENT",
+    "actual_indexeddb_checks": 0,
+    "actual_tab_reload_checks": 0,
+    "dom_checks": 0,
+    "human_checks": 0,
+    "bypass_attempted": false,
+    "file": "browser-check.json"
+  },
+  "test_corrections": [
+    {
+      "from": "code-03",
+      "to": "code-04",
+      "kind": "fixture_error",
+      "detail": "E1-origin j after retirement is doomed; do not expect normal shared recovery."
+    },
+    {
+      "from": "code-04",
+      "to": "code-05",
+      "kind": "test_request_identity_error",
+      "detail": "New isolated process reused test-N IDs from imported save; use per-process request namespace."
+    }
+  ],
+  "old_comparisons_rerun": false,
+  "protected_PT_NT_tree": "7bb3ba7ff8912bad0379341a26cbfabb941a34c7",
+  "UI_originals_imported": false,
+  "remaining": [
+    "actual desktop Chromium IndexedDB persistence/reload/multi-tab check",
+    "CO-U02 dedicated UI connection and acceptance",
+    "human understanding/choice/repetition/fun evaluation",
+    "CO-D03 owned items/affixes/offers/purchase/conversion and explicit A-to-B activation"
+  ],
+  "artifact_sha256": {
+    "conditions.json": "7f30629ef94c7b679a23378110da4cb9d0cc4519f81ccf1ee30a8274a925eb22",
+    "code-01.json": "c3f1e0fdab0f323bd134aeabd644c59146a4d011d4fe244d14fc78502b05981a",
+    "smoke-01.json": "1ed9dba624396aa48ff80d306ee40aa15c8ea24b90cd71f148b095c004ee3f74",
+    "code-02.json": "08e4740bf7cd20e6f31aad54d1e2c694965ab023153fbaef72b455f18ae569cf",
+    "browser-check.json": "065ed6a04487c97020056e746629c9c1b66cd377b48f22912290619b40d69579",
+    "code-03.json": "a018aca475bdc360577e734d4ec94b8dc2d64db373a8ad41168a39b4ef10b842",
+    "rng-03.json": "5cb7795d5fba8497d3fcf3ff112cb620f899c1fc607c774c6754b3c68d7450b1",
+    "natural-03.json": "1ed9dba624396aa48ff80d306ee40aa15c8ea24b90cd71f148b095c004ee3f74",
+    "failure-03.json": "877905c3c57a4d621c2fd258720c5f45d91497e98085c8e237124bf4bbeed1a8",
+    "code-04.json": "7bc289e3bd9fe2f94ee28338d30cd6c707f243a0e66ea461fcba03b6665c1a4f",
+    "failure-04.json": "50d15ec904f78802ba16282b5feaafe6e2e699419f32ca522025d07c1c330ca7",
+    "code-05.json": "d729231ac5ccc37f36551f96ae0fd71c2f10bb772b7e74c77e5c0ac30312c82d",
+    "boundaries-05.json": "945a4964681a8b00eb2501d1b6170e21c9f3ae2ddb582dea64c913b94b5291c3",
+    "code-06.json": "e8e41a1cc44ac58c9f15687f3a4fba838e7ba7748ba1564d02e0e3aa51c94d1e",
+    "boundaries-06.json": "c7622d2b1b795fea979984453398911e3802606493634c0279a49e5c8b66ba28",
+    "passives-06.json": "550a22937af1d813977ef7d6f25fb368073ec82fd3c2462c3f2aee4e1d60787b",
+    "artifact-check.json": "e360c5dd9c5d60f057ac3cb5887285a471662d5c249cfe663c32637fa8c72365",
+    "saves/manifest.json": "c5eea02b5622146f21c396a01e3b92cb0facc601f6f70d79b2ede14d2a937864",
+    "code-07.json": "de0687da99926b5eeb06a253aeea049e77aaebc499f5dea1eeda95a9f2d739f4",
+    "public-details-07.json": "3065ad4d392267f0fcb7a1a3353deb8de78a20aa105bce0236898f88d5ea3b66",
+    "boundary-amendment-04.json": "0c49ce647b197d10f4b1a853335476efc38231a5eb20a98d3116bdc7161f204f",
+    "boundary-amendment-05.json": "401e2fd20879f8e5f3e44c8e890edff881d47877c9c910e6695552bbde1a1127",
+    "boundary-amendment-06.json": "03df8d20babe261b52f2050388fcdabc147cb0aa6725ab8f7c4b87a232bb788b",
+    "boundary-amendment-07.json": "32ac8d91c47a260c4f4101b841018ae9eb859735c48fa52455b0c49be46d0c34"
+  },
+  "related_ui": {
+    "head": "59c96ca347c52654bda5cf41ae89aa119003799a",
+    "stop_record_blob": "043ecb7b27d56cec46cb91a939221723d02b90fa",
+    "summary_blob": "e76bdec1b4608527a9d6d95cccea15d0d40d09c8",
+    "reported_design_sync": "68da4ff0b402af1d3607660a5b6d4156fbb7d2bb",
+    "new_UI_code_on_branch": false,
+    "attachment_received_locally": false,
+    "selected_UI_implementation_import": false,
+    "ui_blocked_save_resubmitted_by_this_work": false
+  },
+  "public_details": {
+    "code": "code-07.json",
+    "saves_checked": 5,
+    "file": "public-details-07.json",
+    "passed": true,
+    "change": "Kept unlock details without free/owned/selection rights; no natural rerun"
+  }
+}

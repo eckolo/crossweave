@@ -10,4 +10,4 @@ export function canonical(x) {
 export const unique = xs => Array.isArray(xs) && xs.every(x => typeof x === 'string') && new Set(xs).size === xs.length;
 export const integer = x => Number.isSafeInteger(x) && x >= 0;
 export const sum = xs => xs.reduce((a, b) => a + b, 0);
-export const fail = error => ({ok: false, error: {code: error.code || 'invalid_state', field: error.field || null, details: error.details || {}}});
+export const fail = error => ({ok: false, error: {code: typeof error.code==='string'?error.code:'invalid_state', field: error.field || null, details: error.details || {}}});

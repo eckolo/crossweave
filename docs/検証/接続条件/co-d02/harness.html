@@ -14,21 +14,21 @@
 import {Campaign,versions} from '../../../../src/runtime/campaign.mjs';
 import {browserSmoke} from '../../../../test/runtime/browser-smoke.mjs';
 let controller=null,view=null;const $=id=>document.getElementById(id),showError=e=>{$('state').textContent=JSON.stringify({error:{code:e.code||e.message}},null,2);};
-function draw(v){view=v;const d=v.display_data;$('state').textContent=JSON.stringify(d,null,2);$('story').replaceChildren();$('actions').replaceChildren();
+function draw(v,{replacePlan=false}={}){view=v;const d=v.display_data;const debug=structuredClone(d);for(const id of d.scene?.optional_text_ids||[])if(!d.texts[id].read)debug.texts[id]={id,kind:'detail',available:true};$('state').textContent=JSON.stringify(debug,null,2);$('story').replaceChildren();$('actions').replaceChildren();
   for(const id of d.scene?.text_ids||[]){const p=document.createElement('p');p.textContent=d.texts[id].short_text;$('story').append(p);}
   for(const id of d.scene?.optional_text_ids||[]){const b=document.createElement('button');b.textContent='詳細を開く: '+id;b.onclick=()=>perform('continue_scene',{scene_id:d.scene.id,advance:false,displayed_text_ids:[id]});$('story').append(b);}
-  for(const ch of d.exploration?.legal_actions||[]){const b=document.createElement('button'),card=d.exploration.hand.find(c=>c.id===ch.card_id);b.textContent=card.name+(ch.target?' → '+d.exploration.actors[ch.target].name:' を設置');b.onclick=()=>perform('play',{choice:ch});$('actions').append(b);}
-  if(d.draft)$('plan').value=JSON.stringify(d.draft.plan,null,2);
+  for(const ch of d.exploration?.legal_actions||[]){const b=document.createElement('button'),card=d.exploration.hand.find(c=>c.id===ch.card_id);b.textContent=card.name+(d.exploration.field[card.attr]?' を一致':' を設置')+(ch.target?' → '+d.exploration.actors[ch.target].name:'');b.onclick=()=>perform('play',{choice:ch});$('actions').append(b);}
+  if(d.draft&&(replacePlan||!$('plan').value))$('plan').value=JSON.stringify(d.draft.plan,null,2);
 }
-async function perform(type,payload){try{draw(await controller.execute({request_id:crypto.randomUUID(),expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload}));}catch(e){showError(e);}}
-$('create').onclick=async()=>{try{controller=await Campaign.create({slot_id:$('slot').value,...versions,request_id:crypto.randomUUID()});draw(controller.inspect());}catch(e){showError(e);}};
-$('open').onclick=async()=>{try{controller=await Campaign.open({slot_id:$('slot').value});draw(controller.inspect());}catch(e){showError(e);}};
+async function perform(type,payload){try{const result=await controller.execute({request_id:crypto.randomUUID(),expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload});draw(result,{replacePlan:!!result.display_data.operation&&['commit_preparation','discard_draft','ack_return'].includes(type)});}catch(e){showError(e);}}
+$('create').onclick=async()=>{try{controller=await Campaign.create({slot_id:$('slot').value,...versions,request_id:crypto.randomUUID()});draw(controller.inspect(),{replacePlan:true});}catch(e){showError(e);}};
+$('open').onclick=async()=>{try{controller=await Campaign.open({slot_id:$('slot').value});draw(controller.inspect(),{replacePlan:true});}catch(e){showError(e);}};
 $('refresh').onclick=()=>controller&&draw(controller.inspect());
 $('depart').onclick=()=>perform('depart',{case_id:'SCN-001'});$('continue').onclick=()=>perform('continue_scene',{scene_id:view.display_data.scene.id});
 $('withdraw').onclick=()=>perform('withdraw',{});$('ack').onclick=()=>perform('ack_return',{});
 $('preview').onclick=()=>{try{draw(controller.previewPreparation({view_token:view.meta.view_token,plan:JSON.parse($('plan').value)}));}catch(e){showError(e);}};
 $('draft').onclick=()=>perform('save_draft',{plan:JSON.parse($('plan').value)});$('commit').onclick=()=>perform('commit_preparation',{plan:JSON.parse($('plan').value)});
 $('export').onclick=()=>{$('save').value=JSON.stringify(controller.exportSave(),null,2);};
-$('import').onclick=async()=>{try{controller=await Campaign.importSave({slot_id:$('slot').value,document:$('save').value,request_id:crypto.randomUUID()});draw(controller.inspect());}catch(e){showError(e);}};
+$('import').onclick=async()=>{try{controller=await Campaign.importSave({slot_id:$('slot').value,document:$('save').value,request_id:crypto.randomUUID()});draw(controller.inspect(),{replacePlan:true});}catch(e){showError(e);}};
 $('verify').onclick=async()=>{const button=$('verify');button.disabled=true;$('verification').textContent='実行中';try{$('verification').textContent=JSON.stringify(await browserSmoke(),null,2);}catch(e){$('verification').textContent=JSON.stringify({ok:false,error:e.code||e.message,stack:e.stack});}finally{button.disabled=false;}};
 </script></html>
