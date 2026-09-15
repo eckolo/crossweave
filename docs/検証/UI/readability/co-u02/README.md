@@ -1,10 +1,12 @@
 # CO-U02 実データ接続（0.3／2026-09-15 操作と言葉の見直し）
 
+最新の準備描画：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://github.com/eckolo/crossweave/commit/d74d80930bbd8ee09593d9be3d0251cca36c520f)。変更16ファイルの本文と全体treeをGitHubから読戻して一致を確認。
+
 UI-G-001 v0.2の検討版を追加。用語の列を対象名と増減へ置き換え、帰還の一括取消を個別選択へ変更した。今回の操作版・24項目の検査・残件は[操作と言葉の見直し](操作と言葉の見直し.md)と`verification/choice-ui/`。正式採用・ユーザー受入は未了。
 
 今回の検査入口は`verify-preparation-choice.cjs`。以下の33c7ac6の検査記録は、その時点のソースを対象とする履歴。
 
-保存コード：[33c7ac6747452bafd6b35e0f85933c5903bd4fa4](https://github.com/eckolo/crossweave/commit/33c7ac6747452bafd6b35e0f85933c5903bd4fa4)。ブランチref・全637treeエントリー・主要本文の読戻し済み。
+前回の保存コード：[33c7ac6747452bafd6b35e0f85933c5903bd4fa4](https://github.com/eckolo/crossweave/commit/33c7ac6747452bafd6b35e0f85933c5903bd4fa4)。ブランチref・全637treeエントリー・主要本文の読戻し済み。
 
 **提供済みD02への接続を提出。CO-U02全体・正式探索UIの完全移植・実ブラウザー保存・ユーザー受入は未了。** 現在の結果は [実接続結果](実接続結果.md)。以下の「前回Chatの記録」以降は更新前の履歴である。
 
