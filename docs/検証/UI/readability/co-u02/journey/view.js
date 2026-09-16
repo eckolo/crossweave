@@ -63,7 +63,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
   root.dataset.screen=screen;
   $('[data-bottom]').innerHTML=footerView(screen);
-  const status=state.error?reason(state.error):state.pending?.kind==='write'?'反映中…':state.pending?'確認中…':message;
+  const status=state.error?reason(state.error):state.pending?.kind==='write'?'反映中…':state.pending&&screen!=='explore'?'確認中…':message;
   $('[data-status]').innerHTML=(status?'<span>'+esc(status)+'</span>':'')+(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'')+(status&&!state.pending?button(icon('x'),'dismiss-status','aria-label="通知を閉じる"'):'');
   $('[data-status]').hidden=!status;
   renderPanel();

@@ -105,3 +105,52 @@
 .cw-explore[data-dense="true"] .cw-actor-stats{font-size:11px;gap:2px}
 .cw-explore[data-dense="true"] .cw-actor-stats .cw-stat{gap:1px}
 .cw-explore[data-dense="true"] .cw-actor-stats svg,.cw-explore[data-dense="true"] .cw-actor-stats i{width:12px;height:12px}
+
+/* v0.7: current actor state and the selected action share the same surface.
+ * The only scrolling outside a drawer is within the existing card strips. */
+.cw-explore .cw-vitals{display:flex;justify-content:space-between;align-items:center;gap:4px;font-size:12px;line-height:16px;font-variant-numeric:tabular-nums}
+.cw-explore .cw-vitals .cw-stat{gap:2px}
+.cw-explore .cw-vitals svg,.cw-explore .cw-vitals i{width:12px;height:12px}
+.cw-explore .cw-vital-bars{display:grid;grid-template-rows:3px 3px;gap:1px;width:100%;margin:1px 0}
+.cw-explore .cw-vital-bars progress{display:block;appearance:none;border:0;border-radius:0;padding:0;margin:0;width:100%;height:3px;background:var(--cw-soft);color:var(--cw-selected)}
+.cw-explore .cw-vital-bars progress::-webkit-progress-bar{background:var(--cw-soft)}
+.cw-explore .cw-vital-bars progress::-webkit-progress-value{background:var(--cw-selected)}
+.cw-explore .cw-vital-bars progress::-moz-progress-bar{background:var(--cw-selected)}
+.cw-explore .cw-vital-bars progress+progress{opacity:.6}
+.cw-explore .cw-actor-stats{display:flex;justify-content:space-between;gap:3px}
+.cw-explore .cw-delta{font-size:11px;font-weight:400;line-height:14px;color:var(--cw-selected);margin-left:1px}
+.cw-explore .cw-target-mark{display:inline-flex;vertical-align:middle;margin-right:3px}
+.cw-explore .cw-target-mark svg,.cw-explore .cw-target-mark i{width:12px;height:12px}
+.cw-explore .cw-actor[aria-pressed="true"]{outline:2px solid var(--cw-selected);outline-offset:-2px}
+.cw-explore .cw-actor[aria-pressed="true"] .cw-face-caption{background:var(--cw-soft)}
+.cw-explore .cw-self{grid-template-rows:16px 9px 16px;min-width:156px;width:156px;gap:0}
+.cw-explore .cw-bottom{grid-template-columns:auto 1fr auto;gap:3px;padding:0}
+.cw-explore .cw-menu{justify-content:flex-end;overflow:visible;gap:2px}
+.cw-explore .cw-menu button{min-width:44px;height:44px;min-height:44px;padding:0 7px;justify-content:center}
+.cw-explore [data-x="withdraw"]{min-width:44px;min-height:44px;height:44px;padding:0 4px}
+.cw-explore #cw-action-anchor{width:max-content;max-width:100%;gap:4px}
+.cw-explore #cw-action-anchor button,.cw-explore #cw-use{flex:0 0 auto;min-width:44px;min-height:44px;padding:0 8px;white-space:nowrap}
+.cw-explore[data-compact="true"][data-selection="true"]>.cw-hand-region{grid-template-columns:minmax(0,1fr) max-content}
+.cw-explore[data-compact="true"] #cw-action-anchor{width:max-content;height:100%}
+.cw-explore[data-compact="true"] #cw-action-anchor button{min-width:44px;min-height:44px;height:44px;padding:0 6px}
+.cw-explore .cw-field-forecast{background:var(--cw-soft);border-style:dashed}
+.cw-explore .cw-field-change{font-size:11px;line-height:14px}
+.cw-explore .cw-ledger{grid-template-columns:max-content minmax(0,max-content);justify-content:start;gap:6px 10px}
+.cw-explore .cw-ledger dt{display:flex;align-items:center;gap:3px;white-space:nowrap}
+.cw-explore .cw-ledger dt i,.cw-explore .cw-ledger dt svg{width:14px;height:14px}
+.cw-explore .cw-ledger dd{overflow-wrap:break-word}
+.cw-explore .cw-ledger small{font-size:11px}
+.cw-explore .cw-drawer-body h3{font-size:12px;font-weight:500;margin:14px 0 6px}
+.cw-explore .cw-reservations{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.cw-explore .cw-reservations>li{display:flex;justify-content:space-between;gap:16px}
+.cw-explore .cw-reservations b{font-weight:500;font-variant-numeric:tabular-nums}
+.cw-explore .cw-more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.cw-explore .cw-more button{display:flex;align-items:center;gap:6px;min-height:44px;white-space:nowrap}
+.cw-explore .cw-more svg,.cw-explore .cw-more i{width:16px;height:16px;flex:none}
+.cw-explore[data-dense="true"]{grid-template-columns:minmax(174px,1fr) minmax(0,1fr);grid-template-rows:64px minmax(0,1fr) 44px}
+.cw-explore[data-dense="true"] #cw-actors>.cw-actor-item{flex-basis:166px}
+.cw-explore[data-dense="true"] .cw-actor .cw-face-caption{min-height:60px;padding:0 4px}
+.cw-explore[data-dense="true"] .cw-vitals{font-size:11px}
+.cw-explore[data-dense="true"] .cw-actor progress{display:block}
+.cw-explore[data-dense="true"] .cw-menu button{width:44px;padding:0}
+.cw-explore[data-dense="true"] #cw-hand{padding-bottom:0}

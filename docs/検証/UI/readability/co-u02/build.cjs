@@ -13,7 +13,7 @@ function buildPreparation(){
  if(/__(?:NOTICE|RENDER|WINDOW|LAYOUT)_HELPER|createMockController|controller\.testing|\bDATA\b|command-preview/.test(result))throw Error('unexpected test/runtime boundary');
  new Function(result);return result;
 }
-function buildLibrary(){return read('session.js')+'\n'+read('window-placement.js')+'\n'+buildPreparation()+'\n'+read('exploration.js')+'\n'+read('application.js');}
+function buildLibrary(){return read('session.js')+'\n'+read('window-placement.js')+'\n'+buildPreparation()+'\n'+read('action-forecast.js')+'\n'+read('exploration.js')+'\n'+read('application.js');}
 function buildPreparationStyle(){return read('../co-u01/screen.css').replaceAll('#crossweave-growth-001','.cw-m1')+'\n'+read('preparation.css');}
 function buildStyle(){return buildPreparationStyle()+'\n'+read('application.css')+'\n'+read('../interaction/table.css').replaceAll('#cw-playtable','.cw-explore')+'\n'+read('exploration.css');}
 if(require.main===module){
