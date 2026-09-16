@@ -1,7 +1,8 @@
 /* Presentation helpers injected into mountJourney. No private catalogue or price calculation. */
 function paragraph(id){const t=d().texts?.[id];return t?'<p data-j-text="'+esc(id)+'">'+esc(t.short_text||t.detail_text||'')+'</p>':'';}
-function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-story">'+(s.text_ids||[]).map(paragraph).join('')+
- ((s.optional_text_ids||[]).length?'<div class="cj-optionals">'+s.optional_text_ids.map((id,index)=>button('詳しく '+(index+1),'optional','data-id="'+esc(id)+'" aria-expanded="'+expanded.has(id)+'"','cj-quiet')+(expanded.has(id)?paragraph(id):'')).join('')+'</div>':'')+'</div>';}
+// These public details are short paragraphs. Render them in reading order;
+// visibility observation, never DOM insertion, decides the read receipt.
+function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-story">'+[...new Set([...(s.text_ids||[]),...(s.optional_text_ids||[])])].map(paragraph).join('')+'</div>';}
 function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;
  return '<div class="cj-wallet"><span>着想</span><strong>'+pt(now)+'</strong>'+(dirty()?'<span class="cj-arrow">→</span><strong class="cj-changed">'+pt(after)+'</strong><small>変更案</small>':committedFlash?'<small>確定済み</small>':'')+'</div>';}
 function outcome(){return ({clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'})[d().return_receipt?.outcome]||'探索終了';}
@@ -23,12 +24,12 @@ function catalogueItems(){const skills=tab==='skills';return [...(skills?h().lea
 function composeCount(){const c=state.comparison;return tab==='skills'?(c?.ok?c.prepared.equipment.used:dirty()?'—':h().equipment.used)+'/'+h().equipment.capacity:p().next_preparation.deck.length+'/'+h().deck.required_size;}
 function headerView(screen){const edit=['deck','skills'].includes(screen),labels={return:outcome(),hub:'探索先',scene:title,start:'crossweave'};
  const lead=edit?'<nav class="cj-edit-tabs" aria-label="編成の切替">'+['deck','skills'].map(t=>button('<span>'+(t==='deck'?'札組':'心得')+'</span>'+(tab===t?'<small aria-label="'+(t==='deck'?'枚数':'使用枠')+'">'+composeCount()+'</small>':''),t,'aria-pressed="'+(tab===t)+'"')).join('')+'</nav>':'<h1 class="cj-screen-title">'+esc(labels[screen]||'crossweave')+'</h1>';
- return lead+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(d().phase==='home'&&screen!=='hub'&&!suspended?button(icon('map-pin'),'hub','aria-label="探索先"','cj-quiet'):'')+button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
+ return lead+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(d().phase==='home'&&screen!=='hub'&&!suspended?button(icon('arrow-left'),'hub','aria-label="拠点に戻る"','cj-quiet'):'')+button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
 }
 function composeActions(){const c=state.comparison;return button(icon('columns-2')+'<span class="cj-action-label">'+(dirty()?'比較':'編成')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の編成を確認')+'"')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary');}
 function footerView(screen){let content='';
  if(['deck','skills'].includes(screen)){const layout=api.journeyLayout(frameWidth,catalogueItems().length,pageAnchors[tab]);content='<div class="cj-pager" aria-label="一覧のページ">'+(layout.pages>1?button(icon('chevron-left'),'page','data-step="-1" aria-label="前の一覧" '+(!layout.page?'disabled':''))+'<span aria-live="polite">'+(layout.page+1)+'/'+layout.pages+'</span>'+button(icon('chevron-right'),'page','data-step="1" aria-label="次の一覧" '+(layout.page+1===layout.pages?'disabled':'')):'')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';}
- else if(screen==='return'){const retry=d().case?.status!=='resolved'&&d().return_receipt?.outcome!=='clear';content='<div class="cj-fixed-actions">'+button('札組','deck','data-j-mutation')+button('心得','skills','data-j-mutation')+button(retry?'拠点へ':'再訪',retry?'hub':'depart','data-j-mutation','cj-quiet')+'</div>'+button(retry?'再挑戦':'拠点へ',retry?'depart':'hub','data-j-mutation','cj-primary');}
+ else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
  else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
  else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
  else if(screen==='start')content='<small>この試作を開いている間だけ保持</small>'+button('続きから','resume','data-j-mutation','cj-primary');
@@ -48,7 +49,7 @@ function skillTile(id){const item=info(id),on=equipped(id),known=learned(item.ba
 function composeView(){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab]);
  return '<section class="cj-page-catalogue" data-catalogue aria-label="'+(tab==='skills'?'心得一覧':'札一覧')+'" style="padding:'+layout.padding+'px"><div class="cj-page-grid" data-capacity="'+layout.capacity+'" style="grid-template-columns:repeat('+layout.columns+',minmax(0,1fr));grid-template-rows:repeat('+layout.rows+','+layout.rowHeight+'px);gap:'+layout.gap+'px">'+items.slice(layout.start,layout.end).map(tab==='skills'?skillTile:cardTile).join('')+'</div></section>';
 }
-function miniList(ids){return group(ids).map(x=>'<span class="cj-mini">'+esc(name(x.id))+(x.count>1?' ×'+x.count:'')+'</span>').join('')||'<span class="cj-muted">なし</span>';}
+function miniList(ids){return ids.length?'<ul class="cj-build-list">'+group(ids).map(x=>'<li><span>'+esc(name(x.id))+'</span><b>×'+x.count+'</b></li>').join('')+'</ul>':'<span class="cj-muted">なし</span>';}
 function changeRows(){const c=state.comparison;if(!c)return '<p class="cj-muted">'+(state.pending?'確認中…':'変更の確認待ち')+'</p>';if(!c.ok)return '<p class="cj-warning" role="alert">'+esc(reason(c.refusal))+'</p>';
  const rows=[];const row=(object,change)=>rows.push('<div class="cj-change"><span>'+esc(object)+'</span><strong>'+change+'</strong></div>');
  if(c.cancellation.bases.length)row(c.cancellation.bases.map(id=>name('base:'+id)).join('・')+'を忘れる','着想 +'+pt(c.cancellation.actual_refund_units));
@@ -83,8 +84,9 @@ function detailView(id){const item=info(id),base=item.base_id,passive=item.kind=
  return '<section class="cj-inspect-item" data-inspect-key="'+esc(id)+'">'+head+'<div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
 __JOURNEY_RECORDS__
-function renderPanel(){const box=$('[data-inspector]');box.hidden=!panel;box.dataset.count=panel==='details'?windows.length:panel==='records'&&recordDetail?2:1;box.dataset.layout=panel==='records'&&recordDetail?'records-child':'windows';box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();return;}
+function renderPanel(){const box=$('[data-inspector]'),hasChild=panel==='records'&&!!(recordTarget||recordDetail);box.hidden=!panel;box.dataset.count=panel==='details'?windows.length:hasChild?2:1;box.dataset.layout=hasChild?'records-child':'windows';box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();return;}
  if(panel==='details'){box.innerHTML=windows.map(w=>detailView(w.id)).join('');return;}
+ if(panel==='records'){box.innerHTML=recordsPanelView();return;}
  const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:title,unavailable:'購入・変換',notice:'操作の確認'};
  let body='',actions='';
  if(panel==='review'){body=wallet()+(dirty()?changeRows()+'<p class="cj-muted">所持品の増減なし</p>':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok?'disabled':'')):'';}
@@ -95,7 +97,7 @@ function renderPanel(){const box=$('[data-inspector]');box.hidden=!panel;box.dat
  if(panel==='records')body=recordsView();
  if(panel==='menu')body='<div class="cj-menu-list">'+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+button('中断','suspend','data-j-mutation')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手を指定して場に出す。相手の詳細は横の情報ボタンから開く。札を押し続けて場へ運ぶ操作も使える。</p><p>画面が低い場合、札の詳細は同じ札をもう一度押して開く。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['zap','一閃'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
  if(panel==='data')body='<p>この試作は一時メモリーを使用します。</p>'+button('書き出す','export')+'<textarea data-export hidden readonly aria-label="書き出した保存データ" rows="8"></textarea><p class="cj-muted">読み込み・新規開始は既存の実セーブ接続画面で扱います。</p>';
  box.innerHTML='<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top"><h2>'+titles[panel]+(panel==='records'&&recordDetail?'<span class="cj-record-context">'+esc(recordDetail.name)+'</span>':'')+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>'+(panel==='records'&&recordDetail?recordDetailView():'');
 }

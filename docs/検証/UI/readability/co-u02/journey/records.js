@@ -14,14 +14,26 @@ function recordsView(){
   return tabs+'<p class="cj-record-purpose">判明した札の性能</p><div class="cj-record-list">'+cards.map(id=>recordButton(id,{name:name(id),detail:info(id)})).join('')+'</div>';
  }
  return tabs+'<p class="cj-record-purpose">探索で判明した構成と札</p><div class="cj-record-targets">'+list(d().knowledge_views).map(target=>{
-  const catalogue=target.initial_catalogue?.cards,open=recordTarget===target.target_id;let body='';
-  if(open){
-   const observed=[...new Map([...(target.observed_by_current_actor||[]),...(target.observed_elsewhere_this_run||[]),...(target.observed_earlier||[])].map(row=>[JSON.stringify(row.card),row])).values()];
-   body='<div class="cj-record-content"><h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
-    '<h3>観測した札</h3>'+(observed.length?recordedCards(observed,false,target.target_id+':observed'):'<p class="cj-muted">観測なし</p>')+'<p class="cj-muted">現在の手札・次に出す札は未公開。</p></div>';
-  }
-  return '<section class="cj-record-target">'+button('<span><strong>'+esc(target.name)+'</strong><small>基本構成 '+(catalogue?'判明':'未判明')+'</small></span>'+icon(open?'chevron-down':'chevron-right'),'record-target','data-id="'+esc(target.target_id)+'" aria-expanded="'+open+'"')+body+'</section>';
+  const catalogue=target.initial_catalogue?.cards,open=recordTarget===target.target_id;
+  return '<section class="cj-record-target">'+button('<span><strong>'+esc(target.name)+'</strong><small>基本構成 '+(catalogue?'判明':'未判明')+'</small></span>'+icon('chevron-right'),'record-target','data-id="'+esc(target.target_id)+'" aria-expanded="'+open+'"')+'</section>';
  }).join('')+'</div>';
+}
+function recordTargetBody(){
+ const target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);if(!target)return '';
+ const catalogue=target.initial_catalogue?.cards;
+ const observed=[...new Map([...(target.observed_by_current_actor||[]),...(target.observed_elsewhere_this_run||[]),...(target.observed_earlier||[])].map(row=>[JSON.stringify(row.card),row])).values()];
+ return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
+  '<h3>観測した札</h3>'+(observed.length?recordedCards(observed,false,target.target_id+':observed'):'<p class="cj-muted">観測なし</p>')+'<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
+}
+// One stable parent and one reusable detail pane. A deeper choice replaces the
+// detail body, never appends under a scrolled list or creates a third window.
+function recordsPanelView(){
+ const parent=recordsView(),target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);
+ const childTitle=recordDetail?.name||target?.name,hasChild=!!childTitle;
+ const head=(title,back)=>'<div class="cj-inspect-top">'+(back?button(icon('arrow-left')+'<span>戻る</span>','record-back','aria-label="'+esc(back)+'"','cj-record-back'):'')+'<h2>'+esc(title)+'</h2>'+button(icon('x'),'close','aria-label="調査記録を閉じる"','cj-icon-button')+'</div>';
+ const pane=(key,title,body,back='')=>'<section class="cj-inspect-item" data-inspect-key="'+esc(key)+'">'+head(title,back)+'<div class="cj-inspect-scroll">'+body+'</div></section>';
+ const detailBody=recordTargetBody(); // Also registers public snapshot entries.
+ return pane('records:'+recordTab,'調査記録',parent)+(hasChild?pane(recordDetail?'record:'+recordDetail.key:'target:'+recordTarget,childTitle,recordDetail?recordDetailView():detailBody,recordDetail&&target?target.name+'に戻る':'調査記録の一覧に戻る'):'');
 }
 function recordDetailView(){
  const entry=recordDetail,s=entry.snapshot,d=entry.detail,p=d?.primary||s,rows=[];
@@ -29,5 +41,5 @@ function recordDetailView(){
  if(s)add('属性',s.attr);
  if(p){add(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power);add(p.kind==='guard'?'攪乱':'探査',p.kind==='guard'?p.evasion:p.hit);add('機転',p.crit_gain);}
  add('場の突破／身構',d?.field?.power??s?.field_power);add('場の探査／攪乱',d?.field?.hit??s?.field_hit);add('手札期限',d?.life??s?.life);add('設置間隔',d?.action_intervals?.place??s?.place_cost);add('一致間隔',d?.action_intervals?.match??s?.match_cost);
- return '<section class="cj-inspect-item" data-inspect-key="record:'+esc(entry.key)+'"><div class="cj-inspect-top"><h2>'+esc(entry.name)+'</h2>'+button(icon('x'),'close-record-detail','aria-label="札の詳細を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll"><dl class="cj-record-stats">'+rows.join('')+'</dl></div><div class="cj-detail-actions"></div></section>';
+ return '<dl class="cj-record-stats">'+rows.join('')+'</dl>';
 }

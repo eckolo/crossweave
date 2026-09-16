@@ -9,9 +9,10 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  const button=(label,action,extra='',kind='')=>'<button type="button" data-j="'+action+'" '+extra+' class="cj-button cursor-interaction '+kind+'">'+label+'</button>';
  let state=session.state(),tab='deck',place='compose',panel=null,windows=[],child=null,lastScreen=null;
  let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
- let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),expanded=new Set(),committedFlash=false;
+ let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),committedFlash=false;
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null;
- const recordEntries=new Map();
+ const recordEntries=new Map(),scrollMemory=new Map();
+ let lastContext=null,lastPhase=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0},events=new AbortController();
  let frameWidth=root.getBoundingClientRect().width||1024;
  root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
@@ -33,6 +34,8 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
  __JOURNEY_PANELS__
+ function resetWindows(){panel=null;windows=[];recordTarget=null;recordDetail=null;detailFromRecords=false;windowAnchor=null;scrollMemory.clear();}
+ function focusRecord(){queueMicrotask(()=>{if(!disposed)$('[data-j="record-back"]')?.focus({preventScroll:true});});}
  function rememberAnchor(button){const r=button.getBoundingClientRect();windowAnchor={action:button.dataset.j,id:button.dataset.id,rect:{left:r.left,top:r.top,width:r.width,height:r.height}};}
  function layoutWindows(){
   if(disposed)return;const box=$('[data-inspector]');if(!box||box.hidden)return;
@@ -45,10 +48,14 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  }
  function render(){
   if(disposed||!d())return;
+  const context=[d().phase,d().case?.attempts,d().scene?.paused?d().scene.id:'active',suspended,sceneRequested].join('|');
+  const changed=lastContext!==null&&lastContext!==context;
+  if(changed){resetWindows();if(d().phase==='home'&&lastPhase!=='home')place='hub';}
+  lastContext=context;lastPhase=d().phase;
   const screen=currentScreen(),beforeFocus=root.contains(document.activeElement)?document.activeElement?.dataset.focus:null;
   const scrollKey=el=>el.matches('[data-reading]')?'story-'+el.dataset.reading:'window-'+el.closest('[data-inspect-key]')?.dataset.inspectKey;
   const scrollNodes='[data-reading],.cj-inspect-scroll';
-  const scrolls=new Map([...root.querySelectorAll(scrollNodes)].map(el=>[scrollKey(el,lastScreen),el.scrollTop]));
+  if(!changed)for(const el of root.querySelectorAll(scrollNodes))scrollMemory.set(scrollKey(el),el.scrollTop);
   $('[data-header]').innerHTML=headerView(screen);
   $('[data-header]').hidden=screen==='explore';
   if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source)=>{rememberAnchor(source);panel=panel===kind?null:kind;recordDetail=null;render();}});lastScreen=screen;}
@@ -60,7 +67,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   $('[data-status]').innerHTML=(status?'<span>'+esc(status)+'</span>':'')+(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'')+(status&&!state.pending?button(icon('x'),'dismiss-status','aria-label="通知を閉じる"'):'');
   $('[data-status]').hidden=!status;
   renderPanel();
-  for(const el of root.querySelectorAll(scrollNodes)){const y=scrolls.get(scrollKey(el,screen));if(y!=null)el.scrollTop=y;}
+  for(const el of root.querySelectorAll(scrollNodes)){const y=scrollMemory.get(scrollKey(el));if(y!=null)el.scrollTop=y;}
   if(beforeFocus){const target=[...root.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===beforeFocus);target?.focus({preventScroll:true});}
   root.setAttribute('aria-busy',String(!!state.pending||running));
   for(const b of root.querySelectorAll('[data-j-mutation]'))b.disabled=b.disabled||busy();
@@ -71,7 +78,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  function observeTexts(){
   observer?.disconnect();observer=null;
   const key=d().scene?.id+'|'+d().case?.attempts;
-  if(key!==sceneKey){sceneKey=key;seen=new Set();visible=new Set();expanded=new Set();}
+  if(key!==sceneKey){sceneKey=key;seen=new Set();visible=new Set();}
   if(typeof IntersectionObserver==='undefined')return;
   observer=new IntersectionObserver(entries=>{for(const en of entries)if(en.isIntersecting&&en.intersectionRatio>0&&!document.hidden)visible.add(en.target.dataset.jText);flushTexts();},{threshold:0.01});
   root.querySelectorAll('[data-j-text]').forEach(el=>observer.observe(el));
@@ -112,9 +119,9 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   if(action==='close-item'){windows=windows.filter(w=>w.id!==id);if(!windows.length)panel=null;render();return;}
   if(['menu','records','help','review','data','settings','receipt','destination','unavailable','notice'].includes(action)){panel=panel===action?null:action;recordDetail=null;render();return;}
   if(action==='record-tab'){recordTab=b.dataset.tab;recordTarget=null;recordDetail=null;render();return;}
-  if(action==='record-target'){recordTarget=recordTarget===id?null:id;recordDetail=null;render();return;}
-  if(action==='record-detail'){const entry=recordEntries.get(id);if(entry){recordDetail=recordDetail?.key===id?null:{...entry,key:id};render();}return;}
-  if(action==='close-record-detail'){recordDetail=null;render();return;}
+  if(action==='record-target'){recordTarget=recordTarget===id?null:id;recordDetail=null;scrollMemory.delete('window-target:'+id);render();focusRecord();return;}
+  if(action==='record-detail'){const entry=recordEntries.get(id);if(entry){recordDetail=recordDetail?.key===id?null:{...entry,key:id};scrollMemory.delete('window-record:'+id);render();focusRecord();}return;}
+  if(action==='record-back'){const key=recordDetail?.key,targetId=recordTarget;if(recordDetail)recordDetail=null;else recordTarget=null;render();queueMicrotask(()=>{const action=recordTarget?'record-detail':recordTab==='cards'?'record-detail':'record-target';[...root.querySelectorAll('[data-j="'+action+'"]')].find(el=>el.dataset.id===(action==='record-target'?targetId:key))?.focus({preventScroll:true});});return;}
   if(action==='records-back'){panel='records';windows=[];render();return;}
   if(action==='add'||action==='remove'){await edit(next=>{const a=next.next_preparation.deck;if(action==='add')a.push(id);else{const at=a.indexOf(id);if(at>=0)a.splice(at,1);}});return;}
   if(action==='equip'||action==='learn'){await edit(next=>{if(!learned(base)){next.next_preparation.learn.push(base);}if(action==='equip'){const a=next.next_preparation.equipment;next.next_preparation.equipment=a.includes(id)?a.filter(x=>x!==id):[...a,id];}});return;}
@@ -123,7 +130,6 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   if(action==='commit'){await commit();return;}if(action==='depart'){await depart();return;}
   if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
   if(action==='scene-back'){sceneRequested=false;render();return;}
-  if(action==='optional'){expanded.has(id)?expanded.delete(id):expanded.add(id);render();return;}
   if(action==='retry'){running=true;render();const result=await session.retry();running=false;if(result.ok&&continuation==='depart'){continuation=null;await depart();}else render();return;}
   if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
   if(action==='discard'){await perform('discard_draft');return;}

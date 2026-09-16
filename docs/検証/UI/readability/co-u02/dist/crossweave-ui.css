@@ -381,3 +381,28 @@
  .cw-explore .cw-drawer>header{min-height:44px}
  .cw-explore[data-compact="true"] .cw-menu button{min-width:44px}
 }
+
+/* Actor values are part of the actor face, including zero, not drawer content.
+ * Many actors stay in one horizontal strip; only one target-detail control. */
+.cw-explore .cw-actor-item{grid-template-columns:minmax(0,1fr)}
+.cw-explore .cw-actor{touch-action:pan-x;user-select:none;-webkit-user-select:none}
+.cw-explore .cw-actor-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:100%;font-size:12px;line-height:16px}
+.cw-explore .cw-actor-stats .cw-stat{gap:2px}
+.cw-explore .cw-actor-stats svg,.cw-explore .cw-actor-stats i{width:14px;height:14px}
+.cw-explore .cw-actor .cw-face-caption{padding:2px 4px;gap:0;line-height:16px}
+.cw-explore .cw-actor .cw-face-caption>strong{line-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cw-explore .cw-actor-hp{font-variant-numeric:tabular-nums;white-space:nowrap}
+.cw-explore .cw-self{display:grid;grid-template-rows:16px 16px;gap:0;min-width:140px;width:140px;font-size:12px;line-height:16px}
+.cw-explore .cw-self-hp{display:flex;gap:8px;align-items:center}
+.cw-explore .cw-footer-state{overflow:visible;max-width:none}
+.cw-explore .cw-menu{scrollbar-width:none}
+.cw-explore[data-compact="true"] #cw-hand-count{display:none}
+.cw-explore[data-dense="true"] .cw-footer-state{max-width:none}
+.cw-explore[data-dense="true"] .cw-actor .cw-face-caption{padding:0 4px;height:auto;min-height:48px;justify-content:center}
+.cw-explore[data-dense="true"] .cw-actor .cw-face-caption>strong{font-size:12px;line-height:16px}
+.cw-explore[data-dense="true"] .cw-world .cw-scroll{padding-bottom:0;scrollbar-width:none}
+.cw-explore[data-dense="true"]{grid-template-columns:minmax(160px,1fr) minmax(0,1fr)}
+.cw-explore[data-dense="true"] #cw-actors>.cw-actor-item{flex-basis:152px}
+.cw-explore[data-dense="true"] .cw-actor-stats{font-size:11px;gap:2px}
+.cw-explore[data-dense="true"] .cw-actor-stats .cw-stat{gap:1px}
+.cw-explore[data-dense="true"] .cw-actor-stats svg,.cw-explore[data-dense="true"] .cw-actor-stats i{width:12px;height:12px}

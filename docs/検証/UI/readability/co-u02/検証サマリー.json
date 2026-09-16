@@ -123,5 +123,24 @@
       "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
       "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
     ]
+  },
+  "flow_review": {
+    "version": "0.6",
+    "result": "pass",
+    "new_checks": 38,
+    "record_entries": 31,
+    "source_suite": "journey/verify-flow-review.cjs",
+    "report": "journey/flow-review-checks.json",
+    "freeze": "journey/flow-review-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; natural return and entry saves.",
+      "JSDOM with controlled visibility/resize, synthetic pointer events and a delayed real prediction response.",
+      "1024/736/600/320px geometry inputs; no browser paint."
+    ],
+    "limits": [
+      "No physical clipping, touch, focus navigation or host rendering verification.",
+      "IndexedDB, formal v0.15 full migration and user acceptance remain unverified.",
+      "Historical groups were not rerun or recounted."
+    ]
   }
 }
