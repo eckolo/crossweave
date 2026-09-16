@@ -1,0 +1,51 @@
+/* v0.5: scene space is shared by scenery and text. Borders do not allocate
+ * their own columns. Keep the v0.4 frame, action bands and bounded reading. */
+#crossweave-journey .cj-fixed-result,
+#crossweave-journey .cj-fixed-hub,
+#crossweave-journey .cj-fixed-scene{position:relative;isolation:isolate;display:block;padding:0;min-height:0;height:100%}
+#crossweave-journey .cj-fixed-result>.cj-backdrop,
+#crossweave-journey .cj-fixed-hub>.cj-backdrop,
+#crossweave-journey .cj-fixed-scene>.cj-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;width:auto;height:auto;max-height:none;opacity:1;border:0;border-radius:0;gap:5%;padding:0 6% 0 34%;background:linear-gradient(180deg,light-dark(#f1f1e8,#1d2b27),light-dark(#bacdc6,#294940) 30%,light-dark(#cbd7b9,#51644a))}
+#crossweave-journey .cj-backdrop>div{width:28%;max-width:180px;height:74%;border-width:12px;border-color:light-dark(#bac7b6,#586951)}
+#crossweave-journey .cj-backdrop>div:nth-child(2){height:90%}
+#crossweave-journey .cj-backdrop::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,light-dark(#f1f1e8,#1d2b27),transparent 76%),linear-gradient(90deg,light-dark(#f1f1e8,#1d2b27) 2%,light-dark(#f1f1e8a8,#1d2b27b0) 38%,transparent 76%)}
+#crossweave-journey .cj-fixed-result>.cj-result-values{position:absolute;z-index:1;left:24px;bottom:20px;width:max-content;max-width:calc(50% - 32px);display:grid;gap:8px;align-items:start;align-self:auto;grid-template-rows:none}
+#crossweave-journey .cj-result-number{align-items:flex-start;justify-content:center;text-align:left;width:max-content;max-width:100%;border:0;border-radius:0;background:transparent;box-shadow:none;padding:4px 0;gap:4px}
+#crossweave-journey .cj-result-number:hover{background:transparent;text-decoration:underline;text-underline-offset:4px}
+#crossweave-journey .cj-result-number>span{justify-content:flex-start}
+#crossweave-journey .cj-result-money>strong{font-size:38px}
+#crossweave-journey .cj-fixed-result>.cj-reading-window,
+#crossweave-journey .cj-fixed-scene>.cj-reading-window{position:absolute;z-index:1;bottom:20px;width:min(440px,46%);max-width:none;height:auto;max-height:min(200px,calc(100% - 40px));min-height:0;grid-template-rows:minmax(0,1fr);border:0;border-radius:0;background:transparent;box-shadow:none}
+#crossweave-journey .cj-fixed-result>.cj-reading-window{right:20px}
+#crossweave-journey .cj-reading-scroll{padding:6px;scrollbar-width:thin;background:linear-gradient(90deg,light-dark(#f1f1e8e8,#1d2b27e8),light-dark(#f1f1e8b8,#1d2b27b8) 85%,transparent)}
+#crossweave-journey .cj-reading-scroll .cj-story{color:inherit}
+#crossweave-journey .cj-reading-scroll .cj-optionals{margin-top:4px;gap:4px}
+#crossweave-journey .cj-optionals .cj-button{border:0;background:transparent;padding:0 6px;text-decoration:underline;text-underline-offset:4px}
+#crossweave-journey .cj-fixed-hub>.cj-destination-button{position:absolute;z-index:1;left:24px;bottom:20px;width:max-content;max-width:calc(100% - 48px);max-height:calc(100% - 40px);align-items:flex-start;text-align:left;border:0;border-radius:0;background:transparent;padding:4px;gap:4px}
+#crossweave-journey .cj-destination-button:hover{background:transparent}
+#crossweave-journey .cj-destination-button>strong{text-decoration:underline;text-underline-offset:5px}
+#crossweave-journey .cj-fixed-scene>.cj-reading-window{left:24px;width:min(560px,70%);max-height:min(220px,calc(100% - 40px))}
+#crossweave-journey:is([data-screen="return"],[data-screen="hub"],[data-screen="scene"]) .cj-header{border-bottom:0}
+#crossweave-journey:is([data-screen="return"],[data-screen="hub"],[data-screen="scene"]) .cj-fixed-footer{background:transparent;box-shadow:none}
+#crossweave-journey[data-screen="return"] .cj-screen-title{font:400 26px/1.2 Georgia,"Yu Mincho",serif;letter-spacing:.08em}
+@container(max-width:620px){
+ #crossweave-journey .cj-fixed-result>.cj-result-values{left:12px;bottom:8px;max-width:calc(50% - 20px);gap:4px}
+ #crossweave-journey .cj-result-number{padding:2px 0;gap:2px}
+ #crossweave-journey .cj-result-money>strong{font-size:28px}
+ #crossweave-journey .cj-fixed-result>.cj-reading-window{right:8px;bottom:8px;max-height:min(174px,calc(100% - 16px));width:46%}
+ #crossweave-journey .cj-fixed-hub>.cj-destination-button{left:12px;bottom:8px;max-width:calc(100% - 24px);max-height:calc(100% - 16px)}
+ #crossweave-journey .cj-fixed-scene>.cj-reading-window{left:12px;bottom:8px;width:80%;max-height:calc(100% - 16px)}
+ #crossweave-journey .cj-backdrop>div{border-width:8px}
+}
+@container(max-width:400px){
+ #crossweave-journey .cj-fixed-result>.cj-result-values{left:4px;bottom:0;width:calc(50% - 8px);max-width:none;grid-template-rows:44px 44px;gap:0}
+ #crossweave-journey .cj-result-number{width:100%;padding:0;gap:0}
+ #crossweave-journey .cj-result-money>strong{font-size:16px}
+ #crossweave-journey .cj-result-number svg:last-child{display:inline-block;width:12px;height:12px}
+ #crossweave-journey .cj-fixed-result>.cj-reading-window{right:0;bottom:0;width:calc(50% - 2px);max-height:100%}
+ #crossweave-journey .cj-reading-scroll{padding:2px 4px}
+ #crossweave-journey .cj-fixed-hub>.cj-destination-button{left:6px;bottom:2px;max-width:calc(100% - 12px);max-height:calc(100% - 4px);padding:2px;gap:0}
+ #crossweave-journey .cj-fixed-scene>.cj-reading-window{left:6px;bottom:0;width:90%;max-height:100%}
+ #crossweave-journey .cj-backdrop>div{border-width:6px}
+ #crossweave-journey[data-screen="return"] .cj-screen-title{font-size:22px}
+}

@@ -5,18 +5,19 @@ function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-st
 function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;
  return '<div class="cj-wallet"><span>着想</span><strong>'+pt(now)+'</strong>'+(dirty()?'<span class="cj-arrow">→</span><strong class="cj-changed">'+pt(after)+'</strong><small>変更案</small>':committedFlash?'<small>確定済み</small>':'')+'</div>';}
 function outcome(){return ({clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'})[d().return_receipt?.outcome]||'探索終了';}
+function landscape(){return '<div class="cj-landscape cj-backdrop" aria-hidden="true"><div></div><div></div><div></div></div>';}
 function readWindow(){return d().scene?'<section class="cj-reading-window" aria-label="場面の本文"><div class="cj-reading-scroll" data-reading="'+esc(d().scene.id)+'">'+sceneCopy()+'</div></section>':'';}
 function returnView(){const r=d().return_receipt;if(!r)return '<p>帰還結果を読み込めませんでした</p>';
  const materials=(r.kept_items||[]).filter(x=>x.kind!=='points'),unlocks=r.new_unlocks||[],lost=r.lost_items||[];
  const materialLabel=materials.length===1?'素材 '+esc(materials[0].type||'')+' +'+esc(materials[0].amount||1):'素材 '+materials.length+'種';
- return '<section class="cj-fixed-result"><div class="cj-result-values">'+
- button('<span class="cj-result-money">着想 <strong>+'+pt(r.gained_units)+'</strong><small>計 '+pt(r.unspent_after_units)+'</small></span><span>余力 '+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</span>','receipt','aria-label="帰還の金額と回復の内訳"','cj-result-number')+
+ return '<section class="cj-fixed-result">'+landscape()+'<div class="cj-result-values">'+
+ button('<span class="cj-result-money">着想 <strong>+'+pt(r.gained_units)+'</strong><small>計 '+pt(r.unspent_after_units)+'</small></span><span>余力 '+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+icon('chevron-right')+'</span>','receipt','aria-label="帰還の金額と回復の内訳"','cj-result-number')+
  button('<span>'+icon('package')+materialLabel+'</span><span>'+icon('book-plus')+'記録 +'+unlocks.length+(lost.length?'　喪失 '+lost.length:'')+icon('chevron-right')+'</span>','receipt','aria-label="獲得品・新しい記録・喪失の内訳"','cj-result-number')+'</div>'+readWindow()+'</section>';
 }
 function receiptDetails(){const r=d().return_receipt;if(!r)return '';
  return '<div class="cj-change"><span>着想</span><strong>+'+pt(r.gained_units)+'（合計 '+pt(r.unspent_after_units)+'）</strong></div><div class="cj-change"><span>余力</span><strong>'+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</strong></div><h3>獲得品</h3>'+((r.kept_items||[]).filter(x=>x.kind!=='points').map(x=>'<p>素材 '+esc(x.type||'')+' +'+esc(x.amount||1)+'</p>').join('')||'<p>なし</p>')+'<h3>記録に追加</h3>'+(r.new_unlocks||[]).map(id=>detailsButton('base:'+id)).join('')+((r.lost_items||[]).length?'<h3>喪失</h3>'+r.lost_items.map(x=>'<p>'+esc(x.kind==='points'?'着想':x.type||x.kind)+' '+esc(x.kind==='points'?pt(x.amount_units):x.amount??'')+'</p>').join(''):'');
 }
-function hubView(){const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub"><div class="cj-landscape" aria-hidden="true"><div></div><div></div><div></div></div>'+button('<span>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</span><strong>'+esc(title)+'</strong><span class="cj-objective">'+esc(objective?.short_text||'目的を確認')+'</span>'+icon('chevron-right'),'destination','aria-label="'+esc(title)+'の目的と編成"','cj-destination-button')+'</section>';}
+function hubView(){const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+button('<span>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</span><strong>'+esc(title)+'</strong><span class="cj-objective">'+esc(objective?.short_text||'目的を確認')+'</span>'+icon('chevron-right'),'destination','aria-label="'+esc(title)+'の目的と編成"','cj-destination-button')+'</section>';}
 function compactWallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
 function catalogueItems(){const skills=tab==='skills';return [...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id)];}
 function composeCount(){const c=state.comparison;return tab==='skills'?(c?.ok?c.prepared.equipment.used:dirty()?'—':h().equipment.used)+'/'+h().equipment.capacity:p().next_preparation.deck.length+'/'+h().deck.required_size;}
@@ -63,7 +64,7 @@ function summaryContents(){const c=state.comparison;
  '<div class="cj-summary-actions">'+button(dirty()?'確定して出発':'出発 '+icon('arrow-right'),'depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary')+
  (dirty()?'<div>'+button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':''))+button('比較','review')+'</div>':'')+'</div>';
 }
-function sceneView(){return '<section class="cj-fixed-scene"><div class="cj-landscape" aria-hidden="true"><div></div><div></div><div></div></div>'+readWindow()+'</section>';}
+function sceneView(){return '<section class="cj-fixed-scene">'+landscape()+readWindow()+'</section>';}
 function startView(){return '<section class="cj-fixed-start"><h2>'+esc(title)+'</h2><span>crossweave</span></section>';}
 function detailView(id){const item=info(id),base=item.base_id,passive=item.kind==='passive',known=learned(base),cancelled=p()?.cancel_learning.includes(base);
  const w=windows.find(x=>x.id===id);

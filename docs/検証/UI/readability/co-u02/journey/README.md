@@ -1,12 +1,12 @@
 # 全画面構成の操作試作 — 帰還・編成・探索先・探索
 
-版0.4／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
+版0.5／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
 
 ユーザーの「ではこの方向で、改めてUI設計してみて」を受領し、[全画面構成](../../全画面構成.md)を具体的な配置と一巡の操作にした。**配置の確認用。全30項目の実装完了・正式採用・ユーザー受入ではない。**
 
 ## 操作できる範囲
 
-最初は探索終了後の帰還結果。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は結果内の小さな本文窓に置き、追加の必須本文選択ページを挟まない。任意詳細は閉じたまま。
+最初は探索終了後の帰還結果。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は背景に重ねた小さな読書領域に置き、追加の必須本文選択ページを挟まない。任意詳細は閉じたまま。
 
 | 場面 | 配置と主操作 | 変更の見え方 |
 |---|---|---|
@@ -39,11 +39,11 @@
 
 ```sh
 node docs/検証/UI/readability/co-u02/build.cjs
-node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-fixed-screen.html
-CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-fixed-screen.cjs docs/検証/UI/readability/co-u02/journey/fixed-screen-checks.json
+node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-result-backdrop.html
+CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-fixed-screen.cjs /path/to/new-regression-report.json
 ```
 
-会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。今回の検査結果は[fixed-screen-checks.json](fixed-screen-checks.json)、対象とハッシュは[fixed-screen-freeze.json](fixed-screen-freeze.json)。新変更32件は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は当時の履歴として保全し、再実行・再計上していない。
+会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
 
 ユーザーが16:9を了承し、主画面全体のスクロールを禁止した。上部と下部に44pxずつの操作帯を確保し、残りへ一覧を配置する。入りきらない対象はページ送りにし、長い比較・記録・本文は小窓に分離。詳細窓の開閉で外枠を増やさず、全体縮小もしない。計算上の表示数は1024pxで札10件を一度に表示、736pxで8件、600pxで6件、320pxで2件。狭幅で追加されるページ送りを操作量の評価に含める。本文窓のスクロールと任意詳細は保持する。新要件の詳細は[固定画面の再検討](fixed-screen.md)。
 
@@ -79,3 +79,9 @@ CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/veri
 ## 0.4：主画面をスクロールさせない
 
 固定操作帯と枠内ページ一覧へ変更し、長い変更一覧を比較窓へ分離。帰還は増減要約と小さな本文窓を横に置く。内訳を開けば獲得品・記録への追加・喪失をすべて参照できる。探索先は目的の要点、詳細は窓、出発は下部に固定。場面本文も本文だけの小窓とし、進行操作は外に置く。通知は配置を押し下げない。実装・到達検査と実描画の境界は[固定画面の再検討](fixed-screen.md)。16:9の了承以外の配置受入を先取りしない。
+
+## 0.5：文字の囲いを減らし、背景に重ねる
+
+ユーザーは文字枠のためだけに面積を確保する構成を指摘し、背景のある帰還画面を優先した。帰還・探索先・場面文の背景を広げ、その上へ必要な文字と操作を重ねる。帰還の数値を囲む大きな矩形を外し、本文領域の高さを内容に合わせて上限内で縮める。探索先の大きなボックスと上下の装飾的な仕切りも外した。背景は旧版のCSS表現を再利用し、別の素材制作は行わない。
+
+16:9・主画面のスクロール禁止・44pxの操作帯・一覧全件への到達を維持する。読書領域の長文だけは内部でスクロールし、背景は入力を奪わない。読みやすさのため文字の背後に薄い背景色を残し、窓の見た目と占有面積を同一視しない。ボタンの矢印・フォーカスと、札など操作対象を区別する枠は残す。配置判断と実描画の限界は[背景と文字の重ね方](backdrop.md)を参照。

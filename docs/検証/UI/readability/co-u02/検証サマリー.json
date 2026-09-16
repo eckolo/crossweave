@@ -106,5 +106,22 @@
       "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
     ],
     "old_groups_rerun": false
+  },
+  "backdrop_review": {
+    "version": "0.5",
+    "result": "pass",
+    "regression_checks": 32,
+    "new_checks": 0,
+    "source_suite": "journey/verify-fixed-screen.cjs",
+    "report": "journey/backdrop-checks.json",
+    "freeze": "journey/backdrop-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; original natural return save.",
+      "JSDOM; explicit visibility and resize callbacks. Layout function uses 1024/736/600/320px inputs."
+    ],
+    "limits": [
+      "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
+      "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
+    ]
   }
 }
