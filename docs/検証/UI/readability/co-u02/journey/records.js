@@ -25,15 +25,15 @@ function recordTargetBody(){
  return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
   '<h3>観測した札</h3>'+(observed.length?recordedCards(observed,false,target.target_id+':observed'):'<p class="cj-muted">観測なし</p>')+'<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
 }
-// One stable parent and one reusable detail pane. A deeper choice replaces the
-// detail body, never appends under a scrolled list or creates a third window.
+// Keep the immediate source visible beside its detail, with a back path to the list.
 function recordsPanelView(){
  const parent=recordsView(),target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);
  const childTitle=recordDetail?.name||target?.name,hasChild=!!childTitle;
- const head=(title,back)=>'<div class="cj-inspect-top">'+(back?button(icon('arrow-left')+'<span>戻る</span>','record-back','aria-label="'+esc(back)+'"','cj-record-back'):'')+'<h2>'+esc(title)+'</h2>'+button(icon('x'),'close','aria-label="調査記録を閉じる"','cj-icon-button')+'</div>';
+ const head=(title,back)=>'<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'record-back','aria-label="'+esc(back)+'"','cj-record-back'):panelTrail.length?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+esc(title)+'</h2>'+button(icon('x'),'close','aria-label="調査記録を閉じる"','cj-icon-button')+'</div>';
  const pane=(key,title,body,back='')=>'<section class="cj-inspect-item" data-inspect-key="'+esc(key)+'">'+head(title,back)+'<div class="cj-inspect-scroll">'+body+'</div></section>';
  const detailBody=recordTargetBody(); // Also registers public snapshot entries.
- return pane('records:'+recordTab,'調査記録',parent)+(hasChild?pane(recordDetail?'record:'+recordDetail.key:'target:'+recordTarget,childTitle,recordDetail?recordDetailView():detailBody,recordDetail&&target?target.name+'に戻る':'調査記録の一覧に戻る'):'');
+ const source=recordDetail&&target?pane('target:'+recordTarget,target.name,detailBody,'調査記録の一覧に戻る'):pane('records:'+recordTab,'調査記録',parent);
+ return source+(hasChild?pane(recordDetail?'record:'+recordDetail.key:'target:'+recordTarget,childTitle,recordDetail?recordDetailView():detailBody,recordDetail&&target?target.name+'に戻る':'調査記録の一覧に戻る'):'');
 }
 function recordDetailView(){
  const entry=recordDetail,s=entry.snapshot,d=entry.detail,p=d?.primary||s,rows=[];

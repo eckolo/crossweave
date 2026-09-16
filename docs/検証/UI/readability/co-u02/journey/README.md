@@ -1,8 +1,8 @@
 # 全画面構成の操作試作 — 帰還・編成・探索先・探索
 
-版0.7／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
+版0.8／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
 
-最新変更：[本文と予測の再検討](actor-review.md)。文章は意味上の段落と表示幅による折り返しを分け、参照は明示した「詳細」から開く。主体は余力と隠蔽の2本のバー、札・対象の選択と同時に公開APIの変動予測を重ねる。主体の蓄積値は正式用語「機転」。全パラメータの解決後値はAPI未提供の範囲を残す。
+最新変更：[句読点・窓・能力表示の見直し](fit-review.md)。折り返しは句点→読点を優先し、収まる範囲に句読点がない場合だけ通常折り返し。小窓からの詳細は元の窓と並べ、戻るは矢印、ピンは共通マーク。隠蔽の予測は再設定前を示し、札固有の説明は「性質」にまとめる。
 
 ユーザーの「ではこの方向で、改めてUI設計してみて」を受領し、[全画面構成](../../全画面構成.md)を具体的な配置と一巡の操作にした。**配置の確認用。全30項目の実装完了・正式採用・ユーザー受入ではない。**
 
@@ -18,7 +18,7 @@
 | 共通の編成要約 | 上部の現在の着想→変更案、下部の確定／確定して出発。対象名付き差分は比較窓 | タブ切替は保存・破棄しない。比較窓は任意に開く。失敗時は現在値を保つ |
 | 探索先 | 現在公開されている1件の目的と編成を同じ場面で確認 | 再訪と解決状態は実view。複数候補・未公開の行き先は捏造しない |
 | 場面・探索 | 実本文をそのまま表示。既存の公開view接続探索部品へ続く | 実legal_actions・予測・出札・撤退・帰還。正式v0.15への完全移植は継続課題 |
-| 共通の窓 | 対象詳細、比較、調査記録、メニュー、表示、案内、書出し | 16:9の外枠内で呼出元を避ける位置を選ぶ。記録は親一覧＋1枚の詳細面。小幅では詳細面へ切替え、「戻る」で位置を復元。長い内容は窓内でスクロール |
+| 共通の窓 | 対象詳細、比較、調査記録、メニュー、表示、案内、書出し | 16:9の外枠内で呼出元を避ける位置を選ぶ。直前の窓と詳細を被せずに並べる。狭幅では両方を再配置し、「←」で戻る。長い内容は窓内でスクロール |
 | 中断・再開 | メニュー→中断、続きから→元の場面 | 未完成の札組もsave_draftで保持。今回は開いている間の一時メモリーのみ |
 
 文字を減らすため、対象名と数値・効果を中心にし、操作のない「準備」「購入」等を各欄へ繰り返さない。「習得→取得」「修正する」「次の準備へ」は使わない。数値の前後は矢印で示す。実演アニメーションを増やす段階ではなく、変更した値の短い動きと対象の選択状態を付けた。動きを抑える設定あり。
@@ -41,11 +41,11 @@
 
 ```sh
 node docs/検証/UI/readability/co-u02/build.cjs
-node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-action-forecast.html
-CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-actor-review.cjs /path/to/actor-review-checks.json
+node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-readable-windows.html
+CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-fit-review.cjs /path/to/fit-review-checks.json
 ```
 
-会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.7は今回変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
+会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.8は今回変更44件を[fit-review-checks.json](fit-review-checks.json)・[fit-review-freeze.json](fit-review-freeze.json)へ記録。0.7は当時の変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
 
 ユーザーが16:9を了承し、主画面全体のスクロールを禁止した。上部と下部に44pxずつの操作帯を確保し、残りへ一覧を配置する。入りきらない対象はページ送りにし、長い比較・記録・本文は小窓に分離。詳細窓の開閉で外枠を増やさず、全体縮小もしない。計算上の表示数は1024pxで札10件を一度に表示、736pxで8件、600pxで6件、320pxで2件。狭幅で追加されるページ送りを操作量の評価に含める。本文窓のスクロールと任意詳細は保持する。新要件の詳細は[固定画面の再検討](fixed-screen.md)。
 

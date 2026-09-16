@@ -27,4 +27,16 @@
   const best=candidates.sort((a,b)=>a.score-b.score)[0]||bounds;
   return {left:Math.max(margin,best.x),top:Math.max(margin,best.y),width:best.w,height:best.h,source_overlap:anchor?overlap(best,anchor):0};
  };
+ // A linked pair keeps the parent where possible. At narrow widths both panes
+ // reflow side by side; neither pane covers or silently replaces its parent.
+ api.placeWindowPair=function({width,height,parent,preferredWidth=340,preferredHeight=350,margin=8,gap=8,minWidth=144}){
+  const usable=Math.max(1,width-2*margin),h=Math.max(1,Math.min(preferredHeight,height-2*margin));
+  const p=parent?{...parent}:{left:margin,top:margin,width:Math.min(preferredWidth,usable),height:h};
+  p.width=Math.min(p.width,usable);p.height=Math.min(p.height,h);
+  p.left=Math.max(margin,Math.min(p.left,width-margin-p.width));p.top=Math.max(margin,Math.min(p.top,height-margin-p.height));
+  const right=width-margin-p.left-p.width-gap,left=p.left-gap-margin;
+  if(right>=minWidth||left>=minWidth){const w=Math.min(preferredWidth,Math.max(right,left));return [p,{left:right>=left?p.left+p.width+gap:p.left-gap-w,top:p.top,width:w,height:Math.min(h,height-margin-p.top)}];}
+  const w=(usable-gap)/2,y=Math.max(margin,Math.min(p.top,height-margin-h));
+  return [{left:margin,top:y,width:w,height:h},{left:margin+w+gap,top:y,width:w,height:h}];
+ };
 })(globalThis.CrossweaveUI);
