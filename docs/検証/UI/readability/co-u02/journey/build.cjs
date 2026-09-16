@@ -34,7 +34,8 @@ function build({testing=false}={}){
  const runtime=bundle();
  const save=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.resolve(__dirname,'../../../../接続条件/co-d02/saves/return.save.json.gz'))));
  const quest=JSON.parse(read('../../flow/fixtures.json')).quest;
- const view=read('view.js').replace('__JOURNEY_PANELS__',()=>read('panels.js'));
+ const panels=read('panels.js').replace('__JOURNEY_RECORDS__',()=>read('records.js'));
+ const view=read('view.js').replace('__JOURNEY_PANELS__',()=>panels);
  const script=[runtime.code,read('../session.js'),read('../exploration.js'),view,
   '(async()=>{const root=document.getElementById("crossweave-journey");try{',
   'const storage=new CWJourneyRuntime.MemoryStore(),Campaign=CWJourneyRuntime.createCampaign({storage});',
@@ -44,10 +45,10 @@ function build({testing=false}={}){
   '}catch(error){root.textContent="操作試作を開始できませんでした（"+(error.code||error.message)+"）";root.setAttribute("role","alert");}})();'
  ].join('\n');
  new Function(script);
- const style=read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css');
+ const style=read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css');
  const html=read('preview.fragment.html').replace('__JOURNEY_STYLE__',()=>style).replace('__JOURNEY_SCRIPT__',()=>script.replace(/<\/script/gi,'<\\/script'));
  if(Buffer.byteLength(html)>=1000000||/<(?:html|head|body)\b|<!doctype/i.test(html)||/\b(?:fetch|XMLHttpRequest|WebSocket)\s*\(/.test(html))throw Error('invalid inline contract');
  return {html,sources:runtime.sources};
 }
-if(require.main===module){const output=process.argv[2]||'/workspace/crossweave-journey-design.html';const {html}=build();fs.writeFileSync(output,html);console.log(JSON.stringify({path:output,bytes:Buffer.byteLength(html),sha256:crypto.createHash('sha256').update(html).digest('hex')}));}
+if(require.main===module){const output=process.argv[2]||'/workspace/crossweave-result-review.html';const {html}=build();fs.writeFileSync(output,html);console.log(JSON.stringify({path:output,bytes:Buffer.byteLength(html),sha256:crypto.createHash('sha256').update(html).digest('hex')}));}
 module.exports={build,bundle};

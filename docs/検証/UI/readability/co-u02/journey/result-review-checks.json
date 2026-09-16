@@ -1,0 +1,131 @@
+{
+  "id": "CW-M1-UI-001",
+  "group": "result-review-v0.2",
+  "node": "v24.19.0",
+  "result": "pass",
+  "count": 28,
+  "checks": [
+    {
+      "name": "clear result prioritizes home and demotes revisit",
+      "pass": true
+    },
+    {
+      "name": "result actions are outside the scrolling result body",
+      "pass": true
+    },
+    {
+      "name": "opening a window retains the result scroll position",
+      "pass": true
+    },
+    {
+      "name": "records explain their role and separate targets from cards",
+      "pass": true
+    },
+    {
+      "name": "known target shows actual initial card counts and a separate observation section",
+      "pass": true
+    },
+    {
+      "name": "private composition, evidence ids and next-card predictions are not exposed",
+      "pass": true
+    },
+    {
+      "name": "observations do not fabricate an unknown initial catalogue",
+      "pass": true
+    },
+    {
+      "name": "card records are labelled as known performance, not inventory",
+      "pass": true
+    },
+    {
+      "name": "card detail returns directly to the same records category",
+      "pass": true
+    },
+    {
+      "name": "capacity use and per-skill cost have different labels",
+      "pass": true
+    },
+    {
+      "name": "skill details have separate condition and effect fields",
+      "pass": true
+    },
+    {
+      "name": "skill details keep the exact public condition/effect, without inferred rules",
+      "pass": true
+    },
+    {
+      "name": "learning and equipment actions remain outside the scrolling detail body",
+      "pass": true
+    },
+    {
+      "name": "open/close uses the same16:9 height request at 1024 (no painting)",
+      "pass": true
+    },
+    {
+      "name": "resize preserves the open detail and shared draft at 1024",
+      "pass": true
+    },
+    {
+      "name": "open/close uses the same16:9 height request at 736 (no painting)",
+      "pass": true
+    },
+    {
+      "name": "resize preserves the open detail and shared draft at 736",
+      "pass": true
+    },
+    {
+      "name": "open/close uses the same16:9 height request at 600 (no painting)",
+      "pass": true
+    },
+    {
+      "name": "resize preserves the open detail and shared draft at 600",
+      "pass": true
+    },
+    {
+      "name": "open/close uses the same16:9 height request at 320 (no painting)",
+      "pass": true
+    },
+    {
+      "name": "resize preserves the open detail and shared draft at 320",
+      "pass": true
+    },
+    {
+      "name": "multiple pinned/detail windows do not increase the frame height request",
+      "pass": true
+    },
+    {
+      "name": "comparison keeps confirm actions outside the scroll body",
+      "pass": true
+    },
+    {
+      "name": "structured detail changes can still commit through the real API",
+      "pass": true
+    },
+    {
+      "name": "unresolved withdrawal prioritizes retry and keeps home available",
+      "pass": true
+    },
+    {
+      "name": "retry reaches a real new attempt without requiring a hub detour",
+      "pass": true
+    },
+    {
+      "name": "frame/overlay/scroll layout rules exist without scale transforms",
+      "pass": true
+    },
+    {
+      "name": "no script errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "conditions": [
+    "Real Campaign and original MemoryStore; natural clear-return and port saves.",
+    "JSDOM with explicit resize/visibility callbacks; heights are requested CSS pixel values, not painted rectangles."
+  ],
+  "limits": [
+    "No rendered-browser aspect/overflow or physical scroll/reachability verification.",
+    "No IndexedDB, touch or user acceptance.",
+    "The prior32 journey checks are historical and were not rerun merely for handoff."
+  ]
+}
