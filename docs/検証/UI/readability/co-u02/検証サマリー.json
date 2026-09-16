@@ -90,5 +90,21 @@
     "dom": "JSDOM 26.1.0",
     "real_layout_verified": false,
     "user_accepted": false
+  },
+  "fixed_screen_review": {
+    "version": "0.4",
+    "result": "pass",
+    "checks": 32,
+    "report": "journey/fixed-screen-checks.json",
+    "freeze": "journey/fixed-screen-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; original natural return save.",
+      "JSDOM; explicit visibility and resize callbacks. Layout function uses 1024/736/600/320px inputs."
+    ],
+    "limits": [
+      "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
+      "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
+    ],
+    "old_groups_rerun": false
   }
 }
