@@ -25,7 +25,7 @@ function cardTile(id){const item=info(id),n=count(id),current=count(id,api.curre
 function skillStructure(item){return '<dl class="cj-skill-structure"><div><dt>発動条件</dt><dd>'+esc(item.trigger_text||'未提供')+'</dd></div><div><dt>効果</dt><dd>'+esc(item.effect_text||'未提供')+'</dd></div></dl>';}
 function skillTile(id){const item=info(id),on=equipped(id),known=learned(item.base_id),cancelled=p().cancel_learning.includes(item.base_id),newly=p().next_preparation.learn.includes(item.base_id);
  const label=cancelled?'忘れる案':newly?'覚える案':known?'覚えた心得':'';
- return '<article class="cj-skillpiece '+(on?'cj-included':'')+'" data-piece="'+esc(id)+'"><div class="cj-skill-heading">'+button(mark(id)+'<strong>'+esc(name(id))+'</strong>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.skills===id)+'"','cj-object')+'<span class="cj-slot-cost">枠消費 '+item.equipment_cost+'</span></div>'+skillStructure(item)+'<div class="cj-skill-action"><span class="cj-state-label">'+(on?'✓ 装備':label)+'</span>'+button(on?'外す':known?'装備':cancelled?'覚えた状態に戻す':'覚えて装備 −'+pt(item.learning_cost_units),cancelled?'restore-skill':'equip','data-id="'+esc(id)+'" data-focus="equip-'+esc(id)+'" data-j-mutation',on?'':'cj-primary')+'</div></article>';
+ return '<article class="cj-skillpiece cj-cardpiece '+(on?'cj-included':'')+'" data-piece="'+esc(id)+'">'+button('<span class="cj-card-art" aria-hidden="true">'+icon('sparkles')+'</span><strong>'+esc(name(id))+'</strong><span class="cj-slot-cost">枠消費 '+item.equipment_cost+'</span><span class="cj-state-label">'+(on?'✓ 装備':label)+'</span>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.skills===id)+'"','cj-card-face')+'<div class="cj-skill-action">'+button(on?'外す':known?'装備':cancelled?'覚えた状態に戻す':'覚えて装備 −'+pt(item.learning_cost_units),cancelled?'restore-skill':'equip','data-id="'+esc(id)+'" data-focus="equip-'+esc(id)+'" data-j-mutation',on?'':'cj-primary')+'</div></article>';
 }
 function composeView(){const skills=tab==='skills',c=state.comparison,used=c?.ok?c.prepared.equipment.used:null;
  const items=skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options,owned=h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck'));
@@ -68,7 +68,7 @@ function detailView(id){const item=info(id),base=item.base_id,passive=item.kind=
  return '<section class="cj-inspect-item" data-inspect-key="'+esc(id)+'">'+head+'<div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
 __JOURNEY_RECORDS__
-function renderPanel(){const box=$('[data-inspector]');box.hidden=!panel;box.dataset.count=panel==='details'?windows.length:1;box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();return;}
+function renderPanel(){const box=$('[data-inspector]');box.hidden=!panel;box.dataset.count=panel==='details'?windows.length:panel==='records'&&recordDetail?2:1;box.dataset.layout=panel==='records'&&recordDetail?'records-child':'windows';box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();return;}
  if(panel==='details'){box.innerHTML=windows.map(w=>detailView(w.id)).join('');return;}
  const titles={review:'現在と変更案',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ'};
  let body='',actions='';
@@ -76,7 +76,7 @@ function renderPanel(){const box=$('[data-inspector]');box.hidden=!panel;box.dat
  if(panel==='records')body=recordsView();
  if(panel==='menu')body='<div class="cj-menu-list">'+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('中断','suspend','data-j-mutation')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help')body='<p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><p>探索では札を選んで場に出す。押し続けて運ぶ操作も使える。</p>';
+ if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手を指定して場に出す。相手の詳細は横の情報ボタンから開く。札を押し続けて場へ運ぶ操作も使える。</p><p>画面が低い場合、札の詳細は同じ札をもう一度押して開く。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
  if(panel==='data')body='<p>この試作は一時メモリーを使用します。</p>'+button('書き出す','export')+'<textarea data-export hidden readonly aria-label="書き出した保存データ" rows="8"></textarea><p class="cj-muted">読み込み・新規開始は既存の実セーブ接続画面で扱います。</p>';
- box.innerHTML='<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top"><h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
+ box.innerHTML='<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top"><h2>'+titles[panel]+(panel==='records'&&recordDetail?'<span class="cj-record-context">'+esc(recordDetail.name)+'</span>':'')+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>'+(panel==='records'&&recordDetail?recordDetailView():'');
 }

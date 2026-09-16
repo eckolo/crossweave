@@ -10,11 +10,12 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  let state=session.state(),tab='deck',place='compose',panel=null,windows=[],child=null,lastScreen=null;
  let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
  let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),expanded=new Set(),committedFlash=false;
- let recordTab='targets',recordTarget=null,detailFromRecords=false;
+ let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null;
+ const recordEntries=new Map();
  const selected={deck:null,skills:null},positions={deck:0,skills:0},events=new AbortController();
  root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
  // The frame follows only its parent's width, never the amount of open content.
- const sizeFrame=width=>{if(width>0)$('.cj-shell').style.height=(width*9/16)+'px';};
+ const sizeFrame=width=>{if(width>0)$('.cj-shell').style.height=(width*9/16)+'px';queueMicrotask(layoutWindows);};
  const frameObserver=new ResizeObserver(entries=>sizeFrame(entries[0]?.contentRect?.width||root.getBoundingClientRect().width));
  frameObserver.observe(root);sizeFrame(root.getBoundingClientRect().width);
  const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||{};
@@ -31,6 +32,16 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
  __JOURNEY_PANELS__
+ function rememberAnchor(button){const r=button.getBoundingClientRect();windowAnchor={action:button.dataset.j,id:button.dataset.id,rect:{left:r.left,top:r.top,width:r.width,height:r.height}};}
+ function layoutWindows(){
+  if(disposed)return;const box=$('[data-inspector]');if(!box||box.hidden)return;
+  const r=$('.cj-shell').getBoundingClientRect();if(!r.width||!r.height)return;
+  const source=[...root.querySelectorAll('[data-j]')].find(el=>el.dataset.j===windowAnchor?.action&&el.dataset.id===windowAnchor?.id&&!el.closest('[data-inspector]'));
+  const a=source?.getBoundingClientRect()||windowAnchor?.rect,anchor=a?{x:a.left-r.left,y:a.top-r.top,w:a.width,h:a.height}:null;
+  const many=Number(box.dataset.count)>1;
+  const rect=api.placeWindow({width:r.width,height:r.height,anchor,preferredWidth:many?820:340,preferredHeight:Math.min(many?480:350,r.height-16)});
+  Object.assign(box.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px',right:'auto',bottom:'auto',maxHeight:'none'});
+ }
  function render(){
   if(disposed||!d())return;
   const screen=currentScreen(),isEdit=['deck','skills'].includes(screen),beforeFocus=root.contains(document.activeElement)?document.activeElement?.dataset.focus:null;
@@ -39,13 +50,15 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   const scrolls=new Map([...root.querySelectorAll(scrollNodes)].map(el=>[scrollKey(el,lastScreen),el.scrollTop]));
   const priorScroll=$('[data-catalogue]')?.scrollTop;if(priorScroll!=null&&['deck','skills'].includes(lastScreen))positions[lastScreen]=priorScroll;
   $('[data-header]').innerHTML='<div class="cj-brand">crossweave <span>操作試作</span></div><nav aria-label="共通">'+(d().phase==='home'&&!suspended?button('探索先','hub','','cj-quiet'):'')+button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet')+button(icon('menu')+'<span>メニュー</span>','menu','aria-label="メニュー"','cj-quiet')+'</nav>';
-  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw')});lastScreen=screen;}
+  $('[data-header]').hidden=screen==='explore';
+  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source)=>{rememberAnchor(source);panel=panel===kind?null:kind;recordDetail=null;render();}});lastScreen=screen;}
   if(screen==='explore')child?.update(d(),state);
   else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
   root.dataset.screen=screen;
   $('[data-bottom]').innerHTML=isEdit?'<div class="cj-footer"><span>'+esc(title)+'</span>'+button('探索先を変える','hub','','cj-quiet')+'</div>':'';
   const status=state.error?reason(state.error):state.pending?.kind==='write'?'反映中…':state.pending?'確認中…':message;
   $('[data-status]').innerHTML=(status?'<span>'+esc(status)+'</span>':'')+(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');
+  $('[data-status]').hidden=screen==='explore'&&!state.error&&!state.canRetry&&!state.stale;
   renderPanel();
   for(const el of root.querySelectorAll(scrollNodes)){const y=scrolls.get(scrollKey(el,screen));if(y!=null)el.scrollTop=y;}
   if($('[data-catalogue]'))$('[data-catalogue]').scrollTop=positions[tab];
@@ -53,6 +66,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   root.setAttribute('aria-busy',String(!!state.pending||running));
   for(const b of root.querySelectorAll('[data-j-mutation]'))b.disabled=b.disabled||busy();
   if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:18,height:18}});
+  queueMicrotask(layoutWindows);
   observeTexts();
  }
  function observeTexts(){
@@ -89,14 +103,17 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(['detail','menu','records','help','review','data','settings'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
   if(action==='deck'||action==='skills'||action==='hub'){if(d().phase==='return')await navigate(action);else if(d().phase==='home'){place=action==='hub'?'hub':'compose';if(action!=='hub')tab=action;panel=null;windows=windows.filter(w=>w.pinned);render();}return;}
   if(action==='detail'){detailFromRecords=panel==='records'||(panel==='details'&&detailFromRecords);selected[info(id).kind==='passive'?'skills':'deck']=id;const same=windows.find(w=>w.id===id);if(same&&!same.pinned)windows=windows.filter(w=>w!==same);else if(!same){windows=windows.filter(w=>w.pinned);windows.push({id,pinned:false});}panel=windows.length?'details':null;render();return;}
-  if(action==='close'){panel=null;windows=[];render();return;}
+  if(action==='close'){panel=null;windows=[];recordDetail=null;render();return;}
   if(action==='pin'){const w=windows.find(w=>w.id===id);if(w)w.pinned=!w.pinned;render();return;}
   if(action==='close-item'){windows=windows.filter(w=>w.id!==id);if(!windows.length)panel=null;render();return;}
-  if(['menu','records','help','review','data','settings'].includes(action)){panel=panel===action?null:action;render();return;}
-  if(action==='record-tab'){recordTab=b.dataset.tab;recordTarget=null;render();return;}
-  if(action==='record-target'){recordTarget=recordTarget===id?null:id;render();return;}
+  if(['menu','records','help','review','data','settings'].includes(action)){panel=panel===action?null:action;recordDetail=null;render();return;}
+  if(action==='record-tab'){recordTab=b.dataset.tab;recordTarget=null;recordDetail=null;render();return;}
+  if(action==='record-target'){recordTarget=recordTarget===id?null:id;recordDetail=null;render();return;}
+  if(action==='record-detail'){const entry=recordEntries.get(id);if(entry){recordDetail=recordDetail?.key===id?null:{...entry,key:id};render();}return;}
+  if(action==='close-record-detail'){recordDetail=null;render();return;}
   if(action==='records-back'){panel='records';windows=[];render();return;}
   if(action==='add'||action==='remove'){await edit(next=>{const a=next.next_preparation.deck;if(action==='add')a.push(id);else{const at=a.indexOf(id);if(at>=0)a.splice(at,1);}});return;}
   if(action==='equip'||action==='learn'){await edit(next=>{if(!learned(base)){next.next_preparation.learn.push(base);}if(action==='equip'){const a=next.next_preparation.equipment;next.next_preparation.equipment=a.includes(id)?a.filter(x=>x!==id):[...a,id];}});return;}
@@ -117,6 +134,6 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  root.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel){panel=null;windows=[];render();}},{signal:events.signal});
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  session.refresh({preserveLocal:false});
- return {session,state:()=>({tab,place,panel,recordTab,recordTarget,windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
+ return {session,state:()=>({tab,place,panel,recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
 };
 })(globalThis.CrossweaveUI);
