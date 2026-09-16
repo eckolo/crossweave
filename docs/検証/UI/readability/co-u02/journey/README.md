@@ -1,14 +1,14 @@
 # 全画面構成の操作試作 — 帰還・編成・探索先・探索
 
-版0.8／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
+版0.9／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
 
-最新変更：[句読点・窓・能力表示の見直し](fit-review.md)。折り返しは句点→読点を優先し、収まる範囲に句読点がない場合だけ通常折り返し。小窓からの詳細は元の窓と並べ、戻るは矢印、ピンは共通マーク。隠蔽の予測は再設定前を示し、札固有の説明は「性質」にまとめる。
+最新変更：[探索画面の配置復旧](layout-restore.md)。相手→場→手札の順を全幅で維持し、札の高さに上限を設けた。前回変更：[句読点・窓・能力表示の見直し](fit-review.md)。折り返しは句点→読点を優先し、収まる範囲に句読点がない場合だけ通常折り返し。小窓からの詳細は元の窓と並べ、戻るは矢印、ピンは共通マーク。隠蔽の予測は再設定前を示し、札固有の説明は「性質」にまとめる。
 
 ユーザーの「ではこの方向で、改めてUI設計してみて」を受領し、[全画面構成](../../全画面構成.md)を具体的な配置と一巡の操作にした。**配置の確認用。全30項目の実装完了・正式採用・ユーザー受入ではない。**
 
 ## 操作できる範囲
 
-最初は探索終了後の帰還結果。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は背景に重ねた小さな読書領域に置き、追加の必須本文選択ページを挟まない。短い追加段落も同じ本文欄に並べる。表示された段落だけを記録する。
+通常の開始は探索終了後の帰還結果。今回0.9の会話提示は探索の入口から開始し、導入本文を進めて修正箇所へ入る。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は背景に重ねた小さな読書領域に置き、追加の必須本文選択ページを挟まない。短い追加段落も同じ本文欄に並べる。表示された段落だけを記録する。
 
 | 場面 | 配置と主操作 | 変更の見え方 |
 |---|---|---|
@@ -41,11 +41,11 @@
 
 ```sh
 node docs/検証/UI/readability/co-u02/build.cjs
-node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-readable-windows.html
-CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-fit-review.cjs /path/to/fit-review-checks.json
+node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-exploration-restored.html entry
+CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-layout-restore.cjs /path/to/layout-restore-checks.json
 ```
 
-会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.8は今回変更44件を[fit-review-checks.json](fit-review-checks.json)・[fit-review-freeze.json](fit-review-freeze.json)へ記録。0.7は当時の変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
+会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.9は今回27件を[layout-restore-checks.json](layout-restore-checks.json)・[layout-restore-freeze.json](layout-restore-freeze.json)へ記録。0.8は当時の変更44件を[fit-review-checks.json](fit-review-checks.json)・[fit-review-freeze.json](fit-review-freeze.json)へ記録。0.7は当時の変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
 
 ユーザーが16:9を了承し、主画面全体のスクロールを禁止した。上部と下部に44pxずつの操作帯を確保し、残りへ一覧を配置する。入りきらない対象はページ送りにし、長い比較・記録・本文は小窓に分離。詳細窓の開閉で外枠を増やさず、全体縮小もしない。計算上の表示数は1024pxで札10件を一度に表示、736pxで8件、600pxで6件、320pxで2件。狭幅で追加されるページ送りを操作量の評価に含める。本文窓のスクロールと任意詳細は保持する。新要件の詳細は[固定画面の再検討](fixed-screen.md)。
 
@@ -91,3 +91,7 @@ CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/veri
 ## 0.6：移動と参照の見直し
 
 帰還は前へ送るだけにし、拠点で次を選ぶ。編成要約は名前と枚数の行一覧。窓内選択は親一覧＋1枚の詳細面を使い、下へ追記しない。場面変更時は小窓をリセットする。探索は本人・各主体の4値を常時表示、タップで対象・長押しで詳細、予測は再押下で閉じる。短い追加本文は初めから本文欄へ置き、可視段落だけを記録する。[共通規則・検証条件](flow-review.md)。過去節の帰還直通・任意詳細の開閉を標準とする案は、この更新で置換した。
+
+## 0.9：探索の構成と札の寸法を復旧
+
+能力表示の変更で通常幅まで低画面用の左右配置へ切り替わり、札も領域いっぱいに伸びた回帰を修正。0.3の「相手と場を横に並べる」は廃し、全幅で相手→場→手札の順とする。札の高さは上限内に収め、出札・対象・予測・小窓の機能を維持する。[修正内容と検証限界](layout-restore.md)。

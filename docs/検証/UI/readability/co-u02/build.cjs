@@ -15,7 +15,7 @@ function buildPreparation(){
 }
 function buildLibrary(){return read('session.js')+'\n'+read('window-placement.js')+'\n'+read('prose-layout.js')+'\n'+buildPreparation()+'\n'+read('card-properties.js')+'\n'+read('action-forecast.js')+'\n'+read('exploration.js')+'\n'+read('application.js');}
 function buildPreparationStyle(){return read('../co-u01/screen.css').replaceAll('#crossweave-growth-001','.cw-m1')+'\n'+read('preparation.css');}
-function buildStyle(){return buildPreparationStyle()+'\n'+read('application.css')+'\n'+read('../interaction/table.css').replaceAll('#cw-playtable','.cw-explore')+'\n'+read('exploration.css');}
+function buildStyle(){return buildPreparationStyle()+'\n'+read('application.css')+'\n'+read('../interaction/table.css').replaceAll('#cw-playtable','.cw-explore')+'\n'+read('exploration.css')+'\n'+read('exploration-layout.css');}
 if(require.main===module){
  const dest=path.join(__dirname,'dist');fs.mkdirSync(dest,{recursive:true});
  fs.writeFileSync(path.join(dest,'crossweave-ui.js'),buildLibrary());fs.writeFileSync(path.join(dest,'crossweave-ui.css'),buildStyle());

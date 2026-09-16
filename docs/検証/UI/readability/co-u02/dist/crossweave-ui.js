@@ -799,8 +799,7 @@ function updateLayout(){
    if(q&&!busy())requestForecast();
   }
   function layout(){if(dead)return;const rr=root.getBoundingClientRect();if(!rr.width||!rr.height)return;
-   const coarse=typeof matchMedia==='function'&&matchMedia('(pointer: coarse)').matches;
-   root.dataset.compact=String(rr.height<480);root.dataset.dense=String(rr.height<240);
+   root.dataset.compact=String(rr.height<410);root.dataset.dense=String(rr.height<280);
    root.style.setProperty('--cw-footer-height','44px');
    if(lastShownTarget!==target){const selectedActor=[...root.querySelectorAll('[data-x-actor]')].find(e=>e.dataset.xActor===target),row=$('#cw-actors'),ar=selectedActor?.getBoundingClientRect(),trackRect=row.getBoundingClientRect();if(ar?.width&&trackRect.width){if(ar.left<trackRect.left)row.scrollLeft-=trackRect.left-ar.left;else if(ar.right>trackRect.right)row.scrollLeft+=ar.right-trackRect.right;}lastShownTarget=target;}
    const node=[...root.querySelectorAll('[data-x-card]')].find(e=>e.dataset.xCard===selected),cr=node?.getBoundingClientRect(),track=$('#cw-action-track'),tr=track.getBoundingClientRect(),dock=$('#cw-action-anchor');
