@@ -29,6 +29,13 @@
   const busy=()=>!!state.pending||state.canRetry||state.stale;
   const choices=()=>list(x()?.legal_actions).map(a=>a.choice??a).filter(a=>a.card_id===selected);
   const choice=()=>choices().find(a=>a.target===target)||choices().find(a=>a.target===null)||null;
+  // Keep the player's target across turns, as in formal v0.15. Derive a first
+  // target only from public legal choices, preferring the passage when present.
+  function retainTarget(legal=choices()){
+   if(legal.some(a=>a.target===target)||legal.every(a=>a.target===null))return;
+   const passage=actors().find(a=>a.purpose==='passage'&&legal.some(q=>q.target===a.id));
+   target=passage?.id??legal.find(a=>a.target!==null)?.target??null;
+  }
   const art=(kind,k)=>`<span class="cw-illustration" data-art-kind="${kind}" aria-hidden="true">${icon(k)}</span>`;
   const attribute=c=>`<span class="cw-attr">${esc(c.attr)}</span>`;
   const main=c=>{const d=details(c.id);return d?.primary?`${d.primary.kind==='heal'?'回復':label(d.primary.kind==='guard'?'guard':'power',d.primary.kind==='guard'?'身構':'突破')} ${d.primary.power} · ${label('hit','探査')} ${d.primary.hit}`:'詳細未提供';};
@@ -117,9 +124,9 @@
    const ns='http://www.w3.org/2000/svg';
    for(const [a,b] of [[h,fBottom],[fTop,end]])if(a&&b){const p=document.createElementNS(ns,'path'),mid=(a.y+b.y)/2;p.setAttribute('d',`M${a.x},${a.y} C${a.x},${mid} ${b.x},${mid} ${b.x},${b.y}`);p.setAttribute('fill','none');p.setAttribute('stroke','currentColor');p.setAttribute('stroke-width','2');svg.append(p);}
   }
-  async function select(id){if(busy())return;const previous=selected;selected=id;const legal=choices();if(!legal.some(q=>q.target===target))target=legal.length===1?legal[0].target:target;previewChoice=null;redraw();if(settings.details)open('card',id,true);else if(previous===id)open('card',id,true);}
+  async function select(id){if(busy())return;const previous=selected;selected=id;retainTarget();previewChoice=null;redraw();if(settings.details)open('card',id,true);else if(previous===id)open('card',id,true);}
   async function preview(pinned=true){const q=choice();if(!q||busy())return;previewChoice=JSON.parse(JSON.stringify(q));windowState={type:'preview',id:selected,pinned};await session.previewAction(q);if(!dead){windowContent();layout();}}
-  async function perform(){const q=choice();if(!q||busy())return;close();const r=await session.play(q);if(r.ok){selected=null;target=null;previewChoice=null;}if(!dead)redraw();}
+  async function perform(){const q=choice();if(!q||busy())return;close();const r=await session.play(q);if(r.ok){selected=null;previewChoice=null;}if(!dead)redraw();}
   root.addEventListener('click',async e=>{
    if(Date.now()<suppressUntil){e.preventDefault();e.stopPropagation();return;}
    const c=e.target.closest('[data-x-card]');if(c){await select(c.dataset.xCard);return;}
@@ -138,7 +145,7 @@
   function cancelDrag(){if(!drag)return;clearTimeout(drag.timer);if(root.hasPointerCapture?.(drag.pointer))root.releasePointerCapture(drag.pointer);drag=null;$('#cw-drag-ghost').hidden=true;$('#cw-drop-zone').dataset.drag='false';}
   root.addEventListener('pointerdown',e=>{const c=e.target.closest('[data-x-card]');if(!c||!settings.drag||busy()||e.button!==0)return;
    drag={id:c.dataset.xCard,pointer:e.pointerId,x:e.clientX,y:e.clientY,initialScroll:$('#cw-hand').scrollLeft,scroll:false,held:false,token:state.view.meta.view_token};
-   const current=drag;current.timer=later(()=>{if(drag!==current||drag.scroll)return;drag.held=true;selected=drag.id;const qs=choices();if(qs.length===1)target=qs[0].target;close();const ghost=$('#cw-drag-ghost');ghost.textContent=names(drag.id);ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';root.setPointerCapture?.(e.pointerId);},settings.hold);
+   const current=drag;current.timer=later(()=>{if(drag!==current||drag.scroll)return;drag.held=true;selected=drag.id;retainTarget();close();const ghost=$('#cw-drag-ghost');ghost.textContent=names(drag.id);ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';root.setPointerCapture?.(e.pointerId);},settings.hold);
   },{signal:events.signal});
   root.addEventListener('pointermove',e=>{if(!drag||drag.pointer!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
    if(!drag.held&&(drag.scroll||Math.hypot(dx,dy)>8)){clearTimeout(drag.timer);drag.scroll=true;$('#cw-hand').scrollLeft=drag.initialScroll-dx;e.preventDefault();layout();return;}
@@ -155,7 +162,8 @@
   root.addEventListener('scroll',layout,{capture:true,signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
   function update(d,s=session.state()){data=d;state=s;if(!x())return;
-   const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();selected=null;target=null;previewChoice=null;close();}previousToken=token;
+   const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();selected=null;previewChoice=null;close();}previousToken=token;
+   if(target&&!actors().some(a=>a.id===target))target=null;
    if(selected&&!hand().some(c=>c.id===selected)){selected=null;close();}redraw();
    if(!state.reservations&&!state.pending&&!state.error&&reservationToken!==token&&session.can('previewAction')){reservationToken=token;queueMicrotask(()=>{if(!dead)session.reservations();});}
   }
