@@ -1,4 +1,6 @@
-# CO-U02 実データ接続（新UI 0.11／2026-09-17）
+# CO-U02 実データ接続（新UI 0.11.1／2026-09-17）
+
+0.11.1：[長押しの取消と札の位置を正式版へ整合](journey/exploration-save.md#gesture-lifecycle-fix)。非アクティブ化・複数指・入力捕捉喪失などで保留操作を取り消し、取消後の遅い予測応答による出札を防止。変更24項目を確認。
 
 0.11：[探索だけの中断・編成の確定時保存・公開表示](journey/exploration-save.md)。探索以外の中断と書出し時の案保存を外し、公開済み札名を履歴に追加。変更20項目を確認。全能力の行動後予測・過去札名の永続公開・常時分を身構へ統一する案は設計側対応待ち。
 
@@ -8,7 +10,7 @@
 
 0.10での変更：[新UIと開始・保存・再開の統合](journey/save-flow.md)。方向性了承後、実Campaignのcreate/open/importSave/exportSaveを同じ新UIへ接続した。変更検査49件は実Campaign＋MemoryStore＋JSDOM。実IndexedDBと実描画は[確認手順](journey/browser-review.md)・[保存検査ページ](browser-check.html)での確認待ち。残件は[こちら](remaining-work.md)。
 
-会話内操作試作：[一巡UI 0.11](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
+会話内操作試作：[一巡UI 0.11.1](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
 
 
 0.3以前の準備描画（履歴）：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://github.com/eckolo/crossweave/commit/d74d80930bbd8ee09593d9be3d0251cca36c520f)。変更16ファイルの本文と全体treeをGitHubから読戻して一致を確認。

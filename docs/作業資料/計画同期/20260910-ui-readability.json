@@ -29,7 +29,7 @@
   "technical_sync": "計画0e53882の全12ファイルを実同期後、設計7a0ce6faが開始時UI公開HEADの祖先であることを確認。追加マージ不要。技術確認後も全計画blob一致。",
   "own_head_at_start": "0a71d9bab65024a9328b8956a25cab7870df3eb9",
   "received_on_jst": "2026-09-17",
-  "status": "0.11のその他の提示部分は問題なしとユーザー確認。左下の全能力予測と身構・軽減の統一は設計側対応待ち。今回は受領・表示条件の文書更新のみ。",
+  "status": "操作試作0.11.1で正式探索UIの長押し取消と札位置を移植。変更24項目合格。設計枝への統合用ドラフトPRを提出する単位。左下の全予測・身構統一等は継続待ち。",
   "work_mode_resumption": {
     "checked_at": "2026-09-15T11:28:14.625710+00:00",
     "own_public_head": "59c96ca347c52654bda5cf41ae89aa119003799a",
@@ -863,5 +863,45 @@
     "integration_received_or_merged_verified": false,
     "pre_save_heads_unchanged": true,
     "pre_save_heads_checked_at_utc": "2026-09-17T04:14:14.319968+00:00"
+  },
+  "gesture_lifecycle_and_integration_20260917": {
+    "version": "0.11.1",
+    "checked_at_utc": "2026-09-17T04:48:10.524Z",
+    "own_public_head_at_start": "a52b80a1baee5e15a95da114204a6c3eac2a6257",
+    "plan_source": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+    "technical_source": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+    "plan_scope_blob_count": 12,
+    "plan_blobs_match_before_and_after_technical_check": true,
+    "technical_already_integrated": true,
+    "same_work_id_and_branch": true,
+    "additional_work_created": false,
+    "other_work_assignment_changed": false,
+    "changes": [
+      "正式v0.15の長押し・ドラッグの取消契機を移植",
+      "取り消したドロップの遅い予測応答で出札しない",
+      "実測した札のサイズで指の近く・画面内に配置",
+      "保存検査ページの説明を現行保存方式へ整合"
+    ],
+    "verification_report": "docs/検証/UI/readability/co-u02/journey/gesture-lifecycle-checks.json",
+    "targeted_checks": 24,
+    "old_suite_execution": false,
+    "inline_fragment": {
+      "path": "/workspace/crossweave-gesture-review.html",
+      "bytes": 404160,
+      "sha256": "828a4434168e62aa5a82056bd273f7648e3f4f279b879598a57361e7d096562e",
+      "storage": "original MemoryStore; ephemeral",
+      "start": "launcher"
+    },
+    "common_runtime_changed": false,
+    "formal_ui_original_changed": false,
+    "physical_rendering_verified": false,
+    "real_indexeddb_verified": false,
+    "integration_target": "dev_design_tmp_assembly",
+    "integration_work": "20260909-design-assembly",
+    "integration_received_or_merged_verified": false,
+    "draft_pr": null,
+    "unit_end": "保存・読戻し、ドラフトPR提出、操作画面の提示で区切る。依存待ちは残す。",
+    "pre_save_heads_unchanged": true,
+    "pre_save_heads_checked_at_utc": "2026-09-17T04:51:12.516524+00:00"
   }
 }
