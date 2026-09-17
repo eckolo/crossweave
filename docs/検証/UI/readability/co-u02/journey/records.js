@@ -21,9 +21,12 @@ function recordsView(){
 function recordTargetBody(){
  const target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);if(!target)return '';
  const catalogue=target.initial_catalogue?.cards;
- const observed=[...new Map([...(target.observed_by_current_actor||[]),...(target.observed_elsewhere_this_run||[]),...(target.observed_earlier||[])].map(row=>[JSON.stringify(row.card),row])).values()];
+ const groups=[['observed_by_current_actor','この相手の札'],['observed_elsewhere_this_run','今回の探索で観測'],['observed_earlier','過去の探索で観測']];
+ const rewards=target.confirmed_reward_candidates||[];
  return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
-  '<h3>観測した札</h3>'+(observed.length?recordedCards(observed,false,target.target_id+':observed'):'<p class="cj-muted">観測なし</p>')+'<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
+  groups.map(([key,title])=>target[key]?.length?'<h3>'+title+'</h3>'+recordedCards(target[key],false,target.target_id+':'+key):'').join('')+
+  '<h3>獲得記録</h3>'+(rewards.length?'<ul>'+rewards.map(r=>'<li>'+esc(r.label)+'</li>').join('')+'</ul>':'<p class="cj-muted">記録なし</p>')+
+  '<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
 }
 // Keep the immediate source visible beside its detail, with a back path to the list.
 function recordsPanelView(){
@@ -36,10 +39,5 @@ function recordsPanelView(){
  return source+(hasChild?pane(recordDetail?'record:'+recordDetail.key:'target:'+recordTarget,childTitle,recordDetail?recordDetailView():detailBody,recordDetail&&target?target.name+'に戻る':'調査記録の一覧に戻る'):'');
 }
 function recordDetailView(){
- const entry=recordDetail,s=entry.snapshot,d=entry.detail,p=d?.primary||s,rows=[];
- const add=(name,value)=>{if(value!=null)rows.push('<div><dt>'+esc(name)+'</dt><dd>'+esc(value)+'</dd></div>');};
- if(s)add('属性',s.attr);
- if(p){add(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power);add(p.kind==='guard'?'攪乱':'探査',p.kind==='guard'?p.evasion:p.hit);add('機転',p.crit_gain);}
- add('場の突破／身構',d?.field?.power??s?.field_power);add('場の探査／攪乱',d?.field?.hit??s?.field_hit);add('手札期限',d?.life??s?.life);add('設置間隔',d?.action_intervals?.place??s?.place_cost);add('一致間隔',d?.action_intervals?.match??s?.match_cost);
- return '<dl class="cj-record-stats">'+rows.join('')+'</dl>';
+ const entry=recordDetail;return cardFacts(entry.snapshot||entry.detail,!!entry.snapshot);
 }

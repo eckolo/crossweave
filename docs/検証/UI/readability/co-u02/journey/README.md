@@ -1,14 +1,14 @@
 # 全画面構成の操作試作 — 帰還・編成・探索先・探索
 
-版0.9／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
+版0.10／2026-09-16。UI-PLAN-001、継続Work `20260910-ui-readability`、枝 `ui/readability-20260910`。
 
-最新変更：[探索画面の配置復旧](layout-restore.md)。相手→場→手札の順を全幅で維持し、札の高さに上限を設けた。前回変更：[句読点・窓・能力表示の見直し](fit-review.md)。折り返しは句点→読点を優先し、収まる範囲に句読点がない場合だけ通常折り返し。小窓からの詳細は元の窓と並べ、戻るは矢印、ピンは共通マーク。隠蔽の予測は再設定前を示し、札固有の説明は「性質」にまとめる。
+最新変更：[開始・保存・再開の統合](save-flow.md)。通常入口も今回のUIへ接続。前回変更：[探索画面の配置復旧](layout-restore.md)。相手→場→手札の順を全幅で維持し、札の高さに上限を設けた。前回変更：[句読点・窓・能力表示の見直し](fit-review.md)。折り返しは句点→読点を優先し、収まる範囲に句読点がない場合だけ通常折り返し。小窓からの詳細は元の窓と並べ、戻るは矢印、ピンは共通マーク。隠蔽の予測は再設定前を示し、札固有の説明は「性質」にまとめる。
 
 ユーザーの「ではこの方向で、改めてUI設計してみて」を受領し、[全画面構成](../../全画面構成.md)を具体的な配置と一巡の操作にした。**配置の確認用。全30項目の実装完了・正式採用・ユーザー受入ではない。**
 
 ## 操作できる範囲
 
-通常の開始は探索終了後の帰還結果。今回0.9の会話提示は探索の入口から開始し、導入本文を進めて修正箇所へ入る。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は背景に重ねた小さな読書領域に置き、追加の必須本文選択ページを挟まない。短い追加段落も同じ本文欄に並べる。表示された段落だけを記録する。
+0.10は開始画面から入り、新規作成・再開・読込み後の実phaseで画面を選ぶ。従前の帰還／探索入口fixtureも検証用として保全。実Campaignの自然帰還保存例から、着想+3・合計3、素材M、余力回復、記録に加わった札を表示する。札の解放を所持・無料編成可能と同一視しない。終了本文は背景に重ねた小さな読書領域に置き、追加の必須本文選択ページを挟まない。短い追加段落も同じ本文欄に並べる。表示された段落だけを記録する。
 
 | 場面 | 配置と主操作 | 変更の見え方 |
 |---|---|---|
@@ -19,7 +19,7 @@
 | 探索先 | 現在公開されている1件の目的と編成を同じ場面で確認 | 再訪と解決状態は実view。複数候補・未公開の行き先は捏造しない |
 | 場面・探索 | 実本文をそのまま表示。既存の公開view接続探索部品へ続く | 実legal_actions・予測・出札・撤退・帰還。正式v0.15への完全移植は継続課題 |
 | 共通の窓 | 対象詳細、比較、調査記録、メニュー、表示、案内、書出し | 16:9の外枠内で呼出元を避ける位置を選ぶ。直前の窓と詳細を被せずに並べる。狭幅では両方を再配置し、「←」で戻る。長い内容は窓内でスクロール |
-| 中断・再開 | メニュー→中断、続きから→元の場面 | 未完成の札組もsave_draftで保持。今回は開いている間の一時メモリーのみ |
+| 中断・再開 | メニュー→中断、続きから→元の場面 | 未完成の札組もsave_draftで保持。通常入口は実IndexedDBへ接続、会話内のみ一時メモリー |
 
 文字を減らすため、対象名と数値・効果を中心にし、操作のない「準備」「購入」等を各欄へ繰り返さない。「習得→取得」「修正する」「次の準備へ」は使わない。数値の前後は矢印で示す。実演アニメーションを増やす段階ではなく、変更した値の短い動きと対象の選択状態を付けた。動きを抑える設定あり。
 
@@ -29,7 +29,7 @@
 
 - `src/runtime/campaign.mjs`の実Campaignと設計所有`test/runtime/support.mjs`のMemoryStoreを使用。公開view、previewPreparation、execute、公開探索部品、既存sessionを再利用する。独自の経済式・ゲーム処理・保存アダプター・非公開辞書は新設しない。
 - 会話内の実行に必要な既存ES Modulesを`build.cjs`で閉じた一式に組み立てる。対応外の構文・外部import・循環は拒否。元runtime・content・保存・シナリオは変更しない。自然帰還保存は起動注入だけに使い、描画側へはcontrollerだけを渡す。
-- **実API＋一時メモリーの試作。実IndexedDB・実セーブ接続版ではない。** 閉じた後の保存を保証しない。従来の実セーブ入口`../index.html`を置き換えず、保存未対応時の模擬フォールバックにも使わない。
+- **会話内は実API＋一時メモリー。閉じた後の保存は失われる。** 通常入口`../index.html`も同じ新UIへ切替え、設計のIndexedDBStoreへ接続した。通常入口の実ブラウザー永続化確認は未了。保存不能時の模擬フォールバックには使わない。
 - 場面の実表示はIntersectionObserverから`continue_scene({advance:false,displayed_text_ids})`へ送る。短い主本文・追加段落を直接配置し、実際の可視イベントを受けた段落だけを対象にする。不可視の詳細は既読にしない。
 - 帰還の「拠点へ」は終了本文の進行→ack_returnを順次確認する。拠点・編成での出発は必要時commit_preparation→departの成功を順に確認する。返還・習得等の現在値は成功応答後だけ変える。途中で確定済みなら巻戻しを装わず、失敗した要求を同request_idで再送して残りへ進む。
 - D03の購入・変換・修飾は未対応理由を表示。実offers・ownedを補完しない。素材Mの用途は新設しない。
@@ -41,11 +41,11 @@
 
 ```sh
 node docs/検証/UI/readability/co-u02/build.cjs
-node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-exploration-restored.html entry
-CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-layout-restore.cjs /path/to/layout-restore-checks.json
+node docs/検証/UI/readability/co-u02/journey/build.cjs /workspace/crossweave-save-flow.html none launcher
+CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/verify-save-flow.cjs /path/to/save-flow-checks.json
 ```
 
-会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.9は今回27件を[layout-restore-checks.json](layout-restore-checks.json)・[layout-restore-freeze.json](layout-restore-freeze.json)へ記録。0.8は当時の変更44件を[fit-review-checks.json](fit-review-checks.json)・[fit-review-freeze.json](fit-review-freeze.json)へ記録。0.7は当時の変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
+会話内の提示は正規のvisualize参照で行う。生成HTMLの添付や静止画を操作画面の代わりにしない。0.10は今回49件を[save-flow-checks.json](save-flow-checks.json)・[save-flow-freeze.json](save-flow-freeze.json)へ記録。実ブラウザー用の[確認手順](browser-review.md)と[検査ページ](../browser-check.html)を追加。0.9は当時27件を[layout-restore-checks.json](layout-restore-checks.json)・[layout-restore-freeze.json](layout-restore-freeze.json)へ記録。0.8は当時の変更44件を[fit-review-checks.json](fit-review-checks.json)・[fit-review-freeze.json](fit-review-freeze.json)へ記録。0.7は当時の変更38件を[actor-review-checks.json](actor-review-checks.json)・[actor-review-freeze.json](actor-review-freeze.json)へ記録。0.6は当時の変更38件と記録の31札参照を[flow-review-checks.json](flow-review-checks.json)・[flow-review-freeze.json](flow-review-freeze.json)へ記録。詳細は[移動と参照の再検討](flow-review.md)。0.5は[backdrop-checks.json](backdrop-checks.json)・[backdrop-freeze.json](backdrop-freeze.json)に今回の回帰確認と対象ハッシュを保存した。既存32件を表示構成変更後の操作確認として再実行し、新規検査とは計上しない。0.4の[fixed-screen-checks.json](fixed-screen-checks.json)・[fixed-screen-freeze.json](fixed-screen-freeze.json)は当時の履歴。32件の範囲は、札10種・心得4種の全ページ到達、4幅の寸法計算・位置と下書き保持、未表示本文の除外、帰還→編成→比較→確定→出発→探索→中断・再開を扱う。0.1〜0.3の検査・ハッシュ・保存記録は履歴として保全し、再実行・再計上していない。
 
 ユーザーが16:9を了承し、主画面全体のスクロールを禁止した。上部と下部に44pxずつの操作帯を確保し、残りへ一覧を配置する。入りきらない対象はページ送りにし、長い比較・記録・本文は小窓に分離。詳細窓の開閉で外枠を増やさず、全体縮小もしない。計算上の表示数は1024pxで札10件を一度に表示、736pxで8件、600pxで6件、320pxで2件。狭幅で追加されるページ送りを操作量の評価に含める。本文窓のスクロールと任意詳細は保持する。新要件の詳細は[固定画面の再検討](fixed-screen.md)。
 
@@ -55,10 +55,10 @@ CW_JSDOM_PATH=/path/to/jsdom node docs/検証/UI/readability/co-u02/journey/veri
 
 | 機能ID | この試作での扱い |
 |---|---|
-| S01・S02・S25・S26 | 中断・再開の入口を具体化。新規作成・輸入・実セーブの起動は既存接続版を維持 |
+| S01・S02・S25・S26 | 新規作成・再開・空枠への読込み・書出し・中断を同じUIへ統合。変更案を保存して復元し、比較を再取得 |
 | S03〜S09・S16・S17・S30 | 帰還、探索先、札組・心得、比較・確定、不可理由を一巡へ接続 |
 | S10〜S12 | 所持を対象別に内包する配置。実購入・個体・変換はD03待ち |
-| S13・S18 | 相手・環境の基本構成と観測札、札性能への調査記録入口、非固定／固定詳細。全調査本文・報酬候補の整形・関連記録への直接遷移は残件 |
+| S13・S18 | 相手・環境の基本構成と観測札、札性能への調査記録入口、非固定／固定詳細。公開済み獲得記録と観測文脈も反映。過去本文・主体から関連記録への直接遷移は公開契約待ち |
 | S14・S15・S19〜S24 | 主本文の直接表示と任意詳細、実探索の既存接続部品。正式v0.15の残る内容・操作差は継続課題 |
 | S27・S28 | 表示設定と文脈案内を窓へ配置。全設定の永続化・全説明素材は残件 |
 | S29 | 既存sessionのpending・失敗・再試行、現在／案／確定の表示。IndexedDBは未検証 |

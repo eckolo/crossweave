@@ -1,3 +1,833 @@
+/* Lucide 1.8.0; ISC and Feather notices in lucide.LICENSE. Generated subset. */
+(()=>{const factories=[function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const replaceElement=get(1).default;
+
+const createIcons = ({
+  icons = {},
+  nameAttr = "data-lucide",
+  attrs = {},
+  root = document,
+  inTemplates
+} = {}) => {
+  if (!Object.values(icons).length) {
+    throw new Error(
+      "Please provide an icons object.\nIf you want to use all the icons you can import it like:\n `import { createIcons, icons } from 'lucide';\nlucide.createIcons({icons});`"
+    );
+  }
+  if (typeof root === "undefined") {
+    throw new Error("`createIcons()` only works in a browser environment.");
+  }
+  const elementsToReplace = Array.from(root.querySelectorAll(`[${nameAttr}]`));
+  elementsToReplace.forEach((element) => replaceElement(element, { nameAttr, icons, attrs }));
+  if (inTemplates) {
+    const templates = Array.from(root.querySelectorAll("template"));
+    templates.forEach(
+      (template) => createIcons({
+        icons,
+        nameAttr,
+        attrs,
+        root: template.content,
+        inTemplates
+      })
+    );
+  }
+  if (nameAttr === "data-lucide") {
+    const deprecatedElements = root.querySelectorAll("[icon-name]");
+    if (deprecatedElements.length > 0) {
+      console.warn(
+        "[Lucide] Some icons were found with the now deprecated icon-name attribute. These will still be replaced for backwards compatibility, but will no longer be supported in v1.0 and you should switch to data-lucide"
+      );
+      Array.from(deprecatedElements).forEach(
+        (element) => replaceElement(element, { nameAttr: "icon-name", icons, attrs })
+      );
+    }
+  }
+};
+
+
+
+
+return {"createIcons":createIcons};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const createElement=get(2).default;
+const defaultAttributes=get(3).default;
+const { hasA11yProp }=get(4);
+const { mergeClasses }=get(5);
+const { toPascalCase }=get(6);
+
+const getAttrs = (element) => Array.from(element.attributes).reduce((attrs, attr) => {
+  attrs[attr.name] = attr.value;
+  return attrs;
+}, {});
+const getClassNames = (attrs) => {
+  if (typeof attrs === "string") return attrs;
+  if (!attrs || !attrs.class) return "";
+  if (attrs.class && typeof attrs.class === "string") {
+    return attrs.class.split(" ");
+  }
+  if (attrs.class && Array.isArray(attrs.class)) {
+    return attrs.class;
+  }
+  return "";
+};
+const replaceElement = (element, { nameAttr, icons, attrs }) => {
+  const iconName = element.getAttribute(nameAttr);
+  if (iconName == null) return;
+  const ComponentName = toPascalCase(iconName);
+  const iconNode = icons[ComponentName];
+  if (!iconNode) {
+    return console.warn(
+      `${element.outerHTML} icon name was not found in the provided icons object.`
+    );
+  }
+  const elementAttrs = getAttrs(element);
+  const ariaProps = hasA11yProp(elementAttrs) ? {} : { "aria-hidden": "true" };
+  const iconAttrs = {
+    ...defaultAttributes,
+    "data-lucide": iconName,
+    ...ariaProps,
+    ...attrs,
+    ...elementAttrs
+  };
+  const elementClassNames = getClassNames(elementAttrs);
+  const className = getClassNames(attrs);
+  const classNames = mergeClasses(
+    "lucide",
+    `lucide-${iconName}`,
+    ...elementClassNames,
+    ...className
+  );
+  if (classNames) {
+    Object.assign(iconAttrs, {
+      class: classNames
+    });
+  }
+  const svgElement = createElement(iconNode, iconAttrs);
+  return element.parentNode?.replaceChild(svgElement, element);
+};
+
+
+
+
+return {"default":replaceElement,"getAttrs":getAttrs,"getClassNames":getClassNames};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const defaultAttributes=get(3).default;
+
+const createSVGElement = ([tag, attrs, children]) => {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  Object.keys(attrs).forEach((name) => {
+    element.setAttribute(name, String(attrs[name]));
+  });
+  if (children?.length) {
+    children.forEach((child) => {
+      const childElement = createSVGElement(child);
+      element.appendChild(childElement);
+    });
+  }
+  return element;
+};
+const createElement = (iconNode, customAttrs = {}) => {
+  const tag = "svg";
+  const attrs = {
+    ...defaultAttributes,
+    ...customAttrs
+  };
+  return createSVGElement([tag, attrs, iconNode]);
+};
+
+
+
+
+return {"default":createElement};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  "stroke-width": 2,
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round"
+};
+
+
+
+
+return {"default":defaultAttributes};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const hasA11yProp = (props) => {
+  for (const prop in props) {
+    if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
+      return true;
+    }
+  }
+  return false;
+};
+
+
+
+
+return {"hasA11yProp":hasA11yProp};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const mergeClasses = (...classes) => classes.filter((className, index, array) => {
+  return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+}).join(" ").trim();
+
+
+
+
+return {"mergeClasses":mergeClasses};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const { toCamelCase }=get(7);
+
+const toPascalCase = (string) => {
+  const camelCase = toCamelCase(string);
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+};
+
+
+
+
+return {"toPascalCase":toPascalCase};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const toCamelCase = (string) => string.replace(
+  /^([A-Z])|[\s-_]+(\w)/g,
+  (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
+);
+
+
+
+
+return {"toCamelCase":toCamelCase};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Activity = [
+  [
+    "path",
+    {
+      d: "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"
+    }
+  ]
+];
+
+
+
+
+return {"default":Activity};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ArrowLeft = [
+  ["path", { d: "m12 19-7-7 7-7" }],
+  ["path", { d: "M19 12H5" }]
+];
+
+
+
+
+return {"default":ArrowLeft};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ArrowRight = [
+  ["path", { d: "M5 12h14" }],
+  ["path", { d: "m12 5 7 7-7 7" }]
+];
+
+
+
+
+return {"default":ArrowRight};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ArrowUpRight = [
+  ["path", { d: "M7 7h10v10" }],
+  ["path", { d: "M7 17 17 7" }]
+];
+
+
+
+
+return {"default":ArrowUpRight};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const BookOpen = [
+  ["path", { d: "M12 7v14" }],
+  [
+    "path",
+    {
+      d: "M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+    }
+  ]
+];
+
+
+
+
+return {"default":BookOpen};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ChevronLeft = [["path", { d: "m15 18-6-6 6-6" }]];
+
+
+
+
+return {"default":ChevronLeft};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ChevronRight = [["path", { d: "m9 18 6-6-6-6" }]];
+
+
+
+
+return {"default":ChevronRight};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Crosshair = [
+  ["circle", { cx: "12", cy: "12", r: "10" }],
+  ["line", { x1: "22", x2: "18", y1: "12", y2: "12" }],
+  ["line", { x1: "6", x2: "2", y1: "12", y2: "12" }],
+  ["line", { x1: "12", x2: "12", y1: "6", y2: "2" }],
+  ["line", { x1: "12", x2: "12", y1: "22", y2: "18" }]
+];
+
+
+
+
+return {"default":Crosshair};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Flag = [
+  [
+    "path",
+    {
+      d: "M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
+    }
+  ]
+];
+
+
+
+
+return {"default":Flag};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Heart = [
+  [
+    "path",
+    {
+      d: "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+    }
+  ]
+];
+
+
+
+
+return {"default":Heart};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const HeartPlus = [
+  [
+    "path",
+    {
+      d: "m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"
+    }
+  ],
+  ["path", { d: "M15 15h6" }],
+  ["path", { d: "M18 12v6" }]
+];
+
+
+
+
+return {"default":HeartPlus};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const HeartPulse = [
+  [
+    "path",
+    {
+      d: "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+    }
+  ],
+  ["path", { d: "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27" }]
+];
+
+
+
+
+return {"default":HeartPulse};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const History = [
+  ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }],
+  ["path", { d: "M3 3v5h5" }],
+  ["path", { d: "M12 7v5l4 2" }]
+];
+
+
+
+
+return {"default":History};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Info = [
+  ["circle", { cx: "12", cy: "12", r: "10" }],
+  ["path", { d: "M12 16v-4" }],
+  ["path", { d: "M12 8h.01" }]
+];
+
+
+
+
+return {"default":Info};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Layers = [
+  [
+    "path",
+    {
+      d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
+    }
+  ],
+  ["path", { d: "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" }],
+  ["path", { d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" }]
+];
+
+
+
+
+return {"default":Layers};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Lightbulb = [
+  [
+    "path",
+    {
+      d: "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+    }
+  ],
+  ["path", { d: "M9 18h6" }],
+  ["path", { d: "M10 22h4" }]
+];
+
+
+
+
+return {"default":Lightbulb};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ListOrdered = [
+  ["path", { d: "M11 5h10" }],
+  ["path", { d: "M11 12h10" }],
+  ["path", { d: "M11 19h10" }],
+  ["path", { d: "M4 4h1v5" }],
+  ["path", { d: "M4 9h2" }],
+  ["path", { d: "M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02" }]
+];
+
+
+
+
+return {"default":ListOrdered};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Menu = [
+  ["path", { d: "M4 5h16" }],
+  ["path", { d: "M4 12h16" }],
+  ["path", { d: "M4 19h16" }]
+];
+
+
+
+
+return {"default":Menu};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Pin = [
+  ["path", { d: "M12 17v5" }],
+  [
+    "path",
+    {
+      d: "M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"
+    }
+  ]
+];
+
+
+
+
+return {"default":Pin};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ScanSearch = [
+  ["path", { d: "M3 7V5a2 2 0 0 1 2-2h2" }],
+  ["path", { d: "M17 3h2a2 2 0 0 1 2 2v2" }],
+  ["path", { d: "M21 17v2a2 2 0 0 1-2 2h-2" }],
+  ["path", { d: "M7 21H5a2 2 0 0 1-2-2v-2" }],
+  ["circle", { cx: "12", cy: "12", r: "3" }],
+  ["path", { d: "m16 16-1.9-1.9" }]
+];
+
+
+
+
+return {"default":ScanSearch};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Settings = [
+  [
+    "path",
+    {
+      d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+    }
+  ],
+  ["circle", { cx: "12", cy: "12", r: "3" }]
+];
+
+
+
+
+return {"default":Settings};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Shield = [
+  [
+    "path",
+    {
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+    }
+  ]
+];
+
+
+
+
+return {"default":Shield};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const ShieldMinus = [
+  [
+    "path",
+    {
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+    }
+  ],
+  ["path", { d: "M9 12h6" }]
+];
+
+
+
+
+return {"default":ShieldMinus};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const SlidersHorizontal = [
+  ["path", { d: "M10 5H3" }],
+  ["path", { d: "M12 19H3" }],
+  ["path", { d: "M14 3v4" }],
+  ["path", { d: "M16 17v4" }],
+  ["path", { d: "M21 12h-9" }],
+  ["path", { d: "M21 19h-5" }],
+  ["path", { d: "M21 5h-7" }],
+  ["path", { d: "M8 10v4" }],
+  ["path", { d: "M8 12H3" }]
+];
+
+
+
+
+return {"default":SlidersHorizontal};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Sparkles = [
+  [
+    "path",
+    {
+      d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+    }
+  ],
+  ["path", { d: "M20 2v4" }],
+  ["path", { d: "M22 4h-4" }],
+  ["circle", { cx: "4", cy: "20", r: "2" }]
+];
+
+
+
+
+return {"default":Sparkles};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Swords = [
+  ["polyline", { points: "14.5 17.5 3 6 3 3 6 3 17.5 14.5" }],
+  ["line", { x1: "13", x2: "19", y1: "19", y2: "13" }],
+  ["line", { x1: "16", x2: "20", y1: "16", y2: "20" }],
+  ["line", { x1: "19", x2: "21", y1: "21", y2: "19" }],
+  ["polyline", { points: "14.5 6.5 18 3 21 3 21 6 17.5 9.5" }],
+  ["line", { x1: "5", x2: "9", y1: "14", y2: "18" }],
+  ["line", { x1: "7", x2: "4", y1: "17", y2: "20" }],
+  ["line", { x1: "3", x2: "5", y1: "19", y2: "21" }]
+];
+
+
+
+
+return {"default":Swords};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const VenetianMask = [
+  ["path", { d: "M18 11c-1.5 0-2.5.5-3 2" }],
+  [
+    "path",
+    {
+      d: "M4 6a2 2 0 0 0-2 2v4a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V8a2 2 0 0 0-2-2h-3a8 8 0 0 0-5 2 8 8 0 0 0-5-2z"
+    }
+  ],
+  ["path", { d: "M6 11c1.5 0 2.5.5 3 2" }]
+];
+
+
+
+
+return {"default":VenetianMask};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Wind = [
+  ["path", { d: "M12.8 19.6A2 2 0 1 0 14 16H2" }],
+  ["path", { d: "M17.5 8a2.5 2.5 0 1 1 2 4H2" }],
+  ["path", { d: "M9.8 4.4A2 2 0 1 1 11 8H2" }]
+];
+
+
+
+
+return {"default":Wind};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const X = [
+  ["path", { d: "M18 6 6 18" }],
+  ["path", { d: "m6 6 12 12" }]
+];
+
+
+
+
+return {"default":X};},
+function(get){/**
+ * @license lucide v1.8.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const Zap = [
+  [
+    "path",
+    {
+      d: "M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+    }
+  ]
+];
+
+
+
+
+return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]=factories[id](get));}const draw=get(0).createIcons,icons={"Activity":get(8).default,"ArrowLeft":get(9).default,"ArrowRight":get(10).default,"ArrowUpRight":get(11).default,"BookOpen":get(12).default,"ChevronLeft":get(13).default,"ChevronRight":get(14).default,"Crosshair":get(15).default,"Flag":get(16).default,"Heart":get(17).default,"HeartPlus":get(18).default,"HeartPulse":get(19).default,"History":get(20).default,"Info":get(21).default,"Layers":get(22).default,"Lightbulb":get(23).default,"ListOrdered":get(24).default,"Menu":get(25).default,"Pin":get(26).default,"ScanSearch":get(27).default,"Settings":get(28).default,"Shield":get(29).default,"ShieldMinus":get(30).default,"SlidersHorizontal":get(31).default,"Sparkles":get(32).default,"Swords":get(33).default,"VenetianMask":get(34).default,"Wind":get(35).default,"X":get(36).default,"Zap":get(37).default};globalThis.lucide??={createIcons(options={}){return draw({...options,icons});}};})();
+
 /* CO-U02: UI-only asynchronous boundary. No economy, storage, or game state owner. */
 (function (scope) {
   'use strict';
@@ -668,12 +1498,15 @@ function updateLayout(){
   const settings={diagram:true,details:true,quick:true,drag:true,hold:220};
   const events=new AbortController(),timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);if(!dead)fn();},ms);timers.add(t);return t;};
+  let historyCursor=list(display_data.exploration?.public_history).length,feedTimer=null;
+  const feedQueue=[],feedVisible=[];
   root.classList.add('cw-explore');root.setAttribute('aria-label','crossweave 探索');
   root.innerHTML=`<div id="cw-scene" aria-hidden="true"><div id="cw-scene-base"></div></div>
    <section class="cw-region cw-world" aria-label="相手と環境"><div class="cw-heading"><div class="cw-order-strip"><ol id="cw-turn-order" aria-label="現在の行動予約"></ol></div></div><div class="cw-scroll" id="cw-actors"></div><div class="cw-scroll-help" data-track="cw-actors"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-board" id="cw-drop-zone" aria-label="札を出す場"><div class="cw-heading"><span id="cw-match-label"></span></div><div class="cw-scroll" id="cw-field"></div><div class="cw-scroll-help" data-track="cw-field"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span id="cw-notice" role="status"></span></div><div class="cw-scroll" id="cw-hand"></div><div class="cw-scroll-help" data-track="cw-hand"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div><div id="cw-action-track"><div class="cw-actions" id="cw-action-anchor" hidden><button type="button" data-x="preview">予測</button><button type="button" id="cw-use" data-x="use" class="cw-primary">場に出す</button></div></div></section>
    <footer class="cw-bottom"><div class="cw-footer-state"><div class="cw-self" id="cw-self" aria-label="本人の状態"></div><span id="cw-hand-count"></span></div><nav class="cw-menu" aria-label="探索メニュー">${menuButton('target-info','対象の詳細','info')}${menuButton('more','メニュー','menu')}</nav><button type="button" data-x="withdraw">撤退</button></footer>
+   <div class="cw-event-region" aria-label="直前の行動"><ol id="cw-event-feed" aria-live="polite" aria-relevant="additions"></ol></div>
    <svg id="cw-relations" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden></svg><div id="cw-drag-ghost" aria-hidden="true" hidden></div>
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
@@ -735,10 +1568,24 @@ function updateLayout(){
    const expiry=(p.unused_hand_expiry||[]).filter(a=>a.expires);
    return `<dl class="cw-ledger">${rows.filter(([,v])=>v!=null).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${expiry.length?`<p class="cw-loss">期限切れ：${expiry.map(a=>`${esc(names(a.id))}${a.destination==='destroyed'?'（消滅）':''}`).join('、')}</p>`:''}`;
   }
-  function history(){return list(x()?.public_history).slice().reverse().map(r=>{
+  function eventText(r){
    const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:'設置';
-   return `<li class="cw-log"><time>${esc(r.time)}</time> ${r.type==='action'?`${esc(names(r.actor))} · ${esc(action)}`:'場面が変化'}</li>`;
-  }).join('')||'<li>まだ履歴がありません</li>';}
+   return r.type==='action'?`${names(r.actor)} · ${action}`:'場面が変化';
+  }
+  function history(){return list(x()?.public_history).slice().reverse().map(r=>`<li class="cw-log"><time>${esc(r.time)}</time> ${esc(eventText(r))}</li>`).join('')||'<li>まだ履歴がありません</li>';}
+  // Public resolved events only. Opening/resizing the UI never replays old history.
+  // Timing follows the formal feed; at most two rows protect the compact layout.
+  function pumpEvent(){
+   feedTimer=null;if(!feedQueue.length||feedVisible.length>=2)return;
+   const row=feedQueue.shift(),node=document.createElement('li');node.className='cw-live-event';node.innerHTML=`<time>${esc(row.time)}</time><span>${esc(row.text)}</span>`;
+   feedVisible.push(node);$('#cw-event-feed').prepend(node);feedVisible.forEach((el,i)=>el.style.bottom=i*26+'px');
+   later(()=>{node.dataset.fading='true';},1300);
+   later(()=>{const i=feedVisible.indexOf(node);if(i>=0)feedVisible.splice(i,1);node.remove();feedVisible.forEach((el,j)=>el.style.bottom=j*26+'px');if(feedTimer===null)pumpEvent();},2800);
+   feedTimer=later(pumpEvent,260);
+  }
+  function updateEvents(){const rows=list(x()?.public_history);if(rows.length<historyCursor){feedQueue.length=0;feedVisible.splice(0).forEach(el=>el.remove());historyCursor=rows.length;return;}
+   feedQueue.push(...rows.slice(historyCursor).map(r=>({time:r.time,text:eventText(r)})));historyCursor=rows.length;if(feedTimer===null)pumpEvent();
+  }
   function windowContent(w=windowState,popup=$('#cw-drawer')){if(!w)return;
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
@@ -879,6 +1726,7 @@ function updateLayout(){
   root.addEventListener('scroll',e=>{if(e.target.id==='cw-actors')cancelActorHold();layout();},{capture:true,signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
   function update(d,s=session.state()){data=d;state=s;if(!x())return;
+   updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();cancelActorHold();selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();
    if(selected&&!hand().some(c=>c.id===selected)){selected=null;close();}redraw();
@@ -1002,3 +1850,416 @@ function updateLayout(){
   start();if(controller)connect(controller);
   return {get session(){return session;},dispose(){dead=true;stopChild();unsubscribe?.();session?.dispose();launcher?.dispose();offLauncher?.();events.abort();root.replaceChildren();}};
  };})(globalThis.CrossweaveUI);
+
+/* UI geometry only. The header/footer each reserve a 44px action row. */
+(function(api){'use strict';
+api.journeyLayout=function(width,total,anchor=0){
+ const compact=width<=400,padding=compact?0:8,gap=compact?4:8;
+ const height=width*9/16,availableHeight=height-90-padding*2,availableWidth=width-2-padding*2;
+ const columns=Math.max(1,Math.min(6,Math.floor((availableWidth+gap)/(144+gap))));
+ const maxRows=Math.max(1,Math.floor((availableHeight+gap)/((compact?90:108)+gap)));
+ const capacity=columns*maxRows,pages=Math.max(1,Math.ceil(total/capacity));
+ const page=Math.min(pages-1,Math.floor(Math.max(0,anchor)/capacity)),start=page*capacity,end=Math.min(total,start+capacity);
+ const rows=Math.max(1,Math.ceil((end-start)/columns));
+ const rowHeight=Math.min(190,(availableHeight-gap*(rows-1))/rows);
+ return {width,height,padding,gap,columns,rows,capacity,pages,page,start,end,rowHeight,availableHeight,availableWidth};
+};
+})(globalThis.CrossweaveUI);
+
+/* One Campaign lifecycle for the accepted UI. Storage is owned by the injected provider. */
+(function(api){'use strict';
+ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ api.saveFailureText=e=>({save_not_found:'保存がありません。「はじめから」で開始できます。',save_already_exists:'保存があります。「続きから」を選んでください。',slot_not_empty:'保存があります。既存の保存は変更していません。「続きから」を選んでください。',invalid_save_json:'保存ファイルを読めません。選んだファイルは保持しています。',unsupported_save_schema:'対応していない保存形式です。元のファイルは変更していません。',storage_write_failed:'保存できませんでした。変更案を残しています。',storage_unavailable:'保存先を利用できません。',indexeddb_unavailable:'この表示環境では保存先を利用できません。',storage_open_failed:'保存先を開けませんでした。',storage_open_blocked:'別の画面が保存先を使用しています。',storage_read_failed:'保存内容を読み出せませんでした。',connection_failed:'応答を確認できませんでした。',secure_request_id_unavailable:'この表示環境では開始できません。',invalid_response:'本体の応答を確認できませんでした。'})[e?.code]||null;
+ api.downloadSave=function(document){
+  if(typeof URL.createObjectURL!=='function')throw {code:'download_unavailable'};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(document,null,2)],{type:'application/json'})),link=globalThis.document.createElement('a');
+  link.href=url;link.download='crossweave-save.json';link.hidden=true;globalThis.document.body.append(link);
+  try{link.click();}finally{link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ };
+ api.mountJourneyApplication=function(root,{Campaign,config,title='夜潮の排水路',storageMode='persistent'}={}){
+  const launcher=api.makeLauncher(Campaign,config),events=new AbortController();
+  let child=null,connecting=false,reading=false,dead=false,importing=false,raw='',filename='',error='',message='';
+  const busy=()=>connecting||reading||launcher.state().pending;
+  const explain=e=>api.saveFailureText(e)||'開始できませんでした。保存と入力は保持しています。';
+  const button=(label,action,disabled=false)=>'<button type="button" data-launch="'+action+'" class="cj-button cursor-interaction" '+(disabled?'disabled':'')+'>'+label+'</button>';
+  const resize=()=>{if(child||dead)return;const shell=root.querySelector('.cj-shell'),width=root.getBoundingClientRect().width;if(shell&&width>0)shell.style.height=width*9/16+'px';};
+  const observer=new ResizeObserver(resize);observer.observe(root);
+  function render(){if(dead||child)return;const s=launcher.state(),locked=busy()||s.canRetry;
+   root.dataset.screen='start';root.dataset.storageMode=storageMode;
+   const content=importing?'<label class="cj-import-file">保存ファイル<input type="file" accept=".json,application/json" data-launch-file '+(locked?'disabled':'')+'></label><p class="cj-import-name">'+escape(filename)+'</p>':'<h2>crossweave</h2>';
+   const actions=importing?button('←','back',locked)+button('読み込む','import',locked||s.active||!raw):button('続きから','open',locked)+button('はじめから','create',locked||s.active)+button('読み込む','import-menu',locked||s.active);
+   root.innerHTML='<div class="cj-shell cj-launch-shell"><header class="cj-header"><span class="cj-screen-title">'+(importing?'保存を読み込む':'crossweave')+'</span></header><main class="cj-layout cj-launch-main">'+content+'<div class="cj-launch-notice" role="'+(error?'alert':'status')+'">'+escape(error||(busy()?'読み込み中…':message))+'</div></main><footer class="cj-fixed-footer">'+(s.canRetry?button('もう一度','retry',busy()):actions)+'</footer></div>';
+   root.setAttribute('aria-busy',String(busy()));resize();
+   root.querySelector('[data-launch="back"]')?.setAttribute('aria-label','開始画面に戻る');
+  }
+  async function connect(controller){
+   if(dead||connecting)return;connecting=true;error='';render();
+   const session=api.makeSession(controller,{reopen:()=>Campaign.open({slot_id:config.slot_id})});
+   const result=await session.refresh({preserveLocal:false});connecting=false;
+   if(dead){session.dispose();return;}
+   if(!result.ok){session.dispose();error=explain(result.error);render();return;}
+   observer.disconnect();root.replaceChildren();
+   child=api.mountJourney(root,{controller,Campaign,slot_id:config.slot_id,title,session,storageMode});
+  }
+  root.addEventListener('click',async event=>{
+   const b=event.target.closest('[data-launch]');if(!b||b.disabled||busy()||child)return;
+   const action=b.dataset.launch;
+   if(action==='import-menu'||action==='back'){importing=action==='import-menu';error='';render();return;}
+   error='';message='';
+   try{let result;
+    if(action==='open')result=await launcher.open();
+    if(action==='create')result=await launcher.create();
+    if(action==='import')result=await launcher.importSave(raw);
+    if(action==='retry')result=await launcher.retry();
+    if(dead)return;if(result?.ok)await connect(result.controller);else if(result){error=explain(result.error);render();}
+   }catch(e){if(!dead){error=explain(e);render();}}
+  },{signal:events.signal});
+  root.addEventListener('change',async event=>{
+   if(!event.target.matches('[data-launch-file]')||busy()||child)return;
+   const file=event.target.files?.[0];if(!file)return;reading=true;error='';render();
+   try{const text=await file.text();if(!dead){raw=text;filename=file.name;}}
+   catch{if(!dead)error='ファイルを読めませんでした。前の入力を保持しています。';}
+   finally{reading=false;render();}
+  },{signal:events.signal});
+  const off=launcher.subscribe(render);render();
+  return {get journey(){return child;},get session(){return child?.session||null;},state:()=>({launcher:launcher.state(),connecting,reading,filename,importing,storageMode}),dispose(){dead=true;off();observer.disconnect();events.abort();launcher.dispose();child?.dispose();root.replaceChildren();}};
+ };
+})(globalThis.CrossweaveUI);
+
+/* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
+(function(api){'use strict';
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral'}){
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
+ const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
+ const $=s=>root.querySelector(s),list=x=>Array.isArray(x)?x:Object.values(x||{});
+ const icon=n=>'<i data-lucide="'+n+'" aria-hidden="true"></i>';
+ const button=(label,action,extra='',kind='')=>'<button type="button" data-j="'+action+'" '+extra+' class="cj-button cursor-interaction '+kind+'">'+label+'</button>';
+ let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'compose':'hub',panel=null,windows=[],child=null,lastScreen=null;
+ let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
+ let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),committedFlash=false;
+ let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
+ const recordEntries=new Map(),scrollMemory=new Map();
+ let lastContext=null,lastPhase=null;
+ const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0},events=new AbortController();
+ let frameWidth=root.getBoundingClientRect().width||1024;
+ root.dataset.storageMode=storageMode;
+ root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
+ // The frame follows only its parent's width, never the amount of open content.
+ const sizeFrame=width=>{if(width>0){const changed=width!==frameWidth;frameWidth=width;$('.cj-shell').style.height=(width*9/16)+'px';if(changed)queueMicrotask(()=>{if(state.view)render();});}queueMicrotask(layoutWindows);};
+ const frameObserver=new ResizeObserver(entries=>sizeFrame(entries[0]?.contentRect?.width||root.getBoundingClientRect().width));
+ frameObserver.observe(root);sizeFrame(root.getBoundingClientRect().width);
+ const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||{};
+ const name=id=>info(id).name||'詳細未提供';
+ const dirty=()=>p()&&JSON.stringify(p())!==JSON.stringify(api.currentPlan(state.view));
+ const busy=()=>running||!!state.pending||state.canRetry||state.stale;
+ const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
+ const equipped=id=>p()?.next_preparation.equipment.includes(id);
+ const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
+ const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
+ const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
+ function reason(e){return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
+ function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
+ function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
+ function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
+ /* Presentation helpers injected into mountJourney. No private catalogue or price calculation. */
+function paragraph(id){const t=d().texts?.[id];return t?'<p data-j-text="'+esc(id)+'">'+esc(t.short_text||t.detail_text||'')+'</p>':'';}
+// These public details are short paragraphs. Render them in reading order;
+// visibility observation, never DOM insertion, decides the read receipt.
+function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-story">'+[...new Set([...(s.text_ids||[]),...(s.optional_text_ids||[])])].map(paragraph).join('')+'</div>';}
+function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;
+ return '<div class="cj-wallet"><span>'+icon('lightbulb')+'着想</span><strong>'+pt(now)+'</strong>'+(dirty()?'<span class="cj-arrow">→</span><strong class="cj-changed">'+pt(after)+'</strong><small>変更案</small>':committedFlash?'<small>確定済み</small>':'')+'</div>';}
+function outcome(){return ({clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'})[d().return_receipt?.outcome]||'探索終了';}
+function landscape(){return '<div class="cj-landscape cj-backdrop" aria-hidden="true"><div></div><div></div><div></div></div>';}
+function readWindow(){return d().scene?'<section class="cj-reading-window" aria-label="場面の本文"><div class="cj-reading-scroll" data-reading="'+esc(d().scene.id)+'">'+sceneCopy()+'</div></section>':'';}
+function returnView(){const r=d().return_receipt;if(!r)return '<p>帰還結果を読み込めませんでした</p>';
+ const materials=(r.kept_items||[]).filter(x=>x.kind!=='points'),unlocks=r.new_unlocks||[],lost=r.lost_items||[];
+ const materialLabel=materials.length===1?'素材 '+esc(materials[0].type||'')+' +'+esc(materials[0].amount||1):'素材 '+materials.length+'種';
+ return '<section class="cj-fixed-result">'+landscape()+'<section class="cj-result-summary" aria-label="帰還の結果"><div class="cj-result-values">'+
+ '<div class="cj-result-money">'+icon('lightbulb')+'<span>着想</span><strong>+'+pt(r.gained_units)+'</strong><small>計 '+pt(r.unspent_after_units)+'</small></div><div>余力 '+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</div>'+
+ '<div class="cj-result-items"><span>'+materialLabel+'</span><span>記録 +'+unlocks.length+(lost.length?'　喪失 '+lost.length:'')+'</span></div></div>'+button('詳細','receipt','aria-label="帰還結果の詳細"')+'</section>'+readWindow()+'</section>';
+}
+function receiptDetails(){const r=d().return_receipt;if(!r)return '';
+ return '<div class="cj-change"><span>着想</span><strong>+'+pt(r.gained_units)+'（合計 '+pt(r.unspent_after_units)+'）</strong></div><div class="cj-change"><span>余力</span><strong>'+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</strong></div><h3>獲得品</h3>'+((r.kept_items||[]).filter(x=>x.kind!=='points').map(x=>'<p>素材 '+esc(x.type||'')+' +'+esc(x.amount||1)+'</p>').join('')||'<p>なし</p>')+'<h3>記録に追加</h3>'+(r.new_unlocks||[]).map(id=>detailsButton('base:'+id)).join('')+((r.lost_items||[]).length?'<h3>喪失</h3>'+r.lost_items.map(x=>'<p>'+esc(x.kind==='points'?'着想':x.type||x.kind)+' '+esc(x.kind==='points'?pt(x.amount_units):x.amount??'')+'</p>').join(''):'');
+}
+function hubView(){const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
+function compactWallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
+function catalogueItems(){const skills=tab==='skills';return [...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id)];}
+function composeCount(){const c=state.comparison;return tab==='skills'?(c?.ok?c.prepared.equipment.used:dirty()?'—':h().equipment.used)+'/'+h().equipment.capacity:p().next_preparation.deck.length+'/'+h().deck.required_size;}
+function pageButtons(){const layout=api.journeyLayout(frameWidth,catalogueItems().length,pageAnchors[tab]);return layout.pages>1?'<div class="cj-pager" aria-label="一覧のページ">'+button(icon('chevron-left'),'page','data-step="-1" aria-label="前の一覧" '+(!layout.page?'disabled':''))+'<span aria-live="polite">'+(layout.page+1)+'/'+layout.pages+'</span>'+button(icon('chevron-right'),'page','data-step="1" aria-label="次の一覧" '+(layout.page+1===layout.pages?'disabled':''))+'</div>':'';}
+function headerView(screen){const edit=['deck','skills'].includes(screen),labels={return:outcome(),hub:'探索先',scene:title,start:'crossweave'};
+ const lead=edit?'<nav class="cj-edit-tabs" aria-label="編成の切替">'+['deck','skills'].map(t=>button('<span>'+(t==='deck'?'札組':'心得')+'</span>'+(tab===t?'<small aria-label="'+(t==='deck'?'枚数':'使用枠')+'">'+composeCount()+'</small>':''),t,'aria-pressed="'+(tab===t)+'"')).join('')+'</nav>':'<h1 class="cj-screen-title">'+esc(labels[screen]||'crossweave')+'</h1>';
+ return lead+(edit?pageButtons():'')+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(!edit?button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet'):'')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
+}
+function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary');}
+function footerView(screen){let content='';
+ if(['deck','skills'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+composeActions()+'</div>';
+ else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
+ else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
+ else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
+ else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
+ return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
+}
+function cardTile(id){const item=info(id),n=count(id),current=count(id,api.currentPlan(state.view).next_preparation.deck),kind=item.primary?.kind;
+ const baseCount=p().next_preparation.deck.filter(x=>info(x).base_id===item.base_id).length;
+ return '<article class="cj-cardpiece '+(n?'cj-included':'')+'" data-piece="'+esc(id)+'">'+
+ button('<span class="cj-card-art" data-kind="'+esc(kind||'')+'">'+icon(itemIcon(id))+'</span><strong>'+esc(name(id))+'</strong><small>'+(item.primary?({attack:'突破',guard:'身構',heal:'回復'})[kind]+' '+item.primary.power:'')+'</small>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.deck===id)+'" aria-label="'+esc(name(id))+'の詳細"','cj-card-face')+
+ '<div class="cj-counter">'+button('−','remove','data-id="'+esc(id)+'" data-focus="remove-'+esc(id)+'" data-j-mutation aria-label="'+esc(name(id))+'を1枚外す" '+(!n?'disabled':''))+'<span aria-label="変更案 '+n+'枚">'+(n!==current?'<small>'+current+' →</small> ':'')+'<strong>'+n+'</strong></span>'+button('+','add','data-id="'+esc(id)+'" data-focus="add-'+esc(id)+'" data-j-mutation aria-label="'+esc(name(id))+'を1枚加える" '+(baseCount>=h().deck.per_base_cap||(!id.startsWith('base:')&&n)?'disabled':''))+'</div></article>';
+}
+function skillStructure(item){return '<dl class="cj-skill-structure"><div><dt>発動条件</dt><dd>'+esc(item.trigger_text||'未提供')+'</dd></div><div><dt>効果</dt><dd>'+esc(item.effect_text||'未提供')+'</dd></div></dl>';}
+function skillTile(id){const item=info(id),on=equipped(id),known=learned(item.base_id),cancelled=p().cancel_learning.includes(item.base_id),newly=p().next_preparation.learn.includes(item.base_id);
+ const label=cancelled?'忘れる案':newly?'覚える案':known?'覚えた心得':'';
+ return '<article class="cj-skillpiece cj-cardpiece '+(on?'cj-included':'')+'" data-piece="'+esc(id)+'">'+button('<span class="cj-card-art" aria-hidden="true">'+icon('sparkles')+'</span><strong>'+esc(name(id))+'</strong><span class="cj-slot-cost">枠消費 '+item.equipment_cost+'</span><span class="cj-state-label">'+(on?'✓ 装備':label)+'</span>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.skills===id)+'"','cj-card-face')+'<div class="cj-skill-action">'+button(on?'外す':known?'装備':cancelled?'覚えた状態に戻す':'覚えて装備 −'+pt(item.learning_cost_units),cancelled?'restore-skill':'equip','data-id="'+esc(id)+'" data-focus="equip-'+esc(id)+'" data-j-mutation',on?'':'cj-primary')+'</div></article>';
+}
+function composeView(){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab]);
+ return '<section class="cj-page-catalogue" data-catalogue aria-label="'+(tab==='skills'?'心得一覧':'札一覧')+'" style="padding:'+layout.padding+'px"><div class="cj-page-grid" data-capacity="'+layout.capacity+'" style="grid-template-columns:repeat('+layout.columns+',minmax(0,1fr));grid-template-rows:repeat('+layout.rows+','+layout.rowHeight+'px);gap:'+layout.gap+'px">'+items.slice(layout.start,layout.end).map(tab==='skills'?skillTile:cardTile).join('')+'</div></section>';
+}
+function miniList(ids){return ids.length?'<ul class="cj-build-list">'+group(ids).map(x=>'<li><span>'+esc(name(x.id))+'</span><b>×'+x.count+'</b></li>').join('')+'</ul>':'<span class="cj-muted">なし</span>';}
+function changeRows(){const c=state.comparison;if(!c)return '<p class="cj-muted">'+(state.pending?'確認中…':'変更の確認待ち')+'</p>';if(!c.ok)return '<p class="cj-warning" role="alert">'+esc(reason(c.refusal))+'</p>';
+ const rows=[];const row=(object,change)=>rows.push('<div class="cj-change"><span>'+esc(object)+'</span><strong>'+change+'</strong></div>');
+ if(c.cancellation.bases.length)row(c.cancellation.bases.map(id=>name('base:'+id)).join('・')+'を忘れる','着想 +'+pt(c.cancellation.actual_refund_units));
+ if(p().next_preparation.learn.length)row(p().next_preparation.learn.map(id=>name('base:'+id)).join('・')+'を覚える','着想 −'+pt(c.learning.payment_units));
+ for(const [key,verb]of [['removed','外す'],['added','装備']])for(const x of c.differences.equipment[key])row(name(x.id),verb);
+ const initial=api.currentPlan(state.view).next_preparation.deck;
+ for(const id of new Set([...c.differences.deck.added,...c.differences.deck.removed].map(x=>x.id)))row(name(id),count(id,initial)+' → '+count(id)+'枚');
+ return '<div class="cj-changes">'+rows.join('')+'</div>';
+}
+function summaryContents(){const c=state.comparison;
+ return '<div class="cj-setup-line"><span>心得</span><div>'+miniList(p().next_preparation.equipment)+'</div></div><div class="cj-setup-line"><span>札組</span><strong>'+p().next_preparation.deck.length+'枚</strong></div>'+
+ (dirty()?'<div class="cj-summary-diff">'+changeRows()+'</div>':'')+
+ '<div class="cj-summary-actions">'+button(dirty()?'確定して出発':'出発 '+icon('arrow-right'),'depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary')+
+ (dirty()?'<div>'+button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':''))+button('比較','review')+'</div>':'')+'</div>';
+}
+function sceneView(){return '<section class="cj-fixed-scene">'+landscape()+readWindow()+'</section>';}
+function startView(){return '<section class="cj-fixed-start"><h2>'+esc(title)+'</h2><span>crossweave</span></section>';}
+function cardFacts(item,snapshot=false){
+ const p=snapshot?item:item.primary,field=snapshot?{power:item.field_power,hit:item.field_hit}:item.field;
+ const row=(term,value,shape)=>value==null?'':'<div><dt>'+(shape?icon(shape):'')+term+'</dt><dd>'+esc(value)+'</dd></div>';
+ let primary='';
+ if(p){primary+=row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power,p.kind==='guard'?'shield':p.kind==='heal'?'heart-plus':'arrow-up-right');
+  if(p.kind!=='heal')primary+=row(p.kind==='guard'?'攪乱':'探査',p.kind==='guard'?p.evasion:p.hit,p.kind==='guard'?'wind':'scan-search');primary+=row('機転',p.crit_gain,'zap');}
+ const properties=api.cardProperties(item);
+ return '<dl class="cj-record-stats">'+(snapshot?row('属性',item.attr):'')+primary+row('手札期限',item.life)+'</dl>'+
+  (field&&(field.power!=null||field.hit!=null)?'<h3>場に置くと</h3><dl class="cj-record-stats">'+row('突破／身構',field.power,'arrow-up-right')+row('探査／攪乱',field.hit,'scan-search')+'</dl>':'')+
+  '<h3>次の行動まで</h3><dl class="cj-record-stats">'+row('置く',snapshot?item.place_cost:item.action_intervals?.place)+row('一致',snapshot?item.match_cost:item.action_intervals?.match)+'</dl>'+
+  (properties.length?'<section class="cw-properties"><h3>性質</h3><ul>'+properties.map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul></section>':'');
+}
+function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=info(id),base=item.base_id,passive=item.kind==='passive',known=learned(base),cancelled=p()?.cancel_learning.includes(base);
+ const pinLabel=w?.pinned?'固定を外す':'固定する';
+ const head='<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+esc(name(id))+'</h2>'+button(icon('pin'),'pin','data-id="'+esc(id)+'" aria-label="'+pinLabel+'" data-tooltip="'+pinLabel+'" aria-pressed="'+!!w?.pinned+'"','cj-icon-button')+button(icon('x'),'close-item','data-id="'+esc(id)+'" aria-label="詳細を閉じる"','cj-icon-button')+'</div>';
+ let body='',actions='';
+ if(passive)body+='<div class="cj-detail-cost"><span>枠消費</span><strong>'+item.equipment_cost+'</strong></div>'+skillStructure(item);
+ else body+=cardFacts(item);
+ if(d().phase==='home'&&passive){actions=button(equipped(id)?'装備から外す':known?'装備':'覚えて装備 −'+pt(item.learning_cost_units),'equip','data-id="'+esc(id)+'" data-j-mutation '+(cancelled?'disabled':''),'cj-primary');
+  if(known)actions+=button('忘れる','forget','data-id="'+esc(id)+'" data-j-mutation');
+  else if(cancelled)actions+=button('覚えた状態に戻す','restore-skill','data-id="'+esc(id)+'" data-j-mutation');
+  else actions+=button('覚える −'+pt(item.learning_cost_units),'learn','data-id="'+esc(id)+'" data-j-mutation');
+  if(cancelled)body+='<p>この心得の装備が外れる</p>';
+ }else if(d().phase==='home'&&h().free_card_options.includes(id))actions=button('−1枚','remove','data-id="'+esc(id)+'" data-j-mutation '+(!count(id)?'disabled':''))+ '<strong>'+count(id)+'枚</strong>'+button('+1枚','add','data-id="'+esc(id)+'" data-j-mutation '+(p().next_preparation.deck.filter(x=>info(x).base_id===base).length>=h().deck.per_base_cap?'disabled':''));
+ else if(!(h()?.free_card_options||[]).includes(id)&&item.kind==='card')body+='<p class="cj-muted">記録に追加。札組への追加はまだ未対応。</p>';
+ return '<section class="cj-inspect-item" data-inspect-key="'+esc(id)+'">'+head+'<div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
+}
+// Read-only views of public knowledge; snapshots are not resolved through private IDs.
+function recordButton(key,entry){
+ recordEntries.set(key,entry);
+ return button('<span>'+esc(entry.name)+'</span>'+icon('chevron-right'),'record-detail','data-id="'+esc(key)+'" aria-expanded="'+(recordDetail?.key===key)+'"','cj-record-link');
+}
+function recordedCards(rows,counts=false,scope=''){
+ return '<table class="cj-record-cards"><thead><tr><th>札</th><th>属性</th>'+(counts?'<th>初期枚数</th>':'')+'</tr></thead><tbody>'+rows.map((row,i)=>'<tr><td>'+recordButton(scope+':'+i,{name:row.card.name,snapshot:row.card})+'</td><td>'+esc(row.card.attr)+'</td>'+(counts?'<td>'+esc(row.initial_count)+'</td>':'')+'</tr>').join('')+'</tbody></table>';
+}
+function recordsView(){
+ recordEntries.clear();
+ const tabs='<div class="cj-record-tabs">'+button('相手・環境','record-tab','data-tab="targets" aria-pressed="'+(recordTab==='targets')+'"')+button('札','record-tab','data-tab="cards" aria-pressed="'+(recordTab==='cards')+'"')+'</div>';
+ if(recordTab==='cards'){
+  const cards=(d().case?.unlocked_card_ids||[]).map(base=>'base:'+base).filter(id=>info(id).name);
+  return tabs+'<p class="cj-record-purpose">判明した札の性能</p><div class="cj-record-list">'+cards.map(id=>recordButton(id,{name:name(id),detail:info(id)})).join('')+'</div>';
+ }
+ return tabs+'<p class="cj-record-purpose">探索で判明した構成と札</p><div class="cj-record-targets">'+list(d().knowledge_views).map(target=>{
+  const catalogue=target.initial_catalogue?.cards,open=recordTarget===target.target_id;
+  return '<section class="cj-record-target">'+button('<span><strong>'+esc(target.name)+'</strong><small>基本構成 '+(catalogue?'判明':'未判明')+'</small></span>'+icon('chevron-right'),'record-target','data-id="'+esc(target.target_id)+'" aria-expanded="'+open+'"')+'</section>';
+ }).join('')+'</div>';
+}
+function recordTargetBody(){
+ const target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);if(!target)return '';
+ const catalogue=target.initial_catalogue?.cards;
+ const groups=[['observed_by_current_actor','この相手の札'],['observed_elsewhere_this_run','今回の探索で観測'],['observed_earlier','過去の探索で観測']];
+ const rewards=target.confirmed_reward_candidates||[];
+ return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
+  groups.map(([key,title])=>target[key]?.length?'<h3>'+title+'</h3>'+recordedCards(target[key],false,target.target_id+':'+key):'').join('')+
+  '<h3>獲得記録</h3>'+(rewards.length?'<ul>'+rewards.map(r=>'<li>'+esc(r.label)+'</li>').join('')+'</ul>':'<p class="cj-muted">記録なし</p>')+
+  '<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
+}
+// Keep the immediate source visible beside its detail, with a back path to the list.
+function recordsPanelView(){
+ const parent=recordsView(),target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);
+ const childTitle=recordDetail?.name||target?.name,hasChild=!!childTitle;
+ const head=(title,back)=>'<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'record-back','aria-label="'+esc(back)+'"','cj-record-back'):panelTrail.length?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+esc(title)+'</h2>'+button(icon('x'),'close','aria-label="調査記録を閉じる"','cj-icon-button')+'</div>';
+ const pane=(key,title,body,back='')=>'<section class="cj-inspect-item" data-inspect-key="'+esc(key)+'">'+head(title,back)+'<div class="cj-inspect-scroll">'+body+'</div></section>';
+ const detailBody=recordTargetBody(); // Also registers public snapshot entries.
+ const source=recordDetail&&target?pane('target:'+recordTarget,target.name,detailBody,'調査記録の一覧に戻る'):pane('records:'+recordTab,'調査記録',parent);
+ return source+(hasChild?pane(recordDetail?'record:'+recordDetail.key:'target:'+recordTarget,childTitle,recordDetail?recordDetailView():detailBody,recordDetail&&target?target.name+'に戻る':'調査記録の一覧に戻る'):'');
+}
+function recordDetailView(){
+ const entry=recordDetail;return cardFacts(entry.snapshot||entry.detail,!!entry.snapshot);
+}
+
+function renderPanel(){const box=$('[data-inspector]'),hasChild=panel==='records'&&!!(recordTarget||recordDetail);box.hidden=!panel;box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();panelTrail=[];recordParentRect=null;return;}
+ const level=panelTrail.length,parent=panelTrail.at(-1),withLevel=(markup,n)=>markup.replaceAll('data-inspect-key=', 'data-level="'+n+'" data-inspect-key=');
+ let current=panel==='details'?windows.slice(-2).map(w=>detailView(w.id,{w,back:!!parent||windows.length>2})).join(''):panel==='records'?recordsPanelView():panelView(panel,!!parent);
+ if(parent&&!hasChild&&windows.length<2)current=withLevel(parent.panel==='details'?parent.windows.slice(-1).map(w=>detailView(w.id,{w,back:level>1})).join(''):panelView(parent.panel,level>1),level-1)+withLevel(current,level);
+ else current=withLevel(current,level);
+ box.innerHTML=current;box.dataset.count=box.children.length;box.dataset.layout=box.children.length>1?'linked':'windows';
+}
+function panelView(panel,back=false){
+ const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:title,unavailable:'購入・変換',notice:'操作の確認'};
+ let body='',actions='';
+ if(panel==='review'){body=wallet()+(dirty()?changeRows()+'<p class="cj-muted">所持品の増減なし</p>':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok?'disabled':'')):'';}
+ if(panel==='receipt')body=receiptDetails();
+ if(panel==='destination')body='<p>'+esc(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発後の本文で確認できます')+'</p><h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>';
+ if(panel==='unavailable')body='<p>購入・修飾・変換は本体の対応待ちです。</p>';
+ if(panel==='notice'){body='<p>'+esc(reason(state.error))+'</p>';actions=(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');}
+ if(panel==='records')body=recordsView();
+ if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+button('中断','suspend','data-j-mutation')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
+ if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
+ if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。続く相手の行動や、公開されていない変化は含まない。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は保存されます。')+'</p><p>中断・書出しでは、変更案も保存します。</p>';actions=button('書き出す','export','data-j-mutation')+button('中断','suspend','data-j-mutation');}
+ return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
+}
+
+ function resetWindows(){panel=null;windows=[];panelTrail=[];recordParentRect=null;recordTarget=null;recordDetail=null;detailFromRecords=false;windowAnchor=null;scrollMemory.clear();}
+ function paneRect(b){const a=b.closest('[data-inspect-key]')?.getBoundingClientRect(),r=$('.cj-shell').getBoundingClientRect();return a?.width?{left:a.left-r.left,top:a.top-r.top,width:a.width,height:a.height}:null;}
+ function enterPanel(b,next){
+  const pane=b.closest('[data-inspect-key]'),level=Number(pane?.dataset.level);
+  if(!pane){panelTrail=[];recordParentRect=null;return;}
+  if(Number.isInteger(level)&&level<panelTrail.length){const parent=panelTrail[level];panel=parent.panel;windows=clone(parent.windows);panelTrail=panelTrail.slice(0,level);}
+  if(panel!==next)panelTrail.push({panel,windows:clone(windows),rect:paneRect(b)});
+ }
+ function windowBack(){if(panel==='details'&&!panelTrail.length&&windows.length>2){windows.pop();render();return;}const previous=panelTrail.pop();if(previous){panel=previous.panel;windows=previous.windows;}else{panel=null;windows=[];}recordDetail=null;recordTarget=null;recordParentRect=null;render();}
+ function focusRecord(){queueMicrotask(()=>{if(!disposed)$('[data-j="record-back"]')?.focus({preventScroll:true});});}
+ function rememberAnchor(button){const r=button.getBoundingClientRect();windowAnchor={action:button.dataset.j,id:button.dataset.id,rect:{left:r.left,top:r.top,width:r.width,height:r.height}};}
+ function layoutWindows(){
+  if(disposed)return;const box=$('[data-inspector]');if(!box||box.hidden){api.layoutProse(root);return;}
+  const r=$('.cj-shell').getBoundingClientRect();if(!r.width||!r.height)return;
+  const source=[...root.querySelectorAll('[data-j]')].find(el=>el.dataset.j===windowAnchor?.action&&el.dataset.id===windowAnchor?.id&&!el.closest('[data-inspector]'));
+  const a=source?.getBoundingClientRect()||windowAnchor?.rect,anchor=a?{x:a.left-r.left,y:a.top-r.top,w:a.width,h:a.height}:null;
+  const many=box.children.length>1;
+  const rect=api.placeWindow({width:r.width,height:r.height,anchor,avoid:[{x:0,y:0,w:r.width,h:44},{x:0,y:r.height-44,w:r.width,h:44}],preferredWidth:340,preferredHeight:Math.min(350,r.height-16)});
+  const styles=q=>({left:q.left+'px',top:q.top+'px',width:q.width+'px',height:q.height+'px',right:'auto',bottom:'auto',maxHeight:'none'});
+  if(many){
+   Object.assign(box.style,styles({left:0,top:0,width:r.width,height:r.height}));
+   const parent=recordParentRect||panelTrail.at(-1)?.rect||rect;
+   const pair=api.placeWindowPair({width:r.width,height:r.height,parent});
+   [...box.children].forEach((pane,i)=>Object.assign(pane.style,styles(pair[i])));
+  }else Object.assign(box.style,styles(rect));
+  api.layoutProse(root);
+ }
+ function render(){
+  if(disposed||!d())return;
+  const context=[d().phase,d().case?.attempts,d().scene?.paused?d().scene.id:'active',suspended,sceneRequested].join('|');
+  const changed=lastContext!==null&&lastContext!==context;
+  if(changed){resetWindows();if(d().phase==='home'&&lastPhase!=='home')place='hub';}
+  lastContext=context;lastPhase=d().phase;
+  const screen=currentScreen(),beforeFocus=root.contains(document.activeElement)?document.activeElement?.dataset.focus:null;
+  const scrollKey=el=>el.matches('[data-reading]')?'story-'+el.dataset.reading:'window-'+el.closest('[data-inspect-key]')?.dataset.inspectKey;
+  const scrollNodes='[data-reading],.cj-inspect-scroll';
+  if(!changed)for(const el of root.querySelectorAll(scrollNodes))scrollMemory.set(scrollKey(el),el.scrollTop);
+  $('[data-header]').innerHTML=headerView(screen);
+  $('[data-header]').hidden=screen==='explore';
+  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source)=>{rememberAnchor(source);panelTrail=[];panel=panel===kind?null:kind;recordDetail=null;render();}});lastScreen=screen;}
+  if(screen==='explore')child?.update(d(),state);
+  else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
+  root.dataset.screen=screen;
+  $('[data-bottom]').innerHTML=footerView(screen);
+  const status=state.error?reason(state.error):state.pending?.kind==='write'?'反映中…':state.pending&&screen!=='explore'?'確認中…':message;
+  $('[data-status]').innerHTML=(status?'<span>'+esc(status)+'</span>':'')+(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'')+(status&&!state.pending?button(icon('x'),'dismiss-status','aria-label="通知を閉じる"'):'');
+  $('[data-status]').hidden=!status;
+  renderPanel();
+  for(const el of root.querySelectorAll(scrollNodes)){const y=scrollMemory.get(scrollKey(el));if(y!=null)el.scrollTop=y;}
+  if(beforeFocus){const target=[...root.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===beforeFocus);target?.focus({preventScroll:true});}
+  root.setAttribute('aria-busy',String(!!state.pending||running));
+  for(const b of root.querySelectorAll('[data-j-mutation]'))b.disabled=b.disabled||busy();
+  if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:18,height:18}});
+  queueMicrotask(layoutWindows);
+  observeTexts();
+ }
+ function observeTexts(){
+  observer?.disconnect();observer=null;
+  const key=d().scene?.id+'|'+d().case?.attempts;
+  if(key!==sceneKey){sceneKey=key;seen=new Set();visible=new Set();}
+  if(typeof IntersectionObserver==='undefined')return;
+  observer=new IntersectionObserver(entries=>{for(const en of entries)if(en.isIntersecting&&en.intersectionRatio>0&&!document.hidden)visible.add(en.target.dataset.jText);flushTexts();},{threshold:0.01});
+  root.querySelectorAll('[data-j-text]').forEach(el=>observer.observe(el));
+ }
+ async function flushTexts(){
+  if(recording||state.pending||state.canRetry||state.stale||running||disposed)return;
+  const ids=[...visible].filter(id=>!seen.has(id));if(!ids.length||!session.can('record_displayed_text'))return;
+  const key=sceneKey;recording=true;const result=await session.recordDisplayed(d().scene.id,ids);recording=false;
+  if(result.ok&&key===sceneKey){ids.forEach(id=>seen.add(id));render();}
+ }
+ async function finishScene(){
+  if(!d().scene?.paused)return true;
+  const ids=[...visible];
+  if(!ids.length){message='本文が表示されてから進めます';return false;}
+  const recorded=await session.recordDisplayed(d().scene.id,ids);if(!recorded.ok)return false;
+  const result=await session.execute('continue_scene',{scene_id:d().scene.id,advance:true});return result.ok;
+ }
+ async function toHome(){if(d().phase!=='return')return true;if(!await finishScene())return false;return (await session.ackReturn()).ok;}
+ async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}catch(e){message=reason(e);}finally{running=false;render();flushTexts();}}
+ async function compareRestoredDraft(){if(!disposed&&d()?.phase==='home'&&dirty()&&!state.comparison&&!state.canRetry&&!state.stale)await session.compare();}
+ async function exportData(){await sequence(async()=>{
+  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='export';return;}}
+  await compareRestoredDraft();
+  const document=await session.exportSave();api.downloadSave(document);message='保存を書き出しました';
+ });}
+ async function suspend(){await sequence(async()=>{
+  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='suspend';return;}}
+  suspended=true;resetWindows();message='';
+ });}
+ async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
+ async function edit(fn){if(busy())return;const next=clone(p());fn(next);message='';committedFlash=false;if(session.setDraft(next))await session.compare();}
+ async function perform(type,payload={}){await sequence(async()=>{const result=await session.execute(type,payload);if(result.ok){panel=null;windows=[];sceneRequested=false;}});}
+ async function depart(){await sequence(async()=>{if(!await toHome())return;
+   if(dirty()){const comparison=await session.compare();if(!comparison.ok){place='compose';return;}const result=await session.execute('commit_preparation',{plan:p()});if(!result.ok){continuation='depart';return;}message='編成を確定しました';}
+   const result=await session.execute('depart',{case_id:d().case.id});if(result.ok){panel=null;windows=[];continuation=null;sceneRequested=false;}else continuation='depart';
+  });}
+ async function commit(){await sequence(async()=>{const result=await session.compare();if(!result.ok)return;const saved=await session.execute('commit_preparation',{plan:p()});if(saved.ok){panel=null;windows=[];committedFlash=true;message='編成を確定';}});}
+ root.addEventListener('click',async event=>{
+  const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
+  const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
+  if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab]);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}
+  if(action==='dismiss-status'){message='';if(state.error||state.canRetry||state.stale){panel='notice';renderPanel();layoutWindows();}$('[data-status]').hidden=true;return;}
+  if(action==='deck'||action==='skills'||action==='hub'){if(d().phase==='return')await navigate(action);else if(d().phase==='home'){place=action==='hub'?'hub':'compose';if(action!=='hub')tab=action;panel=null;windows=windows.filter(w=>w.pinned);render();}return;}
+  if(action==='detail'){enterPanel(b,'details');detailFromRecords=false;selected[info(id).kind==='passive'?'skills':'deck']=id;const same=windows.find(w=>w.id===id);if(same&&!same.pinned)windows=windows.filter(w=>w!==same);else if(!same){windows=windows.filter(w=>w.pinned);windows.push({id,pinned:false});}panel=windows.length?'details':null;render();return;}
+  if(action==='window-back'){const level=Number(b.closest('[data-level]')?.dataset.level);if(Number.isInteger(level)&&level<panelTrail.length)panelTrail=panelTrail.slice(0,level);windowBack();return;}
+  if(action==='close'){const level=Number(b.closest('[data-level]')?.dataset.level);if(Number.isInteger(level)&&level<panelTrail.length)panelTrail=panelTrail.slice(0,level);windowBack();return;}
+  if(action==='pin'){const w=windows.find(w=>w.id===id);if(w)w.pinned=!w.pinned;render();return;}
+  if(action==='close-item'){windows=windows.filter(w=>w.id!==id);if(!windows.length){windowBack();return;}render();return;}
+  if(['menu','records','help','review','data','settings','receipt','destination','unavailable','notice'].includes(action)){enterPanel(b,action);panel=panel===action?null:action;windows=[];recordDetail=null;recordTarget=null;render();return;}
+  if(action==='record-tab'){recordTab=b.dataset.tab;recordTarget=null;recordDetail=null;render();return;}
+  if(action==='record-target'){recordParentRect=paneRect(b);recordTarget=recordTarget===id?null:id;recordDetail=null;scrollMemory.delete('window-target:'+id);render();focusRecord();return;}
+  if(action==='record-detail'){const entry=recordEntries.get(id);if(entry){recordParentRect=paneRect(b);recordDetail=recordDetail?.key===id?null:{...entry,key:id};scrollMemory.delete('window-record:'+id);render();focusRecord();}return;}
+  if(action==='record-back'){const key=recordDetail?.key,targetId=recordTarget;if(b.closest('[data-inspect-key]')?.dataset.inspectKey.startsWith('target:')){recordDetail=null;recordTarget=null;}else if(recordDetail)recordDetail=null;else recordTarget=null;render();queueMicrotask(()=>{const action=recordTarget?'record-detail':recordTab==='cards'?'record-detail':'record-target';[...root.querySelectorAll('[data-j="'+action+'"]')].find(el=>el.dataset.id===(action==='record-target'?targetId:key))?.focus({preventScroll:true});});return;}
+  if(action==='records-back'){panel='records';windows=[];render();return;}
+  if(action==='add'||action==='remove'){await edit(next=>{const a=next.next_preparation.deck;if(action==='add')a.push(id);else{const at=a.indexOf(id);if(at>=0)a.splice(at,1);}});return;}
+  if(action==='equip'||action==='learn'){await edit(next=>{if(!learned(base)){next.next_preparation.learn.push(base);}if(action==='equip'){const a=next.next_preparation.equipment;next.next_preparation.equipment=a.includes(id)?a.filter(x=>x!==id):[...a,id];}});return;}
+  if(action==='forget'){await edit(next=>{if(next.next_preparation.learn.includes(base))next.next_preparation.learn=next.next_preparation.learn.filter(x=>x!==base);else{next.retain_learning=next.retain_learning.filter(x=>x!==base);next.cancel_learning.push(base);}next.next_preparation.equipment=next.next_preparation.equipment.filter(x=>info(x).base_id!==base);});return;}
+  if(action==='restore-skill'){await edit(next=>{next.cancel_learning=next.cancel_learning.filter(x=>x!==base);next.retain_learning.push(base);});return;}
+  if(action==='commit'){await commit();return;}if(action==='depart'){await depart();return;}
+  if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
+  if(action==='scene-back'){sceneRequested=false;render();return;}
+  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else if(result.ok&&next==='export')await exportData();else if(result.ok&&next==='suspend')await suspend();else render();return;}
+  if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
+  if(action==='discard'){await perform('discard_draft');return;}
+  if(action==='suspend'){await suspend();return;}
+  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;message='再開';}});return;}
+  if(action==='export'){await exportData();return;}
+ },{signal:events.signal});
+ root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
+ root.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel){panel=null;windows=[];render();}},{signal:events.signal});
+ const off=session.subscribe(s=>{state=s;if(state.view)render();});
+ document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
+ const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
+ return {session,ready,state:()=>({tab,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
+};
+})(globalThis.CrossweaveUI);

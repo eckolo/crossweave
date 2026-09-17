@@ -27,29 +27,33 @@ function bundle(){
   modules[id]='function(get){\n'+src+'\nreturn {'+names.map(([a,b])=>JSON.stringify(a)+':'+b).join(',')+'};\n}';return id;
  }
  const campaign=visit(path.join(root,'src/runtime/campaign.mjs')),support=visit(path.join(root,'test/runtime/support.mjs'));
- const code='const CWJourneyRuntime=(()=>{const factories=['+modules.join(',\n')+'],cache=[],loading=new Set();function get(id){if(cache[id])return cache[id];if(loading.has(id))throw Error("cyclic inline module");loading.add(id);const value=factories[id](get);loading.delete(id);return cache[id]=value;}return {createCampaign:get('+campaign+').createCampaign,MemoryStore:get('+support+').MemoryStore};})();';
+ const code='const CWJourneyRuntime=(()=>{const factories=['+modules.join(',\n')+'],cache=[],loading=new Set();function get(id){if(cache[id])return cache[id];if(loading.has(id))throw Error("cyclic inline module");loading.add(id);const value=factories[id](get);loading.delete(id);return cache[id]=value;}return {createCampaign:get('+campaign+').createCampaign,MemoryStore:get('+support+').MemoryStore,versions:get('+campaign+').versions};})();';
  new Function(code);return {code,sources};
 }
-function build({testing=false,fixture='return'}={}){
- if(!['return','entry'].includes(fixture))throw Error('unsupported preview fixture');
- const runtime=bundle();
- const save=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.resolve(__dirname,'../../../../接続条件/co-d02/saves/'+fixture+'.save.json.gz'))));
- const quest=JSON.parse(read('../../flow/fixtures.json')).quest;
+function buildView(){
  const panels=read('panels.js').replace('__JOURNEY_RECORDS__',()=>read('records.js'));
  const view=read('view.js').replace('__JOURNEY_PANELS__',()=>panels);
- const script=[runtime.code,read('../session.js'),read('../window-placement.js'),read('../prose-layout.js'),read('../card-properties.js'),read('../action-forecast.js'),read('../exploration.js'),read('layout.js'),view,
+ return read('layout.js')+'\n'+read('launcher.js')+'\n'+view;
+}
+function buildStyle(){return read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('save-flow.css')+'\n'+read('public-info.css');}
+function build({testing=false,fixture='return',start='journey'}={}){
+ if(![null,'return','entry'].includes(fixture)||!['journey','launcher'].includes(start)||(start==='journey'&&!fixture))throw Error('unsupported preview fixture');
+ const runtime=bundle();
+ const save=fixture&&JSON.parse(zlib.gunzipSync(fs.readFileSync(path.resolve(__dirname,'../../../../接続条件/co-d02/saves/'+fixture+'.save.json.gz'))));
+ const quest=JSON.parse(read('../../flow/fixtures.json')).quest;
+ const script=[runtime.code,read('../session.js'),read('../window-placement.js'),read('../prose-layout.js'),read('../card-properties.js'),read('../action-forecast.js'),read('../exploration.js'),buildView(),
   '(async()=>{const root=document.getElementById("crossweave-journey");try{',
   'const storage=new CWJourneyRuntime.MemoryStore(),Campaign=CWJourneyRuntime.createCampaign({storage});',
-  'const controller=await Campaign.importSave({slot_id:"journey-preview",document:'+JSON.stringify(save).replace(/</g,'\\u003c')+',request_id:"journey-preview-import"});',
-  'const app=CrossweaveUI.mountJourney(root,{controller,Campaign,slot_id:"journey-preview",title:'+JSON.stringify(quest.title)+'});',
+  save?'const controller=await Campaign.importSave({slot_id:"journey-preview",document:'+JSON.stringify(save).replace(/</g,'\\u003c')+',request_id:"journey-preview-import"});':'const controller=null;',
+  start==='launcher'?'const app=CrossweaveUI.mountJourneyApplication(root,{Campaign,config:{slot_id:"journey-preview",...CWJourneyRuntime.versions},title:'+JSON.stringify(quest.title)+',storageMode:"ephemeral"});':'const app=CrossweaveUI.mountJourney(root,{controller,Campaign,slot_id:"journey-preview",title:'+JSON.stringify(quest.title)+'});',
   testing?'root.__test={app,storage,Campaign,controller};':'',
   '}catch(error){root.textContent="操作試作を開始できませんでした（"+(error.code||error.message)+"）";root.setAttribute("role","alert");}})();'
  ].join('\n');
  new Function(script);
- const style=read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore');
+ const style=buildStyle();
  const html=read('preview.fragment.html').replace('__JOURNEY_STYLE__',()=>style).replace('__JOURNEY_SCRIPT__',()=>script.replace(/<\/script/gi,'<\\/script'));
  if(Buffer.byteLength(html)>=1000000||/<(?:html|head|body)\b|<!doctype/i.test(html)||/\b(?:fetch|XMLHttpRequest|WebSocket)\s*\(/.test(html))throw Error('invalid inline contract');
  return {html,sources:runtime.sources};
 }
-if(require.main===module){const output=process.argv[2]||'/workspace/crossweave-exploration-restored.html',fixture=process.argv[3]||'return';const {html}=build({fixture});fs.writeFileSync(output,html);console.log(JSON.stringify({path:output,fixture,bytes:Buffer.byteLength(html),sha256:crypto.createHash('sha256').update(html).digest('hex')}));}
-module.exports={build,bundle};
+if(require.main===module){const output=process.argv[2]||'/workspace/crossweave-exploration-restored.html',fixture=process.argv[3]==='none'?null:process.argv[3]||'return',start=process.argv[4]||'journey';const {html}=build({fixture,start});fs.writeFileSync(output,html);console.log(JSON.stringify({path:output,fixture,bytes:Buffer.byteLength(html),sha256:crypto.createHash('sha256').update(html).digest('hex')}));}
+module.exports={build,bundle,buildView,buildStyle};

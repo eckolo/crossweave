@@ -1,0 +1,18 @@
+/* The start/import route shares the fixed product frame; only its message can scroll. */
+#crossweave-journey .cj-launch-shell{position:relative;aspect-ratio:16/9;height:auto;min-height:0;overflow:hidden}
+#crossweave-journey .cj-launch-main{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8px;overflow:hidden}
+#crossweave-journey .cj-launch-main h2{font:400 28px/1.2 Georgia,"Yu Mincho",serif;letter-spacing:.08em}
+#crossweave-journey .cj-launch-notice{max-width:38em;max-height:100%;overflow:auto;font-size:13px}
+#crossweave-journey .cj-launch-notice:empty{display:none}
+#crossweave-journey .cj-launch-shell>.cj-fixed-footer{justify-content:center;gap:6px;padding:0 4px}
+#crossweave-journey .cj-launch-shell>.cj-fixed-footer button{min-height:44px;min-width:44px;white-space:nowrap;padding:0 8px}
+#crossweave-journey .cj-import-file{display:flex;align-items:center;flex-wrap:wrap;gap:4px;max-width:100%;font-size:12px}
+#crossweave-journey .cj-import-file input{max-width:100%;min-height:32px;font-size:16px}
+#crossweave-journey .cj-import-name{font-size:12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+#crossweave-journey .cj-import-name:empty{display:none}
+@container(max-width:400px){
+ #crossweave-journey .cj-launch-main{padding:2px 6px;gap:2px;justify-content:flex-start}
+ #crossweave-journey .cj-launch-main h2{margin:auto;font-size:20px}
+ #crossweave-journey .cj-launch-notice{font-size:12px;line-height:16px;flex:1;min-height:0}
+ #crossweave-journey .cj-import-file{flex:none}
+}

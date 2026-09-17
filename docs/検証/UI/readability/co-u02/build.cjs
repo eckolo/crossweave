@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const journey=require('./journey/build.cjs');
 const read=p=>fs.readFileSync(path.join(__dirname,p),'utf8');
 function buildPreparation(){
  const src=read('../co-u01/view.js');
@@ -13,9 +14,9 @@ function buildPreparation(){
  if(/__(?:NOTICE|RENDER|WINDOW|LAYOUT)_HELPER|createMockController|controller\.testing|\bDATA\b|command-preview/.test(result))throw Error('unexpected test/runtime boundary');
  new Function(result);return result;
 }
-function buildLibrary(){return read('session.js')+'\n'+read('window-placement.js')+'\n'+read('prose-layout.js')+'\n'+buildPreparation()+'\n'+read('card-properties.js')+'\n'+read('action-forecast.js')+'\n'+read('exploration.js')+'\n'+read('application.js');}
+function buildLibrary(){return read('vendor/lucide.js')+'\n'+read('session.js')+'\n'+read('window-placement.js')+'\n'+read('prose-layout.js')+'\n'+buildPreparation()+'\n'+read('card-properties.js')+'\n'+read('action-forecast.js')+'\n'+read('exploration.js')+'\n'+read('application.js')+'\n'+journey.buildView();}
 function buildPreparationStyle(){return read('../co-u01/screen.css').replaceAll('#crossweave-growth-001','.cw-m1')+'\n'+read('preparation.css');}
-function buildStyle(){return buildPreparationStyle()+'\n'+read('application.css')+'\n'+read('../interaction/table.css').replaceAll('#cw-playtable','.cw-explore')+'\n'+read('exploration.css')+'\n'+read('exploration-layout.css');}
+function buildStyle(){return buildPreparationStyle()+'\n'+read('application.css')+'\n'+read('../interaction/table.css').replaceAll('#cw-playtable','.cw-explore')+'\n'+read('exploration.css')+'\n'+read('exploration-layout.css')+'\n'+journey.buildStyle();}
 if(require.main===module){
  const dest=path.join(__dirname,'dist');fs.mkdirSync(dest,{recursive:true});
  fs.writeFileSync(path.join(dest,'crossweave-ui.js'),buildLibrary());fs.writeFileSync(path.join(dest,'crossweave-ui.css'),buildStyle());

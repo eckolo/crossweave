@@ -1,13 +1,13 @@
 /* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
 (function(api){'use strict';
-api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral'}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
- const session=api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
+ const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
  const $=s=>root.querySelector(s),list=x=>Array.isArray(x)?x:Object.values(x||{});
  const icon=n=>'<i data-lucide="'+n+'" aria-hidden="true"></i>';
  const button=(label,action,extra='',kind='')=>'<button type="button" data-j="'+action+'" '+extra+' class="cj-button cursor-interaction '+kind+'">'+label+'</button>';
- let state=session.state(),tab='deck',place='compose',panel=null,windows=[],child=null,lastScreen=null;
+ let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'compose':'hub',panel=null,windows=[],child=null,lastScreen=null;
  let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
  let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),committedFlash=false;
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
@@ -15,6 +15,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  let lastContext=null,lastPhase=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0},events=new AbortController();
  let frameWidth=root.getBoundingClientRect().width||1024;
+ root.dataset.storageMode=storageMode;
  root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
  // The frame follows only its parent's width, never the amount of open content.
  const sizeFrame=width=>{if(width>0){const changed=width!==frameWidth;frameWidth=width;$('.cj-shell').style.height=(width*9/16)+'px';if(changed)queueMicrotask(()=>{if(state.view)render();});}queueMicrotask(layoutWindows);};
@@ -29,7 +30,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
  const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
- function reason(e){return ({deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
+ function reason(e){return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
  function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
@@ -112,7 +113,17 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   const result=await session.execute('continue_scene',{scene_id:d().scene.id,advance:true});return result.ok;
  }
  async function toHome(){if(d().phase!=='return')return true;if(!await finishScene())return false;return (await session.ackReturn()).ok;}
- async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}finally{running=false;render();flushTexts();}}
+ async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}catch(e){message=reason(e);}finally{running=false;render();flushTexts();}}
+ async function compareRestoredDraft(){if(!disposed&&d()?.phase==='home'&&dirty()&&!state.comparison&&!state.canRetry&&!state.stale)await session.compare();}
+ async function exportData(){await sequence(async()=>{
+  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='export';return;}}
+  await compareRestoredDraft();
+  const document=await session.exportSave();api.downloadSave(document);message='保存を書き出しました';
+ });}
+ async function suspend(){await sequence(async()=>{
+  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='suspend';return;}}
+  suspended=true;resetWindows();message='';
+ });}
  async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
  async function edit(fn){if(busy())return;const next=clone(p());fn(next);message='';committedFlash=false;if(session.setDraft(next))await session.compare();}
  async function perform(type,payload={}){await sequence(async()=>{const result=await session.execute(type,payload);if(result.ok){panel=null;windows=[];sceneRequested=false;}});}
@@ -146,18 +157,18 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title}){
   if(action==='commit'){await commit();return;}if(action==='depart'){await depart();return;}
   if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
   if(action==='scene-back'){sceneRequested=false;render();return;}
-  if(action==='retry'){running=true;render();const result=await session.retry();running=false;if(result.ok&&continuation==='depart'){continuation=null;await depart();}else render();return;}
+  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else if(result.ok&&next==='export')await exportData();else if(result.ok&&next==='suspend')await suspend();else render();return;}
   if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
   if(action==='discard'){await perform('discard_draft');return;}
-  if(action==='suspend'){await sequence(async()=>{if(dirty()){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok)return;}suspended=true;panel=null;windows=[];message='';});return;}
-  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){suspended=false;panel=null;message='再開';}});return;}
-  if(action==='export'){const document=await session.exportSave();const area=$('[data-export]');area.value=JSON.stringify(document,null,2);area.hidden=false;area.select();message='書き出しデータを作成';$('[data-status]').textContent=message;return;}
+  if(action==='suspend'){await suspend();return;}
+  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;message='再開';}});return;}
+  if(action==='export'){await exportData();return;}
  },{signal:events.signal});
  root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
  root.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel){panel=null;windows=[];render();}},{signal:events.signal});
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
- session.refresh({preserveLocal:false});
- return {session,state:()=>({tab,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
+ const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
+ return {session,ready,state:()=>({tab,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
 };
 })(globalThis.CrossweaveUI);

@@ -33,7 +33,7 @@ function footerView(screen){let content='';
  else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
  else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
  else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
- else if(screen==='start')content='<small>この試作を開いている間だけ保持</small>'+button('続きから','resume','data-j-mutation','cj-primary');
+ else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
  return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
 }
 function cardTile(id){const item=info(id),n=count(id),current=count(id,api.currentPlan(state.view).next_preparation.deck),kind=item.primary?.kind;
@@ -68,13 +68,24 @@ function summaryContents(){const c=state.comparison;
 }
 function sceneView(){return '<section class="cj-fixed-scene">'+landscape()+readWindow()+'</section>';}
 function startView(){return '<section class="cj-fixed-start"><h2>'+esc(title)+'</h2><span>crossweave</span></section>';}
+function cardFacts(item,snapshot=false){
+ const p=snapshot?item:item.primary,field=snapshot?{power:item.field_power,hit:item.field_hit}:item.field;
+ const row=(term,value,shape)=>value==null?'':'<div><dt>'+(shape?icon(shape):'')+term+'</dt><dd>'+esc(value)+'</dd></div>';
+ let primary='';
+ if(p){primary+=row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power,p.kind==='guard'?'shield':p.kind==='heal'?'heart-plus':'arrow-up-right');
+  if(p.kind!=='heal')primary+=row(p.kind==='guard'?'攪乱':'探査',p.kind==='guard'?p.evasion:p.hit,p.kind==='guard'?'wind':'scan-search');primary+=row('機転',p.crit_gain,'zap');}
+ const properties=api.cardProperties(item);
+ return '<dl class="cj-record-stats">'+(snapshot?row('属性',item.attr):'')+primary+row('手札期限',item.life)+'</dl>'+
+  (field&&(field.power!=null||field.hit!=null)?'<h3>場に置くと</h3><dl class="cj-record-stats">'+row('突破／身構',field.power,'arrow-up-right')+row('探査／攪乱',field.hit,'scan-search')+'</dl>':'')+
+  '<h3>次の行動まで</h3><dl class="cj-record-stats">'+row('置く',snapshot?item.place_cost:item.action_intervals?.place)+row('一致',snapshot?item.match_cost:item.action_intervals?.match)+'</dl>'+
+  (properties.length?'<section class="cw-properties"><h3>性質</h3><ul>'+properties.map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul></section>':'');
+}
 function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=info(id),base=item.base_id,passive=item.kind==='passive',known=learned(base),cancelled=p()?.cancel_learning.includes(base);
  const pinLabel=w?.pinned?'固定を外す':'固定する';
  const head='<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+esc(name(id))+'</h2>'+button(icon('pin'),'pin','data-id="'+esc(id)+'" aria-label="'+pinLabel+'" data-tooltip="'+pinLabel+'" aria-pressed="'+!!w?.pinned+'"','cj-icon-button')+button(icon('x'),'close-item','data-id="'+esc(id)+'" aria-label="詳細を閉じる"','cj-icon-button')+'</div>';
  let body='',actions='';
  if(passive)body+='<div class="cj-detail-cost"><span>枠消費</span><strong>'+item.equipment_cost+'</strong></div>'+skillStructure(item);
- else{const properties=api.cardProperties(item);if(properties.length)body+='<section class="cw-properties"><h3>性質</h3><ul>'+properties.map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul></section>';}
- if(item.primary)body+='<dl>'+[['主効果',item.primary.power],['探査',item.primary.hit],['手札期限',item.life],['設置間隔',item.action_intervals?.place],['一致間隔',item.action_intervals?.match]].filter(([,v])=>v!=null).map(([k,v])=>'<div><dt>'+k+'</dt><dd>'+v+'</dd></div>').join('')+'</dl>';
+ else body+=cardFacts(item);
  if(d().phase==='home'&&passive){actions=button(equipped(id)?'装備から外す':known?'装備':'覚えて装備 −'+pt(item.learning_cost_units),'equip','data-id="'+esc(id)+'" data-j-mutation '+(cancelled?'disabled':''),'cj-primary');
   if(known)actions+=button('忘れる','forget','data-id="'+esc(id)+'" data-j-mutation');
   else if(cancelled)actions+=button('覚えた状態に戻す','restore-skill','data-id="'+esc(id)+'" data-j-mutation');
@@ -104,6 +115,6 @@ function panelView(panel,back=false){
  if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+button('中断','suspend','data-j-mutation')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
  if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。続く相手の行動や、公開されていない変化は含まない。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
- if(panel==='data')body='<p>この試作は一時メモリーを使用します。</p>'+button('書き出す','export')+'<textarea data-export hidden readonly aria-label="書き出した保存データ" rows="8"></textarea><p class="cj-muted">読み込み・新規開始は既存の実セーブ接続画面で扱います。</p>';
+ if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は保存されます。')+'</p><p>中断・書出しでは、変更案も保存します。</p>';actions=button('書き出す','export','data-j-mutation')+button('中断','suspend','data-j-mutation');}
  return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }

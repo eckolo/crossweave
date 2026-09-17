@@ -1,11 +1,11 @@
-# CO-U02 実データ接続（0.3／2026-09-15 操作と言葉の見直し）
+# CO-U02 実データ接続（新UI 0.10／2026-09-16）
 
-2026-09-16の最新状況：[方向性の了承とCO-U02残作業](remaining-work.md)。ユーザーから操作試作0.9の方向性への了承を受領した。新UIと既存の実保存入口はまだ別で、統合と実保存確認が残る。
+最新：[新UIと開始・保存・再開の統合](journey/save-flow.md)。方向性了承後、実Campaignのcreate/open/importSave/exportSaveを同じ新UIへ接続した。変更検査49件は実Campaign＋MemoryStore＋JSDOM。実IndexedDBと実描画は[確認手順](journey/browser-review.md)・[保存検査ページ](browser-check.html)での確認待ち。残件は[こちら](remaining-work.md)。
 
-会話内操作試作：[一巡UI 0.9](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
+会話内操作試作：[一巡UI 0.10](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
 
 
-最新の準備描画：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://github.com/eckolo/crossweave/commit/d74d80930bbd8ee09593d9be3d0251cca36c520f)。変更16ファイルの本文と全体treeをGitHubから読戻して一致を確認。
+0.3以前の準備描画（履歴）：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://github.com/eckolo/crossweave/commit/d74d80930bbd8ee09593d9be3d0251cca36c520f)。変更16ファイルの本文と全体treeをGitHubから読戻して一致を確認。
 
 UI-G-001 v0.2の検討版を追加。用語の列を対象名と増減へ置き換え、帰還の一括取消を個別選択へ変更した。今回の操作版・24項目の検査・残件は[操作と言葉の見直し](操作と言葉の見直し.md)と`verification/choice-ui/`。正式採用・ユーザー受入は未了。
 
@@ -26,13 +26,13 @@ node docs/検証/UI/readability/co-u02/build.cjs
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-entry.mjsは実Campaignと保存枠m1-localを使う。「続きから」「はじめから」「空の保存先へ読み込む」は独立操作。既存保存の上書き・削除・自動新規作成・mockフォールバックはない。保存装置は設計側のIndexedDBStoreであり、UIは独自保存装置を実装しない。
+entry.mjsはmountJourneyApplicationから実Campaignと保存枠m1-localを使う。「続きから」「はじめから」「空の保存先へ読み込む」は独立操作。既存保存の上書き・削除・自動新規作成・mockフォールバックはない。保存装置は設計側のIndexedDBStoreであり、UIは独自保存装置を実装しない。
 
 | 部品・操作 | 実接続した範囲 | 確認・残件 |
 |---|---|---|
 | session.js | inspect／previewPreparation／previewAction／execute、pending、二重入力抑止、同request_id再試行、古い応答排除 | 実Campaign＋設計MemoryStoreで確認 |
 | 起動・再開・輸出入 | Campaign.create/open/importSave、controller.exportSave | 失敗時に元保存と入力を保持。open失敗をcreateへ切り替えない |
-| 準備・心得・札組 | UI-G v0.2の公開view描画、v0.1.1の配置、明示plan、比較、下書き保存、確定 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
+| 準備・心得・札組 | 一巡UI 0.10の公開view描画、16:9、明示plan、比較、下書き保存、確定 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
 | 本文・任意詳細 | 実phase／scene、text_ids＋optional_text_ids、continue_scene | 見出しではなく本文段落の可視通知でadvance:false。実DETAIL06→CL05、未表示本文の未記録を確認 |
 | 出発・探索・撤退・帰還 | depart／play／withdraw／continue_scene／ack_return | 実初回出発→一手→撤退→帰還→次準備をDOM操作で確認 |
 | exploration.js | 正式UI-R v0.15の配置CSS、相手・場・手札、詳細・予測、行動予約、履歴 | 公開viewのみ。窓・ドラッグ・関係線の実描画と視覚一致は未確認 |

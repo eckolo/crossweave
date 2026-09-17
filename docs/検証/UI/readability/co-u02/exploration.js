@@ -14,12 +14,15 @@
   const settings={diagram:true,details:true,quick:true,drag:true,hold:220};
   const events=new AbortController(),timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);if(!dead)fn();},ms);timers.add(t);return t;};
+  let historyCursor=list(display_data.exploration?.public_history).length,feedTimer=null;
+  const feedQueue=[],feedVisible=[];
   root.classList.add('cw-explore');root.setAttribute('aria-label','crossweave 探索');
   root.innerHTML=`<div id="cw-scene" aria-hidden="true"><div id="cw-scene-base"></div></div>
    <section class="cw-region cw-world" aria-label="相手と環境"><div class="cw-heading"><div class="cw-order-strip"><ol id="cw-turn-order" aria-label="現在の行動予約"></ol></div></div><div class="cw-scroll" id="cw-actors"></div><div class="cw-scroll-help" data-track="cw-actors"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-board" id="cw-drop-zone" aria-label="札を出す場"><div class="cw-heading"><span id="cw-match-label"></span></div><div class="cw-scroll" id="cw-field"></div><div class="cw-scroll-help" data-track="cw-field"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span id="cw-notice" role="status"></span></div><div class="cw-scroll" id="cw-hand"></div><div class="cw-scroll-help" data-track="cw-hand"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div><div id="cw-action-track"><div class="cw-actions" id="cw-action-anchor" hidden><button type="button" data-x="preview">予測</button><button type="button" id="cw-use" data-x="use" class="cw-primary">場に出す</button></div></div></section>
    <footer class="cw-bottom"><div class="cw-footer-state"><div class="cw-self" id="cw-self" aria-label="本人の状態"></div><span id="cw-hand-count"></span></div><nav class="cw-menu" aria-label="探索メニュー">${menuButton('target-info','対象の詳細','info')}${menuButton('more','メニュー','menu')}</nav><button type="button" data-x="withdraw">撤退</button></footer>
+   <div class="cw-event-region" aria-label="直前の行動"><ol id="cw-event-feed" aria-live="polite" aria-relevant="additions"></ol></div>
    <svg id="cw-relations" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden></svg><div id="cw-drag-ghost" aria-hidden="true" hidden></div>
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
@@ -81,10 +84,24 @@
    const expiry=(p.unused_hand_expiry||[]).filter(a=>a.expires);
    return `<dl class="cw-ledger">${rows.filter(([,v])=>v!=null).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${expiry.length?`<p class="cw-loss">期限切れ：${expiry.map(a=>`${esc(names(a.id))}${a.destination==='destroyed'?'（消滅）':''}`).join('、')}</p>`:''}`;
   }
-  function history(){return list(x()?.public_history).slice().reverse().map(r=>{
+  function eventText(r){
    const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:'設置';
-   return `<li class="cw-log"><time>${esc(r.time)}</time> ${r.type==='action'?`${esc(names(r.actor))} · ${esc(action)}`:'場面が変化'}</li>`;
-  }).join('')||'<li>まだ履歴がありません</li>';}
+   return r.type==='action'?`${names(r.actor)} · ${action}`:'場面が変化';
+  }
+  function history(){return list(x()?.public_history).slice().reverse().map(r=>`<li class="cw-log"><time>${esc(r.time)}</time> ${esc(eventText(r))}</li>`).join('')||'<li>まだ履歴がありません</li>';}
+  // Public resolved events only. Opening/resizing the UI never replays old history.
+  // Timing follows the formal feed; at most two rows protect the compact layout.
+  function pumpEvent(){
+   feedTimer=null;if(!feedQueue.length||feedVisible.length>=2)return;
+   const row=feedQueue.shift(),node=document.createElement('li');node.className='cw-live-event';node.innerHTML=`<time>${esc(row.time)}</time><span>${esc(row.text)}</span>`;
+   feedVisible.push(node);$('#cw-event-feed').prepend(node);feedVisible.forEach((el,i)=>el.style.bottom=i*26+'px');
+   later(()=>{node.dataset.fading='true';},1300);
+   later(()=>{const i=feedVisible.indexOf(node);if(i>=0)feedVisible.splice(i,1);node.remove();feedVisible.forEach((el,j)=>el.style.bottom=j*26+'px');if(feedTimer===null)pumpEvent();},2800);
+   feedTimer=later(pumpEvent,260);
+  }
+  function updateEvents(){const rows=list(x()?.public_history);if(rows.length<historyCursor){feedQueue.length=0;feedVisible.splice(0).forEach(el=>el.remove());historyCursor=rows.length;return;}
+   feedQueue.push(...rows.slice(historyCursor).map(r=>({time:r.time,text:eventText(r)})));historyCursor=rows.length;if(feedTimer===null)pumpEvent();
+  }
   function windowContent(w=windowState,popup=$('#cw-drawer')){if(!w)return;
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
@@ -225,6 +242,7 @@
   root.addEventListener('scroll',e=>{if(e.target.id==='cw-actors')cancelActorHold();layout();},{capture:true,signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
   function update(d,s=session.state()){data=d;state=s;if(!x())return;
+   updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();cancelActorHold();selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();
    if(selected&&!hand().some(c=>c.id===selected)){selected=null;close();}redraw();
