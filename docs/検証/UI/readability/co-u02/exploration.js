@@ -4,6 +4,9 @@
 (function(api){'use strict';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const list=x=>Array.isArray(x)?x:Object.values(x||{});
+ // Keep only names already published for an exact card ID, across UI remounts.
+ // A new Session or exploration clears this memory; never infer a name from IDs.
+ const historyNamesBySession=new WeakMap();
  const glyph=kind=>({attack:'↗',guard:'◇',heal:'✚',self:'●',passage:'≈',terminal:'▥',optional_enemy:'◈'})[kind]||'◇';
  const icon=kind=>`<span aria-hidden="true">${glyph(kind)}</span>`;
  const symbol=(name,fallback='◇')=>`<i data-lucide="${name}" aria-hidden="true">${fallback}</i>`;
@@ -27,6 +30,16 @@
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
   const $=s=>root.querySelector(s),x=()=>data.exploration,details=id=>data.details?.[id];
+  let historyNames=historyNamesBySession.get(session);
+  if(!historyNames){historyNames={scope:null,cards:new Map()};historyNamesBySession.set(session,historyNames);}
+  function rememberPublicNames(source){
+   const scope=JSON.stringify([source.case?.id,source.case?.attempts]);
+   if(historyNames.scope!==scope){historyNames.cards.clear();historyNames.scope=scope;}
+   for(const c of [...list(source.exploration?.hand),...list(source.exploration?.field)]){
+    const name=source.details?.[c.id]?.name||c.name;
+    if(c.id&&typeof name==='string'&&name)historyNames.cards.set(c.id,name);
+   }
+  }
   const hand=()=>list(x()?.hand),field=()=>list(x()?.field),actors=()=>list(x()?.actors).filter(a=>a.active);
   const card=()=>hand().find(c=>c.id===selected),actor=id=>x()?.actors?.[id]||list(x()?.actors).find(a=>a.id===id);
   const names=id=>details(id)?.name||actor(id)?.name||'札';
@@ -34,10 +47,11 @@
   // still calls accumulated crit an event (一閃); do not repeat that mismatch.
   const label=(key,fallback)=>({crit:'機転',crit_gain:'機転',posture:'隠蔽',reduction:'軽減'})[key]||data.stat_labels?.[key]||fallback;
   const statDefs={power:['arrow-up-right','↗','突破'],hit:['scan-search','⌖','探査'],crit:['zap','ϟ','機転'],guard:['shield','◇','身構'],evasion:['wind','≋','攪乱'],reduction:['shield-minus','−','軽減'],heal:['heart-plus','+','回復'],hp:['heart','♡','余力'],posture:['venetian-mask','◒','隠蔽']};
+  const statExplanation={guard:'身構：防御札の一致で得る一時的な防御',reduction:'軽減：硬さなどの特性による継続的なダメージ軽減'};
   const term=key=>symbol(statDefs[key][0],statDefs[key][1])+esc(label(key,statDefs[key][2]));
   const signed=n=>n>0?'+'+n:n<0?'−'+Math.abs(n):'±0';
   const delta=d=>d?`<small class="cw-delta" data-delta="${d.delta}" aria-label="予測 ${signed(d.delta)}、変更後 ${d.after}">${esc(signed(d.delta))}</small>`:'';
-  const stat=(key,value,d=null,maximum=null)=>`<span class="cw-stat" data-stat="${key}" aria-label="${esc(label(key,statDefs[key][2]))} ${esc(value??'—')}${maximum!=null?' / '+esc(maximum):''}" data-tooltip="${esc(label(key,statDefs[key][2]))}${maximum!=null?' '+esc(value)+' / '+esc(maximum):''}">${symbol(statDefs[key][0],statDefs[key][1])}<b>${esc(value??'—')}</b>${delta(d)}</span>`;
+  const stat=(key,value,d=null,maximum=null)=>`<span class="cw-stat" data-stat="${key}" aria-label="${esc(label(key,statDefs[key][2]))} ${esc(value??'—')}${maximum!=null?' / '+esc(maximum):''}" data-tooltip="${esc(statExplanation[key]||label(key,statDefs[key][2]))}${maximum!=null?' '+esc(value)+' / '+esc(maximum):''}">${symbol(statDefs[key][0],statDefs[key][1])}<b>${esc(value??'—')}</b>${delta(d)}</span>`;
   const forecastKey=(q=choice())=>q?JSON.stringify([state.view.meta.view_token,q]):null;
   const projected=()=>forecast?.key===forecastKey()?api.projectActionForecast(data,choice(),forecast.value):null;
   const actorStats=a=>{const p=projected()?.actors[a.id];return '<span class="cw-actor-stats">'+['guard','crit','reduction','evasion'].map(k=>stat(k,k==='guard'?a.guard?.value??0:a[k],p?.[k])).join('')+'</span>';};
@@ -79,14 +93,16 @@
    const rows=[['次の行動まで',p.action_cost]];
    if(p.mode==='attack'){rows.push(['対象の余力',signed(-p.actual_hp_loss)],['隠蔽',p.posture_before+' → '+(p.posture_before-p.hit_gain)]);}
    if(p.mode==='heal')rows.push(['回復',p.hp_restored]);
-   if(p.mode==='guard')rows.push([label('guard','身構'),p.guard?.value],[label('evasion','攪乱'),p.guard?.evasion]);
+   if(p.mode==='guard')rows.push([label('guard','身構'),p.guard?.value],[label('evasion','攪乱')+'（この身構）',p.guard?.evasion]);
+   if(Number.isFinite(p.crit_added))rows.push(['機転の加算（消費前）',signed(p.crit_added)]);
    if(p.mode==='place')rows.push(['主効果','発動なし']);
    const expiry=(p.unused_hand_expiry||[]).filter(a=>a.expires);
    return `<dl class="cw-ledger">${rows.filter(([,v])=>v!=null).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${expiry.length?`<p class="cw-loss">期限切れ：${expiry.map(a=>`${esc(names(a.id))}${a.destination==='destroyed'?'（消滅）':''}`).join('、')}</p>`:''}`;
   }
   function eventText(r){
    const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:'設置';
-   return r.type==='action'?`${names(r.actor)} · ${action}`:'場面が変化';
+   const name=historyNames.cards.get(r.card_id);
+   return r.type==='action'?`${names(r.actor)} · ${name?'「'+name+'」':'札（名称未記録）'} · ${action}`:'場面が変化';
   }
   function history(){return list(x()?.public_history).slice().reverse().map(r=>`<li class="cw-log"><time>${esc(r.time)}</time> ${esc(eventText(r))}</li>`).join('')||'<li>まだ履歴がありません</li>';}
   // Public resolved events only. Opening/resizing the UI never replays old history.
@@ -241,7 +257,7 @@
   root.addEventListener('contextmenu',e=>{if(actorHold?.held&&e.target.closest('[data-x-actor]'))e.preventDefault();},{signal:events.signal});
   root.addEventListener('scroll',e=>{if(e.target.id==='cw-actors')cancelActorHold();layout();},{capture:true,signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
-  function update(d,s=session.state()){data=d;state=s;if(!x())return;
+  function update(d,s=session.state()){rememberPublicNames(data);data=d;state=s;if(!x())return;rememberPublicNames(data);
    updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();cancelActorHold();selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();

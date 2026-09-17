@@ -1488,6 +1488,9 @@ function updateLayout(){
 (function(api){'use strict';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const list=x=>Array.isArray(x)?x:Object.values(x||{});
+ // Keep only names already published for an exact card ID, across UI remounts.
+ // A new Session or exploration clears this memory; never infer a name from IDs.
+ const historyNamesBySession=new WeakMap();
  const glyph=kind=>({attack:'↗',guard:'◇',heal:'✚',self:'●',passage:'≈',terminal:'▥',optional_enemy:'◈'})[kind]||'◇';
  const icon=kind=>`<span aria-hidden="true">${glyph(kind)}</span>`;
  const symbol=(name,fallback='◇')=>`<i data-lucide="${name}" aria-hidden="true">${fallback}</i>`;
@@ -1511,6 +1514,16 @@ function updateLayout(){
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
   const $=s=>root.querySelector(s),x=()=>data.exploration,details=id=>data.details?.[id];
+  let historyNames=historyNamesBySession.get(session);
+  if(!historyNames){historyNames={scope:null,cards:new Map()};historyNamesBySession.set(session,historyNames);}
+  function rememberPublicNames(source){
+   const scope=JSON.stringify([source.case?.id,source.case?.attempts]);
+   if(historyNames.scope!==scope){historyNames.cards.clear();historyNames.scope=scope;}
+   for(const c of [...list(source.exploration?.hand),...list(source.exploration?.field)]){
+    const name=source.details?.[c.id]?.name||c.name;
+    if(c.id&&typeof name==='string'&&name)historyNames.cards.set(c.id,name);
+   }
+  }
   const hand=()=>list(x()?.hand),field=()=>list(x()?.field),actors=()=>list(x()?.actors).filter(a=>a.active);
   const card=()=>hand().find(c=>c.id===selected),actor=id=>x()?.actors?.[id]||list(x()?.actors).find(a=>a.id===id);
   const names=id=>details(id)?.name||actor(id)?.name||'札';
@@ -1518,10 +1531,11 @@ function updateLayout(){
   // still calls accumulated crit an event (一閃); do not repeat that mismatch.
   const label=(key,fallback)=>({crit:'機転',crit_gain:'機転',posture:'隠蔽',reduction:'軽減'})[key]||data.stat_labels?.[key]||fallback;
   const statDefs={power:['arrow-up-right','↗','突破'],hit:['scan-search','⌖','探査'],crit:['zap','ϟ','機転'],guard:['shield','◇','身構'],evasion:['wind','≋','攪乱'],reduction:['shield-minus','−','軽減'],heal:['heart-plus','+','回復'],hp:['heart','♡','余力'],posture:['venetian-mask','◒','隠蔽']};
+  const statExplanation={guard:'身構：防御札の一致で得る一時的な防御',reduction:'軽減：硬さなどの特性による継続的なダメージ軽減'};
   const term=key=>symbol(statDefs[key][0],statDefs[key][1])+esc(label(key,statDefs[key][2]));
   const signed=n=>n>0?'+'+n:n<0?'−'+Math.abs(n):'±0';
   const delta=d=>d?`<small class="cw-delta" data-delta="${d.delta}" aria-label="予測 ${signed(d.delta)}、変更後 ${d.after}">${esc(signed(d.delta))}</small>`:'';
-  const stat=(key,value,d=null,maximum=null)=>`<span class="cw-stat" data-stat="${key}" aria-label="${esc(label(key,statDefs[key][2]))} ${esc(value??'—')}${maximum!=null?' / '+esc(maximum):''}" data-tooltip="${esc(label(key,statDefs[key][2]))}${maximum!=null?' '+esc(value)+' / '+esc(maximum):''}">${symbol(statDefs[key][0],statDefs[key][1])}<b>${esc(value??'—')}</b>${delta(d)}</span>`;
+  const stat=(key,value,d=null,maximum=null)=>`<span class="cw-stat" data-stat="${key}" aria-label="${esc(label(key,statDefs[key][2]))} ${esc(value??'—')}${maximum!=null?' / '+esc(maximum):''}" data-tooltip="${esc(statExplanation[key]||label(key,statDefs[key][2]))}${maximum!=null?' '+esc(value)+' / '+esc(maximum):''}">${symbol(statDefs[key][0],statDefs[key][1])}<b>${esc(value??'—')}</b>${delta(d)}</span>`;
   const forecastKey=(q=choice())=>q?JSON.stringify([state.view.meta.view_token,q]):null;
   const projected=()=>forecast?.key===forecastKey()?api.projectActionForecast(data,choice(),forecast.value):null;
   const actorStats=a=>{const p=projected()?.actors[a.id];return '<span class="cw-actor-stats">'+['guard','crit','reduction','evasion'].map(k=>stat(k,k==='guard'?a.guard?.value??0:a[k],p?.[k])).join('')+'</span>';};
@@ -1563,14 +1577,16 @@ function updateLayout(){
    const rows=[['次の行動まで',p.action_cost]];
    if(p.mode==='attack'){rows.push(['対象の余力',signed(-p.actual_hp_loss)],['隠蔽',p.posture_before+' → '+(p.posture_before-p.hit_gain)]);}
    if(p.mode==='heal')rows.push(['回復',p.hp_restored]);
-   if(p.mode==='guard')rows.push([label('guard','身構'),p.guard?.value],[label('evasion','攪乱'),p.guard?.evasion]);
+   if(p.mode==='guard')rows.push([label('guard','身構'),p.guard?.value],[label('evasion','攪乱')+'（この身構）',p.guard?.evasion]);
+   if(Number.isFinite(p.crit_added))rows.push(['機転の加算（消費前）',signed(p.crit_added)]);
    if(p.mode==='place')rows.push(['主効果','発動なし']);
    const expiry=(p.unused_hand_expiry||[]).filter(a=>a.expires);
    return `<dl class="cw-ledger">${rows.filter(([,v])=>v!=null).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${expiry.length?`<p class="cw-loss">期限切れ：${expiry.map(a=>`${esc(names(a.id))}${a.destination==='destroyed'?'（消滅）':''}`).join('、')}</p>`:''}`;
   }
   function eventText(r){
    const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:'設置';
-   return r.type==='action'?`${names(r.actor)} · ${action}`:'場面が変化';
+   const name=historyNames.cards.get(r.card_id);
+   return r.type==='action'?`${names(r.actor)} · ${name?'「'+name+'」':'札（名称未記録）'} · ${action}`:'場面が変化';
   }
   function history(){return list(x()?.public_history).slice().reverse().map(r=>`<li class="cw-log"><time>${esc(r.time)}</time> ${esc(eventText(r))}</li>`).join('')||'<li>まだ履歴がありません</li>';}
   // Public resolved events only. Opening/resizing the UI never replays old history.
@@ -1725,7 +1741,7 @@ function updateLayout(){
   root.addEventListener('contextmenu',e=>{if(actorHold?.held&&e.target.closest('[data-x-actor]'))e.preventDefault();},{signal:events.signal});
   root.addEventListener('scroll',e=>{if(e.target.id==='cw-actors')cancelActorHold();layout();},{capture:true,signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
-  function update(d,s=session.state()){data=d;state=s;if(!x())return;
+  function update(d,s=session.state()){rememberPublicNames(data);data=d;state=s;if(!x())return;rememberPublicNames(data);
    updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){cancelDrag();cancelActorHold();selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();
@@ -1953,6 +1969,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const name=id=>info(id).name||'詳細未提供';
  const dirty=()=>p()&&JSON.stringify(p())!==JSON.stringify(api.currentPlan(state.view));
  const busy=()=>running||!!state.pending||state.canRetry||state.stale;
+ const canSuspend=()=>!suspended&&d()?.phase==='exploring';
  const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
  const equipped=id=>p()?.next_preparation.equipment.includes(id);
  const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
@@ -1997,7 +2014,7 @@ function footerView(screen){let content='';
  else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
  else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
  else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
- else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
+ else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'探索を中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
  return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
 }
 function cardTile(id){const item=info(id),n=count(id),current=count(id,api.currentPlan(state.view).next_preparation.deck),kind=item.primary?.kind;
@@ -2119,10 +2136,10 @@ function panelView(panel,back=false){
  if(panel==='unavailable')body='<p>購入・修飾・変換は本体の対応待ちです。</p>';
  if(panel==='notice'){body='<p>'+esc(reason(state.error))+'</p>';actions=(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');}
  if(panel==='records')body=recordsView();
- if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+button('中断','suspend','data-j-mutation')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
+ if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定。札組と心得の切替では、変更案はそのまま残る。</p><h3>探索</h3><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。続く相手の行動や、公開されていない変化は含まない。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
- if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は保存されます。')+'</p><p>中断・書出しでは、変更案も保存します。</p>';actions=button('書き出す','export','data-j-mutation')+button('中断','suspend','data-j-mutation');}
+ if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転の加算は、一閃による消費前の値。続く相手の行動や、未対応の変化は含まない。</p><h3>身構と軽減</h3><p>身構は防御札の一致で得る一時的な防御。軽減は、硬さなどの特性による継続的な効果で、別に働く。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は自動保存されます。')+'</p>'+(d().phase==='home'?'<p>編成は「確定」で保存します。編集中の内容は、確定するまで保存済みの編成を変えません。</p>':'')+'<p>書き出しは保存済みの内容です。</p>';actions=button('書き出す','export','data-j-mutation')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'');}
  return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
 
@@ -2207,12 +2224,9 @@ function panelView(panel,back=false){
  async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}catch(e){message=reason(e);}finally{running=false;render();flushTexts();}}
  async function compareRestoredDraft(){if(!disposed&&d()?.phase==='home'&&dirty()&&!state.comparison&&!state.canRetry&&!state.stale)await session.compare();}
  async function exportData(){await sequence(async()=>{
-  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='export';return;}}
-  await compareRestoredDraft();
   const document=await session.exportSave();api.downloadSave(document);message='保存を書き出しました';
  });}
- async function suspend(){await sequence(async()=>{
-  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='suspend';return;}}
+ async function suspend(){if(!canSuspend())return;await sequence(async()=>{
   suspended=true;resetWindows();message='';
  });}
  async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
@@ -2248,11 +2262,11 @@ function panelView(panel,back=false){
   if(action==='commit'){await commit();return;}if(action==='depart'){await depart();return;}
   if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
   if(action==='scene-back'){sceneRequested=false;render();return;}
-  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else if(result.ok&&next==='export')await exportData();else if(result.ok&&next==='suspend')await suspend();else render();return;}
+  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else render();return;}
   if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
   if(action==='discard'){await perform('discard_draft');return;}
   if(action==='suspend'){await suspend();return;}
-  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;}});return;}
+  if(action==='resume'){if(!suspended||d()?.phase!=='exploring')return;await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){suspended=false;panel=null;}});return;}
   if(action==='export'){await exportData();return;}
  },{signal:events.signal});
  root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});

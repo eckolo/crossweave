@@ -25,6 +25,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const name=id=>info(id).name||'詳細未提供';
  const dirty=()=>p()&&JSON.stringify(p())!==JSON.stringify(api.currentPlan(state.view));
  const busy=()=>running||!!state.pending||state.canRetry||state.stale;
+ const canSuspend=()=>!suspended&&d()?.phase==='exploring';
  const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
  const equipped=id=>p()?.next_preparation.equipment.includes(id);
  const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
@@ -116,12 +117,9 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}catch(e){message=reason(e);}finally{running=false;render();flushTexts();}}
  async function compareRestoredDraft(){if(!disposed&&d()?.phase==='home'&&dirty()&&!state.comparison&&!state.canRetry&&!state.stale)await session.compare();}
  async function exportData(){await sequence(async()=>{
-  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='export';return;}}
-  await compareRestoredDraft();
   const document=await session.exportSave();api.downloadSave(document);message='保存を書き出しました';
  });}
- async function suspend(){await sequence(async()=>{
-  if(session.state().localDirty){const saved=await session.execute('save_draft',{plan:p()});if(!saved.ok){if(session.state().canRetry)continuation='suspend';return;}}
+ async function suspend(){if(!canSuspend())return;await sequence(async()=>{
   suspended=true;resetWindows();message='';
  });}
  async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
@@ -157,11 +155,11 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
   if(action==='commit'){await commit();return;}if(action==='depart'){await depart();return;}
   if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
   if(action==='scene-back'){sceneRequested=false;render();return;}
-  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else if(result.ok&&next==='export')await exportData();else if(result.ok&&next==='suspend')await suspend();else render();return;}
+  if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else render();return;}
   if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
   if(action==='discard'){await perform('discard_draft');return;}
   if(action==='suspend'){await suspend();return;}
-  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;}});return;}
+  if(action==='resume'){if(!suspended||d()?.phase!=='exploring')return;await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){suspended=false;panel=null;}});return;}
   if(action==='export'){await exportData();return;}
  },{signal:events.signal});
  root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});

@@ -1,4 +1,6 @@
-# CO-U02 実データ接続（新UI 0.10.1／2026-09-17）
+# CO-U02 実データ接続（新UI 0.11／2026-09-17）
+
+0.11：[探索だけの中断・編成の確定時保存・公開表示](journey/exploration-save.md)。探索以外の中断と書出し時の案保存を外し、公開済み札名を履歴に追加。変更20項目を確認。全能力の行動後予測・過去札名の永続公開・常時分を身構へ統一する案は設計側対応待ち。
 
 0.10.1：[再開後に残る成功通知を削除](journey/save-flow.md#resume-notice-fix)。今回の対象操作7項目を確認し、元の場面へ直接戻る。再開・未確定の編成・永続保存の区別も同節に記載。
 
@@ -6,7 +8,7 @@
 
 0.10での変更：[新UIと開始・保存・再開の統合](journey/save-flow.md)。方向性了承後、実Campaignのcreate/open/importSave/exportSaveを同じ新UIへ接続した。変更検査49件は実Campaign＋MemoryStore＋JSDOM。実IndexedDBと実描画は[確認手順](journey/browser-review.md)・[保存検査ページ](browser-check.html)での確認待ち。残件は[こちら](remaining-work.md)。
 
-会話内操作試作：[一巡UI 0.10.1](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
+会話内操作試作：[一巡UI 0.11](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
 
 
 0.3以前の準備描画（履歴）：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://github.com/eckolo/crossweave/commit/d74d80930bbd8ee09593d9be3d0251cca36c520f)。変更16ファイルの本文と全体treeをGitHubから読戻して一致を確認。
@@ -36,7 +38,7 @@ entry.mjsはmountJourneyApplicationから実Campaignと保存枠m1-localを使�
 |---|---|---|
 | session.js | inspect／previewPreparation／previewAction／execute、pending、二重入力抑止、同request_id再試行、古い応答排除 | 実Campaign＋設計MemoryStoreで確認 |
 | 起動・再開・輸出入 | Campaign.create/open/importSave、controller.exportSave | 失敗時に元保存と入力を保持。open失敗をcreateへ切り替えない |
-| 準備・心得・札組 | 一巡UI 0.10の公開view描画、16:9、明示plan、比較、下書き保存、確定 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
+| 準備・心得・札組 | 一巡UI 0.11の公開view描画、16:9、明示plan、比較、確定時自動保存 | 取消・再習得・装備、保存失敗後の再試行を実データで確認 |
 | 本文・任意詳細 | 実phase／scene、text_ids＋optional_text_ids、continue_scene | 見出しではなく本文段落の可視通知でadvance:false。実DETAIL06→CL05、未表示本文の未記録を確認 |
 | 出発・探索・撤退・帰還 | depart／play／withdraw／continue_scene／ack_return | 実初回出発→一手→撤退→帰還→次準備をDOM操作で確認 |
 | exploration.js | 正式UI-R v0.15の配置CSS、相手・場・手札、詳細・予測、行動予約、履歴 | 公開viewのみ。窓・ドラッグ・関係線の実描画と視覚一致は未確認 |

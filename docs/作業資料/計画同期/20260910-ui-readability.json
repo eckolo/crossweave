@@ -29,7 +29,7 @@
   "technical_sync": "計画0e53882の全12ファイルを実同期後、設計7a0ce6faが開始時UI公開HEADの祖先であることを確認。追加マージ不要。技術確認後も全計画blob一致。",
   "own_head_at_start": "0a71d9bab65024a9328b8956a25cab7870df3eb9",
   "received_on_jst": "2026-09-17",
-  "status": "操作試作0.10.1で再開成功通知を削除。今回対象7項目確認。保存・読戻し後に修正画面と中断・編集中の案の説明を提示。実保存と設計側対応待ちは継続。",
+  "status": "操作試作0.11で探索中断・編成確定時保存・公開札名を反映。変更20項目合格。全能力の行動後予測・過去札名・常時分の身構統一は設計側対応待ち。",
   "work_mode_resumption": {
     "checked_at": "2026-09-15T11:28:14.625710+00:00",
     "own_public_head": "59c96ca347c52654bda5cf41ae89aa119003799a",
@@ -786,5 +786,51 @@
     "other_work_assignment_changed": false,
     "pre_save_heads_unchanged": true,
     "pre_save_heads_checked_at_utc": "2026-09-17T03:15:42.661316+00:00"
+  },
+  "exploration_save_and_public_display_20260917": {
+    "version": "0.11",
+    "checked_at_utc": "2026-09-17T03:47:02.758Z",
+    "own_public_head_at_start": "1417b62653029769d67a843013596e8b07b94631",
+    "plan_source": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+    "technical_source": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+    "plan_scope_blob_count": 12,
+    "plan_blobs_match_before_and_after_technical_check": true,
+    "technical_already_integrated": true,
+    "pre_save_heads_unchanged": true,
+    "pre_save_heads_checked_at_utc": "2026-09-17T03:53:39.753505+00:00",
+    "same_work_id_and_branch": true,
+    "additional_work_created": false,
+    "other_work_assignment_changed": false,
+    "changes": [
+      "探索phaseのみ中断可能",
+      "編成は確定時の自動保存。書出しは保存済み内容だけ",
+      "公開された同一札IDの名前を履歴に追加",
+      "機転加算を消費前として表示"
+    ],
+    "design_requests": [
+      "常時軽減を身構の常時加算へ統一する案。演算・持続・機転消費・公開値・予測を整理",
+      "解決時の使用札名を公開履歴に永続保持",
+      "身構・機転・攪乱すべての主体別解決後予測"
+    ],
+    "request_document": "docs/検証/UI/readability/co-u02/journey/exploration-save.md",
+    "verification_report": "docs/検証/UI/readability/co-u02/journey/exploration-save-checks.json",
+    "targeted_checks": 20,
+    "old_suite_execution": false,
+    "inline_fragment": {
+      "path": "/workspace/crossweave-exploration-save.html",
+      "bytes": 401936,
+      "sha256": "b34e5c7553f0d193c82322c89ea029a748f8a5c636d1ff84060621b5099f5b57",
+      "storage": "original MemoryStore; ephemeral",
+      "start": "launcher"
+    },
+    "real_indexeddb_verified": false,
+    "physical_rendering_verified": false,
+    "user_acceptance": false,
+    "integration_target": "dev_design_tmp_assembly",
+    "integration_work": "20260909-design-assembly",
+    "reverse_integration_performed": false,
+    "common_runtime_changed": false,
+    "rules_unification_implemented": false,
+    "complete_ability_forecast_implemented": false
   }
 }
