@@ -2252,7 +2252,7 @@ function panelView(panel,back=false){
   if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
   if(action==='discard'){await perform('discard_draft');return;}
   if(action==='suspend'){await suspend();return;}
-  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;message='再開';}});return;}
+  if(action==='resume'){await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){await compareRestoredDraft();suspended=false;panel=null;}});return;}
   if(action==='export'){await exportData();return;}
  },{signal:events.signal});
  root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});

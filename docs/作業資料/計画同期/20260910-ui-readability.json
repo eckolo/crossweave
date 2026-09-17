@@ -29,7 +29,7 @@
   "technical_sync": "計画0e53882の全12ファイルを実同期後、設計7a0ce6faが開始時UI公開HEADの祖先であることを確認。追加マージ不要。技術確認後も全計画blob一致。",
   "own_head_at_start": "0a71d9bab65024a9328b8956a25cab7870df3eb9",
   "received_on_jst": "2026-09-17",
-  "status": "ユーザーの続行指示により、保存済み操作試作0.10を会話内で再提示する単位。計画全12blob・設計取込み済み・画面の保存SHA一致を確認。実ブラウザー確認と設計側対応待ちは維持。",
+  "status": "操作試作0.10.1で再開成功通知を削除。今回対象7項目確認。保存・読戻し後に修正画面と中断・編集中の案の説明を提示。実保存と設計側対応待ちは継続。",
   "work_mode_resumption": {
     "checked_at": "2026-09-15T11:28:14.625710+00:00",
     "own_public_head": "59c96ca347c52654bda5cf41ae89aa119003799a",
@@ -756,5 +756,35 @@
     "unit_end": "保存・読戻し後に操作画面と確認点を再提示して終了。設計待ちの機能を独自実装しない。",
     "pre_save_heads_unchanged": true,
     "pre_save_heads_checked_at_utc": "2026-09-17T02:44:00.116919+00:00"
+  },
+  "resume_notice_fix_20260917": {
+    "version": "0.10.1",
+    "checked_at_utc": "2026-09-17T03:12:38.498Z",
+    "own_public_head_at_start": "b628672b8f1551e4b843dd5792cf5a6ff029b239",
+    "plan_source": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+    "technical_source": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+    "plan_scope_blob_count": 12,
+    "plan_blobs_match_before_and_after_technical_check": true,
+    "technical_already_integrated": true,
+    "change": "再開成功時のmessage代入だけを削除し、元の場面へ復帰",
+    "verification_report": "docs/検証/UI/readability/co-u02/journey/resume-notice-review.json",
+    "targeted_checks": 7,
+    "old_suite_execution": false,
+    "inline_fragment": {
+      "path": "/workspace/crossweave-resume-clean.html",
+      "bytes": 400421,
+      "sha256": "cb4ff735c5db21b2e7351d1058739e407a0f274726507be8ab6ee496574de9c3",
+      "start": "launcher",
+      "storage": "original MemoryStore; ephemeral"
+    },
+    "real_indexeddb_verified": false,
+    "physical_rendering_verified": false,
+    "user_acceptance": false,
+    "integration_target": "dev_design_tmp_assembly",
+    "integration_work": "20260909-design-assembly",
+    "reverse_integration_performed": false,
+    "other_work_assignment_changed": false,
+    "pre_save_heads_unchanged": true,
+    "pre_save_heads_checked_at_utc": "2026-09-17T03:15:42.661316+00:00"
   }
 }
