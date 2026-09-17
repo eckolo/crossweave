@@ -29,7 +29,7 @@
   "technical_sync": "計画0e53882の全12ファイルを実同期後、設計7a0ce6faが開始時UI公開HEADの祖先であることを確認。追加マージ不要。技術確認後も全計画blob一致。",
   "own_head_at_start": "0a71d9bab65024a9328b8956a25cab7870df3eb9",
   "received_on_jst": "2026-09-17",
-  "status": "操作試作0.11.1で正式探索UIの長押し取消と札位置を移植。変更24項目合格。設計枝への統合用ドラフトPRを提出する単位。左下の全予測・身構統一等は継続待ち。",
+  "status": "操作試作0.11.1の長押し取消・札位置を保存し、変更24項目合格。全変更12ファイルの本文読戻し一致。設計枝への統合用ドラフトPR #1提出済み、未マージ。左下の全予測・身構統一等は継続待ち。",
   "work_mode_resumption": {
     "checked_at": "2026-09-15T11:28:14.625710+00:00",
     "own_public_head": "59c96ca347c52654bda5cf41ae89aa119003799a",
@@ -899,9 +899,39 @@
     "integration_target": "dev_design_tmp_assembly",
     "integration_work": "20260909-design-assembly",
     "integration_received_or_merged_verified": false,
-    "draft_pr": null,
-    "unit_end": "保存・読戻し、ドラフトPR提出、操作画面の提示で区切る。依存待ちは残す。",
+    "draft_pr": {
+      "number": 1,
+      "url": "https://github.com/eckolo/crossweave/pull/1",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "ui/readability-20260910",
+      "head_sha_at_submission": "9ec6e0eb18a65071ca058621dd56d27c01d359b1",
+      "base": "dev_design_tmp_assembly",
+      "base_sha_at_submission": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+      "mergeable_at_readback": true,
+      "mergeable_state_at_readback": "clean",
+      "checked_at_utc": "2026-09-17T04:57:19.920Z",
+      "submission_changed_files": 226,
+      "submission_commits_ahead": 93,
+      "submission_commits_behind": 0,
+      "reviewers_requested": false
+    },
+    "unit_end": "成果の保存・読戻し完了、統合用ドラフトPR #1提出済み。修正画面の提示で今回の単位を終了。依存待ち・実ブラウザー確認・設計受領と統合は未了。",
     "pre_save_heads_unchanged": true,
-    "pre_save_heads_checked_at_utc": "2026-09-17T04:51:12.516524+00:00"
+    "pre_save_heads_checked_at_utc": "2026-09-17T04:51:12.516524+00:00",
+    "code_save": {
+      "commit": "9ec6e0eb18a65071ca058621dd56d27c01d359b1",
+      "tree": "5e54fe330ef9d04a2ea38c7f01b209a3345790b4",
+      "readback_at_utc": "2026-09-17T04:52:10.992Z",
+      "changed_files_full_content_and_blob_verified": 12,
+      "complete_tree_parent_and_ref_verified": true
+    },
+    "pre_receipt_save_heads": {
+      "checked_at_utc": "2026-09-17T04:57:19.920Z",
+      "ui": "9ec6e0eb18a65071ca058621dd56d27c01d359b1",
+      "plan": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+      "design": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed"
+    }
   }
 }
