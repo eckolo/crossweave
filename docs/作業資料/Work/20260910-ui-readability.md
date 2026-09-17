@@ -407,3 +407,5 @@ UI-G-001 v0.2保存確認：[d74d80930bbd8ee09593d9be3d0251cca36c520f](https://g
 実描画・物理タッチ・実IndexedDB永続保存・ユーザーの新入口操作は未確認。拒否済みBrowser入口を再試行・迂回しない。左下を含む解決後予測、身構統一、公開情報の追加、D03は設計待ちのまま。今回の入口を不足APIの代替としない。
 
 同じUI枝へ通常保存し、GitHub本文・blob・refを読戻す。成果は既存の[統合用ドラフトPR #1](https://github.com/eckolo/crossweave/pull/1)へ同枝の追加差分として提出する。新PR・相手への通知・設計枝への逆方向統合は行わない。保存確認後に今回単位を終了して稼働枠を解放し、全体のユーザー受入・設計の受領統合・CO-U02全体完了を先取りしない。
+
+成果コミット[174792e1f274b2758f1cc872c3a861e5461afac6](https://github.com/eckolo/crossweave/commit/174792e1f274b2758f1cc872c3a861e5461afac6)を通常保存し、変更14ファイルの全本文・blob、tree・親・公開refをGitHubから読戻して一致を確認。ローカルも同じ公開コミットへfast-forwardし差分0。保存後の計画・設計HEADは不変、既存PR #1も追加コミットを含むdraft・open・未マージを確認した。[保存証跡](../../検証/UI/readability/co-u02/review/save-readback.json)。今回単位は終了しUI枠を解放する。新入口の再確認を今すぐユーザーへ依頼せず、次のまとまった機能差分で該当状態を使う。
