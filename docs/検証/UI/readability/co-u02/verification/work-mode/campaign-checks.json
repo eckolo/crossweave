@@ -1,0 +1,205 @@
+{
+  "trial_id": "CW-M1-UI-001",
+  "group": "actual-campaign-ui-session",
+  "node": "v24.19.0",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.1",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.1",
+    "input_version": "0.1"
+  },
+  "checks": [
+    {
+      "name": "real open: missing save remains missing",
+      "pass": true
+    },
+    {
+      "name": "real create: only explicit create writes",
+      "pass": true
+    },
+    {
+      "name": "initial plan uses actual public draft",
+      "pass": true
+    },
+    {
+      "name": "objective outside eligible body list is rejected",
+      "pass": true
+    },
+    {
+      "name": "actual optional_text_ids accepted only when explicitly reported displayed",
+      "pass": true
+    },
+    {
+      "name": "optional record does not mark normal or other optional bodies read",
+      "pass": true
+    },
+    {
+      "name": "display recording leaves money/learning unchanged",
+      "pass": true
+    },
+    {
+      "name": "same displayed body is not recorded twice in session",
+      "pass": true
+    },
+    {
+      "name": "actual invalid-length draft can be saved without applying preparation",
+      "pass": true
+    },
+    {
+      "name": "saving 11-card draft leaves actual 12-card preparation intact",
+      "pass": true
+    },
+    {
+      "name": "open restores actual saved draft",
+      "pass": true
+    },
+    {
+      "name": "depart uses actual phase transition and new token",
+      "pass": true
+    },
+    {
+      "name": "actual scene advancement reaches legal exploration",
+      "pass": true
+    },
+    {
+      "name": "reservation strip receives design-owned exact ordering",
+      "pass": true
+    },
+    {
+      "name": "reservation projection is read only",
+      "pass": true
+    },
+    {
+      "name": "actual action preview is publicly projected",
+      "pass": true
+    },
+    {
+      "name": "real storage failure is retryable through UI boundary",
+      "pass": true
+    },
+    {
+      "name": "failed actual action leaves displayed current state unchanged",
+      "pass": true
+    },
+    {
+      "name": "failed actual action leaves durable test record unchanged",
+      "pass": true
+    },
+    {
+      "name": "same request succeeds after storage failure",
+      "pass": true
+    },
+    {
+      "name": "storage retry sends identical full command",
+      "pass": true
+    },
+    {
+      "name": "lost response after real commit remains retryable",
+      "pass": true
+    },
+    {
+      "name": "real Campaign replays a lost acknowledgement",
+      "pass": true
+    },
+    {
+      "name": "lost-ack retry keeps identical request_id and payload",
+      "pass": true
+    },
+    {
+      "name": "replayed action does not charge or advance again",
+      "pass": true
+    },
+    {
+      "name": "pending real storage commit suppresses duplicate UI input",
+      "pass": true
+    },
+    {
+      "name": "real watergate scene exposes optional DETAIL06 separately",
+      "pass": true
+    },
+    {
+      "name": "CL05 remains absent before DETAIL06 display",
+      "pass": true
+    },
+    {
+      "name": "explicit real DETAIL06 display adds CL05 without advancing scene",
+      "pass": true
+    },
+    {
+      "name": "optional detail recording does not advance combat or card time",
+      "pass": true
+    },
+    {
+      "name": "actual learning replacement has a valid comparison",
+      "pass": true
+    },
+    {
+      "name": "actual preparation comparison leaves current values intact",
+      "pass": true
+    },
+    {
+      "name": "actual growth commit changes equipment",
+      "pass": true
+    },
+    {
+      "name": "actual cancel/learn comparison preserves expected unspent 100 units",
+      "pass": true
+    },
+    {
+      "name": "other-tab revision makes actual local draft stale",
+      "pass": true
+    },
+    {
+      "name": "reopen-based refresh preserves stale local draft",
+      "pass": true
+    },
+    {
+      "name": "explicit discard reselects latest confirmed preparation",
+      "pass": true
+    },
+    {
+      "name": "return acknowledgement reaches actual home",
+      "pass": true
+    },
+    {
+      "name": "return carries only stable base cancellation intent",
+      "pass": true
+    },
+    {
+      "name": "return intent is re-compared on the new token",
+      "pass": true
+    },
+    {
+      "name": "D03 operation is distinguished from empty inventory/funds",
+      "pass": true
+    },
+    {
+      "name": "unsupported operation leaves actual save untouched",
+      "pass": true
+    },
+    {
+      "name": "real exported object imports into an empty slot",
+      "pass": true
+    },
+    {
+      "name": "real export/import preserves prepared values",
+      "pass": true
+    },
+    {
+      "name": "unsupported actual save is rejected with original input retained",
+      "pass": true
+    },
+    {
+      "name": "export source is unchanged by rejected import",
+      "pass": true
+    }
+  ],
+  "count": 46,
+  "result": "pass",
+  "limits": [
+    "Design-owned MemoryStore, not IndexedDB/browser persistence.",
+    "No physical device or user acceptance.",
+    "Fixed D02 natural save fixtures; no replay of old 28 UI tests or old combat suites."
+  ]
+}

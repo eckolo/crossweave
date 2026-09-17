@@ -1,0 +1,120 @@
+{
+  "work_id": "20260910-ui-readability",
+  "version": "0.11",
+  "result": "pass",
+  "count": 20,
+  "checks": [
+    {
+      "name": "拠点メニューに探索中断を出さない",
+      "pass": true
+    },
+    {
+      "name": "拠点の保存データにも中断を出さない",
+      "pass": true
+    },
+    {
+      "name": "未確定の編集だけでは保存済み編成を変更しない",
+      "pass": true
+    },
+    {
+      "name": "編集中も中断を出さず確定時保存を説明する",
+      "pass": true
+    },
+    {
+      "name": "書出しは保存済み内容を使い未確定案を勝手に保存しない",
+      "pass": true
+    },
+    {
+      "name": "新しいUIから開くと最後に保存した編成で再開する",
+      "pass": true
+    },
+    {
+      "name": "確定保存の失敗では編集と元の保存を保持する",
+      "pass": true
+    },
+    {
+      "name": "保存の再試行で編成を確定し一度だけ自動保存する",
+      "pass": true
+    },
+    {
+      "name": "確定後は追加の手動保存なしで同じ札と枚数が新しいUIにも反映する",
+      "pass": true
+    },
+    {
+      "name": "探索途中の本文画面では探索中断を使える",
+      "pass": true
+    },
+    {
+      "name": "探索中断は開始側の中断画面へ戻る",
+      "pass": true
+    },
+    {
+      "name": "本文途中の再開は帰還や進行を起こさない",
+      "pass": true
+    },
+    {
+      "name": "公開された機転加算は消費前の値として区別する",
+      "pass": true
+    },
+    {
+      "name": "未提供の行動後機転を数値差分として捏造しない",
+      "pass": true
+    },
+    {
+      "name": "身構と軽減に別々の意味の説明を付ける",
+      "pass": true
+    },
+    {
+      "name": "設置履歴に出した札の公開名を載せる",
+      "pass": true
+    },
+    {
+      "name": "探索再開は同じ保存状態を保持し成功通知を残さない",
+      "pass": true
+    },
+    {
+      "name": "同一セッションの再開後も公開済みの履歴名を保持する",
+      "pass": true
+    },
+    {
+      "name": "帰還結果には探索中断を出さない",
+      "pass": true
+    },
+    {
+      "name": "スクリプトエラーなし",
+      "pass": true
+    }
+  ],
+  "checked_at_utc": "2026-09-17T03:47:02.758Z",
+  "base_commit": "1417b62653029769d67a843013596e8b07b94631",
+  "plan_commit": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+  "technical_commit": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+  "conditions": [
+    "実Campaign＋元MemoryStore＋JSDOM。生成済み配布版をUI操作。",
+    "新規保存、未確定の編集、書出し、失敗した確定の再試行、新しいUIでの再開、実出発・設置・撤退を対象とする。",
+    "旧49件の実行部は再利用せず、harness定義だけを使う。"
+  ],
+  "limits": [
+    "実描画・実タッチ・IndexedDB永続化の確認ではない。",
+    "履歴名は公開hand/fieldの同一IDから記憶できた範囲。再読込前の未公開名は本体対応待ち。",
+    "身構・機転・攪乱すべての行動後予測値は本体の追加公開待ち。"
+  ],
+  "runtime": {
+    "node": "v24.19.0",
+    "jsdom": "26.1.0"
+  },
+  "sha256": {
+    "docs/検証/UI/readability/co-u02/journey/view.js": "8f73ad999c191c48da0acadf03ac70a4f8ddd018ee1a2e8835d1627574bda615",
+    "docs/検証/UI/readability/co-u02/journey/panels.js": "848be92de6ade31137679ae591aa1caa336bd0ef88a0ad595cac8d46bebffaac",
+    "docs/検証/UI/readability/co-u02/exploration.js": "a269bc1ec6474bbba7d9e1e72e87ed792e816e1979e86b8f5e954e6904566745",
+    "docs/検証/UI/readability/co-u02/dist/crossweave-ui.js": "7969ac968d79edbea7b126fd75fb0c4f53f59d7fbe47156fb1a490ab4d67e665",
+    "docs/検証/UI/readability/co-u02/journey/verify-exploration-save.cjs": "6deca8d27d20c34145620a4b2e86f6a1c3b7e73b067f0a9f7204fec761d601b3"
+  },
+  "inline_fragment": {
+    "path": "/workspace/crossweave-exploration-save.html",
+    "bytes": 401936,
+    "sha256": "b34e5c7553f0d193c82322c89ea029a748f8a5c636d1ff84060621b5099f5b57",
+    "storage": "original MemoryStore; ephemeral",
+    "start": "launcher"
+  }
+}
