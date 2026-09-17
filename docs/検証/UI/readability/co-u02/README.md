@@ -1,5 +1,7 @@
 # CO-U02 実データ接続（新UI 0.10／2026-09-16）
 
+保存コード：[5f977874](https://github.com/eckolo/crossweave/commit/5f97787482435b1217c8612cc51610ae96276af5)（変更30本文・blob読戻し済み）。
+
 最新：[新UIと開始・保存・再開の統合](journey/save-flow.md)。方向性了承後、実Campaignのcreate/open/importSave/exportSaveを同じ新UIへ接続した。変更検査49件は実Campaign＋MemoryStore＋JSDOM。実IndexedDBと実描画は[確認手順](journey/browser-review.md)・[保存検査ページ](browser-check.html)での確認待ち。残件は[こちら](remaining-work.md)。
 
 会話内操作試作：[一巡UI 0.10](journey/README.md)。ユーザー了承の16:9を維持し、主画面のスクロール廃止を維持し、文字の囲いを減らして背景へ重ねる配置に更新。これは実Campaign＋一時メモリーの試作で、実IndexedDB確認・正式探索UI完全移植・条件を指定した全操作確認は未了。以下の0.3以前の検査条件は当時の記録であり、ページ全体のスクロール許容を現行要件として再採用しない。
