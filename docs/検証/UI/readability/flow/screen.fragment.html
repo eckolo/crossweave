@@ -1,0 +1,34 @@
+<div id="crossweave-flow-001" lang="ja">
+  <style>__FLOW_STYLE__</style>
+  <div class="cf-example-bar" aria-label="構成試作の表示例">
+    <span>構成試作</span>
+    <label>表示例 <select id="cf-example"><option value="initial">出発前</option><option value="clear">踏破後</option><option value="withdrawal">撤退後</option><option value="defeat">緊急脱出後</option></select></label>
+    <span id="cf-boundary-note" role="status"></span>
+  </div>
+  <div class="cf-shell">
+    <div class="cf-scene" aria-hidden="true">
+      <div class="cf-light"></div><div class="cf-window-light"></div>
+      <div class="cf-shelves"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+      <div class="cf-curtain"></div><div class="cf-floor"></div><div class="cf-counter"></div><div class="cf-lamp"></div>
+    </div>
+    <header class="cf-top"><span id="cf-location">古道具屋</span><span id="cf-context"></span></header>
+    <main class="cf-stage">
+      <section id="cf-hub" aria-label="古道具屋">
+        <div class="cf-shop-title"><span>crossweave</span><h2>古道具屋</h2></div>
+        <button type="button" class="cf-request-paper" data-open="quest"><span class="cf-pin-dot" aria-hidden="true"></span><span class="cf-small">依頼</span><strong>夜潮の排水路</strong><span id="cf-hub-symptom">地下へ入り込む海水</span><span class="cf-paper-go" aria-hidden="true">↗</span></button>
+        <div class="cf-hub-message" id="cf-hub-message"></div>
+      </section>
+      <section id="cf-preparation" hidden aria-labelledby="cf-prep-heading">
+        <div class="cf-prep-heading"><div><h2 id="cf-prep-heading">準備</h2><button type="button" class="cf-text-button" data-open="quest" id="cf-prep-quest">夜潮の排水路 ↗</button></div><button type="button" class="cf-quiet" data-open="passives"><i data-lucide="book-open" data-fallback="▤" aria-hidden="true"></i>心得 <span>未装備</span></button></div>
+        <div class="cf-deck-heading"><span>持っていく札 <output id="cf-total"></output></span><span id="cf-balance"></span></div>
+        <div class="cf-collection"><div id="cf-card-grid" class="cf-card-grid" aria-label="利用できる札"></div><button type="button" class="cf-scroll-cue" id="cf-more" hidden aria-label="さらに下の札を見る">↓</button></div>
+        <p id="cf-deck-error" class="cf-error" role="status"></p>
+      </section>
+      <section id="cf-return" hidden aria-labelledby="cf-return-heading"></section>
+      <section id="cf-departure" hidden aria-label="探索画面への接続位置"><div><span>夜潮の排水路</span><h2>水路へ</h2><p>ここから探索画面につながります。</p></div></section>
+      <div id="cf-windows" hidden></div>
+    </main>
+    <footer class="cf-bottom"><div class="cf-self"><span id="cf-vigor">余力 40</span><span id="cf-points">着想 0</span></div><nav aria-label="拠点のメニュー"><button type="button" class="cf-quiet" data-nav="hub" id="cf-home-button"><i data-lucide="house" data-fallback="⌂" aria-hidden="true"></i><span>拠点</span></button><button type="button" class="cf-quiet" data-open="quest"><i data-lucide="scroll-text" data-fallback="▤" aria-hidden="true"></i>依頼</button><button type="button" class="cf-quiet" data-open="records"><i data-lucide="notebook-pen" data-fallback="▥" aria-hidden="true"></i>記録</button><button type="button" class="cf-primary" id="cf-main-action" data-nav="preparation">準備へ <span aria-hidden="true">→</span></button></nav></footer>
+  </div>
+  <script>__FLOW_SCRIPT__</script>
+</div>

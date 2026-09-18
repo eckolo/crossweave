@@ -1,0 +1,86 @@
+'use strict';
+// New journey paths only. Explicit visibility callbacks; no browser/layout claim.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const {JSDOM,VirtualConsole}=require(process.env.CW_JSDOM_PATH||'jsdom');
+const {build}=require('./build.cjs'),checks=[],errors=[];
+const check=(name,value)=>{assert(value,name);checks.push({name,pass:true});};
+const tick=()=>new Promise(r=>setTimeout(r,5));
+async function until(fn){const deadline=Date.now()+10000;while(!fn()){if(Date.now()>deadline)throw Error('timeout');await tick();}}
+async function environment(width=1024){
+ const vc=new VirtualConsole();vc.on('jsdomError',e=>{if(e.type!=='css parsing')errors.push(String(e));});
+ const dom=new JSDOM(build({testing:true}).html,{url:'https://ui-probe.invalid/',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){
+  w.structuredClone=structuredClone;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;Object.defineProperty(w,'crypto',{value:crypto.webcrypto});Object.defineProperty(w,'innerWidth',{value:width,writable:true});
+  w.ResizeObserver=class{observe(){}disconnect(){}};
+  w.IntersectionObserver=class{constructor(callback){this.callback=callback;this.live=true;}observe(target){queueMicrotask(()=>{if(this.live)this.callback([{target,isIntersecting:true,intersectionRatio:1}]);});}disconnect(){this.live=false;}};
+ }});
+ const root=dom.window.document.getElementById('crossweave-journey');await until(()=>root.__test);
+ const {app,storage}=root.__test,session=app.session;
+ const idle=async()=>{await until(()=>session.state().view&&!session.state().pending);await tick();await until(()=>!session.state().pending);};
+ const el=s=>{const node=root.querySelector(s);assert(node,'missing '+s);return node;};
+ const click=async(s)=>{const node=el(s);assert(!node.disabled,'disabled '+s);node.click();await idle();};
+ await idle();return {dom,root,app,storage,session,idle,el,click};
+}
+(async()=>{
+ const {dom,root,app,storage,session,idle,el,click}=await environment();
+ const state=()=>session.state(),data=()=>state().view.display_data;
+ check('starts on the actual settled return, with +3 and total3',app.state().screen==='return'&&root.textContent.includes('+3')&&root.textContent.includes('合計 3')&&data().return_receipt.gained_units===300);
+ check('unlocks are labelled as records, not owned cards',root.textContent.includes('記録に追加')&&data().home.owned.length===0);
+ check('only displayed main text is recorded automatically',app.state().seen.length===1&&app.state().seen[0]==='SCN-001-TXT08'&&!data().case.visible_clue_ids.includes('SCN-001-CL05'));
+ const startMoney=data().home.economy.unspent_units;
+ await click('[data-j="skills"]');
+ check('return to skills completes continue_scene then ack_return without reward repetition',app.state().screen==='skills'&&data().phase==='home'&&data().home.economy.unspent_units===startMoney);
+ await click('[data-j="equip"][data-id="base:PS01"]');
+ check('learn and equip share one explicit choice in the same screen',state().draft.next_preparation.learn.includes('PS01')&&state().draft.next_preparation.equipment.includes('base:PS01')&&app.state().screen==='skills');
+ check('current money stays3 while the public preview shows1',data().home.economy.unspent_units===300&&state().comparison.stages.prepared.unspent_units===100&&root.textContent.includes('変更案'));
+ const draft=JSON.stringify(state().draft);
+ await click('[data-j="deck"]');await click('[data-j="skills"]');
+ check('deck and skills switch twice with zero commits and the same draft',JSON.stringify(state().draft)===draft&&data().home.economy.learned.length===0);
+ await click('[data-j="detail"][data-id="base:PS01"]');
+ for(const width of [1024,736,600,320]){dom.window.innerWidth=width;dom.window.dispatchEvent(new dom.window.Event('resize'));await idle();check('resize event retains detail and draft at '+width+' (DOM only)',app.state().windows.some(x=>x.id==='base:PS01')&&JSON.stringify(state().draft)===draft);}
+ await click('[data-j="pin"]');await click('[data-j="detail"][data-id="base:PS02"]');
+ check('a pinned detail survives selecting another skill',app.state().windows.length===2&&app.state().windows[0].pinned);
+ await click('[data-j="close-item"][data-id="base:PS02"]');
+ check('closing details does not apply or discard selections',JSON.stringify(state().draft)===draft&&data().home.economy.unspent_units===300);
+ await click('[data-j="deck"]');await click('[data-j="remove"][data-id="base:h"]');
+ check('11 cards is an incomplete draft, with commit and departure disabled',state().draft.next_preparation.deck.length===11&&!state().comparison.ok&&el('[data-j="commit"]').disabled&&el('[data-j="depart"]').disabled);
+ await click('[data-j="add"][data-id="base:j"]');
+ check('direct card counters restore a legal12 without detail-window operations',state().comparison.ok&&state().draft.next_preparation.deck.includes('base:j'));
+ await click('[data-j="review"]');
+ check('comparison identifies the changed skill, named cards and money',el('[data-inspector]').textContent.includes(data().details['base:PS01'].name)&&el('[data-inspector]').textContent.includes('着想 −2')&&el('[data-inspector]').textContent.includes(data().details['base:h'].name)&&el('[data-inspector]').textContent.includes('2 → 1枚'));
+ storage.failNext=true;await click('[data-inspector] [data-j="commit"]');
+ check('real save-adapter failure leaves current state unchanged and exposes retry',state().canRetry&&data().home.economy.unspent_units===300&&state().draft.next_preparation.learn.includes('PS01'));
+ await click('[data-j="retry"]');
+ check('retry commits the selected learning, equipment and deck once',!state().canRetry&&data().home.economy.unspent_units===100&&data().home.economy.learned.length===1&&data().home.equipment.entries.length===1&&data().home.deck.size===12);
+ await click('[data-j="skills"]');await click('[data-j="detail"][data-id="base:PS01"]');await click('[data-j="forget"]');
+ check('forget previews the exact paid refund and equipment loss',state().comparison.cancellation.actual_refund_units===200&&state().comparison.stages.prepared.unspent_units===300&&state().draft.next_preparation.equipment.length===0&&data().home.equipment.entries.length===1);
+ await click('[data-j="equip"][data-id="base:PS04"]');
+ check('reallocation selects a replacement in the same skill screen',state().comparison.ok&&state().draft.next_preparation.learn.includes('PS04')&&state().draft.cancel_learning.includes('PS01'));
+ await click('[data-j="depart"]');
+ check('one combined intent commits before the actual departure and shows the actual scene',data().phase==='exploring'&&app.state().screen==='scene'&&data().case.attempts===2);
+ await click('[data-j="continue"]');
+ check('main scene progresses with one continue to the existing exploration renderer',app.state().screen==='explore'&&!!root.querySelector('.cw-explore')&&data().exploration.legal_actions.length>0);
+ const legal=data().exploration.legal_actions[0],at=data().exploration.now;
+ await click('[data-x-card="'+legal.card_id+'"]');
+ const targetBefore=root.querySelector('.cw-actor[aria-pressed="true"]')?.dataset.xActor;
+ check('first legal attack target needs no extra target-selection click',!!targetBefore&&!el('[data-x="use"]').disabled);
+ await until(()=>!state().pending);await click('[data-x="use"]');
+ check('selected card uses the public legal action and advances the real game',data().exploration.now>at);
+ const nextAttack=data().exploration.legal_actions.find(x=>x.target===targetBefore);assert(nextAttack,'second attack choice');
+ await click('[data-x-card="'+nextAttack.card_id+'"]');
+ check('the same live target remains selected for the next card',el('.cw-actor[aria-pressed="true"]').dataset.xActor===targetBefore&&!el('[data-x="use"]').disabled);
+ await click('[data-x="withdraw"]');
+ check('withdraw uses one explicit action, reaches real return and keeps known data',data().phase==='return'&&app.state().screen==='return'&&data().return_receipt.outcome==='withdrawal');
+ await click('[data-j="hub"]');
+ check('return reaches destination view directly with the committed skills',app.state().screen==='hub'&&data().home.equipment.entries.some(x=>x.id==='base:PS04'));
+ await click('[data-j="deck"]');await click('[data-j="remove"][data-id="base:f"]');
+ const suspendedDraft=JSON.stringify(state().draft);await click('[data-j="menu"]');await click('[data-j="suspend"]');
+ check('suspend persists an incomplete draft in the existing adapter and opens continue',app.state().screen==='start');
+ await click('[data-j="resume"]');
+ check('resume restores the saved draft without an extra recap confirmation',app.state().screen==='deck'&&JSON.stringify(state().draft)===suspendedDraft);
+ check('D03 absence is explicit, with no store/inventory tabs or invented offers',root.textContent.includes('購入・変換は本体の対応待ち')&&!root.querySelector('[data-j="offers"]')&&!root.querySelector('[data-j="owned"]')&&data().home.candidates.length===0);
+ check('ambiguous old labels do not recur',!/(習得\s*→\s*取得|修正する|次の準備へ)/.test(root.textContent));
+ check('no script errors',errors.length===0);
+ app.dispose();dom.window.close();
+ const report={id:'CW-M1-UI-001',group:'journey-design-v0.1',result:'pass',count:checks.length,node:process.version,jsdom:require((process.env.CW_JSDOM_PATH||'jsdom')+'/package.json').version,checks,errors,conditions:['Unchanged real Campaign bundled locally, design-owned MemoryStore, natural return save.','IntersectionObserver callbacks simulated explicitly; optional detail text remains unopened.','Widths are DOM resize events only; CSS geometry and physical gestures are not rendered.'],limits:['No real browser, host appearance, IndexedDB persistence, touch or keyboard acceptance.','Formal exploration adapter remains partial v0.15; purchase/convert and complete record views remain pending.']};
+ const output=process.argv[2];if(output)fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({result:report.result,count:checks.length,errors}));
+})().catch(error=>{console.error(error);console.error(errors);process.exitCode=1;});

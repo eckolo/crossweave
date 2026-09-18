@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave 保存検査</title>
+<style>body{font:16px/1.7 system-ui,sans-serif;max-width:48em;margin:2em auto;padding:0 1em;color-scheme:light dark}button,a{display:inline-block;margin:4px;padding:8px}pre{white-space:pre-wrap;overflow-wrap:anywhere}#status{font-weight:600}</style></head>
+<body><h1>保存の接続を確認</h1>
+<p>ゲームの保存とは別の検査用データベースに、一意のテスト保存を作ります。既存の保存は変更しません。</p>
+<button type="button" id="run">検査を開始</button><a href="index.html">ゲーム画面を開く</a>
+<p id="status" role="status">未実行</p><pre id="result" aria-label="検査結果"></pre>
+<p>この検査だけでは、画面の収まりやブラウザーを閉じた後の再開は確認できません。編成を「確定」した後の再開と、探索中に「探索を中断」→ページを閉じる→同じURLの「続きから」も確認してください。</p>
+<script type="module">
+const run=document.getElementById('run'),status=document.getElementById('status'),result=document.getElementById('result');
+run.addEventListener('click',async()=>{
+ run.disabled=true;status.textContent='検査中…';result.textContent='';
+ const report={group:'co-u02-browser-save',at:new Date().toISOString(),origin:location.origin,secureContext:isSecureContext,indexedDB:typeof indexedDB!=='undefined'};
+ try{const {browserSmoke}=await import('../../../../../test/runtime/browser-smoke.mjs');report.result=await browserSmoke();status.textContent=report.result.ok?'保存検査を通過':'未通過';}
+ catch(error){report.error={code:error.code||null,message:String(error.message||error)};status.textContent='保存検査を完了できませんでした';}
+ finally{result.textContent=JSON.stringify(report,null,2);run.disabled=false;}
+});
+</script></body></html>

@@ -1,0 +1,142 @@
+const root=document.getElementById('crossweave-growth-001');
+const $=s=>root.querySelector(s),clone=x=>JSON.parse(JSON.stringify(x));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pt=n=>Number.isInteger(n)?String(n/100):'—';
+const icon=(name,fallback='◇')=>`<i data-lucide="${esc(name)}" aria-hidden="true">${fallback}</i>`;
+const button=(text,action,extra='',cls='')=>`<button type="button" data-action="${action}" ${extra} class="${cls}">${text}</button>`;
+let controller,view,plan,section,win=null,comparison=null,quote=null,notice='',failed=null,stale=false,oldDetails={},commandSeq=0,hoverTimer,leaveTimer;
+const home=()=>view.display_data.home,dd=()=>view.display_data;
+const dirty=()=>!!plan&&JSON.stringify(plan)!==JSON.stringify(currentPlan());
+const unsaved=()=>!!plan&&JSON.stringify(plan)!==JSON.stringify(dd().draft?.plan);
+function currentPlan(){const h=home();return h?{retain_learning:h.economy.learned.map(x=>x.base),cancel_learning:[],candidate:null,purchase_timing:'before_preparation',next_preparation:{learn:[],equipment:h.equipment.entries.map(x=>x.id),deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id))}}:null;}
+function detail(id){if(id==='$purchase')return dd().details[plan?.candidate]||oldDetails[plan?.candidate]||{name:'前の候補（失効）',icon:'circle-help',kind:'card'};return dd().details[id]||oldDetails[id]||{name:'前の選択（失効）',icon:'circle-help',kind:'card'};}
+function name(id){return detail(id).name;}
+function counts(ids){const r=new Map();for(const id of ids||[])r.set(id,(r.get(id)||0)+1);return [...r].map(([id,count])=>({id,count}));}
+function isLearned(base){return plan?.retain_learning.includes(base)||plan?.next_preparation.learn.includes(base);}
+function noticeFor(e){const z=e?.details||{};return ({insufficient_unspent_funds:`着想が ${pt(z.shortage_units)} 不足。取得を見送るか、心得を取り直す`,insufficient_learning_funds:`着想が ${pt(z.shortage_units)} 不足。習得予定を減らす`,unlearned_equipment_base:'基礎心得が未習得。習得するか、装備予定から外す',equipment_capacity_exceeded:`装備容量 ${z.used??'—'} / ${z.capacity??'—'}。装備予定を減らす`,deck_size:`札が ${z.size??'—'} / ${z.required_size??'—'} 枚。札組を調整する`,deck_base_cap:`同種は ${z.cap??'—'} 枚まで。札組を調整する`,duplicate_owned_card:'同じ個体を重ねて選べない。札組を調整する',duplicate_equipment:'同じ個体を重ねて装備できない',item_in_use:'札組・装備・下書きで使用中。準備から外して確定する',item_locked:'保護中。保護を外してから選び直す',storage_write_failed:'保存できなかった。下書きを保持しています',stale_revision:'内容が更新された。最新の候補を読み直す',stale_view:'この表示は古くなった。最新の候補を読み直す',stale_candidate:'前の候補は失効。最新の候補から選び直す',unknown_selection_handle:'前の選択は失効。今の準備から選び直す',candidate_unavailable:'この候補からは購入済み。次の候補を待つ',feature_not_connected:'この機能は接続待ち',conversion_value_not_connected:'この個体の変換額は接続待ち',return_not_acknowledged:'準備へ進んでから確定する',purchase_not_selected:'取得候補を選ぶか、購入予定の札を外す',dirty_draft:'未確定の変更あり。比較して確定する',content_not_ready:'探索への接続は次の段階です',learning_partition:'心得の選択を見直す',invalid_plan:'下書きの形式を確認できない',request_conflict:'再試行する操作が一致しない',invalid_request:'この操作を確認できない'})[e?.code]||'選択を確認してください';}
+function traceCommand(c){root.dispatchEvent(new CustomEvent('crossweave:command-preview',{detail:clone(c)}));}
+function makeCommand(type,payload={}){return {request_id:`ui-g-001-${++commandSeq}`,expected_revision:view.meta.revision,view_token:view.meta.view_token,type,payload:clone(payload)};}
+function applyResponse(r,{preserveLocal=false}={}){view=r;if(!preserveLocal)plan=clone(dd().draft?.plan||null);comparison=null;quote=null;win=null;}
+function execute(type,payload={},retry=null){
+ const c=retry||makeCommand(type,payload);traceCommand(c);const r=controller.execute(c);
+ if(r.display_data.error){failed=r.display_data.error.code==='storage_write_failed'?c:null;const code=r.display_data.error.code;if(['stale_revision','stale_view'].includes(code))stale=true;notice=noticeFor(r.display_data.error);render();return false;}
+ failed=null;stale=false;applyResponse(r);notice=type==='save_draft'?'下書きを保持':type==='commit_preparation'?'準備を確定':type==='convert_items'?'変換しました':type==='discard_draft'?'今の準備に戻しました':type==='set_item_lock'?'保護を変更':'';render();return true;
+}
+function compare(){if(!plan)return;const r=controller.previewPreparation({view_token:view.meta.view_token,plan});comparison=r.display_data.preparation_comparison;if(['stale_view','stale_revision'].includes(comparison?.refusal?.code)){stale=true;notice=noticeFor(comparison.refusal);}return comparison;}
+function edit(fn){fn();failed=null;notice='';comparison=null;quote=null;win=null;compare();render();}
+function initialize(example){controller=createMockController(DATA,example);view=controller.inspect();plan=clone(dd().draft?.plan||null);section=dd().phase==='return'?'return':'deck';win=null;comparison=null;quote=null;notice='';failed=null;stale=false;oldDetails={};$('[data-lab-status]').textContent='';render();}
+function tile(id,origin,amount){const d=detail(id);return `<button type="button" class="cw-tile ${origin==='予定'?'cw-planned':''}" data-detail="${esc(id)}" data-origin="${origin}" aria-label="${esc(d.name+'・'+origin)}" aria-pressed="${win?.id===id&&win?.pinned?'true':'false'}"><span class="cw-art">${icon(d.icon)}</span><span class="cw-name">${esc(d.name)}</span><small>${origin==='初期札'?'初期札':origin==='候補'?'取得候補':origin==='心得'?(isLearned(d.base_id)?'習得予定':'未習得'):origin}</small>${amount?`<span class="cw-count">${origin==='候補'?amount:amount+'枚'}</span>`:''}</button>`;}
+function mini(id,count=1){return `<button type="button" class="cw-mini ${id==='$purchase'?'cw-planned':''}" data-detail="${esc(id)}" data-origin="予定" aria-label="${esc(name(id)+'・予定'+count)}">${icon(detail(id).icon)}${count>1?`<small>×${count}</small>`:''}</button>`;}
+function ledger(c){if(!c?.ok)return c?`<div class="cw-error" role="alert">${esc(noticeFor(c.refusal))}</div>`:'';const s=c.stages;return `<dl class="cw-ledger"><dt>取消による返還</dt><dd>+${pt(c.cancellation.actual_refund_units)}</dd><dt>取消後</dt><dd>${pt(s.after_cancellation.unspent_units)}</dd><dt>購入予定</dt><dd>−${pt(c.purchase.cost_units)}</dd><dt>習得予定</dt><dd>−${pt(c.learning.payment_units)}</dd><dt class="cw-result">確定後の残額</dt><dd class="cw-result">${pt(s.prepared.unspent_units)}</dd><dt>確定後の既払</dt><dd>${pt(s.prepared.paid_learning_units)}</dd></dl>`;}
+function draftPane(){if(!home())return '';const p=plan.next_preparation,used=p.equipment.reduce((s,id)=>s+(detail(id).equipment_cost||0),0),c=comparison;return `<aside class="cw-draft" aria-label="変更案"><div class="cw-row"><h3>${dirty()?'変更案':'今の準備'}</h3><small>${dirty()?'未確定':''}</small></div><div class="cw-draft-content"><div class="cw-row"><span>札組</span><small>${p.deck.length} / ${home().deck.required_size} 枚</small></div><div class="cw-mini-grid">${counts(p.deck).map(x=>mini(x.id,x.count)).join('')}</div><div class="cw-row"><span>装備</span><small>${used} / ${home().equipment.capacity}</small></div><div class="cw-mini-grid">${p.equipment.length?p.equipment.map(id=>mini(id)).join(''):'<small>なし</small>'}</div>${plan.candidate?`<small>購入予定 · ${esc(name('$purchase'))}</small>`:''}${dirty()?(c?.ok?`<dl class="cw-ledger"><dt>返還予定</dt><dd>+${pt(c.cancellation.actual_refund_units)}</dd><dt>支出予定</dt><dd>−${pt(c.purchase.cost_units+c.learning.payment_units)}</dd><dt class="cw-result">確定後</dt><dd class="cw-result">${pt(c.stages.prepared.unspent_units)}</dd></dl>`:ledger(c)):''}</div><div class="cw-draft-actions">${dirty()?`<div class="cw-actions">${button('比較','review','','cw-primary')}</div><div class="cw-actions">${button('下書きを保存','save-draft',stale?'disabled':'')}${button('戻す','discard-confirm')}</div>`:`<div class="cw-actions">${button('出発','depart','','cw-primary')}</div>`}</div></aside>`;}
+function content(){const h=home();if(!h)return `<div class="cw-main" style="grid-column:1/-1"><h2>準備</h2><div class="cw-empty"><p>準備データの接続待ち</p><small>帰還結果は保持されています</small></div></div>`;let body='',heading='',summary='';
+ if(section==='deck'){heading='札組';summary='初期札と所持札';body=`<span class="cw-section-title">初期札</span><div class="cw-grid">${h.free_card_options.map(id=>tile(id,'初期札',plan.next_preparation.deck.filter(x=>x===id).length)).join('')}</div><span class="cw-section-title">所持札</span><div class="cw-grid">${h.owned.filter(o=>o.selection_kind==='deck').map(o=>tile(o.id,'所持',plan.next_preparation.deck.includes(o.id)?1:0)).join('')||'<small>なし</small>'}</div>${plan.candidate&&detail('$purchase').kind==='card'?`<span class="cw-section-title">購入予定</span><div class="cw-grid">${tile('$purchase','予定',plan.next_preparation.deck.includes('$purchase')?1:0)}</div>`:''}`;}
+ if(section==='skills'){heading='心得';summary='習得と装備';body=`<span class="cw-section-title">基礎心得</span><div class="cw-grid">${h.learning_options.map(o=>tile('base:'+o.base,'心得')).join('')}</div><span class="cw-section-title">所持している心得</span><div class="cw-grid">${h.owned.filter(o=>o.selection_kind==='equipment').map(o=>tile(o.id,'所持')).join('')||'<small>なし</small>'}</div>${plan.candidate&&detail('$purchase').kind==='passive'?`<span class="cw-section-title">購入予定</span><div class="cw-grid">${tile('$purchase','予定')}</div>`:''}`;}
+ if(section==='owned'){heading='所持';summary=`${h.owned.length}個`;body=`<div class="cw-grid">${h.owned.map(o=>tile(o.id,o.locked?'保護中':'所持')).join('')}</div>${!h.owned.length?'<div class="cw-empty"><p>所持品はまだありません</p>'+button('取得候補へ','nav-offers')+'</div>':''}`;}
+ if(section==='offers'){heading='取得';summary=h.offers.status==='purchased'?'購入済み':h.offers.carried_from_previous_return?'前回の候補':h.candidates.length?'候補から1つ':'';if(!dd().capabilities.purchase.available)body='<div class="cw-empty"><p>取得は接続待ち</p>'+button('札組へ','nav-deck')+'</div>';else if(!h.candidates.length)body='<div class="cw-empty"><p>今回の候補なし</p>'+button('準備を続ける','nav-deck')+'</div>';else body=`<div class="cw-grid">${h.candidates.map(o=>tile(o.id,'候補',pt(o.price_units))).join('')}</div><div class="cw-actions" style="margin-top:16px">${h.offers.status!=='purchased'?button('見送る','skip'):''}</div>`;}
+ return `<main class="cw-main"><div class="cw-row"><h2>${heading}</h2><small>${summary}</small></div><div class="cw-scroll" data-scroll>${body}</div><small data-scroll-hint hidden>↓ 続き</small></main>${draftPane()}`;
+}
+function returnPage(){const r=dd().return_receipt,nt=!home(),unspent=r.unspent_after_units??r.available_units;return `<main class="cw-return"><div class="cw-return-head"><small>${nt?'夜潮の排水路':'探索から戻った'}</small><h2>帰還</h2><div>着想 <strong>+${pt(r.gained_units)}</strong></div><small>精算済み</small></div><div class="cw-return-list"><div class="cw-row"><span>持ち帰り</span><span>${r.kept_count??r.kept_items?.length??'—'}個</span></div><div class="cw-row"><span>喪失</span><span>${r.lost_count??r.lost_items?.length??'—'}個</span></div><div><small>種類解放</small><p>${nt?'汐留め':'踏ん張り'}</p></div>${nt?'<div><small>案件</small><p>解決済み · 次は連絡路の調査</p></div>':''}<dl class="cw-ledger"><dt>未使用</dt><dd>${pt(unspent)}</dd><dt>既払</dt><dd>${pt(r.paid_learning_units)}</dd></dl></div><div class="cw-return-actions">${!nt?button('心得の取り直しを比較','return-compare'):''}${button('次の準備へ','ack','','cw-primary')}</div></main>`;}
+function render(){
+ const h=home(),returning=section==='return';$('[data-top]').innerHTML=`<div class="cw-top-title"><span>crossweave</span><small>${returning?'古道具屋':'出発準備'}</small></div><div class="cw-wallet">${h?`<span>着想 <strong>${pt(h.economy.unspent_units)}</strong></span><small>既払 ${pt(h.economy.paid_learning_units)}</small>`:''}</div>`;
+ $('[data-workspace]').dataset.screen=returning?'return':h?section:'unconnected';
+ $('[data-workspace]').innerHTML=returning?returnPage():content();
+ $('[data-footer]').innerHTML=returning?'<small>古道具屋</small>':`${[['deck','札組'],['skills','心得'],['owned','所持'],['offers','取得']].map(([s,l])=>button(l,'nav-'+s,`aria-pressed="${section===s}" ${!h?'disabled':''}`)).join('')}<span class="cw-spacer"></span><small>${plan?'札 '+plan.next_preparation.deck.length+'枚':''}</small>`;
+ $('[data-notice]').innerHTML=notice?`<span ${failed||stale?'role="alert"':''}>${esc(notice)}</span>${failed?button('再試行','retry'):''}${stale?button('最新を読む','refresh'):''}`:'';
+ renderWindow();icons();queueMicrotask(updateLayout);
+}
+function icons(){if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:16,height:16}});}
+function popupHeader(title){return `<div class="cw-row"><h2>${esc(title)}</h2>${button(icon(win?.pinned?'pin':'pin-off',win?.pinned?'◆':'◇'),'pin',`aria-label="${win?.pinned?'ピン留めを解除':'ピン留め'}" aria-pressed="${!!win?.pinned}"`,'cw-pin')}</div>`;}
+function renderWindow(){const overlay=$('[data-overlay]');if(!win){overlay.innerHTML='';return;}let body='',review=false;
+ if(win.type==='detail'){
+  const id=win.id,d=detail(id),h=home(),candidate=h?.candidates.find(c=>c.id===id),owned=h?.owned.find(o=>o.id===id),base=isLearned(d.base_id),n=plan?.next_preparation.deck.filter(x=>x===id).length||0;
+  body=popupHeader(d.name)+`<div class="cw-art">${icon(d.icon)}</div><div class="cw-row"><small>${candidate?'取得候補':owned?'所持個体':id==='$purchase'?'購入予定':d.kind==='passive'?'基礎心得':'初期札'}</small><small>${d.kind==='passive'?'装備容量 '+d.equipment_cost:''}</small></div>${d.affixes?.length?d.affixes.map(a=>`<div><small>${esc(a.label)}</small><p>${esc(a.description)}</p></div>`).join(''):''}${d.effect_text?`<p>${esc(d.effect_text)}</p>`:'<small>効果の詳細は接続待ち</small>'}`;
+  if(candidate){body+=`<dl class="cw-ledger"><dt>価格</dt><dd>${pt(candidate.price_units)}</dd><dt>現在の不足</dt><dd>${pt(Math.max(0,candidate.price_units-h.economy.unspent_units))}</dd></dl>${d.kind==='passive'&&!base?'<small>購入後も所持のみ · 基礎心得が未習得</small>':''}<div class="cw-actions">${button(plan.candidate===id?'購入予定を外す':'購入予定にする','candidate',`data-id="${esc(id)}" ${!candidate.available?'disabled':''}`,'cw-primary')}</div>`;}
+  else{
+   if(id.startsWith('base:')&&d.kind==='passive'){
+    const already=h.economy.learned.some(l=>l.base===d.base_id),cancelled=plan.cancel_learning.includes(d.base_id),newly=plan.next_preparation.learn.includes(d.base_id),paid=h.economy.learned.find(l=>l.base===d.base_id)?.paid_units;
+    body+=`<div class="cw-row"><span>${already?(cancelled?'取消予定':'習得済み'):newly?'習得予定':'未習得'}</span><span>${already?'既払 '+pt(paid):'習得 '+pt(d.learning_cost_units)}</span></div><div class="cw-actions">${button(already?(cancelled?'取消を戻す':'習得を取り消す'):(newly?'習得予定を外す':'習得予定にする'),'learning',`data-base="${d.base_id}"`)}</div>`;
+   }
+   if(d.kind==='card')body+=`<div class="cw-row"><span>札組 · ${n}枚</span><div class="cw-actions">${button('−','deck-remove',`data-id="${esc(id)}" aria-label="札組から1枚外す" ${!n?'disabled':''}`)}${button('＋','deck-add',`data-id="${esc(id)}" aria-label="札組に1枚加える" ${(!id.startsWith('base:')&&n)?'disabled':''}`,'cw-primary')}</div></div>`;
+   else body+=`${!base?'<small>装備には基礎心得の習得が必要</small>':''}<div class="cw-actions">${button(plan.next_preparation.equipment.includes(id)?'装備予定から外す':'装備予定にする','equip',`data-id="${esc(id)}"`,base?'cw-primary':'')}</div>`;
+   if(owned)body+=`<div class="cw-actions">${button(icon(owned.locked?'lock-keyhole':'lock-open',owned.locked?'◆':'◇'),'lock',`data-id="${esc(id)}" aria-label="${owned.locked?'変換保護を外す':'変換から保護する'}"`)}${button('変換','quote',`data-id="${esc(id)}"`,'cw-danger')}</div>`;
+  }
+ }
+ if(win.type==='review'){
+  review=true;const c=comparison;body=popupHeader(dd().phase==='return'?'取り直しの比較':'変更の比較');
+  if(c?.ok){const changes=c.differences;body+=`<div class="cw-review-cols"><section>${ledger(c)}</section><section class="cw-review-list"><h3>差分</h3>${changes.equipment.removed.map(x=>`<small>装備から外す · ${esc(name(x.id))}</small>`).join('')}${changes.equipment.added.map(x=>`<small>装備する · ${esc(name(x.id))}</small>`).join('')}${changes.deck.removed.map(x=>`<small>札組 −${x.count} · ${esc(name(x.id))}</small>`).join('')}${changes.deck.added.map(x=>`<small>札組 +${x.count} · ${esc(name(x.id))}</small>`).join('')}<small>所持 ${home().owned.length} → ${c.prepared.owned.length}個</small><small>札 ${c.prepared.deck.size}枚 · 装備 ${c.prepared.equipment.used}/${c.prepared.equipment.capacity}</small>${plan.candidate&&detail('$purchase').kind==='passive'&&!isLearned(detail('$purchase').base_id)?'<small>購入する心得は所持のみ · 未習得</small>':''}</section></div>`;}
+  else body+=ledger(c);
+  body+=`<div class="cw-row"><small>取消後の順序</small><select data-timing aria-label="比較の処理順"><option value="before_preparation" ${plan?.purchase_timing==='before_preparation'?'selected':''}>取得 → 習得</option><option value="after_preparation" ${plan?.purchase_timing==='after_preparation'?'selected':''}>習得 → 取得</option></select></div><div class="cw-actions">${button('修正する','close')}${dd().phase==='return'?button('次の準備へ','ack','','cw-primary'):button('変更を確定','commit',c?.ok&&!stale?'':'disabled','cw-primary')}</div>`;
+ }
+ if(win.type==='conversion'){
+  body=popupHeader('変換');if(quote){body+=`<div class="cw-art">${icon(detail(win.id).icon)}</div><p>${esc(name(win.id))}</p><dl class="cw-ledger"><dt>手放す</dt><dd>${quote.removed_count}個</dd><dt>着想</dt><dd>+${pt(quote.total_units)}</dd><dt>確定後</dt><dd>${pt(quote.unspent_after_units)}</dd></dl><div class="cw-actions">${button('戻る','close')}${button('変換する','convert',`data-id="${esc(win.id)}"`,'cw-danger')}</div>`;}else body+=`<p class="cw-error" role="alert">${esc(notice)}</p><div class="cw-actions">${button(unsaved()?'下書きを保存':'準備へ','conversion-recover')}</div>`;
+ }
+ if(win.type==='discard'){body=popupHeader('変更を戻す')+'<p>未確定の変更を取り消します</p><div class="cw-actions">'+button('続ける','close')+button('今の準備に戻す','discard','','cw-danger')+'</div>';}
+ overlay.innerHTML=`<div class="${win.type==='detail'?'cw-detail-layer':'cw-shade'}" data-outside><section class="cw-popup ${review?'cw-review':''}" role="dialog" aria-label="${esc(win.type==='detail'?name(win.id):win.type==='review'?'変更の比較':win.type==='conversion'?'変換':'変更を戻す')}">${body}</section></div>`;positionDetail();icons();
+}
+function openDetail(id,origin,pinned){if(win?.type==='detail'&&win.id===id&&pinned){if(win.pinned){win=null;renderWindow();return;}win.pinned=true;renderWindow();return;}if(!pinned&&win?.pinned)return;win={type:'detail',id,origin,pinned};renderWindow();}
+root.addEventListener('click',event=>{
+ const source=event.target.closest('[data-detail]');if(source&&root.contains(source)){clearTimeout(hoverTimer);clearTimeout(leaveTimer);openDetail(source.dataset.detail,source.dataset.origin,true);return;}
+ const b=event.target.closest('[data-action]');if(!b){if(event.target.matches('[data-outside]')||(win?.type==='detail'&&event.target.closest('.cw-game')&&!event.target.closest('.cw-popup'))){win=null;renderWindow();}return;}
+ const action=b.dataset.action,id=b.dataset.id,base=b.dataset.base;
+ if(action.startsWith('nav-')){section=action.slice(4);win=null;render();return;}
+ if(action==='close'){win=null;renderWindow();return;}
+ if(action==='pin'){win.pinned=!win.pinned;renderWindow();return;}
+ if(action==='return-compare'){plan=currentPlan();plan.cancel_learning=plan.retain_learning;plan.retain_learning=[];plan.next_preparation.equipment=[];compare();win={type:'review',pinned:true};renderWindow();return;}
+ if(action==='ack'){const cancelled=clone(plan?.cancel_learning||[]);if(execute('ack_return')){section='deck';if(plan&&cancelled.length){plan.retain_learning=plan.retain_learning.filter(x=>!cancelled.includes(x));plan.cancel_learning=cancelled;plan.next_preparation.equipment=plan.next_preparation.equipment.filter(x=>!cancelled.includes(detail(x).base_id));compare();}render();}return;}
+ if(action==='candidate'){edit(()=>{plan.next_preparation.deck=plan.next_preparation.deck.filter(x=>x!=='$purchase');plan.next_preparation.equipment=plan.next_preparation.equipment.filter(x=>x!=='$purchase');plan.candidate=plan.candidate===id?null:id;});return;}
+ if(action==='skip'){edit(()=>{plan.candidate=null;plan.next_preparation.deck=plan.next_preparation.deck.filter(x=>x!=='$purchase');plan.next_preparation.equipment=plan.next_preparation.equipment.filter(x=>x!=='$purchase');});section='deck';notice='取得を見送りました';render();return;}
+ if(action==='learning'){edit(()=>{const learned=home().economy.learned.some(x=>x.base===base);if(learned){if(plan.cancel_learning.includes(base)){plan.cancel_learning=plan.cancel_learning.filter(x=>x!==base);plan.retain_learning.push(base);}else{plan.retain_learning=plan.retain_learning.filter(x=>x!==base);plan.cancel_learning.push(base);plan.next_preparation.equipment=plan.next_preparation.equipment.filter(x=>detail(x).base_id!==base);}}else{const a=plan.next_preparation.learn;if(a.includes(base)){plan.next_preparation.learn=a.filter(x=>x!==base);plan.next_preparation.equipment=plan.next_preparation.equipment.filter(x=>detail(x).base_id!==base);}else a.push(base);}});return;}
+ if(action==='deck-add'||action==='deck-remove'){edit(()=>{const a=plan.next_preparation.deck;if(action==='deck-add')a.push(id);else{const i=a.indexOf(id);if(i>=0)a.splice(i,1);}});return;}
+ if(action==='equip'){edit(()=>{const a=plan.next_preparation.equipment;if(a.includes(id))plan.next_preparation.equipment=a.filter(x=>x!==id);else a.push(id);});return;}
+ if(action==='review'){compare();win={type:'review',pinned:true};render();return;}
+ if(action==='commit'){execute('commit_preparation',{plan});return;}
+ if(action==='save-draft'){execute('save_draft',{plan});return;}
+ if(action==='discard-confirm'){win={type:'discard',pinned:true};renderWindow();return;}
+ if(action==='discard'){execute('discard_draft');return;}
+ if(action==='depart'){if(dirty()){notice='変更が未確定。比較して確定するか、戻してください';render();}else execute('depart',{case_id:'SCN-001'});return;}
+ if(action==='quote'){
+  if(unsaved()){quote=null;notice='先に下書きを保存し、変換する個体を選び直す';}
+  else {const r=controller.quoteConversion({view_token:view.meta.view_token,item_ids:[id]});quote=r.display_data.conversion_quote;notice=r.display_data.error?noticeFor(r.display_data.error):'';}
+  win={type:'conversion',id,pinned:true};renderWindow();return;
+ }
+ if(action==='convert'){execute('convert_items',{item_ids:[id]});return;}
+ if(action==='conversion-recover'){if(unsaved())execute('save_draft',{plan});else{section='deck';win=null;notice='';render();}return;}
+ if(action==='lock'){if(unsaved()){notice='先に下書きを保存してください';win=null;render();return;}const o=home().owned.find(x=>x.id===id);execute('set_item_lock',{item_id:id,locked:!o.locked});return;}
+ if(action==='retry'){if(failed)execute(failed.type,failed.payload,failed);return;}
+ if(action==='refresh'){oldDetails={...oldDetails,...dd().details};view=controller.inspect();comparison=null;failed=null;notice='前の下書きを保持。今の準備から選び直してください';stale=true;win={type:'discard',pinned:true};render();return;}
+ if(action==='fail-save'){controller.testing.failNext();$('[data-lab-status]').textContent='次の保存：失敗を模擬';return;}
+ if(action==='stale'){controller.testing.stale();$('[data-lab-status]').textContent='更新を模擬。次の比較・確定で古さを確認';return;}
+ if(action==='reopen'){const r=controller.testing.reopen();if(r.meta.view_token===view.meta.view_token){view=r;notice='';render();}else{stale=true;notice='内容が更新された。最新を読み直す';render();}return;}
+ if(action==='replay'){const last=controller.testing.last();if(!last){$('[data-lab-status]').textContent='まだ確定操作なし';return;}if(unsaved()){$('[data-lab-status]').textContent='下書きを保存してから再送を確認';return;}const before=controller.testing.snapshot();const r=controller.execute(last);applyResponse(r);$('[data-lab-status]').textContent=before===controller.testing.snapshot()?'再送：重複適用なし':'再送で変化';render();return;}
+});
+root.addEventListener('change',e=>{if(e.target.matches('[data-example]'))initialize(e.target.value);if(e.target.matches('[data-timing]')){failed=null;notice='';plan.purchase_timing=e.target.value;compare();win={type:'review',pinned:true};render();}});
+root.addEventListener('mouseover',e=>{if(e.target.closest('.cw-popup')){clearTimeout(leaveTimer);return;}const b=e.target.closest('[data-detail]');if(!b||b.contains(e.relatedTarget))return;clearTimeout(hoverTimer);if(win?.pinned)return;hoverTimer=setTimeout(()=>openDetail(b.dataset.detail,b.dataset.origin,false),180);});
+root.addEventListener('mouseout',e=>{const b=e.target.closest('[data-detail]');if(b&&!b.contains(e.relatedTarget))clearTimeout(hoverTimer);if((b||e.target.closest('.cw-popup'))&&!e.relatedTarget?.closest?.('.cw-popup')){leaveTimer=setTimeout(()=>{if(win&&!win.pinned){win=null;renderWindow();}},140);}});
+root.addEventListener('keydown',e=>{if(e.key==='Escape'&&win){win=null;renderWindow();}});
+// Dimensions follow this fragment's container, never the surrounding window or a fixed canvas.
+function updateScrollCue(){const s=$('[data-scroll]'),hint=$('[data-scroll-hint]');if(s&&hint)hint.hidden=s.scrollHeight-s.scrollTop<=s.clientHeight+4;}
+function positionDetail(){
+ if(win?.type!=='detail')return;
+ const source=[...root.querySelectorAll('[data-detail]')].find(n=>n.dataset.detail===win.id),layer=$('.cw-detail-layer');
+ const g=$('.cw-game').getBoundingClientRect(),r=source?.getBoundingClientRect();
+ if(layer)layer.style.justifyItems=r&&r.left-g.left>g.width/2?'start':'end';
+}
+function updateLayout(){
+ const game=$('.cw-game'),g=game.getBoundingClientRect();
+ if(g.height>0){
+  const top=$('[data-top]').getBoundingClientRect(),foot=$('[data-footer]').getBoundingClientRect(),message=$('[data-notice]').getBoundingClientRect();
+  const lower=message.height>0?Math.min(message.top,foot.top):foot.top;
+  game.style.setProperty('--cw-detail-top',Math.ceil(top.bottom-g.top+8)+'px');
+  game.style.setProperty('--cw-detail-bottom',Math.ceil(g.bottom-lower+8)+'px');
+ }
+ updateScrollCue();positionDetail();
+}
+if(typeof ResizeObserver!=='undefined'){
+ const observer=new ResizeObserver(updateLayout);
+ for(const selector of ['.cw-game','[data-top]','[data-workspace]','[data-notice]','[data-footer]'])observer.observe($(selector));
+}
+root.addEventListener('scroll',updateScrollCue,true);
+window.addEventListener('resize',updateLayout);
+__GROWTH_TEST__
+initialize('return');

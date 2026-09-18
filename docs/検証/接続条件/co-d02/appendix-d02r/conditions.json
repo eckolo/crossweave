@@ -1,0 +1,34 @@
+{
+  "id": "CW-M1-A-002",
+  "task": "CO-D02R",
+  "recorded_before_implementation": true,
+  "date_jst": "2026-09-18",
+  "base_commit": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+  "plan_commit": "5e86a3d2aad6fc101b2ef721c6f824511b03d99a",
+  "ui_source_commit": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
+  "instruction_blob": "ae3411f17f915dedab0a6a1f233275c151bf180b",
+  "purpose": "UI受領と同一一手の公開能力予測、履歴・参照情報の互換追加",
+  "rules": "基本設計0.53/D53、入力0.1。身構／常時軽減の演算は現行を維持",
+  "protected_files": {
+    "docs/検証/接続条件/co-d02/saves/manifest.json": "c5eea02b5622146f21c396a01e3b92cb0facc601f6f70d79b2ede14d2a937864",
+    "docs/仕様案/接続データ/co-01a/m1-input.v0.1.json": "5e030a86aa67c5029a4e2b54236bd99b459cacc3c69755d4e04f704942d436d6",
+    "docs/確定仕様/カード探索ゲーム_基本設計.md": "e37e4f9bd420337350df900625d6bd52b79c0a4081fe8022907112589c7d6588",
+    "docs/検証/接続条件/co-d02/saves/entry.save.json.gz": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+    "docs/検証/接続条件/co-d02/saves/home.save.json.gz": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+    "docs/検証/接続条件/co-d02/saves/port.save.json.gz": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+    "docs/検証/接続条件/co-d02/saves/return.save.json.gz": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+    "docs/検証/接続条件/co-d02/saves/second-return.save.json.gz": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d"
+  },
+  "protected_pt_nt_tree": "7bb3ba7ff8912bad0379341a26cbfabb941a34c7",
+  "inputs": "D02自然保存5件を読取り専用で再利用。追加境界はコピーへ変更点と根拠を列挙。同一状態から同一一手のみ実行し、旧自然進行と比較を再走しない。",
+  "checks": [
+    "preview vs shared one-step resolver before any subsequent NPC action",
+    "preview leaves saved state/RNG/revision unchanged",
+    "placement, stance end/replacement, critical consumption, support-source departure",
+    "history public names survive reopen; legacy missing names remain unknown",
+    "own/public pile aggregate only; no NPC hidden deck, order, unknown names or RNG",
+    "published/read past texts and actor knowledge links without raw save",
+    "five legacy saves + pending contexts unchanged; UI current and review entry connection"
+  ],
+  "finish": "実コード・応答例・実行結果・互換境界・UI受領範囲・身構未決資料・GitHub保存読戻しを記録。人評価・実機未実施は未了、D03へ自動続行しない。"
+}

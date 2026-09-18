@@ -1,0 +1,290 @@
+{
+  "execution": "mock_only",
+  "traces": [
+    {
+      "id": "cancel-buy-commit",
+      "calls": [
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-1",
+            "expected_revision": 10,
+            "view_token": "mock-view-10",
+            "type": "commit_preparation",
+            "payload": {
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "offer-10-2",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "$purchase",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "base:sweep",
+                    "item-10-1"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-1",
+            "expected_revision": 10,
+            "view_token": "mock-view-10",
+            "type": "commit_preparation",
+            "payload": {
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "offer-10-2",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "$purchase",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "base:sweep",
+                    "item-10-1"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "conversion",
+      "calls": [
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "quoteConversion",
+          "args": {
+            "view_token": "mock-view-10",
+            "item_ids": [
+              "item-10-2"
+            ]
+          }
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-7",
+            "expected_revision": 10,
+            "view_token": "mock-view-10",
+            "type": "convert_items",
+            "payload": {
+              "item_ids": [
+                "item-10-2"
+              ]
+            }
+          }
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-7",
+            "expected_revision": 10,
+            "view_token": "mock-view-10",
+            "type": "convert_items",
+            "payload": {
+              "item_ids": [
+                "item-10-2"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "storage-retry",
+      "calls": [
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "inspect",
+          "revision": 10
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-13",
+            "expected_revision": 10,
+            "view_token": "mock-view-10",
+            "type": "save_draft",
+            "payload": {
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "offer-10-2",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "$purchase",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "base:sweep",
+                    "item-10-1"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "method": "inspect",
+          "revision": 11
+        },
+        {
+          "method": "inspect",
+          "revision": 11
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-14",
+            "expected_revision": 11,
+            "view_token": "mock-view-11",
+            "type": "commit_preparation",
+            "payload": {
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "offer-11-2",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "$purchase",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "base:sweep",
+                    "item-11-1"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "method": "inspect",
+          "revision": 11
+        },
+        {
+          "method": "execute",
+          "command": {
+            "request_id": "test-14",
+            "expected_revision": 11,
+            "view_token": "mock-view-11",
+            "type": "commit_preparation",
+            "payload": {
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "offer-11-2",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "$purchase",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "base:sweep",
+                    "item-11-1"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "method": "inspect",
+          "revision": 12
+        }
+      ]
+    }
+  ]
+}

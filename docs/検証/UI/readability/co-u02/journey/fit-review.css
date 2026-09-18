@@ -1,0 +1,28 @@
+/* v0.8: controls belong to their subject; linked panes never cover each other. */
+#crossweave-journey .cw-prose-line{display:block;white-space:normal;overflow-wrap:break-word;text-wrap:wrap}
+#crossweave-journey .cj-destination-summary{grid-template-columns:minmax(0,1fr)}
+#crossweave-journey .cj-destination-heading{grid-area:2/1;display:flex;align-items:center;gap:8px;min-width:0}
+#crossweave-journey .cj-destination-heading h2{font-size:22px;font-weight:500;margin:0;min-width:0}
+#crossweave-journey .cj-destination-heading>.cj-button{flex:none;min-height:44px;min-width:60px;padding:4px 8px}
+#crossweave-journey [data-inspector][data-layout="linked"]{display:block;overflow:visible;pointer-events:none;container-type:normal}
+#crossweave-journey [data-layout="linked"]>.cj-inspect-item{position:absolute;pointer-events:auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;container-type:inline-size}
+#crossweave-journey .cj-inspect-top{flex-wrap:wrap;gap:0 4px;padding:0 4px;min-height:44px}
+#crossweave-journey .cj-inspect-top h2{flex:1;white-space:normal;overflow-wrap:anywhere}
+#crossweave-journey .cj-inspect-top .cj-button{width:44px;min-width:44px;height:44px;min-height:44px;padding:0;gap:0}
+#crossweave-journey .cj-inspect-top [data-j="pin"][aria-pressed="true"]{background:light-dark(#315849,#c6d9ba);color:light-dark(#fffef5,#193224)}
+#crossweave-journey .cj-inspect-scroll{gap:10px}
+#crossweave-journey .cj-inspect-item>.cj-detail-actions{flex-wrap:wrap;max-height:44%;overflow:auto;overscroll-behavior:contain}
+#crossweave-journey .cj-inspect-item>.cj-detail-actions .cj-button{min-height:44px}
+#crossweave-journey .cw-properties ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+#crossweave-journey .cw-properties h3{margin:0 0 6px}
+@container(max-width:260px){
+ #crossweave-journey [data-layout="linked"] .cj-inspect-top h2{flex-basis:100%;order:-1;font-size:13px;line-height:18px;margin:0;max-height:36px;overflow:auto}
+ #crossweave-journey [data-layout="linked"] .cj-inspect-top .cj-button:last-child{margin-left:auto}
+ #crossweave-journey [data-layout="linked"] .cj-inspect-scroll{padding:6px;gap:8px}
+ #crossweave-journey [data-layout="linked"] .cj-record-tabs{flex-wrap:wrap}
+ #crossweave-journey [data-layout="linked"] .cj-build-list{grid-template-columns:minmax(0,1fr)}
+}
+@container(max-width:620px){
+ #crossweave-journey .cj-destination-heading h2{font-size:18px;line-height:23px}
+ #crossweave-journey .cj-destination-heading{gap:6px}
+}

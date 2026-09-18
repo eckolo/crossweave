@@ -1,3 +1,15 @@
+## 2026-09-18 CO-D02R受領・開始
+
+既存Work `20260909-design-assembly`を継承。作業・統合先は`dev_design_tmp_assembly`、統合担当は本Work。必須同期元は`ops/project-coordination-20260913`のとりまとめ全体1本。共通runtime・保存・公開契約と本体統合・自Work記録は本Work、UI専用原本はUI担当を維持する。
+
+開始時は手元／GitHubとも`7a0ce6fad3ce873638ad0e8d923c7559b420a6ed`、未保存差分0。計画`5e86a3d2aad6fc101b2ef721c6f824511b03d99a`（0.8、同期手順1.7、実装基準0.5）の全14path/blobを実同期し受領JSONへ記録。CO-D02R指示0.2に従う。UI最新`ac610be8e07ee026c8330b72ec7e9e8ee8780346`、PR #1はopen・draft・未マージ。UIのWork末尾・remaining-work・exploration-save・review READMEと現行入口を参照した。新UIは枝保存済みで、以下の旧「未保存・ZIP待ち」は過去記録。
+
+今回の範囲：UI専用成果の選択受領、本人を含む一手解決直後の能力値、解決時の公開札名保持、山札の公開内訳／参照、公開・既読本文一覧、主体と調査の公開キー。互換追加を基本とし、身構の統一は現行との差と遊び方が変わる未決細部だけを具体案へまとめる。未決中も現行予測は完成する。
+
+固定条件は`docs/検証/接続条件/co-d02/appendix-d02r/conditions.json`。旧D02自然保存5件・旧AU〜BF/BD/BE・PT-NT・入力0.1を保全し、再戦闘・再生成を開始条件にしない。D03のpending_contextsと一回精算を維持。正式基本設計0.53/D53・既採用方針・試行値の区別を変更しない。
+
+現在の未保存は計画コピー・受領JSON・本開始記録・新追補条件のみ。次の具体操作はUI専用の対象path/blobを固定して選択取込み、共通演算と公開境界を確認後に実装する。新検査は固定保存のコピーと明示境界のみで、一手予測と同じ一手の実行、読取り不変、旧保存互換、UI前後接続を対象にする。実描画／物理入力／IndexedDBはNodeと区別し、既存Browser拒否を迂回しない。まとまった結果を通常保存・非強制Push・GitHub読戻し後、今回単位を終了する。D03/D04/D05・UI全画面改修へ続行しない。
+
 ## 2026-09-15 CO-D02終了・成果保存確認済み
 
 WorkID `20260909-design-assembly`／作業ブランチ・統合先 `dev_design_tmp_assembly`／統合担当は本Workを継承した。必須同期元は `ops/project-coordination-20260913` のとりまとめ全体（b25e7ab、計画0.6、12blob）。今回のCO-D02を終了し稼働枠を解放する。CO-D03・D04・D05へ自動続行しない。
