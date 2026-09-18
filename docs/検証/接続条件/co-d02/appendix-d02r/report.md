@@ -2,7 +2,11 @@
 
 2026-09-18 JST。Work `20260909-design-assembly`／作業・統合先 `dev_design_tmp_assembly`。
 
-UI 0.11.1の専用232ファイルを原文のまま受領し、同じCampaignへ能力予測・履歴札名・山札参照・過去本文・調査キーを追加した。[利用案内とUIへの接続表](README.md)、[応答例](examples.json)、[身構統一の未決資料](stance-decision.md)。今回の単位を保存・GitHub読戻し後に終了する。
+UI 0.11.1の専用232ファイルを原文のまま受領し、同じCampaignへ能力予測・履歴札名・山札参照・過去本文・調査キーを追加した。[利用案内とUIへの接続表](README.md)、[応答例](examples.json)、[身構統一の未決資料](stance-decision.md)。会話引継ぎで保存・GitHub読戻しを完了し、今回単位を終了した。
+
+## 会話引継ぎ後の提出完了
+
+成果 `09acd78adac7da285cc43c690dd8ac5006a2ade2`、親 `7c2a43dd34ce4c770589d812530545b8fed17881`、tree `226257a2697782c352867f6eac4d806a3694f907`。GitHubの公開HEAD・全tree783項目・主要本文9件が一致。[保存読戻し](save-readback.json)、[復元照合](handoff-save.json)。旧38ファイルを保全・復元し、最新計画92d6298の17件を同期した。コード・入力・UI原本と既存結果が固定版に一致するため、新規のゲーム／UI試験は0。下記の実装・検査・保存前の旧HEADは各実施時点の記録として残す。
 
 ## 実装と確認
 
