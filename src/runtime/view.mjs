@@ -5,6 +5,8 @@ import {restoreGame} from './game.mjs';
 import {inspectPreparation,draftFor,planFor} from './preparation.mjs';
 import {publicStory,nextMode} from './story.mjs';
 import {copy} from './common.mjs';
+import {publicContract,persistentSources} from './action-public.mjs';
+import {knowledgeKey,deckCatalogue,actionHistory} from './references-public.mjs';
 export const token = d => d.view_nonce;
 const ability=(available,reason)=>({available,reasons:available?[]:[reason]});
 export function capabilities(d) {
@@ -43,7 +45,7 @@ export function project(d, extras={}) {
     for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);}
   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
   const knownTargets=Object.values(C.targets).filter(t=>ledger.encounters.some(e=>e.profile===t.knowledge_profile_id));
-  const knowledge_views=knownTargets.map(t=>({target_id:t.id,name:t.display_name,...I.profileView(ledger,t.knowledge_profile_id,t.catalogue_version,s.active?.run||null,t.runtime_actor_id),
+  const knowledge_views=knownTargets.map(t=>({key:knowledgeKey(t),target_id:t.id,catalogue_version:t.catalogue_version,name:t.display_name,...I.profileView(ledger,t.knowledge_profile_id,t.catalogue_version,s.active?.run||null,t.runtime_actor_id),
     encountered:true}));
   let exploration=null;
   if(s.phase==='exploring'){
@@ -52,20 +54,26 @@ export function project(d, extras={}) {
       const t=id==='P'?null:C.targets[s.active.targets[id]];
       actors[id]={id,name:t?.display_name||'本人',purpose:t?.purpose||'self',remaining_label:t?.remaining_label||'余力',action_label:t?.action_label||null,
         hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.posture_remaining,max_posture:a.max_posture,crit:a.crit,guard:a.guard,evasion:a.evasion,
-        reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions};
+        reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions,
+        knowledge_key:t?knowledgeKey(t):null,knowledge_status:t?'encountered':'self',persistent_sources:persistentSources(game,id)};
     }
     const hand=p.actors.P.hand.map(c=>({id:c.id,...I.card(c),remaining:c.remaining,origin:c.origin,doomed:c.doomed}));
     const field=Object.fromEntries(Object.entries(p.field).map(([attr,c])=>[attr,{id:c.id,...I.card(c),origin:c.origin,doomed:c.doomed}]));
     for(const c of [...p.actors.P.hand,...Object.values(p.field)])details[c.id]=cardDetail(c);
+    const deck_catalogue=deckCatalogue(game);
+    for(const row of deck_catalogue.entries)details[row.detail_id]=cardDetail(row.card);
     exploration={now:p.now,self:actors.P,actors,hand,field,recovery_count:p.pool_count,legal_actions:s.scene?.pause||s.game.state.diagnostic?[]:game.choices(),
-      public_history:copy(s.action_history),passive_state:copy(s.game.state.ah.pending),diagnostic:s.game.state.diagnostic};
+      public_history:actionHistory(s.action_history),passive_state:copy(s.game.state.ah.pending),diagnostic:s.game.state.diagnostic,
+      deck_catalogue,other_decks:Object.fromEntries(Object.entries(actors).filter(([id])=>id!=='P').map(([id,a])=>[id,
+        {status:'unknown',count:a.deck_count,entries:null,reason:'current_private_composition',knowledge_key:a.knowledge_key}])),
+      shared_recovery:{status:'count_only',count:p.pool_count,entries:null,reason:'composition_not_published'}};
   }
   const stored=d.draft||draftFor(s,planFor(s),d.revision);
   const draft=home?{plan:copy(stored.plan),dirty:stored.dirty,valid:stored.valid,errors:copy(stored.errors),based_on_current:stored.based_on_revision===d.revision}:null;
   const receipt=s.phase==='return'?s.receipts[s.active.run]:null;
   const return_receipt=receipt?copy(Object.fromEntries(['outcome','gained_units','unspent_after_units','paid_learning_units','kept_items','lost_items','new_unlocks','knowledge_changes','case_changes','expedition_end_hp','home_hp'].map(k=>[k,receipt[k]]))):null;
-  return {schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
-    knowledge_views,texts:story.texts,draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
+  return {schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
+    knowledge_views,texts:story.texts,text_history:story.text_history,action_history:actionHistory(s.action_history),draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
       available_mode:s.active?.mode||nextMode(d.casebook['SCN-001']),objective_text_id:story.objective,visible_clue_ids:copy(d.casebook['SCN-001'].visible_clue_ids),unlocked_card_ids:copy(s.economy.profile.unlocked)},
     scene:story.scene,exploration,action_preview:null,return_receipt,operation:null,error:null,...extras}};
 }

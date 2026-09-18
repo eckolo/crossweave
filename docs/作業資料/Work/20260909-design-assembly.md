@@ -1,3 +1,34 @@
+## 2026-09-18 CO-D02R：新会話への引継ぎ・復元と計画同期
+
+目的は保存前に止まったCO-D02Rの38ファイルを復元し、通常保存・GitHub読戻し・提出を完了すること。WorkID `20260909-design-assembly` と既存担当枠を継承する。
+
+- 作業ブランチ：`dev_design_tmp_assembly`。
+- 必須同期元：`ops/project-coordination-20260913` の `docs/作業資料/とりまとめ/` 全体1本。自Workが設計集約なので別技術同期元なし。
+- 成果の統合先・担当：`dev_design_tmp_assembly`／本Work。他枝への逆方向統合は今回なし。
+- 共通文書の担当：共通runtime・保存・公開契約、基本設計・要検討事項・設計引継ぎは本Work／設計枝。今回の追加編集は自Work・引継ぎ・要検討事項・同期JSONと追補提出記録のみ。UI専用原本はUI Work／UI枝、計画はとりまとめWork／計画枝の所有を維持する。
+
+開始時のGitHub最新HEADは設計 `7c2a43dd34ce4c770589d812530545b8fed17881`、計画 `92d6298e92fb36d737a617740d668c88b0800d08`、UI `ac610be8e07ee026c8330b72ec7e9e8ee8780346`。CO-D02R指示0.3とリンク先手順・patch・manifestを確認。旧会話停止はユーザー申告を継承し、再起動・同時編集はしない。旧 `/workspace/scratch/e4a074ba0f1c/crossweave-current` の差分を保持し、本会話の隔離コピー `/workspace/scratch/da0c00905e8e/crossweave-design` で同じ基点から復元した。38パスのmode/blob/SHA-256、復元直後tree `2faec318dea20103bb6849c2454a71ec6e4d8677` が一致。
+
+最新計画0.8.1／Work別0.8.2・全17path/blobを同パスへ実同期し、同期JSONへ記録。計画枝を親に追加していない。既存の設計枝のWork分担索引・WorkID・役割を継承し、登録枝や他Workの割当を変更していない。今回の限定範囲と最大2Workを維持し、終了後に枠を解放する。
+
+`code-06.json` の23ファイル、保護対象8ファイル、UI原本232blob、結果・応答例が一致。本体26項目（一手8状態）・UI12項目の既存合格記録を再利用し、新しいゲーム／UI試験は0。固定 `conditions.json` と `artifact-check.json` の当時の計画14件は改変していない。詳細は `docs/検証/接続条件/co-d02/appendix-d02r/handoff-save.json`。
+
+UIへの提供はCW-M1-public-0.2のactor_changes、履歴札名、本人山札参照、公開／既読本文、調査キーと既存READMEの接続表。追加描画・実機・人の受入は未確認。CO-D02R-J01は常時分への一閃倍率・機転消費の推奨案として未採用を維持する。通常保存・GitHub読戻し後に成果SHAを追記し、今回単位を終了。D03・UI描画改修へ自動続行しない。
+
+## 2026-09-18 CO-D02R：追補確認完了・保存へ
+
+Work `20260909-design-assembly`、作業・統合先`dev_design_tmp_assembly`、統合担当本Work、必須同期はopsのとりまとめ全体1本を維持。UI原本の担当はUIのまま。開始・計画0.8・UI専用232blobの選択受領は`7c2a43dd34ce4c770589d812530545b8fed17881`へ保存済み。UI元ac610be、通常入口co-u02/index.html、一時保存の確認入口co-u02/review/index.html。PR #1自体は未マージ、UI Work設定は参照のみ。
+
+公開契約CW-M1-public-0.2を実装。共通の一手実行をコピーで使うactor_changes（本人を含む）、解決時の履歴札名、本人山札の種類別参照、公開／既読の過去本文、版付き調査キーを追加した。CW-M1-save-1・engine0.1・現行演算・D03 pending_contextsは継承。旧名前欠損は不明のまま、旧自然5保存は上書きしない。
+
+CW-M1-A-002 code-06：本体26項目・一手比較8状態。UIはcode-01の12項目で、確認対象runtimeとUI検査コードは最終版と全SHA一致。MemoryStore／JSDOMの結果であり、実描画・物理入力・IndexedDBは未確認。旧比較・自然2runの再走0。5回の検査側失敗と修正条件を固定記録へ保全した。成果入口は`docs/検証/接続条件/co-d02/appendix-d02r/README.md`、report／examples／verification／artifact-checkに実コードとの対応がある。
+
+身構統一は`stance-decision.md`のCO-D02R-J01だけユーザー判断へ残す。推奨は常時分にも防御側一閃倍率を適用し、常時分だけで防ぐ場合も機転を消費する。札分／常時分の持続と発生源は区別。遊び方が変わるので未採用のまま、現行予測は完成した。基本設計0.53/D53・既採用方針を再判断待ちへ戻していない。
+
+保存前の最新設計7c2a43d・計画5e86a3d・UI ac610beは不変。計画14・UI232blob、条件の保護8ファイル、PT-NT subtreeを照合済み。未保存は追補runtime7ファイル・新検査とコード固定／結果・追補3文書・CO-D02案内・Work／本引継ぎ／要検討事項／同期JSON。本体コードと検査は揃っており、次の具体操作は通常commit／非強制PushとGitHubの親・完全tree・主要本文読戻し。完了後に保存SHAを追記してCO-D02R単位を終了し枠を解放する。
+
+UIの追加描画は対象ファイルと受取例を記録済み、通知・受領・実装完了は未確認。実機は既存の拒否を再試行／迂回せず手順を維持。判断待ちだけで稼働を続けず、D03/D04/D05・画像・UI全画面改修へ自動続行しない。
+
 ## 2026-09-18 CO-D02R受領・開始
 
 既存Work `20260909-design-assembly`を継承。作業・統合先は`dev_design_tmp_assembly`、統合担当は本Work。必須同期元は`ops/project-coordination-20260913`のとりまとめ全体1本。共通runtime・保存・公開契約と本体統合・自Work記録は本Work、UI専用原本はUI担当を維持する。

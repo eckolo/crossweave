@@ -77,6 +77,15 @@ export function publicStory(d) {
   const objective=Object.entries(C.texts).find(([,t])=>t.kind==='objective'&&eligible(t.eligible_when,ctx))?.[0]||null;
   const ids=[...(scene?.text_ids||[]),...(scene?.optional_text_ids||[]),...(objective?[objective]:[])];
   const texts=Object.fromEntries(ids.map(id=>[id,{id,title:null,short_text:C.texts[id].short_text,detail_text:C.texts[id].kind==='detail'?C.texts[id].short_text:null,kind:C.texts[id].kind,read:d.casebook[caseID].read_text_ids.includes(id)}]));
-  return {objective,texts,scene:scene?{id:scene.id,text_ids:copy(scene.text_ids),optional_text_ids:copy(scene.optional_text_ids),paused:scene.pause,
+  const published=new Map();
+  for(const event of d.public_history)for(const id of event.text_ids){
+    // Optional detail is historical only after actual display, never just availability.
+    if(C.texts[id].kind==='detail'&&event.kind!=='displayed')continue;
+    if(!published.has(id))published.set(id,{id,scene_ids:[],published:true,read:d.casebook[caseID].read_text_ids.includes(id)});
+    const row=published.get(id);if(!row.scene_ids.includes(event.scene_id))row.scene_ids.push(event.scene_id);
+  }
+  const text_history=[...published.values()].map(row=>({...row,kind:C.texts[row.id].kind,short_text:C.texts[row.id].short_text,
+    detail_text:C.texts[row.id].kind==='detail'?C.texts[row.id].short_text:null}));
+  return {objective,texts,text_history,scene:scene?{id:scene.id,text_ids:copy(scene.text_ids),optional_text_ids:copy(scene.optional_text_ids),paused:scene.pause,
     can_continue:scene.pause,can_withdraw:d.session.phase==='exploring'}:null};
 }

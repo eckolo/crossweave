@@ -8,6 +8,7 @@ import {preview,planFor,draftFor,checkPlanShape} from './preparation.mjs';
 import {departGame,restoreGame} from './game.mjs';
 import {nextMode,publishScene,publishConditionals,recordDisplayed} from './story.mjs';
 import {settle,rewardLedger} from './settlement.mjs';
+import {publicContract} from './action-public.mjs';
 const uuid=()=>globalThis.crypto.randomUUID();
 const typedError=error=>fail(error).error;
 function assertToken(d,t){check(t===token(d),'stale_view','view_token');}
@@ -17,6 +18,9 @@ function assertPayload(payload,allowed) {
   check(Object.keys(payload).every(k=>allowed.includes(k)),'unexpected_payload_field','payload');
 }
 function syncGame(d,g) {
+  // Also covers an old save whose currently owned, now-public deck was not
+  // recorded by the old hand-only observation rule. A pure read never writes.
+  g.observeOwnedCards([...g.s.actors.P.hand,...g.s.actors.P.deck]);
   const s=d.session;s.game=g.save();s.active.reward_ledger=rewardLedger(s);
   for(const row of g.trace.filter(e=>['action','boundary'].includes(e.type)))s.action_history.push(copy(row));
   if(s.game.state.outcome){settle(d);const scene=s.game.state.pending_scene||'SCN-001-S06';s.game.state.pending_scene=null;publishScene(d,scene);}
@@ -39,7 +43,7 @@ class CampaignController {
     try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewAction');const game=restoreGame(this.#document.session);
       check(game.choices().some(c=>canonical(c)===canonical(choice)),'illegal_choice','choice');
       return project(this.#document,{action_preview:actionPreview(this.#document,choice)});}
-    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null}});}
+    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null,actor_changes:null,resolution_scope:null}});}
   }
   exportSave(){return copy(this.#document);}
   async execute(command) {
@@ -134,4 +138,4 @@ export function createCampaign({storage=new IndexedDBStore()}={}) {
   };
 }
 export const Campaign=createCampaign();
-export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:C.engine_version,input_version:C.version});
+export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:C.engine_version,input_version:C.version,public_contract:publicContract});

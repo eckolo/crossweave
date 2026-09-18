@@ -6,6 +6,7 @@ import I from './information.mjs';
 import * as K from './knowledge.mjs';
 import {runStreams} from './random.mjs';
 import {copy, check} from './common.mjs';
+import {abilityChanges} from './action-public.mjs';
 
 export const cardSpec = type => C.cards[type]?.card || C.runtime_supply_cards[type];
 export function bundleFor(targetSet) {
@@ -55,16 +56,28 @@ export class Game extends CoreGame {
       profile: t.knowledge_profile_id, actor: w, time: this.s.now, ...data}, 'first_resolution', ah.catalogues);
   }
   target(w) { return this.bundle.actor_specs[w].targets.find(id => this.s.actors[id]?.active); }
+  observeOwnedCards(ids) {
+    const ah=this.s.ah;
+    for(const id of ids){
+      const c=this.s.cards[id];if(c.origin==='P')continue;
+      const t=C.targets[this.bundle.targets[c.origin]],signature=I.signature(c);
+      if(!ah.knowledge.events.some(e=>e.kind==='observed_card'&&e.run===ah.run&&e.profile===t.knowledge_profile_id&&e.version===t.catalogue_version&&I.signature(e.card)===signature))
+        this.fact(c.origin,{kind:'observed_card',actor:'P',card:c});
+    }
+  }
+  rebuild(w) {
+    super.rebuild(w);
+    // All kinds in the player's rebuilt deck are public (basic design 6.3),
+    // even before the next draw. Retain that knowledge across return.
+    if(w==='P')this.observeOwnedCards(this.s.actors.P.deck);
+  }
   refill(w) {
     super.refill(w);
     if (w !== 'P') return;
     const ah = this.s.ah;
+    this.observeOwnedCards(this.s.actors.P.hand);
     for (const id of this.s.actors.P.hand) {
       const c = this.s.cards[id]; if (c.origin === 'P') continue;
-      const t = C.targets[this.bundle.targets[c.origin]], signature = I.signature(c);
-      if (!ah.knowledge.events.some(e => e.kind==='observed_card' && e.run===ah.run && e.profile===t.knowledge_profile_id && e.version===t.catalogue_version && I.signature(e.card)===signature)) {
-        this.fact(c.origin, {kind: 'observed_card', actor: 'P', card: c});
-      }
       if (['nt_flow','nt_pressure','nt_stop'].includes(c.type) && !ah.known_bases_at_departure.includes(c.type)) ah.borrowed_first[c.type] = true;
     }
   }
@@ -78,19 +91,23 @@ export class Game extends CoreGame {
     return out;
   }
   predict(choice, w='P') {
-    const c=this.s.cards[choice.card_id], e=this.effect(w,c), base={power:c.power,hit:c.hit};
-    try {
-      c.power+=e.power; c.hit+=e.hit;
-      return {...super.predict(choice,w), passives:e.ids,
-        action_cost:Math.max(1,this.cost(c.type,!!this.s.field[c.attr])-e.discount)*(this.bundle.actor_specs[w].action_cost_scale||1)};
-    } finally {Object.assign(c,base);}
+    // Fork without save()/state(), which refreshes N on the source object.
+    const after=new Game(copy(this.bundle),{state:copy(this.s),next_card_number:this.number,memory:copy(this.memory),
+      rng:Object.fromEntries(Object.entries(this.rng).map(([key,rng])=>[key,rng.state()]))});
+    after.play(w,choice); // Exactly one resolution, including departures. Never advance()/NPC/refill.
+    const row=after.trace.findLast(x=>x.type==='action'&&x.actor===w);
+    const keys=['mode','crit_added','actual_hp_loss','hit_gain','hit_connected','posture_before','posture_after',
+      'posture_overflow','posture_multiplier','hp_restored','passives','action_cost'];
+    return {...Object.fromEntries(keys.map(k=>[k,copy(row[k])])),guard:row.mode==='guard'?copy(after.s.actors[w].guard):null,
+      resolution_scope:'after_current_action_before_next_actor',actor_changes:abilityChanges(this,after)};
   }
   play(w, choice) {
     const c=this.s.cards[choice.card_id], played=I.card(c), match=!!this.s.field[c.attr], e=this.effect(w,c), base={power:c.power,hit:c.hit};
     try {c.power+=e.power;c.hit+=e.hit;super.play(w,choice);} finally {Object.assign(c,base);}
     const cost=Math.max(1,this.cost(c.type,match)-e.discount)*(this.bundle.actor_specs[w].action_cost_scale||1);
     if(this.s.actors[w].active)this.s.actors[w].next_at=this.s.now+cost;
-    const row=this.trace.findLast(x=>x.type==='action'&&x.actor===w); Object.assign(row,{passives:e.ids,action_cost:cost});
+    const row=this.trace.findLast(x=>x.type==='action'&&x.actor===w);
+    Object.assign(row,{passives:e.ids,action_cost:cost,card_name:played.name});
     if(w==='P') {
       const ah=this.s.ah, p=ah.pending;
       p.after_guard=ah.equipped.includes('base:PS01')&&match&&c.kind==='guard';

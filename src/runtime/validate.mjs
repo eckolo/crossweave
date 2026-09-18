@@ -30,6 +30,12 @@ function validate(d) {
   if(d.draft!==null){checkPlanShape(d.draft.plan);check(integer(d.draft.based_on_revision)&&d.draft.based_on_revision<=d.revision,'invalid_draft_revision');
     const computed=draftFor(s,d.draft.plan,d.draft.based_on_revision);for(const key of ['dirty','valid','errors'])check(canonical(computed[key])===canonical(d.draft[key]),'invalid_draft',key);}
   check(object(s.receipts)&&object(d.request_log)&&Array.isArray(d.public_history),'invalid_ledgers');
+  check(Array.isArray(s.action_history),'invalid_action_history');
+  for(const row of s.action_history){
+    check(object(row)&&['action','boundary'].includes(row.type),'invalid_action_history');
+    // Optional additive field: old saves keep missing names, never inferred from the registry.
+    if(Object.hasOwn(row,'card_name'))check(row.type==='action'&&typeof row.card_id==='string'&&typeof row.card_name==='string'&&row.card_name.length>0,'invalid_history_card_name');
+  }
   for(const [id,row] of Object.entries(d.request_log)){safeID(id,'request_id');check(typeof row.signature==='string'&&integer(row.committed_revision)&&row.committed_revision<=d.revision,'invalid_request_log');}
   const runs=Object.keys(s.receipts);
   for(const [run,r] of Object.entries(s.receipts)) {

@@ -1,0 +1,166 @@
+{
+  "id": "CW-M1-A-002",
+  "checks": [
+    {
+      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 entry の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 port の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 home の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 second-return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": false,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 30,
+          "crit": 125,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "d2048b06e232a0da671e507fe88b623cd05b5f7d5454fff1df6141431fa82cee",
+      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "P": {
+          "crit": 80,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 2
+          }
+        },
+        "E1": {
+          "hit": 99,
+          "crit": 120,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "4509fa3a918d20488da84fb986a2472ce5c7bb05f35f603106752f32ad8ae605",
+      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "h",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "h",
+      "changes": {
+        "P": {
+          "crit": 80
+        },
+        "E1": {
+          "hit": 0,
+          "crit": 120,
+          "guard": {
+            "value": 3,
+            "evasion": 20,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "42fdc83249741426f3a391e546f0615d35ee70b82f7277ab388a9224df470dc4",
+      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
+    }
+  ],
+  "choiceCount": 3,
+  "error": "AssertionError [ERR_ASSERTION]: nt_stop",
+  "stack": "AssertionError [ERR_ASSERTION]: nt_stop\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:35:115)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
+}
