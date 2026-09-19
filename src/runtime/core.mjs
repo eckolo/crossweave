@@ -119,6 +119,9 @@ export class CoreGame {
   }
   retire(w) {
     const a=this.s.actors[w];assert(a.active,'retiring inactive actor');a.active=false;a.next_at=null;
+    // D57: end effects carried by this recipient, regardless of their source.
+    // Effects this actor granted to other recipients remain with those recipients.
+    a.defense_effects=[];
     for(const c of Object.values(this.s.cards))if(c.origin===w&&!c.destroyed)c.doomed=true;
     const held=a.hand.concat(a.deck);a.hand=[];a.deck=[];
     for(const id of held)this.recover(id,w+'_retirement_private');

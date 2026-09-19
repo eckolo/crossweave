@@ -2,7 +2,7 @@
 const data = {
   "schema": "CW-M1-input-1",
   "version": "0.1",
-  "rule_set_id": "CW-M1-rules-0.3",
+  "rule_set_id": "CW-M1-rules-0.4",
   "content_set_id": "CW-M1-SCN001-0.1",
   "card_registry_id": "CW-M1-cards-0.1",
   "initial": {
@@ -3111,7 +3111,7 @@ const data = {
       "repeat": "retain first provenance; per-run results recorded separately, no bonus"
     }
   },
-  "engine_version": "CW-M1-engine-0.3",
+  "engine_version": "CW-M1-engine-0.4",
   "source": {
     "path": "docs/仕様案/接続データ/co-01a/m1-input.v0.1.json",
     "sha256": "5e030a86aa67c5029a4e2b54236bd99b459cacc3c69755d4e04f704942d436d6",
@@ -3119,7 +3119,8 @@ const data = {
     "base_rule_set_id": "CW-M1-rules-0.1",
     "rule_amendments": [
       "D55",
-      "D56"
+      "D56",
+      "D57"
     ]
   }
 };

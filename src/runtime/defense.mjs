@@ -9,8 +9,10 @@ export function validateEffect(e,actors) {
     identifier(e.source_actor_id)&&Object.hasOwn(actors,e.source_actor_id)&&identifier(e.effect_kind)&&
     Number.isSafeInteger(e.guard)&&e.guard>=0&&Number.isSafeInteger(e.evasion)&&count(e.uses),'invalid_defense_effect');
 }
-export function validateDefense(a,actors) {
+export function validateDefense(a,actors,{allowRetiredEffects=false}={}) {
   check(!Object.hasOwn(a,'guard')&&Array.isArray(a.defense_effects),'invalid_defense_state');
+  check(typeof a.active==='boolean','invalid_defense_recipient');
+  check(allowRetiredEffects||a.active||a.defense_effects.length===0,'retired_defense_effect');
   for(const e of a.defense_effects)validateEffect(e,actors);
   check(new Set(a.defense_effects.map(key)).size===a.defense_effects.length,'duplicate_defense_source');
   check(Number.isSafeInteger(a.defense_effects.reduce((n,e)=>n+e.guard,0))&&
@@ -45,13 +47,21 @@ export function guardView(a) {
   if(!a.defense_effects.length)return null;
   const v=defenseView(a);return {value:v.guard,evasion:v.evasion,uses:v.duration.all.uniform_uses};
 }
-export function migrateLegacyDefense(state) {
-  check(state&&state.actors&&!Object.hasOwn(state,'defense_rule'),'invalid_legacy_defense_state');
-  for(const [id,a] of Object.entries(state.actors)) {
+export function validateLegacyDefense(state) {
+  check(state&&state.actors&&typeof state.actors==='object'&&!Array.isArray(state.actors)&&
+    !Object.hasOwn(state,'defense_rule'),'invalid_legacy_defense_state');
+  for(const a of Object.values(state.actors)) {
     check(!Object.hasOwn(a,'defense_effects')&&Object.hasOwn(a,'guard'),'invalid_legacy_defense_state');
+    check(typeof a.active==='boolean','invalid_defense_recipient');
     const g=a.guard;
     check(g===null||(g&&typeof g==='object'&&Object.keys(g).sort().join(',')==='evasion,uses,value'&&
       Number.isSafeInteger(g.value)&&g.value>=0&&Number.isSafeInteger(g.evasion)&&[1,2].includes(g.uses)),'invalid_legacy_guard');
+  }
+}
+export function migrateLegacyDefense(state) {
+  validateLegacyDefense(state);
+  for(const [id,a] of Object.entries(state.actors)) {
+    const g=a.guard;
     a.defense_effects=g===null?[]:[{source_actor_id:id,effect_kind:'self_guard',guard:g.value,evasion:g.evasion,uses:g.uses}];
     delete a.guard;
   }

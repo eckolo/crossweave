@@ -1,4 +1,4 @@
-import {migrateLegacyDefense,validateDefense} from './defense.mjs';
+import {migrateLegacyDefense,validateDefense,validateLegacyDefense} from './defense.mjs';
 import C from '../content/m1.mjs';
 import I from './information.mjs';
 import * as K from './knowledge.mjs';
@@ -123,10 +123,23 @@ function validate(d) {
 export function validateDocument(d) {
   try {
     // Only complete, known old version pairs may migrate. Never mutate the supplied document.
-    const legacy=['0.1','0.2'].some(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
+    const legacy=['0.1','0.2','0.3'].find(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
+    // Check raw values before JSON copying: NaN/Infinity must not become null (unlimited).
+    if(legacy&&d.session?.game){
+      const state=d.session.game.state;
+      if(legacy==='0.3'){
+        check(state?.defense_rule==='D56'&&object(state.actors),'invalid_defense_state');
+        for(const a of Object.values(state.actors))validateDefense(a,state.actors,{allowRetiredEffects:true});
+      }else validateLegacyDefense(state);
+    }
     const current=legacy?copy(d):d;
     if(legacy){
-      if(current.session?.game)migrateLegacyDefense(current.session.game.state);
+      if(current.session?.game){
+        const state=current.session.game.state;
+        if(legacy!=='0.3')migrateLegacyDefense(state);
+        // Old versions retained current effects on retired actor records. Historical logs stay intact.
+        for(const a of Object.values(state.actors))if(!a.active)a.defense_effects=[];
+      }
       current.rule_set_id=C.rule_set_id;current.engine_version=C.engine_version;
     }
     return validate(current);
