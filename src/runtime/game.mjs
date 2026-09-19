@@ -24,7 +24,7 @@ export class Game extends CoreGame {
     check(!this.s.actors[w], 'duplicate_actor');
     const spec = this.bundle.actor_specs[w], role = w === 'P' ? 'P' : w[0];
     const a = {role, acts: true, hp: spec.hp, max_hp: spec.hp, hit: 0, max_posture: spec.max_posture,
-      crit: 0, guard: null, hand: [], deck: [], active: true, next_at: at, actions: 0,
+      crit: 0, defense_effects: [], hand: [], deck: [], active: true, next_at: at, actions: 0,
       hand_size: spec.hand_size, initial_size: 12, cap: 12, minimum: spec.hand_size, passives: [], rebuilds: 0};
     this.s.actors[w] = a;
     for (const purpose of ['initial','allocation','generation','selection','target']) {
@@ -92,13 +92,13 @@ export class Game extends CoreGame {
   }
   predict(choice, w='P') {
     // Fork without save()/state(), which refreshes N on the source object.
-    const after=new Game(copy(this.bundle),{state:copy(this.s),next_card_number:this.number,memory:copy(this.memory),
+    const after=new this.constructor(copy(this.bundle),{state:copy(this.s),next_card_number:this.number,memory:copy(this.memory),
       rng:Object.fromEntries(Object.entries(this.rng).map(([key,rng])=>[key,rng.state()]))});
     after.play(w,choice); // Exactly one resolution, including departures. Never advance()/NPC/refill.
     const row=after.trace.findLast(x=>x.type==='action'&&x.actor===w);
     const keys=['mode','crit_added','actual_hp_loss','hit_gain','hit_connected','posture_before','posture_after',
       'posture_overflow','posture_multiplier','hp_restored','passives','action_cost'];
-    return {...Object.fromEntries(keys.map(k=>[k,copy(row[k])])),guard:row.mode==='guard'?copy(after.s.actors[w].guard):null,
+    return {...Object.fromEntries(keys.map(k=>[k,copy(row[k])])),guard:row.mode==='guard'?after.guard(w):null,
       resolution_scope:'after_current_action_before_next_actor',actor_changes:abilityChanges(this,after)};
   }
   play(w, choice) {
@@ -155,10 +155,10 @@ export async function departGame({target_set_id, run, seed, deck, equipped, lear
     cards[id]={...copy(cardSpec(handle.slice(5))),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false};return id;
   });
   const shuffle=new MT(rng['P|initial']);shuffle.shuffle(ids);rng['P|initial']=shuffle.state();
-  const p={role:'P',acts:true,hp:40,max_hp:40,hit:0,max_posture:100,crit:0,guard:null,hand:[],deck:ids,active:true,next_at:0,actions:0,
+  const p={role:'P',acts:true,hp:40,max_hp:40,hit:0,max_posture:100,crit:0,defense_effects:[],hand:[],deck:ids,active:true,next_at:0,actions:0,
     hand_size:3,initial_size:12,cap:12,minimum:3,passives:[],rebuilds:0};
   const known=[...new Set(knowledge.events.flatMap(e=>e.kind==='observed_card'?[e.card.type]:e.kind==='initial_catalogue_grant'?e.cards.map(r=>r.card.type):[]))];
-  const state={posture_rule:'AM1',actors:{P:p},cards,pool:[],field:{},rewards:{},events:[],boundary_number:0,now:0,ready:false,outcome:null,settlement:null,
+  const state={posture_rule:'AM1',defense_rule:'D56',actors:{P:p},cards,pool:[],field:{},rewards:{},events:[],boundary_number:0,now:0,ready:false,outcome:null,settlement:null,
     rules:'corrected',p_size:12,current_event:'A/start',pending_scene:null,diagnostic:null,
     ah:{run,learned:copy(learned),equipped:copy(equipped),pending:{after_guard:false,last_match_attr:null,borrowed_guard:false},
       knowledge:copy(knowledge),catalogues:{},seq:0,enemy_result:null,borrowed_first:{},known_bases_at_departure:known}};

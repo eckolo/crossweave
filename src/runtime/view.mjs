@@ -53,7 +53,7 @@ export function project(d, extras={}) {
     for(const [id,a] of Object.entries(p.actors)){
       const t=id==='P'?null:C.targets[s.active.targets[id]];
       actors[id]={id,name:t?.display_name||'本人',purpose:t?.purpose||'self',remaining_label:t?.remaining_label||'余力',action_label:t?.action_label||null,
-        hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.posture_remaining,max_posture:a.max_posture,crit:a.crit,guard:a.guard,evasion:a.evasion,
+        hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.posture_remaining,max_posture:a.max_posture,crit:a.crit,guard:a.guard,defense:a.defense,evasion:a.evasion,
         reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions,
         knowledge_key:t?knowledgeKey(t):null,knowledge_status:t?'encountered':'self',persistent_sources:persistentSources(game,id)};
     }

@@ -1,0 +1,91 @@
+{
+  "test_id": "CW-M1-D56-001",
+  "source_design_head": "7a3623946117ff66f9c023ef80cd34d4d7dded94",
+  "plan_commit": "2f093e3aa427d0d6183ccbae4926c0703cef4147",
+  "scope": "D56 effect layers, replacement, common clear, D54/D55, migration, public forecast; trial support card not in production registry",
+  "runtime_versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.3",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.3",
+    "input_version": "0.1",
+    "public_contract": "CW-M1-public-0.3"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "storage": "MemoryStore",
+    "browser": false
+  },
+  "inputs": [
+    {
+      "name": "entry",
+      "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+      "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1"
+    },
+    {
+      "name": "port",
+      "gzip_sha256": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+      "raw_sha256": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f"
+    },
+    {
+      "name": "return",
+      "gzip_sha256": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+      "raw_sha256": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc"
+    },
+    {
+      "name": "home",
+      "gzip_sha256": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+      "raw_sha256": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7"
+    },
+    {
+      "name": "second-return",
+      "gzip_sha256": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d",
+      "raw_sha256": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f"
+    }
+  ],
+  "fixture_method": "Frozen saves are validated/upgraded on a copy; existing card locations and actor effects are explicitly arranged by test/runtime/d56.mjs. TrialGame supplies only declared experimental cards; no SCN-001 registry additions. Not a natural route or player evaluation.",
+  "trial_input": {
+    "id": "CW-M1-D56-trial-1",
+    "scope": "Resolver fixture only; not registered in SCN-001 or a production deck",
+    "source_departure": "retain_grants_pending_user_decision",
+    "support_card": {
+      "type": "d56_support_trial",
+      "name": "防御付与（検査札）",
+      "attr": "A",
+      "kind": "defense_support",
+      "power": 0,
+      "hit": 0,
+      "evasion": 0,
+      "crit_gain": 0,
+      "field_power": 0,
+      "field_hit": 0,
+      "life": 2,
+      "place_cost": 10,
+      "match_cost": 10,
+      "consume_on_recover": null,
+      "defense_grant": {
+        "effect_kind": "ward",
+        "guard": 2,
+        "evasion": 10,
+        "uses": 2
+      }
+    },
+    "stance_uses": [
+      null,
+      5
+    ]
+  },
+  "run_command": "node test/runtime/d56.mjs /tmp/crossweave-d56-check",
+  "output_files": [
+    "verification.json",
+    "examples.json"
+  ],
+  "old_results": "D02/D02R/D55 and five gzip saves unchanged; no full reruns",
+  "unverified": [
+    "real browser/IndexedDB/input",
+    "UI layout/readability",
+    "balance/natural route under new cards",
+    "source departure rule adoption",
+    "SCN-001 support card placement/supply"
+  ]
+}

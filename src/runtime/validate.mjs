@@ -1,3 +1,4 @@
+import {migrateLegacyDefense,validateDefense} from './defense.mjs';
 import C from '../content/m1.mjs';
 import I from './information.mjs';
 import * as K from './knowledge.mjs';
@@ -78,6 +79,8 @@ function validate(d) {
     check(mode&&active.mode===mode,'invalid_saved_mode');
     const setID=mode==='revisit'?'SCN-001-SET-REVISIT':'SCN-001-SET-UNRESOLVED';check(active.target_set_id===setID&&canonical(active.targets)===canonical(C.target_sets[setID].slot_map),'invalid_target_reference');
     check(unique(active.published_scene_ids)&&active.published_scene_ids.every(id=>C.scenes[id])&&unique(active.read_text_ids)&&unique(active.published_clue_ids)&&unique(active.emitted_conditionals),'invalid_active_story');
+    check(s.game.state?.defense_rule==='D56'&&object(s.game.state.actors),'invalid_defense_state');
+    for(const a of Object.values(s.game.state.actors))validateDefense(a,s.game.state.actors);
     const game=restoreGame(s);game.assert();check(game.s.ah.run===active.run,'invalid_game_run');
     check(game.s.pending_scene===null&&integer(game.s.now)&&integer(s.game.next_card_number),'invalid_game_checkpoint');
     check(canonical([...game.s.ah.learned].sort())===canonical(Object.keys(e.profile.learned).sort())&&canonical(game.s.ah.equipped)===canonical(e.aq.equipped),'invalid_run_preparation');
@@ -119,11 +122,13 @@ function validate(d) {
 }
 export function validateDocument(d) {
   try {
-    // The D55 upgrade changes future resolutions, not recorded history or the
-    // remaining uses already saved. Normalize only the known complete version pair.
-    // validate() returns a copy; open/inspect/preview never rewrite the stored save.
-    const current=d?.rule_set_id==='CW-M1-rules-0.1'&&d?.engine_version==='CW-M1-engine-0.1'
-      ? {...d,rule_set_id:C.rule_set_id,engine_version:C.engine_version} : d;
+    // Only complete, known old version pairs may migrate. Never mutate the supplied document.
+    const legacy=['0.1','0.2'].some(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
+    const current=legacy?copy(d):d;
+    if(legacy){
+      if(current.session?.game)migrateLegacyDefense(current.session.game.state);
+      current.rule_set_id=C.rule_set_id;current.engine_version=C.engine_version;
+    }
     return validate(current);
   }
   catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
