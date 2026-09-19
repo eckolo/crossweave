@@ -7,20 +7,25 @@ import * as K from './knowledge.mjs';
 import {runStreams} from './random.mjs';
 import {copy, check} from './common.mjs';
 import {abilityChanges} from './action-public.mjs';
+import {contentFor} from './content.mjs';
 
-export const cardSpec = type => C.cards[type]?.card || C.runtime_supply_cards[type];
-export function bundleFor(targetSet) {
+export const cardSpec = (type,contentSet=C.content_set_id) => {
+  const content=contentFor(contentSet);return content.cards[type]?.card||content.runtime_supply_cards[type];
+};
+export function bundleFor(targetSet,contentSet=C.content_set_id) {
+  const C=contentFor(contentSet);
   const set = C.target_sets[targetSet];
   check(set, 'unknown_target_set');
   return {actor_specs: {P: C.rules.player, ...Object.fromEntries(Object.entries(set.slot_map).map(([w,id]) => [w, C.targets[id].spec]))},
-    target_set_id: targetSet, targets: set.slot_map};
+    target_set_id: targetSet, targets: set.slot_map,content_set_id:contentSet};
 }
 export class Game extends CoreGame {
-  constructor(bundle, saved) { super(bundle, saved); }
+  constructor(bundle, saved) { super(bundle, saved);this.content=contentFor(bundle.content_set_id||C.content_set_id); }
   save() { return {...super.save(), future_rng: copy(this.bundle.future_rng)}; }
-  cost(type, match) { const spec = cardSpec(type); check(spec, 'unknown_card_base'); return match ? spec.match_cost : spec.place_cost; }
-  stats(c) { Object.assign(c, copy(cardSpec(c.type))); }
+  cost(type, match) { const spec = cardSpec(type,this.content.content_set_id); check(spec, 'unknown_card_base'); return match ? spec.match_cost : spec.place_cost; }
+  stats(c) { Object.assign(c, copy(cardSpec(c.type,this.content.content_set_id))); }
   enter(w, at) {
+    const C=this.content;
     check(!this.s.actors[w], 'duplicate_actor');
     const spec = this.bundle.actor_specs[w], role = w === 'P' ? 'P' : w[0];
     const a = {role, acts: true, hp: spec.hp, max_hp: spec.hp, hit: 0, max_posture: spec.max_posture,
@@ -39,24 +44,26 @@ export class Game extends CoreGame {
       let n = 0;
       for (let i=0; i<types.length && n<replacement.count; i++) if(types[i]===replacement.base) {types[i]=replacement.replacement; n++;}
     }
-    for (const type of types) a.deck.push(this.newCard(w, 'initial', null, cardSpec(type)));
+    for (const type of types) a.deck.push(this.newCard(w, 'initial', null, cardSpec(type,C.content_set_id)));
     this.stream(w, 'initial').shuffle(a.deck);
     this.memory.recent[w] = []; this.memory.observed_types[w] = [];
     const ledger = I.empty();
     I.add(ledger, {id: 'authored-'+t.id, run: 'M1-authoring', version: t.catalogue_version, profile: t.knowledge_profile_id,
       kind: 'initial_catalogue_grant', complete: true, evidence: 'Pinned authored initial cards before actions',
-      cards: types.map(type => ({card: cardSpec(type), initial_count: 1}))});
+      cards: types.map(type => ({card: cardSpec(type,C.content_set_id), initial_count: 1}))});
     this.s.ah.catalogues[t.catalogue_version] = {[t.knowledge_profile_id]: ledger.events[0].cards};
     this.fact(w, {kind: 'encounter'});
     this.log('enter', {actor: w, first_at: at});
   }
   fact(w, data) {
+    const C=this.content;
     const ah = this.s.ah, t = C.targets[this.bundle.targets[w]];
     K.receive(ah.knowledge, {id: `${ah.run}:${++ah.seq}`, run: ah.run, version: t.catalogue_version,
       profile: t.knowledge_profile_id, actor: w, time: this.s.now, ...data}, 'first_resolution', ah.catalogues);
   }
   target(w) { return this.bundle.actor_specs[w].targets.find(id => this.s.actors[id]?.active); }
   observeOwnedCards(ids) {
+    const C=this.content;
     const ah=this.s.ah;
     for(const id of ids){
       const c=this.s.cards[id];if(c.origin==='P')continue;
@@ -82,6 +89,7 @@ export class Game extends CoreGame {
     }
   }
   effect(w, c) {
+    const C=this.content;
     const out = {ids: [], hit: 0, power: 0, discount: 0}; if (w !== 'P') return out;
     const ah=this.s.ah, match=!!this.s.field[c.attr], p=ah.pending, knows=id=>ah.equipped.includes('base:'+id);
     if(knows('PS01') && p.after_guard && !match) {out.ids.push('PS01');out.discount=C.rules.learning.bases.PS01.placement_discount;}
@@ -116,6 +124,7 @@ export class Game extends CoreGame {
     } else this.fact(w,{kind:'observed_card',card:played});
   }
   dispatch(victim, attacker) {
+    const C=this.content;
     const old=this.s.current_event;
     if(victim==='P')this.settle('defeat');
     else {
@@ -147,12 +156,13 @@ export class Game extends CoreGame {
     }
   }
 }
-export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge}) {
-  const bundle=bundleFor(target_set_id); bundle.future_rng=await runStreams(seed);
+export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge,content_set_id=C.content_set_id}) {
+  const content=contentFor(content_set_id);
+  const bundle=bundleFor(target_set_id,content_set_id); bundle.future_rng=await runStreams(seed);
   const rng=Object.fromEntries(Object.entries(bundle.future_rng).filter(([k])=>k.startsWith('P|')));
   const cards={}, ids=[...deck].sort().map((handle,i)=>{
     const id='P_initial_'+String(i+1).padStart(4,'0');
-    cards[id]={...copy(cardSpec(handle.slice(5))),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false};return id;
+    cards[id]={...copy(cardSpec(handle.slice(5),content_set_id)),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false};return id;
   });
   const shuffle=new MT(rng['P|initial']);shuffle.shuffle(ids);rng['P|initial']=shuffle.state();
   const p={role:'P',acts:true,hp:40,max_hp:40,hit:0,max_posture:100,crit:0,defense_effects:[],hand:[],deck:ids,active:true,next_at:0,actions:0,
@@ -164,7 +174,7 @@ export async function departGame({target_set_id, run, seed, deck, equipped, lear
       knowledge:copy(knowledge),catalogues:{},seq:0,enemy_result:null,borrowed_first:{},known_bases_at_departure:known}};
   const initial={state,next_card_number:12,memory:{recent:{P:[]},observed_types:{}},rng};
   const game=new Game(bundle,initial);
-  for(const id of C.target_sets[target_set_id].initial_targets)game.enter(C.targets[id].runtime_actor_id,0);
+  for(const id of content.target_sets[target_set_id].initial_targets)game.enter(content.targets[id].runtime_actor_id,0);
   game.assert();return game.save();
 }
-export const restoreGame = session => new Game({...bundleFor(session.active.target_set_id),future_rng:session.game.future_rng},session.game);
+export const restoreGame = session => new Game({...bundleFor(session.active.target_set_id,session.active.content_set_id),future_rng:session.game.future_rng},session.game);

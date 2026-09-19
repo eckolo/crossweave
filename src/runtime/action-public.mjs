@@ -1,5 +1,5 @@
 // Public ability snapshots only. The resolver, never this projection, changes abilities.
-export const publicContract = 'CW-M1-public-0.3';
+export const publicContract = 'CW-M1-public-0.4';
 export function abilityValues(game, id) {
   const a=game.s.actors[id],g=game.guard(id);
   return {hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.max_posture-a.hit,max_posture:a.max_posture,

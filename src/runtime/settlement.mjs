@@ -2,7 +2,9 @@ import C from '../content/m1.mjs';
 import * as K from './knowledge.mjs';
 import {copy,check,canonical} from './common.mjs';
 import {funds,paid,setFunds} from './preparation.mjs';
+import {contentFor} from './content.mjs';
 export function rewardLedger(s) {
+  const C=contentFor(s.active.content_set_id);
   return Object.fromEntries(Object.entries(s.game.state.rewards).map(([id,r])=>{
     const spec=C.rewards[id],a=s.active,t=C.targets[spec?.target_id];
     check(spec&&a.targets[r.source]===t.id,'unknown_reward');
@@ -15,6 +17,7 @@ export function rewardLedger(s) {
 export const receiptSignature = r => canonical(Object.fromEntries(Object.entries(r).filter(([k])=>k!=='signature')));
 export function settle(d) {
   const s=d.session,a=s.active,g=s.game.state,e=s.economy,c=d.casebook[a.case_id],outcome=g.outcome;
+  const C=contentFor(a.content_set_id);
   check(['clear','withdrawal','defeat'].includes(outcome)&&g.settlement?.reason===outcome,'unsettled_expedition');
   check(!Object.hasOwn(s.receipts,a.run),'duplicate_settlement');
   if(outcome==='clear')check(g.events.some(ev=>ev.victim==='V1'&&ev.event==='traversed')&&g.rewards[a.mode==='revisit'?'SCN-001-RW05':'SCN-001-RW03'],'invalid_clear');

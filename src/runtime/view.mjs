@@ -7,6 +7,7 @@ import {publicStory,nextMode} from './story.mjs';
 import {copy} from './common.mjs';
 import {publicContract,persistentSources} from './action-public.mjs';
 import {knowledgeKey,deckCatalogue,actionHistory} from './references-public.mjs';
+import {contentFor,contentSets} from './content.mjs';
 export const token = d => d.view_nonce;
 const ability=(available,reason)=>({available,reasons:available?[]:[reason]});
 export function capabilities(d) {
@@ -24,7 +25,8 @@ export function capabilities(d) {
   return ops;
 }
 function cardDetail(c) {
-  return {name:c.name,base_name:c.name,base_id:c.type,kind:'card',affixes:[],primary:{kind:c.kind,power:c.power,hit:c.hit,evasion:c.evasion,crit_gain:c.crit_gain},
+  return {name:c.name,base_name:c.name,base_id:c.type,kind:'card',affixes:[],primary:{kind:c.kind,power:c.power,hit:c.hit,evasion:c.evasion,crit_gain:c.crit_gain,
+    ...Object.fromEntries(['defense_uses','defense_grant'].filter(k=>Object.hasOwn(c,k)).map(k=>[k,copy(c[k])]))},
     field:{power:c.field_power,hit:c.field_hit},life:c.life,action_intervals:{place:c.place_cost,match:c.match_cost},
     recovery_rule:c.consume_on_recover?'consumed_on_recovery':c.doomed?'destroyed_on_recovery_retired_origin':c.birth==='filler'?'destroyed_on_recovery_filler':'shared_recovery',
     trigger_text:null,effect_text:null,equipment_cost:null,learning_cost_units:null};
@@ -44,14 +46,16 @@ export function project(d, extras={}) {
   if(home){home.offers={status:'none',refresh_rule:'eligible_return',carried_from_previous_return:false,connected:false,reason:'feature_not_connected'};
     for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);}
   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
-  const knownTargets=Object.values(C.targets).filter(t=>ledger.encounters.some(e=>e.profile===t.knowledge_profile_id));
+  // Old complete catalogues remain separate; they do not disclose the new initial deck.
+  const knownTargets=[...new Map(contentSets.flatMap(c=>Object.values(c.targets)).map(t=>[knowledgeKey(t),t])).values()]
+    .filter(t=>ledger.encounters.some(e=>e.profile===t.knowledge_profile_id&&e.version===t.catalogue_version));
   const knowledge_views=knownTargets.map(t=>({key:knowledgeKey(t),target_id:t.id,catalogue_version:t.catalogue_version,name:t.display_name,...I.profileView(ledger,t.knowledge_profile_id,t.catalogue_version,s.active?.run||null,t.runtime_actor_id),
     encountered:true}));
   let exploration=null;
   if(s.phase==='exploring'){
     const game=restoreGame(s),p=game.public(),actors={};
     for(const [id,a] of Object.entries(p.actors)){
-      const t=id==='P'?null:C.targets[s.active.targets[id]];
+      const t=id==='P'?null:contentFor(s.active.content_set_id).targets[s.active.targets[id]];
       actors[id]={id,name:t?.display_name||'本人',purpose:t?.purpose||'self',remaining_label:t?.remaining_label||'余力',action_label:t?.action_label||null,
         hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.posture_remaining,max_posture:a.max_posture,crit:a.crit,guard:a.guard,defense:a.defense,evasion:a.evasion,
         reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions,

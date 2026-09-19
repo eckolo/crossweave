@@ -172,9 +172,13 @@ export class CoreGame {
           evasion:c.evasion+(mapped?m.field_hit:0),uses:Object.hasOwn(c,'defense_uses')?c.defense_uses:2});
       } else if(mode==='defense_support'){
         assert(target===null,'support target');
-        // Explicit authored values: field modifiers are not silently reused for all recipients.
+        // D58: build the grant once using the same field mapping as self defense.
+        // Critical belongs to the receiver and is applied later at damage resolution.
+        const mapped=['field_only','corrected'].includes(this.s.rules),grant={...copy(c.defense_grant),
+          guard:Math.max(0,c.defense_grant.guard+(mapped?m.field_power:0)),
+          evasion:c.defense_grant.evasion+(mapped?m.field_hit:0)};
         for(const [id,recipient] of Object.entries(this.s.actors))if(id!==w&&recipient.active)
-          this.grantDefense(id,{...copy(c.defense_grant),source_actor_id:w});
+          this.grantDefense(id,{...grant,source_actor_id:w});
       } else if(mode==='attack'){
         const d=this.s.actors[target];assert(d?.active&&target!==w,'invalid target');
         postureBefore=d.max_posture-d.hit;
