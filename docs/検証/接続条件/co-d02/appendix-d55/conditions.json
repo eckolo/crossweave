@@ -1,0 +1,40 @@
+{
+  "test_id": "CW-M1-D55-001",
+  "date_jst": "2026-09-19",
+  "base_commit": "9f37022b37fbde0120cde5d75606c49b037b394e",
+  "design": "基本設計0.55/D55（有限防御の被攻撃単位消費だけを実装）",
+  "runtime_environment": "Node v24.19.0 / MemoryStore",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.2",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.2",
+    "input_version": "0.1",
+    "public_contract": "CW-M1-public-0.2"
+  },
+  "input": "入力0.1・カード/対象/試行値は不変。D02保存5件の元gzip/raw hashはverification.jsonへ記録。",
+  "fixture_scope": "固定保存から現在の札配置・主体値を明示変更した10局面。自然進行・製品性能の結果ではない。",
+  "save_upgrade": "既知のrules0.1+engine0.1だけを0.2+0.2へ純粋変換。旧回数・状態・履歴・乱数・revisionは維持し、次の解決からD55。open/inspect/previewは保存装置へ書かない。",
+  "unchanged": [
+    "CW-M1-save-1",
+    "CW-M1-public-0.2",
+    "content_set0.1",
+    "旧5保存原本",
+    "旧D02/D02Rの固定結果",
+    "UI原本"
+  ],
+  "not_implemented": [
+    "効果別配列",
+    "環境の身構付与札",
+    "持続防御の回数無制限化",
+    "外部付与の本人一致共通解除",
+    "再付与方式",
+    "回数表示",
+    "D03"
+  ],
+  "unverified": [
+    "実ブラウザー・IndexedDB・物理入力",
+    "ゲームバランス・プレイヤー評価"
+  ],
+  "evidence": "verification.jsonのcode SHA256・23項目、examples.jsonの10局面・入力hash・公開予測"
+}

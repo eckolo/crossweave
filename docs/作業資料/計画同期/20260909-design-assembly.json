@@ -35,12 +35,12 @@
   "ui_reference_commit": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
   "received_on_jst": "2026-09-18",
   "status": "全17ファイルを同パスへ実同期・全blob一致。計画枝全体のマージなし。",
-  "task_status": "CO-D02R提出済み。UIと相性差の解釈を訂正し、D55の被攻撃単位消費を文書採用して区切る。",
+  "task_status": "CO-D02R提出後の残件続行：D55を実装・限定23項目確認。再付与方式を判断待ちにして終了。",
   "related_ui_latest_head": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
   "related_ui_review": "UI専用232blobを7c2a43dへ選択受領。元原本不変、Work設定／計画コピーは対象外。追加描画は次UI単位へ。",
-  "last_verified_own_head": "c6a8f6c82c75cc0b1256f5d1d2885fcaecf23b8b",
+  "last_verified_own_head": "9f37022b37fbde0120cde5d75606c49b037b394e",
   "report": "docs/検証/接続条件/co-d02/appendix-d02r/report.md",
-  "user_decision": "D54一閃倍率とD55被攻撃単位消費は承認済み。個別回数＋本人一致で外部付与も共通解除を主案にする。長文常設・毎手の詳細窓確認を避け、最大・最小回数等の表示を再比較。具体的な持続・再付与・表示は未確定。",
+  "user_decision": "D54は承認済み、D55は実装済み。独立回数＋本人一致共通解除を主案に、同じ発生源・同種の再付与は最新の三値へ張り直す案を推奨。累積可否の採否待ち。回数表示はUIの後続比較。",
   "work_plan_version": "0.8.2",
   "instruction_version": "0.3",
   "handoff_own_head_at_start": "7c2a43dd34ce4c770589d812530545b8fed17881",
@@ -56,12 +56,17 @@
     "plan_impact": "計画17blobは不変。J01の部分回答・方式見直しは本Work記録へ保存し、計画原本の更新をとりまとめへ渡す。"
   },
   "current_design_followup": {
-    "date_jst": "2026-09-18",
+    "date_jst": "2026-09-19",
     "document": "docs/仕様案/カード探索ゲーム_防御効果の重ね合わせ.md",
-    "version": "0.2",
+    "version": "0.3",
     "design_version": "0.55",
-    "decision": "D55",
-    "scope": "UI and balance interpretation correction; finite-effect consumption approved in design only; runtime/input/UI unchanged",
-    "plan_impact": "計画17blobは不変。訂正とD55採用・未了は自Work側へ保存し、とりまとめの次回受領へ渡す。"
+    "decision": "D55 implemented; regrant policy pending",
+    "runtime_report": "docs/検証/接続条件/co-d02/appendix-d55/README.md",
+    "runtime_versions": {
+      "rule_set_id": "CW-M1-rules-0.2",
+      "engine_version": "CW-M1-engine-0.2"
+    },
+    "scope": "D55 existing finite guard implementation and scoped checks; no independent layers/grant cards/UI drawing",
+    "plan_impact": "計画17blobは不変。今回の成果と未決事項は自Work側に保存し、次回とりまとめの受領へ渡す。"
   }
 }

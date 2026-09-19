@@ -173,8 +173,11 @@ export class CoreGame {
           const defense=guard?guard.value*(1+Math.floor(d.crit/100)):0;
           damage=Math.max(0,((c.power+m.field_power)*am-defense-this.passive(target,'damage_reduction'))*hm);
           actual=Math.min(d.hp,damage);d.hp-=actual;d.hit=0;if(a.crit>=100)a.crit=0;
-          if(guard){guard.uses--;if(d.crit>=100)d.crit=0;if(!guard.uses)d.guard=null;}
+          if(guard&&d.crit>=100)d.crit=0;
         }
+        // D55: a legal matched attack spends one finite guard use even when
+        // evasion prevents posture gain. Critical consumption stays at damage resolution.
+        if(d.guard){d.guard.uses--;if(!d.guard.uses)d.guard=null;}
       } else if(mode==='heal'){restored=Math.min(c.power,a.max_hp-a.hp);a.hp+=restored;}
       else assert(mode==='none','unsupported card kind');
       this.recover(c.id,'played_match');this.recover(mid,'field_match');

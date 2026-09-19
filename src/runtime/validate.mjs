@@ -118,6 +118,13 @@ function validate(d) {
   return copy(d);
 }
 export function validateDocument(d) {
-  try {return validate(d);}
+  try {
+    // The D55 upgrade changes future resolutions, not recorded history or the
+    // remaining uses already saved. Normalize only the known complete version pair.
+    // validate() returns a copy; open/inspect/preview never rewrite the stored save.
+    const current=d?.rule_set_id==='CW-M1-rules-0.1'&&d?.engine_version==='CW-M1-engine-0.1'
+      ? {...d,rule_set_id:C.rule_set_id,engine_version:C.engine_version} : d;
+    return validate(current);
+  }
   catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
 }
