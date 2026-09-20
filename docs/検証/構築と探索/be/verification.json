@@ -1,0 +1,203 @@
+{
+  "trial": "BE1-public-decision-context-projection",
+  "base_commit": "002804daa8942c3faedb7b85d70152015f220c11",
+  "formal_spec": "0.53/D53",
+  "input_resolution": {
+    "source": "docs/検証/構築と探索/az/results.json",
+    "observation_key": "six_placement_public_observations",
+    "selected_times": [
+      94,
+      114,
+      142
+    ],
+    "omitted": [],
+    "source_checkpoint_sha256": "5598215859e2a5d3a69f65c9264cd67bf9686329309bf91447a72ac84677bf94"
+  },
+  "checks": {
+    "old_files_unchanged": 91,
+    "historical_source_hashes_match": 66,
+    "saved_cases": 3,
+    "legal_actions": 9,
+    "followup_start_public_state_equal": true,
+    "followup_start_legal_predictions_equal": true,
+    "forbidden_fields_mutation_invariant": true,
+    "forbidden_fields_access_denied": true,
+    "minimal_public_input_equal": true,
+    "missing_public_snapshot_omitted": 4,
+    "same_time_V_before_P_and_E_after_P": true,
+    "legacy_executable_imports": 0
+  },
+  "public_boundary": {
+    "source_allowlist": [
+      "before.now",
+      "before.actors.P.{hp,max_hp,next_at}",
+      "before.actors[others].{active,purpose,next_at}",
+      "before.hand.{id,name,attr,kind,remaining,power,consume_on_recover,doomed}",
+      "before.field.{id,name,attr,remaining}",
+      "decision.choices[].choice.{card_id,target}",
+      "decision.choices[].prediction.{mode,action_cost,hp_restored}"
+    ],
+    "role_mapping_scope": "Only P,V0,V1 in these fixed saved AZ snapshots, from existing engine.enter(). Unknown IDs fail.",
+    "optional_card_flag": "consume_on_recover may be absent/null in saved ordinary cards. Existing recover() uses a truthy check; its absence is not an inferred private value. No default flag is displayed.",
+    "rule_anchors": {
+      "role_from_public_actor_id": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "role=w==='P'?'P':w==='O'?'O':w[0]"
+      },
+      "same_time_role_order": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "const order={V:0,P:1,E:2}"
+      },
+      "same_role_id_order": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "order[this.s.actors[x].role]-order[this.s.actors[y].role]||x.localeCompare(y)"
+      },
+      "hand_decrement_then_expiry": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "this.s.cards[id].remaining--;if(!this.s.cards[id].remaining){a.hand.splice(a.hand.indexOf(id),1);expired.push(id);this.recover(id,'expiry');}"
+      },
+      "placement_clears_hand_deadline": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "a.hand.splice(a.hand.indexOf(c.id),1);c.remaining=null;"
+      },
+      "placement_without_main_effect": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "if(!mid){assert(target===null,'placement target');this.s.field[c.attr]=c.id;}"
+      },
+      "ordinary_recovery_to_shared_pool": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "this.s.pool.push(id);this.log('recover',{card_id:id,reason});"
+      },
+      "recovery_exceptions": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "if(c.consume_on_recover||c.doomed||c.birth==='filler')"
+      },
+      "current_heal_cap": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "else if(c.kind==='heal')result.hp_restored=Math.min(c.power,a.max_hp-a.hp);"
+      },
+      "non_hand_has_no_deadline": {
+        "file": "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js",
+        "anchor": "if(!hands.has(c.id))assert(c.remaining===null,'non-hand deadline');"
+      }
+    },
+    "reservation_anchor": {
+      "file": "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js",
+      "anchor": "if(this.s.actors[w].active)this.s.actors[w].next_at=this.s.now+cost;"
+    },
+    "excluded": [
+      "相手の手札や次札、私有山札、乱数、実現済みの未来行動・回収・補充・再配分、最終勝敗",
+      "元の機械選択、評価順位、方策理由、未来消費診断、追比較の結果差や終点指標",
+      "AU方策のstrict <を製品の正しい同時刻順として用いること"
+    ],
+    "limit": "Current public reservations only; later NPC choices, re-reservation, retirement, allocation and arrival at the next P turn are not predicted. Audit sources are not display input."
+  },
+  "frozen_source_hashes": {
+    "docs/検証/修飾/ao/affixes.cjs": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f",
+    "docs/検証/修飾/ao/conditions.json": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90",
+    "docs/検証/修飾/ap/conditions.json": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00",
+    "docs/検証/修飾/ap/conversion.cjs": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c",
+    "docs/検証/構築と探索/au/boundaries.cjs": "0c44b291e420b9a1ba95e8ef815bf5316657cdb812b1db88c85819bc451376de",
+    "docs/検証/構築と探索/au/boundary-results.json": "bdd74c03e8fe6c20545846fa420e29606b308573469731c0a574372b4c052c61",
+    "docs/検証/構築と探索/au/conditions.json": "8877196d724d5243172fbaa4f6d61bfa956e5cf9609e732645383f5670f2b58c",
+    "docs/検証/構築と探索/au/followup-conditions.json": "2b17b28880723556d9195a3c47a6f0112f9fe848f13ec5e55c92b9955ff09379",
+    "docs/検証/構築と探索/au/followup-results.json": "5912638cc8a300b31becbdf5537d1147441f837f73d0f3660d2e034ce422409a",
+    "docs/検証/構築と探索/au/followup.cjs": "baf084b3569932feaee51659b59cb92cc734a13ab8ebf3e6e0203ba774dc603f",
+    "docs/検証/構築と探索/au/public-policy.cjs": "e3226a64639e59810a96004401e17040e5156529433a8e9dcb6c08f28ed219c4",
+    "docs/検証/構築と探索/au/results.json": "9d57c9c6a7bca10b45aaeed9b2077cb9e7c8ea96e589477d67c0fb3feebdc5ef",
+    "docs/検証/構築と探索/au/session.cjs": "f95e73d3fce89df8960d6db80c1bc512ee95315bf94c1e4ee7958e181318d3a0",
+    "docs/検証/構築と探索/au/study.cjs": "4c7565e72e6b7070559e6c1a634e8d7c78a43794d5c7f433a1c89a60a140837f",
+    "docs/検証/構築と探索/au/verification.json": "84a7f966ffbd6962d5ad1a647d92c3e1ef30effe1669330da6d7ff976467d0b5",
+    "docs/検証/構築と探索/au/検討結果.md": "265b8f77f9eac466a637a2a67ddb6a2f10eec06f0b860c5564fd74c77d8f2ee1",
+    "docs/検証/構築と探索/av/checkpoints-manifest.json": "38ee09e4090a90e381b994fa96b1032eddc4974647fe26e9977d3b69ec99f214",
+    "docs/検証/構築と探索/av/conditions.json": "7ecbe86d46196b7c2f28428b96662bcb680eaa6ee85250ffde4aec094b192a23",
+    "docs/検証/構築と探索/av/policy.cjs": "c19f9eaf8b76c2bd360aee3b461edd1a1c0a873258356e3cfd714f556203f903",
+    "docs/検証/構築と探索/av/results.json": "778f03745402bf98963c5aabba38210bc6d36cf03e77e8f9e67d55759cc4afb7",
+    "docs/検証/構築と探索/av/study.cjs": "a1f2d2a04ef91dd3a1ab21bd481d9021d497893e330712882bd5115d5d34173f",
+    "docs/検証/構築と探索/av/verification.json": "179d9c904c18f09fb3dddac75c90f46ca05c25dddfea1ab9ca538483d8e9942a",
+    "docs/検証/構築と探索/av/検討結果.md": "6ba66486ca57ce1105d5dc68c4ea4eb799cc92b5a005a8a1a4bff785cbddea5a",
+    "docs/検証/構築と探索/aw/checkpoints-manifest.json": "01108f781375651bc0d8e1cff27fcd65f7cf4caab9a87b8eac9e5c45821220b1",
+    "docs/検証/構築と探索/aw/conditions.json": "abcd006d67d4418c5142b55aa814d72a60b4b7ac58a8d16117739f7f16ff5c88",
+    "docs/検証/構築と探索/aw/results.json": "a1df753d3388ef1f66f1d950b8c0578f5e20e61b48ab757df66262afcd3f6a2d",
+    "docs/検証/構築と探索/aw/study.cjs": "495710de1f773afab135d7aad2f7377e65370e9940a9dfd13dfe1371cf659ea5",
+    "docs/検証/構築と探索/aw/verification.json": "05cc7e06739344998fc7614afe38ee7763ca13b8668584ce8005dbd2fe939dba",
+    "docs/検証/構築と探索/aw/検討結果.md": "8b4668c3bc8ca184b0020b0abf5e96903e133552bc1b882769712573aef8e9a7",
+    "docs/検証/構築と探索/ax/checkpoints-manifest.json": "23b1d2453040d3ab88f2ac3447424472a46ceda4ea64149a55e80873e6d4f9e7",
+    "docs/検証/構築と探索/ax/conditions.json": "eeb2690d6a4d46673ac76ae92105921ec2f5d098695f9fb3a853d7bf4b391d08",
+    "docs/検証/構築と探索/ax/results.json": "9928ee17d735e5c527d3d3d09d7ee033c7bcc6474e21fd577979ff082718940f",
+    "docs/検証/構築と探索/ax/study.cjs": "5c6fc047bfe51547784a3f170107ee030bcfa0a0e14e488f07f375c5cfe0dcd4",
+    "docs/検証/構築と探索/ax/verification.json": "ac0c571e30ea7e410a43d439339196373e52ac8ee85637d6f7b0af014d9a6c0a",
+    "docs/検証/構築と探索/ax/検討結果.md": "07031df2510f8a62ae84680e4bc10caf8851df24b9186ed4a79c5b11f9940197",
+    "docs/検証/構築と探索/ay/checkpoints-manifest.json": "4ac746c9e35194d84ee2f3c55904576ceeaa0e15fe030a4c0ec16c5fa7b6e713",
+    "docs/検証/構築と探索/ay/conditions.json": "696a2d5ab81680d20f189680db66b1fcc4d0e89b3fd05a69a6e357f439cb85ee",
+    "docs/検証/構築と探索/ay/results.json": "55b41f612208dfd61f30797d9b7026899b6cca73893c4e7fc81ff9c0638c552d",
+    "docs/検証/構築と探索/ay/study.cjs": "bad79b20c0cc7cf489ca6c5e46dddc2d6f99d91857ab1a5f01a05c7fc277c9b5",
+    "docs/検証/構築と探索/ay/verification.json": "4d522d83e0f55b6c68e2a049499a6372d76cbc0736cf34bda12f47af3adf5fdf",
+    "docs/検証/構築と探索/ay/検討結果.md": "90bfdd730f35c5e768a446c4b92003829cb319db9403078857196fe4953ffd7e",
+    "docs/検証/構築と探索/az/checkpoints-manifest.json": "01d26196f49a4a29bb42d76b6ee83a3a4ba1ef1d07bd901f8c50523b33a5c305",
+    "docs/検証/構築と探索/az/conditions.json": "5f78ad17441277360491b7c532cff3b237ef0eda01d37dba513a3d0bc62da8e3",
+    "docs/検証/構築と探索/az/followup-conditions.json": "2b26afbe01b5d3681addbdbb19abe2a1996b0a81b9292a15116c8650f58f8e34",
+    "docs/検証/構築と探索/az/followup-results.json": "8a7ebc7f0edc1c66194e640a308509a9923db880fef3708ed9375e7f7d266c01",
+    "docs/検証/構築と探索/az/followup.cjs": "4ac27408568154cd7936f44549671046eb13d94c3edc08b8c0409978f638dbd0",
+    "docs/検証/構築と探索/az/results.json": "c25b1dc99951c6bfb8e89458a64c1e58e1f0145d42b22d8b8fbe78bbc0f8d5d9",
+    "docs/検証/構築と探索/az/study.cjs": "06bbda371e7b24b01f79d47f2b1bf4b5d764b184b3da64791801749225249b6c",
+    "docs/検証/構築と探索/az/verification.json": "2ad5a4b3e8985ff0230df8bf23efed24218f86ae4a7b591dba7c7ed5a898ab7c",
+    "docs/検証/構築と探索/az/検討結果.md": "e8dd974e67d3afcffe5d0c8e50c66fe6563825f2f0fbc55431bee743b16d4001",
+    "docs/検証/構築と探索/az/追比較結果.md": "c65fca10a65c61b5bd2637414baff173e1fb8f58f25b77e47fac86c5ea31a2b6",
+    "docs/検証/構築と探索/ba/checkpoints-manifest.json": "2b524d78709972df18147df26d752b477804aa37ca1c8b84ac7e7883c2daf9e4",
+    "docs/検証/構築と探索/ba/conditions.json": "923c58581cd1b5c494b34c08f9331bf07787da6aa5f5fc13966f22252f132a64",
+    "docs/検証/構築と探索/ba/results.json": "686548692a5b87acd93d811d59c395a7223db7501db985f3ee24036ea255a523",
+    "docs/検証/構築と探索/ba/study.cjs": "5cc18276a4fefeeca683b9a6bd51dc81e5691161e90da95b2902f28141efb7ae",
+    "docs/検証/構築と探索/ba/verification.json": "cdcd60ecbd752e5c323a46a6c943ddcba7908de23aea859a8747b910c8a89076",
+    "docs/検証/構築と探索/ba/検討結果.md": "e1c568efb7c54b334096d9dd8c282e006fccea17f07765dab2cbd9bde8d81620",
+    "docs/検証/構築と探索/bb/aggregate.cjs": "0976fefaefaef5b6cf7c1104649408ef8d91c2d5a3d948e872b6e54786af72b7",
+    "docs/検証/構築と探索/bb/results.json": "e98576bae5d51f99652181fc9ac6ae3e77b9d3bff7794d3f356a184bf34c649f",
+    "docs/検証/構築と探索/bb/経路確認.md": "dcb93ce1f1eeba7cb138a246d70aacb305fda5a58ca12dede16f1e5ad4104dfe",
+    "docs/検証/構築と探索/bc/checkpoints-manifest.json": "0a8ba7c9fa3ebbe64bfe17fdb3841ca54bcda7bbbba942114e712a35acc44616",
+    "docs/検証/構築と探索/bc/conditions.json": "eced37a289fffb46335c5a4d2bb9060886be81738d3779d340723cd3e960a1d0",
+    "docs/検証/構築と探索/bc/results.json": "1d62f57e9dbeca807bdeb09e812b1b0a6651a06a826305da4fe28ba06be0d490",
+    "docs/検証/構築と探索/bc/study.cjs": "d05bb234b7f9a7b706aaeaaaa4d26fd2dd18ff7334dc9d79797d3210160df0c9",
+    "docs/検証/構築と探索/bc/verification.json": "9f09247a778564983d5ddc5c7271a99a221d232f7823ad866e2ffc2b5c6c2470",
+    "docs/検証/構築と探索/bc/検討結果.md": "05d89ffd82a2d221d97116c26894c8838c47ac774776819ce13a05dbb56b5fa1",
+    "docs/検証/統合試作/deck_feedback_trial/choice_inputs.json": "16add3f3369628aea112b974a9033980f0f3b4a5e2f9bd199017e34cf781530d",
+    "docs/検証/統合試作/deck_feedback_trial/ecology.js": "8e2a905182f43003ba1b1176de722d3f7612ae15738e7f1915f6d869fd7cf825",
+    "docs/検証/統合試作/deck_feedback_trial/engine.js": "63615a41c1b57e8be3caa5a52809671cb3b81c06367a036bc265f967d9ec0f8b",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_loop.js": "58818630160f38bb0edefeddce7cdbd6a446450609d372eb42993c51149a6425",
+    "docs/検証/統合試作/deck_feedback_trial/feedback.js": "de8e2e5883d3db8249aa27dab0c09ad74b8f7bc0a11bdbdc15d292b7c87a1072",
+    "docs/検証/統合試作/deck_feedback_trial/information.js": "a438fd6beb890080e526821fcb104cb0796924b4444a59a60bff1bac1145e4ef",
+    "docs/検証/統合試作/deck_feedback_trial/input.json": "b8373c7c19c3b1a50fd9cdfd28fb0a5dfe4d368dbe1c9afb0a25b07bf2561981",
+    "docs/検証/統合試作/deck_feedback_trial/knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "docs/検証/統合試作/deck_feedback_trial/loop_inputs.json": "a520586393984d854486617cdcc36dc200d774785e8795158b6dc2516ff38cdf",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/conditions.json": "62c969eb9f30decd430989146218f06ce8792f001fba5d2f22db026b2c189676",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.json": "3c77b34ce84e7bce49c0e094b3a0e012b467701a83a1502c693c5c7e04d29b6b",
+    "docs/検証/統合試作/deck_feedback_trial/reward_build_inputs.py": "a76d202251cd6ca71dff004f6b76e3d3fdc6db4e8c37bb3461157d34b10754de",
+    "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "docs/検証/統合試作/deck_feedback_trial/terrain.js": "2169144909551407b9115040882dd78c9a4f20fd9bf1c9ea8be1c58c7fd116fc",
+    "docs/検証/装備制限/aq/conditions.json": "ad11113aa944ef7b01ab77dfa2bf3eb0a0c368da279456a0d0fa326860e758a0",
+    "docs/検証/装備制限/aq/equipment.cjs": "7c551f7f4bbd34370ad2eeada8bf220d7fa53d6a5a807f099fc8d9e013afad69",
+    "docs/検証/装備制限/aq/results.json": "de3805a8e31fb4fee48c837565bb0e358bc3de7e20c74ea82cf6069b24c0e2dc",
+    "docs/検証/装備制限/ar/common.cjs": "396b342521c4464406b59cd8e430aa9eb596e3972b890047d74909bd1c40f56f",
+    "docs/検証/装備制限/ar/conditions.json": "acb59e787cbdf5b8c6121d9cc1938fd11760bc45ca005ba790c4182826f32bb0",
+    "docs/検証/装備制限/ar/session.cjs": "179379131345f2289be89be4be438697e4e66c49082b95530d93f2dfafcae16c",
+    "docs/検証/資源用途/at/conditions.json": "92c658c96c83f1e86dc9a7c95dbf7f095548e30c530ac1a410df7c64c2d54594",
+    "docs/検証/資源用途/at/offers.cjs": "13c2d3b215a8b723010fae951ba126a0ce72e82d8648430151079adabd743af7"
+  },
+  "own_hashes": {
+    "conditions.json": "946ebc0c2f995fb812c10a2f2ad161886946cc4a70dcd9b454abf19dd22b180c",
+    "project.cjs": "6c4d89751479128a03e9e42f0b4130109291cc82302b9e7beeb8f2f87dcf17c8",
+    "aggregate.cjs": "0918c4a603c72e9c2fa6282a6c9da2fe66fa8299a66b37d091bc434cbb031bbe",
+    "results.json": "95c049ae3e3bee7fd73196dcc0e886d0d757d5266bfc843d371e809a3150c809"
+  },
+  "execution_scope": {
+    "new_battles": 0,
+    "old_comparison_reruns": 0,
+    "old_file_edits": 0,
+    "git_operations": 0,
+    "dedicated_ui_edits": 0,
+    "loaded_old_executable_modules": 0,
+    "public_projections_only": true
+  }
+}

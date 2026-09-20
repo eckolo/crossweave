@@ -1,0 +1,68 @@
+{
+  "work_id": "20260910-ui-readability",
+  "version": "0.10.1",
+  "change": "再開成功時の常駐通知だけを削除",
+  "result": "pass",
+  "checked_at_utc": "2026-09-17T03:12:38.498Z",
+  "count": 7,
+  "checks": [
+    {
+      "name": "編集中断で中断画面へ戻る",
+      "pass": true
+    },
+    {
+      "name": "続きからで編成に戻り、未確定の編集と現在の編成を別々に保つ",
+      "pass": true
+    },
+    {
+      "name": "編成再開後に成功通知や通知を閉じるボタンを残さない",
+      "pass": true
+    },
+    {
+      "name": "再開後は追加の閉じる操作なしに編成を編集できる",
+      "pass": true
+    },
+    {
+      "name": "探索再開は帰還や行動進行を起こさず元の探索状態へ戻る",
+      "pass": true
+    },
+    {
+      "name": "探索再開後にも成功通知や通知を閉じるボタンを残さない",
+      "pass": true
+    },
+    {
+      "name": "今回の操作中にスクリプトエラーなし",
+      "pass": true
+    }
+  ],
+  "source_commit_before_change": "b628672b8f1551e4b843dd5792cf5a6ff029b239",
+  "plan_commit": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+  "technical_commit": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+  "conditions": [
+    "実Campaign＋設計所有MemoryStore＋JSDOMのDOM操作。生成済み配布版distを使用。",
+    "既存verify-save-flow.cjsはharness定義のみ再利用し、旧49件の実行部は呼び出していない。",
+    "新規作成→編成変更→中断→続きから→再編集、および実出発→本文表示→探索中断→続きからの今回対象経路。"
+  ],
+  "limits": [
+    "実ブラウザー描画・IndexedDB永続保存・実タッチ・ユーザー受入は未確認。",
+    "Browserの拒否済み入口に再試行せず、別経路の描画確認も行わない。"
+  ],
+  "runtime": {
+    "node": "v24.19.0",
+    "jsdom": "26.1.0"
+  },
+  "sha256": {
+    "docs/検証/UI/readability/co-u02/journey/view.js": "e3dd5d4a50d75f20d38d8b3a79e4874555202a824df56af71ec081a47dbd3f7e",
+    "docs/検証/UI/readability/co-u02/dist/crossweave-ui.js": "de99390ff6bf5b484f32e2c663a7fae44ce6f0bb68de14e07de06faae074639b",
+    "docs/検証/UI/readability/co-u02/journey/build.cjs": "41a98cb092e0186d521c3939bc832a139fcd6320eda35a2dbf65895ba65ef0a8",
+    "docs/検証/UI/readability/co-u02/build.cjs": "89f41a2fdc84929af9804111700751b07e6bbbc302608bd00a90e0661e84b830",
+    "docs/検証/UI/readability/co-u02/journey/verify-save-flow.cjs": "c8fb94e7a3dfd120de17ad2baf16774123ac3bbfc69a0b4ee77cc55f240f6876"
+  },
+  "inline_fragment": {
+    "path": "/workspace/crossweave-resume-clean.html",
+    "bytes": 400421,
+    "sha256": "cb4ff735c5db21b2e7351d1058739e407a0f274726507be8ab6ee496574de9c3",
+    "start": "launcher",
+    "storage": "original MemoryStore; ephemeral"
+  }
+}

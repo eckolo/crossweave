@@ -1,0 +1,129 @@
+{
+  "id": "CO-U01 / UI-G-001",
+  "version": "0.1.1",
+  "runtime": "v24.19.0",
+  "jsdom": "26.1.0",
+  "checks": [
+    {
+      "name": "現在の未使用300・既払200を分離、読取で不変",
+      "status": "pass"
+    },
+    {
+      "name": "取消・購入比較300→500→100、所持と装備は確定前に不変",
+      "status": "pass"
+    },
+    {
+      "name": "確定成功後に所持6と残額100、handle再発行、再送で二重購入なし",
+      "status": "pass"
+    },
+    {
+      "name": "返還の自動合算なし。取消なしの400購入は100不足",
+      "status": "pass"
+    },
+    {
+      "name": "購入可能でも未習得なら所持のみ、装備指定時は全体拒否",
+      "status": "pass"
+    },
+    {
+      "name": "容量超過と札不足を別理由にし、取消計画を失敗で適用しない",
+      "status": "pass"
+    },
+    {
+      "name": "札不足の下書き保存・再投影・再表示。経済は不変",
+      "status": "pass"
+    },
+    {
+      "name": "無料取消と別心得の習得、同基礎再習得の実払額を分離",
+      "status": "pass"
+    },
+    {
+      "name": "取消だけ確定で所持維持、下書き取消で確定済み購入は戻さない",
+      "status": "pass"
+    },
+    {
+      "name": "空所持・空候補・前回候補・購入済み・未接続を分離",
+      "status": "pass"
+    },
+    {
+      "name": "変換50units=0.5、見積は不変、同要求再送は一回のみ",
+      "status": "pass"
+    },
+    {
+      "name": "確定使用中・保存下書き使用中・保護中の変換拒否",
+      "status": "pass"
+    },
+    {
+      "name": "古い候補tokenとhandleを再利用しない",
+      "status": "pass"
+    },
+    {
+      "name": "保存失敗後の同一要求再試行。資源・所持・下書きの原子性",
+      "status": "pass"
+    },
+    {
+      "name": "帰還で比較可・成長確定不可、ackで再加算せずhomeへ",
+      "status": "pass"
+    },
+    {
+      "name": "夜潮契約抜粋へ所持・札組・未観測情報を補完しない",
+      "status": "pass"
+    },
+    {
+      "name": "DOM初期帰還から準備へ、全メニューへの直通と下書き保持",
+      "status": "pass"
+    },
+    {
+      "name": "DOMクリックで詳細トグル、外側クリックとEscape、ピン記号",
+      "status": "pass"
+    },
+    {
+      "name": "DOM選択→比較→保存失敗→同要求再試行→確定、余分な自動装備なし",
+      "status": "pass"
+    },
+    {
+      "name": "DOM見送りは候補の再抽選・実支出なし",
+      "status": "pass"
+    },
+    {
+      "name": "DOM古い候補の再読取でも下書き・前名を保持し、明示して戻す",
+      "status": "pass"
+    },
+    {
+      "name": "DOM失敗した比較の取消・札不足下書きを保持して修正可能",
+      "status": "pass"
+    },
+    {
+      "name": "DOM変換の使用中・保護中・0.5の見積と実確定",
+      "status": "pass"
+    },
+    {
+      "name": "DOM空状態・購入済み・未接続と短い理由／次操作を区別",
+      "status": "pass"
+    },
+    {
+      "name": "DOM公開用ラベルだけを表示、操作すべてに名前、ネットワーク／実保存なし",
+      "status": "pass"
+    },
+    {
+      "name": "DOM仮時計：180msの一時詳細、クリック固定、再クリック閉じる",
+      "status": "pass"
+    },
+    {
+      "name": "DOM長い準備内容と確定操作を分離し、全メニューをスクロール外へ保持",
+      "status": "pass"
+    },
+    {
+      "name": "DOM表示枠の変更でも選択・ピン・下書き・制御viewを維持",
+      "status": "pass"
+    }
+  ],
+  "total": 28,
+  "scope": "mock controller + DOM + fake timers only",
+  "not_checked": [
+    "actual browser rendering",
+    "real pointer/touch device",
+    "IndexedDB or real API",
+    "new game play or balance"
+  ],
+  "old_game_replays": 0
+}

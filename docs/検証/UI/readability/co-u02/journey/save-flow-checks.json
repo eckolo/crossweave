@@ -1,0 +1,217 @@
+{
+  "id": "CW-M1-UI-001",
+  "group": "save-flow-v0.10",
+  "result": "pass",
+  "count": 49,
+  "checks": [
+    {
+      "name": "missing save stays at startup and does not create",
+      "pass": true
+    },
+    {
+      "name": "create is pending and duplicate input is disabled",
+      "pass": true
+    },
+    {
+      "name": "failed creation is retryable without a made-up save",
+      "pass": true
+    },
+    {
+      "name": "creation retry reuses the complete request",
+      "pass": true
+    },
+    {
+      "name": "new campaign follows the real unpaused home phase",
+      "pass": true
+    },
+    {
+      "name": "unshown home prose is not marked read at startup",
+      "pass": true
+    },
+    {
+      "name": "standalone controls render icons without the conversation host",
+      "pass": true
+    },
+    {
+      "name": "preparation card details pair icons with the correct guard terms",
+      "pass": true
+    },
+    {
+      "name": "incomplete deck stays a local proposal",
+      "pass": true
+    },
+    {
+      "name": "failed suspend retains the draft and remains in the game",
+      "pass": true
+    },
+    {
+      "name": "successful retry completes suspension once",
+      "pass": true
+    },
+    {
+      "name": "fresh UI instance restores incomplete saved draft without committing it",
+      "pass": true
+    },
+    {
+      "name": "open does not mutate a saved campaign",
+      "pass": true
+    },
+    {
+      "name": "failed save before export produces no download and retains the proposal",
+      "pass": true
+    },
+    {
+      "name": "export retry saves then produces one named download",
+      "pass": true
+    },
+    {
+      "name": "download-unavailable error leaves the already saved game intact",
+      "pass": true
+    },
+    {
+      "name": "restored valid proposal gets a fresh comparison and can be confirmed without another edit",
+      "pass": true
+    },
+    {
+      "name": "confirming restored draft applies it through Campaign",
+      "pass": true
+    },
+    {
+      "name": "invalid import keeps the selected input and empty slot",
+      "pass": true
+    },
+    {
+      "name": "import frame retains input and actions at 1024px",
+      "pass": true
+    },
+    {
+      "name": "import frame retains input and actions at 736px",
+      "pass": true
+    },
+    {
+      "name": "import frame retains input and actions at 600px",
+      "pass": true
+    },
+    {
+      "name": "import frame retains input and actions at 320px",
+      "pass": true
+    },
+    {
+      "name": "import retries the same document and request ID into an empty slot",
+      "pass": true
+    },
+    {
+      "name": "import restores public phase and proposal",
+      "pass": true
+    },
+    {
+      "name": "occupied import is rejected without destroying either input",
+      "pass": true
+    },
+    {
+      "name": "occupied import can return to Continue",
+      "pass": true
+    },
+    {
+      "name": "post-create inspect failure offers open and protects existing save",
+      "pass": true
+    },
+    {
+      "name": "open recovers the created campaign after inspect failure",
+      "pass": true
+    },
+    {
+      "name": "persistent entry has save controls without the former legacy-UI detour",
+      "pass": true
+    },
+    {
+      "name": "in-app resume reopens the persisted phase",
+      "pass": true
+    },
+    {
+      "name": "踏破 save selects the result screen from real phase",
+      "pass": true
+    },
+    {
+      "name": "recorded rewards show only the published labels",
+      "pass": true
+    },
+    {
+      "name": "records retain the published observation contexts",
+      "pass": true
+    },
+    {
+      "name": "public snapshot card opens beside its source with the shared terms",
+      "pass": true
+    },
+    {
+      "name": "踏破 reopen does not recredit the result",
+      "pass": true
+    },
+    {
+      "name": "緊急脱出 save selects the result screen from real phase",
+      "pass": true
+    },
+    {
+      "name": "緊急脱出 reopen does not recredit the result",
+      "pass": true
+    },
+    {
+      "name": "read receipt covers only the one paragraph actually signalled visible",
+      "pass": true
+    },
+    {
+      "name": "opening active exploration does not replay prior history",
+      "pass": true
+    },
+    {
+      "name": "resolved real actions produce a bounded transient public feed",
+      "pass": true
+    },
+    {
+      "name": "reopening retains history without replaying the transient feed",
+      "pass": true
+    },
+    {
+      "name": "full public history remains available separately from the transient feed",
+      "pass": true
+    },
+    {
+      "name": "UI withdrawal selects the actual withdrawal result",
+      "pass": true
+    },
+    {
+      "name": "acknowledging the result goes to hub and clears open windows",
+      "pass": true
+    },
+    {
+      "name": "redeparture uses the actual phase and scene",
+      "pass": true
+    },
+    {
+      "name": "open resumes the paused exploration scene",
+      "pass": true
+    },
+    {
+      "name": "open resumes active exploration without replaying prose",
+      "pass": true
+    },
+    {
+      "name": "no script errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "node": "v24.19.0",
+  "conditions": [
+    "Real Campaign and unmodified design-owned MemoryStore; JSDOM DOM/event execution.",
+    "New UI creates, opens, imports, exports, suspends and resumes. Download is observed at the browser API boundary, not an actual browser file transfer.",
+    "Controlled IntersectionObserver signals only mounted scene paragraphs; unseen optional text is not marked read.",
+    "Injected adapter failure/latency exercises changed startup/save routes. Natural clear/defeat saves and actual UI withdrawal cover result selection, without rerunning balance exploration."
+  ],
+  "limits": [
+    "IndexedDB persistence across browser closure, actual downloads/file chooser and rendering are unverified.",
+    "No physical overflow/touch verification: canonical local browser entry previously returned ERR_BLOCKED_BY_CLIENT.",
+    "Historical test groups were not rerun or recounted; full formal migration and user acceptance remain open."
+  ]
+}

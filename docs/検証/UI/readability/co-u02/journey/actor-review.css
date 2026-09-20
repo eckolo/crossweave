@@ -1,0 +1,51 @@
+/* Shared prose measure: paragraphs are semantic; line breaks follow available
+ * width with Japanese line-breaking rules. Never rewrite or scale source text. */
+#crossweave-journey{--cj-prose-measure:42em}
+@supports(width:1ic){#crossweave-journey{--cj-prose-measure:42ic}}
+#crossweave-journey .cj-story p,#crossweave-journey .cj-prose,#crossweave-journey .cj-inspect-scroll p{line-break:strict;word-break:normal;overflow-wrap:break-word;white-space:normal;hyphens:none;text-wrap:pretty;hanging-punctuation:allow-end}
+#crossweave-journey .cj-story p{margin:0 0 .7em}
+#crossweave-journey .cj-story p:last-child{margin-bottom:0}
+#crossweave-journey .cj-fixed-result{display:grid;grid-template-columns:minmax(180px,max-content) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:28px;padding:20px 24px;align-items:end}
+#crossweave-journey .cj-result-summary{position:relative;z-index:1;display:grid;justify-items:start;gap:8px;min-height:0}
+#crossweave-journey .cj-result-values{display:grid;gap:8px;grid-template-rows:none;font-variant-numeric:tabular-nums}
+#crossweave-journey .cj-result-money{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+#crossweave-journey .cj-result-money svg,#crossweave-journey .cj-result-money i{width:16px;height:16px;align-self:center}
+#crossweave-journey .cj-result-money>strong{font:400 32px/1.2 Georgia,serif}
+#crossweave-journey .cj-result-items{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px}
+#crossweave-journey .cj-result-summary>.cj-button{min-height:44px;min-width:60px}
+#crossweave-journey .cj-fixed-result>.cj-reading-window{position:relative;right:auto;bottom:auto;left:auto;width:100%;max-width:var(--cj-prose-measure);height:auto;max-height:min(240px,100%);justify-self:end}
+#crossweave-journey .cj-reading-scroll .cj-story{max-width:var(--cj-prose-measure);font-size:14px;line-height:1.7}
+#crossweave-journey .cj-fixed-scene>.cj-reading-window{width:calc(100% - 48px);max-width:var(--cj-prose-measure);max-height:min(240px,calc(100% - 40px))}
+#crossweave-journey .cj-destination-summary{position:absolute;z-index:1;left:24px;bottom:20px;max-width:calc(100% - 48px);max-height:calc(100% - 40px);width:var(--cj-prose-measure);display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr);column-gap:12px;row-gap:4px}
+#crossweave-journey .cj-destination-summary>small{grid-area:1/1}
+#crossweave-journey .cj-destination-summary>h2{grid-area:2/1;font-size:22px;font-weight:500;margin:0}
+#crossweave-journey .cj-destination-summary>.cj-prose{grid-area:3/1;min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;margin:0;font-size:14px;line-height:1.7}
+#crossweave-journey .cj-destination-summary>.cj-button{grid-area:1/2/4/3;align-self:end;min-width:60px;min-height:44px}
+#crossweave-journey .cj-wallet>span:first-child{display:inline-flex;align-items:center;gap:4px}
+#crossweave-journey .cj-wallet svg,#crossweave-journey .cj-wallet i{width:16px;height:16px}
+#crossweave-journey .cj-header .cj-pager .cj-button{width:44px;min-width:44px;padding:0}
+@container(max-width:620px){
+ #crossweave-journey .cj-fixed-result{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:6px;padding:4px 8px}
+ #crossweave-journey .cj-result-summary{grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:center}
+ #crossweave-journey .cj-result-values{gap:0;grid-template-rows:none;font-size:12px;line-height:16px}
+ #crossweave-journey .cj-result-money{gap:4px;line-height:16px}
+ #crossweave-journey .cj-result-money>strong{font:500 16px/16px system-ui,sans-serif}
+ #crossweave-journey .cj-result-money>small{font-size:11px}
+ #crossweave-journey .cj-result-items{font-size:12px;line-height:16px}
+ #crossweave-journey .cj-fixed-result>.cj-reading-window{width:100%;height:auto;max-height:100%;justify-self:start}
+ #crossweave-journey .cj-fixed-scene>.cj-reading-window{left:8px;width:calc(100% - 16px);max-width:none;bottom:4px;max-height:calc(100% - 8px)}
+ #crossweave-journey .cj-destination-summary{left:8px;bottom:4px;width:calc(100% - 16px);max-width:none;max-height:calc(100% - 8px);column-gap:8px;row-gap:0}
+ #crossweave-journey .cj-destination-summary>h2{font-size:18px;line-height:23px}
+ #crossweave-journey .cj-header .cj-pager{gap:0}
+ #crossweave-journey .cj-fixed-footer .cj-review-button{padding-inline:6px}
+}
+@container(max-width:400px){
+ #crossweave-journey .cj-fixed-result{padding:0 4px;gap:4px}
+ #crossweave-journey .cj-result-summary{min-height:48px}
+ #crossweave-journey .cj-reading-scroll{padding:0 2px}
+ #crossweave-journey .cj-reading-scroll .cj-story{font-size:13px;line-height:1.5}
+ #crossweave-journey .cj-destination-summary>.cj-prose{font-size:13px;line-height:1.5}
+ #crossweave-journey .cj-destination-summary>small{font-size:11px;line-height:14px}
+ #crossweave-journey .cj-header .cj-edit-tabs>.cj-button{width:44px;padding:0}
+ #crossweave-journey .cj-header{gap:2px}
+}

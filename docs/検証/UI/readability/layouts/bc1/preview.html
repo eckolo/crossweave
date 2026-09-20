@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>crossweave · UI-L-003</title><style>:root{color-scheme:light dark}body{margin:0 auto;padding:16px;max-width:1024px;font:14px/1.5 system-ui,sans-serif}</style></head><body>
+<div id="cw-bc1-variable">
+  <style>
+    #cw-bc1-variable{--cw-paper:light-dark(#f7f8fa,#192129);--cw-ink:light-dark(#243445,#e6edf4);--cw-soft:light-dark(#e8edf2,#27333f);--cw-line:light-dark(#bac6d1,#526271);--cw-world:light-dark(#e8eff5,#263747);--cw-table:light-dark(#eaece2,#333d30);--cw-table-line:light-dark(#a4ad91,#879878);--cw-sheet:light-dark(#fff,#222d38);--cw-accent:light-dark(#335b71,#b4d9ed);font:14px/1.5 system-ui,sans-serif;color:var(--cw-ink);width:100%}
+    #cw-bc1-variable *{box-sizing:border-box}
+    #cw-bc1-variable button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--cw-line);border-radius:7px;background:var(--cw-sheet);padding:7px 12px;min-height:36px}
+    #cw-bc1-variable button[aria-pressed="true"]{background:var(--cw-ink);color:var(--cw-paper);border-color:var(--cw-ink)}
+    #cw-bc1-variable .cw-study{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+    #cw-bc1-variable .cw-options{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+    #cw-bc1-variable .cw-caption{font-size:12px}
+    #cw-bc1-variable .cw-screen{position:relative;border:1px solid var(--cw-line);border-radius:12px;background:var(--cw-paper)}
+    #cw-bc1-variable .cw-chrome{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;border-bottom:1px solid var(--cw-line);flex-wrap:wrap}
+    #cw-bc1-variable .cw-brand{font-weight:500;letter-spacing:.04em}
+    #cw-bc1-variable .cw-tools{display:flex;gap:5px;flex-wrap:wrap}
+    #cw-bc1-variable .cw-tools button{font-size:12px;padding:5px 9px}
+    #cw-bc1-variable .cw-play{padding:18px 24px 20px}
+    #cw-bc1-variable .cw-world{background:var(--cw-world);border-radius:9px;padding:14px 20px 20px;min-height:154px}
+    #cw-bc1-variable .cw-zone-label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;margin-bottom:12px}
+    #cw-bc1-variable .cw-targets{display:flex;justify-content:center;align-items:stretch;gap:14px}
+    #cw-bc1-variable .cw-target{background:var(--cw-sheet);border:1px solid var(--cw-line);border-radius:8px;width:200px;max-width:48%;min-height:86px;padding:13px;display:grid;gap:9px;text-align:center}
+    #cw-bc1-variable .cw-target strong{font-weight:500}
+    #cw-bc1-variable .cw-target span{font-size:12px}
+    #cw-bc1-variable .cw-axis{text-align:center;height:28px;color:var(--cw-accent);display:flex;align-items:center;justify-content:center}
+    #cw-bc1-variable .cw-axis::before{content:"";height:18px;border-left:1px solid var(--cw-line)}
+    #cw-bc1-variable .cw-field{background:var(--cw-table);border:1px solid var(--cw-table-line);border-radius:12px;padding:16px 20px 20px}
+    #cw-bc1-variable .cw-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:840px;margin:auto}
+    #cw-bc1-variable .cw-slot{min-width:0;border:1px dashed var(--cw-table-line);border-radius:7px;padding:7px;display:grid;gap:6px}
+    #cw-bc1-variable .cw-slot-id{font-size:12px;font-variant-numeric:tabular-nums}
+    #cw-bc1-variable .cw-field-card{background:var(--cw-sheet);border:1px solid var(--cw-line);border-radius:5px;min-height:85px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 5px 8px;gap:8px}
+    #cw-bc1-variable .cw-field-card small{font-size:12px;border-top:1px solid var(--cw-line);width:100%;text-align:center;padding-top:5px}
+    #cw-bc1-variable .cw-result{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:9px 4px;font-size:12px}
+    #cw-bc1-variable .cw-self{border-top:1px solid var(--cw-line);padding-top:13px}
+    #cw-bc1-variable .cw-self-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 20px;margin-bottom:12px}
+    #cw-bc1-variable .cw-self-line strong{font-weight:500}
+    #cw-bc1-variable .cw-self-line span{font-size:12px}
+    #cw-bc1-variable .cw-hand{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:530px;margin:auto}
+    #cw-bc1-variable .cw-hand-card{min-width:0;min-height:105px;background:var(--cw-sheet);border:1px solid var(--cw-line);border-top:4px solid var(--cw-accent);border-radius:7px;padding:12px 10px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+    #cw-bc1-variable .cw-hand-card span{font-size:12px}
+    #cw-bc1-variable .cw-choice{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px;margin:0 auto 12px;background:var(--cw-sheet);border:1px solid var(--cw-accent);border-radius:7px;max-width:650px}
+    #cw-bc1-variable .cw-choice span{font-size:12px}
+    #cw-bc1-variable .cw-choice strong{font-weight:500}
+    #cw-bc1-variable .cw-reference{position:absolute;z-index:3;inset:58px 14px auto auto;width:min(350px,calc(100% - 28px));background:var(--cw-sheet);border:1px solid var(--cw-line);border-radius:9px;padding:16px;box-shadow:0 8px 28px light-dark(#24344524,#0005)}
+    #cw-bc1-variable .cw-reference-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+    #cw-bc1-variable .cw-reference-head strong{font-weight:500}
+    #cw-bc1-variable .cw-reference-content{display:grid;gap:12px}
+    #cw-bc1-variable .cw-reference-content div{background:var(--cw-soft);padding:12px;border-radius:5px}
+    #cw-bc1-variable .cw-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;margin-top:9px}
+    #cw-bc1-variable [hidden]{display:none!important}
+    @media(max-width:700px){#cw-bc1-variable .cw-play{padding:14px}#cw-bc1-variable .cw-slots{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}#cw-bc1-variable .cw-field{padding:12px}#cw-bc1-variable .cw-target{width:180px}#cw-bc1-variable .cw-world{padding:12px;min-height:140px}}
+    @media(max-width:420px){#cw-bc1-variable .cw-play{padding:10px}#cw-bc1-variable .cw-chrome{padding:10px}#cw-bc1-variable .cw-brand{width:100%}#cw-bc1-variable .cw-targets{gap:8px}#cw-bc1-variable .cw-target{padding:10px 5px}#cw-bc1-variable .cw-field{padding:10px 8px}#cw-bc1-variable .cw-slot{padding:4px}#cw-bc1-variable .cw-slots{gap:6px}#cw-bc1-variable .cw-hand{gap:7px}#cw-bc1-variable .cw-hand-card{padding:9px 6px}#cw-bc1-variable .cw-reference{top:100px}}
+    @media(pointer:coarse){#cw-bc1-variable button{min-height:44px;min-width:44px}}
+  </style>
+  <div class="cw-study">
+    <div class="cw-options" role="group" aria-label="表示例の枠数">
+      <span class="cw-caption">枠数の例</span>
+      <button type="button" data-count="3" aria-pressed="false">3枠</button>
+      <button type="button" data-count="5" aria-pressed="true">5枠</button>
+      <button type="button" data-count="8" aria-pressed="false">8枠</button>
+    </div>
+    <button type="button" data-selection aria-pressed="false">選択時の表示</button>
+  </div>
+  <section class="cw-screen" aria-label="BC1配置図。相手と環境を上、可変枠の共有の場を中央、自分と手札を下に置く。">
+    <header class="cw-chrome">
+      <span class="cw-brand">crossweave</span>
+      <nav class="cw-tools" aria-label="必要時の参照">
+        <button type="button" data-ref="deck" aria-expanded="false" aria-controls="cw-bc1-ref">山札</button>
+        <button type="button" data-ref="pool" aria-expanded="false" aria-controls="cw-bc1-ref">回収山</button>
+        <button type="button" data-ref="history" aria-expanded="false" aria-controls="cw-bc1-ref">履歴</button>
+      </nav>
+    </header>
+    <div class="cw-play">
+      <section class="cw-world" aria-label="上側：相手と環境">
+        <div class="cw-zone-label"><span>相手・環境</span><span>直近の行動順</span></div>
+        <div class="cw-targets">
+          <div class="cw-target"><strong>相手</strong><span>HP・主な状態</span></div>
+          <div class="cw-target"><strong>環境・対象</strong><span>いま関係する状態</span></div>
+        </div>
+      </section>
+      <div class="cw-axis" aria-hidden="true"></div>
+      <section class="cw-field" aria-label="中央：共有の場">
+        <div class="cw-zone-label"><span>共有の場</span><span data-count-label aria-live="polite">5枠の表示例</span></div>
+        <div class="cw-slots">
+          <div class="cw-slot"><span class="cw-slot-id">枠01</span><div class="cw-field-card">場の札<small>主な効果</small></div></div>
+          <div class="cw-slot"><span class="cw-slot-id">枠02</span><div class="cw-field-card">場の札<small>主な効果</small></div></div>
+          <div class="cw-slot"><span class="cw-slot-id">枠03</span><div class="cw-field-card">場の札<small>主な効果</small></div></div>
+          <div class="cw-slot"><span class="cw-slot-id">枠04</span><div class="cw-field-card">場の札<small>主な効果</small></div></div>
+          <div class="cw-slot"><span class="cw-slot-id">枠05</span><div class="cw-field-card">場の札<small>主な効果</small></div></div>
+        </div>
+      </section>
+      <div class="cw-result"><span>直前の変化</span><span>結果の要点だけを1行で</span></div>
+      <section class="cw-self" aria-label="下側：自分と手札">
+        <div class="cw-self-line"><strong>自分</strong><span>HP・蓄積・ガード</span></div>
+        <div class="cw-choice" hidden aria-live="polite"><strong>選んだ札 → 対象</strong><span>結果予測・消費・重要な損失</span></div>
+        <div class="cw-hand">
+          <div class="cw-hand-card"><div>手札</div><span>属性・主要効果</span><span>期限</span></div>
+          <div class="cw-hand-card"><div>手札</div><span>属性・主要効果</span><span>期限</span></div>
+          <div class="cw-hand-card"><div>手札</div><span>属性・主要効果</span><span>期限</span></div>
+        </div>
+      </section>
+    </div>
+    <section class="cw-reference" id="cw-bc1-ref" hidden aria-label="参照欄の配置例">
+      <div class="cw-reference-head"><strong data-ref-title>山札</strong><button type="button" data-close>閉じる</button></div>
+      <div class="cw-reference-content" aria-live="polite"></div>
+    </section>
+  </section>
+  <div class="cw-foot"><span>BC1 · 場を挟んで相対する配置</span><span>配置図／枠数は例・上限未設定</span></div>
+  <script>
+    (()=>{
+      const root=document.getElementById('cw-bc1-variable');
+      const slots=root.querySelector('.cw-slots');
+      root.querySelectorAll('[data-count]').forEach(button=>button.addEventListener('click',()=>{
+        const count=Number(button.dataset.count);
+        while(slots.children.length>count)slots.lastElementChild.remove();
+        while(slots.children.length<count){
+          const number=slots.children.length+1;
+          const slot=document.createElement('div');slot.className='cw-slot';
+          const label=document.createElement('span');label.className='cw-slot-id';label.textContent='枠'+String(number).padStart(2,'0');
+          const card=document.createElement('div');card.className='cw-field-card';card.textContent='場の札';
+          const effect=document.createElement('small');effect.textContent='主な効果';
+          card.append(effect);slot.append(label,card);slots.append(slot);
+        }
+        root.querySelectorAll('[data-count]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+        root.querySelector('[data-count-label]').textContent=count+'枠の表示例';
+      }));
+      root.querySelector('[data-selection]').addEventListener('click',event=>{
+        const show=event.currentTarget.getAttribute('aria-pressed')!=='true';
+        event.currentTarget.setAttribute('aria-pressed',String(show));root.querySelector('.cw-choice').hidden=!show;
+      });
+      const panel=root.querySelector('.cw-reference');let opener=null;
+      const content={deck:['山札','残数・属性ごとの要約','公開範囲内の札の詳細'],pool:['回収山','回収した札の要約','札ごとの詳細'],history:['行動履歴','直前の行動と状態変化','過去の結果・計算内訳']};
+      const close=()=>{panel.hidden=true;root.querySelectorAll('[data-ref]').forEach(b=>b.setAttribute('aria-expanded','false'));};
+      root.querySelectorAll('[data-ref]').forEach(button=>button.addEventListener('click',()=>{
+        if(opener===button&&!panel.hidden){close();return;}
+        opener=button;const [title,...rows]=content[button.dataset.ref];
+        root.querySelector('[data-ref-title]').textContent=title;
+        const area=root.querySelector('.cw-reference-content');area.replaceChildren();
+        rows.forEach(text=>{const row=document.createElement('div');row.textContent=text;area.append(row);});
+        panel.hidden=false;root.querySelectorAll('[data-ref]').forEach(b=>b.setAttribute('aria-expanded',String(b===button)));
+      }));
+      root.querySelector('[data-close]').addEventListener('click',()=>{close();if(opener)opener.focus();});
+      root.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){close();if(opener)opener.focus();}});
+    })();
+  </script>
+</div>
+
+</body></html>

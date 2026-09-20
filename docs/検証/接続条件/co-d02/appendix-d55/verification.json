@@ -1,0 +1,311 @@
+{
+  "test_id": "CW-M1-D55-001",
+  "date_jst": "2026-09-19",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.2",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.2",
+    "input_version": "0.1",
+    "public_contract": "CW-M1-public-0.2"
+  },
+  "scope": "D55 finite existing guard only; no independent effect layers, grant cards or UI changes",
+  "fixtures_description": "Five unchanged D02 saves plus declared counterfactual card locations and actor values; no natural route or balance claim",
+  "inputs": [
+    {
+      "name": "entry",
+      "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+      "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1",
+      "metadata_only_upgrade": true
+    },
+    {
+      "name": "port",
+      "gzip_sha256": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+      "raw_sha256": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f",
+      "metadata_only_upgrade": true
+    },
+    {
+      "name": "return",
+      "gzip_sha256": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+      "raw_sha256": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc",
+      "metadata_only_upgrade": true
+    },
+    {
+      "name": "home",
+      "gzip_sha256": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+      "raw_sha256": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7",
+      "metadata_only_upgrade": true
+    },
+    {
+      "name": "second-return",
+      "gzip_sha256": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d",
+      "raw_sha256": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f",
+      "metadata_only_upgrade": true
+    }
+  ],
+  "code": {
+    "src/runtime/core.mjs": "f6fa2aca341841e9861bfec7bb43ebd8d1938da4415c46900cc6b9819361a606",
+    "src/runtime/validate.mjs": "c638f645b3de944810aa232038ab70457924116c54ba42fd049548124c306fca",
+    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
+    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
+    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
+    "src/content/m1.mjs": "90f8cbb1b3caf59ae4aeb46eddcdbe4eaa6436c111e59d2c458cf218ccf5572b",
+    "scripts/generate-m1-content.py": "8d015350bf055dbef4d01396c6f31973f44feb50be1154e45baa795f04a6805d",
+    "test/runtime/d55.mjs": "59d3b28e634af621ebe9272243f8dce4a3ab572126c95be6ca8200800a0e9a75"
+  },
+  "checks": [
+    {
+      "name": "旧保存 entry：既知版のみ変換、状態・履歴・回数維持、読取り無書込み、空slot輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 port：既知版のみ変換、状態・履歴・回数維持、読取り無書込み、空slot輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 return：既知版のみ変換、状態・履歴・回数維持、読取り無書込み、空slot輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 home：既知版のみ変換、状態・履歴・回数維持、読取り無書込み、空slot輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 second-return：既知版のみ変換、状態・履歴・回数維持、読取り無書込み、空slot輸入",
+      "pass": true
+    },
+    {
+      "name": "新規則と旧engineの混在を拒否",
+      "pass": true
+    },
+    {
+      "name": "旧規則と新engineの混在を拒否",
+      "pass": true
+    },
+    {
+      "name": "未対応版を拒否",
+      "pass": true
+    },
+    {
+      "name": "旧版でも壊れた保存を拒否",
+      "pass": true
+    },
+    {
+      "name": "攪乱で削り0でも2回→1回、双方の機転を保持",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_gain": 0,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "crit": 105
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 1,
+            "guard_evasion": 20,
+            "crit": 125,
+            "hit": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "体勢未到達でも最終回を消費",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_gain": 10,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 125,
+            "hit": 10
+          }
+        }
+      }
+    },
+    {
+      "name": "最後の攪乱は今回の攻撃に適用してから終了",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_gain": 0,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "guard_evasion": 0,
+            "evasion": 0,
+            "crit": 125,
+            "hit": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "身構で0ダメージでも一回消費、機転はダメージ解決時に消費",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_gain": 100,
+          "hit_connected": true,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "crit": 0
+          },
+          "E1": {
+            "guard": 9,
+            "guard_uses": 1,
+            "crit": 0,
+            "hit": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "最後の身構を軽減へ適用後に解除し二重消費しない",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_connected": true,
+          "actual_hp_loss": 2
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 0,
+            "hit": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "他の主体が攻撃されても回数を消費しない",
+      "pass": true,
+      "expected": {
+        "actors": {
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2,
+            "guard_evasion": 20
+          }
+        }
+      }
+    },
+    {
+      "name": "不一致の設置では自分と他者の防御を維持",
+      "pass": true,
+      "expected": {
+        "action": {
+          "mode": "place"
+        },
+        "actors": {
+          "P": {
+            "guard": 4,
+            "guard_uses": 1
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "回復一致は従来どおり本人の防御解除、他者は消費しない",
+      "pass": true,
+      "expected": {
+        "action": {
+          "mode": "heal",
+          "hp_restored": 10
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 0
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "防御一致は従来の新しい二回防御へ置換",
+      "pass": true,
+      "expected": {
+        "action": {
+          "mode": "guard"
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 2,
+            "guard_evasion": 0
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "NPCから本人への攻撃も同じ消費規則",
+      "pass": true,
+      "expected": {
+        "action": {
+          "hit_gain": 80,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 125,
+            "hit": 80
+          }
+        }
+      }
+    },
+    {
+      "name": "公開予測は新しい回数を返し、保存・revision・乱数・機転を変更しない",
+      "pass": true
+    },
+    {
+      "name": "不正対象の操作は防御回数を消費せず保存も変えない",
+      "pass": true
+    },
+    {
+      "name": "失敗時は旧保存を維持、成功時に版を保存、過去履歴保持、再送二重消費なし、再開一致",
+      "pass": true
+    },
+    {
+      "name": "新規CampaignはD55版で作成",
+      "pass": true
+    }
+  ],
+  "check_count": 23,
+  "passed": true,
+  "unverified": [
+    "real browser/IndexedDB/touch",
+    "balance and player evaluation",
+    "new effect layers and UI representation"
+  ]
+}

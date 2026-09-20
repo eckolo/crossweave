@@ -1,0 +1,173 @@
+{
+  "id": "CW-M1-UI-001",
+  "group": "flow-review-v0.6",
+  "result": "pass",
+  "count": 38,
+  "record_entries": 31,
+  "checks": [
+    {
+      "name": "result offers only the forward hub action, with no direct compose or depart",
+      "pass": true
+    },
+    {
+      "name": "short public paragraphs are directly rendered without generic detail links",
+      "pass": true
+    },
+    {
+      "name": "DOM insertion alone cannot acknowledge an unread result",
+      "pass": true
+    },
+    {
+      "name": "showing the main paragraph does not record the available offscreen details",
+      "pass": true
+    },
+    {
+      "name": "a detail is recorded only after its visibility callback",
+      "pass": true
+    },
+    {
+      "name": "read records use advance false and exclude unobserved IDs",
+      "pass": true
+    },
+    {
+      "name": "every target opens at the top in one child pane, never beneath the parent list",
+      "pass": true
+    },
+    {
+      "name": "all 31 snapshot cards replace the child and return to the prior target scroll position",
+      "pass": true
+    },
+    {
+      "name": "record selection and contained window geometry survive resize 1024",
+      "pass": true
+    },
+    {
+      "name": "record selection and contained window geometry survive resize 736",
+      "pass": true
+    },
+    {
+      "name": "record selection and contained window geometry survive resize 600",
+      "pass": true
+    },
+    {
+      "name": "record selection and contained window geometry survive resize 320",
+      "pass": true
+    },
+    {
+      "name": "card catalogue child returns to the same category",
+      "pass": true
+    },
+    {
+      "name": "forward result action reaches the real home phase and hub with empty windows",
+      "pass": true
+    },
+    {
+      "name": "current deck lists one name/count row per distinct card",
+      "pass": true
+    },
+    {
+      "name": "one-step deck/skill switching and resize retain the actual shared draft",
+      "pass": true
+    },
+    {
+      "name": "successful confirm/depart clears pinned details and record context at the new scene",
+      "pass": true
+    },
+    {
+      "name": "real departure still reaches exploration after visible scene text",
+      "pass": true
+    },
+    {
+      "name": "all actors and self expose exact public hit/crit/evasion/reduction including zeros",
+      "pass": true
+    },
+    {
+      "name": "a single detail control serves any number of actors",
+      "pass": true
+    },
+    {
+      "name": "tap selects a target without opening a drawer or consuming a turn",
+      "pass": true
+    },
+    {
+      "name": "the action verb stands alone and its accessible name identifies the target",
+      "pass": true
+    },
+    {
+      "name": "the common detail button opens the selected actor",
+      "pass": true
+    },
+    {
+      "name": "hold opens a different actor without retargeting, and suppresses the trailing click",
+      "pass": true
+    },
+    {
+      "name": "horizontal movement cancels actor hold",
+      "pass": true
+    },
+    {
+      "name": "pointer cancellation cannot open a late detail",
+      "pass": true
+    },
+    {
+      "name": "preview opens for the actual legal choice",
+      "pass": true
+    },
+    {
+      "name": "second preview press closes the drawer",
+      "pass": true
+    },
+    {
+      "name": "pending prediction keeps the close toggle enabled",
+      "pass": true
+    },
+    {
+      "name": "closing a pending prediction prevents its late response reopening and sends no second request",
+      "pass": true
+    },
+    {
+      "name": "actor values remain in the main DOM through resize 1024",
+      "pass": true
+    },
+    {
+      "name": "actor values remain in the main DOM through resize 736",
+      "pass": true
+    },
+    {
+      "name": "actor values remain in the main DOM through resize 600",
+      "pass": true
+    },
+    {
+      "name": "actor values remain in the main DOM through resize 320",
+      "pass": true
+    },
+    {
+      "name": "the short action button still executes a real legal play",
+      "pass": true
+    },
+    {
+      "name": "displayed actor numbers refresh after a real action",
+      "pass": true
+    },
+    {
+      "name": "real withdrawal clears parent and nested windows on the return screen",
+      "pass": true
+    },
+    {
+      "name": "no script errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "node": "v24.19.0",
+  "conditions": [
+    "Real Campaign + original MemoryStore; natural return and entry saves.",
+    "JSDOM with controlled visibility/resize, synthetic pointer events and a delayed real prediction response.",
+    "1024/736/600/320px geometry inputs; no browser paint."
+  ],
+  "limits": [
+    "No physical clipping, touch, focus navigation or host rendering verification.",
+    "IndexedDB, formal v0.15 full migration and user acceptance remain unverified.",
+    "Historical groups were not rerun or recounted."
+  ]
+}

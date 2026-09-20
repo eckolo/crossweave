@@ -1,0 +1,37 @@
+#nt-preparation{color-scheme:light dark;background:light-dark(#eaf0ef,#172b31);color:light-dark(#173a43,#e5eeea);font:16px/1.65 system-ui,sans-serif;padding:clamp(20px,5vw,52px);border-radius:10px;overflow-wrap:anywhere}
+#nt-preparation *,#nt-story *{box-sizing:border-box}
+#nt-preparation h1{font-size:clamp(26px,4vw,40px);font-weight:500;margin:.35em 0 .7em}
+#nt-preparation button,#nt-preparation input{font:inherit;max-width:100%}
+#nt-preparation button{color:inherit;background:light-dark(#f6f7f2,#263d41);border:1px solid light-dark(#a3b8b8,#6c8485);border-radius:6px;padding:8px 14px;cursor:pointer;min-height:44px}
+#nt-preparation button:disabled{opacity:.5;cursor:default}
+#nt-preparation #nt-depart{background:light-dark(#245562,#b9d3d4);color:light-dark(#fff,#19363b);border:0}
+#nt-preparation .nt-intro{max-width:680px}
+.nt-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+#nt-preparation .nt-build{margin-top:22px;border-top:1px solid light-dark(#b4c7c8,#546d73);padding-top:12px}
+#nt-preparation summary{cursor:pointer}
+#nt-preparation #nt-deck-editor{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px 24px}
+#nt-preparation .nt-deck-row{padding:10px 0;border-bottom:1px solid light-dark(#bbc9c6,#506c70)}
+#nt-preparation .nt-deck-row>div{display:flex;gap:10px;align-items:center;margin-top:8px}
+#nt-preparation .nt-deck-row p{margin:5px 0;font-size:14px}
+#nt-preparation label{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+#nt-preparation[hidden],#cw-playtable[hidden]{display:none!important}
+#cw-playtable #nt-story{position:absolute;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:light-dark(#f0f4f1e8,#13272bee);border-radius:10px}
+#cw-playtable #nt-story[hidden]{display:none}
+#cw-playtable #nt-story>div{max-width:580px;max-height:100%;overflow:auto;background:var(--cw-paper);padding:clamp(18px,3vw,32px);border-radius:8px;box-shadow:0 8px 30px #0002}
+#cw-playtable #nt-story h2{font-size:24px;font-weight:500;margin:12px 0 22px}
+#cw-playtable #nt-story p{font-size:16px;line-height:1.8}
+#cw-playtable #nt-story-resource{font-size:13px}
+#cw-playtable #nt-story button{min-height:44px}
+#cw-playtable #nt-story-position{font-size:12px}
+#cw-playtable #nt-record-text{width:100%;font:12px/1.4 monospace;color:var(--cw-ink);background:var(--cw-paper)}
+#cw-playtable .cw-actor-head{flex-wrap:wrap}
+#cw-playtable #cw-scene[data-terrain="initial"] #cw-scene-base img{transform:scale(1.3);transform-origin:50% 100%}
+#cw-playtable #cw-scene[data-terrain="followup"] #cw-scene-base{background:linear-gradient(180deg,light-dark(#aac6d0,#2c4c5d),light-dark(#b3bfba,#52696c) 35%,light-dark(#729b9e,#254a59) 70%,light-dark(#435f69,#132f3d))}
+#cw-playtable #cw-scene[data-terrain="followup"] #cw-scene-base:before{background:linear-gradient(90deg,transparent 18%,light-dark(#60757590,#50626a80) 19% 22%,transparent 23% 73%,light-dark(#60757590,#50626a80) 74% 77%,transparent 78%)}
+#cw-playtable #cw-scene[data-terrain="followup"] #cw-scene-base:after{background:repeating-linear-gradient(0deg,transparent 0 38px,light-dark(#dce9e820,#cedce014) 39px 42px)}
+#cw-playtable .cw-illustration[data-art-kind="actors"]{background:none}
+#cw-playtable .cw-illustration{background:linear-gradient(140deg,light-dark(#d5e1dfaa,#36545ccc),light-dark(#afc3c6,#284b5b))}
+@media(max-width:600px){#nt-preparation{padding:20px}#nt-preparation .nt-intro p{font-size:15px}#cw-playtable #nt-story{padding:12px}#cw-playtable #nt-story h2{font-size:21px}#cw-playtable #nt-story p{font-size:14px}}
+
+#cw-playtable .cw-environment-layer[data-environment="V0"]{background:none}
+@media(max-width:650px){#cw-playtable{--cw-footer-height:82px}#cw-playtable .cw-bottom{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:30px 44px;gap:2px 5px}#cw-playtable .cw-footer-state{grid-area:1/1/2/3}#cw-playtable .cw-menu{grid-area:2/1}#cw-playtable .cw-bottom>#cw-withdraw{grid-area:2/2}#cw-playtable .cw-self{font-size:12px}#cw-playtable .cw-menu button{padding-inline:5px}}

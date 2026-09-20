@@ -1,0 +1,271 @@
+{
+  "test_id": "CW-M1-D56-001",
+  "date_jst": "2026-09-19",
+  "node": "v24.19.0",
+  "storage": "MemoryStore",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.3",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.3",
+    "input_version": "0.1",
+    "public_contract": "CW-M1-public-0.3"
+  },
+  "inputs": [
+    {
+      "name": "entry",
+      "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+      "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1"
+    },
+    {
+      "name": "port",
+      "gzip_sha256": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+      "raw_sha256": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f"
+    },
+    {
+      "name": "return",
+      "gzip_sha256": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+      "raw_sha256": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc"
+    },
+    {
+      "name": "home",
+      "gzip_sha256": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+      "raw_sha256": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7"
+    },
+    {
+      "name": "second-return",
+      "gzip_sha256": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d",
+      "raw_sha256": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f"
+    }
+  ],
+  "trial_input": {
+    "id": "CW-M1-D56-trial-1",
+    "scope": "Resolver fixture only; not registered in SCN-001 or a production deck",
+    "source_departure": "retain_grants_pending_user_decision",
+    "support_card": {
+      "type": "d56_support_trial",
+      "name": "防御付与（検査札）",
+      "attr": "A",
+      "kind": "defense_support",
+      "power": 0,
+      "hit": 0,
+      "evasion": 0,
+      "crit_gain": 0,
+      "field_power": 0,
+      "field_hit": 0,
+      "life": 2,
+      "place_cost": 10,
+      "match_cost": 10,
+      "consume_on_recover": null,
+      "defense_grant": {
+        "effect_kind": "ward",
+        "guard": 2,
+        "evasion": 10,
+        "uses": 2
+      }
+    },
+    "stance_uses": [
+      null,
+      5
+    ]
+  },
+  "code": {
+    "src/runtime/defense.mjs": "9956153d42ad8c7fcf6bd6a8a9a0a6dd5bdd23e96488f96ec86b853d0b6fe394",
+    "src/runtime/core.mjs": "0f9ed4d6856c09421fa2a14a91eb2332bc75e3ba2607442beae259febf7a6afa",
+    "src/runtime/game.mjs": "83791956d64afc554d9a399e39712e1f1b9a638c69e4af06a3d5e0705b7ad6b0",
+    "src/runtime/validate.mjs": "be5f131d85df448741f0b530c6c9f7f0ab5521b1388f32bc53fc3f6d1b6e35db",
+    "src/runtime/action-public.mjs": "f715b1a2caa47cadb7c70ebd33d92b16c85c3a80bd85000fa2c0579a2491e6ea",
+    "src/runtime/view.mjs": "496302ef7b17e120a73a34b356fd62a79226b6d6b9939481b527c834d77f1412",
+    "src/runtime/information.mjs": "448c6d3f5aa38e9a0f51e550213fab01524c750ee577f535f517517f2faa3e84",
+    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
+    "src/content/m1.mjs": "daaf962a9e1610129d5529ba7bcb2865a445f0c0454358b9d9bab9ee94bf28b1",
+    "scripts/generate-m1-content.py": "356df858b8daea596de3d93c525bac02742141fcdfbcab4f7911e1b8591a7c9e",
+    "test/runtime/d56.mjs": "b35f8bf2ca4fd9f4bfa8fbdeef3b95dcf787bfab288608d6b91c2f1165937f2a",
+    "test/runtime/d56-trial-input.json": "4bb821ec146471c86619c073d81dedd7496f297dcc6033777ee9d584c5884245"
+  },
+  "scope": "D56 effect layers, replacement, common clear, D54/D55, migration, public forecast; trial support card not in production registry",
+  "checks": [
+    {
+      "name": "旧保存 entry：0.1/0.2を効果配列へ変換、数値・過去履歴・乱数等を維持、読取り無書込み・輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 port：0.1/0.2を効果配列へ変換、数値・過去履歴・乱数等を維持、読取り無書込み・輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 return：0.1/0.2を効果配列へ変換、数値・過去履歴・乱数等を維持、読取り無書込み・輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 home：0.1/0.2を効果配列へ変換、数値・過去履歴・乱数等を維持、読取り無書込み・輸入",
+      "pass": true
+    },
+    {
+      "name": "旧保存 second-return：0.1/0.2を効果配列へ変換、数値・過去履歴・乱数等を維持、読取り無書込み・輸入",
+      "pass": true
+    },
+    {
+      "name": "削り0でも各有限効果を消費、無制限の構えと機転は保持",
+      "pass": true
+    },
+    {
+      "name": "最後の外部付与を適用後に終了、構えは有限回数を借用しない",
+      "pass": true
+    },
+    {
+      "name": "合算身構に受け手の一閃を一度適用、0ダメージでも各回数を消費",
+      "pass": true
+    },
+    {
+      "name": "追加身構だけでも受け手の倍率を使い、付与元の機転を消費しない",
+      "pass": true
+    },
+    {
+      "name": "本人の攻撃一致で外部分も共通解除、即時再生しない",
+      "pass": true
+    },
+    {
+      "name": "本人の回復一致でも旧防御全体を解除",
+      "pass": true
+    },
+    {
+      "name": "本人の防御一致は外部分を含む旧効果を消して新しい防御へ",
+      "pass": true
+    },
+    {
+      "name": "不一致の設置では本人と外部の効果を保持",
+      "pass": true
+    },
+    {
+      "name": "他者への一致攻撃は対象外の防御回数を消費しない",
+      "pass": true
+    },
+    {
+      "name": "NPCから本人への攻撃も複数の有限効果を同時消費",
+      "pass": true
+    },
+    {
+      "name": "弱い同種の再付与は三値を丸ごと置換し、本人と別発生源の効果・保存を維持",
+      "pass": true
+    },
+    {
+      "name": "同じ発生源でも異なる効果種は別枠",
+      "pass": true
+    },
+    {
+      "name": "混在回数は最大回数へ偽装せず、能力別の幅・無制限を公開",
+      "pass": true
+    },
+    {
+      "name": "借用した手札の支援一致：使用者以外の全活動主体へ、使用者を発生源として付与",
+      "pass": true
+    },
+    {
+      "name": "同種の別札個体で再付与しても同じ発生源の枠は増えない",
+      "pass": true
+    },
+    {
+      "name": "後から登場した主体へ遡及付与せず、次の付与は退場済み主体を除外",
+      "pass": true
+    },
+    {
+      "name": "付与札の不一致は設置のみで全員付与しない",
+      "pass": true
+    },
+    {
+      "name": "付与札を場の一致材料にしても主効果を発動しない",
+      "pass": true
+    },
+    {
+      "name": "明示試行防御札の回数 null を本人一致で付与",
+      "pass": true
+    },
+    {
+      "name": "明示試行防御札の回数 5 を本人一致で付与",
+      "pass": true
+    },
+    {
+      "name": "仮条件：付与元退場後の残存を確認（採否待ち、SCN-001へ配置なし）",
+      "pass": true
+    },
+    {
+      "name": "現在版の効果配列欠落を拒否",
+      "pass": true
+    },
+    {
+      "name": "同じ発生源・同種の重複を拒否",
+      "pass": true
+    },
+    {
+      "name": "回数0を拒否",
+      "pass": true
+    },
+    {
+      "name": "負の回数を拒否",
+      "pass": true
+    },
+    {
+      "name": "小数の回数を拒否",
+      "pass": true
+    },
+    {
+      "name": "回数欠落を拒否",
+      "pass": true
+    },
+    {
+      "name": "Infinityを無制限へ変換しないを拒否",
+      "pass": true
+    },
+    {
+      "name": "NaNを無制限へ変換しないを拒否",
+      "pass": true
+    },
+    {
+      "name": "未知の発生源を拒否",
+      "pass": true
+    },
+    {
+      "name": "旧guardと新配列の二重保存を拒否",
+      "pass": true
+    },
+    {
+      "name": "未対応版を拒否",
+      "pass": true
+    },
+    {
+      "name": "版の混在を拒否",
+      "pass": true
+    },
+    {
+      "name": "壊れた旧防御回数を移行で修復しない",
+      "pass": true
+    },
+    {
+      "name": "旧版を装った新効果の注入を拒否",
+      "pass": true
+    },
+    {
+      "name": "公開現在値と一手予測：混在回数と内訳を公開、保存・revision・乱数を変更しない",
+      "pass": true
+    },
+    {
+      "name": "不正操作・保存失敗は無変更、再送は二重消費なし、効果配列の再開一致",
+      "pass": true
+    },
+    {
+      "name": "新規Campaignも新規則・engineで開始",
+      "pass": true
+    }
+  ],
+  "check_count": 43,
+  "one_step_fixtures": 17,
+  "passed": true,
+  "unverified": [
+    "real browser/IndexedDB/input",
+    "UI layout/readability",
+    "balance/natural route under new cards",
+    "source departure rule adoption",
+    "SCN-001 support card placement/supply"
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "trial_id": "CW-M1-UI-001",
+  "work_id": "20260910-ui-readability",
+  "date_jst": "2026-09-15",
+  "groups": [
+    {
+      "group": "UI-G-001-v0.1.1-real-rendering",
+      "count": 29,
+      "result": "pass",
+      "engine": "Chromium 144.0.7559.96",
+      "parent_widths": [
+        1024,
+        736,
+        600,
+        320
+      ],
+      "checks": "return, preparation, final card, comparison confirmation, affix detail, resize preservation and BC sequence"
+    },
+    {
+      "group": "async-contract-double",
+      "count": 25,
+      "result": "pass",
+      "engine": "Node v22.16.0",
+      "checks": "await, unchanged current values before commit, exact retries, stale view, no handle remap, visible-text boundary, independent startup/import/export, D02 record capability and reopen"
+    },
+    {
+      "group": "in-memory-browser-components",
+      "count": 13,
+      "result": "pass",
+      "engine": "Chromium 144.0.7559.96",
+      "checks": "pending and failed commit/retry, four widths, export channel, missing save, retained import input, heading/offscreen/unopened optional text, visible annotation and legal action"
+    }
+  ],
+  "full_reports": "verification/（前回）、verification/work-mode/（今回）",
+  "old_28_checks_rerun": false,
+  "real_campaign_indexeddb_verified": false,
+  "user_accepted": false,
+  "ui_r002_full_port_complete": false,
+  "new_ui_code_published_to_branch": true,
+  "code_save_constraint": "前回拒否を履歴として保全。今回は修正済みソースの正規GitHub要求が受理され、通常コミット・非強制ref更新で保存。Git CLIのPushは認証情報なしで失敗したが承認拒否ではない。",
+  "limits": [
+    "Current Browser local navigation returned ERR_BLOCKED_BY_CLIENT; no alternate route used.",
+    "Real rendering at 1024/736/600/320 px, pointer and resize checks are not newly verified.",
+    "Actual IndexedDB and same-origin persistence remain unverified.",
+    "Formal UI-R-002 v0.15 full port, D03 and user acceptance remain incomplete."
+  ],
+  "groups_scope": "前回Chatの検査。保全ZIPのソース・ハッシュ・条件を今回照合。今回の再実行結果ではない。",
+  "previous_chat_publication": {
+    "new_ui_code_published_to_branch": false,
+    "code_save_constraint": "application.jsの保存要求がOpenAIによりブロック。別経路での再送なし。全コード・検査・入力・目録を会話添付に保全。",
+    "full_reports": "会話添付crossweave-co-u02-handoff.zip内 docs/検証/UI/readability/co-u02/verification/",
+    "limits": [
+      "headless desktop, no physical touch-device acceptance",
+      "file navigation blocked; new components tested with direct in-memory DOM input",
+      "short hosts retain vertical page scrolling rather than clipping",
+      "D02 real API entry written but real Campaign and same-origin persistence not exercised"
+    ]
+  },
+  "work_mode_resumption": {
+    "code_commit": "33c7ac6747452bafd6b35e0f85933c5903bd4fa4",
+    "technical_source": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+    "node": "v24.19.0",
+    "groups": [
+      {
+        "group": "real-Campaign-design-MemoryStore",
+        "count": 46,
+        "result": "pass"
+      },
+      {
+        "group": "real-Campaign-JSDOM",
+        "count": 28,
+        "result": "pass",
+        "jsdom": "26.1.0",
+        "layout_verified": false
+      }
+    ],
+    "save_readback": "verification/work-mode/save-readback.json",
+    "unit_closed": true,
+    "own_slot_released": true
+  },
+  "choice_ui": {
+    "version": "UI-G-001 v0.2",
+    "code_commit": "d74d80930bbd8ee09593d9be3d0251cca36c520f",
+    "count": 24,
+    "result": "pass",
+    "report": "verification/choice-ui/checks.json",
+    "freeze": "verification/choice-ui/code-freeze.json",
+    "readback": "verification/choice-ui/save-readback.json",
+    "actual_campaign_storage": "design-owned MemoryStore",
+    "dom": "JSDOM 26.1.0",
+    "real_layout_verified": false,
+    "user_accepted": false
+  },
+  "fixed_screen_review": {
+    "version": "0.4",
+    "result": "pass",
+    "checks": 32,
+    "report": "journey/fixed-screen-checks.json",
+    "freeze": "journey/fixed-screen-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; original natural return save.",
+      "JSDOM; explicit visibility and resize callbacks. Layout function uses 1024/736/600/320px inputs."
+    ],
+    "limits": [
+      "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
+      "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
+    ],
+    "old_groups_rerun": false
+  },
+  "backdrop_review": {
+    "version": "0.5",
+    "result": "pass",
+    "regression_checks": 32,
+    "new_checks": 0,
+    "source_suite": "journey/verify-fixed-screen.cjs",
+    "report": "journey/backdrop-checks.json",
+    "freeze": "journey/backdrop-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; original natural return save.",
+      "JSDOM; explicit visibility and resize callbacks. Layout function uses 1024/736/600/320px inputs."
+    ],
+    "limits": [
+      "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
+      "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
+    ]
+  },
+  "flow_review": {
+    "version": "0.6",
+    "result": "pass",
+    "new_checks": 38,
+    "record_entries": 31,
+    "source_suite": "journey/verify-flow-review.cjs",
+    "report": "journey/flow-review-checks.json",
+    "freeze": "journey/flow-review-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; natural return and entry saves.",
+      "JSDOM with controlled visibility/resize, synthetic pointer events and a delayed real prediction response.",
+      "1024/736/600/320px geometry inputs; no browser paint."
+    ],
+    "limits": [
+      "No physical clipping, touch, focus navigation or host rendering verification.",
+      "IndexedDB, formal v0.15 full migration and user acceptance remain unverified.",
+      "Historical groups were not rerun or recounted."
+    ]
+  },
+  "actor_review": {
+    "version": "0.7",
+    "result": "pass",
+    "new_checks": 38,
+    "source_suite": "journey/verify-actor-review.cjs",
+    "report": "journey/actor-review-checks.json",
+    "freeze": "journey/actor-review-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; natural return and entry saves.",
+      "Real previewAction responses, including reversed completion order for two target requests.",
+      "Controlled IntersectionObserver and 1024/736/600/320px rectangles; JSDOM, no paint.",
+      "One public-view-only retired-target fixture; heal/guard projection fixtures do not simulate runtime execution."
+    ],
+    "limits": [
+      "No physical clipping, Japanese line layout, touch or host-render verification.",
+      "Complete post-action crit/reduction/evasion prediction is not provided by the current API.",
+      "IndexedDB, formal v0.15 full migration and user acceptance remain unverified.",
+      "Historical groups were not rerun or recounted."
+    ]
+  },
+  "fit_review": {
+    "version": "0.8",
+    "result": "pass",
+    "new_checks": 44,
+    "source_suite": "journey/verify-fit-review.cjs",
+    "report": "journey/fit-review-checks.json",
+    "freeze": "journey/fit-review-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore; natural return and entry saves.",
+      "Real previewAction and commit_preparation/withdraw; pre-reset negative-boundary fixture.",
+      "Controlled visibility and 1024/736/600/320px DOM rectangles. Window arithmetic, state and navigation, no paint.",
+      "Synthetic glyph widths for prose measurement; public-card property fixtures."
+    ],
+    "limits": [
+      "Physical overflow, actual Japanese font wrapping, touch and host rendering are unverified.",
+      "IndexedDB, formal v0.15 full migration and user acceptance remain unverified.",
+      "Unprovided post-action crit/reduction/evasion values are not invented.",
+      "Historical groups were not rerun or recounted."
+    ]
+  },
+  "layout_restore": {
+    "version": "0.9",
+    "result": "pass",
+    "new_checks": 27,
+    "source_suite": "journey/verify-layout-restore.cjs",
+    "report": "journey/layout-restore-checks.json",
+    "freeze": "journey/layout-restore-freeze.json",
+    "conditions": [
+      "Real Campaign + original MemoryStore, natural entry save; actual previewAction/play/withdraw.",
+      "Only mounted scene paragraphs receive controlled visibility before continue.",
+      "1024/736/600/320px outer rectangles with 2px shell border deducted; selection, target, pinned forecast and draft retention.",
+      "Reference CSS and new geometry override parsed in JSDOM; grid order and card caps, not painted dimensions."
+    ],
+    "limits": [
+      "Browser rejected the canonical local entry with ERR_BLOCKED_BY_CLIENT. Physical overflow, font metrics, touch and conversation-host rendering remain unverified.",
+      "Full CSS container/media-query rendering, IndexedDB, complete formal v0.15 migration and user acceptance remain unverified.",
+      "Historical test groups were not rerun or recounted."
+    ]
+  },
+  "save_flow_integration": {
+    "version": "0.10",
+    "group": "save-flow-v0.10",
+    "checks": 49,
+    "report": "journey/save-flow-checks.json",
+    "freeze": "journey/save-flow-freeze.json",
+    "new_ui_startup_connected": true,
+    "provider": "real Campaign; production default IndexedDBStore; inline/test original MemoryStore",
+    "real_campaign_indexeddb_verified": false,
+    "browser_check_page": "browser-check.html",
+    "physical_rendering_verified": false,
+    "old_checks_rerun": false,
+    "full_port_complete": false,
+    "user_accepted": false,
+    "code_commit": "5f97787482435b1217c8612cc51610ae96276af5",
+    "save_proof": "journey/save-flow-save.json",
+    "github_readback_bodies": 30
+  }
+}

@@ -1,0 +1,814 @@
+{
+  "schema": "CO-D01-proposed-api-examples-1",
+  "version": "0.1",
+  "execution_status": "not_executed_design_examples",
+  "contract": "docs/仕様案/カード探索ゲーム_継続本体の接続条件.md",
+  "notes": [
+    "Campaign/controllerのAPIは未実装。以下は要求と期待する応答の設計例。実保存・出発・戦闘を実行した記録ではない。",
+    "expected_display_subsetは指定項目だけの抜粋。未知の手札・将来の経過・未確定の本文IDは生成しない。",
+    "各flowは独立した例。revision/view_tokenは説明用。source_pathの外側メタデータを描画へ渡さない。",
+    "home_to_departureの経済・札組はBC 0-Bの既存公開データから取った接続説明用。SCN-001の実測履歴や初回報酬ではない。",
+    "return_resume_departureは途中到達Aの未接続個体を明示する例。PT-NT初回T1先行の点・解放に基づく提案で、新本体の実行例ではない。"
+  ],
+  "flows": [
+    {
+      "id": "home_to_departure",
+      "precondition": {
+        "phase": "home",
+        "revision": 10,
+        "home_display_source": "existing-api-examples.json#/display_data/current_home",
+        "case_binding": "CO-S01/CO-01で登録するSCN-001の利用可能な内容セット"
+      },
+      "steps": [
+        {
+          "id": "read_current",
+          "call": {
+            "method": "inspect",
+            "args": {}
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "home": {
+              "economy": {
+                "unspent_units": 300,
+                "paid_learning_units": 200
+              },
+              "deck": {
+                "size": 12
+              },
+              "equipment": {
+                "used": 3,
+                "capacity": 8
+              }
+            }
+          },
+          "meta": {
+            "revision": 10,
+            "view_token": "view-10"
+          }
+        },
+        {
+          "id": "save_draft",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-draft-1",
+              "expected_revision": 10,
+              "view_token": "view-10",
+              "type": "save_draft",
+              "payload": {
+                "plan": {
+                  "retain_learning": [],
+                  "cancel_learning": [
+                    "PS02"
+                  ],
+                  "candidate": "choice-1",
+                  "purchase_timing": "before_preparation",
+                  "next_preparation": {
+                    "learn": [],
+                    "equipment": [],
+                    "deck": [
+                      "$purchase",
+                      "base:f",
+                      "base:f",
+                      "base:fast",
+                      "base:g",
+                      "base:l",
+                      "base:l",
+                      "base:r",
+                      "base:read",
+                      "base:salve",
+                      "owned-1",
+                      "base:sweep"
+                    ]
+                  }
+                },
+                "intent": "習得を取り直して取得札を編成へ入れる"
+              }
+            }
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "draft": {
+              "dirty": true,
+              "valid": true
+            },
+            "home": {
+              "economy": {
+                "unspent_units": 300,
+                "paid_learning_units": 200
+              }
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 11
+            }
+          }
+        },
+        {
+          "id": "compare",
+          "call": {
+            "method": "previewPreparation",
+            "args": {
+              "view_token": "view-11",
+              "plan": {
+                "retain_learning": [],
+                "cancel_learning": [
+                  "PS02"
+                ],
+                "candidate": "choice-1",
+                "purchase_timing": "before_preparation",
+                "next_preparation": {
+                  "learn": [],
+                  "equipment": [],
+                  "deck": [
+                    "$purchase",
+                    "base:f",
+                    "base:f",
+                    "base:fast",
+                    "base:g",
+                    "base:l",
+                    "base:l",
+                    "base:r",
+                    "base:read",
+                    "base:salve",
+                    "owned-1",
+                    "base:sweep"
+                  ]
+                }
+              }
+            }
+          },
+          "expected_display_subset": {
+            "preparation_comparison": {
+              "ok": true,
+              "read_only": true,
+              "stages": {
+                "after_cancellation": {
+                  "unspent_units": 500
+                },
+                "before_purchase": {
+                  "unspent_units": 500
+                },
+                "after_purchase": {
+                  "unspent_units": 100
+                },
+                "prepared": {
+                  "unspent_units": 100,
+                  "paid_learning_units": 0
+                }
+              },
+              "purchase": {
+                "performed_on_copy": true,
+                "selected_in_preparation": true
+              }
+            }
+          },
+          "full_comparison_source": "existing-api-examples.json#/display_data/preparation_comparison",
+          "revision_unchanged": 11
+        },
+        {
+          "id": "commit",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-preparation-1",
+              "expected_revision": 11,
+              "view_token": "view-11",
+              "type": "commit_preparation",
+              "payload": {
+                "plan": {
+                  "retain_learning": [],
+                  "cancel_learning": [
+                    "PS02"
+                  ],
+                  "candidate": "choice-1",
+                  "purchase_timing": "before_preparation",
+                  "next_preparation": {
+                    "learn": [],
+                    "equipment": [],
+                    "deck": [
+                      "$purchase",
+                      "base:f",
+                      "base:f",
+                      "base:fast",
+                      "base:g",
+                      "base:l",
+                      "base:l",
+                      "base:r",
+                      "base:read",
+                      "base:salve",
+                      "owned-1",
+                      "base:sweep"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "home": {
+              "economy": {
+                "unspent_units": 100,
+                "paid_learning_units": 0
+              },
+              "equipment": {
+                "entries": [],
+                "used": 0
+              },
+              "deck": {
+                "size": 12
+              },
+              "offers": {
+                "status": "purchased"
+              }
+            },
+            "draft": {
+              "dirty": false
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 12
+            }
+          },
+          "owned_count": 6
+        },
+        {
+          "id": "replay_same_commit",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-preparation-1",
+              "expected_revision": 11,
+              "view_token": "view-11",
+              "type": "commit_preparation",
+              "payload": {
+                "plan": {
+                  "retain_learning": [],
+                  "cancel_learning": [
+                    "PS02"
+                  ],
+                  "candidate": "choice-1",
+                  "purchase_timing": "before_preparation",
+                  "next_preparation": {
+                    "learn": [],
+                    "equipment": [],
+                    "deck": [
+                      "$purchase",
+                      "base:f",
+                      "base:f",
+                      "base:fast",
+                      "base:g",
+                      "base:l",
+                      "base:l",
+                      "base:r",
+                      "base:read",
+                      "base:salve",
+                      "owned-1",
+                      "base:sweep"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "home": {
+              "economy": {
+                "unspent_units": 100
+              }
+            },
+            "operation": {
+              "status": "replayed",
+              "committed_revision": 12
+            }
+          },
+          "revision_unchanged": 12
+        },
+        {
+          "id": "read_after_commit",
+          "call": {
+            "method": "inspect",
+            "args": {}
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "home": {
+              "economy": {
+                "unspent_units": 100,
+                "paid_learning_units": 0
+              },
+              "deck": {
+                "size": 12
+              }
+            }
+          },
+          "meta": {
+            "revision": 12,
+            "view_token": "view-12"
+          },
+          "note": "所持handleはこの再読取で更新。$purchaseを以後のitem_idにしない。"
+        },
+        {
+          "id": "depart",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-departure-1",
+              "expected_revision": 12,
+              "view_token": "view-12",
+              "type": "depart",
+              "payload": {
+                "case_id": "SCN-001"
+              }
+            }
+          },
+          "expected_display_subset": {
+            "phase": "exploring",
+            "home": null,
+            "scene": {
+              "paused": true,
+              "can_continue": true,
+              "can_withdraw": true
+            },
+            "capabilities": {
+              "play": {
+                "available": false,
+                "reasons": [
+                  "scene_paused"
+                ]
+              }
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 13
+            }
+          },
+          "note": "今回のrun/mode/scene_idは本体が登録済み内容から決める。初期手札の内容は本例で予測しない。"
+        }
+      ]
+    },
+    {
+      "id": "return_resume_departure",
+      "precondition": {
+        "scope": "途中到達Aの設計例",
+        "prior_unspent_units": 0,
+        "prior_case_status": "unresolved",
+        "origin": "PT-NTのT1先行で任意敵を生存退場させた初回踏破の成果配分。AP個体機能は未接続。"
+      },
+      "steps": [
+        {
+          "id": "terminal_transaction",
+          "call": {
+            "method": "internal_result_of_play",
+            "args": {
+              "event": "registered_case_resolution_and_clear"
+            }
+          },
+          "expected_display_subset": {
+            "phase": "return",
+            "return_receipt": {
+              "outcome": "clear",
+              "gained_units": 300,
+              "unspent_after_units": 300,
+              "paid_learning_units": 0,
+              "kept_items": [],
+              "lost_items": [],
+              "new_unlocks": [
+                "nt_stop"
+              ],
+              "case_changes": [
+                {
+                  "id": "SCN-001",
+                  "status": "resolved"
+                }
+              ]
+            },
+            "case": {
+              "id": "SCN-001",
+              "status": "resolved",
+              "attempts": 1,
+              "available_mode": "revisit"
+            },
+            "capabilities": {
+              "convert_items": {
+                "available": false,
+                "reasons": [
+                  "feature_not_connected"
+                ]
+              }
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 21
+            }
+          },
+          "note": "公開された観測・T1/T2の初攻略情報を保存し、Eα撃破・全構成は補わない。"
+        },
+        {
+          "id": "resume_saved_return",
+          "call": {
+            "method": "Campaign.open",
+            "args": {
+              "slot_id": "example-m1"
+            }
+          },
+          "expected_display_subset": {
+            "phase": "return",
+            "return_receipt": {
+              "gained_units": 300,
+              "unspent_after_units": 300
+            },
+            "case": {
+              "status": "resolved",
+              "attempts": 1
+            }
+          },
+          "revision_unchanged": 21,
+          "note": "保存済みの21を復元。gained_unitsは領収表示で、もう300加える命令ではない。"
+        },
+        {
+          "id": "next_preparation",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-ack-1",
+              "expected_revision": 21,
+              "view_token": "view-21",
+              "type": "ack_return",
+              "payload": {}
+            }
+          },
+          "expected_display_subset": {
+            "phase": "home",
+            "home": {
+              "economy": {
+                "unspent_units": 300,
+                "paid_learning_units": 0
+              }
+            },
+            "case": {
+              "status": "resolved",
+              "attempts": 1
+            },
+            "draft": {
+              "dirty": false
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 22
+            }
+          },
+          "note": "プロフィール・知識・解放・領収は保持。旧gameを現探索から外す。"
+        },
+        {
+          "id": "depart_again",
+          "call": {
+            "method": "execute",
+            "command": {
+              "request_id": "example-departure-2",
+              "expected_revision": 22,
+              "view_token": "view-22",
+              "type": "depart",
+              "payload": {
+                "case_id": "SCN-001"
+              }
+            }
+          },
+          "expected_display_subset": {
+            "phase": "exploring",
+            "case": {
+              "status": "resolved",
+              "attempts": 2,
+              "available_mode": "revisit"
+            },
+            "scene": {
+              "paused": true
+            },
+            "operation": {
+              "status": "committed",
+              "committed_revision": 23
+            }
+          },
+          "note": "CO-S01/CO-01のrevisitデータが登録済みという前提。未登録ならcontent_not_readyで22のまま拒否。水門の再故障は作らない。"
+        }
+      ]
+    }
+  ],
+  "independent_boundaries": [
+    {
+      "id": "empty_offers",
+      "call": {
+        "method": "inspect"
+      },
+      "expected_display_subset": {
+        "phase": "home",
+        "home": {
+          "candidates": [],
+          "offers": {
+            "status": "none"
+          }
+        }
+      },
+      "existing_source": "existing-api-examples.json#/display_data/empty_initial"
+    },
+    {
+      "id": "insufficient_funds",
+      "call": {
+        "method": "execute",
+        "command": {
+          "request_id": "example-underfunded",
+          "expected_revision": 10,
+          "view_token": "view-10",
+          "type": "commit_preparation",
+          "payload": {
+            "plan": {
+              "retain_learning": [
+                "PS02"
+              ],
+              "cancel_learning": [],
+              "candidate": "choice-1",
+              "purchase_timing": "before_preparation",
+              "next_preparation": {
+                "learn": [],
+                "equipment": [],
+                "deck": [
+                  "$purchase",
+                  "base:f",
+                  "base:f",
+                  "base:fast",
+                  "base:g",
+                  "base:l",
+                  "base:l",
+                  "base:r",
+                  "base:read",
+                  "base:salve",
+                  "owned-1",
+                  "base:sweep"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "expected_display_subset": {
+        "error": {
+          "code": "insufficient_unspent_funds",
+          "details": {
+            "price_units": 400,
+            "funds_before_purchase_units": 300,
+            "shortage_units": 100
+          }
+        },
+        "home": {
+          "economy": {
+            "unspent_units": 300,
+            "paid_learning_units": 200
+          }
+        }
+      },
+      "state_unchanged": true
+    },
+    {
+      "id": "unlearned_equipment",
+      "call": {
+        "method": "execute",
+        "command": {
+          "request_id": "example-unlearned",
+          "expected_revision": 10,
+          "view_token": "view-10",
+          "type": "commit_preparation",
+          "payload": {
+            "plan": {
+              "retain_learning": [],
+              "cancel_learning": [
+                "PS02"
+              ],
+              "candidate": "choice-1",
+              "purchase_timing": "before_preparation",
+              "next_preparation": {
+                "learn": [],
+                "equipment": [
+                  "base:PS02"
+                ],
+                "deck": [
+                  "$purchase",
+                  "base:f",
+                  "base:f",
+                  "base:fast",
+                  "base:g",
+                  "base:l",
+                  "base:l",
+                  "base:r",
+                  "base:read",
+                  "base:salve",
+                  "owned-1",
+                  "base:sweep"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "expected_display_subset": {
+        "error": {
+          "code": "unlearned_equipment_base"
+        },
+        "home": {
+          "economy": {
+            "unspent_units": 300,
+            "paid_learning_units": 200
+          }
+        }
+      },
+      "state_unchanged": true,
+      "note": "コピー上の取消・購入の後で装備不可になっても、全体を適用しない。"
+    },
+    {
+      "id": "cancel_preview_failure_keeps_ui_draft",
+      "call": {
+        "method": "previewPreparation",
+        "args": {
+          "view_token": "view-11",
+          "plan": {
+            "retain_learning": [],
+            "cancel_learning": [
+              "PS02"
+            ],
+            "candidate": "choice-1",
+            "purchase_timing": "before_preparation",
+            "next_preparation": {
+              "learn": [],
+              "equipment": [],
+              "deck": []
+            }
+          }
+        }
+      },
+      "expected_display_subset": {
+        "preparation_comparison": {
+          "ok": false,
+          "read_only": true,
+          "draft_discarded": true
+        },
+        "draft": {
+          "dirty": true
+        }
+      },
+      "state_unchanged": true,
+      "note": "破棄されるのは計算コピー。保存下書きの空札組は修正可能なまま保持する。"
+    },
+    {
+      "id": "discard_uncommitted_draft",
+      "call": {
+        "method": "execute",
+        "command": {
+          "request_id": "example-discard",
+          "expected_revision": 11,
+          "view_token": "view-11",
+          "type": "discard_draft",
+          "payload": {}
+        }
+      },
+      "expected_display_subset": {
+        "draft": {
+          "dirty": false
+        },
+        "home": {
+          "economy": {
+            "unspent_units": 300,
+            "paid_learning_units": 200
+          }
+        },
+        "operation": {
+          "status": "committed",
+          "committed_revision": 12
+        }
+      },
+      "note": "home_to_departureの11から分かれた独立例。確定後の購入を取り消す操作ではない。"
+    },
+    {
+      "id": "stale_candidate_or_handle",
+      "call": {
+        "method": "execute",
+        "command": {
+          "request_id": "example-stale",
+          "expected_revision": 10,
+          "view_token": "view-10",
+          "type": "commit_preparation",
+          "payload": {
+            "plan": {
+              "retain_learning": [],
+              "cancel_learning": [
+                "PS02"
+              ],
+              "candidate": "choice-1",
+              "purchase_timing": "before_preparation",
+              "next_preparation": {
+                "learn": [],
+                "equipment": [],
+                "deck": [
+                  "$purchase",
+                  "base:f",
+                  "base:f",
+                  "base:fast",
+                  "base:g",
+                  "base:l",
+                  "base:l",
+                  "base:r",
+                  "base:read",
+                  "base:salve",
+                  "owned-1",
+                  "base:sweep"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "precondition": "保存はrevision12へ更新済み、request_idは未使用",
+      "expected_display_subset": {
+        "error": {
+          "code": "stale_revision"
+        }
+      },
+      "state_unchanged": true
+    },
+    {
+      "id": "storage_write_failure",
+      "call": {
+        "method": "execute",
+        "command": {
+          "request_id": "example-storage-failure",
+          "expected_revision": 11,
+          "view_token": "view-11",
+          "type": "commit_preparation",
+          "payload": {
+            "plan": {
+              "retain_learning": [],
+              "cancel_learning": [
+                "PS02"
+              ],
+              "candidate": "choice-1",
+              "purchase_timing": "before_preparation",
+              "next_preparation": {
+                "learn": [],
+                "equipment": [],
+                "deck": [
+                  "$purchase",
+                  "base:f",
+                  "base:f",
+                  "base:fast",
+                  "base:g",
+                  "base:l",
+                  "base:l",
+                  "base:r",
+                  "base:read",
+                  "base:salve",
+                  "owned-1",
+                  "base:sweep"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "precondition": "保存アダプターが確定を失敗",
+      "expected_display_subset": {
+        "error": {
+          "code": "storage_write_failed"
+        },
+        "home": {
+          "economy": {
+            "unspent_units": 300,
+            "paid_learning_units": 200
+          }
+        },
+        "draft": {
+          "dirty": true
+        }
+      },
+      "state_unchanged": true
+    },
+    {
+      "id": "old_trial_save",
+      "call": {
+        "method": "Campaign.importSave",
+        "args": {
+          "slot_id": "new-empty-slot",
+          "document_schema": "PT-NT-001-file-v1",
+          "request_id": "example-import"
+        }
+      },
+      "expected_display_subset": {
+        "error": {
+          "code": "unsupported_save_schema"
+        }
+      },
+      "state_unchanged": true,
+      "note": "形式識別の例であり完全import文書は省略。旧保存と旧セーブキーを削除しない。"
+    }
+  ]
+}

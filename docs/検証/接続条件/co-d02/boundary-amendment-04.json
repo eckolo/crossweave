@@ -1,0 +1,15 @@
+{
+  "schema": "CW-M1-A-001-boundary-amendment-1",
+  "before_execution": "code-04",
+  "prior_failure": "failure-03.json",
+  "reason": "Port snapshot j is E1-origin doomed; normal-expiry fixture incorrectly expected shared recovery. Runtime correctly destroyed it. Use P-origin f for normal expiry and add separate E1 doomed expiry check.",
+  "natural_replay": false,
+  "fixed_sources": {
+    "second-return.save.json": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f",
+    "home.save.json": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7",
+    "entry.save.json": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1",
+    "port.save.json": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f",
+    "return.save.json": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc"
+  },
+  "additional_boundary": "Revisit clear: retain fixed run 1 targets/RNG/case; explicitly remove its defeat receipt and terminal scene, restore prior home economy, set unsettled P HP40 and V1 HP1/hit99, place a matching B field and heavy attack. This is a constructed boundary, not a natural successful replay."
+}

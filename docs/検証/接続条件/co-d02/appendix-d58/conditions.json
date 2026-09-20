@@ -1,0 +1,73 @@
+{
+  "test_id": "CW-M1-D58-001",
+  "date_jst": "2026-09-20",
+  "base_commit": "e76f9fe0ee43746fbbc7b1ca56e00f646aecfb6a",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.5",
+    "content_set_id": "CW-M1-SCN001-0.2",
+    "engine_version": "CW-M1-engine-0.5",
+    "input_version": "0.2",
+    "public_contract": "CW-M1-public-0.4"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "storage": "MemoryStore",
+    "browser": false
+  },
+  "trial_input": "docs/仕様案/接続データ/co-01a/defense-content.v0.2.json",
+  "fixed_old_inputs": [
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/entry.save.json.gz",
+      "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+      "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/port.save.json.gz",
+      "gzip_sha256": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+      "raw_sha256": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/return.save.json.gz",
+      "gzip_sha256": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+      "raw_sha256": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/home.save.json.gz",
+      "gzip_sha256": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+      "raw_sha256": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/second-return.save.json.gz",
+      "gzip_sha256": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d",
+      "raw_sha256": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f"
+    }
+  ],
+  "rule_decision": "D58 adopted: same field mapping as self defense",
+  "fixture_scope": "Real registered cards arranged into declared states. Only clamp test uses field_power=-9 as an explicit unregistered boundary value.",
+  "journey_scope": {
+    "campaigns": 1,
+    "sequential_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "player_policy": "test/runtime/support.mjs choose (existing public-only probe)",
+    "player_preparation": "Initial 0.1 player deck unchanged, no learning/equipment purchase",
+    "action_limit_per_run": 160,
+    "at_limit": "withdraw and mark cutoff",
+    "reopen_after_player_actions": 3
+  },
+  "command": "node test/runtime/d58.mjs /tmp/crossweave-d58-result",
+  "unverified": [
+    "UI drawing/layout and new card-kind presentation",
+    "real browser/IndexedDB/physical input",
+    "human balance/readability",
+    "final product card values and concrete sustained-guard/dodge lineup"
+  ]
+}

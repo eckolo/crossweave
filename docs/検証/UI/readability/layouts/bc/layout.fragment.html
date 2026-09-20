@@ -1,0 +1,120 @@
+<div id="cw-bc-layouts">
+  <style>
+    #cw-bc-layouts{--bc-paper:light-dark(#f1f1ec,#202824);--bc-panel:light-dark(#fffef9,#303a33);--bc-ink:light-dark(#23392c,#e9f0e7);--bc-muted:light-dark(#526655,#becdbf);--bc-line:light-dark(#b1c0b3,#657769);--bc-scene:light-dark(#dce5e7,#323e46);--bc-field:light-dark(#dce8d9,#354d3b);--bc-hand:light-dark(#ede5d4,#4a4435);--bc-accent:light-dark(#2e6241,#b2dbae);--bc-on:light-dark(#ffffff,#1d3525);font-family:system-ui,sans-serif;color:var(--bc-ink)}
+    #cw-bc-layouts *{box-sizing:border-box}
+    #cw-bc-layouts button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--bc-line);background:var(--bc-panel);border-radius:5px;padding:6px 10px}
+    #cw-bc-layouts button[aria-pressed=true]{color:var(--bc-on);background:var(--bc-accent)}
+    #cw-bc-layouts .bc-options{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    #cw-bc-layouts .bc-caption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;color:var(--bc-muted)}
+    #cw-bc-layouts strong{font-weight:500;color:var(--bc-ink)}
+    #cw-bc-layouts .bc-screen{aspect-ratio:16/9;background:var(--bc-paper);border:1px solid var(--bc-line);border-radius:8px;display:grid;grid-template-rows:9fr 60fr 23fr 8fr;position:relative;gap:8px;padding:10px}
+    #cw-bc-layouts .bc-top{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:0}
+    #cw-bc-layouts .bc-tools{display:flex;flex-wrap:wrap;gap:5px}
+    #cw-bc-layouts .bc-play{display:grid;min-height:0;min-width:0;gap:8px;position:relative}
+    #cw-bc-layouts .bc-scene{background:var(--bc-scene);border:1px solid var(--bc-line);border-radius:6px;padding:10px;position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+    #cw-bc-layouts .bc-scene-label{color:var(--bc-muted)}
+    #cw-bc-layouts .bc-actors{display:flex;justify-content:space-between;gap:12px;position:relative;z-index:1}
+    #cw-bc-layouts .bc-actor{background:var(--bc-panel);padding:7px 10px;border-radius:5px;display:grid;gap:4px;min-width:0;flex:1;max-width:42%}
+    #cw-bc-layouts .bc-meter{height:5px;background:var(--bc-line);border-radius:2px}
+    #cw-bc-layouts .bc-small{color:var(--bc-muted)}
+    #cw-bc-layouts .bc-field{background:var(--bc-field);border:1px solid var(--bc-line);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;z-index:2}
+    #cw-bc-layouts .bc-field-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    #cw-bc-layouts .bc-slots{display:grid;gap:8px;flex:1;min-height:0}
+    #cw-bc-layouts .bc-slot{border:1px solid var(--bc-line);background:var(--bc-panel);border-radius:5px;padding:7px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0;min-height:0}
+    #cw-bc-layouts .bc-slot-head{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    #cw-bc-layouts .bc-attribute{color:var(--bc-accent);font-weight:500}
+    #cw-bc-layouts .bc-hand-row{display:grid;grid-template-columns:18fr 64fr 18fr;gap:10px;min-height:0}
+    #cw-bc-layouts .bc-player{align-self:center;display:grid;gap:6px;min-width:0}
+    #cw-bc-layouts .bc-hand{background:var(--bc-hand);border-radius:6px;padding:8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;min-height:0}
+    #cw-bc-layouts .bc-card{background:var(--bc-panel);border:1px solid var(--bc-line);border-radius:5px;padding:7px;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0}
+    #cw-bc-layouts .bc-result{align-self:center;display:grid;gap:6px;min-width:0}
+    #cw-bc-layouts .bc-action{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:0}
+    #cw-bc-layouts .bc-execute{padding:5px 14px;border-radius:5px;background:var(--bc-accent);color:var(--bc-on);white-space:nowrap}
+    #cw-bc-layouts .bc-screen[data-plan=one] .bc-play{grid-template-rows:43fr 57fr}
+    #cw-bc-layouts .bc-screen[data-plan=one] .bc-scene{flex-direction:row;align-items:center}
+    #cw-bc-layouts .bc-screen[data-plan=one] .bc-actors{flex:1;justify-content:flex-end}
+    #cw-bc-layouts .bc-screen[data-plan=one] .bc-slots{grid-template-columns:repeat(4,minmax(0,1fr))}
+    #cw-bc-layouts .bc-screen[data-plan=two] .bc-play{display:block}
+    #cw-bc-layouts .bc-screen[data-plan=two] .bc-scene{position:absolute;inset:0;padding:12px}
+    #cw-bc-layouts .bc-screen[data-plan=two] .bc-actor{flex:0 1 21%;max-width:21%}
+    #cw-bc-layouts .bc-screen[data-plan=two] .bc-field{position:absolute;left:24%;width:52%;top:6%;bottom:4%}
+    #cw-bc-layouts .bc-screen[data-plan=two] .bc-slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+    #cw-bc-layouts .bc-screen[data-plan=three] .bc-play{grid-template-columns:55fr 45fr}
+    #cw-bc-layouts .bc-screen[data-plan=three] .bc-slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+    #cw-bc-layouts .bc-overlay[hidden]{display:none}
+    #cw-bc-layouts .bc-overlay{position:absolute;inset:12px;z-index:5;background:var(--bc-panel);border:1px solid var(--bc-line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:14px}
+    #cw-bc-layouts .bc-overlay-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    #cw-bc-layouts .bc-reference{display:flex;flex-wrap:wrap;gap:10px;padding:10px;background:var(--bc-paper);border-radius:4px}
+    #cw-bc-layouts .bc-note{margin-top:8px;color:var(--bc-muted)}
+    #cw-bc-layouts .bc-map{display:none}
+    #cw-bc-layouts .bc-mobile-detail{display:none}
+    @media(max-width:800px){#cw-bc-layouts .bc-screen{aspect-ratio:auto;min-height:540px;grid-template-rows:auto 1fr auto auto}#cw-bc-layouts .bc-top{flex-wrap:wrap}#cw-bc-layouts .bc-action{flex-wrap:wrap}#cw-bc-layouts .bc-screen[data-plan=two] .bc-field{left:22%;width:56%}#cw-bc-layouts .bc-slot{padding:5px}}
+    @media(max-width:560px){
+      #cw-bc-layouts .bc-screen{min-height:0;display:flex;flex-direction:column}
+      #cw-bc-layouts .bc-play,#cw-bc-layouts .bc-hand-row,#cw-bc-layouts .bc-action{display:none!important}
+      #cw-bc-layouts .bc-top>strong{display:none}
+      #cw-bc-layouts .bc-map{display:grid;aspect-ratio:16/9;position:relative;gap:5px}
+      #cw-bc-layouts .bc-map-world,#cw-bc-layouts .bc-map-field,#cw-bc-layouts .bc-map-hand{border:1px solid var(--bc-line);border-radius:4px;padding:4px;display:grid;place-items:center;text-align:center;min-width:0;min-height:0}
+      #cw-bc-layouts .bc-map-world{grid-area:world;background:var(--bc-scene)}
+      #cw-bc-layouts .bc-map-field{grid-area:field;background:var(--bc-field);z-index:1}
+      #cw-bc-layouts .bc-map-hand{grid-area:hand;background:var(--bc-hand)}
+      #cw-bc-layouts .bc-map-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;width:100%}
+      #cw-bc-layouts .bc-map-slots span{background:var(--bc-panel);border-radius:3px}
+      #cw-bc-layouts .bc-screen[data-plan=one] .bc-map{grid-template-rows:34fr 40fr 26fr;grid-template-areas:'world' 'field' 'hand'}
+      #cw-bc-layouts .bc-screen[data-plan=two] .bc-map{grid-template-columns:23fr 54fr 23fr;grid-template-rows:74fr 26fr;grid-template-areas:'world world world' 'hand hand hand'}
+      #cw-bc-layouts .bc-screen[data-plan=two] .bc-map-field{grid-column:2;grid-row:1;align-self:end;height:85%}
+      #cw-bc-layouts .bc-screen[data-plan=two] .bc-map-world{align-items:start;justify-content:space-between;grid-template-columns:1fr 1fr}
+      #cw-bc-layouts .bc-screen[data-plan=two] .bc-map-slots{grid-template-columns:repeat(2,1fr)}
+      #cw-bc-layouts .bc-screen[data-plan=three] .bc-map{grid-template-columns:55fr 45fr;grid-template-rows:74fr 26fr;grid-template-areas:'world field' 'hand hand'}
+      #cw-bc-layouts .bc-screen[data-plan=three] .bc-map-slots{grid-template-columns:repeat(2,1fr)}
+      #cw-bc-layouts .bc-mobile-detail{display:block;color:var(--bc-muted)}
+      #cw-bc-layouts .bc-overlay{position:relative;inset:auto;padding:10px}
+      #cw-bc-layouts .bc-options button{flex:1 1 140px}
+    }
+    @media(pointer:coarse){#cw-bc-layouts button{min-height:44px}}
+  </style>
+  <div class="bc-options" aria-label="BとCの折衷案">
+    <button type="button" data-plan="one" aria-pressed="true">BC1 上下に分ける</button>
+    <button type="button" data-plan="two" aria-pressed="false">BC2 情景に重ねる</button>
+    <button type="button" data-plan="three" aria-pressed="false">BC3 左右に分ける</button>
+  </div>
+  <div class="bc-caption"><strong id="cw-bc-name">BC1 上下に分ける</strong><span>配置比較図 · 山札／履歴は必要時に開く</span></div>
+  <div class="bc-screen" data-plan="one" role="group" aria-label="探索画面の模式図。ゲーム進行はありません。">
+    <div class="bc-top"><strong>crossweave ／ 現在の区間・行動順</strong><div class="bc-tools"><button type="button" data-open="deck">山札</button><button type="button" data-open="pool">回収山</button><button type="button" data-open="history">履歴</button></div></div>
+    <div class="bc-map" aria-label="狭い表示向けの配置図">
+      <div class="bc-map-world"><span>環境</span><span>敵</span></div>
+      <div class="bc-map-field"><span>共有の場</span><div class="bc-map-slots"><span>A</span><span>B</span><span>C</span><span>D</span></div></div>
+      <div class="bc-map-hand">自分 ／ 手札 ／ 予測・実行</div>
+    </div>
+    <div class="bc-play">
+      <div class="bc-scene"><span class="bc-scene-label">探索の情景</span><div class="bc-actors"><div class="bc-actor"><strong>環境</strong><div class="bc-meter"></div><span class="bc-small">HP・状態</span></div><div class="bc-actor"><strong>敵</strong><div class="bc-meter"></div><span class="bc-small">HP・状態</span></div></div></div>
+      <div class="bc-field"><div class="bc-field-head"><strong>共有の場</strong><span class="bc-small">札・主要効果</span></div><div class="bc-slots">
+        <div class="bc-slot"><div class="bc-slot-head"><span class="bc-attribute">A</span><span>場の札</span></div><span>攻撃／防御</span><span class="bc-small">命中／回避</span></div>
+        <div class="bc-slot"><div class="bc-slot-head"><span class="bc-attribute">B</span><span>場の札</span></div><span>攻撃／防御</span><span class="bc-small">命中／回避</span></div>
+        <div class="bc-slot"><div class="bc-slot-head"><span class="bc-attribute">C</span><span>場の札</span></div><span>攻撃／防御</span><span class="bc-small">命中／回避</span></div>
+        <div class="bc-slot"><div class="bc-slot-head"><span class="bc-attribute">D</span><span>場の札</span></div><span>攻撃／防御</span><span class="bc-small">命中／回避</span></div>
+      </div></div>
+    </div>
+    <div class="bc-hand-row"><div class="bc-player"><strong>自分の状態</strong><div class="bc-meter"></div><span class="bc-small">HP・防御など</span></div><div class="bc-hand">
+      <div class="bc-card"><div class="bc-slot-head"><strong>手札</strong><span class="bc-attribute">A</span></div><span>主効果・期限</span></div>
+      <div class="bc-card"><div class="bc-slot-head"><strong>手札</strong><span class="bc-attribute">B</span></div><span>主効果・期限</span></div>
+      <div class="bc-card"><div class="bc-slot-head"><strong>手札</strong><span class="bc-attribute">C</span></div><span>主効果・期限</span></div>
+    </div><div class="bc-result"><span>成果・帰還</span><span class="bc-small">変化の通知</span></div></div>
+    <div class="bc-action"><span>札 → 場 → 効果対象 ／ 予測・期限・消滅の警告</span><span class="bc-execute">実行の位置</span></div>
+    <div class="bc-overlay" hidden role="group" aria-label="必要時に開く参照画面"><div class="bc-overlay-head"><strong id="cw-bc-detail-title">山札</strong><button type="button" data-close>閉じる</button></div><div id="cw-bc-detail-body"></div></div>
+    <div class="bc-mobile-detail">配置のみの縮図。札・場の効果は広い表示で確認。</div>
+  </div>
+  <div class="bc-note" aria-live="polite">UI-L-002 ／ 模式図・ゲーム進行は未接続</div>
+  <script>
+    (()=>{
+      const root=document.getElementById('cw-bc-layouts'),screen=root.querySelector('.bc-screen'),overlay=root.querySelector('.bc-overlay');let opener=null;
+      const details={deck:['自分の山札','未ドローの残数・用途・属性の要約','札ごとの効果・残数・手札分・初期持込・消滅予定'],pool:['共通回収山','全主体で共有する回収山の参照','元版で公開済みの情報を表示'],history:['行動履歴','自分の行動 → 他主体の行動 → 現在','HP・防御・退場・場・再構築の経過']};
+      root.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;
+        if(button.dataset.plan){screen.dataset.plan=button.dataset.plan;root.querySelectorAll('.bc-options button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));root.querySelector('#cw-bc-name').textContent=button.textContent;overlay.hidden=true;}
+        if(button.dataset.open){opener=button;const [title,...rows]=details[button.dataset.open];root.querySelector('#cw-bc-detail-title').textContent=title;const body=root.querySelector('#cw-bc-detail-body');body.replaceChildren(...rows.map(text=>{const el=document.createElement('div');el.className='bc-reference';el.textContent=text;return el;}));overlay.hidden=false;overlay.querySelector('button').focus();}
+        if(button.hasAttribute('data-close')){overlay.hidden=true;opener?.focus();}
+      });
+      root.addEventListener('keydown',event=>{if(event.key==='Escape'&&!overlay.hidden){overlay.hidden=true;opener?.focus();}});
+    })();
+  </script>
+</div>
