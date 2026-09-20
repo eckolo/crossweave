@@ -1,5 +1,7 @@
 # CO-U02-B — 公開情報・取得経済の接続（UI 0.12.0）
 
+今回の依頼全体（CO-U02-B）は完了。成果 [`454f0dca`](https://github.com/eckolo/crossweave/commit/454f0dca44555d4049744b24fba61584852f4bac) を通常公開し、全内容・計画28blobを読戻し済み。とりまとめの受領・設計の今回差分統合・ユーザー受入は未確認。
+
 2026-09-20。UI改善 `20260910-ui-readability`／`ui/readability-20260910`。今回の対象はB1〜B5。CO-U02全将来作業・M1受入・後続のCO-D04／CO-P02とは分ける。
 
 ## 実装と確認
