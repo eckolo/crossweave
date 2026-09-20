@@ -1,6 +1,16 @@
 /* Display projection only: consume public preview results, never replay combat.
  * A missing result is unknown, not a fabricated zero or a local rules estimate. */
 (function(api){'use strict';
+ api.projectReservations=function(data,preview){
+  const x=data?.exploration;if(!x||!preview?.supported||!Number.isFinite(preview.next_self_reservation)||!Array.isArray(preview.current_reservations))return null;
+  const self=x.self.id;
+  const rows=preview.current_reservations.filter(r=>r.actor!==self&&preview.actor_changes?.[r.actor]?.active?.after!==false).map(r=>({...r,nextSelf:false}));
+  rows.push({actor:self,at:preview.next_self_reservation,nextSelf:true});
+  const groups=[];
+  // Same-time reservations share a group; do not invent their future tie order.
+  for(const row of rows.sort((a,b)=>a.at-b.at)){let group=groups.at(-1);if(!group||group.at!==row.at)groups.push(group={at:row.at,rows:[]});group.rows.push(row);}
+  return groups;
+ };
  api.projectActionForecast=function(data,choice,preview){
   if(!preview?.supported||!data?.exploration||!choice)return null;
   const x=data.exploration,hand=Array.isArray(x.hand)?x.hand:Object.values(x.hand||{});

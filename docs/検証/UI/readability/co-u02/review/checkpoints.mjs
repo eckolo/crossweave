@@ -4,11 +4,12 @@ import {createCampaign} from '../../../../../../src/runtime/campaign.mjs';
 import {MemoryStore} from '../../../../../../test/runtime/support.mjs';
 
 export const checkpoints = Object.freeze([
+  {id:'skills-current', label:'心得・習得と装備', fixture:'offers-home', screen:'skills', navigate:'skills', currentSkills:true},
   {id:'carried', label:'撤退後・候補の持越し', fixture:'offers-home', screen:'return', departThenWithdraw:true, withdraw:true, outcome:'withdrawal'},
   {id:'offers', label:'購入候補・編成と比較', fixture:'offers-home', screen:'offers', navigate:'offers'},
-  {id:'owned', label:'所持・ロック・変換', fixture:'purchased-home', screen:'owned', navigate:['offers','owned']},
+  {id:'owned', label:'所持・保護・着想に変える', fixture:'purchased-home', screen:'owned', navigate:['offers','owned']},
   {id:'converted', label:'変換後の拠点', fixture:'converted-home', screen:'hub'},
-  {id:'return-d03', label:'帰還から取得へ', fixture:'migrated-return', screen:'return'},
+  {id:'return-d03', label:'帰還から購入へ', fixture:'migrated-return', screen:'return'},
   {id:'explore-d03', label:'D58の探索・予測・記録', fixture:'purchased-exploring', screen:'explore', advanceIfPaused:true},
   {id:'hub', label:'出発前', fixture:'home', screen:'hub'},
   {id:'deck', label:'札組', fixture:'home', screen:'deck', navigate:'deck'},
@@ -37,6 +38,12 @@ export async function createCheckpoint(id, loadDocument) {
     const result = await controller.execute(command);
     if (result.display_data.error) throw Object.assign(Error('checkpoint_command_failed'), result.display_data.error);
     commands.push(command);
+  }
+  if (checkpoint.currentSkills) {
+    const data=controller.inspect().display_data,plan=structuredClone(data.draft.plan);
+    plan.next_preparation.learn=data.home.learning_options.slice(0,2).map(row=>row.base);
+    plan.next_preparation.equipment=['base:'+plan.next_preparation.learn[0]];
+    await execute('commit_preparation',{plan});
   }
   if (checkpoint.advance || checkpoint.advanceIfPaused && controller.inspect().display_data.scene?.paused) {
     const scene = controller.inspect().display_data.scene;

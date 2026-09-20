@@ -13,6 +13,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
  const recordEntries=new Map(),scrollMemory=new Map();
  let lastContext=null,lastPhase=null;
+ let skillFilter='all',menuPage=0;
  let purchaseChoice=null,conversionIds=new Set(),viewToken=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0,offers:0,owned:0},events=new AbortController();
  let frameWidth=root.getBoundingClientRect().width||1024;
@@ -138,7 +139,8 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
   if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
-  if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],['offers','owned'].includes(tab)?18:0);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}
+  if(action==='menu-page'){menuPage=Math.max(0,menuPage+Number(b.dataset.step));render();return;}
+  if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],0);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}
   if(action==='dismiss-status'){message='';if(state.error||state.canRetry||state.stale){panel='notice';renderPanel();layoutWindows();}$('[data-status]').hidden=true;return;}
   if(['deck','skills','offers','owned','hub'].includes(action)){if(d().phase==='return')await navigate(action);else if(d().phase==='home'){place=action==='hub'?'hub':'compose';if(action!=='hub')tab=action;panel=null;windows=windows.filter(w=>w.pinned);render();}return;}
   if(action==='detail'){enterPanel(b,'details');detailFromRecords=false;selected[info(id).kind==='passive'?'skills':'deck']=id;const same=windows.find(w=>w.id===id);if(same&&!same.pinned)windows=windows.filter(w=>w!==same);else if(!same){windows=windows.filter(w=>w.pinned);windows.push({id,pinned:false});}panel=windows.length?'details':null;render();return;}
@@ -167,11 +169,11 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
   if(action==='resume'){if(!suspended||d()?.phase!=='exploring')return;await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){suspended=false;panel=null;}});return;}
   if(action==='export'){await exportData();return;}
  },{signal:events.signal});
- root.addEventListener('change',event=>{if(event.target.matches('[data-compose-tab]')){root.querySelector('[data-j="'+event.target.value+'"]')?.click();return;}if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
+ root.addEventListener('change',event=>{if(event.target.matches('[data-compose-tab]')){const [dest,filter]=event.target.value.split(':');if(dest==='skills'){skillFilter=filter||'all';pageAnchors.skills=0;}root.querySelector('[data-j="'+dest+'"]')?.click();return;}if(event.target.matches('[data-skill-filter]')){skillFilter=event.target.value;pageAnchors.skills=0;render();return;}if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
  root.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel){panel=null;windows=[];render();}},{signal:events.signal});
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
  const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
- return {session,ready,state:()=>({tab,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
+ return {session,ready,state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
 };
 })(globalThis.CrossweaveUI);

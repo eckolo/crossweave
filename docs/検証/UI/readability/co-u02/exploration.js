@@ -10,7 +10,7 @@
  const menuButton=(kind,name,shape)=>`<button type="button" data-x="${kind}" aria-label="${name}" data-tooltip="${name}">${symbol(shape,({info:'i',flag:'⚑',activity:'◎','list-ordered':'≡',layers:'▤',history:'↶','sliders-horizontal':'⚙','message-square':'…','book-open':'▣',menu:'☰'})[shape])}<span>${name}</span></button>`;
  api.mountExploration=function(root,{session,display_data,onScene,onWithdraw,onCommon}){
   let data=display_data,state=session.state(),selected=null,target=null,windowState=null,windowParent=null,parentRect=null,previewChoice=null;
-  let previousToken=null,reservationToken=null,dead=false,drag=null,actorHold=null,suppressUntil=0,hoverTimer=null,leaveTimer=null,forecast=null,lastShownTarget=null,gestureEpoch=0;
+  let previousToken=null,reservationToken=null,dead=false,drag=null,actorHold=null,suppressUntil=0,hoverTimer=null,leaveTimer=null,forecast=null,lastShownTarget=null,lastShownReservation=null,gestureEpoch=0;
   const settings={diagram:true,details:true,quick:true,drag:true,hold:220};
   const events=new AbortController(),timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);if(!dead)fn();},ms);timers.add(t);return t;};
@@ -72,8 +72,8 @@
    const p=d.primary,f=d.field,rows=[],h=hand().find(c=>c.id===id),match=h&&field().find(c=>c.attr===h.attr);
    const add=(key,v,extra)=>{if(v!=null)rows.push(`<dt>${term(key)}</dt><dd>${esc(v)}${extra!=null?` <small data-field-contribution>+ ${esc(extra)}（場）</small>`:''}</dd>`);};
    if(p?.kind==='defense_support'){add('guard',p.defense_grant?.guard,match?.field_power);add('evasion',p.defense_grant?.evasion,match?.field_hit);add('crit',p.crit_gain);}else if(p){add(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power,p.kind==='heal'?null:match?.field_power);if(p.kind!=='heal')add(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit,match?.field_hit);add('crit',p.crit_gain);}
-   const properties=api.cardProperties(d);
-   return `<dl class="cw-ledger cw-card-primary">${rows.join('')}</dl>${f?`<h3>場に置くと</h3><dl class="cw-ledger"><dt>${term('power')}／${term('guard')}</dt><dd>${esc(f.power)}</dd><dt>${term('hit')}／${term('evasion')}</dt><dd>${esc(f.hit)}</dd></dl>`:''}<h3>次の行動まで</h3><dl class="cw-ledger"><dt>置く</dt><dd>${esc(d.action_intervals?.place??'—')}</dd><dt>一致</dt><dd>${esc(d.action_intervals?.match??'—')}</dd></dl>${properties.length?'<section class="cw-properties"><h3>性質</h3><ul>'+properties.map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul></section>':''}`;
+   const properties=api.effectHTML(d);
+   return `<dl class="cw-ledger cw-card-primary">${rows.join('')}</dl>${f?`<h3>場に置くと</h3><dl class="cw-ledger"><dt>${term('power')}／${term('guard')}</dt><dd>${esc(f.power)}</dd><dt>${term('hit')}／${term('evasion')}</dt><dd>${esc(f.hit)}</dd></dl>`:''}<h3>次の行動まで</h3><dl class="cw-ledger"><dt>置く</dt><dd>${esc(d.action_intervals?.place??'—')}</dd><dt>一致</dt><dd>${esc(d.action_intervals?.match??'—')}</dd></dl>${properties}`;
   }
   function prediction(){const p=forecast?.key===forecastKey()?forecast.value:null;if(!p)return forecast?.failed?'<p>予測を取得できませんでした</p>':'<p>予測を確認中…</p>';
    if(!p.supported)return '<p>この行動は予測に未対応です</p>';
@@ -111,7 +111,7 @@
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
    if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.defense?.guard??a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`+(a.defense?.effects.length?'<h3>防御の内訳</h3><p>身構 '+esc(api.defenseDuration(a.defense.duration.guard))+' · 攪乱 '+esc(api.defenseDuration(a.defense.duration.evasion))+'</p><ul>'+a.defense.effects.map(e=>'<li>'+esc(names(e.source_actor_id))+' · 身構 '+e.guard+' / 攪乱 '+e.evasion+' · '+(e.uses===null?'回数制限なし':e.uses+'回')+'</li>').join('')+'</ul>':'')+(a.knowledge_key&&onCommon?'<button type="button" data-x="actor-record" data-key="'+esc(a.knowledge_key)+'">この相手の調査記録</button>':''):'<p>この対象は離脱しました</p>';}
-   if(w.type==='order'){const rows=state.reservations||forecast?.value?.current_reservations,subject=w.id||x().self.id,base=rows?.find(r=>r.actor===subject);title='行動順 · '+names(subject);body=rows?`<ol class="cw-reservations">${rows.map(r=>`<li><span>${esc(names(r.actor))}</span><b>${esc(signed(r.at-(base?.at??x().now)))}</b></li>`).join('')}</ol>`:'<p>予約の公開応答を確認中…</p>';}
+   if(w.type==='order'){const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null,rows=predicted?.flatMap(g=>g.rows)||state.reservations||forecast?.value?.current_reservations;title=predicted?'行動後の予約':'行動予約';body=rows?`<ol class="cw-reservations">${rows.map(r=>`<li ${r.nextSelf?'data-self-next':''}><span>${esc(names(r.actor))}${r.nextSelf?'・次':''}</span><b>${esc(signed(r.at-x().now))}</b></li>`).join('')}</ol>`:'<p>予約の公開応答を確認中…</p>';}
    if(w.type==='more'){title='探索メニュー';body=`<nav class="cw-more">${[['objective','目的','flag'],['status','状況','activity'],['order','行動順','list-ordered'],['deck','山札','layers'],['history','履歴','history'],['texts','文章の記録','book-open'],['records','調査記録','book-open'],['settings','操作','sliders-horizontal'],['menu','設定・保存','settings']].filter(([k])=>onCommon||!['records','menu','texts'].includes(k)).map(args=>menuButton(...args)).join('')}</nav>`;}
    if(w.type==='objective'){title='目的';const t=list(data.texts).find(t=>t.id===data.case?.objective_text_id);body=`<p>${esc(t?.short_text||'目的の本文はまだ公開されていません')}</p>`;}
    if(w.type==='status'){title='状況';body=`<p>時刻 ${x().now} · 本人の行動 ${x().self.actions}回</p>`+actors().map(a=>`<p>${esc(a.name)}：${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · ${label('crit','一閃')} ${a.crit}</p>`).join('');}
@@ -153,7 +153,15 @@
    $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${esc(attr)} ${f?esc(names(f.id)):ghost?esc(ghost.name):''}</strong>${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
    $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${attribute(h)}${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
-   $('#cw-turn-order').innerHTML=reservations?reservations.map(r=>`<li><button type="button" data-x-order="${esc(r.actor)}" aria-label="${esc(names(r.actor))}、次回 ${r.at}"><span class="cw-turn-face">${icon(actor(r.actor)?.purpose)}</span><span>+${r.at-x().now}</span></button></li>`).join(''):'<li>行動予約を確認中…</li>';
+   const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null;
+   const turnFace=r=>`<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${icon(actor(r.actor)?.purpose)}</span>${r.nextSelf?'<b>次</b>':''}</button>`;
+   $('#cw-turn-order').setAttribute('aria-label',predicted?'行動後の本人と現在の相手の予約':'現在の行動予約');
+   $('#cw-turn-order').innerHTML=predicted?'<li class="cw-turn-now">本人・今</li>'+predicted.map(g=>`<li class="cw-turn-group" data-at="${g.at}" ${g.rows.length>1?'aria-label="同時刻の予約"':''}>${g.rows.map(turnFace).join('')}<span>+${g.at-x().now}</span></li>`).join(''):reservations?reservations.map(r=>`<li>${turnFace(r)}<span>+${r.at-x().now}</span></li>`).join(''):'<li>行動予約を確認中…</li>';
+   const nextIndex=predicted?.findIndex(g=>g.rows.some(r=>r.nextSelf)),nextGroup=nextIndex>=0?predicted[nextIndex]:null;
+   const preceding=nextGroup?predicted.slice(0,nextIndex).reduce((n,g)=>n+g.rows.length,0):0;
+   const position=nextGroup?(nextGroup.rows.length>1?(preceding+1)+'〜'+(preceding+nextGroup.rows.length):String(preceding+1)):null;
+   const forecastButton=$('[data-x="preview"]');forecastButton.innerHTML='<span>予測</span>'+(position?'<small class="cw-next-position" aria-hidden="true">本人→<b>'+position+'</b></small>':'');
+   forecastButton.setAttribute('aria-label',position?'予測。現在の予約では、本人の次は'+position+'番目':'予測');
    $('#cw-self').innerHTML=vitals(x().self)+actorStats(x().self);$('#cw-hand-count').textContent=`手札 ${hand().length}枚`;
    const match=c&&field().some(f=>f.attr===c.attr);$('#cw-match-label').textContent=c?c.attr+' · '+(match?'一致':'設置'):'';
    $('#cw-notice').textContent=busy()?'処理中…':state.error?'操作結果を確認してください':c&&choices().length&&!choice()?'対象を選択':'';
@@ -172,6 +180,9 @@
   function layout(){if(dead)return;const rr=root.getBoundingClientRect();if(!rr.width||!rr.height)return;
    root.dataset.compact=String(rr.height<410);root.dataset.dense=String(rr.height<280);
    root.style.setProperty('--cw-footer-height','44px');
+   const nextButton=$('#cw-turn-order [data-self-next]'),nextKey=nextButton?forecast?.key:null;
+   if(nextKey!==lastShownReservation){const row=$('#cw-turn-order'),a=nextButton?.getBoundingClientRect(),r=row.getBoundingClientRect();if(a?.width&&r.width){if(a.left<r.left)row.scrollLeft-=r.left-a.left;else if(a.right>r.right)row.scrollLeft+=a.right-r.right;}lastShownReservation=nextKey;}
+
    if(lastShownTarget!==target){const selectedActor=[...root.querySelectorAll('[data-x-actor]')].find(e=>e.dataset.xActor===target),row=$('#cw-actors'),ar=selectedActor?.getBoundingClientRect(),trackRect=row.getBoundingClientRect();if(ar?.width&&trackRect.width){if(ar.left<trackRect.left)row.scrollLeft-=trackRect.left-ar.left;else if(ar.right>trackRect.right)row.scrollLeft+=ar.right-trackRect.right;}lastShownTarget=target;}
    const node=[...root.querySelectorAll('[data-x-card]')].find(e=>e.dataset.xCard===selected),cr=node?.getBoundingClientRect(),track=$('#cw-action-track'),tr=track.getBoundingClientRect(),dock=$('#cw-action-anchor');
    dock.hidden=!node;if(node){const width=dock.getBoundingClientRect().width||164;dock.style.left=Math.max(0,Math.min(tr.width-width,(cr.left+cr.right)/2-tr.left-width/2))+'px';}
