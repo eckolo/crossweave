@@ -1,0 +1,4243 @@
+{
+  "test_id": "CW-M1-D56-001",
+  "fixtures": [
+    {
+      "name": "削り0でも各有限効果を消費、無制限の構えと機転は保持",
+      "input_sha256": "6707dfe4c4430fa3666e1e4839fd7c0943d4bcba66954e942fab70d7c06b6d10",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "expected": {
+        "action": {
+          "hit_gain": 0,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 6,
+            "guard_evasion": 10,
+            "guard_uses": null,
+            "crit": 125,
+            "hit": 0
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 6,
+          "evasion": 10,
+          "effects": [
+            {
+              "source_actor_id": "E1",
+              "effect_kind": "self_guard",
+              "guard": 4,
+              "evasion": 0,
+              "uses": null
+            },
+            {
+              "source_actor_id": "P",
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 1
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 2,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 2,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "最後の外部付与を適用後に終了、構えは有限回数を借用しない",
+      "input_sha256": "08f5ff68bed3ce5a51961e725d2935757b5220e2d99459329fb93e5f63448a83",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "expected": {
+        "action": {
+          "hit_gain": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 4,
+            "guard_evasion": 0,
+            "guard_uses": null
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 4,
+          "evasion": 0,
+          "effects": [
+            {
+              "source_actor_id": "E1",
+              "effect_kind": "self_guard",
+              "guard": 4,
+              "evasion": 0,
+              "uses": null
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": true,
+              "status": "unlimited",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": true,
+              "status": "unlimited",
+              "uniform_uses": null
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "合算身構に受け手の一閃を一度適用、0ダメージでも各回数を消費",
+      "input_sha256": "8160990b092a8d313869dd03b0e883a055bfb4fc63bf661486fad264e7c000dd",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      },
+      "expected": {
+        "action": {
+          "hit_connected": true,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "crit": 0
+          },
+          "E1": {
+            "guard": 1,
+            "guard_uses": 1,
+            "crit": 0,
+            "hit": 0
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 1,
+          "evasion": 0,
+          "effects": [
+            {
+              "source_actor_id": "E1",
+              "effect_kind": "self_guard",
+              "guard": 1,
+              "evasion": 0,
+              "uses": 1
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "追加身構だけでも受け手の倍率を使い、付与元の機転を消費しない",
+      "input_sha256": "b303371fc48e51c71d77bf9465e41a82179d88a693b9f6eb27522b8c420dab2a",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      },
+      "expected": {
+        "action": {
+          "actual_hp_loss": 2
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 0
+          },
+          "V0": {
+            "crit": 900
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "本人の攻撃一致で外部分も共通解除、即時再生しない",
+      "input_sha256": "be8e5faf34db9f84b41b6c50249e69b4cd2cf460d8653467b18b7f3aadb7f82f",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "expected": {
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_evasion": 0,
+            "guard_uses": 0
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "本人の回復一致でも旧防御全体を解除",
+      "input_sha256": "00c1c0c6cac75ee78d879d9ea26af28d5368ed3eea25412442f3ac29e3408ec2",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      },
+      "expected": {
+        "action": {
+          "hp_restored": 10
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 0
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "本人の防御一致は外部分を含む旧効果を消して新しい防御へ",
+      "input_sha256": "b2faae8270ac9d8471f1f1528de147eebb2050fbb9052da998eaf7ba254a4657",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0004",
+        "target": null
+      },
+      "expected": {
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 2,
+            "guard_evasion": 0
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 0,
+              "evasion": 0,
+              "uses": 2
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "不一致の設置では本人と外部の効果を保持",
+      "input_sha256": "c31d40f724091d56a5f37dca3634c3ab3f11b4b7b667cf904a9befa6003dcbe3",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      },
+      "expected": {
+        "action": {
+          "mode": "place"
+        },
+        "actors": {
+          "P": {
+            "guard": 6,
+            "guard_uses": null,
+            "guard_evasion": 10
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 6,
+          "evasion": 10,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 4,
+              "evasion": 0,
+              "uses": null
+            },
+            {
+              "source_actor_id": "V0",
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "他者への一致攻撃は対象外の防御回数を消費しない",
+      "input_sha256": "6071d9b926371e34ede47aa147cbd52659b3bc051ad5164dc56e10fea3477419",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "V0"
+      },
+      "expected": {
+        "actors": {
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2,
+            "guard_evasion": 20
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 3,
+          "evasion": 20,
+          "effects": [
+            {
+              "source_actor_id": "E1",
+              "effect_kind": "self_guard",
+              "guard": 3,
+              "evasion": 20,
+              "uses": 2
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "NPCから本人への攻撃も複数の有限効果を同時消費",
+      "input_sha256": "3fd261c9ef61c89ae788292d8b52ddedf95eb87a676b93fb46e849a0e640635a",
+      "actor": "E1",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "P"
+      },
+      "expected": {
+        "action": {
+          "hit_gain": 70,
+          "hit_connected": false
+        },
+        "actors": {
+          "P": {
+            "guard": 2,
+            "guard_uses": 1,
+            "guard_evasion": 10,
+            "crit": 125
+          }
+        }
+      },
+      "after_defense": {
+        "P": {
+          "guard": 2,
+          "evasion": 10,
+          "effects": [
+            {
+              "source_actor_id": "V0",
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 1
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 1,
+              "finite_max": 1,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 1
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "借用した手札の支援一致：使用者以外の全活動主体へ、使用者を発生源として付与",
+      "input_sha256": "88f6d8208db70ec48a52254cf125b6ee5685885feb34c297254ad300d5c8ac48",
+      "actor": "V0",
+      "choice": {
+        "card_id": "P_trial_0037",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 6,
+          "evasion": 10,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 4,
+              "evasion": 0,
+              "uses": null
+            },
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "V0"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 2,
+          "evasion": 10,
+          "effects": [
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "V0"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "同種の別札個体で再付与しても同じ発生源の枠は増えない",
+      "input_sha256": "a6bff20df8f5c0dce2feed8880617fee0ed65ba7ada633a834337c66f9b01481",
+      "actor": "V0",
+      "choice": {
+        "card_id": "P_trial_0038",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 6,
+          "evasion": 10,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 4,
+              "evasion": 0,
+              "uses": null
+            },
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "V0"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 2,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": true,
+              "status": "mixed",
+              "uniform_uses": null
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 2,
+          "evasion": 10,
+          "effects": [
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "V0"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "後から登場した主体へ遡及付与せず、次の付与は退場済み主体を除外",
+      "input_sha256": "0e065430523d9d999282699ec746e0dbbb4ae43dbdb82a3900ab498fd28fa9b6",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_trial_0051",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 2,
+          "evasion": 10,
+          "effects": [
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "V0"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V1": {
+          "guard": 2,
+          "evasion": 10,
+          "effects": [
+            {
+              "effect_kind": "ward",
+              "guard": 2,
+              "evasion": 10,
+              "uses": 2,
+              "source_actor_id": "P"
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "guard": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            },
+            "evasion": {
+              "effect_count": 1,
+              "finite_min": 2,
+              "finite_max": 2,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 2
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "付与札の不一致は設置のみで全員付与しない",
+      "input_sha256": "e9bfb7e14723156b0de107de115e934bd3a5fdbe30aa8d5ed638b9c6f1411ffa",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_trial_0037",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "付与札を場の一致材料にしても主効果を発動しない",
+      "input_sha256": "95ab61d4cd348ab17b6090d5ca9fb20a3b401348c4cafd7017f816d0bf206eb4",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "明示試行防御札の回数 null を本人一致で付与",
+      "input_sha256": "694447518b7ff73fe149351f4f937856694aeff833d29240bb8ee9f2b7b846a5",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0004",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 0,
+              "evasion": 0,
+              "uses": null
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": true,
+              "status": "unlimited",
+              "uniform_uses": null
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    },
+    {
+      "name": "明示試行防御札の回数 5 を本人一致で付与",
+      "input_sha256": "5ccc696079b23f31db6795d3ef93a0cc1355091ede2d52d828dc590c9d9c028a",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0004",
+        "target": null
+      },
+      "expected": {},
+      "after_defense": {
+        "P": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [
+            {
+              "source_actor_id": "P",
+              "effect_kind": "self_guard",
+              "guard": 0,
+              "evasion": 0,
+              "uses": 5
+            }
+          ],
+          "duration": {
+            "all": {
+              "effect_count": 1,
+              "finite_min": 5,
+              "finite_max": 5,
+              "unlimited": false,
+              "status": "uniform",
+              "uniform_uses": 5
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "V0": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "E1": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "name": "削り0でも各有限効果を消費、無制限の構えと機転は保持",
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 100,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 125,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 6,
+                "after": 6,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "unsupported",
+                "before": null,
+                "after": null,
+                "delta": null
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 25,
+                "after": 10,
+                "delta": -15
+              },
+              "evasion": {
+                "status": "known",
+                "before": 25,
+                "after": 10,
+                "delta": -15
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 6,
+                "evasion": 25,
+                "uses": null
+              },
+              "after": {
+                "value": 6,
+                "evasion": 10,
+                "uses": null
+              }
+            },
+            "defense": {
+              "before": {
+                "guard": 6,
+                "evasion": 25,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  },
+                  {
+                    "source_actor_id": "P",
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 10,
+                    "uses": 2
+                  },
+                  {
+                    "source_actor_id": "V0",
+                    "effect_kind": "ward",
+                    "guard": 0,
+                    "evasion": 15,
+                    "uses": 1
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 3,
+                    "finite_min": 1,
+                    "finite_max": 2,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 2,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 6,
+                "evasion": 10,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  },
+                  {
+                    "source_actor_id": "P",
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 10,
+                    "uses": 1
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 1,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 1
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "最後の外部付与を適用後に終了、構えは有限回数を借用しない",
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 100,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 6,
+                "after": 4,
+                "delta": -2
+              },
+              "guard_uses": {
+                "status": "unsupported",
+                "before": null,
+                "after": null,
+                "delta": null
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 0,
+                "delta": -10
+              },
+              "evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 0,
+                "delta": -10
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 6,
+                "evasion": 10,
+                "uses": null
+              },
+              "after": {
+                "value": 4,
+                "evasion": 0,
+                "uses": null
+              }
+            },
+            "defense": {
+              "before": {
+                "guard": 6,
+                "evasion": 10,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  },
+                  {
+                    "source_actor_id": "P",
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 10,
+                    "uses": 1
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 1,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 1
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 4,
+                "evasion": 0,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "合算身構に受け手の一閃を一度適用、0ダメージでも各回数を消費",
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 100,
+        "hit_connected": true,
+        "posture_before": 1,
+        "posture_after": 100,
+        "posture_overflow": 99,
+        "posture_multiplier": 1,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 80,
+                "after": 0,
+                "delta": -80
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 900,
+                "after": 900,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 10,
+                "after": 10,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 99,
+                "after": 0,
+                "delta": -99
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 100,
+                "delta": 99
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 0,
+                "delta": -125
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 1,
+                "delta": -1
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 1,
+                "delta": -2
+              },
+              "guard_uses": {
+                "status": "unsupported",
+                "before": null,
+                "after": null,
+                "delta": null
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 0,
+                "uses": null
+              },
+              "after": {
+                "value": 1,
+                "evasion": 0,
+                "uses": 1
+              }
+            },
+            "defense": {
+              "before": {
+                "guard": 3,
+                "evasion": 0,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 1,
+                    "evasion": 0,
+                    "uses": 2
+                  },
+                  {
+                    "source_actor_id": "V0",
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 0,
+                    "uses": 1
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 2,
+                    "finite_min": 1,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 1,
+                "evasion": 0,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "self_guard",
+                    "guard": 1,
+                    "evasion": 0,
+                    "uses": 1
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 1,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 1
+                  },
+                  "guard": {
+                    "effect_count": 1,
+                    "finite_min": 1,
+                    "finite_max": 1,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 1
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "全員付与の明示試行札（製品配置なし）",
+      "preview": {
+        "mode": "defense_support",
+        "crit_added": 0,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": null,
+        "posture_after": null,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 4,
+                "after": 6,
+                "delta": 2
+              },
+              "guard_uses": {
+                "status": "unsupported",
+                "before": null,
+                "after": null,
+                "delta": null
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 4,
+                "evasion": 0,
+                "uses": null
+              },
+              "after": {
+                "value": 6,
+                "evasion": 10,
+                "uses": null
+              }
+            },
+            "defense": {
+              "before": {
+                "guard": 4,
+                "evasion": 0,
+                "effects": [
+                  {
+                    "source_actor_id": "P",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 6,
+                "evasion": 10,
+                "effects": [
+                  {
+                    "source_actor_id": "P",
+                    "effect_kind": "self_guard",
+                    "guard": 4,
+                    "evasion": 0,
+                    "uses": null
+                  },
+                  {
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 10,
+                    "uses": 2,
+                    "source_actor_id": "V0"
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 2,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 2,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": true,
+                    "status": "mixed",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 1,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 2
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 9,
+                "after": 0,
+                "delta": -9
+              },
+              "guard_uses": {
+                "status": "unsupported",
+                "before": null,
+                "after": null,
+                "delta": null
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 30,
+                "after": 0,
+                "delta": -30
+              },
+              "evasion": {
+                "status": "known",
+                "before": 30,
+                "after": 0,
+                "delta": -30
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 9,
+                "evasion": 30,
+                "uses": null
+              },
+              "after": null
+            },
+            "defense": {
+              "before": {
+                "guard": 9,
+                "evasion": 30,
+                "effects": [
+                  {
+                    "source_actor_id": "E1",
+                    "effect_kind": "ward",
+                    "guard": 9,
+                    "evasion": 30,
+                    "uses": null
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "guard": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  },
+                  "evasion": {
+                    "effect_count": 1,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": true,
+                    "status": "unlimited",
+                    "uniform_uses": null
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 2,
+                "delta": 2
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 2,
+                "delta": 2
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": {
+                "value": 2,
+                "evasion": 10,
+                "uses": 2
+              }
+            },
+            "defense": {
+              "before": {
+                "guard": 0,
+                "evasion": 0,
+                "effects": [],
+                "duration": {
+                  "all": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "guard": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  },
+                  "evasion": {
+                    "effect_count": 0,
+                    "finite_min": null,
+                    "finite_max": null,
+                    "unlimited": false,
+                    "status": "empty",
+                    "uniform_uses": 0
+                  }
+                },
+                "clear_on": "owner_match"
+              },
+              "after": {
+                "guard": 2,
+                "evasion": 10,
+                "effects": [
+                  {
+                    "effect_kind": "ward",
+                    "guard": 2,
+                    "evasion": 10,
+                    "uses": 2,
+                    "source_actor_id": "V0"
+                  }
+                ],
+                "duration": {
+                  "all": {
+                    "effect_count": 1,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 2
+                  },
+                  "guard": {
+                    "effect_count": 1,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 2
+                  },
+                  "evasion": {
+                    "effect_count": 1,
+                    "finite_min": 2,
+                    "finite_max": 2,
+                    "unlimited": false,
+                    "status": "uniform",
+                    "uniform_uses": 2
+                  }
+                },
+                "clear_on": "owner_match"
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    }
+  ]
+}

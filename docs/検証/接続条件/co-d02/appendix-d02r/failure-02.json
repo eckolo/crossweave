@@ -1,0 +1,166 @@
+{
+  "id": "CW-M1-A-002",
+  "checks": [
+    {
+      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 entry の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 port の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 home の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 second-return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": false,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 30,
+          "crit": 125,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "434be5a9bf8e5d908bca2a73fab296ef494a14190e9b6d7e259b94eeb3049ecb",
+      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "P": {
+          "crit": 80,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 2
+          }
+        },
+        "E1": {
+          "hit": 99,
+          "crit": 120,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "54b39efef76f70fa75fad57e3ee5313f0e2af2796a5ae17223e63b54ff1ca345",
+      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "h",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "h",
+      "changes": {
+        "P": {
+          "crit": 80
+        },
+        "E1": {
+          "hit": 0,
+          "crit": 120,
+          "guard": {
+            "value": 3,
+            "evasion": 20,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "048844a6f25ed58124616efab204e5973b4f67f14c6f38c67765aefa7b4c65de",
+      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
+    }
+  ],
+  "choiceCount": 3,
+  "error": "Error: invalid recycled card",
+  "stack": "Error: invalid recycled card\n    at assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:3:64)\n    at Game.assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:245:33)\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:42:20)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
+}

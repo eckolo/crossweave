@@ -3,7 +3,8 @@
 const CWInformation = (() => {
   const copy=x=>JSON.parse(JSON.stringify(x));
   const cardKeys=['type','name','attr','kind','power','hit','evasion','crit_gain','field_power','field_hit','life','place_cost','match_cost','consume_on_recover'];
-  const card=c=>Object.fromEntries(cardKeys.map(k=>[k,c[k]??null]));
+  const card=c=>({...Object.fromEntries(cardKeys.map(k=>[k,c[k]??null])),
+    ...Object.fromEntries(['defense_uses','defense_grant'].filter(k=>Object.hasOwn(c,k)).map(k=>[k,copy(c[k])]))});
   const signature=c=>JSON.stringify(card(c));
   function empty(){return {schema:'AC1',events:[]};}
   function add(ledger,event){

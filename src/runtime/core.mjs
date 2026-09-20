@@ -1,4 +1,6 @@
 // Extracted from frozen AM posture resolver; provenance in co-d02/README.md.
+import {abilityChanges} from './action-public.mjs';
+import {grantDefense,spendDefense,defenseView,guardView,validateDefense} from './defense.mjs';
 const copy = x => JSON.parse(JSON.stringify(x));
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 export class MT {
@@ -40,7 +42,10 @@ export class CoreGame {
   state() { this.s.N=this.live(); return copy(this.s); }
   save() { return {state:this.state(),next_card_number:this.number,memory:copy(this.memory),rng:Object.fromEntries(Object.entries(this.rng).map(([k,v])=>[k,v.state()]))}; }
   passive(w,kind) { return Object.values(this.s.actors).filter(a=>a.active).flatMap(a=>a.passives).filter(p=>p.target===w&&p.kind===kind).reduce((v,p)=>v+p.value,0); }
-  evasion(w) { const a=this.s.actors[w]; return this.passive(w,'evasion')+(a.guard?a.guard.evasion:0); }
+  guard(w) { return guardView(this.s.actors[w]); }
+  defense(w) { return defenseView(this.s.actors[w]); }
+  grantDefense(w,effect) { grantDefense(this.s,w,effect); }
+  evasion(w) { return this.passive(w,'evasion')+this.defense(w).evasion; }
   crit(w,c) { return ['card_only','corrected'].includes(this.s.rules)?c.crit_gain:(w==='P'?50:0); }
   cost(type,match) { return type==='l'?(match?12:8):(type==='salve_slow'&&match?14:10); }
   stats(c) {
@@ -65,7 +70,7 @@ export class CoreGame {
     assert(!this.s.actors[w],'duplicate actor');
     const spec=this.bundle.actor_specs[w], role=w==='P'?'P':w==='O'?'O':w[0];
     const count=role==='P'?this.s.p_size:role==='O'?0:12;
-    const a={role,acts:role!=='O',hp:spec.hp,max_hp:spec.hp,hit:0,max_posture:spec.max_posture??100,crit:0,guard:null,hand:[],deck:[],active:true,
+    const a={role,acts:role!=='O',hp:spec.hp,max_hp:spec.hp,hit:0,max_posture:spec.max_posture??100,crit:0,defense_effects:[],hand:[],deck:[],active:true,
       next_at:role!=='O'?at:null,actions:0,hand_size:spec.hand_size,initial_size:count,cap:count,minimum:spec.hand_size,
       passives:[],rebuilds:0};
     this.s.actors[w]=a;
@@ -114,6 +119,9 @@ export class CoreGame {
   }
   retire(w) {
     const a=this.s.actors[w];assert(a.active,'retiring inactive actor');a.active=false;a.next_at=null;
+    // D57: end effects carried by this recipient, regardless of their source.
+    // Effects this actor granted to other recipients remain with those recipients.
+    a.defense_effects=[];
     for(const c of Object.values(this.s.cards))if(c.origin===w&&!c.destroyed)c.doomed=true;
     const held=a.hand.concat(a.deck);a.hand=[];a.deck=[];
     for(const id of held)this.recover(id,w+'_retirement_private');
@@ -151,16 +159,26 @@ export class CoreGame {
     const a=this.s.actors[w],c=this.s.cards[choice.card_id],target=choice.target;
     assert(!this.s.outcome&&a.active&&a.hand.includes(c.id),'illegal card');
     const hpBefore=Object.fromEntries(Object.entries(this.s.actors).map(([k,v])=>[k,v.hp]));
-    const oldGuard=copy(a.guard),eventBefore=this.s.current_event;
+    const oldGuard=this.guard(w),oldDefense=copy(a.defense_effects),eventBefore=this.s.current_event;
     a.hand.splice(a.hand.indexOf(c.id),1);c.remaining=null;
     const mid=this.s.field[c.attr]||null;if(mid)delete this.s.field[c.attr];
     let mode='place',damage=0,actual=0,gain=0,connected=false,restored=0,crit=0,postureBefore=null,postureAfter=null,overflow=0,multiplier=0;
     if(!mid){assert(target===null,'placement target');this.s.field[c.attr]=c.id;}
     else{
-      const m=this.s.cards[mid];a.guard=null;crit=this.crit(w,c);a.crit+=crit;mode=c.kind;
+      const m=this.s.cards[mid];a.defense_effects=[];crit=this.crit(w,c);a.crit+=crit;mode=c.kind;
       if(mode==='guard'){
         const mapped=['field_only','corrected'].includes(this.s.rules);
-        a.guard={value:Math.max(0,c.power+(mapped?m.field_power:0)),evasion:c.evasion+(mapped?m.field_hit:0),uses:2};
+        this.grantDefense(w,{source_actor_id:w,effect_kind:'self_guard',guard:Math.max(0,c.power+(mapped?m.field_power:0)),
+          evasion:c.evasion+(mapped?m.field_hit:0),uses:Object.hasOwn(c,'defense_uses')?c.defense_uses:2});
+      } else if(mode==='defense_support'){
+        assert(target===null,'support target');
+        // D58: build the grant once using the same field mapping as self defense.
+        // Critical belongs to the receiver and is applied later at damage resolution.
+        const mapped=['field_only','corrected'].includes(this.s.rules),grant={...copy(c.defense_grant),
+          guard:Math.max(0,c.defense_grant.guard+(mapped?m.field_power:0)),
+          evasion:c.defense_grant.evasion+(mapped?m.field_hit:0)};
+        for(const [id,recipient] of Object.entries(this.s.actors))if(id!==w&&recipient.active)
+          this.grantDefense(id,{...grant,source_actor_id:w});
       } else if(mode==='attack'){
         const d=this.s.actors[target];assert(d?.active&&target!==w,'invalid target');
         postureBefore=d.max_posture-d.hit;
@@ -168,13 +186,16 @@ export class CoreGame {
         postureAfter=Math.max(0,d.max_posture-d.hit);
         if(d.hit>=d.max_posture){
           connected=true;
-          const am=1+Math.floor(a.crit/100),hm=1+Math.floor((d.hit-d.max_posture)/100),guard=d.guard;
+          const am=1+Math.floor(a.crit/100),hm=1+Math.floor((d.hit-d.max_posture)/100),guard=this.guard(target);
           overflow=d.hit-d.max_posture;multiplier=hm;postureAfter=d.max_posture;
           const defense=guard?guard.value*(1+Math.floor(d.crit/100)):0;
           damage=Math.max(0,((c.power+m.field_power)*am-defense-this.passive(target,'damage_reduction'))*hm);
           actual=Math.min(d.hp,damage);d.hp-=actual;d.hit=0;if(a.crit>=100)a.crit=0;
-          if(guard){guard.uses--;if(d.crit>=100)d.crit=0;if(!guard.uses)d.guard=null;}
+          if(guard&&d.crit>=100)d.crit=0;
         }
+        // D55: a legal matched attack spends one finite guard use even when
+        // evasion prevents posture gain. Critical consumption stays at damage resolution.
+        spendDefense(d);
       } else if(mode==='heal'){restored=Math.min(c.power,a.max_hp-a.hp);a.hp+=restored;}
       else assert(mode==='none','unsupported card kind');
       this.recover(c.id,'played_match');this.recover(mid,'field_match');
@@ -185,7 +206,7 @@ export class CoreGame {
     const zero=Object.keys(hpBefore).filter(who=>hpBefore[who]>0&&this.s.actors[who].hp===0);assert(zero.length<=1,'simultaneous HP0 outside trial');
     if(zero.length)this.dispatch(zero[0],w);
 
-    this.log('action',{actor:w,action_number:a.actions,card_id:c.id,target,matched_id:mid,mode,damage,actual_hp_loss:actual,hit_gain:gain,hit_connected:connected,posture_before:postureBefore,posture_after:postureAfter,posture_overflow:overflow,posture_multiplier:multiplier,hp_restored:restored,crit_added:crit,expired,old_guard_ended:mid?oldGuard:null,event_before:eventBefore});
+    this.log('action',{actor:w,action_number:a.actions,card_id:c.id,target,matched_id:mid,mode,damage,actual_hp_loss:actual,hit_gain:gain,hit_connected:connected,posture_before:postureBefore,posture_after:postureAfter,posture_overflow:overflow,posture_multiplier:multiplier,hp_restored:restored,crit_added:crit,expired,old_guard_ended:mid?oldGuard:null,old_defense_ended:mid?oldDefense:[],event_before:eventBefore});
     const row={actor:w,time:this.s.now,type:c.type,attr:c.attr,mode,target};
     this.memory.recent[w]=this.memory.recent[w].concat([row]).slice(-3);
     const seen=this.memory.observed_types[w];if(seen&&!seen.includes(c.type))seen.push(c.type);
@@ -206,32 +227,28 @@ export class CoreGame {
   public() {
     const actors={};
     for(const [w,a] of Object.entries(this.s.actors)){
-      actors[w]=copy(Object.fromEntries(Object.entries(a).filter(([k])=>!['hand','deck'].includes(k))));
-      Object.assign(actors[w],{posture_remaining:a.max_posture-a.hit,hand_count:a.hand.length,deck_count:a.deck.length,evasion:this.evasion(w),reduction:this.passive(w,'damage_reduction')});
+      actors[w]=copy(Object.fromEntries(Object.entries(a).filter(([k])=>!['hand','deck','defense_effects'].includes(k))));
+      Object.assign(actors[w],{guard:this.guard(w),defense:this.defense(w),posture_remaining:a.max_posture-a.hit,hand_count:a.hand.length,deck_count:a.deck.length,evasion:this.evasion(w),reduction:this.passive(w,'damage_reduction')});
       if(w==='P')actors[w].hand=a.hand.map(id=>copy(this.s.cards[id]));
     }
     return {now:this.s.now,outcome:this.s.outcome,actors,field:Object.fromEntries(Object.entries(this.s.field).map(([a,id])=>[a,copy(this.s.cards[id])])),pool_count:this.s.pool.length,N:this.live(),rules:this.s.rules,current_event:this.s.current_event,rewards:copy(this.s.rewards)};
   }
   predict(choice,w='P') {
-    const s=this.public(),c=this.s.cards[choice.card_id],a=s.actors[w],m=s.field[c.attr];
-    const result={mode:m?c.kind:'place',crit_added:0,actual_hp_loss:0,hit_gain:0,hit_connected:false,posture_before:null,posture_after:null,posture_overflow:0,posture_multiplier:0,hp_restored:0,guard:null};
-    if(!m)return result;
-    const crit=this.crit(w,c);result.crit_added=crit;
-    if(c.kind==='attack'){
-      const d=s.actors[choice.target],gain=Math.max(0,c.hit+m.field_hit-d.evasion),total=d.hit+gain;
-      const force=(c.power+m.field_power)*(1+Math.floor((a.crit+crit)/100)),shield=d.guard?d.guard.value*(1+Math.floor(d.crit/100)):0;
-      Object.assign(result,{posture_before:d.max_posture-d.hit,posture_after:total>=d.max_posture?d.max_posture:d.max_posture-total,posture_overflow:Math.max(0,total-d.max_posture),posture_multiplier:total>=d.max_posture?1+Math.floor((total-d.max_posture)/100):0,hit_gain:gain,hit_connected:total>=d.max_posture,actual_hp_loss:total>=d.max_posture?Math.min(d.hp,Math.max(0,force-shield-d.reduction)*(1+Math.floor((total-d.max_posture)/100))):0});
-    } else if(c.kind==='guard'){
-      const mapped=['field_only','corrected'].includes(s.rules);
-      result.guard={value:Math.max(0,c.power+(mapped?m.field_power:0)),evasion:c.evasion+(mapped?m.field_hit:0),uses:2};
-    } else if(c.kind==='heal')result.hp_restored=Math.min(c.power,a.max_hp-a.hp);
-    return result;
+    const after=new this.constructor(copy(this.bundle),{state:copy(this.s),next_card_number:this.number,memory:copy(this.memory),
+      rng:Object.fromEntries(Object.entries(this.rng).map(([key,rng])=>[key,rng.state()]))});
+    after.play(w,choice);
+    const row=after.trace.findLast(x=>x.type==='action'&&x.actor===w);
+    const keys=['mode','crit_added','actual_hp_loss','hit_gain','hit_connected','posture_before','posture_after',
+      'posture_overflow','posture_multiplier','hp_restored'];
+    return {...Object.fromEntries(keys.map(k=>[k,copy(row[k])])),guard:row.mode==='guard'?after.guard(w):null,
+      resolution_scope:'after_current_action_before_next_actor',actor_changes:abilityChanges(this,after)};
   }
   assert() {
+    assert(this.s.defense_rule==='D56','Incompatible defense save');
     const members=this.s.pool.concat(Object.values(this.s.field));
     for(const a of Object.values(this.s.actors)){
       members.push(...a.hand,...a.deck);assert(a.hp>=0&&a.hp<=a.max_hp&&a.hit>=0&&Number.isSafeInteger(a.max_posture)&&a.max_posture>=1&&a.hit<a.max_posture&&a.crit>=0,'actor state');
-      assert(a.hand.length<=a.hand_size&&(!a.guard||a.guard.value>=0&&[1,2].includes(a.guard.uses)),'guard or hand state');
+      assert(a.hand.length<=a.hand_size,'hand state');validateDefense(a,this.s.actors);
       for(const id of a.hand)assert(this.s.cards[id].remaining>=1&&this.s.cards[id].remaining<=this.s.cards[id].life,'card deadline');
       if(!a.active)assert(!a.hand.length&&!a.deck.length,'retired cards');
     }

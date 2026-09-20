@@ -4,6 +4,12 @@ import {createCampaign} from '../../../../../../src/runtime/campaign.mjs';
 import {MemoryStore} from '../../../../../../test/runtime/support.mjs';
 
 export const checkpoints = Object.freeze([
+  {id:'carried', label:'撤退後・候補の持越し', fixture:'offers-home', screen:'return', departThenWithdraw:true, withdraw:true, outcome:'withdrawal'},
+  {id:'offers', label:'購入候補・編成と比較', fixture:'offers-home', screen:'offers', navigate:'offers'},
+  {id:'owned', label:'所持・ロック・変換', fixture:'purchased-home', screen:'owned', navigate:['offers','owned']},
+  {id:'converted', label:'変換後の拠点', fixture:'converted-home', screen:'hub'},
+  {id:'return-d03', label:'帰還から取得へ', fixture:'migrated-return', screen:'return'},
+  {id:'explore-d03', label:'D58の探索・予測・記録', fixture:'purchased-exploring', screen:'explore', advanceIfPaused:true},
   {id:'hub', label:'出発前', fixture:'home', screen:'hub'},
   {id:'deck', label:'札組', fixture:'home', screen:'deck', navigate:'deck'},
   {id:'skills', label:'心得', fixture:'home', screen:'skills', navigate:'skills'},
@@ -32,17 +38,18 @@ export async function createCheckpoint(id, loadDocument) {
     if (result.display_data.error) throw Object.assign(Error('checkpoint_command_failed'), result.display_data.error);
     commands.push(command);
   }
-  if (checkpoint.advance) {
+  if (checkpoint.advance || checkpoint.advanceIfPaused && controller.inspect().display_data.scene?.paused) {
     const scene = controller.inspect().display_data.scene;
     if (!scene.paused) throw Error('checkpoint_scene_changed');
     // Omission means "all main text was displayed" in Campaign. Explicitly
     // send none: this is setup, not a player's read receipt.
     await execute('continue_scene', {scene_id:scene.id, advance:true, displayed_text_ids:[]});
   }
+  if (checkpoint.departThenWithdraw) await execute('depart', {case_id:controller.inspect().display_data.case.id});
   if (checkpoint.withdraw) await execute('withdraw', {});
   const data = controller.inspect().display_data;
   const screen = data.phase === 'return' ? 'return' : data.scene?.paused ? 'scene' : data.phase === 'exploring' ? 'explore' : 'hub';
   if (screen !== (checkpoint.navigate ? 'hub' : checkpoint.screen) ||
       (checkpoint.outcome && data.return_receipt?.outcome !== checkpoint.outcome)) throw Error('checkpoint_state_changed');
-  return {checkpoint, Campaign, controller, slot_id, commands};
+  return {checkpoint, Campaign, controller, slot_id, commands, storage, title:'夜潮の排水路'};
 }

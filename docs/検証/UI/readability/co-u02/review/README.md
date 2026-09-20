@@ -1,3 +1,24 @@
+# 今回の変更をまとめて確認する入口（UI 0.12.0）
+
+2026-09-20、[CO-U02-B](../u02b/README.md)。既存9場面に以下の6場面を追加した。選択欄はゲーム枠の外にあり、同じUI・実Campaignを起動する。
+
+| 入口 | 確認する流れ |
+|---|---|
+| [購入候補・編成](index.html?case=offers) | 自然保存の着想9から、候補・修飾・購入、購入前後の比較、札組／心得、確定、出発 |
+| [所持・ロック・変換](index.html?case=owned) | 購入済み個体、使用可否、ロック、見積り、最後の個体の変換 |
+| [変換後](index.html?case=converted) | 所持なしと購入済みの区別、着想5.5、次の編成 |
+| [撤退・持越し](index.html?case=carried) | 原本から公開depart→withdrawで作る撤退リザルト、拠点→候補持越し |
+| [帰還・不足](index.html?case=return-d03) | 移行した帰還原本、帰還確認前の書込み禁止、着想3での不足 |
+| [D58の探索](index.html?case=explore-d03) | 新内容の自然保存、本人を含む予測、山札・本文・調査記録 |
+
+会話内の提示は上記から「帰還・不足」を除く5場面。実Campaign＋設計所有MemoryStoreであり、模擬応答ではない。場面切替で確認中の操作を破棄する。実セーブに保存したい場合は通常入口を用いる。
+
+原本と検査：[符号化目録](fixtures/manifest.json)、[接続57項目](u02b-checks.json)、[会話内8項目](inline-checks.json)、[実機で残る手順](../u02b/browser-review.md)。D03原本5件はBrotli/base64からgzipへ符号化のみ変更し、展開バイト列を固定した。旧D02原本5件も維持する。準備処理のscene進行は本文未表示なので`displayed_text_ids:[]`。
+
+再現は`prepare-d03.cjs`→親の`build.cjs`→`build-inline.cjs`。確認は`CW_JSDOM_PATH=/path/to/node_modules/jsdom node review/verify-u02b.mjs`と`review/verify-inline.cjs`。Node24.19.0／JSDOM26.1.0。実描画・物理タッチ・実IndexedDBは未確認。
+
+## 既存9場面と運用の履歴（0.11.1）
+
 # 変更をまとめて確認する入口
 
 2026-09-17の「細かい変更ごとの通し確認を減らし、ある程度まとめて実装する」方針を受領。関連する実装をまとめ、内部では変更箇所とその前後の接続を検査する。ユーザーへは確認対象の場面へ直接入れる状態と、今回変わった点だけを提示する。仕様判断が実装を分ける場合だけ、その判断を先に依頼する。

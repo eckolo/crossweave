@@ -1,0 +1,482 @@
+{
+  "test_id": "CW-M1-D58-001",
+  "date_jst": "2026-09-20",
+  "node": "v24.19.0",
+  "storage": "MemoryStore",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.5",
+    "content_set_id": "CW-M1-SCN001-0.2",
+    "engine_version": "CW-M1-engine-0.5",
+    "input_version": "0.2",
+    "public_contract": "CW-M1-public-0.4"
+  },
+  "base_commit": "e76f9fe0ee43746fbbc7b1ca56e00f646aecfb6a",
+  "inputs": [
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/entry.save.json.gz",
+      "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+      "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/port.save.json.gz",
+      "gzip_sha256": "28f4e5beb663bc59d36a68354d427b7d9622579c52de804471f9a5787aeb28c4",
+      "raw_sha256": "455f2acbb549eeafa6f80cc1af99e620af1ee3a0866bfed1229feec7d504fb6f"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/return.save.json.gz",
+      "gzip_sha256": "9e269b529307dc40d23eb5117e5e9dcad07bd99edf0ada858c9746714330b2e5",
+      "raw_sha256": "7a558f0a067e8e6b3992ad06b95b76443771aeeba92ae2351c68dda3c7ee35bc"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/home.save.json.gz",
+      "gzip_sha256": "a0b70f5235ec4ab06a95dffd402077f5b544ee62e10b52abd9b1ed483d22b069",
+      "raw_sha256": "65fd2dc23cc079064bb4538a57b6ae57ec1a2259f19c8b090e5a918cd8239bb7"
+    },
+    {
+      "path": "docs/検証/接続条件/co-d02/saves/second-return.save.json.gz",
+      "gzip_sha256": "442c7d18559f13945884b9904463872076c22b7dacdb3f27230afb89aca7f58d",
+      "raw_sha256": "6b3c927af221b3de4a129116e3ca71a937975543456d04bb31e52f5814408d3f"
+    }
+  ],
+  "code": {
+    "src/runtime/core.mjs": "4cc17792e433e6ed0a9a52ac0a619eedb9060f44aa3d8a6f7a4da8afc7d3eb7c",
+    "src/runtime/game.mjs": "0c144bf79ba376bb6a509bc2f3eb7ba3e39464aa5d1667b4e0fc31fd9b24b172",
+    "src/runtime/defense.mjs": "fe6fe9557a424c353037e3b848b05066ef03f47872ecc049b2e0772645492598",
+    "src/runtime/content.mjs": "5b293e6c175faff67abfcb954f3282d40aa7d8046e953d536a22e72c7ed8b8c5",
+    "src/runtime/validate.mjs": "8843c727e02c3581380dd47b9546956650e492d3b2cac9e1493ace6b1ca190ee",
+    "src/runtime/view.mjs": "8a719b748d80e0bcadb7912beac24a1bfdc20cff3176a3c95f2277896cee6560",
+    "src/runtime/settlement.mjs": "0a4885ffce2adb9562435d8387282e6f8cef06ae44c5613a01f79c657636b76c",
+    "src/runtime/action-public.mjs": "b940ee05d53300fa3c2fabc65e88953b7d5d2a30fb877cbdb900abb5006ea70f",
+    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
+    "src/content/m1.mjs": "70db58d8f288efd0deefb023d8491350f9a3f7bf58ff007e19e3c47970da4374",
+    "scripts/generate-m1-content.py": "56a199a99ff2f817f0e4df23af500ed3b324a03b9b3eebcb13a932e7d22b3290",
+    "docs/仕様案/接続データ/co-01a/defense-content.v0.2.json": "a417583569917ff5237bb9601f86ba5525ffe85e53d852b8203f768d889dcf73",
+    "test/runtime/d58.mjs": "5794aac9d93042f879db7649066cae8d5c9cc6f64717755db5a5ead0739140a4"
+  },
+  "check_count": 39,
+  "checks": [
+    {
+      "name": "新規出発は内容0.2の付与札4枚、無料構築・解放・個体機能は追加しない",
+      "pass": true
+    },
+    {
+      "name": "V0の付与＋weak_B：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "Pの付与＋weak_B：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "V0の付与＋l：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "Pの付与＋l：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "V0の付与＋h：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "Pの付与＋h：全受け手の量・弱い張り直し・予測",
+      "pass": true
+    },
+    {
+      "name": "明示境界：付与身構の負値を0へ、攪乱と回数は維持",
+      "pass": true
+    },
+    {
+      "name": "負の攪乱を付与",
+      "pass": true
+    },
+    {
+      "name": "負の攪乱は体勢削りを増加、合法被攻撃後に有限効果終了",
+      "pass": true
+    },
+    {
+      "name": "身構8を付与",
+      "pass": true
+    },
+    {
+      "name": "場補正済み身構に受け手の一閃を適用、付与元倍率は使わない",
+      "pass": true
+    },
+    {
+      "name": "不一致の付与札は設置のみ、旧防御を維持",
+      "pass": true
+    },
+    {
+      "name": "付与札を場材料に使っても全員付与は発動しない",
+      "pass": true
+    },
+    {
+      "name": "新札の公開詳細・負値予測、予測/書込み失敗の非破壊、再送・再開・import",
+      "pass": true
+    },
+    {
+      "name": "旧entry：既知4版を移行、進行中内容/領収/知識/乱数/札を保全、読取り無書込み",
+      "pass": true
+    },
+    {
+      "name": "旧port：既知4版を移行、進行中内容/領収/知識/乱数/札を保全、読取り無書込み",
+      "pass": true
+    },
+    {
+      "name": "旧return：既知4版を移行、進行中内容/領収/知識/乱数/札を保全、読取り無書込み",
+      "pass": true
+    },
+    {
+      "name": "旧home：既知4版を移行、進行中内容/領収/知識/乱数/札を保全、読取り無書込み",
+      "pass": true
+    },
+    {
+      "name": "旧second-return：既知4版を移行、進行中内容/領収/知識/乱数/札を保全、読取り無書込み",
+      "pass": true
+    },
+    {
+      "name": "0.4の付与済み組を場札から再計算しない：有限/無制限・負攪乱をそのまま保持",
+      "pass": true
+    },
+    {
+      "name": "未知の内容版を拒否",
+      "pass": true,
+      "code": "unsupported_content_set"
+    },
+    {
+      "name": "旧engineと新内容の混在を拒否",
+      "pass": true,
+      "code": "unsupported_content_set"
+    },
+    {
+      "name": "旧engineの新内容探索を拒否",
+      "pass": true,
+      "code": "invalid_active_content_version"
+    },
+    {
+      "name": "規則とengineの混在を拒否",
+      "pass": true,
+      "code": "unsupported_rule_set"
+    },
+    {
+      "name": "回数Infinityを拒否",
+      "pass": true,
+      "code": "invalid_defense_effect"
+    },
+    {
+      "name": "回数欠落を拒否",
+      "pass": true,
+      "code": "invalid_defense_effect"
+    },
+    {
+      "name": "量NaNを拒否",
+      "pass": true,
+      "code": "invalid_defense_effect"
+    },
+    {
+      "name": "0.4の退場受け手に効果を拒否",
+      "pass": true,
+      "code": "retired_defense_effect"
+    },
+    {
+      "name": "旧探索の内容IDだけを新しくして目録を混在させた保存を拒否",
+      "pass": true
+    },
+    {
+      "name": "旧内容で撤退・精算→再出発は新内容、旧領収不変、同一対象の旧/新目録を区分",
+      "pass": true
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 0",
+      "pass": true,
+      "index": 0,
+      "seed": 0,
+      "mode": "first",
+      "outcome": "clear",
+      "actions": 43,
+      "hp": 13,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "fef017b1aa573ca7d8cd5b5a513ef1a0cb3b5c0c0d6c5c5bc4bf1c1998818d72"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 1",
+      "pass": true,
+      "index": 1,
+      "seed": 1,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 32,
+      "hp": 6,
+      "gained_units": 300,
+      "grants": 3,
+      "grant_users": [
+        "V0",
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "1c01339ec25f576014166d23a86b16896d714cfa361f8d1f0a8c510017e69c04"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 2",
+      "pass": true,
+      "index": 2,
+      "seed": 2,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 64,
+      "hp": 12,
+      "gained_units": 300,
+      "grants": 4,
+      "grant_users": [
+        "V0",
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "cce9bea9e2e79a5b71008a8022fc55f882b3d2eca33988348a393b9a66b7f4a9"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 3",
+      "pass": true,
+      "index": 3,
+      "seed": 3,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 24,
+      "hp": 29,
+      "gained_units": 300,
+      "grants": 0,
+      "grant_users": [],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "81320b0dc5139bd67e1f51a1072ce79d71dcc4321a62b5a445c3a372a5e525a3"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 4",
+      "pass": true,
+      "index": 4,
+      "seed": 4,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 56,
+      "hp": 15,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "8aac43120dca4db98fd0a2bd79de1f268a776b4a979f2994a0fe069176b13010"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 5",
+      "pass": true,
+      "index": 5,
+      "seed": 5,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 32,
+      "hp": 25,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "41258ec3a21f951975449a72e0663c943320e87ec521795f828b916035521e07"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 6",
+      "pass": true,
+      "index": 6,
+      "seed": 6,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 35,
+      "hp": 34,
+      "gained_units": 300,
+      "grants": 0,
+      "grant_users": [],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "322736bab4245c3f0bd64df2bd7ca15252961abee14dcf9923436836801b58dc"
+    },
+    {
+      "name": "内容0.2の通常探索・帰還・次出発 seed 7",
+      "pass": true,
+      "index": 7,
+      "seed": 7,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 37,
+      "hp": 38,
+      "gained_units": 300,
+      "grants": 3,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "bd164506923ae6720d298afacd7b42b9008ae57230f158a5c467c8100275e0d3"
+    }
+  ],
+  "journeys": [
+    {
+      "index": 0,
+      "seed": 0,
+      "mode": "first",
+      "outcome": "clear",
+      "actions": 43,
+      "hp": 13,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "fef017b1aa573ca7d8cd5b5a513ef1a0cb3b5c0c0d6c5c5bc4bf1c1998818d72"
+    },
+    {
+      "index": 1,
+      "seed": 1,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 32,
+      "hp": 6,
+      "gained_units": 300,
+      "grants": 3,
+      "grant_users": [
+        "V0",
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "1c01339ec25f576014166d23a86b16896d714cfa361f8d1f0a8c510017e69c04"
+    },
+    {
+      "index": 2,
+      "seed": 2,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 64,
+      "hp": 12,
+      "gained_units": 300,
+      "grants": 4,
+      "grant_users": [
+        "V0",
+        "P"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "cce9bea9e2e79a5b71008a8022fc55f882b3d2eca33988348a393b9a66b7f4a9"
+    },
+    {
+      "index": 3,
+      "seed": 3,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 24,
+      "hp": 29,
+      "gained_units": 300,
+      "grants": 0,
+      "grant_users": [],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "81320b0dc5139bd67e1f51a1072ce79d71dcc4321a62b5a445c3a372a5e525a3"
+    },
+    {
+      "index": 4,
+      "seed": 4,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 56,
+      "hp": 15,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "8aac43120dca4db98fd0a2bd79de1f268a776b4a979f2994a0fe069176b13010"
+    },
+    {
+      "index": 5,
+      "seed": 5,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 32,
+      "hp": 25,
+      "gained_units": 300,
+      "grants": 1,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "41258ec3a21f951975449a72e0663c943320e87ec521795f828b916035521e07"
+    },
+    {
+      "index": 6,
+      "seed": 6,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 35,
+      "hp": 34,
+      "gained_units": 300,
+      "grants": 0,
+      "grant_users": [],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "322736bab4245c3f0bd64df2bd7ca15252961abee14dcf9923436836801b58dc"
+    },
+    {
+      "index": 7,
+      "seed": 7,
+      "mode": "revisit",
+      "outcome": "clear",
+      "actions": 37,
+      "hp": 38,
+      "gained_units": 300,
+      "grants": 3,
+      "grant_users": [
+        "V0"
+      ],
+      "reopened": true,
+      "cutoff": false,
+      "receipt_sha256": "bd164506923ae6720d298afacd7b42b9008ae57230f158a5c467c8100275e0d3"
+    }
+  ],
+  "passed": true,
+  "scope": "D58 field mapping; signed grants and refresh; content 0.2 registration; old-content run/receipt/catalogue retention; actual Campaign lifecycle",
+  "trial_values": {
+    "card": "nt_ward",
+    "guard": 2,
+    "evasion": 10,
+    "uses": 1,
+    "copies_per_source": 4,
+    "targets": [
+      "SCN-001-ACT01",
+      "SCN-001-ACT04"
+    ]
+  },
+  "old_results": "D02/D55/D56/D57 and defense-cycle 001 frozen; no old test rerun with new semantics",
+  "unverified": [
+    "UI drawing/layout and new card-kind presentation",
+    "real browser/IndexedDB/physical input",
+    "human balance/readability",
+    "final product card values and concrete sustained-guard/dodge lineup"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "CW-M1-defense-content-0.2",
+  "version": "0.2",
+  "content_set_id": "CW-M1-SCN001-0.2",
+  "card_registry_id": "CW-M1-cards-0.2",
+  "rule_amendment": "D58",
+  "status": "Versioned M1 trial content; quantities and label are not final product choices",
+  "basis": "CW-M1-DEF-CYCLE-001: four copies and one use are the next trial starting point; D58 applies ordinary defensive field modifiers",
+  "card": {
+    "type": "nt_ward", "name": "流れの壁", "attr": "B", "kind": "defense_support",
+    "power": 0, "hit": 0, "evasion": 0, "crit_gain": 0,
+    "field_power": 0, "field_hit": 0, "life": 2, "place_cost": 10, "match_cost": 10,
+    "consume_on_recover": null,
+    "defense_grant": {"effect_kind": "ward", "guard": 2, "evasion": 10, "uses": 1}
+  },
+  "placement": [
+    {"target_id": "SCN-001-ACT01", "base": "weak_B", "count": 4, "catalogue_version": "CW-M1-cards-0.2/ACT01/initial-2"},
+    {"target_id": "SCN-001-ACT04", "base": "weak_B", "count": 4, "catalogue_version": "CW-M1-cards-0.2/ACT04/initial-2"}
+  ],
+  "constraints": [
+    "Only new departures use this content. Existing active runs and past receipts/catalogues retain content 0.1.",
+    "Keep existing cards, player deck, target stats, source text, rewards and unlocks unchanged. No new free player card or owned item.",
+    "Same hand-match and shared recovery rules for every user of the card. No passive regeneration, dedicated supply or AI override.",
+    "Field modifiers affect the grant tuple once; each other active recipient gets that tuple. Uses remain card-authored. Receiver critical applies later.",
+    "Content supports runtime/UI connection work; layout, real device and player balance evaluation remain separate."
+  ]
+}

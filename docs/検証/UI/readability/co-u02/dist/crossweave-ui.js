@@ -834,7 +834,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
   const copy = x => x == null ? x : JSON.parse(JSON.stringify(x));
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   const retryable = new Set(['storage_write_failed','storage_unavailable','storage_open_failed','storage_open_blocked','storage_read_failed','connection_failed','invalid_response']);
-  const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle']);
+  const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle','stale_or_unknown_candidate','missing_possession','offer_already_purchased']);
   function fault(code) { return {code,field:null,details:{}}; }
   function responseError(r) { return r?.display_data?.error || r?.error || null; }
   function validateView(r) {
@@ -902,7 +902,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
         if(r.meta.revision!==revision||r.meta.view_token!==token)throw fault('stale_view');
         if(responseError(r))throw responseError(r);
         const value=r.display_data[field];if(value==null)throw fault('invalid_response');
-        if(field==='preparation_comparison')comparison=copy(value);
+        if(field==='preparation_comparison'){comparison=copy(value);draftDetails=copy(r.display_data.details||{});}
         if(field==='conversion_quote')quote=copy(value);
         if(field==='action_preview'&&destination==='action_preview')actionPreview=copy(value);
         if(destination==='reservations')reservations=copy(value.current_reservations);
@@ -1451,8 +1451,13 @@ function updateLayout(){
 (function(api){'use strict';
  api.cardProperties=detail=>{
   const recovery={consumed_on_recovery:'回収時に消滅',destroyed_on_recovery_retired_origin:'回収時に消滅（元の主体が離脱）',destroyed_on_recovery_filler:'回収時に消滅'}[detail?.recovery_rule];
-  return [...new Set([detail?.trigger_text,detail?.effect_text,recovery].filter(t=>typeof t==='string'&&t.trim()))];
+  const p=detail?.primary||detail;
+  const grant=p?.kind==='defense_support'?'使用者以外の活動中の全主体へ付与。同じ発生源からの付与は張り直す。':null;
+  const uses=p?.defense_grant&&Object.hasOwn(p.defense_grant,'uses')?p.defense_grant.uses:p?.defense_uses;
+  const duration=uses!==undefined?'防御の回数：'+(uses===null?'制限なし':uses+'回'):null;
+  return [...new Set([detail?.trigger_text,detail?.effect_text,grant,duration,recovery].filter(t=>typeof t==='string'&&t.trim()))];
  };
+ api.defenseDuration=d=>!d||d.status==='empty'?'':d.status==='uniform'?'×'+d.uniform_uses:d.status==='unlimited'?'∞':'混在';
 })(globalThis.CrossweaveUI);
 
 /* Display projection only: consume public preview results, never replay combat.
@@ -1462,18 +1467,23 @@ function updateLayout(){
   if(!preview?.supported||!data?.exploration||!choice)return null;
   const x=data.exploration,hand=Array.isArray(x.hand)?x.hand:Object.values(x.hand||{});
   const card=hand.find(c=>c.id===choice.card_id);if(!card)return null;
-  const result={actors:{},field:null,unavailable:['機転の解決後残量','軽減・攪乱の解決後値']};
-  const change=(id,key,before,after)=>{if(!Number.isFinite(before)||!Number.isFinite(after))return;result.actors[id]??={};result.actors[id][key]={before,after,delta:after-before};};
+  const result={actors:{},field:null,unavailable:[],active:{},defense:{}};
+  for(const [id,row] of Object.entries(preview.actor_changes||{})){
+   result.actors[id]={};
+   for(const [key,source] of Object.entries({hp:'hp',posture:'posture_remaining',guard:'guard',crit:'crit',critical:'critical_multiplier',evasion:'evasion',reduction:'reduction'})){
+    const v=row.values?.[source];
+    result.actors[id][key]=row.status==='known'&&v?.status==='known'?{...v}:{status:row.status==='known'?'unsupported':'unknown'};
+   }
+   result.active[id]=row.active;result.defense[id]=row.defense;
+  }
+  const change=(id,key,before,after)=>{if(!Number.isFinite(before)||!Number.isFinite(after))return;result.actors[id]??={};result.actors[id][key]={status:'known',before,after,delta:after-before};};
   const subject=id=>x.actors[id]||Object.values(x.actors).find(a=>a.id===id);
   const self=x.self,target=subject(choice.target);
-  if(preview.mode==='attack'&&target){
-   if(Number.isFinite(preview.actual_hp_loss))change(target.id,'hp',target.hp,target.hp-preview.actual_hp_loss);
+  if(preview.mode==='attack'&&target&&preview.actor_changes?.[target.id]?.status==='known'){
    // Show the strike before reset, directly from the already resolved hit_gain.
    // This is a display subtraction, not a second combat/evasion calculation.
    if(Number.isFinite(preview.posture_before)&&Number.isFinite(preview.hit_gain))change(target.id,'posture',preview.posture_before,preview.posture_before-preview.hit_gain);
   }
-  if(preview.mode==='heal'&&Number.isFinite(preview.hp_restored))change(self.id,'hp',self.hp,self.hp+preview.hp_restored);
-  if(preview.mode==='guard'&&preview.guard)change(self.id,'guard',self.guard?.value??0,preview.guard.value);
   if(preview.mode==='place'){
    const detail=data.details?.[card.id];
    if(detail?.field)result.field={kind:'place',attr:card.attr,id:card.id,name:detail.name,power:detail.field.power,hit:detail.field.hit};
@@ -1488,10 +1498,7 @@ function updateLayout(){
 (function(api){'use strict';
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const list=x=>Array.isArray(x)?x:Object.values(x||{});
- // Keep only names already published for an exact card ID, across UI remounts.
- // A new Session or exploration clears this memory; never infer a name from IDs.
- const historyNamesBySession=new WeakMap();
- const glyph=kind=>({attack:'↗',guard:'◇',heal:'✚',self:'●',passage:'≈',terminal:'▥',optional_enemy:'◈'})[kind]||'◇';
+ const glyph=kind=>({attack:'↗',guard:'◇',defense_support:'◇',heal:'✚',self:'●',passage:'≈',terminal:'▥',optional_enemy:'◈'})[kind]||'◇';
  const icon=kind=>`<span aria-hidden="true">${glyph(kind)}</span>`;
  const symbol=(name,fallback='◇')=>`<i data-lucide="${name}" aria-hidden="true">${fallback}</i>`;
  const menuButton=(kind,name,shape)=>`<button type="button" data-x="${kind}" aria-label="${name}" data-tooltip="${name}">${symbol(shape,({info:'i',flag:'⚑',activity:'◎','list-ordered':'≡',layers:'▤',history:'↶','sliders-horizontal':'⚙','message-square':'…','book-open':'▣',menu:'☰'})[shape])}<span>${name}</span></button>`;
@@ -1514,31 +1521,21 @@ function updateLayout(){
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
   const $=s=>root.querySelector(s),x=()=>data.exploration,details=id=>data.details?.[id];
-  let historyNames=historyNamesBySession.get(session);
-  if(!historyNames){historyNames={scope:null,cards:new Map()};historyNamesBySession.set(session,historyNames);}
-  function rememberPublicNames(source){
-   const scope=JSON.stringify([source.case?.id,source.case?.attempts]);
-   if(historyNames.scope!==scope){historyNames.cards.clear();historyNames.scope=scope;}
-   for(const c of [...list(source.exploration?.hand),...list(source.exploration?.field)]){
-    const name=source.details?.[c.id]?.name||c.name;
-    if(c.id&&typeof name==='string'&&name)historyNames.cards.set(c.id,name);
-   }
-  }
   const hand=()=>list(x()?.hand),field=()=>list(x()?.field),actors=()=>list(x()?.actors).filter(a=>a.active);
   const card=()=>hand().find(c=>c.id===selected),actor=id=>x()?.actors?.[id]||list(x()?.actors).find(a=>a.id===id);
   const names=id=>details(id)?.name||actor(id)?.name||'札';
   // Presentation terms follow the formal glossary v1.3. Runtime stat_labels
   // still calls accumulated crit an event (一閃); do not repeat that mismatch.
   const label=(key,fallback)=>({crit:'機転',crit_gain:'機転',posture:'隠蔽',reduction:'軽減'})[key]||data.stat_labels?.[key]||fallback;
-  const statDefs={power:['arrow-up-right','↗','突破'],hit:['scan-search','⌖','探査'],crit:['zap','ϟ','機転'],guard:['shield','◇','身構'],evasion:['wind','≋','攪乱'],reduction:['shield-minus','−','軽減'],heal:['heart-plus','+','回復'],hp:['heart','♡','余力'],posture:['venetian-mask','◒','隠蔽']};
-  const statExplanation={guard:'身構：防御札の一致で得る一時的な防御',reduction:'軽減：硬さなどの特性による継続的なダメージ軽減'};
+  const statDefs={power:['arrow-up-right','↗','突破'],hit:['scan-search','⌖','探査'],crit:['zap','ϟ','機転'],critical:['sparkles','✦','一閃'],guard:['shield','◇','身構'],evasion:['wind','≋','攪乱'],reduction:['shield-minus','−','軽減'],heal:['heart-plus','+','回復'],hp:['heart','♡','余力'],posture:['venetian-mask','◒','隠蔽']};
+  const statExplanation={guard:'身構の合計。回数と発生源は詳細で確認',critical:'現在の一閃倍率'};
   const term=key=>symbol(statDefs[key][0],statDefs[key][1])+esc(label(key,statDefs[key][2]));
   const signed=n=>n>0?'+'+n:n<0?'−'+Math.abs(n):'±0';
-  const delta=d=>d?`<small class="cw-delta" data-delta="${d.delta}" aria-label="予測 ${signed(d.delta)}、変更後 ${d.after}">${esc(signed(d.delta))}</small>`:'';
+  const delta=d=>d&&!Number.isFinite(d.delta)?'<small class="cw-delta" aria-label="予測未公開">?</small>':d?`<small class="cw-delta" data-delta="${d.delta}" aria-label="予測 ${signed(d.delta)}、変更後 ${d.after}">${esc(signed(d.delta))}</small>`:'';
   const stat=(key,value,d=null,maximum=null)=>`<span class="cw-stat" data-stat="${key}" aria-label="${esc(label(key,statDefs[key][2]))} ${esc(value??'—')}${maximum!=null?' / '+esc(maximum):''}" data-tooltip="${esc(statExplanation[key]||label(key,statDefs[key][2]))}${maximum!=null?' '+esc(value)+' / '+esc(maximum):''}">${symbol(statDefs[key][0],statDefs[key][1])}<b>${esc(value??'—')}</b>${delta(d)}</span>`;
   const forecastKey=(q=choice())=>q?JSON.stringify([state.view.meta.view_token,q]):null;
   const projected=()=>forecast?.key===forecastKey()?api.projectActionForecast(data,choice(),forecast.value):null;
-  const actorStats=a=>{const p=projected()?.actors[a.id];return '<span class="cw-actor-stats">'+['guard','crit','reduction','evasion'].map(k=>stat(k,k==='guard'?a.guard?.value??0:a[k],p?.[k])).join('')+'</span>';};
+  const actorStats=a=>{const p=projected()?.actors[a.id];return '<span class="cw-actor-stats">'+['guard','crit','evasion'].map(k=>stat(k,k==='guard'?a.defense?.guard??a.guard?.value??0:a[k],p?.[k])).join('')+'</span>';};
   const vitals=a=>{const p=projected()?.actors[a.id];return `<span class="cw-vitals">${stat('hp',a.hp,p?.hp,a.max_hp)}${stat('posture',a.posture_remaining,p?.posture,a.max_posture)}</span><span class="cw-vital-bars"><progress value="${a.hp}" max="${a.max_hp}" aria-label="${esc(a.remaining_label||'余力')}"></progress><progress value="${a.posture_remaining}" max="${a.max_posture}" aria-label="隠蔽"></progress></span>`;};
   const busy=()=>['write','inspect'].includes(state.pending?.kind)||state.canRetry||state.stale;
   const choices=()=>list(x()?.legal_actions).map(a=>a.choice??a).filter(a=>a.card_id===selected);
@@ -1564,11 +1561,11 @@ function updateLayout(){
   }
   const art=(kind,k)=>`<span class="cw-illustration" data-art-kind="${kind}" aria-hidden="true">${icon(k)}</span>`;
   const attribute=c=>`<span class="cw-attr">${esc(c.attr)}</span>`;
-  const main=c=>{const p=details(c.id)?.primary;return p?stat(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power)+stat(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit):'詳細未提供';};
+  const main=c=>{const p=details(c.id)?.primary;if(!p)return '詳細未提供';if(p.kind==='defense_support')return stat('guard',p.defense_grant?.guard)+stat('evasion',p.defense_grant?.evasion)+'<small>全員付与</small>';return stat(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power)+stat(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit);};
   function cardDetails(id){const d=details(id);if(!d)return '<p>この詳細はまだ公開されていません</p>';
    const p=d.primary,f=d.field,rows=[],h=hand().find(c=>c.id===id),match=h&&field().find(c=>c.attr===h.attr);
    const add=(key,v,extra)=>{if(v!=null)rows.push(`<dt>${term(key)}</dt><dd>${esc(v)}${extra!=null?` <small data-field-contribution>+ ${esc(extra)}（場）</small>`:''}</dd>`);};
-   if(p){add(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power,p.kind==='heal'?null:match?.field_power);if(p.kind!=='heal')add(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit,match?.field_hit);add('crit',p.crit_gain);}
+   if(p?.kind==='defense_support'){add('guard',p.defense_grant?.guard,match?.field_power);add('evasion',p.defense_grant?.evasion,match?.field_hit);add('crit',p.crit_gain);}else if(p){add(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power,p.kind==='heal'?null:match?.field_power);if(p.kind!=='heal')add(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit,match?.field_hit);add('crit',p.crit_gain);}
    const properties=api.cardProperties(d);
    return `<dl class="cw-ledger cw-card-primary">${rows.join('')}</dl>${f?`<h3>場に置くと</h3><dl class="cw-ledger"><dt>${term('power')}／${term('guard')}</dt><dd>${esc(f.power)}</dd><dt>${term('hit')}／${term('evasion')}</dt><dd>${esc(f.hit)}</dd></dl>`:''}<h3>次の行動まで</h3><dl class="cw-ledger"><dt>置く</dt><dd>${esc(d.action_intervals?.place??'—')}</dd><dt>一致</dt><dd>${esc(d.action_intervals?.match??'—')}</dd></dl>${properties.length?'<section class="cw-properties"><h3>性質</h3><ul>'+properties.map(text=>'<li>'+esc(text)+'</li>').join('')+'</ul></section>':''}`;
   }
@@ -1578,14 +1575,16 @@ function updateLayout(){
    if(p.mode==='attack'){rows.push(['対象の余力',signed(-p.actual_hp_loss)],['隠蔽',p.posture_before+' → '+(p.posture_before-p.hit_gain)]);}
    if(p.mode==='heal')rows.push(['回復',p.hp_restored]);
    if(p.mode==='guard')rows.push([label('guard','身構'),p.guard?.value],[label('evasion','攪乱')+'（この身構）',p.guard?.evasion]);
-   if(Number.isFinite(p.crit_added))rows.push(['機転の加算（消費前）',signed(p.crit_added)]);
+   if(p.mode==='defense_support')rows.push(['対象','使用者以外の全員']);
+   const changes=api.projectActionForecast(data,choice(),p);
+   for(const a of actors()){const values=changes?.actors[a.id];if(!values)continue;for(const k of ['guard','crit','critical','evasion']){const v=values[k];if(v?.status!=='known')rows.push([a.name+' '+label(k,statDefs[k][2]),'未公開']);else if(v.delta)rows.push([a.name+' '+label(k,statDefs[k][2]),v.before+' → '+v.after]);}}
    if(p.mode==='place')rows.push(['主効果','発動なし']);
    const expiry=(p.unused_hand_expiry||[]).filter(a=>a.expires);
    return `<dl class="cw-ledger">${rows.filter(([,v])=>v!=null).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${expiry.length?`<p class="cw-loss">期限切れ：${expiry.map(a=>`${esc(names(a.id))}${a.destination==='destroyed'?'（消滅）':''}`).join('、')}</p>`:''}`;
   }
   function eventText(r){
-   const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:'設置';
-   const name=historyNames.cards.get(r.card_id);
+   const action=r.mode==='attack'?`${names(r.target)} ${actor(r.target)?.remaining_label||'残量'} −${r.actual_hp_loss}`:r.mode==='guard'?label('guard','身構'):r.mode==='heal'?`回復 +${r.hp_restored}`:r.mode==='defense_support'?'全員へ防御付与':'設置';
+   const name=r.card_name_status==='recorded_at_resolution'?r.card_name:null;
    return r.type==='action'?`${names(r.actor)} · ${name?'「'+name+'」':'札（名称未記録）'} · ${action}`:'場面が変化';
   }
   function history(){return list(x()?.public_history).slice().reverse().map(r=>`<li class="cw-log"><time>${esc(r.time)}</time> ${esc(eventText(r))}</li>`).join('')||'<li>まだ履歴がありません</li>';}
@@ -1605,12 +1604,12 @@ function updateLayout(){
   function windowContent(w=windowState,popup=$('#cw-drawer')){if(!w)return;
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
-   if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','reduction','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`:'<p>この対象は離脱しました</p>';}
+   if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.defense?.guard??a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`+(a.defense?.effects.length?'<h3>防御の内訳</h3><p>身構 '+esc(api.defenseDuration(a.defense.duration.guard))+' · 攪乱 '+esc(api.defenseDuration(a.defense.duration.evasion))+'</p><ul>'+a.defense.effects.map(e=>'<li>'+esc(names(e.source_actor_id))+' · 身構 '+e.guard+' / 攪乱 '+e.evasion+' · '+(e.uses===null?'回数制限なし':e.uses+'回')+'</li>').join('')+'</ul>':'')+(a.knowledge_key&&onCommon?'<button type="button" data-x="actor-record" data-key="'+esc(a.knowledge_key)+'">この相手の調査記録</button>':''):'<p>この対象は離脱しました</p>';}
    if(w.type==='order'){const rows=state.reservations||forecast?.value?.current_reservations,subject=w.id||x().self.id,base=rows?.find(r=>r.actor===subject);title='行動順 · '+names(subject);body=rows?`<ol class="cw-reservations">${rows.map(r=>`<li><span>${esc(names(r.actor))}</span><b>${esc(signed(r.at-(base?.at??x().now)))}</b></li>`).join('')}</ol>`:'<p>予約の公開応答を確認中…</p>';}
-   if(w.type==='more'){title='探索メニュー';body=`<nav class="cw-more">${[['objective','目的','flag'],['status','状況','activity'],['order','行動順','list-ordered'],['deck','山札','layers'],['history','履歴','history'],['records','調査記録','book-open'],['settings','操作','sliders-horizontal'],['menu','設定・保存','settings']].filter(([k])=>onCommon||!['records','menu'].includes(k)).map(args=>menuButton(...args)).join('')}</nav>`;}
+   if(w.type==='more'){title='探索メニュー';body=`<nav class="cw-more">${[['objective','目的','flag'],['status','状況','activity'],['order','行動順','list-ordered'],['deck','山札','layers'],['history','履歴','history'],['texts','文章の記録','book-open'],['records','調査記録','book-open'],['settings','操作','sliders-horizontal'],['menu','設定・保存','settings']].filter(([k])=>onCommon||!['records','menu','texts'].includes(k)).map(args=>menuButton(...args)).join('')}</nav>`;}
    if(w.type==='objective'){title='目的';const t=list(data.texts).find(t=>t.id===data.case?.objective_text_id);body=`<p>${esc(t?.short_text||'目的の本文はまだ公開されていません')}</p>`;}
    if(w.type==='status'){title='状況';body=`<p>時刻 ${x().now} · 本人の行動 ${x().self.actions}回</p>`+actors().map(a=>`<p>${esc(a.name)}：${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · ${label('crit','一閃')} ${a.crit}</p>`).join('');}
-   if(w.type==='deck'){title='山札';body=`<p>山札 ${x().self.deck_count}枚 · 手札 ${hand().length}枚 · 共有回収 ${x().recovery_count}枚</p><p>山札の種類別残数は、この接続版では未対応です。</p>`;}
+   if(w.type==='deck'){title='本人の札';body=`<p>山札 ${x().self.deck_count}枚 · 手札 ${hand().length}枚 · 共有回収 ${x().recovery_count}枚</p><table class="cw-deck-table"><thead><tr><th>札</th><th>持込</th><th>山札</th><th>手札</th></tr></thead><tbody>${(x().deck_catalogue?.entries||[]).map(r=>`<tr><td><button type="button" data-x="deck-detail" data-id="${esc(r.detail_id)}">${esc(details(r.detail_id)?.name||r.card?.name||'札')}</button></td><td>${r.initial_count??'—'}</td><td>${r.deck_count}${r.doomed_deck_count?`<small>（消滅予定${r.doomed_deck_count}）</small>`:''}</td><td>${r.hand_count}${r.doomed_hand_count?`<small>（消滅予定${r.doomed_hand_count}）</small>`:''}</td></tr>`).join('')}</tbody></table><p>相手の現在の内訳・共有回収の内訳は未公開</p>`;}
    if(w.type==='history'){title='履歴';body=`<ol>${history()}</ol>`;}
    if(w.type==='settings'){title='操作';body=`<p>札はタップで選択・詳細。相手はタップで対象指定、長押しで詳細。情報ボタンからも選択中の相手を確認できます。短く押し続けて場へ運ぶと出札できます。押してすぐ横へ動かすと手札を送ります。</p>${[['diagram','関係線を表示'],['details','札の選択時に詳細を開く'],['quick','通常の設置をすぐ実行'],['drag','ドラッグを使う']].map(([k,l])=>`<label><input type="checkbox" data-x-setting="${k}" ${settings[k]?'checked':''}> ${l}</label>`).join('')}<label>つかむまで <select data-x-hold><option value="150">0.15秒</option><option value="220">0.22秒</option><option value="320">0.32秒</option></select></label>`;}
    const bodyNode=popup.querySelector('.cw-drawer-body'),key=w.type+':'+w.id,same=bodyNode.dataset.content===key,scroll=same?bodyNode.scrollTop:0;
@@ -1645,14 +1644,14 @@ function updateLayout(){
    $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。タップで対象指定、長押しで詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
    const attrs=[...new Set([...field().map(c=>c.attr),...hand().map(c=>c.attr)])];
    const fieldPrediction=projected()?.field;
-   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=c?.kind==='guard'&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${esc(attr)} ${f?esc(names(f.id)):ghost?esc(ghost.name):''}</strong>${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
+   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${esc(attr)} ${f?esc(names(f.id)):ghost?esc(ghost.name):''}</strong>${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
    $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${attribute(h)}${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
    $('#cw-turn-order').innerHTML=reservations?reservations.map(r=>`<li><button type="button" data-x-order="${esc(r.actor)}" aria-label="${esc(names(r.actor))}、次回 ${r.at}"><span class="cw-turn-face">${icon(actor(r.actor)?.purpose)}</span><span>+${r.at-x().now}</span></button></li>`).join(''):'<li>行動予約を確認中…</li>';
    $('#cw-self').innerHTML=vitals(x().self)+actorStats(x().self);$('#cw-hand-count').textContent=`手札 ${hand().length}枚`;
    const match=c&&field().some(f=>f.attr===c.attr);$('#cw-match-label').textContent=c?c.attr+' · '+(match?'一致':'設置'):'';
    $('#cw-notice').textContent=busy()?'処理中…':state.error?'操作結果を確認してください':c&&choices().length&&!choice()?'対象を選択':'';
-   const q=choice(),verb=q?q.target?(actor(q.target)?.action_label||'攻撃'):match?(c.kind==='guard'?label('guard','身構'):c.kind==='heal'?'回復':'一致して使う'):'場に置く':'対象を選択';
+   const q=choice(),verb=q?q.target?(actor(q.target)?.action_label||'攻撃'):match?(c.kind==='guard'?label('guard','身構'):c.kind==='heal'?'回復':c.kind==='defense_support'?'付与':'一致して使う'):'場に置く':'対象を選択';
    $('#cw-use').textContent=verb;$('#cw-use').setAttribute('aria-label',q?.target?names(q.target)+'を対象に'+verb:verb);
    $('[data-x="target-info"]').disabled=!target;
    $('#cw-use').disabled=busy()||!q||!session.can('play');$('[data-x="preview"]').disabled=(!q||busy())&&windowState?.type!=='preview';
@@ -1712,7 +1711,8 @@ function updateLayout(){
    const o=e.target.closest('[data-x-order]');if(o){open('order',o.dataset.xOrder);return;}
    const scroll=e.target.closest('[data-x-scroll]');if(scroll){const row=$('#'+scroll.closest('[data-track]').dataset.track);row.scrollLeft+=Number(scroll.dataset.xScroll)*row.clientWidth*.8;layout();return;}
    const b=e.target.closest('[data-x]');if(!b){if(windowState&&!e.target.closest('.cw-drawer'))close();return;}if(b.disabled)return;
-   const k=b.dataset.x;if(onCommon&&['records','menu'].includes(k)){e.stopPropagation();close();onCommon(k,b);return;}if(k==='close'||k==='window-back'){backWindow();return;}if(k==='parent-close'){close();return;}if(k==='pin'||k==='parent-pin'){const w=k==='parent-pin'?windowParent:windowState;w.pinned=!w.pinned;windowContent();layout();return;}
+   const k=b.dataset.x;if(onCommon&&['records','menu','texts'].includes(k)){e.stopPropagation();close();onCommon(k,b);return;}if(k==='close'||k==='window-back'){backWindow();return;}if(k==='parent-close'){close();return;}if(k==='pin'||k==='parent-pin'){const w=k==='parent-pin'?windowParent:windowState;w.pinned=!w.pinned;windowContent();layout();return;}
+   if(k==='actor-record'){e.stopPropagation();const key=b.dataset.key;close();onCommon?.('records',b,key);return;}if(k==='deck-detail'){open('card',b.dataset.id,true,b.closest('.cw-drawer'));return;}
    if(k==='target-info'){if(target)open('actor',target);return;}
    if(k==='preview'){await preview();return;}if(k==='use'){await perform();return;}if(k==='scene'){onScene?.();return;}if(k==='withdraw'){onWithdraw?.();return;}open(k,null,true,b.closest('.cw-drawer'));
   },{signal:events.signal});
@@ -1768,7 +1768,7 @@ function updateLayout(){
   document.addEventListener('pointerdown',e=>{if((drag||actorHold)&&e.isPrimary===false)interruptGestures();},{capture:true,signal:events.signal});
   document.addEventListener('pointerup',e=>{if(!root.contains(e.target)&&(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId))interruptGestures();},{signal:events.signal});
   const observer=new ResizeObserver(layout);observer.observe(root);
-  function update(d,s=session.state()){rememberPublicNames(data);data=d;state=s;if(!x())return;rememberPublicNames(data);
+  function update(d,s=session.state()){data=d;state=s;if(!x())return;
    updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){gestureEpoch++;cancelDrag(true,false);cancelActorHold(true);selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();
@@ -1896,9 +1896,9 @@ function updateLayout(){
 
 /* UI geometry only. The header/footer each reserve a 44px action row. */
 (function(api){'use strict';
-api.journeyLayout=function(width,total,anchor=0){
+api.journeyLayout=function(width,total,anchor=0,reserved=0){
  const compact=width<=400,padding=compact?0:8,gap=compact?4:8;
- const height=width*9/16,availableHeight=height-90-padding*2,availableWidth=width-2-padding*2;
+ const height=width*9/16,availableHeight=height-90-padding*2-reserved,availableWidth=width-2-padding*2;
  const columns=Math.max(1,Math.min(6,Math.floor((availableWidth+gap)/(144+gap))));
  const maxRows=Math.max(1,Math.floor((availableHeight+gap)/((compact?90:108)+gap)));
  const capacity=columns*maxRows,pages=Math.max(1,Math.ceil(total/capacity));
@@ -1984,7 +1984,8 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
  const recordEntries=new Map(),scrollMemory=new Map();
  let lastContext=null,lastPhase=null;
- const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0},events=new AbortController();
+ let purchaseChoice=null,conversionIds=new Set(),viewToken=null;
+ const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0,offers:0,owned:0},events=new AbortController();
  let frameWidth=root.getBoundingClientRect().width||1024;
  root.dataset.storageMode=storageMode;
  root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
@@ -1992,9 +1993,10 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const sizeFrame=width=>{if(width>0){const changed=width!==frameWidth;frameWidth=width;$('.cj-shell').style.height=(width*9/16)+'px';if(changed)queueMicrotask(()=>{if(state.view)render();});}queueMicrotask(layoutWindows);};
  const frameObserver=new ResizeObserver(entries=>sizeFrame(entries[0]?.contentRect?.width||root.getBoundingClientRect().width));
  frameObserver.observe(root);sizeFrame(root.getBoundingClientRect().width);
- const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||{};
+ const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||state.draftDetails?.[id]||(id==='$purchase'?d()?.details?.[p()?.candidate]:null)||{};
  const name=id=>info(id).name||'詳細未提供';
- const dirty=()=>p()&&JSON.stringify(p())!==JSON.stringify(api.currentPlan(state.view));
+ const composition=plan=>{if(!plan)return null;const value=clone(plan);value.next_preparation.deck.sort();return value;};
+ const dirty=()=>p()&&JSON.stringify(composition(p()))!==JSON.stringify(composition(api.currentPlan(state.view)));
  const busy=()=>running||!!state.pending||state.canRetry||state.stale;
  const canSuspend=()=>!suspended&&d()?.phase==='exploring';
  const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
@@ -2002,7 +2004,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
- function reason(e){return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
+ function reason(e){const specific=economyFailure(e);if(specific)return specific;return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
  function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
@@ -2028,18 +2030,18 @@ function receiptDetails(){const r=d().return_receipt;if(!r)return '';
 }
 function hubView(){const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
 function compactWallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
-function catalogueItems(){const skills=tab==='skills';return [...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id)];}
-function composeCount(){const c=state.comparison;return tab==='skills'?(c?.ok?c.prepared.equipment.used:dirty()?'—':h().equipment.used)+'/'+h().equipment.capacity:p().next_preparation.deck.length+'/'+h().deck.required_size;}
-function pageButtons(){const layout=api.journeyLayout(frameWidth,catalogueItems().length,pageAnchors[tab]);return layout.pages>1?'<div class="cj-pager" aria-label="一覧のページ">'+button(icon('chevron-left'),'page','data-step="-1" aria-label="前の一覧" '+(!layout.page?'disabled':''))+'<span aria-live="polite">'+(layout.page+1)+'/'+layout.pages+'</span>'+button(icon('chevron-right'),'page','data-step="1" aria-label="次の一覧" '+(layout.page+1===layout.pages?'disabled':''))+'</div>':'';}
-function headerView(screen){const edit=['deck','skills'].includes(screen),labels={return:outcome(),hub:'探索先',scene:title,start:'crossweave'};
- const lead=edit?'<nav class="cj-edit-tabs" aria-label="編成の切替">'+['deck','skills'].map(t=>button('<span>'+(t==='deck'?'札組':'心得')+'</span>'+(tab===t?'<small aria-label="'+(t==='deck'?'枚数':'使用枠')+'">'+composeCount()+'</small>':''),t,'aria-pressed="'+(tab===t)+'"')).join('')+'</nav>':'<h1 class="cj-screen-title">'+esc(labels[screen]||'crossweave')+'</h1>';
- return lead+(edit?pageButtons():'')+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(!edit?button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet'):'')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
+function catalogueItems(){if(tab==='offers')return h().candidates.map(x=>x.id);if(tab==='owned')return h().owned.map(x=>x.id);const skills=tab==='skills';return [...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id),...(p()?.candidate&&p().purchase_timing==='before_preparation'&&info(p().candidate).kind===(skills?'passive':'card')?['$purchase']:[])];}
+function composeCount(){if(tab==='offers')return h().offers.status==='purchased'?'購入済':h().offers.carried_from_previous_return?'持越し':h().candidates.length+'点';if(tab==='owned')return h().owned.length+'点';const c=state.comparison;return tab==='skills'?(c?.ok?c.prepared.equipment.used:dirty()?'—':h().equipment.used)+'/'+h().equipment.capacity:p().next_preparation.deck.length+'/'+h().deck.required_size;}
+function pageButtons(){const layout=api.journeyLayout(frameWidth,catalogueItems().length,pageAnchors[tab],['offers','owned'].includes(tab)?18:0);return layout.pages>1?'<div class="cj-pager" aria-label="一覧のページ">'+button(icon('chevron-left'),'page','data-step="-1" aria-label="前の一覧" '+(!layout.page?'disabled':''))+'<span aria-live="polite">'+(layout.page+1)+'/'+layout.pages+'</span>'+button(icon('chevron-right'),'page','data-step="1" aria-label="次の一覧" '+(layout.page+1===layout.pages?'disabled':''))+'</div>':'';}
+function headerView(screen){const edit=['deck','skills','offers','owned'].includes(screen),labels={return:outcome(),hub:'探索先',scene:title,start:'crossweave'};
+ const lead=edit?'<nav class="cj-edit-tabs" aria-label="編成の切替">'+['deck','skills','offers','owned'].map(t=>button('<span>'+({deck:'札組',skills:'心得',offers:'取得',owned:'所持'})[t]+'</span>'+(tab===t?'<small aria-label="'+(t==='deck'?'枚数':'使用枠')+'">'+composeCount()+'</small>':''),t,'aria-pressed="'+(tab===t)+'"')).join('')+'</nav>':'<h1 class="cj-screen-title">'+esc(labels[screen]||'crossweave')+'</h1>';
+ return lead+(edit?'<select data-compose-tab class="cj-compose-select" aria-label="編成と取得の切替">'+['deck','skills','offers','owned'].map(t=>'<option value="'+t+'" '+(tab===t?'selected':'')+'>'+({deck:'札組',skills:'心得',offers:'取得',owned:'所持'})[t]+(tab===t?' '+composeCount():'')+'</option>').join('')+'</select>'+pageButtons():'')+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(!edit?button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet'):'')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
 }
 function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary');}
 function footerView(screen){let content='';
- if(['deck','skills'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+composeActions()+'</div>';
+ if(['deck','skills','offers','owned'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+(screen==='owned'&&conversionIds.size?button('変換を確認 '+conversionIds.size+'点','convert-preview','data-j-mutation','cj-primary'):composeActions())+'</div>';
  else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
- else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
+ else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+button('取得','offers')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
  else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
  else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'探索を中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
  return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
@@ -2047,26 +2049,27 @@ function footerView(screen){let content='';
 function cardTile(id){const item=info(id),n=count(id),current=count(id,api.currentPlan(state.view).next_preparation.deck),kind=item.primary?.kind;
  const baseCount=p().next_preparation.deck.filter(x=>info(x).base_id===item.base_id).length;
  return '<article class="cj-cardpiece '+(n?'cj-included':'')+'" data-piece="'+esc(id)+'">'+
- button('<span class="cj-card-art" data-kind="'+esc(kind||'')+'">'+icon(itemIcon(id))+'</span><strong>'+esc(name(id))+'</strong><small>'+(item.primary?({attack:'突破',guard:'身構',heal:'回復'})[kind]+' '+item.primary.power:'')+'</small>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.deck===id)+'" aria-label="'+esc(name(id))+'の詳細"','cj-card-face')+
+ button('<span class="cj-card-art" data-kind="'+esc(kind||'')+'">'+icon(itemIcon(id))+'</span><strong>'+esc(name(id))+'</strong><small>'+(item.primary?(kind==='defense_support'?'付与 '+item.primary.defense_grant.guard:({attack:'突破',guard:'身構',heal:'回復'})[kind]+' '+item.primary.power):'')+' '+esc(possessionLabel(id))+'</small>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.deck===id)+'" aria-label="'+esc(name(id))+'の詳細"','cj-card-face')+
  '<div class="cj-counter">'+button('−','remove','data-id="'+esc(id)+'" data-focus="remove-'+esc(id)+'" data-j-mutation aria-label="'+esc(name(id))+'を1枚外す" '+(!n?'disabled':''))+'<span aria-label="変更案 '+n+'枚">'+(n!==current?'<small>'+current+' →</small> ':'')+'<strong>'+n+'</strong></span>'+button('+','add','data-id="'+esc(id)+'" data-focus="add-'+esc(id)+'" data-j-mutation aria-label="'+esc(name(id))+'を1枚加える" '+(baseCount>=h().deck.per_base_cap||(!id.startsWith('base:')&&n)?'disabled':''))+'</div></article>';
 }
 function skillStructure(item){return '<dl class="cj-skill-structure"><div><dt>発動条件</dt><dd>'+esc(item.trigger_text||'未提供')+'</dd></div><div><dt>効果</dt><dd>'+esc(item.effect_text||'未提供')+'</dd></div></dl>';}
 function skillTile(id){const item=info(id),on=equipped(id),known=learned(item.base_id),cancelled=p().cancel_learning.includes(item.base_id),newly=p().next_preparation.learn.includes(item.base_id);
  const label=cancelled?'忘れる案':newly?'覚える案':known?'覚えた心得':'';
- return '<article class="cj-skillpiece cj-cardpiece '+(on?'cj-included':'')+'" data-piece="'+esc(id)+'">'+button('<span class="cj-card-art" aria-hidden="true">'+icon('sparkles')+'</span><strong>'+esc(name(id))+'</strong><span class="cj-slot-cost">枠消費 '+item.equipment_cost+'</span><span class="cj-state-label">'+(on?'✓ 装備':label)+'</span>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.skills===id)+'"','cj-card-face')+'<div class="cj-skill-action">'+button(on?'外す':known?'装備':cancelled?'覚えた状態に戻す':'覚えて装備 −'+pt(item.learning_cost_units),cancelled?'restore-skill':'equip','data-id="'+esc(id)+'" data-focus="equip-'+esc(id)+'" data-j-mutation',on?'':'cj-primary')+'</div></article>';
+ return '<article class="cj-skillpiece cj-cardpiece '+(on?'cj-included':'')+'" data-piece="'+esc(id)+'">'+button('<span class="cj-card-art" aria-hidden="true">'+icon('sparkles')+'</span><strong>'+esc(name(id))+'</strong><span class="cj-slot-cost">枠消費 '+item.equipment_cost+'</span><span class="cj-state-label">'+(on?'✓ 装備':label)+' '+esc(possessionLabel(id))+'</span>','detail','data-id="'+esc(id)+'" data-focus="detail-'+esc(id)+'" aria-pressed="'+(selected.skills===id)+'"','cj-card-face')+'<div class="cj-skill-action">'+button(on?'外す':known?'装備':cancelled?'覚えた状態に戻す':'覚えて装備 −'+pt(item.learning_cost_units),cancelled?'restore-skill':'equip','data-id="'+esc(id)+'" data-focus="equip-'+esc(id)+'" data-j-mutation',on?'':'cj-primary')+'</div></article>';
 }
-function composeView(){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab]);
- return '<section class="cj-page-catalogue" data-catalogue aria-label="'+(tab==='skills'?'心得一覧':'札一覧')+'" style="padding:'+layout.padding+'px"><div class="cj-page-grid" data-capacity="'+layout.capacity+'" style="grid-template-columns:repeat('+layout.columns+',minmax(0,1fr));grid-template-rows:repeat('+layout.rows+','+layout.rowHeight+'px);gap:'+layout.gap+'px">'+items.slice(layout.start,layout.end).map(tab==='skills'?skillTile:cardTile).join('')+'</div></section>';
+function composeView(){const items=catalogueItems(),economy=['offers','owned'].includes(tab),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],economy?18:0);
+ return '<section class="cj-page-catalogue" '+(economy?'data-economy':'')+' data-catalogue aria-label="'+({skills:'心得一覧',deck:'札一覧',offers:'購入候補',owned:'所持品'})[tab]+'" style="padding:'+layout.padding+'px">'+(economy?'<p class="cj-catalogue-status">'+esc(tab==='offers'?offerStatus():h().owned.length?'所持 '+h().owned.length+'点':'所持品なし')+'</p>':'')+'<div class="cj-page-grid" data-capacity="'+layout.capacity+'" style="grid-template-columns:repeat('+layout.columns+',minmax(0,1fr));grid-template-rows:repeat('+layout.rows+','+layout.rowHeight+'px);gap:'+layout.gap+'px">'+items.slice(layout.start,layout.end).map(economy?economyTile:tab==='skills'?skillTile:cardTile).join('')+'</div></section>';
 }
 function miniList(ids){return ids.length?'<ul class="cj-build-list">'+group(ids).map(x=>'<li><span>'+esc(name(x.id))+'</span><b>×'+x.count+'</b></li>').join('')+'</ul>':'<span class="cj-muted">なし</span>';}
 function changeRows(){const c=state.comparison;if(!c)return '<p class="cj-muted">'+(state.pending?'確認中…':'変更の確認待ち')+'</p>';if(!c.ok)return '<p class="cj-warning" role="alert">'+esc(reason(c.refusal))+'</p>';
  const rows=[];const row=(object,change)=>rows.push('<div class="cj-change"><span>'+esc(object)+'</span><strong>'+change+'</strong></div>');
  if(c.cancellation.bases.length)row(c.cancellation.bases.map(id=>name('base:'+id)).join('・')+'を忘れる','着想 +'+pt(c.cancellation.actual_refund_units));
+ if(c.purchase?.performed_on_copy)row(name(p().candidate)+'を所持に追加','着想 −'+pt(c.purchase.cost_units));
  if(p().next_preparation.learn.length)row(p().next_preparation.learn.map(id=>name('base:'+id)).join('・')+'を覚える','着想 −'+pt(c.learning.payment_units));
  for(const [key,verb]of [['removed','外す'],['added','装備']])for(const x of c.differences.equipment[key])row(name(x.id),verb);
  const initial=api.currentPlan(state.view).next_preparation.deck;
  for(const id of new Set([...c.differences.deck.added,...c.differences.deck.removed].map(x=>x.id)))row(name(id),count(id,initial)+' → '+count(id)+'枚');
- return '<div class="cj-changes">'+rows.join('')+'</div>';
+ return '<div class="cj-changes">'+rows.join('')+'</div><div class="cj-change"><span>所持</span><strong>'+h().owned.length+' → '+c.prepared.owned.length+'</strong></div>'+ (c.purchase?.performed_on_copy?'<dl class="cj-record-stats"><div><dt>取消後</dt><dd>'+pt(c.stages.after_cancellation.unspent_units)+'</dd></div><div><dt>購入前 → 後</dt><dd>'+pt(c.stages.before_purchase.unspent_units)+' → '+pt(c.stages.after_purchase.unspent_units)+'</dd></div><div><dt>確定後</dt><dd>'+pt(c.stages.prepared.unspent_units)+'</dd></div></dl>':'');
 }
 function summaryContents(){const c=state.comparison;
  return '<div class="cj-setup-line"><span>心得</span><div>'+miniList(p().next_preparation.equipment)+'</div></div><div class="cj-setup-line"><span>札組</span><strong>'+p().next_preparation.deck.length+'枚</strong></div>'+
@@ -2080,7 +2083,7 @@ function cardFacts(item,snapshot=false){
  const p=snapshot?item:item.primary,field=snapshot?{power:item.field_power,hit:item.field_hit}:item.field;
  const row=(term,value,shape)=>value==null?'':'<div><dt>'+(shape?icon(shape):'')+term+'</dt><dd>'+esc(value)+'</dd></div>';
  let primary='';
- if(p){primary+=row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power,p.kind==='guard'?'shield':p.kind==='heal'?'heart-plus':'arrow-up-right');
+ if(p?.kind==='defense_support'){primary+=row('全員へ身構',p.defense_grant?.guard,'shield')+row('全員へ攪乱',p.defense_grant?.evasion,'wind');}else if(p){primary+=row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power,p.kind==='guard'?'shield':p.kind==='heal'?'heart-plus':'arrow-up-right');
   if(p.kind!=='heal')primary+=row(p.kind==='guard'?'攪乱':'探査',p.kind==='guard'?p.evasion:p.hit,p.kind==='guard'?'wind':'scan-search');primary+=row('機転',p.crit_gain,'zap');}
  const properties=api.cardProperties(item);
  return '<dl class="cj-record-stats">'+(snapshot?row('属性',item.attr):'')+primary+row('手札期限',item.life)+'</dl>'+
@@ -2094,15 +2097,69 @@ function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=
  let body='',actions='';
  if(passive)body+='<div class="cj-detail-cost"><span>枠消費</span><strong>'+item.equipment_cost+'</strong></div>'+skillStructure(item);
  else body+=cardFacts(item);
- if(d().phase==='home'&&passive){actions=button(equipped(id)?'装備から外す':known?'装備':'覚えて装備 −'+pt(item.learning_cost_units),'equip','data-id="'+esc(id)+'" data-j-mutation '+(cancelled?'disabled':''),'cj-primary');
+ body+=affixView(item);
+ if(h()?.owned.some(x=>x.id===id)){const row=h().owned.find(x=>x.id===id);body+='<p>'+esc((row.references||[]).map(x=>usageLabels[x]||'使用中').join('・')||(row.eligibility_reason==='owned_but_base_not_learned'?'基礎の心得は未習得':'所持'))+'</p>';}
+ if(d().phase==='home'&&passive&&(id.startsWith('base:')||h().owned.some(x=>x.id===id)||id==='$purchase')){actions=button(equipped(id)?'装備から外す':known?'装備':'覚えて装備 −'+pt(item.learning_cost_units),'equip','data-id="'+esc(id)+'" data-j-mutation '+(cancelled?'disabled':''),'cj-primary');
   if(known)actions+=button('忘れる','forget','data-id="'+esc(id)+'" data-j-mutation');
   else if(cancelled)actions+=button('覚えた状態に戻す','restore-skill','data-id="'+esc(id)+'" data-j-mutation');
   else actions+=button('覚える −'+pt(item.learning_cost_units),'learn','data-id="'+esc(id)+'" data-j-mutation');
   if(cancelled)body+='<p>この心得の装備が外れる</p>';
- }else if(d().phase==='home'&&h().free_card_options.includes(id))actions=button('−1枚','remove','data-id="'+esc(id)+'" data-j-mutation '+(!count(id)?'disabled':''))+ '<strong>'+count(id)+'枚</strong>'+button('+1枚','add','data-id="'+esc(id)+'" data-j-mutation '+(p().next_preparation.deck.filter(x=>info(x).base_id===base).length>=h().deck.per_base_cap?'disabled':''));
- else if(!(h()?.free_card_options||[]).includes(id)&&item.kind==='card')body+='<p class="cj-muted">記録に追加。札組への追加はまだ未対応。</p>';
+ }else if(d().phase==='home'&&(h().free_card_options.includes(id)||h().owned.some(x=>x.id===id)||id==='$purchase'))actions=button('−1枚','remove','data-id="'+esc(id)+'" data-j-mutation '+(!count(id)?'disabled':''))+ '<strong>'+count(id)+'枚</strong>'+button('+1枚','add','data-id="'+esc(id)+'" data-j-mutation '+(p().next_preparation.deck.filter(x=>info(x).base_id===base).length>=h().deck.per_base_cap||(!id.startsWith('base:')&&count(id))?'disabled':''));
+ else if(!(h()?.free_card_options||[]).includes(id)&&item.kind==='card')body+='<p class="cj-muted">未所持。解放された札と、所持している札は別です。</p>';
  return '<section class="cj-inspect-item" data-inspect-key="'+esc(id)+'">'+head+'<div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
+// D03 presentation and explicit commands only. Prices, eligibility and quotes
+// are supplied by Campaign. No inventory IDs or blueprint parsing here.
+const usageLabels={equipment:'装備中',confirmed_deck:'札組で使用中',saved_draft_equipment:'保存した装備案',saved_draft_deck:'保存した札組案'};
+function economyFailure(e){
+ const labels={stale_or_unknown_candidate:'候補が入れ替わりました。最新を読み、選び直してください',offer_already_purchased:'この候補からは購入済みです',missing_possession:'所持品が変わりました。最新を読み、選び直してください',unknown_selection_handle:'選択が古くなりました。最新を読み、選び直してください',return_not_acknowledged:'帰還結果を確認して拠点へ進んでください',item_locked:'ロック中です',item_in_use:'札組・装備・保存した案で使用中です',purchase_not_yet_available:'購入前の編成には購入予定品を使えません',unlearned_equipment_base:'先に基礎の心得を覚えてください',insufficient_unspent_funds:'着想が足りません',unsaved_draft:'編成案を確定するか、変更案を戻してください',duplicate_owned_card:'同じ所持札は1枚だけ使えます',duplicate_equipment:'同じ個体を重ねて装備できません'};
+ const detail=e?.details,amount=e?.purchase_request?.shortage_units;
+ return labels[e?.code] ? labels[e.code]+(Number.isFinite(amount)?'（不足 '+pt(amount)+'）':e.code==='insufficient_unspent_funds'&&Number.isFinite(detail?.required_units)?'（必要 '+pt(detail.required_units)+'／現在 '+pt(detail.available_units)+'）':'') : null;
+}
+function affixView(item){return item?.affixes?.length?'<h3>修飾</h3><dl class="cj-skill-structure">'+item.affixes.map(a=>'<div><dt>'+esc(a.label)+'</dt><dd>'+esc(a.description)+'</dd></div>').join('')+'</dl>':'';}
+function possessionLabel(id){return id==='$purchase'?'購入予定':h()?.owned.some(x=>x.id===id)?'所持1':h()?.free_card_options.includes(id)?'無料札':'';}
+function offerStatus(){const offers=h().offers;return offers.status==='purchased'?'この帰還の候補は購入済み':offers.status==='none'?(offers.reason==='no_eligible_offer'?'条件に合う購入候補なし':'購入候補なし'):offers.carried_from_previous_return?'前回の候補を持越し':'帰還からの候補';}
+function economyTile(id){
+ const owned=tab==='owned',row=(owned?h().owned:h().candidates).find(x=>x.id===id),item=info(id);
+ if(!row)return '';
+ const pendingPurchase=p()?.candidate===id;
+ const details=button('<span class="cj-card-art" aria-hidden="true">'+icon(itemIcon(id))+'</span><strong>'+esc(name(id))+'</strong><small>'+esc(owned?(row.references||[]).map(r=>usageLabels[r]||'使用中').join('・')||'所持1':'−'+pt(row.price_units))+'</small>','detail','data-id="'+esc(id)+'" data-tooltip="'+esc(name(id))+'"','cj-card-face');
+ let controls='';
+ if(owned){
+  controls=button(row.locked?'ロック解除':'ロック','lock','data-id="'+esc(id)+'" data-j-mutation '+(dirty()||!session.can('set_item_lock')?'disabled':'')+' aria-pressed="'+row.locked+'"');
+  controls+=button(conversionIds.has(id)?'✓ 変換対象':row.conversion_available?'変換':row.locked?'ロック中':'使用中','convert-select','data-id="'+esc(id)+'" '+(!row.conversion_available||dirty()?'disabled':'')+' aria-pressed="'+conversionIds.has(id)+'"');
+ }else{
+  controls=button(pendingPurchase?'✓ 購入案':'編成と比較','plan-purchase','data-id="'+esc(id)+'" data-j-mutation '+(!row.available||d().phase!=='home'?'disabled':''));
+  controls+=button(!row.available?'購入済み':!row.affordable_now?'着想不足':'購入 −'+pt(row.price_units),'buy-preview','data-id="'+esc(id)+'" '+(!row.available||!row.affordable_now||!session.can('purchase')||dirty()?'disabled':''));
+ }
+ return '<article class="cj-cardpiece cj-economy-piece '+(pendingPurchase||conversionIds.has(id)?'cj-included':'')+'" data-piece="'+esc(id)+'">'+details+'<div class="cj-economy-actions">'+controls+'</div></article>';
+}
+function purchasePanel(){const row=h()?.candidates.find(x=>x.id===purchaseChoice);if(!row)return {body:'<p>対象を選び直してください</p>',actions:''};
+ return {body:'<h3>'+esc(name(row.id))+'</h3><p>所持に1点追加</p><div class="cj-change"><span>購入額</span><strong>−'+pt(row.price_units)+'</strong></div><p>現在の着想 '+pt(h().economy.unspent_units)+'</p>'+affixView(info(row.id)),actions:button('購入する','buy-confirm','data-j-mutation '+(!row.available||!row.affordable_now||!session.can('purchase')||dirty()?'disabled':''),'cj-primary')};
+}
+function conversionPanel(){const q=state.quote;
+ if(!q)return {body:'<p>'+(state.error?esc(reason(state.error)):'変換額を確認中…')+'</p>',actions:''};
+ return {body:q.items.map(item=>'<section class="cj-convert-row"><h3>'+esc(name(item.id))+'</h3><span>着想 +'+pt(item.units)+'</span>'+(item.loses_variant_access?'<p class="cj-warning">最後の1点です。変換すると、この種類は使えなくなります。</p>':item.free_option_retained?'<p>無料で選べる基本の札・心得は残ります。</p>':'')+'</section>').join('')+'<div class="cj-change"><span>着想</span><strong>'+pt(q.unspent_before_units)+' → '+pt(q.unspent_after_units)+'</strong></div>',actions:button(q.removed_count+'点を変換する','convert-confirm','data-j-mutation '+(!session.can('convert_items')||dirty()?'disabled':''),'cj-primary')};
+}
+function purchasePlanControls(){if(!p()?.candidate)return '';
+ return '<section class="cj-purchase-plan"><h3>購入案：'+esc(name(p().candidate))+'</h3><div>'+button('購入してから編成','purchase-order','data-order="before_preparation" data-j-mutation aria-pressed="'+(p().purchase_timing==='before_preparation')+'"')+button('編成してから購入','purchase-order','data-order="after_preparation" data-j-mutation aria-pressed="'+(p().purchase_timing==='after_preparation')+'"')+'</div>'+button('購入案を外す','clear-purchase','data-j-mutation')+'</section>';
+}
+async function economyAction(action,id,b){
+ if(action==='plan-purchase'){if(d().phase!=='home'||!h().candidates.find(x=>x.id===id)?.available)return true;
+  await edit(next=>{next.next_preparation.deck=next.next_preparation.deck.filter(x=>x!=='$purchase');next.next_preparation.equipment=next.next_preparation.equipment.filter(x=>x!=='$purchase');next.candidate=next.candidate===id?null:id;next.purchase_timing='before_preparation';});
+  if(p().candidate){tab=info(id).kind==='passive'?'skills':'deck';place='compose';pageAnchors[tab]=Math.max(0,catalogueItems().length-1);}panel='review';render();return true;
+ }
+ if(action==='purchase-order'){await edit(next=>next.purchase_timing=b.dataset.order);return true;}
+ if(action==='clear-purchase'){await edit(next=>{next.candidate=null;next.next_preparation.deck=next.next_preparation.deck.filter(x=>x!=='$purchase');next.next_preparation.equipment=next.next_preparation.equipment.filter(x=>x!=='$purchase');});return true;}
+ if(action==='buy-preview'){if(busy())return true;purchaseChoice=id;rememberAnchor(b);panelTrail=[];panel='purchase';render();return true;}
+ if(action==='buy-confirm'){const candidate=purchaseChoice;if(!candidate)return true;await sequence(async()=>{const result=await session.execute('purchase',{candidate});if(result.ok){resetWindows();place='compose';tab='owned';message='所持に追加';}});return true;}
+ if(action==='lock'){const row=h()?.owned.find(x=>x.id===id);if(row)await perform('set_item_lock',{item_id:id,locked:!row.locked});return true;}
+ if(action==='convert-select'){if(busy()||!h()?.owned.find(x=>x.id===id)?.conversion_available)return true;if(conversionIds.has(id))conversionIds.delete(id);else conversionIds.add(id);render();return true;}
+ if(action==='convert-preview'){if(busy()||!conversionIds.size)return true;rememberAnchor(b);panelTrail=[];panel='conversion';await session.quote([...conversionIds].sort());render();return true;}
+ if(action==='convert-confirm'){const ids=state.quote?.items.map(x=>x.id);if(!ids)return true;await perform('convert_items',{item_ids:ids});return true;}
+ return false;
+}
+
 // Read-only views of public knowledge; snapshots are not resolved through private IDs.
 function recordButton(key,entry){
  recordEntries.set(key,entry);
@@ -2119,23 +2176,24 @@ function recordsView(){
   return tabs+'<p class="cj-record-purpose">判明した札の性能</p><div class="cj-record-list">'+cards.map(id=>recordButton(id,{name:name(id),detail:info(id)})).join('')+'</div>';
  }
  return tabs+'<p class="cj-record-purpose">探索で判明した構成と札</p><div class="cj-record-targets">'+list(d().knowledge_views).map(target=>{
-  const catalogue=target.initial_catalogue?.cards,open=recordTarget===target.target_id;
-  return '<section class="cj-record-target">'+button('<span><strong>'+esc(target.name)+'</strong><small>基本構成 '+(catalogue?'判明':'未判明')+'</small></span>'+icon('chevron-right'),'record-target','data-id="'+esc(target.target_id)+'" aria-expanded="'+open+'"')+'</section>';
+  const catalogue=target.initial_catalogue?.cards,open=recordTarget===target.key;
+  const versions=list(d().knowledge_views).filter(t=>t.target_id===target.target_id),version=versions.length>1?'・記録 '+(versions.findIndex(t=>t.key===target.key)+1):'',current=Object.values(d().exploration?.actors||{}).some(a=>a.knowledge_key===target.key)?'・今回の相手':'';
+  return '<section class="cj-record-target">'+button('<span><strong>'+esc(target.name)+'</strong><small>基本構成 '+(catalogue?'判明':'未判明')+version+current+'</small></span>'+icon('chevron-right'),'record-target','data-id="'+esc(target.key)+'" aria-expanded="'+open+'"')+'</section>';
  }).join('')+'</div>';
 }
 function recordTargetBody(){
- const target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);if(!target)return '';
+ const target=list(d().knowledge_views).find(t=>t.key===recordTarget);if(!target)return '';
  const catalogue=target.initial_catalogue?.cards;
  const groups=[['observed_by_current_actor','この相手の札'],['observed_elsewhere_this_run','今回の探索で観測'],['observed_earlier','過去の探索で観測']];
  const rewards=target.confirmed_reward_candidates||[];
- return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.target_id+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
-  groups.map(([key,title])=>target[key]?.length?'<h3>'+title+'</h3>'+recordedCards(target[key],false,target.target_id+':'+key):'').join('')+
+ return '<h3>基本構成</h3>'+(catalogue?recordedCards(catalogue,true,target.key+':initial'):'<p class="cj-muted">まだ判明していない</p>')+
+  groups.map(([key,title])=>target[key]?.length?'<h3>'+title+'</h3>'+recordedCards(target[key],false,target.key+':'+key):'').join('')+
   '<h3>獲得記録</h3>'+(rewards.length?'<ul>'+rewards.map(r=>'<li>'+esc(r.label)+'</li>').join('')+'</ul>':'<p class="cj-muted">記録なし</p>')+
   '<p class="cj-muted">現在の手札・次に出す札は未公開。</p>';
 }
 // Keep the immediate source visible beside its detail, with a back path to the list.
 function recordsPanelView(){
- const parent=recordsView(),target=list(d().knowledge_views).find(t=>t.target_id===recordTarget);
+ const parent=recordsView(),target=list(d().knowledge_views).find(t=>t.key===recordTarget);
  const childTitle=recordDetail?.name||target?.name,hasChild=!!childTitle;
  const head=(title,back)=>'<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'record-back','aria-label="'+esc(back)+'"','cj-record-back'):panelTrail.length?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+esc(title)+'</h2>'+button(icon('x'),'close','aria-label="調査記録を閉じる"','cj-icon-button')+'</div>';
  const pane=(key,title,body,back='')=>'<section class="cj-inspect-item" data-inspect-key="'+esc(key)+'">'+head(title,back)+'<div class="cj-inspect-scroll">'+body+'</div></section>';
@@ -2147,6 +2205,9 @@ function recordDetailView(){
  const entry=recordDetail;return cardFacts(entry.snapshot||entry.detail,!!entry.snapshot);
 }
 
+// Public history preserves read/unread; opening it never invents a historical read command.
+function textHistoryView(){const rows=list(d().text_history).filter(t=>t.published&&(t.kind!=='detail'||t.read));return rows.length?'<div class="cj-text-history">'+rows.map((t,i)=>'<section data-history-text="'+esc(t.id)+'"><h3>'+('記録 '+(i+1))+'</h3><p class="cj-prose">'+esc(t.short_text||t.detail_text||'')+'</p></section>').join('')+'</div>':'<p>文章の記録はまだありません</p>'; }
+
 function renderPanel(){const box=$('[data-inspector]'),hasChild=panel==='records'&&!!(recordTarget||recordDetail);box.hidden=!panel;box.parentElement.classList.toggle('cj-has-inspector',!!panel);if(!panel){box.replaceChildren();panelTrail=[];recordParentRect=null;return;}
  const level=panelTrail.length,parent=panelTrail.at(-1),withLevel=(markup,n)=>markup.replaceAll('data-inspect-key=', 'data-level="'+n+'" data-inspect-key=');
  let current=panel==='details'?windows.slice(-2).map(w=>detailView(w.id,{w,back:!!parent||windows.length>2})).join(''):panel==='records'?recordsPanelView():panelView(panel,!!parent);
@@ -2155,17 +2216,19 @@ function renderPanel(){const box=$('[data-inspector]'),hasChild=panel==='records
  box.innerHTML=current;box.dataset.count=box.children.length;box.dataset.layout=box.children.length>1?'linked':'windows';
 }
 function panelView(panel,back=false){
- const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:title,unavailable:'購入・変換',notice:'操作の確認'};
+ const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:title,unavailable:'購入・変換',notice:'操作の確認',purchase:'購入の確認',conversion:'変換の確認',texts:'文章の記録'};
  let body='',actions='';
- if(panel==='review'){body=wallet()+(dirty()?changeRows()+'<p class="cj-muted">所持品の増減なし</p>':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok?'disabled':'')):'';}
+ if(panel==='review'){body=wallet()+(dirty()?changeRows()+purchasePlanControls():'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok?'disabled':'')):'';}
  if(panel==='receipt')body=receiptDetails();
  if(panel==='destination')body='<p>'+esc(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発後の本文で確認できます')+'</p><h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>';
- if(panel==='unavailable')body='<p>購入・修飾・変換は本体の対応待ちです。</p>';
+ if(panel==='purchase')({body,actions}=purchasePanel());
+ if(panel==='conversion')({body,actions}=conversionPanel());
+ if(panel==='texts')body=textHistoryView();
  if(panel==='notice'){body='<p>'+esc(reason(state.error))+'</p>';actions=(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');}
  if(panel==='records')body=recordsView();
- if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+button('購入・変換','unavailable')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
+ if(panel==='menu')body='<div class="cj-menu-list">'+button('調査記録','records')+button('表示','settings')+button('遊び方','help')+button('保存データ','data')+(h()?button('取得','offers')+button('所持・変換','owned'):'')+button('文章の記録','texts')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'')+(dirty()?button('変更案を戻す','discard','data-j-mutation'):'')+'</div>';
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転の加算は、一閃による消費前の値。続く相手の行動や、未対応の変化は含まない。</p><h3>身構と軽減</h3><p>身構は防御札の一致で得る一時的な防御。軽減は、硬さなどの特性による継続的な効果で、別に働く。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱'],['shield-minus','軽減']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚えて装備」でまとめて選ぶ。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転などは消費も含む一手解決後の差分。続く相手の行動は含まない。</p><h3>身構と攪乱</h3><p>複数の発生源から受けた防御を合計して表示する。回数が異なる組は「混在」。詳細で内訳を確認できる。</p><h3>取得と変換</h3><p>候補から購入すると所持に加わる。「編成と比較」では購入と札組・心得の変更を一緒に確定できる。所持品はロックして変換を防げる。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
  if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は自動保存されます。')+'</p>'+(d().phase==='home'?'<p>編成は「確定」で保存します。編集中の内容は、確定するまで保存済みの編成を変えません。</p>':'')+'<p>書き出しは保存済みの内容です。</p>';actions=button('書き出す','export','data-j-mutation')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'');}
  return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
@@ -2203,13 +2266,15 @@ function panelView(panel,back=false){
   const changed=lastContext!==null&&lastContext!==context;
   if(changed){resetWindows();if(d().phase==='home'&&lastPhase!=='home')place='hub';}
   lastContext=context;lastPhase=d().phase;
+  if(viewToken&&viewToken!==state.view.meta.view_token){purchaseChoice=null;conversionIds.clear();selected.deck=selected.skills=null;windows=windows.filter(w=>w.id.startsWith('base:'));panelTrail=[];if(['purchase','conversion'].includes(panel)||panel==='details'&&!windows.length)panel=null;}
+  viewToken=state.view.meta.view_token;
   const screen=currentScreen(),beforeFocus=root.contains(document.activeElement)?document.activeElement?.dataset.focus:null;
   const scrollKey=el=>el.matches('[data-reading]')?'story-'+el.dataset.reading:'window-'+el.closest('[data-inspect-key]')?.dataset.inspectKey;
   const scrollNodes='[data-reading],.cj-inspect-scroll';
   if(!changed)for(const el of root.querySelectorAll(scrollNodes))scrollMemory.set(scrollKey(el),el.scrollTop);
   $('[data-header]').innerHTML=headerView(screen);
   $('[data-header]').hidden=screen==='explore';
-  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source)=>{rememberAnchor(source);panelTrail=[];panel=panel===kind?null:kind;recordDetail=null;render();}});lastScreen=screen;}
+  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source,key)=>{rememberAnchor(source);panelTrail=[];panel=key?kind:panel===kind?null:kind;recordTab='targets';recordTarget=key||null;recordDetail=null;render();}});lastScreen=screen;}
   if(screen==='explore')child?.update(d(),state);
   else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
   root.dataset.screen=screen;
@@ -2245,7 +2310,7 @@ function panelView(panel,back=false){
   const ids=[...visible];
   if(!ids.length){message='本文が表示されてから進めます';return false;}
   const recorded=await session.recordDisplayed(d().scene.id,ids);if(!recorded.ok)return false;
-  const result=await session.execute('continue_scene',{scene_id:d().scene.id,advance:true});return result.ok;
+  const result=await session.execute('continue_scene',{scene_id:d().scene.id,advance:true,displayed_text_ids:[]});return result.ok;
  }
  async function toHome(){if(d().phase!=='return')return true;if(!await finishScene())return false;return (await session.ackReturn()).ok;}
  async function sequence(fn){if(busy())return;running=true;message='';render();try{await fn();}catch(e){message=reason(e);}finally{running=false;render();flushTexts();}}
@@ -2267,22 +2332,23 @@ function panelView(panel,back=false){
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
-  if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
-  if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab]);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}
+  if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
+  if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],['offers','owned'].includes(tab)?18:0);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}
   if(action==='dismiss-status'){message='';if(state.error||state.canRetry||state.stale){panel='notice';renderPanel();layoutWindows();}$('[data-status]').hidden=true;return;}
-  if(action==='deck'||action==='skills'||action==='hub'){if(d().phase==='return')await navigate(action);else if(d().phase==='home'){place=action==='hub'?'hub':'compose';if(action!=='hub')tab=action;panel=null;windows=windows.filter(w=>w.pinned);render();}return;}
+  if(['deck','skills','offers','owned','hub'].includes(action)){if(d().phase==='return')await navigate(action);else if(d().phase==='home'){place=action==='hub'?'hub':'compose';if(action!=='hub')tab=action;panel=null;windows=windows.filter(w=>w.pinned);render();}return;}
   if(action==='detail'){enterPanel(b,'details');detailFromRecords=false;selected[info(id).kind==='passive'?'skills':'deck']=id;const same=windows.find(w=>w.id===id);if(same&&!same.pinned)windows=windows.filter(w=>w!==same);else if(!same){windows=windows.filter(w=>w.pinned);windows.push({id,pinned:false});}panel=windows.length?'details':null;render();return;}
   if(action==='window-back'){const level=Number(b.closest('[data-level]')?.dataset.level);if(Number.isInteger(level)&&level<panelTrail.length)panelTrail=panelTrail.slice(0,level);windowBack();return;}
   if(action==='close'){const level=Number(b.closest('[data-level]')?.dataset.level);if(Number.isInteger(level)&&level<panelTrail.length)panelTrail=panelTrail.slice(0,level);windowBack();return;}
   if(action==='pin'){const w=windows.find(w=>w.id===id);if(w)w.pinned=!w.pinned;render();return;}
   if(action==='close-item'){windows=windows.filter(w=>w.id!==id);if(!windows.length){windowBack();return;}render();return;}
-  if(['menu','records','help','review','data','settings','receipt','destination','unavailable','notice'].includes(action)){enterPanel(b,action);panel=panel===action?null:action;windows=[];recordDetail=null;recordTarget=null;render();return;}
+  if(['menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)){enterPanel(b,action);panel=panel===action?null:action;windows=[];recordDetail=null;recordTarget=null;render();return;}
   if(action==='record-tab'){recordTab=b.dataset.tab;recordTarget=null;recordDetail=null;render();return;}
   if(action==='record-target'){recordParentRect=paneRect(b);recordTarget=recordTarget===id?null:id;recordDetail=null;scrollMemory.delete('window-target:'+id);render();focusRecord();return;}
   if(action==='record-detail'){const entry=recordEntries.get(id);if(entry){recordParentRect=paneRect(b);recordDetail=recordDetail?.key===id?null:{...entry,key:id};scrollMemory.delete('window-record:'+id);render();focusRecord();}return;}
   if(action==='record-back'){const key=recordDetail?.key,targetId=recordTarget;if(b.closest('[data-inspect-key]')?.dataset.inspectKey.startsWith('target:')){recordDetail=null;recordTarget=null;}else if(recordDetail)recordDetail=null;else recordTarget=null;render();queueMicrotask(()=>{const action=recordTarget?'record-detail':recordTab==='cards'?'record-detail':'record-target';[...root.querySelectorAll('[data-j="'+action+'"]')].find(el=>el.dataset.id===(action==='record-target'?targetId:key))?.focus({preventScroll:true});});return;}
   if(action==='records-back'){panel='records';windows=[];render();return;}
-  if(action==='add'||action==='remove'){await edit(next=>{const a=next.next_preparation.deck;if(action==='add')a.push(id);else{const at=a.indexOf(id);if(at>=0)a.splice(at,1);}});return;}
+  if(await economyAction(action,id,b))return;
+    if(action==='add'||action==='remove'){await edit(next=>{const a=next.next_preparation.deck;if(action==='add')a.push(id);else{const at=a.indexOf(id);if(at>=0)a.splice(at,1);}});return;}
   if(action==='equip'||action==='learn'){await edit(next=>{if(!learned(base)){next.next_preparation.learn.push(base);}if(action==='equip'){const a=next.next_preparation.equipment;next.next_preparation.equipment=a.includes(id)?a.filter(x=>x!==id):[...a,id];}});return;}
   if(action==='forget'){await edit(next=>{if(next.next_preparation.learn.includes(base))next.next_preparation.learn=next.next_preparation.learn.filter(x=>x!==base);else{next.retain_learning=next.retain_learning.filter(x=>x!==base);next.cancel_learning.push(base);}next.next_preparation.equipment=next.next_preparation.equipment.filter(x=>info(x).base_id!==base);});return;}
   if(action==='restore-skill'){await edit(next=>{next.cancel_learning=next.cancel_learning.filter(x=>x!==base);next.retain_learning.push(base);});return;}
@@ -2290,13 +2356,13 @@ function panelView(panel,back=false){
   if(action==='continue'){await sequence(async()=>{if(await finishScene()){sceneRequested=false;panel=null;windows=[];}});return;}
   if(action==='scene-back'){sceneRequested=false;render();return;}
   if(action==='retry'){if(state.pending)return;running=true;render();const result=await session.retry();running=false;const next=continuation;if(result.ok)continuation=null;if(result.ok&&next==='depart')await depart();else render();return;}
-  if(action==='refresh'){windows=[];panel=null;await session.refresh();return;}
+  if(action==='refresh'){windows=[];panel=null;purchaseChoice=null;conversionIds.clear();const fresh=await session.refresh({preserveLocal:false});if(fresh.ok)message='最新の状態を読み込みました。対象を選び直してください';render();return;}
   if(action==='discard'){await perform('discard_draft');return;}
   if(action==='suspend'){await suspend();return;}
   if(action==='resume'){if(!suspended||d()?.phase!=='exploring')return;await sequence(async()=>{const result=await session.refresh({preserveLocal:false});if(result.ok){suspended=false;panel=null;}});return;}
   if(action==='export'){await exportData();return;}
  },{signal:events.signal});
- root.addEventListener('change',event=>{if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
+ root.addEventListener('change',event=>{if(event.target.matches('[data-compose-tab]')){root.querySelector('[data-j="'+event.target.value+'"]')?.click();return;}if(event.target.matches('[data-motion]'))root.dataset.motion=event.target.checked?'reduced':'normal';},{signal:events.signal});
  root.addEventListener('keydown',event=>{if(event.key==='Escape'&&panel){panel=null;windows=[];render();}},{signal:events.signal});
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});

@@ -1,0 +1,324 @@
+{
+  "id": "CW-M1-A-002",
+  "checks": [
+    {
+      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 entry の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 port の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 home の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 second-return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "汐留めで身構置換・常時攪乱込みの総量",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1",
+        "V1"
+      ],
+      "choice": {
+        "card_id": "V1_initial_0047",
+        "target": null
+      }
+    },
+    {
+      "name": "回復一致は上限まで4回復し旧身構が終わる",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "被攻撃の二回身構は一回残る",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "支援源撃破で本人と別主体の常時作用が消える",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": false,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 30,
+          "crit": 125,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "f7682f39110e4417fcf476cf3cb3c9e47ff333c49a0e2afa389547cc1f2e7b2c",
+      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "P": {
+          "crit": 80,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 2
+          }
+        },
+        "E1": {
+          "hit": 99,
+          "crit": 120,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "cb815a4868f117e6023305e58610b95ff8d3cf75beeae0fbe18f70d56745c6b4",
+      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "h",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "h",
+      "changes": {
+        "P": {
+          "crit": 80
+        },
+        "E1": {
+          "hit": 0,
+          "crit": 120,
+          "guard": {
+            "value": 3,
+            "evasion": 20,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "63daaa0cef0835ca520891da385ed471b5246b930fd488806f7f7666e93a40c0",
+      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
+    },
+    {
+      "name": "汐留めで身構置換・常時攪乱込みの総量",
+      "source": "port.save.json.gz",
+      "type": "nt_stop",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "nt_stop",
+      "changes": {
+        "P": {
+          "guard": {
+            "value": 9,
+            "evasion": 30,
+            "uses": 1
+          }
+        },
+        "V1": {
+          "passives": [
+            {
+              "target": "P",
+              "kind": "evasion",
+              "value": 20
+            },
+            {
+              "target": "P",
+              "kind": "damage_reduction",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
+      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
+    },
+    {
+      "name": "回復一致は上限まで4回復し旧身構が終わる",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": true,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 36,
+          "guard": {
+            "value": 5,
+            "evasion": 30,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "38aea019888a0a7748a7a99a1bef0fafc5ebc92f680d654d00474dd8c0caaebd",
+      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
+    },
+    {
+      "name": "被攻撃の二回身構は一回残る",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "E1": {
+          "hit": 99,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "55797108be6d7bc775a1be001b09044c55a7cc3bfa250400dad5ca72cbdf2be4",
+      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
+    },
+    {
+      "name": "支援源撃破で本人と別主体の常時作用が消える",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "E1": {
+          "hp": 1,
+          "hit": 99,
+          "passives": [
+            {
+              "target": "P",
+              "kind": "evasion",
+              "value": 20
+            },
+            {
+              "target": "V0",
+              "kind": "damage_reduction",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "b744231453d6e6e569e9bc4e817584dc2a9d93d50a28d257b5864fc9e663ea67",
+      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
+    }
+  ],
+  "choiceCount": 7,
+  "error": "Error: actor state",
+  "stack": "Error: actor state\n    at assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:3:64)\n    at Game.assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:233:41)\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:42:20)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
+}

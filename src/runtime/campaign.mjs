@@ -8,6 +8,11 @@ import {preview,planFor,draftFor,checkPlanShape} from './preparation.mjs';
 import {departGame,restoreGame} from './game.mjs';
 import {nextMode,publishScene,publishConditionals,recordDisplayed} from './story.mjs';
 import {settle,rewardLedger} from './settlement.mjs';
+import {publicContract} from './action-public.mjs';
+import {engineVersion,migrationID} from './versions.mjs';
+import {initialize,purchase} from './offers.mjs';
+import {quote,convert,setLock,syncReferences} from './items.mjs';
+import {handles} from './selection-public.mjs';
 const uuid=()=>globalThis.crypto.randomUUID();
 const typedError=error=>fail(error).error;
 function assertToken(d,t){check(t===token(d),'stale_view','view_token');}
@@ -17,6 +22,9 @@ function assertPayload(payload,allowed) {
   check(Object.keys(payload).every(k=>allowed.includes(k)),'unexpected_payload_field','payload');
 }
 function syncGame(d,g) {
+  // Also covers an old save whose currently owned, now-public deck was not
+  // recorded by the old hand-only observation rule. A pure read never writes.
+  g.observeOwnedCards([...g.s.actors.P.hand,...g.s.actors.P.deck]);
   const s=d.session;s.game=g.save();s.active.reward_ledger=rewardLedger(s);
   for(const row of g.trace.filter(e=>['action','boundary'].includes(e.type)))s.action_history.push(copy(row));
   if(s.game.state.outcome){settle(d);const scene=s.game.state.pending_scene||'SCN-001-S06';s.game.state.pending_scene=null;publishScene(d,scene);}
@@ -28,18 +36,24 @@ class CampaignController {
   constructor(store,slot,document){this.#store=store;this.#slot=slot;this.#document=document;}
   inspect(){return project(this.#document);}
   previewPreparation({view_token,plan}={}) {
-    try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewPreparation');return project(this.#document,{preparation_comparison:preview(this.#document.session,plan).display});}
+    try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewPreparation');checkPlanShape(plan);
+      const d=this.#document,h=handles(d.session,[d.draft?.plan]),internal=h.plan(plan),result=preview(d.session,internal);
+      const display=handles(d.session,[d.draft?.plan,internal],result.purchase_uid).encode(result.display);
+      return project(d,{preparation_comparison:display});}
     catch(error){return project(this.#document,{error:typedError(error)});}
   }
-  quoteConversion({view_token}={}) {
-    try{assertToken(this.#document,view_token);requireCapability(this.#document,'quoteConversion');}
+  quoteConversion({view_token,item_ids}={}) {
+    try{assertToken(this.#document,view_token);requireCapability(this.#document,'quoteConversion');
+      check(Array.isArray(item_ids),'duplicate_or_empty_conversion','item_ids');
+      const h=handles(this.#document.session,[this.#document.draft?.plan]);
+      return project(this.#document,{conversion_quote:quote(this.#document,item_ids.map(id=>h.selection(id,'item_ids')))});}
     catch(error){return project(this.#document,{error:typedError(error)});}
   }
   previewAction({view_token,choice}={}) {
     try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewAction');const game=restoreGame(this.#document.session);
       check(game.choices().some(c=>canonical(c)===canonical(choice)),'illegal_choice','choice');
       return project(this.#document,{action_preview:actionPreview(this.#document,choice)});}
-    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null}});}
+    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null,actor_changes:null,resolution_scope:null}});}
   }
   exportSave(){return copy(this.#document);}
   async execute(command) {
@@ -55,12 +69,20 @@ class CampaignController {
       check(command.expected_revision===current.revision,'stale_revision','expected_revision',{actual_revision:current.revision});assertToken(current,command.view_token);
       const next=copy(current),s=next.session,{type,payload}=command;
       if(type!=='continue_scene')requireCapability(next,type);
-      if(type==='save_draft'){assertPayload(payload,['plan']);checkPlanShape(payload.plan);next.draft=draftFor(s,payload.plan,next.revision);}
+      const h=handles(s,[next.draft?.plan]);
+      if(type==='save_draft'){assertPayload(payload,['plan']);checkPlanShape(payload.plan);next.draft=draftFor(s,h.plan(payload.plan),next.revision);}
       else if(type==='discard_draft'){assertPayload(payload,[]);next.draft=draftFor(s,planFor(s),next.revision);}
       else if(type==='commit_preparation'){
-        assertPayload(payload,['plan']);const result=preview(s,payload.plan);
+        assertPayload(payload,['plan']);checkPlanShape(payload.plan);const result=preview(s,h.plan(payload.plan),{operation:command.request_id});
         check(result.ok,result.display.refusal?.code||'invalid_plan',result.display.refusal?.field,result.display.refusal?.details);
         next.session=result.next;next.draft=draftFor(next.session,planFor(next.session),next.revision);
+      }else if(type==='purchase'){
+        assertPayload(payload,['candidate']);purchase(s.economy,h.candidate(payload.candidate),command.request_id);
+      }else if(type==='convert_items'){
+        assertPayload(payload,['item_ids']);check(Array.isArray(payload.item_ids),'duplicate_or_empty_conversion','item_ids');
+        convert(next,payload.item_ids.map(id=>h.selection(id,'item_ids')),command.request_id);
+      }else if(type==='set_item_lock'){
+        assertPayload(payload,['item_id','locked']);setLock(s.economy,h.selection(payload.item_id,'item_id'),payload.locked);
       }else if(type==='depart'){
         assertPayload(payload,['case_id']);check(payload.case_id==='SCN-001','case_not_available','case_id');
         const c=next.casebook[payload.case_id],mode=nextMode(c),target_set_id=mode==='revisit'?'SCN-001-SET-REVISIT':'SCN-001-SET-UNRESOLVED';
@@ -68,7 +90,7 @@ class CampaignController {
         const previousKnowledge=copy(s.economy.profile.knowledge);
         s.active={run,index,seed:index,case_id:payload.case_id,content_set_id:C.content_set_id,mode,target_set_id,targets:copy(C.target_sets[target_set_id].slot_map),
           published_clue_ids:[],read_text_ids:[],reward_ledger:{},published_scene_ids:[],emitted_conditionals:[],departure_case_state:{status:c.status,attempts_before:c.attempts}};
-        s.game=await departGame({target_set_id,run,seed:index,deck:s.au.deck,equipped:s.economy.aq.equipped,learned:Object.keys(s.economy.profile.learned),knowledge:previousKnowledge});
+        s.game=await departGame({target_set_id,run,seed:index,deck:s.au.deck,equipped:s.economy.aq.equipped,learned:Object.keys(s.economy.profile.learned),knowledge:previousKnowledge,inventory:s.economy.inventory});
         s.phase='exploring';s.economy.profile.phase='exploring';s.economy.profile.run=run;s.nextRun++;c.attempts++;s.action_history=[];next.draft=null;
         publishScene(next,mode==='revisit'?'SCN-001-S02R':'SCN-001-S02',{knowledge:previousKnowledge});
       }else if(type==='continue_scene'){
@@ -91,6 +113,7 @@ class CampaignController {
       }else check(false,'feature_not_connected','type');
       check(current.revision<Number.MAX_SAFE_INTEGER,'revision_exhausted');next.revision++;
       next.view_nonce=uuid();if(next.draft)next.draft=draftFor(next.session,next.draft.plan,next.revision);
+      syncReferences(next);
       next.request_log[command.request_id]={signature,committed_revision:next.revision};
       validateDocument(next);
       try {await this.#store.commit(this.#slot,current.revision,next);}
@@ -116,22 +139,38 @@ export function createCampaign({storage=new IndexedDBStore()}={}) {
       check(await storage.load(slot_id)===null,'slot_not_empty','slot_id');
       const profile={schema:'AH1',phase:'home',run:null,points:0,learned:{},materials:{},unlocked:copy(C.initial.unlocked),clears:[],knowledge:{schema:'AD1',events:[],encounters:[]},returns:{}};
       const economy={schema:'AP1',profile,remainder:0,inventory:{},known:{},runs:{},sales:{},references:{},aq:{policy:'cost',equipped:[]},at:{current:null,batches:{},purchases:{},returns:{},pending_contexts:[]}};
-      const d={schema:'CW-M1-save-1',rule_set_id,content_set_id,engine_version:C.engine_version,revision:0,view_nonce:uuid(),
+      initialize(economy);
+      const d={schema:'CW-M1-save-1',rule_set_id,content_set_id,engine_version:engineVersion,revision:0,view_nonce:uuid(),
         session:{campaign_id:uuid(),phase:'home',nextRun:0,economy,au:{deck:Object.entries(C.initial.deck_counts).sort().flatMap(([base,n])=>Array(n).fill('base:'+base))},
           active:null,game:null,scene:null,receipts:{},action_history:[]},draft:null,casebook:copy(C.initial.casebook),request_log:{},public_history:[]};
       d.request_log[request_id]={signature:canonical({type:'create',payload:{rule_set_id,content_set_id}}),committed_revision:0};publishScene(d,'SCN-001-S01');validateDocument(d);
       await storage.commit(slot_id,null,d);return new CampaignController(storage,slot_id,d);
     },
-    async open({slot_id}) {safeID(slot_id,'slot_id');const saved=await storage.load(slot_id);check(saved,'save_not_found','slot_id');return new CampaignController(storage,slot_id,validateDocument(saved));},
+    async open({slot_id}) {
+      safeID(slot_id,'slot_id');
+      for(let attempt=0;attempt<4;attempt++){
+        const saved=await storage.load(slot_id);check(saved,'save_not_found','slot_id');const d=validateDocument(saved);
+        if(saved.engine_version===d.engine_version)return new CampaignController(storage,slot_id,d);
+        // One explicit, atomic format upgrade. A failed write leaves the complete old slot intact.
+        check(d.revision<Number.MAX_SAFE_INTEGER,'revision_exhausted');d.revision++;d.view_nonce=uuid();
+        if(d.draft)d.draft=draftFor(d.session,d.draft.plan,d.revision);syncReferences(d);
+        let id='migration-'+migrationID;while(Object.hasOwn(d.request_log,id))id+='-next';
+        d.request_log[id]={signature:canonical({type:'migrate_economy',payload:{id:migrationID,source_engine:saved.engine_version}}),committed_revision:d.revision};
+        validateDocument(d);
+        try{await storage.commit(slot_id,saved.revision,d);return new CampaignController(storage,slot_id,d);}
+        catch(error){if(error.code!=='stale_revision')throw error;}
+      }
+      check(false,'stale_revision','slot_id');
+    },
     async importSave({slot_id,document,request_id}) {
       safeID(slot_id,'slot_id');safeID(request_id,'request_id');check(await storage.load(slot_id)===null,'slot_not_empty','slot_id');
       let parsed=document;if(typeof document==='string'){try{parsed=JSON.parse(document);}catch{check(false,'invalid_save_json','document');}}
       const d=validateDocument(parsed);check(!Object.hasOwn(d.request_log,request_id),'request_conflict','request_id');check(d.revision<Number.MAX_SAFE_INTEGER,'revision_exhausted');
-      d.revision++;d.view_nonce=uuid();if(d.draft)d.draft=draftFor(d.session,d.draft.plan,d.revision);
+      d.revision++;d.view_nonce=uuid();if(d.draft)d.draft=draftFor(d.session,d.draft.plan,d.revision);syncReferences(d);
       d.request_log[request_id]={signature:canonical({type:'importSave',payload:{source_revision:parsed.revision}}),committed_revision:d.revision};validateDocument(d);
       await storage.commit(slot_id,null,d);return new CampaignController(storage,slot_id,d);
     }
   };
 }
 export const Campaign=createCampaign();
-export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:C.engine_version,input_version:C.version});
+export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:engineVersion,input_version:C.version,public_contract:publicContract});

@@ -1,0 +1,4617 @@
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260909-design-assembly.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260909-design-assembly.md"
+index 49b4f66eb09434e1e4073916fc7056a986e818ba..d581bc380039492f088798cd5b52f9687f5be018 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260909-design-assembly.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260909-design-assembly.md"
+@@ -1,3 +1,17 @@
++## 2026-09-18 CO-D02R：追補確認完了・保存へ
++
++Work `20260909-design-assembly`、作業・統合先`dev_design_tmp_assembly`、統合担当本Work、必須同期はopsのとりまとめ全体1本を維持。UI原本の担当はUIのまま。開始・計画0.8・UI専用232blobの選択受領は`7c2a43dd34ce4c770589d812530545b8fed17881`へ保存済み。UI元ac610be、通常入口co-u02/index.html、一時保存の確認入口co-u02/review/index.html。PR #1自体は未マージ、UI Work設定は参照のみ。
++
++公開契約CW-M1-public-0.2を実装。共通の一手実行をコピーで使うactor_changes（本人を含む）、解決時の履歴札名、本人山札の種類別参照、公開／既読の過去本文、版付き調査キーを追加した。CW-M1-save-1・engine0.1・現行演算・D03 pending_contextsは継承。旧名前欠損は不明のまま、旧自然5保存は上書きしない。
++
++CW-M1-A-002 code-06：本体26項目・一手比較8状態。UIはcode-01の12項目で、確認対象runtimeとUI検査コードは最終版と全SHA一致。MemoryStore／JSDOMの結果であり、実描画・物理入力・IndexedDBは未確認。旧比較・自然2runの再走0。5回の検査側失敗と修正条件を固定記録へ保全した。成果入口は`docs/検証/接続条件/co-d02/appendix-d02r/README.md`、report／examples／verification／artifact-checkに実コードとの対応がある。
++
++身構統一は`stance-decision.md`のCO-D02R-J01だけユーザー判断へ残す。推奨は常時分にも防御側一閃倍率を適用し、常時分だけで防ぐ場合も機転を消費する。札分／常時分の持続と発生源は区別。遊び方が変わるので未採用のまま、現行予測は完成した。基本設計0.53/D53・既採用方針を再判断待ちへ戻していない。
++
++保存前の最新設計7c2a43d・計画5e86a3d・UI ac610beは不変。計画14・UI232blob、条件の保護8ファイル、PT-NT subtreeを照合済み。未保存は追補runtime7ファイル・新検査とコード固定／結果・追補3文書・CO-D02案内・Work／本引継ぎ／要検討事項／同期JSON。本体コードと検査は揃っており、次の具体操作は通常commit／非強制PushとGitHubの親・完全tree・主要本文読戻し。完了後に保存SHAを追記してCO-D02R単位を終了し枠を解放する。
++
++UIの追加描画は対象ファイルと受取例を記録済み、通知・受領・実装完了は未確認。実機は既存の拒否を再試行／迂回せず手順を維持。判断待ちだけで稼働を続けず、D03/D04/D05・画像・UI全画面改修へ自動続行しない。
++
+ ## 2026-09-18 CO-D02R受領・開始
+ 
+ 既存Work `20260909-design-assembly`を継承。作業・統合先は`dev_design_tmp_assembly`、統合担当は本Work。必須同期元は`ops/project-coordination-20260913`のとりまとめ全体1本。共通runtime・保存・公開契約と本体統合・自Work記録は本Work、UI専用原本はUI担当を維持する。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\350\246\201\346\244\234\350\250\216\344\272\213\351\240\205.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\350\246\201\346\244\234\350\250\216\344\272\213\351\240\205.md"
+index 3a0aca336b973171ca72c0c2185c08486a509de2..560581c7c61d6f5c92eed8617a627a482c81aa25 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\350\246\201\346\244\234\350\250\216\344\272\213\351\240\205.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\350\246\201\346\244\234\350\250\216\344\272\213\351\240\205.md"
+@@ -9,9 +9,11 @@
+ >
+ > **D47以降の経緯：** ユーザーは、成長ポイントの用途を基礎ステータス的な成長よりパッシブスキル習得として想定し、その取り直しが無償ならよいと補足した。旧数値配分案を修正し、主用途と帰還後の無料取り直しをD47・基本設計0.47・2.23、統合検討113章へ採用。[探索全体の設計19章](../仕様案/カード探索ゲーム_探索全体の設計.md#passive-growth-design)・114章に、札構築・循環と組み合わせるパッシブ候補、習得と装備の区別、取り直しと素材・前提条件の対応を具体化した。具体効果・数値・枠・素材用途は未採用。無料取り直しの再判断は不要。続くAHで三探索先・札構築・習得パッシブの672経過と帰還を接続し、[探索全体の設計20章](../仕様案/カード探索ゲーム_探索全体の設計.md#whole-game-comparison-ah)へ結果と対処を反映。片側の成果を使う自由構築でのC対処を優先した。追加AIでは事前作成した9構築等の1,344経過と自然獲得・再挑戦を接続し、片側報酬によるCクリアを両側で確認。[21章](../仕様案/カード探索ゲーム_探索全体の設計.md#reward-build-retry-ai)に、報酬の交換関係・C前半の負担・準備の情報を具体化した。追加AJで初期0から準備・A/B/C探索・帰還・無料取り直し・保存再開を操作画面へ接続。[22章](../仕様案/カード探索ゲーム_探索全体の設計.md#playable-journey-aj)に課題対応と成長予算／候補の関係を整理した。人の構築意図と判断、実端末の評価は未確認。
+ 
+-最終更新：2026-09-13（UTC）
++最終更新：2026-09-18（日本時間）
+ 
+-**現在の割当：CO-01Aの接続データ照合を提出。** ユーザー指定と[計画0.3](とりまとめ/全体計画.md)に従い、保存済みD01とS01提出c7a9a8dを照合した。[接続データ0.1](../仕様案/カード探索ゲーム_CO-01A接続データ照合.md)に状態・場面・再訪の知識ID、新3札・RW・候補・版付き試行値を一案で揃え、P-01/P-02をM1の試行として使用する。公開操作名・plan・viewを維持し、任意詳細表示を保存するcontinue_scene互換拡張をUI最終照合へ残す。今回の保存・読戻し・報告で枠を解放する。CO-01全体・新本体・実保存・画面接続・人評価は未完了。D02/D03へ自動続行せず、BF後の比較はCO-D05で保持する。
++**現在の割当：CO-D02Rの独立追補を完成し保存・提出へ。** [追補報告](../検証/接続条件/co-d02/appendix-d02r/report.md)。CO-D02の実本体を継承し、UI0.11.1の232専用ファイルを設計枝へ受領。本人を含む一手後能力、永続する当時の札名、本人山札、公開／既読本文、主体の調査キーを追加。新規の正式判断は[CO-D02R-J01](../検証/接続条件/co-d02/appendix-d02r/stance-decision.md)の常時身構への一閃適用・機転消費だけ。方向性や既採用D47/50/51/52/53は再判断しない。追加APIのUI描画接続と実機・人評価は残す。保存確認後に今回単位を終了し、D03/D04/D05へ自動続行しない。
++
++**以下はCO-01A提出当時の記録。** **過去の割当：CO-01Aの接続データ照合を提出。** ユーザー指定と[計画0.3](とりまとめ/全体計画.md)に従い、保存済みD01とS01提出c7a9a8dを照合した。[接続データ0.1](../仕様案/カード探索ゲーム_CO-01A接続データ照合.md)に状態・場面・再訪の知識ID、新3札・RW・候補・版付き試行値を一案で揃え、P-01/P-02をM1の試行として使用する。公開操作名・plan・viewを維持し、任意詳細表示を保存するcontinue_scene互換拡張をUI最終照合へ残す。今回の保存・読戻し・報告で枠を解放する。CO-01全体・新本体・実保存・画面接続・人評価は未完了。D02/D03へ自動続行せず、BF後の比較はCO-D05で保持する。
+ 
+ **現在の検討方針：** 中断時のBD・BE・PT-NT等58ファイルはdb49c3bへ保存・読戻し済み。[表示条件0.2](引継ぎ/カード探索ゲーム_準備と判断材料の表示条件.md)をUI全画面一覧0.2／UI-F-001へ対応づけ、設計側索引と試遊引継ぎに参照先を登録した。画面・実保存接続と相手の受領・人評価は未確認。[BF1](../検証/構築と探索/bf/検討結果.md)で自然取得・全4基礎習得後の同じ所持と札組から心得構成を交差し、Cでは初期札組と取得札入りで手数・残余力の優劣が逆転した。探索先だけで心得を固定せず、[全体優先順位](#design-priorities-after-work-split)に沿って保護到達・後半負担・再挑戦への準備を扱う。再開は[引継ぎ](引継ぎ/カード探索ゲーム_ゲームバランス仕様検討_引継ぎ.md)。
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\345\274\225\347\266\231\343\201\216/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\343\202\262\343\203\274\343\203\240\343\203\220\343\203\251\343\203\263\343\202\271\344\273\225\346\247\230\346\244\234\350\250\216_\345\274\225\347\266\231\343\201\216.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\345\274\225\347\266\231\343\201\216/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\343\202\262\343\203\274\343\203\240\343\203\220\343\203\251\343\203\263\343\202\271\344\273\225\346\247\230\346\244\234\350\250\216_\345\274\225\347\266\231\343\201\216.md"
+index 3de38fb95a247ae492232991345ae154e2e736a4..a7496a87a6349ecf0600d20925488acbaad0eaa2 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\345\274\225\347\266\231\343\201\216/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\343\202\262\343\203\274\343\203\240\343\203\220\343\203\251\343\203\263\343\202\271\344\273\225\346\247\230\346\244\234\350\250\216_\345\274\225\347\266\231\343\201\216.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\345\274\225\347\266\231\343\201\216/\343\202\253\343\203\274\343\203\211\346\216\242\347\264\242\343\202\262\343\203\274\343\203\240_\343\202\262\343\203\274\343\203\240\343\203\220\343\203\251\343\203\263\343\202\271\344\273\225\346\247\230\346\244\234\350\250\216_\345\274\225\347\266\231\343\201\216.md"
+@@ -1,3 +1,25 @@
++## 2026-09-18 CO-D02R：追補確認完了・保存へ
++
++Work `20260909-design-assembly`、作業・統合先`dev_design_tmp_assembly`、統合担当本Work、必須同期はopsのとりまとめ全体1本を維持。UI原本の担当はUIのまま。開始・計画0.8・UI専用232blobの選択受領は`7c2a43dd34ce4c770589d812530545b8fed17881`へ保存済み。UI元ac610be、通常入口co-u02/index.html、一時保存の確認入口co-u02/review/index.html。PR #1自体は未マージ、UI Work設定は参照のみ。
++
++公開契約CW-M1-public-0.2を実装。共通の一手実行をコピーで使うactor_changes（本人を含む）、解決時の履歴札名、本人山札の種類別参照、公開／既読の過去本文、版付き調査キーを追加した。CW-M1-save-1・engine0.1・現行演算・D03 pending_contextsは継承。旧名前欠損は不明のまま、旧自然5保存は上書きしない。
++
++CW-M1-A-002 code-06：本体26項目・一手比較8状態。UIはcode-01の12項目で、確認対象runtimeとUI検査コードは最終版と全SHA一致。MemoryStore／JSDOMの結果であり、実描画・物理入力・IndexedDBは未確認。旧比較・自然2runの再走0。5回の検査側失敗と修正条件を固定記録へ保全した。成果入口は`docs/検証/接続条件/co-d02/appendix-d02r/README.md`、report／examples／verification／artifact-checkに実コードとの対応がある。
++
++身構統一は`stance-decision.md`のCO-D02R-J01だけユーザー判断へ残す。推奨は常時分にも防御側一閃倍率を適用し、常時分だけで防ぐ場合も機転を消費する。札分／常時分の持続と発生源は区別。遊び方が変わるので未採用のまま、現行予測は完成した。基本設計0.53/D53・既採用方針を再判断待ちへ戻していない。
++
++保存前の最新設計7c2a43d・計画5e86a3d・UI ac610beは不変。計画14・UI232blob、条件の保護8ファイル、PT-NT subtreeを照合済み。未保存は追補runtime7ファイル・新検査とコード固定／結果・追補3文書・CO-D02案内・Work／本引継ぎ／要検討事項／同期JSON。本体コードと検査は揃っており、次の具体操作は通常commit／非強制PushとGitHubの親・完全tree・主要本文読戻し。完了後に保存SHAを追記してCO-D02R単位を終了し枠を解放する。
++
++UIの追加描画は対象ファイルと受取例を記録済み、通知・受領・実装完了は未確認。実機は既存の拒否を再試行／迂回せず手順を維持。判断待ちだけで稼働を続けず、D03/D04/D05・画像・UI全画面改修へ自動続行しない。
++
++## CO-D02R：UI受領保存済み・追補コードの確認へ
++
++開始・計画0.8・UI 0.11.1専用232blobの選択受領を`7c2a43dd34ce4c770589d812530545b8fed17881`へ通常Push。親7a0ce6f、tree81bb8a0c、GitHub749項目取得・主要入口／条件本文一致。UI Work設定・受領JSONは参照のみ、PR自体は未マージ。現行入口は`docs/検証/UI/readability/co-u02/index.html`、9場面の一時保存入口は同`review/index.html`。
++
++未保存差分は共通runtimeの公開追補と本チェックポイント。`Game.predict`を同一演算の一手コピーへ変更し、本人を含むactor_changesを追加。解決時の札名、本人山札の初期／未ドロー／手札／消滅予定数、調査キー、公開／既読本文を追加中。CW-M1-save-1とengine0.1を継承し、旧札名欠損は不明のまま。UI原本の描画変更は行わない。
++
++次の具体操作：CW-M1-A-002のコードをcode-01へ固定後、旧5保存の読取と新しい明示境界から、一手予測／実行・不変・情報境界・現行UIの前後接続を確認。自然2runや旧比較を再走せず、失敗も新結果へ保存する。身構統一の未決細部は実装と切り離して具体資料へまとめる。実機未確認とD03未接続は維持し、独立追補の保存読戻し後に今回単位を終了する。
++
+ ## 2026-09-18 CO-D02R受領・開始
+ 
+ 既存Work `20260909-design-assembly`を継承。作業・統合先は`dev_design_tmp_assembly`、統合担当は本Work。必須同期元は`ops/project-coordination-20260913`のとりまとめ全体1本。共通runtime・保存・公開契約と本体統合・自Work記録は本Work、UI専用原本はUI担当を維持する。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260909-design-assembly.json" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260909-design-assembly.json"
+index 0a14277e1a290bcb6c5735cf9672d16c709863d1..f77a1cb8e23d0ea54d45535a6b2fe453a6076f09 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260909-design-assembly.json"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260909-design-assembly.json"
+@@ -31,6 +31,11 @@
+   "own_head_at_start": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+   "ui_reference_commit": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
+   "received_on_jst": "2026-09-18",
+-  "status": "全14ファイルを実同期・blob一致。CO-D02R 0.2を受領。",
+-  "task_status": "CO-D02R received and started; not yet implemented or saved"
++  "status": "全14ファイル実同期・blob一致。反映前の最新計画5e86a3dも不変。",
++  "task_status": "CO-D02R implementation and scoped verification complete; final save/readback pending",
++  "related_ui_latest_head": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
++  "related_ui_review": "UI専用232blobを7c2a43dへ選択受領。元原本不変、Work設定／計画コピーは対象外。追加描画は次UI単位へ。",
++  "last_verified_own_head": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "report": "docs/検証/接続条件/co-d02/appendix-d02r/report.md",
++  "user_decision": "CO-D02R-J01: 常時分の一閃適用・機転消費。未採用、独立追補の完了とは分離。"
+ }
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/README.md" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/README.md"
+index 8e9ec89f482edc99c55a1d8fa43cb0a006c807ed..3282569a10fccb2e50c7c7c6a74a1aa628bd56f9 100644
+--- "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/README.md"
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/README.md"
+@@ -1,5 +1,7 @@
+ # CO-D02 継続本体・途中到達A
+ 
++**2026-09-18追補：[CO-D02R — UI受領・公開API追加](appendix-d02r/README.md)。** UI 0.11.1の通常入口と9場面入口を設計枝へ選択受領。全能力の一手後予測、履歴札名、本人山札、過去本文、調査キーを追加した。保存schemaと現行演算を維持。結果は[追補報告](appendix-d02r/report.md)、身構統一の未採用部分は[判断資料](appendix-d02r/stance-decision.md)。下のUI未受領・ZIP待ちはD02提出当時の記録で、現行の停止理由ではない。
++
+ 2026-09-15 JST／成果提出0.2（先行受渡しは68da4ff0）。Work `20260909-design-assembly`、作業・統合先 `dev_design_tmp_assembly`。基本設計0.53/D53は変更しない。容量8・12枚・同基礎2・習得200units等は入力0.1の試行値。
+ 
+ ## 公開入口と起動
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/README.md" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/README.md"
+new file mode 100644
+index 0000000000000000000000000000000000000000..e330bce7007f3aedd9d80a4a41a4c96655ed5375
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/README.md"
+@@ -0,0 +1,76 @@
++# CO-D02R — UI受領と公開情報の追補
++
++2026-09-18 JST／追補0.1。既存Work `20260909-design-assembly`、作業・統合先 `dev_design_tmp_assembly`。CO-D02の同じCampaignとCW-M1-save-1を継承する。基本設計0.53/D53、入力0.1、身構・常時軽減の現行演算と試行値を維持。
++
++## 受領した入口
++
++UI `ac610be8e07ee026c8330b72ec7e9e8ee8780346`、0.11.1の専用232ファイルを原文のまま選択取込みした。[受領目録](ui-receipt.json)に全path/blobを記録。開始・受領commitは `7c2a43dd34ce4c770589d812530545b8fed17881`。UIのWork設定・受領JSONは参照のみ。古い計画コピーを取り込まず、計画0.8の全14ファイルを実同期した。PR #1の内容受領であり、PRのマージ操作・masterへの統合は行っていない。
++
++リポジトリルートで `python -m http.server 8000 --bind 127.0.0.1` を起動する。受領したdistをそのまま使用でき、今回のための再ビルドは不要。
++
++| 入口 | 用途・保存先 |
++|---|---|
++| [通常ゲーム](../../../UI/readability/co-u02/index.html) | `/docs/検証/UI/readability/co-u02/index.html`。既存CampaignのIndexedDBStore、slot `m1-local` |
++| [場面の確認](../../../UI/readability/co-u02/review/index.html?case=explore) | 同`review/index.html`。9場面へ直接入る、場面ごとに独立したMemoryStore。通常保存に触れない |
++| [API確認](../harness.html) | 開発用。通常UIとの区別を維持 |
++
++旧co-u01やflow/interactionの固定例を、現行ゲームの入口として案内しない。UI0.11.1の大まかな動きは了承済み。今回ユーザーへ通しプレイや仮素材の再評価を求めない。
++
++## 追加した公開契約
++
++入口は引き続き `src/runtime/campaign.mjs`。全応答のschemaはCW-M1-view-1、保存schemaはCW-M1-save-1、engineはCW-M1-engine-0.1。追加契約を `versions.public_contract` と `display_data.public_contract` の **CW-M1-public-0.2** で識別する。既存操作・引数・view_token・revision・previewの既存項目は維持する。UIの描画入力はdisplay_dataのみ。
++
++| 取得場所 | 追加内容・境界 |
++|---|---|
++| `previewAction(...).display_data.action_preview.actor_changes[actor_id]` | 本人Pを含む、現在公開されている主体の一手解決後値。`values[key]={status,before,after,delta}`。`active`、`stance`、`persistent_sources`も前後を返す |
++| 同`resolution_scope` | `after_current_action_before_next_actor`。同じGame.playをコピー上で一回使い、退場・支援解除まで含める。advance・後続NPC選択・次の本人補充は実行しない |
++| `exploration.public_history`／`action_history` | 同一card_idへ解決時の`card_name`と`card_name_status`。後者は帰還画面でも読める同じ探索の履歴。ack_return／新出発でのクリアは従来どおりで、全探索の永久履歴を増設していない |
++| `exploration.deck_catalogue` | 本人の札を種類・公開性能ごとに集計。初期持込、現在の未ドロー、現在の手札、消滅予定数を別々に返す。借り札も現在の本人山札に含まれれば参照可能 |
++| `details[deck_catalogue.entries[i].detail_id]` | 同じview内の札説明。名前、属性、主／場効果、期限、間隔。`own-card:n`は現在view内の参照であり、保存・次viewへ持ち越す選択IDではない |
++| `exploration.other_decks`／`shared_recovery` | 相手の現在内訳は`unknown`、共有回収の内訳は`count_only`。公開枚数だけ。`entries:null`は0枚・種類なしを意味しない |
++| `text_history` | 公開した過去本文を本文ID単位で一覧化。`published/read/scene_ids/kind/short_text/detail_text`。未読の主本文と既読を分け、任意詳細は実表示の記録後だけ含む |
++| `exploration.actors[id].knowledge_key` | `knowledge_views[].key`への完全一致キー。target_idとcatalogue_versionを含む識別で、表示名・runtimeのV0等から推定しない。本人はnull／knowledge_status:self |
++| `exploration.actors[id].persistent_sources` | 現在働く公開済み常時作用の発生源・種類・値。身構統一を採用するまで、reductionと札のguardを合算済みの能力とはしない |
++
++能力のキーは `hp,max_hp,hit,posture_remaining,max_posture,crit,critical_multiplier,guard,guard_uses,guard_evasion,evasion,reduction`。guardは札による現在身構の基礎量、evasionは常時支援込みの攪乱総量、reductionは現行の常時軽減。guardなしは既知の0・uses0として返し、姿勢の実体はstance.after:nullで区別する。critical_multiplierは蓄積から現在使える一閃倍率であり、将来発動の保証ではない。
++
++既知の変化0はstatus:known／delta:0。未知の新規発生源が絡む主体はstatus:unknown／values:null、未対応数値はstatus:unsupported／before,after,delta:null。非合法手・停止中・古いtokenは従来のerrorとsupported:false、actor_changes:nullを返す。UIで不明を0へ置き換えない。
++
++予測は現在公開済みの主体だけを返す。環境踏破で新しい主体が登場する場合も、その未公開の初期構成・次札・内部乱数を予測へ混ぜない。現在予約・次の本人予約時刻と、本人の次手番までの全経過を区別する。実executeはこの一手の後に自動進行するため、応答の最終探索値をそのまま「一手直後」の比較対象にしない。
++
++```js
++const view = await controller.inspect();
++const preview = await controller.previewAction({view_token:view.meta.view_token, choice});
++const change = preview.display_data.action_preview?.actor_changes?.P?.values?.crit;
++if (change?.status === 'known') {
++  // UIはchange.before / change.after / change.deltaを描画する。
++  // crit_addedは加算量のまま。最終差分の代用にしない。
++}
++const data = view.display_data;
++const deckRows = data.exploration?.deck_catalogue.entries.filter(row => row.deck_count > 0);
++const actor = data.exploration?.actors.V0;
++const record = data.knowledge_views.find(row => row.key === actor?.knowledge_key);
++```
++
++[応答例](examples.json)は実コードによる公開投影。能力例は宣言した港のコピー上の汐留め・常時支援条件で、自然な到達例や採用済み性能ではない。外側の照合条件を画面へ流さない。
++
++## 保存互換と公開条件
++
++- 新しいaction行にだけcard_nameを保持する。旧保存の名前欠損は保存上は欠損のまま、公開時はnull／not_recorded。現在の名称、別札の知識、現在の手札・場から過去名を埋めない。名前付き行はrecorded_at_resolution。破損した名前フィールドは拒否する。
++- 旧5保存は変換なしでopen可能。inspect／previewで保存、revision、乱数、下書き、領収、pending_contextsを変えない。importは従来どおり空slotへ明示輸入しrevisionだけ更新する。保存形式・保存装置の二重化なし。
++- 山札集計は本人の現在の未ドロー分と手札、本人が初期持込した札のみ。相手の現在の私有札から種類別残数を補完しない。初攻略catalogueは初期構成の知識であり、現在内訳ではない。本人の山札も並び・次札を返さない。
++- D37の本人山札公開に従い、今後の再構築では本人が受け取った全種類を知識へ記録する。旧保存の本人山札にある未ドロー借り札は参照でき、次のゲーム保存コマンドで公開済みの所持情報を知識へ残す。純粋な閲覧で保存を書き換えず、帰還後にその知識を失わせない。借り札の初使用本文をドロー前に発火させない。
++- 過去本文は同じcontent_set版の保存済み公開IDから返す。条件を現在状態で再評価して別の過去本文へ差し替えない。未遭遇の本文・未表示の任意詳細・内部contextを一覧へ加えない。本文を一覧で返すだけでは既読やCL05を追加しない。過去未読本文を改めて既読にする新操作は今回増設せず、現在sceneのrecord_displayed_textを維持する。
++
++## 次のUI単位へ渡す接続
++
++UI原本は今回編集していない。以下はUI担当が次回受領して実装する対象で、通知・受領・画面実装済みとは扱わない。
++
++| UI側ファイル（co-u02配下） | 受け取る値と変更 |
++|---|---|
++| `action-forecast.js`、`exploration.js` | actor_changesのbefore/after/deltaを本人欄と相手欄へ。身構終了・機転消費・攪乱総量を独自計算しない。選択解除／確定／古い応答で予測を消す既存処理を継承 |
++| `exploration.js` | 履歴はrow.card_name_statusとrow.card_nameを優先。未記録を現在名で補完しない。山札窓はdeck_catalogueとdetails、主体詳細はknowledge_keyへ接続 |
++| `journey/view.js`と調査・本文の表示部品 | text_historyの公開／既読を分けて過去本文へ。既読の新操作を推測しない |
++| `review/`の既存入口 | 探索中、該当本文、帰還の場面から変更をまとめて提示。新しい固定ゲームや9場面の作り直しは不要 |
++
++受領UIは旧予測の描画処理を維持しており、追加値を表示する接続は未了。コピーでの成功・MemoryStore確認を実IndexedDBやユーザー受入の完了にしない。[確認結果](report.md)、[身構統一の判断資料](stance-decision.md)を参照。
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-02.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-02.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..ce477906934ac4656e8672106976e8fd90f872e4
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-02.json"
+@@ -0,0 +1,7 @@
++{
++  "attempt": 2,
++  "reason": "code-01の検査入力誤り。汐留めはentryに存在せず、V1登場済みのport保存を元にする。未知の札をentryへ作らない。汐留めの支援源もportで活動中のV1へ置く。runtime変更なし。",
++  "source": "fixed port.save.json.gz",
++  "old_result": "failure-01.json",
++  "classification": "declared fixture correction; no old battle rerun"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-03.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-03.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..1c9408a5f793d9b851348c89964f1d6cc67f1d08
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-03.json"
+@@ -0,0 +1,5 @@
++{
++  "attempt": 3,
++  "reason": "検査入力の場札整理で、港に残る退場済み出現元の札を通常回収へ移していた。実recoverを使用して消滅例外を守る。runtime変更なし。",
++  "old_result": "failure-02.json"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-04.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-04.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..bbb1cc49052e8c47ef747ea2240dc846781e11c9
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-04.json"
+@@ -0,0 +1,5 @@
++{
++  "attempt": 4,
++  "reason": "検査入力のV0は最大体勢1。蓄積99を置くのは不正なため0にし、現在のf一致で削り切る。TXT未公開検査は存在しない仮IDへの比較をやめ、実公開台帳の集合に制限する。runtime変更なし。",
++  "old_result": "failure-03.json"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-05.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-05.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..882b17261788df3172bc98d330b7545a9cfd331f
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-05.json"
+@@ -0,0 +1,5 @@
++{
++  "attempt": 5,
++  "reason": "自然port保存はS03で、DETAIL06の場面は次のS04。公開continue_sceneでS04へ進み、未表示本文の既読は送らず、ゲーム進行なしの場面遷移後に詳細を検査する。runtime変更なし。",
++  "old_result": "failure-04.json"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-06.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-06.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..e3b94c6a0ecee2edc6c951df7bbaabe0d7e24f2c
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/amendment-06.json"
+@@ -0,0 +1,5 @@
++{
++  "attempt": 6,
++  "reason": "公開境界検査の誤検出。既存return_receipt.knowledge_changes.cataloguesは実取得した初攻略知識のprofile/version一覧であり、private game.ah.cataloguesとは異なる。許可する正確なpathと2キーの形を限定し、他のcataloguesは拒否を維持。runtime変更なし。",
++  "old_result": "failure-05.json"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/artifact-check.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/artifact-check.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..d8c8e63fadbf7649f794eaa05671b7c860c5de64
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/artifact-check.json"
+@@ -0,0 +1,18 @@
++{
++  "id": "CW-M1-A-002",
++  "runtime_freeze": "code-06.json",
++  "runtime_files_match_freeze": true,
++  "ui_check_freeze": "code-01.json",
++  "ui_checked_runtime_identical_to_final": true,
++  "ui_original_blobs_unchanged": 232,
++  "plan_blobs_match": 14,
++  "old_files_match_conditions": 8,
++  "pt_nt_tree": "7bb3ba7ff8912bad0379341a26cbfabb941a34c7",
++  "results": {
++    "verification-06.json": "8b171a0d2daafd8d2dc2c77d7c0e556cc205f9a44388cebe5678cc3f050334ab",
++    "ui-verification-01.json": "235c421ff5f0d5dade99260f7a823655b686da82e27084c9f5921ac00b4f0fe6",
++    "examples.json": "ac4f6403c5d73dc5718ccc729f7738f0113e4e38645c6a571006fd02472f5b73"
++  },
++  "browser": "Not run in this unit. Prior ERR_BLOCKED_BY_CLIENT is retained as prior evidence; no retry or alternative route.",
++  "old_natural_or_comparison_runs": 0
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-01.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-01.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b8682d6bf35b84c70d2992a2765b150575894e7
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-01.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 1,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "94a597fe76a1b6ebb8fe4a249674d9348fca40a76486f07e0214b7da0f647eb2",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-02.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-02.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..b6cf91efc5bcee44c6da9c133e00d2db47d2968e
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-02.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 2,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "9c3d7d2cfddc3d7113b42df64cfa2eae049ec63dfbafdf17df1e2a643b5e7fe9",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-03.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-03.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..da0d4c5c57b573b20e2cf59500c9b724cf1979be
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-03.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 3,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "0248266c9c34722a1dae42d9640b02c00fadc8c9163511670b0d60c688b6a8f7",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-04.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-04.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..bfe1b7fd0b81833dd874c54c8acb5975c505b14f
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-04.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 4,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "3fd201636df01c8206626652b936ee190f33ed7d24ea67d09b1cb19528ebc014",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-05.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-05.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..bf033a43cf14b4ea57601d0473e8d84d53c9be1e
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-05.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 5,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "11598ba7d0e1169340c2d0346623972cd58484b77db7d15fa1bc601afbd86fb9",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-06.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-06.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..f0647686fb295d80bd47c716c5dc29f6158fb136
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/code-06.json"
+@@ -0,0 +1,30 @@
++{
++  "id": "CW-M1-A-002",
++  "attempt": 6,
++  "base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
++  "files": {
++    "scripts/freeze-d02r.py": "8538d1f8a4cb1f06133c28e6d53768843c537d442e91dedc7056a02cebd4868f",
++    "src/content/display.mjs": "e4dc90708845bcffc9dad835626019908bcd17d364da8911cdf2a2432e2399ab",
++    "src/content/m1.mjs": "f9d466e73d2e582792d62f163f4da6bff13476585b3fa6afddcdb44532f7a265",
++    "src/runtime/action-public.mjs": "da9e9285b268102020588cd57981311cf70f26fba8675e7546edc1391b133668",
++    "src/runtime/campaign.mjs": "11e03c8f89fcb6069227ee0d568db6adc3b61ca910a155f3156dedc8d117d5be",
++    "src/runtime/common.mjs": "fbce4e3c5f320dcdc18943d82c308feb81b67b8c8b5e97f728cba11a11f4ce41",
++    "src/runtime/core.mjs": "ccddc462516383a62c6ea7e61dee4b44e7537b38eb348d77b9fad7163fded921",
++    "src/runtime/game.mjs": "2d3666f5696f7d70007c2e837acbfafe84309d62c632e903b5dee45b59b72aef",
++    "src/runtime/information.mjs": "ce49c353f25979db163ebe77daeb9eff4426bc5a78bfb2a12c926762697564da",
++    "src/runtime/knowledge.mjs": "5c9b6fd3d210325a52c4b937710d6d515defa7e31ea92bd8c12402bcca2aa88b",
++    "src/runtime/preparation.mjs": "e8fe27088aa9962ccd12fb1cf703c7c730094d7103e1aa9882578afb58ac5313",
++    "src/runtime/random.mjs": "e1e5f85c5be68a90bcbb3ca299d3d44fe60ad2d220b89e0a643d6c956c30f4d2",
++    "src/runtime/references-public.mjs": "d5b7bf22c17a049a83c728e7e7106a4e3b95aa571608cdec88aac40d8c8d8df0",
++    "src/runtime/settlement.mjs": "e4992ed4263d71a0cacf4bdd47afaea4fbee59d839aa86f1bb7bd1b65098cc69",
++    "src/runtime/storage.mjs": "38b51cf19cf2cb66c6bb3e451fa5afbd198b68c226ff5a888b5bfef039179af5",
++    "src/runtime/story.mjs": "54ecad4099f185b280853b52366f55e1dfa2c7931c9c5a9e0f9ddf963cef24fb",
++    "src/runtime/validate.mjs": "042ebbe5f3464143269e4214278e99866e3477bbd756a41ac0bc52982aeff05b",
++    "src/runtime/view.mjs": "117b58506f62a5257bdb77ff589328748ee2894b639ae640d7ce882d8bd1d1c0",
++    "test/runtime/d02r-ui.mjs": "cd571d3cac1fa51fb6628a17ff9e9194d791ecda6fb15acecc689ba656ceaa10",
++    "test/runtime/d02r.mjs": "26b7bff82935cc0d284d4c3bb04f989a2478ceee5a5b0a5c29358430815b43ca",
++    "test/runtime/support.mjs": "9f1da290170e2835825eeddb5698d05d7ba29e899dc560e0cc4382475971f442",
++    "docs/検証/接続条件/co-d02/appendix-d02r/conditions.json": "114a4c67228b90ba33f5f3a0828037831e06af2ecf385864b71547dc16f21632",
++    "docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json": "79455f0ce7fe7426a458d8a849301bd7fe0bd2102a58e8a7a462d77f26c8f38d"
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/examples.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/examples.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..d83235ddb70283521f6962f35edfbaaaa7d23bea
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/examples.json"
+@@ -0,0 +1,1516 @@
++{
++  "id": "CW-M1-A-002",
++  "basis": "actual public projections from declared inputs; not player saves",
++  "examples": {
++    "ability_preview": {
++      "mode": "guard",
++      "crit_added": 20,
++      "actual_hp_loss": 0,
++      "hit_gain": 0,
++      "hit_connected": false,
++      "posture_before": null,
++      "posture_after": null,
++      "posture_overflow": 0,
++      "posture_multiplier": 0,
++      "hp_restored": 0,
++      "passives": [],
++      "action_cost": 10,
++      "guard": {
++        "value": 5,
++        "evasion": 40,
++        "uses": 2
++      },
++      "resolution_scope": "after_current_action_before_next_actor",
++      "actor_changes": {
++        "P": {
++          "status": "known",
++          "values": {
++            "hp": {
++              "status": "known",
++              "before": 36,
++              "after": 36,
++              "delta": 0
++            },
++            "max_hp": {
++              "status": "known",
++              "before": 40,
++              "after": 40,
++              "delta": 0
++            },
++            "hit": {
++              "status": "known",
++              "before": 50,
++              "after": 50,
++              "delta": 0
++            },
++            "posture_remaining": {
++              "status": "known",
++              "before": 50,
++              "after": 50,
++              "delta": 0
++            },
++            "max_posture": {
++              "status": "known",
++              "before": 100,
++              "after": 100,
++              "delta": 0
++            },
++            "crit": {
++              "status": "known",
++              "before": 0,
++              "after": 20,
++              "delta": 20
++            },
++            "critical_multiplier": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "guard": {
++              "status": "known",
++              "before": 9,
++              "after": 5,
++              "delta": -4
++            },
++            "guard_uses": {
++              "status": "known",
++              "before": 1,
++              "after": 2,
++              "delta": 1
++            },
++            "guard_evasion": {
++              "status": "known",
++              "before": 30,
++              "after": 40,
++              "delta": 10
++            },
++            "evasion": {
++              "status": "known",
++              "before": 50,
++              "after": 60,
++              "delta": 10
++            },
++            "reduction": {
++              "status": "known",
++              "before": 8,
++              "after": 8,
++              "delta": 0
++            }
++          },
++          "active": {
++            "before": true,
++            "after": true
++          },
++          "stance": {
++            "before": {
++              "value": 9,
++              "evasion": 30,
++              "uses": 1
++            },
++            "after": {
++              "value": 5,
++              "evasion": 40,
++              "uses": 2
++            }
++          },
++          "persistent_sources": {
++            "before": [
++              {
++                "source_actor_id": "V1",
++                "kind": "evasion",
++                "value": 20
++              },
++              {
++                "source_actor_id": "V1",
++                "kind": "damage_reduction",
++                "value": 8
++              }
++            ],
++            "after": [
++              {
++                "source_actor_id": "V1",
++                "kind": "evasion",
++                "value": 20
++              },
++              {
++                "source_actor_id": "V1",
++                "kind": "damage_reduction",
++                "value": 8
++              }
++            ]
++          }
++        },
++        "V0": {
++          "status": "known",
++          "values": {
++            "hp": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "max_hp": {
++              "status": "known",
++              "before": 40,
++              "after": 40,
++              "delta": 0
++            },
++            "hit": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "posture_remaining": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "max_posture": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "crit": {
++              "status": "known",
++              "before": 50,
++              "after": 50,
++              "delta": 0
++            },
++            "critical_multiplier": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "guard": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_uses": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "reduction": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            }
++          },
++          "active": {
++            "before": false,
++            "after": false
++          },
++          "stance": {
++            "before": null,
++            "after": null
++          },
++          "persistent_sources": {
++            "before": [],
++            "after": []
++          }
++        },
++        "E1": {
++          "status": "known",
++          "values": {
++            "hp": {
++              "status": "known",
++              "before": 24,
++              "after": 24,
++              "delta": 0
++            },
++            "max_hp": {
++              "status": "known",
++              "before": 24,
++              "after": 24,
++              "delta": 0
++            },
++            "hit": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "posture_remaining": {
++              "status": "known",
++              "before": 100,
++              "after": 100,
++              "delta": 0
++            },
++            "max_posture": {
++              "status": "known",
++              "before": 100,
++              "after": 100,
++              "delta": 0
++            },
++            "crit": {
++              "status": "known",
++              "before": 50,
++              "after": 50,
++              "delta": 0
++            },
++            "critical_multiplier": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "guard": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_uses": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "reduction": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            }
++          },
++          "active": {
++            "before": false,
++            "after": false
++          },
++          "stance": {
++            "before": null,
++            "after": null
++          },
++          "persistent_sources": {
++            "before": [],
++            "after": []
++          }
++        },
++        "V1": {
++          "status": "known",
++          "values": {
++            "hp": {
++              "status": "known",
++              "before": 20,
++              "after": 20,
++              "delta": 0
++            },
++            "max_hp": {
++              "status": "known",
++              "before": 20,
++              "after": 20,
++              "delta": 0
++            },
++            "hit": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "posture_remaining": {
++              "status": "known",
++              "before": 100,
++              "after": 100,
++              "delta": 0
++            },
++            "max_posture": {
++              "status": "known",
++              "before": 100,
++              "after": 100,
++              "delta": 0
++            },
++            "crit": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "critical_multiplier": {
++              "status": "known",
++              "before": 1,
++              "after": 1,
++              "delta": 0
++            },
++            "guard": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_uses": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "guard_evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "evasion": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            },
++            "reduction": {
++              "status": "known",
++              "before": 0,
++              "after": 0,
++              "delta": 0
++            }
++          },
++          "active": {
++            "before": true,
++            "after": true
++          },
++          "stance": {
++            "before": null,
++            "after": null
++          },
++          "persistent_sources": {
++            "before": [],
++            "after": []
++          }
++        }
++      }
++    },
++    "action_history": [
++      {
++        "type": "action",
++        "time": 0,
++        "actor": "V0",
++        "action_number": 1,
++        "card_id": "V0_initial_0018",
++        "target": null,
++        "matched_id": null,
++        "mode": "place",
++        "damage": 0,
++        "actual_hp_loss": 0,
++        "hit_gain": 0,
++        "hit_connected": false,
++        "posture_before": null,
++        "posture_after": null,
++        "posture_overflow": 0,
++        "posture_multiplier": 0,
++        "hp_restored": 0,
++        "crit_added": 0,
++        "expired": [],
++        "old_guard_ended": null,
++        "event_before": "A/start",
++        "passives": [],
++        "action_cost": 10,
++        "card_name": "弱攻撃札",
++        "card_name_status": "recorded_at_resolution"
++      },
++      {
++        "type": "action",
++        "time": 0,
++        "actor": "P",
++        "action_number": 1,
++        "card_id": "P_initial_0001",
++        "target": "E1",
++        "matched_id": "P_initial_0002",
++        "mode": "attack",
++        "damage": 3,
++        "actual_hp_loss": 3,
++        "hit_gain": 100,
++        "hit_connected": true,
++        "posture_before": 1,
++        "posture_after": 100,
++        "posture_overflow": 99,
++        "posture_multiplier": 1,
++        "hp_restored": 0,
++        "crit_added": 25,
++        "expired": [],
++        "old_guard_ended": null,
++        "event_before": "A/start",
++        "passives": [],
++        "action_cost": 10,
++        "card_name": "牽制",
++        "card_name_status": "recorded_at_resolution"
++      },
++      {
++        "type": "action",
++        "time": 0,
++        "actor": "E1",
++        "action_number": 1,
++        "card_id": "E1_initial_0025",
++        "target": null,
++        "matched_id": null,
++        "mode": "place",
++        "damage": 0,
++        "actual_hp_loss": 0,
++        "hit_gain": 0,
++        "hit_connected": false,
++        "posture_before": null,
++        "posture_after": null,
++        "posture_overflow": 0,
++        "posture_multiplier": 0,
++        "hp_restored": 0,
++        "crit_added": 0,
++        "expired": [],
++        "old_guard_ended": null,
++        "event_before": "A/start",
++        "passives": [],
++        "action_cost": 10,
++        "card_name": "牽制",
++        "card_name_status": "recorded_at_resolution"
++      },
++      {
++        "type": "action",
++        "time": 10,
++        "actor": "V0",
++        "action_number": 2,
++        "card_id": "V0_initial_0020",
++        "target": null,
++        "matched_id": null,
++        "mode": "place",
++        "damage": 0,
++        "actual_hp_loss": 0,
++        "hit_gain": 0,
++        "hit_connected": false,
++        "posture_before": null,
++        "posture_after": null,
++        "posture_overflow": 0,
++        "posture_multiplier": 0,
++        "hp_restored": 0,
++        "crit_added": 0,
++        "expired": [],
++        "old_guard_ended": null,
++        "event_before": "A/start",
++        "passives": [],
++        "action_cost": 10,
++        "card_name": "弱攻撃札",
++        "card_name_status": "recorded_at_resolution"
++      }
++    ],
++    "deck_catalogue": {
++      "status": "known",
++      "owner_actor_id": "P",
++      "reference_scope": "current_view",
++      "order_disclosed": false,
++      "deck_count": 12,
++      "hand_count": 1,
++      "initial_count": 12,
++      "entries": [
++        {
++          "detail_id": "own-card:0",
++          "card": {
++            "type": "f",
++            "name": "牽制",
++            "attr": "A",
++            "kind": "attack",
++            "power": 3,
++            "hit": 70,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 30,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 2,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:1",
++          "card": {
++            "type": "fast",
++            "name": "速撃",
++            "attr": "A",
++            "kind": "attack",
++            "power": 2,
++            "hit": 100,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": -20,
++            "life": 1,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 0,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:2",
++          "card": {
++            "type": "g",
++            "name": "防御",
++            "attr": "D",
++            "kind": "guard",
++            "power": 3,
++            "hit": 0,
++            "evasion": 0,
++            "crit_gain": 20,
++            "field_power": -4,
++            "field_hit": 0,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 0,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:3",
++          "card": {
++            "type": "h",
++            "name": "重撃",
++            "attr": "B",
++            "kind": "attack",
++            "power": 12,
++            "hit": 30,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": -20,
++            "life": 3,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 2,
++          "hand_count": 0,
++          "initial_count": 2,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:4",
++          "card": {
++            "type": "j",
++            "name": "小突き",
++            "attr": "C",
++            "kind": "attack",
++            "power": 3,
++            "hit": 40,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 0,
++            "life": 1,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 0,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:5",
++          "card": {
++            "type": "l",
++            "name": "踏み込み",
++            "attr": "B",
++            "kind": "attack",
++            "power": 4,
++            "hit": 50,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 6,
++            "field_hit": 0,
++            "life": 2,
++            "place_cost": 8,
++            "match_cost": 12,
++            "consume_on_recover": null
++          },
++          "deck_count": 0,
++          "hand_count": 0,
++          "initial_count": 2,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:6",
++          "card": {
++            "type": "nt_flow",
++            "name": "返し潮",
++            "attr": "A",
++            "kind": "attack",
++            "power": 3,
++            "hit": 70,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 30,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 2,
++          "hand_count": 0,
++          "initial_count": 0,
++          "doomed_deck_count": 2,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:7",
++          "card": {
++            "type": "nt_pressure",
++            "name": "潮底の踏み足",
++            "attr": "B",
++            "kind": "attack",
++            "power": 4,
++            "hit": 50,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 6,
++            "field_hit": 0,
++            "life": 2,
++            "place_cost": 8,
++            "match_cost": 12,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 0,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:8",
++          "card": {
++            "type": "nt_stop",
++            "name": "汐留め",
++            "attr": "D",
++            "kind": "guard",
++            "power": 3,
++            "hit": 0,
++            "evasion": 20,
++            "crit_gain": 20,
++            "field_power": 2,
++            "field_hit": 20,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 0,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:9",
++          "card": {
++            "type": "r",
++            "name": "受け流し",
++            "attr": "A",
++            "kind": "guard",
++            "power": 2,
++            "hit": 0,
++            "evasion": 0,
++            "crit_gain": 40,
++            "field_power": -2,
++            "field_hit": 0,
++            "life": 3,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:10",
++          "card": {
++            "type": "read",
++            "name": "見切り",
++            "attr": "C",
++            "kind": "guard",
++            "power": 1,
++            "hit": 0,
++            "evasion": 30,
++            "crit_gain": 20,
++            "field_power": 0,
++            "field_hit": 20,
++            "life": 3,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 0,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:11",
++          "card": {
++            "type": "salve",
++            "name": "回復草",
++            "attr": "C",
++            "kind": "heal",
++            "power": 16,
++            "hit": 0,
++            "evasion": 0,
++            "crit_gain": 10,
++            "field_power": -4,
++            "field_hit": 0,
++            "life": 16,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": true
++          },
++          "deck_count": 0,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:12",
++          "card": {
++            "type": "sweep",
++            "name": "打ち払い",
++            "attr": "D",
++            "kind": "attack",
++            "power": 4,
++            "hit": 60,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 20,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 1,
++          "doomed_deck_count": 0,
++          "doomed_hand_count": 0
++        },
++        {
++          "detail_id": "own-card:13",
++          "card": {
++            "type": "weak_B",
++            "name": "弱攻撃札",
++            "attr": "B",
++            "kind": "attack",
++            "power": 2,
++            "hit": 20,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 0,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 1,
++          "initial_count": 0,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 1
++        },
++        {
++          "detail_id": "own-card:14",
++          "card": {
++            "type": "weak_D",
++            "name": "弱攻撃札",
++            "attr": "D",
++            "kind": "attack",
++            "power": 2,
++            "hit": 20,
++            "evasion": 0,
++            "crit_gain": 25,
++            "field_power": 0,
++            "field_hit": 0,
++            "life": 2,
++            "place_cost": 10,
++            "match_cost": 10,
++            "consume_on_recover": null
++          },
++          "deck_count": 1,
++          "hand_count": 0,
++          "initial_count": 0,
++          "doomed_deck_count": 1,
++          "doomed_hand_count": 0
++        }
++      ]
++    },
++    "knowledge_links": {
++      "actors": {
++        "P": {
++          "knowledge_key": null,
++          "knowledge_status": "self"
++        },
++        "V0": {
++          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT01\",\"CW-M1-cards-0.1/ACT01/initial-1\"]",
++          "knowledge_status": "encountered"
++        },
++        "E1": {
++          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT02\",\"CW-M1-cards-0.1/ACT02/initial-1\"]",
++          "knowledge_status": "encountered"
++        },
++        "V1": {
++          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT03\",\"CW-M1-cards-0.1/ACT03/initial-1\"]",
++          "knowledge_status": "encountered"
++        }
++      },
++      "knowledge_views": [
++        {
++          "key": "[\"knowledge\",\"SCN-001-ACT01\",\"CW-M1-cards-0.1/ACT01/initial-1\"]",
++          "target_id": "SCN-001-ACT01",
++          "catalogue_version": "CW-M1-cards-0.1/ACT01/initial-1",
++          "name": "逆流する地下水路",
++          "profile": "SCN-001/target/ACT01",
++          "initial_catalogue": {
++            "basis": "explicit_experienced_knowledge",
++            "scope": "initial_composition",
++            "cards": [
++              {
++                "card": {
++                  "type": "nt_flow",
++                  "name": "返し潮",
++                  "attr": "A",
++                  "kind": "attack",
++                  "power": 3,
++                  "hit": 70,
++                  "evasion": 0,
++                  "crit_gain": 25,
++                  "field_power": 0,
++                  "field_hit": 30,
++                  "life": 2,
++                  "place_cost": 10,
++                  "match_cost": 10,
++                  "consume_on_recover": null
++                },
++                "initial_count": 2
++              },
++              {
++                "card": {
++                  "type": "weak_B",
++                  "name": "弱攻撃札",
++                  "attr": "B",
++                  "kind": "attack",
++                  "power": 2,
++                  "hit": 20,
++                  "evasion": 0,
++                  "crit_gain": 25,
++                  "field_power": 0,
++                  "field_hit": 0,
++                  "life": 2,
++                  "place_cost": 10,
++                  "match_cost": 10,
++                  "consume_on_recover": null
++                },
++                "initial_count": 6
++              },
++              {
++                "card": {
++                  "type": "weak_C",
++                  "name": "弱攻撃札",
++                  "attr": "C",
++                  "kind": "attack",
++                  "power": 2,
++                  "hit": 20,
++                  "evasion": 0,
++                  "crit_gain": 25,
++                  "field_power": 0,
++                  "field_hit": 0,
++                  "life": 2,
++                  "place_cost": 10,
++                  "match_cost": 10,
++                  "consume_on_recover": null
++                },
++                "initial_count": 2
++              },
++              {
++                "card": {
++                  "type": "weak_D",
++                  "name": "弱攻撃札",
++                  "attr": "D",
++                  "kind": "attack",
++                  "power": 2,
++                  "hit": 20,
++                  "evasion": 0,
++                  "crit_gain": 25,
++                  "field_power": 0,
++                  "field_hit": 0,
++                  "life": 2,
++                  "place_cost": 10,
++                  "match_cost": 10,
++                  "consume_on_recover": null
++                },
++                "initial_count": 2
++              }
++            ],
++            "evidence": "AD trial first_resolution: public fact [\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:33 (traversed)"
++          },
++          "observed_by_current_actor": [
++            {
++              "card": {
++                "type": "f",
++                "name": "牽制",
++                "attr": "A",
++                "kind": "attack",
++                "power": 3,
++                "hit": 70,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 30,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:30",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:32"
++              ],
++              "relation_to_initial": "outside_known_initial"
++            },
++            {
++              "card": {
++                "type": "nt_flow",
++                "name": "返し潮",
++                "attr": "A",
++                "kind": "attack",
++                "power": 3,
++                "hit": 70,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 30,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:11",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:13"
++              ],
++              "relation_to_initial": "known_initial_kind"
++            },
++            {
++              "card": {
++                "type": "weak_B",
++                "name": "弱攻撃札",
++                "attr": "B",
++                "kind": "attack",
++                "power": 2,
++                "hit": 20,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:3",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:5",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:9",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:15",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:17",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:26"
++              ],
++              "relation_to_initial": "known_initial_kind"
++            },
++            {
++              "card": {
++                "type": "weak_C",
++                "name": "弱攻撃札",
++                "attr": "C",
++                "kind": "attack",
++                "power": 2,
++                "hit": 20,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:7",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:23"
++              ],
++              "relation_to_initial": "known_initial_kind"
++            },
++            {
++              "card": {
++                "type": "weak_D",
++                "name": "弱攻撃札",
++                "attr": "D",
++                "kind": "attack",
++                "power": 2,
++                "hit": 20,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:19",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:21",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:28"
++              ],
++              "relation_to_initial": "known_initial_kind"
++            }
++          ],
++          "observed_elsewhere_this_run": [],
++          "observed_earlier": [],
++          "confirmed_reward_candidates": [
++            {
++              "reward_key": "SCN-001-RW01",
++              "label": "1習得点、素材 M 1、札解放:返し潮",
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:34"
++              ]
++            }
++          ],
++          "historical_evidence_count": 0,
++          "current_private_composition": "unknown",
++          "next_card": "unknown",
++          "encountered": true
++        },
++        {
++          "key": "[\"knowledge\",\"SCN-001-ACT02\",\"CW-M1-cards-0.1/ACT02/initial-1\"]",
++          "target_id": "SCN-001-ACT02",
++          "catalogue_version": "CW-M1-cards-0.1/ACT02/initial-1",
++          "name": "漂着した潜水服",
++          "profile": "SCN-001/target/ACT02",
++          "initial_catalogue": null,
++          "observed_by_current_actor": [
++            {
++              "card": {
++                "type": "f",
++                "name": "牽制",
++                "attr": "A",
++                "kind": "attack",
++                "power": 3,
++                "hit": 70,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 30,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:4"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "g",
++                "name": "防御",
++                "attr": "D",
++                "kind": "guard",
++                "power": 3,
++                "hit": 0,
++                "evasion": 0,
++                "crit_gain": 20,
++                "field_power": -4,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:8",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:14",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:20"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "h",
++                "name": "重撃",
++                "attr": "B",
++                "kind": "attack",
++                "power": 12,
++                "hit": 30,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": -20,
++                "life": 3,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:6",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:10",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:29"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "j",
++                "name": "小突き",
++                "attr": "C",
++                "kind": "attack",
++                "power": 3,
++                "hit": 40,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 0,
++                "life": 1,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:12"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "l",
++                "name": "踏み込み",
++                "attr": "B",
++                "kind": "attack",
++                "power": 4,
++                "hit": 50,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 6,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 8,
++                "match_cost": 12,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:22",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:24"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "nt_pressure",
++                "name": "潮底の踏み足",
++                "attr": "B",
++                "kind": "attack",
++                "power": 4,
++                "hit": 50,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 6,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 8,
++                "match_cost": 12,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:16"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "read",
++                "name": "見切り",
++                "attr": "C",
++                "kind": "guard",
++                "power": 1,
++                "hit": 0,
++                "evasion": 30,
++                "crit_gain": 20,
++                "field_power": 0,
++                "field_hit": 20,
++                "life": 3,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:18"
++              ],
++              "relation_to_initial": "initial_unknown"
++            },
++            {
++              "card": {
++                "type": "weak_B",
++                "name": "弱攻撃札",
++                "attr": "B",
++                "kind": "attack",
++                "power": 2,
++                "hit": 20,
++                "evasion": 0,
++                "crit_gain": 25,
++                "field_power": 0,
++                "field_hit": 0,
++                "life": 2,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:27",
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:31"
++              ],
++              "relation_to_initial": "initial_unknown"
++            }
++          ],
++          "observed_elsewhere_this_run": [
++            {
++              "card": {
++                "type": "r",
++                "name": "受け流し",
++                "attr": "A",
++                "kind": "guard",
++                "power": 2,
++                "hit": 0,
++                "evasion": 0,
++                "crit_gain": 40,
++                "field_power": -2,
++                "field_hit": 0,
++                "life": 3,
++                "place_cost": 10,
++                "match_cost": 10,
++                "consume_on_recover": null
++              },
++              "evidence_ids": [
++                "[\"CW-M1-run-1\",\"7cfb582c-0f38-4252-b139-a67b23fa59da\",0]:25"
++              ],
++              "relation_to_initial": "initial_unknown"
++            }
++          ],
++          "observed_earlier": [],
++          "confirmed_reward_candidates": [],
++          "historical_evidence_count": 0,
++          "current_private_composition": "unknown",
++          "next_card": "unknown",
++          "encountered": true
++        },
++        {
++          "key": "[\"knowledge\",\"SCN-001-ACT03\",\"CW-M1-cards-0.1/ACT03/initial-1\"]",
++          "target_id": "SCN-001-ACT03",
++          "catalogue_version": "CW-M1-cards-0.1/ACT03/initial-1",
++          "name": "奥の水門",
++          "profile": "SCN-001/target/ACT03",
++          "initial_catalogue": null,
++          "observed_by_current_actor": [],
++          "observed_elsewhere_this_run": [],
++          "observed_earlier": [],
++          "confirmed_reward_candidates": [],
++          "historical_evidence_count": 0,
++          "current_private_composition": "unknown",
++          "next_card": "unknown",
++          "encountered": true
++        }
++      ]
++    },
++    "text_history": [
++      {
++        "id": "SCN-001-TXT01",
++        "scene_ids": [
++          "SCN-001-S01"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "main",
++        "short_text": "「雨は降っていないんです。それなのに夜になると、地下から潮の匂いがして。品物は上へ移しましたが、いつまでも使わないわけにはいかなくて」",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT02",
++        "scene_ids": [
++          "SCN-001-S01"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "main",
++        "short_text": "流れに逆らい、障害を越えて奥へ進む探索。途中の相手を調べる余地もある。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT03",
++        "scene_ids": [
++          "SCN-001-S02"
++        ],
++        "published": true,
++        "read": true,
++        "kind": "main",
++        "short_text": "水が、下り坂を上ってくる。壁の白い筋を辿ると、照明の途切れた奥へ続いていた。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT04",
++        "scene_ids": [
++          "SCN-001-S02"
++        ],
++        "published": true,
++        "read": true,
++        "kind": "main",
++        "short_text": "古い潜水服が流れの中に立っている。足元の水だけが割れ、こちらへ重い腕を伸ばした。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-COND01",
++        "scene_ids": [
++          "SCN-001-S02"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "conditional",
++        "short_text": "逆らう水の働きが、掌ほどの櫂に収まる。今なら、この流れを使えそうだ。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-COND02",
++        "scene_ids": [
++          "SCN-001-S02"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "conditional",
++        "short_text": "靴底を重ねると、足元が沈むように落ち着く。あの潜水服が立っていた理由の一端が分かった。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT05",
++        "scene_ids": [
++          "SCN-001-S03"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "main",
++        "short_text": "通路を抜けると、頭上に海があった。遠い舟底の影が、港の屋根をゆっくり横切っていく。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT06",
++        "scene_ids": [
++          "SCN-001-S03"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "main",
++        "short_text": "港の壁にも、地下で見た水位の筋がある。奥の水門で噴き返した白い水が、こちらの通路へ流れ込んでいた。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-COND04",
++        "scene_ids": [
++          "SCN-001-S03"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "conditional",
++        "short_text": "通路の角を越える。振り返ると、潜水服はまだ、同じ流れの中に立っていた。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-TXT07",
++        "scene_ids": [
++          "SCN-001-S04"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "main",
++        "short_text": "鎖が歯車に噛み込み、逃がし口を開いたまま留めている。擦れた正常位置は、そのすぐ隣にあった。",
++        "detail_text": null
++      },
++      {
++        "id": "SCN-001-DETAIL06",
++        "scene_ids": [
++          "SCN-001-S04"
++        ],
++        "published": true,
++        "read": true,
++        "kind": "detail",
++        "short_text": "水門の裏に古い案内板がある。港の名の隣に「渡り場」の文字。使われなくなっても、道筋は残っているらしい。",
++        "detail_text": "水門の裏に古い案内板がある。港の名の隣に「渡り場」の文字。使われなくなっても、道筋は残っているらしい。"
++      },
++      {
++        "id": "SCN-001-COND06",
++        "scene_ids": [
++          "SCN-001-S06"
++        ],
++        "published": true,
++        "read": false,
++        "kind": "conditional",
++        "short_text": "「奥の水門が戻らなくなっています。原因は分かりましたが、まだ直せていません」",
++        "detail_text": null
++      }
++    ]
++  }
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-01.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-01.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..b04c3ff275ef475983d4cbe9942f9a35d7b28511
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-01.json"
+@@ -0,0 +1,166 @@
++{
++  "id": "CW-M1-A-002",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "d2048b06e232a0da671e507fe88b623cd05b5f7d5454fff1df6141431fa82cee",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "4509fa3a918d20488da84fb986a2472ce5c7bb05f35f603106752f32ad8ae605",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "42fdc83249741426f3a391e546f0615d35ee70b82f7277ab388a9224df470dc4",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    }
++  ],
++  "choiceCount": 3,
++  "error": "AssertionError [ERR_ASSERTION]: nt_stop",
++  "stack": "AssertionError [ERR_ASSERTION]: nt_stop\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:35:115)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-02.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-02.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..35d82b18edeab88dc4ff2e4d7510b7c5bcec9811
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-02.json"
+@@ -0,0 +1,166 @@
++{
++  "id": "CW-M1-A-002",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "434be5a9bf8e5d908bca2a73fab296ef494a14190e9b6d7e259b94eeb3049ecb",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "54b39efef76f70fa75fad57e3ee5313f0e2af2796a5ae17223e63b54ff1ca345",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "048844a6f25ed58124616efab204e5973b4f67f14c6f38c67765aefa7b4c65de",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    }
++  ],
++  "choiceCount": 3,
++  "error": "Error: invalid recycled card",
++  "stack": "Error: invalid recycled card\n    at assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:3:64)\n    at Game.assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:245:33)\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:42:20)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-03.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-03.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..7834708f5c5ec61254331644af629f1f7da1157a
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-03.json"
+@@ -0,0 +1,324 @@
++{
++  "id": "CW-M1-A-002",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1",
++        "V1"
++      ],
++      "choice": {
++        "card_id": "V1_initial_0047",
++        "target": null
++      }
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "f7682f39110e4417fcf476cf3cb3c9e47ff333c49a0e2afa389547cc1f2e7b2c",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "cb815a4868f117e6023305e58610b95ff8d3cf75beeae0fbe18f70d56745c6b4",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "63daaa0cef0835ca520891da385ed471b5246b930fd488806f7f7666e93a40c0",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "source": "port.save.json.gz",
++      "type": "nt_stop",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "nt_stop",
++      "changes": {
++        "P": {
++          "guard": {
++            "value": 9,
++            "evasion": 30,
++            "uses": 1
++          }
++        },
++        "V1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "P",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
++      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": true,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 36,
++          "guard": {
++            "value": 5,
++            "evasion": 30,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "38aea019888a0a7748a7a99a1bef0fafc5ebc92f680d654d00474dd8c0caaebd",
++      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hit": 99,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "55797108be6d7bc775a1be001b09044c55a7cc3bfa250400dad5ca72cbdf2be4",
++      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hp": 1,
++          "hit": 99,
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "V0",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "b744231453d6e6e569e9bc4e817584dc2a9d93d50a28d257b5864fc9e663ea67",
++      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
++    }
++  ],
++  "choiceCount": 7,
++  "error": "Error: actor state",
++  "stack": "Error: actor state\n    at assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:3:64)\n    at Game.assert (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/src/runtime/core.mjs:233:41)\n    at arranged (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:42:20)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:99:13"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-04.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-04.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff76285692b2cd7af2227cbf0296c03cac8bd405
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-04.json"
+@@ -0,0 +1,387 @@
++{
++  "id": "CW-M1-A-002",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1",
++        "V1"
++      ],
++      "choice": {
++        "card_id": "V1_initial_0047",
++        "target": null
++      }
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "V0"
++      }
++    },
++    {
++      "name": "全8予測の保存・revision・乱数不変、staleはnull、未知札順／乱数に非依存",
++      "pass": true
++    },
++    {
++      "name": "解決時の本人／NPC札名を実保存・再開・同要求再送で維持、保存失敗は不変",
++      "pass": true
++    },
++    {
++      "name": "履歴名は現在の札名で置換せず、旧欠損はnull、破損追加値は拒否",
++      "pass": true
++    },
++    {
++      "name": "借入札も本人山札で参照、初期／手札／残数／消滅予定を分離、順と他者内訳は非公開",
++      "pass": true
++    },
++    {
++      "name": "本人の公開山札で知った未ドロー札を帰還時も保持する",
++      "pass": true
++    },
++    {
++      "name": "公開主体だけを版付き調査キーへ接続、本人はself、未遭遇対象は追加しない",
++      "pass": true
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "013a1f69f36ce4f5d908af1f86fa78beb730bb36e31977ff7b1dd4673b3ec21f",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "55e24afd166c98def2eaea0776ec0ee047b4fe4d9d2cb2f53d450e653f46e954",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "9d2faeeca1c27e564a3d38040b1f5c1b2958f0629079d5dda104f7ef1a25a43f",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "source": "port.save.json.gz",
++      "type": "nt_stop",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "nt_stop",
++      "changes": {
++        "P": {
++          "guard": {
++            "value": 9,
++            "evasion": 30,
++            "uses": 1
++          }
++        },
++        "V1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "P",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
++      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": true,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 36,
++          "guard": {
++            "value": 5,
++            "evasion": 30,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "3920e467e173940fba30b607a06616a4998680fa0ad218973b94f9661440e09e",
++      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hit": 99,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "cfbf5af23991ca3dde8924f95b619b711fdd092a184e9a9fd82d059763a0fcb0",
++      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hp": 1,
++          "hit": 99,
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "V0",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "f6623ca2a988d418a28efa43ff4dd32ca0f2752f38b71dd4dead4950a136c144",
++      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "V0",
++      "fieldType": "f",
++      "changes": {
++        "V0": {
++          "hp": 1,
++          "hit": 0
++        },
++        "E1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "7898cae1a9b3a9d11bc26c142779fa5b2a7df780e638f42c2d8d9821002dc3f4",
++      "forecast_sha256": "8c2ab9799688249d9a9271c5e8af62e4d476621d2acd17ef2fc6ec10fee0125c"
++    }
++  ],
++  "choiceCount": 8,
++  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(beforeTexts.scene.optional_text_ids.includes(detailID))\n",
++  "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(beforeTexts.scene.optional_text_ids.includes(detailID))\n\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:174:3"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-05.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-05.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..d44a24d6bdc3b8543d53344e22d01b9463d40ae3
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/failure-05.json"
+@@ -0,0 +1,391 @@
++{
++  "id": "CW-M1-A-002",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1",
++        "V1"
++      ],
++      "choice": {
++        "card_id": "V1_initial_0047",
++        "target": null
++      }
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "V0"
++      }
++    },
++    {
++      "name": "全8予測の保存・revision・乱数不変、staleはnull、未知札順／乱数に非依存",
++      "pass": true
++    },
++    {
++      "name": "解決時の本人／NPC札名を実保存・再開・同要求再送で維持、保存失敗は不変",
++      "pass": true
++    },
++    {
++      "name": "履歴名は現在の札名で置換せず、旧欠損はnull、破損追加値は拒否",
++      "pass": true
++    },
++    {
++      "name": "借入札も本人山札で参照、初期／手札／残数／消滅予定を分離、順と他者内訳は非公開",
++      "pass": true
++    },
++    {
++      "name": "本人の公開山札で知った未ドロー札を帰還時も保持する",
++      "pass": true
++    },
++    {
++      "name": "公開主体だけを版付き調査キーへ接続、本人はself、未遭遇対象は追加しない",
++      "pass": true
++    },
++    {
++      "name": "過去本文の公開／既読を分離、未読任意詳細は出さず、実表示後の本文とCL05を帰還再開でも保持",
++      "pass": true
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "58baa169ace02e48a9871534dd10a9901e2bb33900b2f254866d746b31a29243",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "e50d0fe5091404757cf8046d796d1fe2ba58b2faa9c7a59f5bf1bb4941ad64ee",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "ebf689f6610d139e7d87a2ea3b2ffdaa7eb9d163bf77809eb3b78b01e165142f",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "source": "port.save.json.gz",
++      "type": "nt_stop",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "nt_stop",
++      "changes": {
++        "P": {
++          "guard": {
++            "value": 9,
++            "evasion": 30,
++            "uses": 1
++          }
++        },
++        "V1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "P",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
++      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": true,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 36,
++          "guard": {
++            "value": 5,
++            "evasion": 30,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "182afe07a56aca56df21048153f1fff453c896812f80048597e88b7047fc144a",
++      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hit": 99,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "c782a2272b2e852aaf4e5ffc8cff563674a91e71ab94b47d4851b3c6b770f3c5",
++      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hp": 1,
++          "hit": 99,
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "V0",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "f26175eb6396c75c31168dd9c4e0456f783b305d611ab1f5c01beb2e08bf6b46",
++      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "V0",
++      "fieldType": "f",
++      "changes": {
++        "V0": {
++          "hp": 1,
++          "hit": 0
++        },
++        "E1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "caee36006e87dcce30f31a395fcd81b570a892d664ee316c505fb73b764782da",
++      "forecast_sha256": "8c2ab9799688249d9a9271c5e8af62e4d476621d2acd17ef2fc6ec10fee0125c"
++    }
++  ],
++  "choiceCount": 8,
++  "error": "AssertionError [ERR_ASSERTION]: private key catalogues",
++  "stack": "AssertionError [ERR_ASSERTION]: private key catalogues\n    at scan (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:193:92)\n    at scan (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:193:135)\n    at scan (file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:193:135)\n    at file:///workspace/scratch/e4a074ba0f1c/crossweave-current/test/runtime/d02r.mjs:194:45"
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/report.md" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/report.md"
+new file mode 100644
+index 0000000000000000000000000000000000000000..867c720b4d6b450e51cc36e8980e858ee187fa79
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/report.md"
+@@ -0,0 +1,46 @@
++# CO-D02Rの結果
++
++2026-09-18 JST。Work `20260909-design-assembly`／作業・統合先 `dev_design_tmp_assembly`。
++
++UI 0.11.1の専用232ファイルを原文のまま受領し、同じCampaignへ能力予測・履歴札名・山札参照・過去本文・調査キーを追加した。[利用案内とUIへの接続表](README.md)、[応答例](examples.json)、[身構統一の未決資料](stance-decision.md)。今回の単位を保存・GitHub読戻し後に終了する。
++
++## 実装と確認
++
++| 対象 | 結果 |
++|---|---|
++| UI受領 | UI HEAD ac610be、通常入口と9場面入口を含む全232blob一致。原本・dist・既存検査を変更・再生成していない。UI Work設定と受領記録は参照のみ。PR #1自体はopen／draft／未マージのまま |
++| 一手の全能力予測 | Game.playを分離コピーで一回実行。本人と現在公開主体の身構終了／置換、機転消費、攪乱・常時軽減、支援源退場をactor_changesへ。新登場主体、私有札、未来NPC行動を公開しない |
++| 履歴 | 新しい解決行の同じcard_idへ、その時点の公開札名を保存。旧欠損はnull／not_recordedとして投影し、現在名へ置換しない。再開・再送・保存失敗を確認 |
++| 山札と知識 | 本人の初期／未ドロー／手札／消滅予定の種類別集計と詳細。相手の現在内訳は不明、共有回収は枚数のみ。本人の未ドロー借り札も帰還時に知識を保持。主体と版付き調査キーを対応 |
++| 本文 | 保存済み公開IDの一覧と既読を分離。未表示の任意詳細を履歴へ出さず、実表示後は帰還・再開でも保持。純粋な参照では既読・CL05を加算しない |
++| 保存互換 | CW-M1-save-1／engine0.1を継承、公開追加版CW-M1-public-0.2。旧5保存のopen・inspectは無変更、明示importでsessionとcasebookを維持。pending_contextsと一回精算を保全 |
++
++本体の[code-06](code-06.json)／[確認26項目](verification-06.json)が合格。うち一手予測と同じ一手実行の比較は8状態。設置、攻撃の到達／未到達、回復、身構の置換／残回数、支援源撃破、V0踏破と生存E1退場を別条件として確認した。汐留めはV1登場済みの自然port保存から、他は自然entry保存を公開continue_sceneで開始した状態からの明示コピーである。自然な勝利や構築評価を表す新しい経過ではない。
++
++予測を繰り返しても保存・revision・元乱数・memoryを変更しない。別の相手札順や未使用乱数列へ変えたコピーでも、同じ公開一手の結果は一致した。実execute応答は後続NPC進行を含み得るため、比較はその前の一手解決境界で行った。
++
++UIは[code-01の12項目](ui-verification-01.json)が合格。Node24.19.0／JSDOM26.1.0、実Campaign＋既存MemoryStoreと受領したdist・review部品を使用。通常と同じlauncherから旧保存を開き、確認入口の探索・予測応答・一手確定・本文・帰還を確認した。コード固定01〜06でruntimeとUI確認コードのSHA-256は同一であり、対象の異なる旧UI検査を今回の合格に再計上していない。[現物照合](artifact-check.json)に対応を記録。
++
++検査の途中で5回失敗し、failure-01〜05とamendment-02〜06へ原出力・訂正理由を保存した。原因は検査側の汐留め登場場面、退場札の回収例外、V0最大体勢1、DETAIL06の提供場面、および公開済み知識のcataloguesキーの誤検出。本体はcode-01から変更せず、入力・検査を訂正して新番号で確認した。失敗の件数や途中の合格を最終26項目へ上乗せしていない。
++
++input_sha256はその実行時のdocument全体（要求ID・nonceを含む）の照合記録。再現条件は固定原本と検査コードの配置・数値変更、公開コマンドであり、再実行時の新要求IDの字句一致は求めない。旧5保存の原本ハッシュとゲーム規則・乱数基点は固定される。
++
++## 残る接続・判断
++
++- **UI追加描画**：受領原本のaction-forecast／exploration／本文部品は新しいactor_changes・card_name・deck_catalogue・text_history・knowledge_keyの受取り実装が残る。対象ファイルと実応答例をREADMEへ用意した。文書保存を担当への通知・受領・実装完了とはしない。
++- **実ブラウザー**：実描画、物理入力、IndexedDB、ページを閉じた後の再開・実別タブは今回未実施。以前のERR_BLOCKED_BY_CLIENTを過去記録として保持し、再試行や別経路の迂回をしていない。[UI側の実機手順](../../../UI/readability/co-u02/journey/browser-review.md)を維持する。JSDOMの固定矩形やMemoryStoreを代用にしない。
++- **身構統一の判断1件**：常時分にも防御側一閃倍率を適用し、常時分だけで防ぐ場合も機転を消費する案を推奨。結果と攻撃へ蓄積を残す選択が変わるため、採用はユーザーへ残す。方向性の再承認、既採用D47/50/51/52/53の再判断、現行予測実装の停止条件にはしない。
++- **後続単位**：D03の取得個体・修飾・候補購入・変換、D04の完成版統合、人の選ぶ理由・反復・面白さは今回未了。D03/D04/D05や画像・UI全画面改修へ自動続行しない。
++
++## 保存前照合と再現
++
++保存前に設計7c2a43d、計画5e86a3d、UI ac610beの最新HEADを再確認して変化なし。計画0.8の全14blob、UI全232blob、条件に固定した旧保存5件・manifest・入力0.1・正式基本設計を現物照合。PT-NT専用treeは7bb3ba7ff8912bad0379341a26cbfabb941a34c7。旧AU〜BF/BD/BE/PT-NT・自然2runの再走、旧保存の上書き、正式採用変更は0。
++
++必要時だけ、新しい出力先へ再現する。完成済み検査の全再走を再開条件にしない。
++
++```sh
++node test/runtime/d02r.mjs /tmp/crossweave-d02r-new
++CW_JSDOM_PATH=/path/to/node_modules/jsdom node test/runtime/d02r-ui.mjs /tmp/crossweave-d02r-ui-new
++```
++
++新しい検査時は条件・コードを先に固定する。出力は既存結果を上書きしない。通常コミット・非強制Push後の親・完全tree・主要本文・UI／計画／旧PT-NTのGitHub読戻しは、本追補の保存記録と固定引継ぎへ記録する。
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/stance-decision.md" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/stance-decision.md"
+new file mode 100644
+index 0000000000000000000000000000000000000000..9a9db5c5da0fc97da08a3f215ab5e052f3a2425a
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/stance-decision.md"
+@@ -0,0 +1,40 @@
++# 常時分を身構へまとめるための未決事項
++
++2026-09-18 JST／CO-D02R-J01／提案0.1。**未採用。今回のruntimeは現行規則を維持した。** ユーザーの「常時軽減も常時身構として加算する」方向を継承し、その方向自体を再承認待ちへ戻さない。
++
++## 既存方針のまま進める部分
++
++札の身構と常時分は発生源・持続条件を持つ内訳として扱う。札分は次の本人一致や有効回数の終了で外れ、不一致の設置では維持する。常時分はその発生源が有効な間続き、札分の解除や回数消費と一緒には消さない。支援源の退場で、その源からの作用だけが消える。周囲への攪乱支援と発生源自身の硬さというD39の対象範囲は維持する。
++
++今回、現在値と一手後の札分・常時分・回数・発生源を共通APIへ実装した。統一の採否を待たず、現行規則による予測をUIが接続できる。UIで名称だけを一つにして現行の計算差を隠すことはまだ行わない。
++
++根拠は基本設計4.5〜4.7（体勢、共用会心、札の防御の終了・回数、明示パッシブ）と、仕様案4.6の持続軽減の未決範囲。D47以降の成長・取り直し・収集方針はこの判断の対象外。
++
++## 判断を残す一点
++
++**推奨：常時分も防御側一閃の倍率対象にし、常時分だけで防ぐ場合も、ダメージ解決時に機転100以上を消費する。** 同じ「身構」として計算を揃える。体勢を削り切らない攻撃では消費せず、0ダメージに抑えた解決でも消費する。常時分による新しい機転加算は追加しない。
++
++現在の演算は `max(0, A×攻撃側倍率 − G×防御側倍率 − R) × 体勢倍率`。Gは札の身構、Rは常時軽減。防御側の機転消費は札の身構が存在するときだけ。
++
++推奨案は `max(0, A×攻撃側倍率 − (G+R)×防御側倍率) × 体勢倍率`。常時分だけが正に働く防御でも機転を消費する。札の有効回数は札があるときだけ1減り、常時分には回数を新設しない。機転が100未満なら従来どおり保持する。札の0身構でも有効回数がある場合の従来の処理は変更しない。
++
++比較用の数値は説明専用で、札性能やM1への採用値ではない。以下はすべて体勢をちょうど削り切る解決（体勢倍率1）、攻撃側の一閃なし、十分な余力がある場合。
++
++| 具体例 | 現行 | 推奨案 | 選択への影響 |
++|---|---|---|---|
++| 攻撃12、札身構3、常時4、防御側機転100 | 2ダメージ。機転0、札回数を1消費 | 0ダメージ。機転0、札回数を1消費。常時4は維持 | 常時分と機転を合わせた防御が強くなる |
++| 攻撃12、札身構なし、常時4、防御側機転100 | 8ダメージ。機転100を保持 | 4ダメージ。機転0、常時4を維持 | 被攻撃で機転を防御に使うため、次の攻撃へ残せるかが変わる |
++| 上の状態から同条件でもう一回攻撃12（新しい加算なし） | 再び8、機転100。二回合計16 | 今回8、機転0。二回合計12 | 初回の強化を無限に維持しない。共用機転の消費機会が増える |
++| 札身構3＋常時4の本人が回復一致／常時源が離脱 | 回復一致で札3だけ終了／源の常時4だけ終了 | 合計7→4／7→3。内訳の終了条件は同じ | 一致の負担と支援源を残す理由を、合計と内訳で読める |
++
++攻撃側や体勢の倍率、HPダメージの下限、回復効果、機転の通常加算値は変更しない。予測値は一手の解決後なので、体勢を削り切った相手は最大体勢に戻った値となる。超過・打撃の強さは既存のhit_gain等の説明と分ける。
++
++## 推奨理由と残る影響確認
++
++同じ身構なら同じ倍率と消費条件を使う方が、札と常時作用の組合せを読み取りやすい。常時分が強い主体も、被攻撃で蓄積を使うため、攻撃用の機転をいつまで保持するかという選択に影響する。一方、初回の防御が強くなり、常時分のある対象を倒す負担が増える場合がある。既存の軽減値をそのまま移しただけでバランスが適切、面白さが改善したとは言えない。
++
++代案は「合計と内訳を表示し、倍率・機転消費は現行の札分だけに維持する」。戦闘結果は変わらないが、同じ身構合計でも内訳で実効防御と消費が変わり、追加説明が残る。このため推奨は上の統一案とする。
++
++採用する場合は、共通演算・保存互換・予測とUI表示を同じ単位で更新する。常時分の量と、札の身構がある／ない・機転が閾値未満／以上・0ダメージ・支援源離脱を新条件で固定し、対象負担と「今防ぐ／攻撃へ残す」理由を確認する。旧D02保存・既存検証を統一後の結果として書き換えない。
++
++この一点は遊び方を変えるためユーザー判断へ残す。独立した公開追補は完了させ、回答待ちだけでWorkを稼働し続けない。D03の個体・候補・購入・変換の開始条件へも広げない。
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/ui-verification-01.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/ui-verification-01.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..6ad90d54f3879ee7084c7e03a05c441f90e3c10d
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/ui-verification-01.json"
+@@ -0,0 +1,59 @@
++{
++  "id": "CW-M1-A-002-UI",
++  "checks": [
++    {
++      "name": "通常入口は保存済みdistと公開Campaignのmoduleへ接続",
++      "pass": true
++    },
++    {
++      "name": "通常と同じlauncherは開始画面を生成",
++      "pass": true
++    },
++    {
++      "name": "公開APIの追加後も通常launcherから既存保存を開く",
++      "pass": true
++    },
++    {
++      "name": "確認専用の探索場面が新runtimeで起動",
++      "pass": true
++    },
++    {
++      "name": "sessionがactor_changes付き予測応答を受け取る",
++      "pass": true
++    },
++    {
++      "name": "描画側の全能力差分接続は受領原本のまま未了",
++      "pass": true
++    },
++    {
++      "name": "一手確定後の新しい公開履歴へ遷移する",
++      "pass": true
++    },
++    {
++      "name": "本文場面は公開済み過去本文追加後も起動する",
++      "pass": true
++    },
++    {
++      "name": "場面の起動だけで任意詳細を既読にしない",
++      "pass": true
++    },
++    {
++      "name": "帰還場面は旧自然保存の欠損札名を不明のまま受け取る",
++      "pass": true
++    },
++    {
++      "name": "一時検査はIndexedDBを呼ばない",
++      "pass": true
++    },
++    {
++      "name": "DOM実行エラーなし",
++      "pass": true
++    }
++  ],
++  "node": "v24.19.0",
++  "jsdom": "26.1.0",
++  "inputs": "received 0.11.1 dist and review entry; fixed home/entry/port/return; real Campaign + original MemoryStore",
++  "scope": "DOM + explicit fixed geometry only; no real layout, physical input, IndexedDB or human acceptance",
++  "old_ui_suites_rerun": 0,
++  "errors": []
++}
+diff --git "a/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/verification-06.json" "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/verification-06.json"
+new file mode 100644
+index 0000000000000000000000000000000000000000..3de9756cb03338cb2b08cb0d6c9ae9a08487a791
+--- /dev/null
++++ "b/docs/\346\244\234\350\250\274/\346\216\245\347\266\232\346\235\241\344\273\266/co-d02/appendix-d02r/verification-06.json"
+@@ -0,0 +1,398 @@
++{
++  "id": "CW-M1-A-002",
++  "node": "v24.19.0",
++  "checks": [
++    {
++      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 entry の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 port の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 home の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
++      "pass": true
++    },
++    {
++      "name": "旧履歴 second-return の欠損札名を推定しない",
++      "pass": true
++    },
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0005",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1",
++        "V1"
++      ],
++      "choice": {
++        "card_id": "V1_initial_0047",
++        "target": null
++      }
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0011",
++        "target": null
++      }
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "E1"
++      }
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "pass": true,
++      "actors": [
++        "P",
++        "V0",
++        "E1"
++      ],
++      "choice": {
++        "card_id": "P_initial_0001",
++        "target": "V0"
++      }
++    },
++    {
++      "name": "全8予測の保存・revision・乱数不変、staleはnull、未知札順／乱数に非依存",
++      "pass": true
++    },
++    {
++      "name": "解決時の本人／NPC札名を実保存・再開・同要求再送で維持、保存失敗は不変",
++      "pass": true
++    },
++    {
++      "name": "履歴名は現在の札名で置換せず、旧欠損はnull、破損追加値は拒否",
++      "pass": true
++    },
++    {
++      "name": "借入札も本人山札で参照、初期／手札／残数／消滅予定を分離、順と他者内訳は非公開",
++      "pass": true
++    },
++    {
++      "name": "本人の公開山札で知った未ドロー札を帰還時も保持する",
++      "pass": true
++    },
++    {
++      "name": "公開主体だけを版付き調査キーへ接続、本人はself、未遭遇対象は追加しない",
++      "pass": true
++    },
++    {
++      "name": "過去本文の公開／既読を分離、未読任意詳細は出さず、実表示後の本文とCL05を帰還再開でも保持",
++      "pass": true
++    },
++    {
++      "name": "追加応答に内部乱数・未来定義・request履歴・本文条件を含めない",
++      "pass": true
++    }
++  ],
++  "fixtures": [
++    {
++      "name": "設置は身構・機転を保持し回復草でも回復しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": false,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 30,
++          "crit": 125,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "758a332ebb1ccd91ff63dbcb12cc50e3c27dbfad9da23a49ecf653030fbc69c3",
++      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
++    },
++    {
++      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "P": {
++          "crit": 80,
++          "guard": {
++            "value": 4,
++            "evasion": 7,
++            "uses": 2
++          }
++        },
++        "E1": {
++          "hit": 99,
++          "crit": 120,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 1
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "a9a69b0dc8c504477941ba3403a4a198f2344b00e36c06e7e371d05e03987d5e",
++      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
++    },
++    {
++      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "h",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "h",
++      "changes": {
++        "P": {
++          "crit": 80
++        },
++        "E1": {
++          "hit": 0,
++          "crit": 120,
++          "guard": {
++            "value": 3,
++            "evasion": 20,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "28e33d9ace7435375bd4d341f2ab7c7bb1288b95bf3103a557afbc3e4352c1a6",
++      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
++    },
++    {
++      "name": "汐留めで身構置換・常時攪乱込みの総量",
++      "source": "port.save.json.gz",
++      "type": "nt_stop",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "nt_stop",
++      "changes": {
++        "P": {
++          "guard": {
++            "value": 9,
++            "evasion": 30,
++            "uses": 1
++          }
++        },
++        "V1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "P",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
++      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
++    },
++    {
++      "name": "回復一致は上限まで4回復し旧身構が終わる",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "salve",
++      "matched": true,
++      "target": "E1",
++      "fieldType": null,
++      "changes": {
++        "P": {
++          "hp": 36,
++          "guard": {
++            "value": 5,
++            "evasion": 30,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "44ccd72434f01eb7b1641b6425cbf7bdb58726f4f9d9ae75fac5bef5d40ce68c",
++      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
++    },
++    {
++      "name": "被攻撃の二回身構は一回残る",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hit": 99,
++          "guard": {
++            "value": 1,
++            "evasion": 0,
++            "uses": 2
++          }
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "2777a2f1af1550df51d1b59e7f2ee295d63978c0bd11a9e800e43abb7df65700",
++      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
++    },
++    {
++      "name": "支援源撃破で本人と別主体の常時作用が消える",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "E1",
++      "fieldType": "f",
++      "changes": {
++        "E1": {
++          "hp": 1,
++          "hit": 99,
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            },
++            {
++              "target": "V0",
++              "kind": "damage_reduction",
++              "value": 8
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "06f21ff844455ba429cc54b308442804867f1b1deb21c99b7084e5494e310448",
++      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
++    },
++    {
++      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
++      "source": "entry.save.json.gz + public continue_scene",
++      "type": "f",
++      "matched": true,
++      "target": "V0",
++      "fieldType": "f",
++      "changes": {
++        "V0": {
++          "hp": 1,
++          "hit": 0
++        },
++        "E1": {
++          "passives": [
++            {
++              "target": "P",
++              "kind": "evasion",
++              "value": 20
++            }
++          ]
++        }
++      },
++      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
++      "input_sha256": "3734bf6b9d14bed82862908ac430351d574ac8659ab86a0ac2bdac7e7079f0af",
++      "forecast_sha256": "8c2ab9799688249d9a9271c5e8af62e4d476621d2acd17ef2fc6ec10fee0125c"
++    }
++  ],
++  "one_step_comparisons": 8,
++  "protected_old_saves": 5,
++  "old_natural_run_replays": 0,
++  "old_comparison_replays": 0,
++  "actual_browser": false
++}
+diff --git a/scripts/freeze-d02r.py b/scripts/freeze-d02r.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..7e2223c27f16c3acf5ce8c466fdca212c91116cc
+--- /dev/null
++++ b/scripts/freeze-d02r.py
+@@ -0,0 +1,11 @@
++"""Freeze this supplement before a new, separately recorded check attempt."""
++from pathlib import Path
++import hashlib,json,subprocess,sys
++root=Path(__file__).resolve().parents[1]
++out=root/'docs/検証/接続条件/co-d02/appendix-d02r'/f'code-{int(sys.argv[1]):02d}.json'
++paths=sorted([*root.glob('src/**/*.mjs'),*root.glob('test/runtime/d02r*.mjs'),root/'test/runtime/support.mjs',Path(__file__).resolve()])
++paths += [root/'docs/検証/接続条件/co-d02/appendix-d02r/conditions.json',root/'docs/検証/接続条件/co-d02/appendix-d02r/ui-receipt.json']
++record={'id':'CW-M1-A-002','attempt':int(sys.argv[1]),'base_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root).decode().strip(),
++        'files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
++with out.open('x') as f:json.dump(record,f,ensure_ascii=False,indent=2);f.write('\n')
++print(out)
+diff --git a/src/runtime/action-public.mjs b/src/runtime/action-public.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..14e2c52838bec4e89a44f16d66c78c4fd4aa5811
+--- /dev/null
++++ b/src/runtime/action-public.mjs
+@@ -0,0 +1,29 @@
++// Public ability snapshots only. The resolver, never this projection, changes abilities.
++import {copy} from './common.mjs';
++export const publicContract = 'CW-M1-public-0.2';
++export function abilityValues(game, id) {
++  const a=game.s.actors[id];
++  return {hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.max_posture-a.hit,max_posture:a.max_posture,
++    crit:a.crit,critical_multiplier:1+Math.floor(a.crit/100),guard:a.guard?.value??0,guard_uses:a.guard?.uses??0,
++    guard_evasion:a.guard?.evasion??0,evasion:game.evasion(id),reduction:game.passive(id,'damage_reduction')};
++}
++export function persistentSources(game, id) {
++  return Object.entries(game.s.actors).filter(([,a])=>a.active).flatMap(([source,a])=>a.passives
++    .filter(p=>p.target===id&&['evasion','damage_reduction'].includes(p.kind))
++    .map(p=>({source_actor_id:source,kind:p.kind,value:p.value})));
++}
++export function abilityChanges(before, after) {
++  const ids=Object.keys(before.s.actors);
++  return Object.fromEntries(ids.map(id=>{
++    const a=before.s.actors[id],b=after.s.actors[id],sourcesBefore=persistentSources(before,id),sourcesAfter=persistentSources(after,id);
++    // A new, not-yet-public source must not turn a private transition into a forecast.
++    if(!b||sourcesAfter.some(p=>!ids.includes(p.source_actor_id)))return [id,{status:'unknown',reason:'unpublished_source',values:null,
++      active:null,stance:null,persistent_sources:null}];
++    const bv=abilityValues(before,id),av=abilityValues(after,id);
++    const values=Object.fromEntries(Object.keys(bv).map(key=>[key,Number.isFinite(bv[key])&&Number.isFinite(av[key])
++      ?{status:'known',before:bv[key],after:av[key],delta:av[key]-bv[key]}
++      :{status:'unsupported',before:null,after:null,delta:null}]));
++    return [id,{status:'known',values,active:{before:a.active,after:b.active},
++      stance:{before:copy(a.guard),after:copy(b.guard)},persistent_sources:{before:sourcesBefore,after:sourcesAfter}}];
++  }));
++}
+diff --git a/src/runtime/campaign.mjs b/src/runtime/campaign.mjs
+index 059cf504f3e387c3d9e178073d6d215364bff44e..4f81d29931b87555464184b3dad9931585b7282b 100644
+--- a/src/runtime/campaign.mjs
++++ b/src/runtime/campaign.mjs
+@@ -8,6 +8,7 @@ import {preview,planFor,draftFor,checkPlanShape} from './preparation.mjs';
+ import {departGame,restoreGame} from './game.mjs';
+ import {nextMode,publishScene,publishConditionals,recordDisplayed} from './story.mjs';
+ import {settle,rewardLedger} from './settlement.mjs';
++import {publicContract} from './action-public.mjs';
+ const uuid=()=>globalThis.crypto.randomUUID();
+ const typedError=error=>fail(error).error;
+ function assertToken(d,t){check(t===token(d),'stale_view','view_token');}
+@@ -17,6 +18,9 @@ function assertPayload(payload,allowed) {
+   check(Object.keys(payload).every(k=>allowed.includes(k)),'unexpected_payload_field','payload');
+ }
+ function syncGame(d,g) {
++  // Also covers an old save whose currently owned, now-public deck was not
++  // recorded by the old hand-only observation rule. A pure read never writes.
++  g.observeOwnedCards([...g.s.actors.P.hand,...g.s.actors.P.deck]);
+   const s=d.session;s.game=g.save();s.active.reward_ledger=rewardLedger(s);
+   for(const row of g.trace.filter(e=>['action','boundary'].includes(e.type)))s.action_history.push(copy(row));
+   if(s.game.state.outcome){settle(d);const scene=s.game.state.pending_scene||'SCN-001-S06';s.game.state.pending_scene=null;publishScene(d,scene);}
+@@ -39,7 +43,7 @@ class CampaignController {
+     try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewAction');const game=restoreGame(this.#document.session);
+       check(game.choices().some(c=>canonical(c)===canonical(choice)),'illegal_choice','choice');
+       return project(this.#document,{action_preview:actionPreview(this.#document,choice)});}
+-    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null}});}
++    catch(error){return project(this.#document,{error:typedError(error),action_preview:{supported:false,reason:error.code||'invalid_request',mode:null,matched_field_id:null,actual_hp_loss:null,hit_gain:null,hit_connected:null,hp_restored:null,guard:null,action_cost:null,passive_effects:null,next_self_reservation:null,current_reservations:null,unused_hand_expiry:null,actor_changes:null,resolution_scope:null}});}
+   }
+   exportSave(){return copy(this.#document);}
+   async execute(command) {
+@@ -134,4 +138,4 @@ export function createCampaign({storage=new IndexedDBStore()}={}) {
+   };
+ }
+ export const Campaign=createCampaign();
+-export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:C.engine_version,input_version:C.version});
++export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:C.engine_version,input_version:C.version,public_contract:publicContract});
+diff --git a/src/runtime/game.mjs b/src/runtime/game.mjs
+index 596ac8b51036d7400110d75e78ea91031bd6342d..ee869c1a067703a28da0173eb4fe27e15ebea08d 100644
+--- a/src/runtime/game.mjs
++++ b/src/runtime/game.mjs
+@@ -6,6 +6,7 @@ import I from './information.mjs';
+ import * as K from './knowledge.mjs';
+ import {runStreams} from './random.mjs';
+ import {copy, check} from './common.mjs';
++import {abilityChanges} from './action-public.mjs';
+ 
+ export const cardSpec = type => C.cards[type]?.card || C.runtime_supply_cards[type];
+ export function bundleFor(targetSet) {
+@@ -55,16 +56,28 @@ export class Game extends CoreGame {
+       profile: t.knowledge_profile_id, actor: w, time: this.s.now, ...data}, 'first_resolution', ah.catalogues);
+   }
+   target(w) { return this.bundle.actor_specs[w].targets.find(id => this.s.actors[id]?.active); }
++  observeOwnedCards(ids) {
++    const ah=this.s.ah;
++    for(const id of ids){
++      const c=this.s.cards[id];if(c.origin==='P')continue;
++      const t=C.targets[this.bundle.targets[c.origin]],signature=I.signature(c);
++      if(!ah.knowledge.events.some(e=>e.kind==='observed_card'&&e.run===ah.run&&e.profile===t.knowledge_profile_id&&e.version===t.catalogue_version&&I.signature(e.card)===signature))
++        this.fact(c.origin,{kind:'observed_card',actor:'P',card:c});
++    }
++  }
++  rebuild(w) {
++    super.rebuild(w);
++    // All kinds in the player's rebuilt deck are public (basic design 6.3),
++    // even before the next draw. Retain that knowledge across return.
++    if(w==='P')this.observeOwnedCards(this.s.actors.P.deck);
++  }
+   refill(w) {
+     super.refill(w);
+     if (w !== 'P') return;
+     const ah = this.s.ah;
++    this.observeOwnedCards(this.s.actors.P.hand);
+     for (const id of this.s.actors.P.hand) {
+       const c = this.s.cards[id]; if (c.origin === 'P') continue;
+-      const t = C.targets[this.bundle.targets[c.origin]], signature = I.signature(c);
+-      if (!ah.knowledge.events.some(e => e.kind==='observed_card' && e.run===ah.run && e.profile===t.knowledge_profile_id && e.version===t.catalogue_version && I.signature(e.card)===signature)) {
+-        this.fact(c.origin, {kind: 'observed_card', actor: 'P', card: c});
+-      }
+       if (['nt_flow','nt_pressure','nt_stop'].includes(c.type) && !ah.known_bases_at_departure.includes(c.type)) ah.borrowed_first[c.type] = true;
+     }
+   }
+@@ -78,19 +91,23 @@ export class Game extends CoreGame {
+     return out;
+   }
+   predict(choice, w='P') {
+-    const c=this.s.cards[choice.card_id], e=this.effect(w,c), base={power:c.power,hit:c.hit};
+-    try {
+-      c.power+=e.power; c.hit+=e.hit;
+-      return {...super.predict(choice,w), passives:e.ids,
+-        action_cost:Math.max(1,this.cost(c.type,!!this.s.field[c.attr])-e.discount)*(this.bundle.actor_specs[w].action_cost_scale||1)};
+-    } finally {Object.assign(c,base);}
++    // Fork without save()/state(), which refreshes N on the source object.
++    const after=new Game(copy(this.bundle),{state:copy(this.s),next_card_number:this.number,memory:copy(this.memory),
++      rng:Object.fromEntries(Object.entries(this.rng).map(([key,rng])=>[key,rng.state()]))});
++    after.play(w,choice); // Exactly one resolution, including departures. Never advance()/NPC/refill.
++    const row=after.trace.findLast(x=>x.type==='action'&&x.actor===w);
++    const keys=['mode','crit_added','actual_hp_loss','hit_gain','hit_connected','posture_before','posture_after',
++      'posture_overflow','posture_multiplier','hp_restored','passives','action_cost'];
++    return {...Object.fromEntries(keys.map(k=>[k,copy(row[k])])),guard:row.mode==='guard'?copy(after.s.actors[w].guard):null,
++      resolution_scope:'after_current_action_before_next_actor',actor_changes:abilityChanges(this,after)};
+   }
+   play(w, choice) {
+     const c=this.s.cards[choice.card_id], played=I.card(c), match=!!this.s.field[c.attr], e=this.effect(w,c), base={power:c.power,hit:c.hit};
+     try {c.power+=e.power;c.hit+=e.hit;super.play(w,choice);} finally {Object.assign(c,base);}
+     const cost=Math.max(1,this.cost(c.type,match)-e.discount)*(this.bundle.actor_specs[w].action_cost_scale||1);
+     if(this.s.actors[w].active)this.s.actors[w].next_at=this.s.now+cost;
+-    const row=this.trace.findLast(x=>x.type==='action'&&x.actor===w); Object.assign(row,{passives:e.ids,action_cost:cost});
++    const row=this.trace.findLast(x=>x.type==='action'&&x.actor===w);
++    Object.assign(row,{passives:e.ids,action_cost:cost,card_name:played.name});
+     if(w==='P') {
+       const ah=this.s.ah, p=ah.pending;
+       p.after_guard=ah.equipped.includes('base:PS01')&&match&&c.kind==='guard';
+diff --git a/src/runtime/references-public.mjs b/src/runtime/references-public.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fcb7e6c0848fc113e27615eb11bc616a038b4693
+--- /dev/null
++++ b/src/runtime/references-public.mjs
+@@ -0,0 +1,37 @@
++import I from './information.mjs';
++import {copy} from './common.mjs';
++
++export const knowledgeKey = target => JSON.stringify(['knowledge',target.id,target.catalogue_version]);
++
++// Aggregate the player's cards, not their draw order or instance identifiers.
++// Initial, undrawn, held and doomed counts deliberately remain separate.
++export function deckCatalogue(game) {
++  const a=game.s.actors.P,groups=new Map();
++  function add(id,location) {
++    const c=game.s.cards[id],signature=I.signature(c);
++    if(!groups.has(signature))groups.set(signature,{card:I.card(c),deck_count:0,hand_count:0,initial_count:0,doomed_deck_count:0,doomed_hand_count:0});
++    const row=groups.get(signature);row[location+'_count']++;
++    if(c.doomed&&location!=='initial')row['doomed_'+location+'_count']++;
++  }
++  for(const c of Object.values(game.s.cards))if(c.origin==='P'&&c.birth==='initial')add(c.id,'initial');
++  for(const id of a.deck)add(id,'deck');
++  for(const id of a.hand)add(id,'hand');
++  const entries=[...groups.entries()].sort(([a],[b])=>a<b?-1:a>b?1:0)
++    .map(([,row],i)=>({detail_id:'own-card:'+i,...row}));
++  return {status:'known',owner_actor_id:'P',reference_scope:'current_view',order_disclosed:false,
++    deck_count:a.deck.length,hand_count:a.hand.length,initial_count:a.initial_size,entries};
++}
++
++const actionKeys=['type','time','actor','action_number','card_id','target','matched_id','mode','damage','actual_hp_loss',
++  'hit_gain','hit_connected','posture_before','posture_after','posture_overflow','posture_multiplier','hp_restored','crit_added',
++  'expired','old_guard_ended','event_before','passives','action_cost'];
++const boundaryKeys=['type','time','number','event','victim','attacker','P_actions','from_event','to_event'];
++export function actionHistory(rows) {
++  return rows.filter(r=>['action','boundary'].includes(r.type)).map(row=>{
++    const keys=row.type==='action'?actionKeys:boundaryKeys;
++    const out=Object.fromEntries(keys.filter(k=>Object.hasOwn(row,k)).map(k=>[k,copy(row[k])]));
++    if(row.type==='action')Object.assign(out,{card_name:row.card_name??null,
++      card_name_status:row.card_name===undefined?'not_recorded':'recorded_at_resolution'});
++    return out;
++  });
++}
+diff --git a/src/runtime/story.mjs b/src/runtime/story.mjs
+index 00a01e63ec1271660c8a7308f9d57e29940544df..0fca9303df7c86aa74ccb17aad90349d2ce7e336 100644
+--- a/src/runtime/story.mjs
++++ b/src/runtime/story.mjs
+@@ -77,6 +77,15 @@ export function publicStory(d) {
+   const objective=Object.entries(C.texts).find(([,t])=>t.kind==='objective'&&eligible(t.eligible_when,ctx))?.[0]||null;
+   const ids=[...(scene?.text_ids||[]),...(scene?.optional_text_ids||[]),...(objective?[objective]:[])];
+   const texts=Object.fromEntries(ids.map(id=>[id,{id,title:null,short_text:C.texts[id].short_text,detail_text:C.texts[id].kind==='detail'?C.texts[id].short_text:null,kind:C.texts[id].kind,read:d.casebook[caseID].read_text_ids.includes(id)}]));
+-  return {objective,texts,scene:scene?{id:scene.id,text_ids:copy(scene.text_ids),optional_text_ids:copy(scene.optional_text_ids),paused:scene.pause,
++  const published=new Map();
++  for(const event of d.public_history)for(const id of event.text_ids){
++    // Optional detail is historical only after actual display, never just availability.
++    if(C.texts[id].kind==='detail'&&event.kind!=='displayed')continue;
++    if(!published.has(id))published.set(id,{id,scene_ids:[],published:true,read:d.casebook[caseID].read_text_ids.includes(id)});
++    const row=published.get(id);if(!row.scene_ids.includes(event.scene_id))row.scene_ids.push(event.scene_id);
++  }
++  const text_history=[...published.values()].map(row=>({...row,kind:C.texts[row.id].kind,short_text:C.texts[row.id].short_text,
++    detail_text:C.texts[row.id].kind==='detail'?C.texts[row.id].short_text:null}));
++  return {objective,texts,text_history,scene:scene?{id:scene.id,text_ids:copy(scene.text_ids),optional_text_ids:copy(scene.optional_text_ids),paused:scene.pause,
+     can_continue:scene.pause,can_withdraw:d.session.phase==='exploring'}:null};
+ }
+diff --git a/src/runtime/validate.mjs b/src/runtime/validate.mjs
+index 0a1620a4a938e2b35ac998431c5caadb402ef04f..71a69b320b5545604f9d452ae42e44aeb7a07383 100644
+--- a/src/runtime/validate.mjs
++++ b/src/runtime/validate.mjs
+@@ -30,6 +30,12 @@ function validate(d) {
+   if(d.draft!==null){checkPlanShape(d.draft.plan);check(integer(d.draft.based_on_revision)&&d.draft.based_on_revision<=d.revision,'invalid_draft_revision');
+     const computed=draftFor(s,d.draft.plan,d.draft.based_on_revision);for(const key of ['dirty','valid','errors'])check(canonical(computed[key])===canonical(d.draft[key]),'invalid_draft',key);}
+   check(object(s.receipts)&&object(d.request_log)&&Array.isArray(d.public_history),'invalid_ledgers');
++  check(Array.isArray(s.action_history),'invalid_action_history');
++  for(const row of s.action_history){
++    check(object(row)&&['action','boundary'].includes(row.type),'invalid_action_history');
++    // Optional additive field: old saves keep missing names, never inferred from the registry.
++    if(Object.hasOwn(row,'card_name'))check(row.type==='action'&&typeof row.card_id==='string'&&typeof row.card_name==='string'&&row.card_name.length>0,'invalid_history_card_name');
++  }
+   for(const [id,row] of Object.entries(d.request_log)){safeID(id,'request_id');check(typeof row.signature==='string'&&integer(row.committed_revision)&&row.committed_revision<=d.revision,'invalid_request_log');}
+   const runs=Object.keys(s.receipts);
+   for(const [run,r] of Object.entries(s.receipts)) {
+diff --git a/src/runtime/view.mjs b/src/runtime/view.mjs
+index 9c97a08234d54b25e7c36b04dcf87c39c6ab6b2b..00f9f8070a79fdb3eb2e18d6cd085959ca3926ec 100644
+--- a/src/runtime/view.mjs
++++ b/src/runtime/view.mjs
+@@ -5,6 +5,8 @@ import {restoreGame} from './game.mjs';
+ import {inspectPreparation,draftFor,planFor} from './preparation.mjs';
+ import {publicStory,nextMode} from './story.mjs';
+ import {copy} from './common.mjs';
++import {publicContract,persistentSources} from './action-public.mjs';
++import {knowledgeKey,deckCatalogue,actionHistory} from './references-public.mjs';
+ export const token = d => d.view_nonce;
+ const ability=(available,reason)=>({available,reasons:available?[]:[reason]});
+ export function capabilities(d) {
+@@ -43,7 +45,7 @@ export function project(d, extras={}) {
+     for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);}
+   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
+   const knownTargets=Object.values(C.targets).filter(t=>ledger.encounters.some(e=>e.profile===t.knowledge_profile_id));
+-  const knowledge_views=knownTargets.map(t=>({target_id:t.id,name:t.display_name,...I.profileView(ledger,t.knowledge_profile_id,t.catalogue_version,s.active?.run||null,t.runtime_actor_id),
++  const knowledge_views=knownTargets.map(t=>({key:knowledgeKey(t),target_id:t.id,catalogue_version:t.catalogue_version,name:t.display_name,...I.profileView(ledger,t.knowledge_profile_id,t.catalogue_version,s.active?.run||null,t.runtime_actor_id),
+     encountered:true}));
+   let exploration=null;
+   if(s.phase==='exploring'){
+@@ -52,20 +54,26 @@ export function project(d, extras={}) {
+       const t=id==='P'?null:C.targets[s.active.targets[id]];
+       actors[id]={id,name:t?.display_name||'本人',purpose:t?.purpose||'self',remaining_label:t?.remaining_label||'余力',action_label:t?.action_label||null,
+         hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.posture_remaining,max_posture:a.max_posture,crit:a.crit,guard:a.guard,evasion:a.evasion,
+-        reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions};
++        reduction:a.reduction,active:a.active,next_at:a.next_at,hand_count:a.hand_count,deck_count:a.deck_count,actions:a.actions,
++        knowledge_key:t?knowledgeKey(t):null,knowledge_status:t?'encountered':'self',persistent_sources:persistentSources(game,id)};
+     }
+     const hand=p.actors.P.hand.map(c=>({id:c.id,...I.card(c),remaining:c.remaining,origin:c.origin,doomed:c.doomed}));
+     const field=Object.fromEntries(Object.entries(p.field).map(([attr,c])=>[attr,{id:c.id,...I.card(c),origin:c.origin,doomed:c.doomed}]));
+     for(const c of [...p.actors.P.hand,...Object.values(p.field)])details[c.id]=cardDetail(c);
++    const deck_catalogue=deckCatalogue(game);
++    for(const row of deck_catalogue.entries)details[row.detail_id]=cardDetail(row.card);
+     exploration={now:p.now,self:actors.P,actors,hand,field,recovery_count:p.pool_count,legal_actions:s.scene?.pause||s.game.state.diagnostic?[]:game.choices(),
+-      public_history:copy(s.action_history),passive_state:copy(s.game.state.ah.pending),diagnostic:s.game.state.diagnostic};
++      public_history:actionHistory(s.action_history),passive_state:copy(s.game.state.ah.pending),diagnostic:s.game.state.diagnostic,
++      deck_catalogue,other_decks:Object.fromEntries(Object.entries(actors).filter(([id])=>id!=='P').map(([id,a])=>[id,
++        {status:'unknown',count:a.deck_count,entries:null,reason:'current_private_composition',knowledge_key:a.knowledge_key}])),
++      shared_recovery:{status:'count_only',count:p.pool_count,entries:null,reason:'composition_not_published'}};
+   }
+   const stored=d.draft||draftFor(s,planFor(s),d.revision);
+   const draft=home?{plan:copy(stored.plan),dirty:stored.dirty,valid:stored.valid,errors:copy(stored.errors),based_on_current:stored.based_on_revision===d.revision}:null;
+   const receipt=s.phase==='return'?s.receipts[s.active.run]:null;
+   const return_receipt=receipt?copy(Object.fromEntries(['outcome','gained_units','unspent_after_units','paid_learning_units','kept_items','lost_items','new_unlocks','knowledge_changes','case_changes','expedition_end_hp','home_hp'].map(k=>[k,receipt[k]]))):null;
+-  return {schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
+-    knowledge_views,texts:story.texts,draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
++  return {schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
++    knowledge_views,texts:story.texts,text_history:story.text_history,action_history:actionHistory(s.action_history),draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
+       available_mode:s.active?.mode||nextMode(d.casebook['SCN-001']),objective_text_id:story.objective,visible_clue_ids:copy(d.casebook['SCN-001'].visible_clue_ids),unlocked_card_ids:copy(s.economy.profile.unlocked)},
+     scene:story.scene,exploration,action_preview:null,return_receipt,operation:null,error:null,...extras}};
+ }
+diff --git a/test/runtime/d02r-ui.mjs b/test/runtime/d02r-ui.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b754a779bb7b4fde02290a9c95f2c97a3dd4e628
+--- /dev/null
++++ b/test/runtime/d02r-ui.mjs
+@@ -0,0 +1,65 @@
++// Changed-runtime integration, using the received UI untouched. DOM is not real rendering/IDB.
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import {createRequire} from 'node:module';
++import assert from 'node:assert/strict';
++import crypto from 'node:crypto';
++import {createCampaign,versions} from '../../src/runtime/campaign.mjs';
++import {MemoryStore} from './support.mjs';
++import {createCheckpoint} from '../../docs/検証/UI/readability/co-u02/review/checkpoints.mjs';
++import {loadDocument} from '../../docs/検証/UI/readability/co-u02/review/source.mjs';
++import {mountReview} from '../../docs/検証/UI/readability/co-u02/review/picker.mjs';
++const require=createRequire(import.meta.url),{JSDOM,VirtualConsole}=require(process.env.CW_JSDOM_PATH||'jsdom');
++const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),ui=path.join(root,'docs/検証/UI/readability/co-u02');
++const out=path.resolve(process.argv[2]);await fs.mkdir(out,{recursive:true});
++const checks=[],errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>{if(e.type!=='css parsing')errors.push(String(e));});
++const check=(name,value)=>{assert(value,name);checks.push({name,pass:true});};
++const sources=new Map();
++const source=async name=>{if(!sources.has(name))sources.set(name,await loadDocument(name,async url=>new Response(await fs.readFile(url))));return structuredClone(sources.get(name));};
++const dom=new JSDOM(await fs.readFile(path.join(ui,'review/index.html'),'utf8'),{runScripts:'outside-only',pretendToBeVisual:true,url:'https://test.invalid/review/?case=explore',virtualConsole:vc});
++const w=dom.window;w.structuredClone=structuredClone;w.TextEncoder=TextEncoder;w.TextDecoder=TextDecoder;
++Object.defineProperty(w,'crypto',{value:crypto.webcrypto});
++w.ResizeObserver=class{observe(){}disconnect(){}};w.IntersectionObserver=class{observe(){}disconnect(){}};w.matchMedia=()=>({matches:false});
++w.eval(await fs.readFile(path.join(ui,'dist/crossweave-ui.js'),'utf8'));
++const host=w.document.querySelector('[data-review]'),main=host.querySelector('#crossweave-journey');
++main.getBoundingClientRect=()=>({width:1024,height:576,left:0,top:0,right:1024,bottom:576});
++const pause=()=>new Promise(resolve=>setTimeout(resolve,5));
++async function until(fn){for(let i=0;i<300;i++){if(fn())return;await pause();}throw Error('DOM wait timeout');}
++const originalIDB=globalThis.indexedDB;let idbCalls=0;
++globalThis.indexedDB={open(){idbCalls++;throw Error('test must not touch real IndexedDB');}};
++let review,app;
++try{
++  const normalHTML=await fs.readFile(path.join(ui,'index.html'),'utf8'),entry=await fs.readFile(path.join(ui,'entry.mjs'),'utf8');
++  check('通常入口は保存済みdistと公開Campaignのmoduleへ接続',normalHTML.includes('dist/crossweave-ui.js')&&entry.includes("import('../../../../../src/runtime/campaign.mjs')")&&entry.includes('mountJourneyApplication'));
++  const store=new MemoryStore();store.records.set('ui-check',await source('home'));
++  app=w.CrossweaveUI.mountJourneyApplication(main,{Campaign:createCampaign({storage:store}),config:{slot_id:'ui-check',rule_set_id:versions.rule_set_id,content_set_id:versions.content_set_id},storageMode:'ephemeral'});
++  check('通常と同じlauncherは開始画面を生成',main.dataset.screen==='start');
++  main.querySelector('[data-launch="open"]').click();await until(()=>app.journey?.session.state().view?.display_data.phase==='home');await app.journey.ready;
++  check('公開APIの追加後も通常launcherから既存保存を開く',main.dataset.screen==='hub'&&app.session.state().view.display_data.public_contract===versions.public_contract);
++  app.dispose();app=null;
++  review=mountReview(host,{ui:w.CrossweaveUI,prepare:id=>createCheckpoint(id,source)});assert(await review.ready);
++  check('確認専用の探索場面が新runtimeで起動',main.dataset.screen==='explore');
++  const session=review.app.session,view=session.state().view,choice=view.display_data.exploration.legal_actions[0];
++  main.querySelector('[data-x-card="'+choice.card_id+'"]').click();
++  await until(()=>session.state().actionPreview?.supported||session.state().actionPreview?.display_data||main.querySelector('[data-x="use"]')&&!session.state().pending);
++  // Check the public controller result independently of UI's still-old forecast adapter.
++  const preview=await session.previewAction(choice);
++  check('sessionがactor_changes付き予測応答を受け取る',preview.ok&&session.state().actionPreview.actor_changes.P.values.crit.status==='known');
++  check('描画側の全能力差分接続は受領原本のまま未了',w.CrossweaveUI.projectActionForecast(view.display_data,choice,session.state().actionPreview).unavailable.includes('機転の解決後残量'));
++  const before=session.state().view.meta.revision;
++  main.querySelector('[data-x="use"]').click();await until(()=>session.state().view.meta.revision>before&&!session.state().pending);
++  check('一手確定後の新しい公開履歴へ遷移する',session.state().view.display_data.action_history.some(r=>r.card_name_status==='recorded_at_resolution'));
++  assert(await review.show('port'));
++  const data=review.app.session.state().view.display_data;
++  check('本文場面は公開済み過去本文追加後も起動する',main.dataset.screen==='scene'&&data.text_history.length>0);
++  check('場面の起動だけで任意詳細を既読にしない',!data.text_history.some(t=>t.id==='SCN-001-DETAIL06'));
++  assert(await review.show('clear'));
++  check('帰還場面は旧自然保存の欠損札名を不明のまま受け取る',main.dataset.screen==='return'&&review.app.session.state().view.display_data.action_history.filter(r=>r.type==='action').every(r=>r.card_name===null));
++  check('一時検査はIndexedDBを呼ばない',idbCalls===0);check('DOM実行エラーなし',errors.length===0);
++}catch(error){await fs.writeFile(path.join(out,'ui-failure.json'),JSON.stringify({checks,error:String(error),stack:error.stack,errors},null,2)+'\n',{flag:'wx'});throw error;}
++finally{review?.dispose();app?.dispose();dom.window.close();globalThis.indexedDB=originalIDB;}
++await fs.writeFile(path.join(out,'ui-verification.json'),JSON.stringify({id:'CW-M1-A-002-UI',checks,node:process.version,jsdom:require(path.join(process.env.CW_JSDOM_PATH||'jsdom','package.json')).version,
++  inputs:'received 0.11.1 dist and review entry; fixed home/entry/port/return; real Campaign + original MemoryStore',
++  scope:'DOM + explicit fixed geometry only; no real layout, physical input, IndexedDB or human acceptance',old_ui_suites_rerun:0,errors},null,2)+'\n',{flag:'wx'});
++console.log(JSON.stringify({pass:true,checks:checks.length,out}));
+diff --git a/test/runtime/d02r.mjs b/test/runtime/d02r.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7bc70a2d5ab2e91300c505a9355c5a2de562af21
+--- /dev/null
++++ b/test/runtime/d02r.mjs
+@@ -0,0 +1,209 @@
++// CW-M1-A-002: scoped supplement checks; never call the old natural-run suites.
++import fs from 'node:fs/promises';
++import zlib from 'node:zlib';
++import crypto from 'node:crypto';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import assert from 'node:assert/strict';
++import {createCampaign,versions} from '../../src/runtime/campaign.mjs';
++import {restoreGame} from '../../src/runtime/game.mjs';
++import {validateDocument} from '../../src/runtime/validate.mjs';
++import {project} from '../../src/runtime/view.mjs';
++import {copy,canonical} from '../../src/runtime/common.mjs';
++import I from '../../src/runtime/information.mjs';
++import {MemoryStore,execute,command} from './support.mjs';
++const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
++const saveRoot=path.join(root,'docs/検証/接続条件/co-d02/saves');
++const out=path.resolve(process.argv[2]);await fs.mkdir(out,{recursive:true});
++const hash=x=>crypto.createHash('sha256').update(typeof x==='string'||Buffer.isBuffer(x)?x:canonical(x)).digest('hex');
++const checks=[],fixtures=[],examples={};
++const check=(name,value,detail={})=>{assert(value,name);checks.push({name,pass:true,...detail});};
++let choiceCount=0;
++const docs={};
++const stateOf=g=>({state:g.s,memory:g.memory,number:g.number,rng:Object.fromEntries(Object.entries(g.rng).map(([k,r])=>[k,r.state()])),bundle:g.bundle,trace:g.trace});
++function take(g,id){
++  for(const a of Object.values(g.s.actors)){a.hand=a.hand.filter(x=>x!==id);a.deck=a.deck.filter(x=>x!==id);}
++  g.s.pool=g.s.pool.filter(x=>x!==id);
++  for(const [attr,x] of Object.entries(g.s.field))if(x===id)delete g.s.field[attr];
++  g.s.cards[id].remaining=null;
++}
++function arranged(document,type,matched,{target='E1',fieldType=null,changes={}}={}){
++  const d=copy(document),g=restoreGame(d.session),p=g.s.actors.P;
++  // Explicit counterfactual card locations and stats; no battle history is claimed.
++  for(const id of [...p.hand]){take(g,id);p.deck.push(id);}
++  for(const id of Object.values(g.s.field)){take(g,id);g.recover(id,'declared_fixture_clear_field');}
++  const c=Object.values(g.s.cards).find(c=>!c.destroyed&&c.type===type&&(c.origin==='P'||type.startsWith('nt_')));assert(c,type);
++  take(g,c.id);p.hand.push(c.id);c.remaining=c.life;
++  if(matched){
++    const material=Object.values(g.s.cards).find(x=>!x.destroyed&&x.id!==c.id&&x.attr===c.attr&&(!fieldType||x.type===fieldType));assert(material,'material');
++    take(g,material.id);g.s.field[c.attr]=material.id;
++  }
++  for(const [id,patch] of Object.entries(changes))Object.assign(g.s.actors[id],copy(patch));
++  g.s.ready=true;g.assert();d.session.game=g.save();d.session.scene.pause=false;
++  validateDocument(d);
++  const choice={card_id:c.id,target:matched&&c.kind==='attack'?target:null};
++  return {document:d,choice,recipe:{type,matched,target,fieldType,changes,description:'entry public continue; move current cards as arranged(), preserve registry and provenance'}};
++}
++async function openFixed(document){
++  const storage=new MemoryStore();storage.records.set('check',copy(document));
++  const Campaign=createCampaign({storage}),controller=await Campaign.open({slot_id:'check'});
++  return {storage,Campaign,controller};
++}
++function checkForecast(g,choice,name){
++  const before=hash(stateOf(g)),forecast=g.predict(choice),actual=restoreGame({...docs.entry.session,game:g.save()});
++  // restoreGame's target set is entry for these explicitly arranged checks.
++  actual.step(choice);choiceCount++;
++  assert.equal(hash(stateOf(g)),before,'predict mutates source');
++  assert.deepEqual(Object.keys(forecast.actor_changes),Object.keys(g.s.actors),'forecast publishes new actor');
++  for(const [id,row] of Object.entries(forecast.actor_changes)){
++    assert.equal(row.status,'known');const a=actual.s.actors[id];
++    const expected={hp:a.hp,max_hp:a.max_hp,hit:a.hit,posture_remaining:a.max_posture-a.hit,max_posture:a.max_posture,
++      crit:a.crit,critical_multiplier:1+Math.floor(a.crit/100),guard:a.guard?.value??0,guard_uses:a.guard?.uses??0,
++      guard_evasion:a.guard?.evasion??0,evasion:actual.evasion(id),reduction:actual.passive(id,'damage_reduction')};
++    for(const [k,n] of Object.entries(expected)){assert.equal(row.values[k].after,n,`${name} ${id} ${k}`);assert.equal(row.values[k].delta,n-row.values[k].before);}
++    assert.deepEqual(row.stance.after,a.guard);assert.equal(row.active.after,a.active);
++  }
++  check(name,true,{actors:Object.keys(forecast.actor_changes),choice});return {forecast,actual};
++}
++try {
++  const manifest=JSON.parse(await fs.readFile(path.join(saveRoot,'manifest.json')));
++  for(const name of ['entry','port','return','home','second-return']){
++    const file=name+'.save.json.gz',bytes=await fs.readFile(path.join(saveRoot,file)),raw=zlib.gunzipSync(bytes),record=manifest.records.find(r=>r.path.endsWith('/'+file));
++    assert.equal(hash(bytes),record.gzip_sha256);assert.equal(hash(raw),record.raw_sha256);
++    const document=JSON.parse(raw);docs[name]=document;
++    assert.deepEqual(validateDocument(document),document);
++    const {storage,Campaign,controller}=await openFixed(document),before=hash(await storage.load('check'));
++    const view=controller.inspect();controller.inspect();
++    assert.equal(hash(await storage.load('check')),before);assert.deepEqual(controller.exportSave(),document);
++    const imported=await Campaign.importSave({slot_id:'import',document,request_id:'d02r-import'});
++    assert.deepEqual(imported.exportSave().session,document.session);assert.deepEqual(imported.exportSave().casebook,document.casebook);
++    assert.deepEqual(imported.exportSave().session.economy.at.pending_contexts,document.session.economy.at.pending_contexts);
++    check('旧自然保存 '+name+' の無変更open・純粋inspect・輸入互換',true);
++    const history=view.display_data.action_history.filter(r=>r.type==='action');
++    check('旧履歴 '+name+' の欠損札名を推定しない',history.every(r=>r.card_name===null&&r.card_name_status==='not_recorded'));
++  }
++  const {controller:start}=await openFixed(docs.entry);
++  await execute(start,'continue_scene',{scene_id:start.inspect().display_data.scene.id,advance:true,displayed_text_ids:[]});
++  const ready=start.exportSave();
++  const cases=[
++    ['設置は身構・機転を保持し回復草でも回復しない','salve',false,{changes:{P:{hp:30,crit:125,guard:{value:4,evasion:7,uses:1}}}}],
++    ['攻撃一致で本人の身構終了・機転消費・相手の一回防御終了','f',true,{fieldType:'f',changes:{P:{crit:80,guard:{value:4,evasion:7,uses:2}},E1:{hit:99,crit:120,guard:{value:1,evasion:0,uses:1}}}}],
++    ['届かない攻撃は機転を保持し防御回数を消費しない','h',true,{fieldType:'h',changes:{P:{crit:80},E1:{hit:0,crit:120,guard:{value:3,evasion:20,uses:2}}}}],
++    ['汐留めで身構置換・常時攪乱込みの総量','nt_stop',true,{fieldType:'nt_stop',changes:{P:{guard:{value:9,evasion:30,uses:1}},V1:{passives:[{target:'P',kind:'evasion',value:20},{target:'P',kind:'damage_reduction',value:8}]}}}],
++    ['回復一致は上限まで4回復し旧身構が終わる','salve',true,{changes:{P:{hp:36,guard:{value:5,evasion:30,uses:2}}}}],
++    ['被攻撃の二回身構は一回残る','f',true,{fieldType:'f',changes:{E1:{hit:99,guard:{value:1,evasion:0,uses:2}}}}],
++    ['支援源撃破で本人と別主体の常時作用が消える','f',true,{fieldType:'f',changes:{E1:{hp:1,hit:99,passives:[{target:'P',kind:'evasion',value:20},{target:'V0',kind:'damage_reduction',value:8}]}}}],
++    ['環境踏破の退場まで予測し新しい相手を先に公開しない','f',true,{target:'V0',fieldType:'f',changes:{V0:{hp:1,hit:0},E1:{passives:[{target:'P',kind:'evasion',value:20}]}}}]
++  ];
++  for(const [name,type,matched,options] of cases){
++    const f=arranged(type==='nt_stop'?docs.port:ready,type,matched,options),g=restoreGame(f.document.session);
++    const {forecast,actual}=checkForecast(g,f.choice,name);
++    fixtures.push({name,source:type==='nt_stop'?'port.save.json.gz':'entry.save.json.gz + public continue_scene',...f.recipe,input_sha256:hash(f.document),forecast_sha256:hash(forecast)});
++    if(type==='salve'&&!matched){assert.equal(forecast.hp_restored,0);assert.equal(forecast.actor_changes.P.values.guard.delta,0);assert.equal(forecast.actor_changes.P.values.crit.delta,0);}
++    if(name.startsWith('攻撃一致')){assert.equal(forecast.crit_added,25);assert.equal(forecast.actor_changes.P.values.crit.after,0);assert.equal(forecast.actor_changes.P.values.crit.delta,-80);assert.equal(forecast.actor_changes.E1.values.guard_uses.after,0);}
++    if(type==='nt_stop'){assert.equal(forecast.actor_changes.P.values.guard.after,5);assert.equal(forecast.actor_changes.P.values.evasion.after,60);assert.equal(forecast.actor_changes.P.values.reduction.after,8);examples.ability_preview=forecast;}
++    if(name.startsWith('回復一致'))assert.equal(forecast.actor_changes.P.values.hp.delta,4);
++    if(name.startsWith('支援源')){assert.equal(forecast.actor_changes.P.values.evasion.delta,-20);assert.equal(forecast.actor_changes.V0.values.reduction.delta,-8);}
++    if(name.startsWith('環境踏破')){assert(actual.s.actors.V1);assert(!forecast.actor_changes.V1);assert.equal(forecast.actor_changes.E1.active.after,false);}
++    const {storage,controller}=await openFixed(f.document),before=hash(await storage.load('check')),beforeView=controller.inspect();
++    const result=controller.previewAction({view_token:beforeView.meta.view_token,choice:f.choice});
++    assert(!result.display_data.error);assert.deepEqual(result.display_data.action_preview.actor_changes,forecast.actor_changes);
++    assert.equal(hash(await storage.load('check')),before);assert.deepEqual(controller.inspect(),beforeView);
++    const stale=controller.previewAction({view_token:'stale',choice:f.choice});
++    assert.equal(stale.display_data.action_preview.supported,false);assert.equal(stale.display_data.action_preview.actor_changes,null);
++    // Different private permutations/streams must not alter this public one-step forecast.
++    const hidden=restoreGame(f.document.session);
++    for(const [id,a] of Object.entries(hidden.s.actors))if(id!=='P')a.deck.reverse();
++    for(const [key,rng] of Object.entries(hidden.rng))if(!key.startsWith('P|'))rng.uint();
++    for(const state of Object.values(hidden.bundle.future_rng))state[0]=(state[0]+1)>>>0;
++    assert.deepEqual(hidden.predict(f.choice),forecast);
++  }
++  check('全8予測の保存・revision・乱数不変、staleはnull、未知札順／乱数に非依存',true);
++  const named=arranged(ready,'f',true,{fieldType:'f',changes:{E1:{hit:99}}});
++  const {storage,Campaign,controller}=await openFixed(named.document);
++  const commandPlay=command(controller,'play',{choice:named.choice});
++  const snapshotBefore=controller.exportSave();storage.failNext=true;
++  assert.equal((await controller.execute(commandPlay)).display_data.error.code,'storage_write_failed');
++  assert.deepEqual(controller.exportSave(),snapshotBefore);assert.deepEqual(await storage.load('check'),snapshotBefore);
++  await controller.execute(commandPlay);const saved=controller.exportSave();
++  const row=saved.session.action_history.findLast(r=>r.actor==='P');assert.equal(row.card_name,'牽制');
++  const reopened=await Campaign.open({slot_id:'check'});
++  const history=reopened.inspect().display_data.action_history;
++  assert.equal(history.findLast(r=>r.actor==='P').card_name,'牽制');
++  assert(history.filter(r=>r.type==='action'&&r.time>=ready.session.game.state.now).some(r=>r.actor!=='P'&&r.card_name));
++  await reopened.execute(commandPlay);assert.deepEqual(reopened.exportSave(),saved);
++  check('解決時の本人／NPC札名を実保存・再開・同要求再送で維持、保存失敗は不変',true);
++  examples.action_history=history;
++  const historical=copy(saved);historical.session.action_history.findLast(r=>r.actor==='P').card_name='当時の公開名';
++  assert.equal(project(validateDocument(historical)).display_data.action_history.findLast(r=>r.actor==='P').card_name,'当時の公開名');
++  delete historical.session.action_history.findLast(r=>r.actor==='P').card_name;
++  assert.equal(project(validateDocument(historical)).display_data.action_history.findLast(r=>r.actor==='P').card_name,null);
++  historical.session.action_history.findLast(r=>r.actor==='P').card_name={private:'bad'};
++  assert.throws(()=>validateDocument(historical),e=>e.code==='invalid_history_card_name');
++  check('履歴名は現在の札名で置換せず、旧欠損はnull、破損追加値は拒否',true);
++  const borrowed=copy(docs.port),bg=restoreGame(borrowed.session);
++  const b=Object.values(bg.s.cards).find(c=>c.type==='nt_stop');take(bg,b.id);bg.s.actors.P.deck.push(b.id);
++  bg.s.cards[b.id].doomed=true; // Explicit marker-count boundary, origin still present for this isolated projection.
++  borrowed.session.game=bg.save();
++  const display=project(borrowed).display_data,cat=display.exploration.deck_catalogue;
++  assert.equal(cat.entries.reduce((n,r)=>n+r.deck_count,0),bg.s.actors.P.deck.length);
++  assert.equal(cat.entries.reduce((n,r)=>n+r.initial_count,0),12);
++  const borrowRow=cat.entries.find(r=>r.card.type==='nt_stop');assert.equal(borrowRow.deck_count,1);assert.equal(borrowRow.initial_count,0);assert.equal(borrowRow.doomed_deck_count,1);
++  assert.equal(display.details[borrowRow.detail_id].name,'汐留め');assert.equal(display.details[borrowRow.detail_id].field.hit,20);
++  assert(cat.entries.every(r=>!Object.hasOwn(r,'id')&&!Object.hasOwn(r,'card_id')));
++  const reversed=copy(borrowed);reversed.session.game.state.actors.P.deck.reverse();
++  assert.deepEqual(project(reversed).display_data.exploration.deck_catalogue,cat);
++  assert(Object.values(display.exploration.other_decks).every(r=>r.status==='unknown'&&r.entries===null));
++  assert.equal(display.exploration.shared_recovery.entries,null);
++  check('借入札も本人山札で参照、初期／手札／残数／消滅予定を分離、順と他者内訳は非公開',true);
++  examples.deck_catalogue=cat;
++  bg.s.cards[b.id].doomed=false;borrowed.session.game=bg.save();
++  const retained=await openFixed(borrowed);await execute(retained.controller,'withdraw',{});
++  assert(retained.controller.exportSave().session.economy.profile.knowledge.events.some(e=>e.kind==='observed_card'&&e.card.type==='nt_stop'));
++  check('本人の公開山札で知った未ドロー札を帰還時も保持する',true);
++  for(const [id,a] of Object.entries(display.exploration.actors)){
++    if(id==='P')assert.equal(a.knowledge_key,null);
++    else assert.equal(display.knowledge_views.find(k=>k.key===a.knowledge_key)?.target_id,borrowed.session.active.targets[id]);
++  }
++  assert(!project(ready).display_data.knowledge_views.some(v=>v.target_id.endsWith('ACT03')));
++  check('公開主体だけを版付き調査キーへ接続、本人はself、未遭遇対象は追加しない',true);
++  examples.knowledge_links={actors:Object.fromEntries(Object.entries(display.exploration.actors).map(([id,a])=>[id,{knowledge_key:a.knowledge_key,knowledge_status:a.knowledge_status}])),knowledge_views:display.knowledge_views};
++  const port=await openFixed(docs.port),detailID='SCN-001-DETAIL06';
++  // The frozen port save is S03. S04 (public transition, no game advance) offers DETAIL06.
++  await execute(port.controller,'continue_scene',{scene_id:port.controller.inspect().display_data.scene.id,advance:true,displayed_text_ids:[]});
++  const portBefore=port.controller.exportSave();
++  const beforeTexts=port.controller.inspect().display_data;
++  assert(!beforeTexts.text_history.some(t=>t.id===detailID));
++  assert(beforeTexts.scene.optional_text_ids.includes(detailID));
++  await execute(port.controller,'continue_scene',{scene_id:beforeTexts.scene.id,advance:false,displayed_text_ids:[detailID]});
++  const afterTexts=port.controller.inspect().display_data;
++  assert(afterTexts.text_history.some(t=>t.id===detailID&&t.read));
++  assert.deepEqual(port.controller.exportSave().session.game,portBefore.session.game);
++  assert.equal(afterTexts.case.visible_clue_ids.filter(x=>x==='SCN-001-CL05').length,1);
++  await execute(port.controller,'withdraw',{});
++  const afterReturn=port.controller.inspect().display_data;
++  assert(afterReturn.text_history.some(t=>t.id===detailID&&t.read));
++  const p2=await port.Campaign.open({slot_id:'check'});assert.deepEqual(p2.inspect().display_data.text_history,afterReturn.text_history);
++  assert(afterReturn.text_history.some(t=>!t.read&&t.published));
++  const publishedIDs=new Set(port.controller.exportSave().public_history.flatMap(e=>e.text_ids));
++  assert(afterReturn.text_history.every(t=>publishedIDs.has(t.id)));
++  check('過去本文の公開／既読を分離、未読任意詳細は出さず、実表示後の本文とCL05を帰還再開でも保持',true);
++  examples.text_history=afterReturn.text_history;
++  const forbidden=new Set(['rng','future_rng','seed','memory','request_log','catalogues','campaign_id','view_nonce','context','initial_replacements']);
++  function scan(x,path=''){if(!x||typeof x!=='object')return;for(const [k,v] of Object.entries(x)){
++    const here=path+'.'+k;
++    if(here==='.return_receipt.knowledge_changes.catalogues'){
++      assert(Array.isArray(v)&&v.every(row=>Object.keys(row).sort().join(',')==='profile,version'));
++    }else assert(!forbidden.has(k),'private key '+here);
++    scan(v,here);
++  }}
++  for(const document of Object.values(docs))scan(project(document).display_data);
++  for(const x of Object.values(examples))scan(x);
++  check('追加応答に内部乱数・未来定義・request履歴・本文条件を含めない',true);
++  await fs.writeFile(path.join(out,'examples.json'),JSON.stringify({id:'CW-M1-A-002',basis:'actual public projections from declared inputs; not player saves',examples},null,2)+'\n',{flag:'wx'});
++} catch(error){
++  await fs.writeFile(path.join(out,'failure.json'),JSON.stringify({id:'CW-M1-A-002',checks,fixtures,choiceCount,error:String(error),stack:error.stack},null,2)+'\n',{flag:'wx'});throw error;
++}
++await fs.writeFile(path.join(out,'verification.json'),JSON.stringify({id:'CW-M1-A-002',node:process.version,checks,fixtures,one_step_comparisons:choiceCount,
++  protected_old_saves:5,old_natural_run_replays:0,old_comparison_replays:0,actual_browser:false},null,2)+'\n',{flag:'wx'});
++console.log(JSON.stringify({pass:true,checks:checks.length,one_step_comparisons:choiceCount,out}));

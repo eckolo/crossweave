@@ -1,0 +1,2512 @@
+[
+  {
+    "name": "purchase-success",
+    "projection": "D03-related display_data fields; unrelated text/knowledge histories omitted",
+    "request": {
+      "request_id": "test-7af0ea1e-d069-4cc3-8efd-82d97720811b-1",
+      "expected_revision": 157,
+      "view_token": "d750106a-3c21-4408-bfd6-10964489ccce",
+      "type": "purchase",
+      "payload": {
+        "candidate": "choice-0"
+      }
+    },
+    "response": {
+      "public_contract": "CW-M1-public-0.5",
+      "phase": "home",
+      "capabilities": {
+        "save_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "discard_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "commit_preparation": {
+          "available": true,
+          "reasons": []
+        },
+        "purchase": {
+          "available": true,
+          "reasons": []
+        },
+        "convert_items": {
+          "available": true,
+          "reasons": []
+        },
+        "set_item_lock": {
+          "available": true,
+          "reasons": []
+        },
+        "quoteConversion": {
+          "available": true,
+          "reasons": []
+        },
+        "owned_items": {
+          "available": true,
+          "reasons": []
+        },
+        "affixes": {
+          "available": true,
+          "reasons": []
+        },
+        "previewPreparation": {
+          "available": true,
+          "reasons": []
+        },
+        "depart": {
+          "available": true,
+          "reasons": []
+        },
+        "play": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "previewAction": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "withdraw": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "continue_scene": {
+          "available": false,
+          "reasons": [
+            "scene_not_paused"
+          ]
+        },
+        "record_displayed_text": {
+          "available": false,
+          "reasons": [
+            "scene_not_available"
+          ]
+        },
+        "ack_return": {
+          "available": false,
+          "reasons": [
+            "not_return"
+          ]
+        }
+      },
+      "home": {
+        "schema": "BD1-current-public",
+        "ok": true,
+        "economy": {
+          "unspent_units": 500,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "equipment": {
+          "entries": [],
+          "capacity": 8,
+          "used": 0,
+          "remaining": 8,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "base:f",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:h",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "h",
+                "affixes": [],
+                "key": "AO1:card:h"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "h": 2,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "owned": true,
+            "quantity": 1,
+            "locked": false,
+            "band": "ordinary",
+            "conversion_units": 50,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": false,
+            "references": [],
+            "conversion_available": true,
+            "conversion_reasons": []
+          }
+        ],
+        "candidates": [
+          {
+            "id": "choice-0",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "forceful"
+              ],
+              "key": "AO1:passive:PS02:forceful"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-2",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS01",
+              "affixes": [],
+              "key": "AO1:passive:PS01"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-3",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS04:borrowed"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          }
+        ],
+        "free_card_options": [
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:j",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "learning_options": [
+          {
+            "base": "PS01",
+            "cost_units": 200
+          },
+          {
+            "base": "PS02",
+            "cost_units": 200
+          },
+          {
+            "base": "PS03",
+            "cost_units": 200
+          },
+          {
+            "base": "PS04",
+            "cost_units": 200
+          }
+        ],
+        "offers": {
+          "status": "purchased",
+          "refresh_rule": "eligible_return",
+          "carried_from_previous_return": false,
+          "connected": true,
+          "reason": null
+        }
+      },
+      "details": {
+        "owned-1": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-0": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-1": {
+          "name": "強引な・属性連携",
+          "base_name": "属性連携",
+          "base_id": "PS02",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "forceful",
+              "label": "強引な",
+              "description": "効果量+10／行動間隔+1"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人の一致と異なる属性で攻撃一致",
+          "effect_text": "探査を30加算／行動間隔を1延長",
+          "effect": {
+            "field": "hit",
+            "value": 30,
+            "action_interval_discount": -1,
+            "gates": []
+          },
+          "equipment_cost": 4,
+          "learning_cost_units": 200
+        },
+        "choice-2": {
+          "name": "守りからの設置",
+          "base_name": "守りからの設置",
+          "base_id": "PS01",
+          "kind": "passive",
+          "affixes": [],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人行動が防御一致で、今回が設置",
+          "effect_text": "行動間隔を2短縮（最小1）",
+          "effect": {
+            "field": "discount",
+            "value": 2,
+            "action_interval_discount": 0,
+            "gates": []
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        },
+        "choice-3": {
+          "name": "借り技の・回復の工夫",
+          "base_name": "回復の工夫",
+          "base_id": "PS04",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "borrowed",
+              "label": "借り技の",
+              "description": "他主体由来の札に限定／効果量+2"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "消耗する回復札で本人が回復一致／今回の札が他主体由来",
+          "effect_text": "回復量を6加算（最大余力まで）",
+          "effect": {
+            "field": "power",
+            "value": 6,
+            "action_interval_discount": 0,
+            "gates": [
+              "borrowed"
+            ]
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        }
+      },
+      "draft": {
+        "plan": {
+          "retain_learning": [],
+          "cancel_learning": [],
+          "candidate": null,
+          "purchase_timing": "after_preparation",
+          "next_preparation": {
+            "learn": [],
+            "equipment": [],
+            "deck": [
+              "base:f",
+              "base:f",
+              "base:fast",
+              "base:g",
+              "base:h",
+              "base:h",
+              "base:l",
+              "base:l",
+              "base:r",
+              "base:read",
+              "base:salve",
+              "base:sweep"
+            ]
+          }
+        },
+        "dirty": false,
+        "valid": true,
+        "errors": [],
+        "based_on_current": true
+      },
+      "operation": {
+        "status": "committed",
+        "committed_revision": 158
+      }
+    }
+  },
+  {
+    "name": "insufficient-funds",
+    "projection": "D03-related display_data fields; unrelated text/knowledge histories omitted",
+    "response": {
+      "public_contract": "CW-M1-public-0.5",
+      "phase": "home",
+      "capabilities": {
+        "save_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "discard_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "commit_preparation": {
+          "available": true,
+          "reasons": []
+        },
+        "purchase": {
+          "available": true,
+          "reasons": []
+        },
+        "convert_items": {
+          "available": true,
+          "reasons": []
+        },
+        "set_item_lock": {
+          "available": true,
+          "reasons": []
+        },
+        "quoteConversion": {
+          "available": true,
+          "reasons": []
+        },
+        "owned_items": {
+          "available": true,
+          "reasons": []
+        },
+        "affixes": {
+          "available": true,
+          "reasons": []
+        },
+        "previewPreparation": {
+          "available": true,
+          "reasons": []
+        },
+        "depart": {
+          "available": true,
+          "reasons": []
+        },
+        "play": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "previewAction": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "withdraw": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "continue_scene": {
+          "available": false,
+          "reasons": [
+            "scene_not_paused"
+          ]
+        },
+        "record_displayed_text": {
+          "available": false,
+          "reasons": [
+            "scene_not_available"
+          ]
+        },
+        "ack_return": {
+          "available": false,
+          "reasons": [
+            "not_return"
+          ]
+        }
+      },
+      "home": {
+        "schema": "BD1-current-public",
+        "ok": true,
+        "economy": {
+          "unspent_units": 300,
+          "paid_learning_units": 600,
+          "learned": [
+            {
+              "base": "PS01",
+              "paid_units": 200
+            },
+            {
+              "base": "PS02",
+              "paid_units": 200
+            },
+            {
+              "base": "PS03",
+              "paid_units": 200
+            }
+          ]
+        },
+        "equipment": {
+          "entries": [],
+          "capacity": 8,
+          "used": 0,
+          "remaining": 8,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "base:f",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:h",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "h",
+                "affixes": [],
+                "key": "AO1:card:h"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "h": 2,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [],
+        "candidates": [
+          {
+            "id": "choice-0",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "forceful"
+              ],
+              "key": "AO1:passive:PS02:forceful"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-2",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS01",
+              "affixes": [],
+              "key": "AO1:passive:PS01"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-3",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS04:borrowed"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": false
+          }
+        ],
+        "free_card_options": [
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:j",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "learning_options": [
+          {
+            "base": "PS01",
+            "cost_units": 200
+          },
+          {
+            "base": "PS02",
+            "cost_units": 200
+          },
+          {
+            "base": "PS03",
+            "cost_units": 200
+          },
+          {
+            "base": "PS04",
+            "cost_units": 200
+          }
+        ],
+        "offers": {
+          "status": "available",
+          "refresh_rule": "eligible_return",
+          "carried_from_previous_return": false,
+          "connected": true,
+          "reason": null
+        }
+      },
+      "details": {
+        "choice-0": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-1": {
+          "name": "強引な・属性連携",
+          "base_name": "属性連携",
+          "base_id": "PS02",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "forceful",
+              "label": "強引な",
+              "description": "効果量+10／行動間隔+1"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人の一致と異なる属性で攻撃一致",
+          "effect_text": "探査を30加算／行動間隔を1延長",
+          "effect": {
+            "field": "hit",
+            "value": 30,
+            "action_interval_discount": -1,
+            "gates": []
+          },
+          "equipment_cost": 4,
+          "learning_cost_units": 200
+        },
+        "choice-2": {
+          "name": "守りからの設置",
+          "base_name": "守りからの設置",
+          "base_id": "PS01",
+          "kind": "passive",
+          "affixes": [],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人行動が防御一致で、今回が設置",
+          "effect_text": "行動間隔を2短縮（最小1）",
+          "effect": {
+            "field": "discount",
+            "value": 2,
+            "action_interval_discount": 0,
+            "gates": []
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        },
+        "choice-3": {
+          "name": "借り技の・回復の工夫",
+          "base_name": "回復の工夫",
+          "base_id": "PS04",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "borrowed",
+              "label": "借り技の",
+              "description": "他主体由来の札に限定／効果量+2"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "消耗する回復札で本人が回復一致／今回の札が他主体由来",
+          "effect_text": "回復量を6加算（最大余力まで）",
+          "effect": {
+            "field": "power",
+            "value": 6,
+            "action_interval_discount": 0,
+            "gates": [
+              "borrowed"
+            ]
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        }
+      },
+      "draft": {
+        "plan": {
+          "retain_learning": [
+            "PS01",
+            "PS02",
+            "PS03"
+          ],
+          "cancel_learning": [],
+          "candidate": null,
+          "purchase_timing": "after_preparation",
+          "next_preparation": {
+            "learn": [],
+            "equipment": [],
+            "deck": [
+              "base:f",
+              "base:f",
+              "base:fast",
+              "base:g",
+              "base:h",
+              "base:h",
+              "base:l",
+              "base:l",
+              "base:r",
+              "base:read",
+              "base:salve",
+              "base:sweep"
+            ]
+          }
+        },
+        "dirty": false,
+        "valid": true,
+        "errors": [],
+        "based_on_current": true
+      },
+      "error": {
+        "code": "insufficient_unspent_funds",
+        "field": "candidate",
+        "details": {
+          "required_units": 400,
+          "available_units": 300
+        }
+      }
+    }
+  },
+  {
+    "name": "purchase-preparation-preview",
+    "projection": "D03-related display_data fields; unrelated text/knowledge histories omitted",
+    "response": {
+      "public_contract": "CW-M1-public-0.5",
+      "phase": "home",
+      "capabilities": {
+        "save_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "discard_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "commit_preparation": {
+          "available": true,
+          "reasons": []
+        },
+        "purchase": {
+          "available": true,
+          "reasons": []
+        },
+        "convert_items": {
+          "available": true,
+          "reasons": []
+        },
+        "set_item_lock": {
+          "available": true,
+          "reasons": []
+        },
+        "quoteConversion": {
+          "available": true,
+          "reasons": []
+        },
+        "owned_items": {
+          "available": true,
+          "reasons": []
+        },
+        "affixes": {
+          "available": true,
+          "reasons": []
+        },
+        "previewPreparation": {
+          "available": true,
+          "reasons": []
+        },
+        "depart": {
+          "available": true,
+          "reasons": []
+        },
+        "play": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "previewAction": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "withdraw": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "continue_scene": {
+          "available": false,
+          "reasons": [
+            "scene_not_paused"
+          ]
+        },
+        "record_displayed_text": {
+          "available": false,
+          "reasons": [
+            "scene_not_available"
+          ]
+        },
+        "ack_return": {
+          "available": false,
+          "reasons": [
+            "not_return"
+          ]
+        }
+      },
+      "home": {
+        "schema": "BD1-current-public",
+        "ok": true,
+        "economy": {
+          "unspent_units": 900,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "equipment": {
+          "entries": [],
+          "capacity": 8,
+          "used": 0,
+          "remaining": 8,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "base:f",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:h",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "h",
+                "affixes": [],
+                "key": "AO1:card:h"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "h": 2,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [],
+        "candidates": [
+          {
+            "id": "choice-0",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": true
+          },
+          {
+            "id": "choice-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "forceful"
+              ],
+              "key": "AO1:passive:PS02:forceful"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": true
+          },
+          {
+            "id": "choice-2",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS01",
+              "affixes": [],
+              "key": "AO1:passive:PS01"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": true
+          },
+          {
+            "id": "choice-3",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS04:borrowed"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": true,
+            "affordable_now": true
+          }
+        ],
+        "free_card_options": [
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:j",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "learning_options": [
+          {
+            "base": "PS01",
+            "cost_units": 200
+          },
+          {
+            "base": "PS02",
+            "cost_units": 200
+          },
+          {
+            "base": "PS03",
+            "cost_units": 200
+          },
+          {
+            "base": "PS04",
+            "cost_units": 200
+          }
+        ],
+        "offers": {
+          "status": "available",
+          "refresh_rule": "eligible_return",
+          "carried_from_previous_return": false,
+          "connected": true,
+          "reason": null
+        }
+      },
+      "details": {
+        "choice-0": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-1": {
+          "name": "強引な・属性連携",
+          "base_name": "属性連携",
+          "base_id": "PS02",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "forceful",
+              "label": "強引な",
+              "description": "効果量+10／行動間隔+1"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人の一致と異なる属性で攻撃一致",
+          "effect_text": "探査を30加算／行動間隔を1延長",
+          "effect": {
+            "field": "hit",
+            "value": 30,
+            "action_interval_discount": -1,
+            "gates": []
+          },
+          "equipment_cost": 4,
+          "learning_cost_units": 200
+        },
+        "choice-2": {
+          "name": "守りからの設置",
+          "base_name": "守りからの設置",
+          "base_id": "PS01",
+          "kind": "passive",
+          "affixes": [],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人行動が防御一致で、今回が設置",
+          "effect_text": "行動間隔を2短縮（最小1）",
+          "effect": {
+            "field": "discount",
+            "value": 2,
+            "action_interval_discount": 0,
+            "gates": []
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        },
+        "choice-3": {
+          "name": "借り技の・回復の工夫",
+          "base_name": "回復の工夫",
+          "base_id": "PS04",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "borrowed",
+              "label": "借り技の",
+              "description": "他主体由来の札に限定／効果量+2"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "消耗する回復札で本人が回復一致／今回の札が他主体由来",
+          "effect_text": "回復量を6加算（最大余力まで）",
+          "effect": {
+            "field": "power",
+            "value": 6,
+            "action_interval_discount": 0,
+            "gates": [
+              "borrowed"
+            ]
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        },
+        "$purchase": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        }
+      },
+      "draft": {
+        "plan": {
+          "retain_learning": [],
+          "cancel_learning": [],
+          "candidate": null,
+          "purchase_timing": "after_preparation",
+          "next_preparation": {
+            "learn": [],
+            "equipment": [],
+            "deck": [
+              "base:f",
+              "base:f",
+              "base:fast",
+              "base:g",
+              "base:h",
+              "base:h",
+              "base:l",
+              "base:l",
+              "base:r",
+              "base:read",
+              "base:salve",
+              "base:sweep"
+            ]
+          }
+        },
+        "dirty": false,
+        "valid": true,
+        "errors": [],
+        "based_on_current": true
+      },
+      "preparation_comparison": {
+        "schema": "BD1-preparation-preview",
+        "ok": true,
+        "read_only": true,
+        "execution": "copy_only",
+        "units_per_point": 100,
+        "current": {
+          "economy": {
+            "unspent_units": 900,
+            "paid_learning_units": 0,
+            "learned": []
+          },
+          "equipment": {
+            "entries": [],
+            "capacity": 8,
+            "used": 0,
+            "remaining": 8,
+            "legal": true
+          },
+          "deck": {
+            "composition": [
+              {
+                "id": "base:f",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "f",
+                  "affixes": [],
+                  "key": "AO1:card:f"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:fast",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "fast",
+                  "affixes": [],
+                  "key": "AO1:card:fast"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:g",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "g",
+                  "affixes": [],
+                  "key": "AO1:card:g"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:h",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "h",
+                  "affixes": [],
+                  "key": "AO1:card:h"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:l",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "l",
+                  "affixes": [],
+                  "key": "AO1:card:l"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:r",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "r",
+                  "affixes": [],
+                  "key": "AO1:card:r"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:read",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "read",
+                  "affixes": [],
+                  "key": "AO1:card:read"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:salve",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "salve",
+                  "affixes": [],
+                  "key": "AO1:card:salve"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:sweep",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "sweep",
+                  "affixes": [],
+                  "key": "AO1:card:sweep"
+                },
+                "count": 1
+              }
+            ],
+            "order_semantics": "unordered_composition",
+            "size": 12,
+            "required_size": 12,
+            "per_base_cap": 2,
+            "base_counts": {
+              "f": 2,
+              "fast": 1,
+              "g": 1,
+              "h": 2,
+              "l": 2,
+              "r": 1,
+              "read": 1,
+              "salve": 1,
+              "sweep": 1
+            },
+            "legal": true
+          },
+          "owned": []
+        },
+        "purchase_timing": "before_preparation",
+        "candidate_consideration": {
+          "timing": "before_cancellation_and_preparation",
+          "economy": {
+            "unspent_units": 900,
+            "paid_learning_units": 0,
+            "learned": []
+          }
+        },
+        "stages": {
+          "after_cancellation": {
+            "unspent_units": 900,
+            "paid_learning_units": 0,
+            "learned": []
+          },
+          "before_purchase": {
+            "unspent_units": 900,
+            "paid_learning_units": 0,
+            "learned": []
+          },
+          "after_purchase": {
+            "unspent_units": 500,
+            "paid_learning_units": 0,
+            "learned": []
+          },
+          "prepared": {
+            "unspent_units": 500,
+            "paid_learning_units": 0,
+            "learned": []
+          }
+        },
+        "cancellation": {
+          "bases": [],
+          "actual_refund_units": 0,
+          "equipment_removed": []
+        },
+        "purchase": {
+          "requested": "choice-0",
+          "performed_on_copy": true,
+          "cost_units": 400,
+          "requested_price_units": 400,
+          "funds_before_purchase_units": 900,
+          "selected_in_preparation": true,
+          "item": {
+            "candidate": "choice-0",
+            "item": "$purchase",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "cost_units": 400
+          }
+        },
+        "learning": {
+          "retained": [],
+          "newly_learned": [],
+          "relearned": [],
+          "removed_at_end": [],
+          "payment_units": 0,
+          "paid_learning_before_units": 0,
+          "paid_learning_after_units": 0
+        },
+        "prepared": {
+          "economy": {
+            "unspent_units": 500,
+            "paid_learning_units": 0,
+            "learned": []
+          },
+          "equipment": {
+            "entries": [],
+            "capacity": 8,
+            "used": 0,
+            "remaining": 8,
+            "legal": true
+          },
+          "deck": {
+            "composition": [
+              {
+                "id": "base:f",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "f",
+                  "affixes": [],
+                  "key": "AO1:card:f"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:fast",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "fast",
+                  "affixes": [],
+                  "key": "AO1:card:fast"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:h",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "h",
+                  "affixes": [],
+                  "key": "AO1:card:h"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:l",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "l",
+                  "affixes": [],
+                  "key": "AO1:card:l"
+                },
+                "count": 2
+              },
+              {
+                "id": "base:r",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "r",
+                  "affixes": [],
+                  "key": "AO1:card:r"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:read",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "read",
+                  "affixes": [],
+                  "key": "AO1:card:read"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:salve",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "salve",
+                  "affixes": [],
+                  "key": "AO1:card:salve"
+                },
+                "count": 1
+              },
+              {
+                "id": "base:sweep",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "sweep",
+                  "affixes": [],
+                  "key": "AO1:card:sweep"
+                },
+                "count": 1
+              },
+              {
+                "id": "$purchase",
+                "blueprint": {
+                  "version": "AO1",
+                  "kind": "card",
+                  "base": "g",
+                  "affixes": [
+                    "sturdy"
+                  ],
+                  "key": "AO1:card:g:sturdy"
+                },
+                "count": 1
+              }
+            ],
+            "order_semantics": "unordered_composition",
+            "size": 12,
+            "required_size": 12,
+            "per_base_cap": 2,
+            "base_counts": {
+              "f": 2,
+              "fast": 1,
+              "g": 1,
+              "h": 2,
+              "l": 2,
+              "r": 1,
+              "read": 1,
+              "salve": 1,
+              "sweep": 1
+            },
+            "legal": true
+          },
+          "owned": [
+            {
+              "id": "$purchase",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "g",
+                "affixes": [
+                  "sturdy"
+                ],
+                "key": "AO1:card:g:sturdy"
+              },
+              "owned": true,
+              "quantity": 1,
+              "locked": false,
+              "band": "ordinary",
+              "conversion_units": 50,
+              "selection_kind": "deck",
+              "eligible": true,
+              "eligibility_reason": "owned_and_base_requirement_met",
+              "equipment_cost": null,
+              "selected": true
+            }
+          ]
+        },
+        "differences": {
+          "equipment": {
+            "removed": [],
+            "added": []
+          },
+          "deck": {
+            "removed": [
+              {
+                "id": "base:g",
+                "count": 1
+              }
+            ],
+            "added": [
+              {
+                "id": "$purchase",
+                "count": 1
+              }
+            ]
+          },
+          "existing_possessions_preserved": true,
+          "owned_but_ineligible_after": []
+        },
+        "refusal": null
+      }
+    }
+  },
+  {
+    "name": "conversion-quote",
+    "projection": "D03-related display_data fields; unrelated text/knowledge histories omitted",
+    "response": {
+      "public_contract": "CW-M1-public-0.5",
+      "phase": "home",
+      "capabilities": {
+        "save_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "discard_draft": {
+          "available": true,
+          "reasons": []
+        },
+        "commit_preparation": {
+          "available": true,
+          "reasons": []
+        },
+        "purchase": {
+          "available": true,
+          "reasons": []
+        },
+        "convert_items": {
+          "available": true,
+          "reasons": []
+        },
+        "set_item_lock": {
+          "available": true,
+          "reasons": []
+        },
+        "quoteConversion": {
+          "available": true,
+          "reasons": []
+        },
+        "owned_items": {
+          "available": true,
+          "reasons": []
+        },
+        "affixes": {
+          "available": true,
+          "reasons": []
+        },
+        "previewPreparation": {
+          "available": true,
+          "reasons": []
+        },
+        "depart": {
+          "available": true,
+          "reasons": []
+        },
+        "play": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "previewAction": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "withdraw": {
+          "available": false,
+          "reasons": [
+            "not_exploring"
+          ]
+        },
+        "continue_scene": {
+          "available": false,
+          "reasons": [
+            "scene_not_paused"
+          ]
+        },
+        "record_displayed_text": {
+          "available": false,
+          "reasons": [
+            "scene_not_available"
+          ]
+        },
+        "ack_return": {
+          "available": false,
+          "reasons": [
+            "not_return"
+          ]
+        }
+      },
+      "home": {
+        "schema": "BD1-current-public",
+        "ok": true,
+        "economy": {
+          "unspent_units": 500,
+          "paid_learning_units": 0,
+          "learned": []
+        },
+        "equipment": {
+          "entries": [],
+          "capacity": 8,
+          "used": 0,
+          "remaining": 8,
+          "legal": true
+        },
+        "deck": {
+          "composition": [
+            {
+              "id": "base:f",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "f",
+                "affixes": [],
+                "key": "AO1:card:f"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:fast",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "fast",
+                "affixes": [],
+                "key": "AO1:card:fast"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:g",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "g",
+                "affixes": [],
+                "key": "AO1:card:g"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:h",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "h",
+                "affixes": [],
+                "key": "AO1:card:h"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:l",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "l",
+                "affixes": [],
+                "key": "AO1:card:l"
+              },
+              "count": 2
+            },
+            {
+              "id": "base:r",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "r",
+                "affixes": [],
+                "key": "AO1:card:r"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:read",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "read",
+                "affixes": [],
+                "key": "AO1:card:read"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:salve",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "salve",
+                "affixes": [],
+                "key": "AO1:card:salve"
+              },
+              "count": 1
+            },
+            {
+              "id": "base:sweep",
+              "blueprint": {
+                "version": "AO1",
+                "kind": "card",
+                "base": "sweep",
+                "affixes": [],
+                "key": "AO1:card:sweep"
+              },
+              "count": 1
+            }
+          ],
+          "order_semantics": "unordered_composition",
+          "size": 12,
+          "required_size": 12,
+          "per_base_cap": 2,
+          "base_counts": {
+            "f": 2,
+            "fast": 1,
+            "g": 1,
+            "h": 2,
+            "l": 2,
+            "r": 1,
+            "read": 1,
+            "salve": 1,
+            "sweep": 1
+          },
+          "legal": true
+        },
+        "owned": [
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "owned": true,
+            "quantity": 1,
+            "locked": false,
+            "band": "ordinary",
+            "conversion_units": 50,
+            "selection_kind": "deck",
+            "eligible": true,
+            "eligibility_reason": "owned_and_base_requirement_met",
+            "equipment_cost": null,
+            "selected": false,
+            "references": [],
+            "conversion_available": true,
+            "conversion_reasons": []
+          }
+        ],
+        "candidates": [
+          {
+            "id": "choice-0",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS02",
+              "affixes": [
+                "forceful"
+              ],
+              "key": "AO1:passive:PS02:forceful"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-2",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS01",
+              "affixes": [],
+              "key": "AO1:passive:PS01"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          },
+          {
+            "id": "choice-3",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "passive",
+              "base": "PS04",
+              "affixes": [
+                "borrowed"
+              ],
+              "key": "AO1:passive:PS04:borrowed"
+            },
+            "price_units": 400,
+            "band": "ordinary",
+            "available": false,
+            "affordable_now": false
+          }
+        ],
+        "free_card_options": [
+          "base:f",
+          "base:fast",
+          "base:g",
+          "base:h",
+          "base:j",
+          "base:l",
+          "base:r",
+          "base:read",
+          "base:salve",
+          "base:sweep"
+        ],
+        "learning_options": [
+          {
+            "base": "PS01",
+            "cost_units": 200
+          },
+          {
+            "base": "PS02",
+            "cost_units": 200
+          },
+          {
+            "base": "PS03",
+            "cost_units": 200
+          },
+          {
+            "base": "PS04",
+            "cost_units": 200
+          }
+        ],
+        "offers": {
+          "status": "purchased",
+          "refresh_rule": "eligible_return",
+          "carried_from_previous_return": false,
+          "connected": true,
+          "reason": null
+        }
+      },
+      "details": {
+        "owned-1": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-0": {
+          "name": "堅い・防御",
+          "base_name": "防御",
+          "base_id": "g",
+          "kind": "card",
+          "affixes": [
+            {
+              "id": "sturdy",
+              "label": "堅い",
+              "description": "主効果+2／攪乱-10"
+            }
+          ],
+          "primary": {
+            "kind": "guard",
+            "power": 5,
+            "hit": 0,
+            "evasion": -10,
+            "crit_gain": 20
+          },
+          "field": {
+            "power": -4,
+            "hit": 0
+          },
+          "life": 2,
+          "action_intervals": {
+            "place": 10,
+            "match": 10
+          },
+          "recovery_rule": "shared_recovery",
+          "trigger_text": null,
+          "effect_text": null,
+          "equipment_cost": null,
+          "learning_cost_units": null
+        },
+        "choice-1": {
+          "name": "強引な・属性連携",
+          "base_name": "属性連携",
+          "base_id": "PS02",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "forceful",
+              "label": "強引な",
+              "description": "効果量+10／行動間隔+1"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人の一致と異なる属性で攻撃一致",
+          "effect_text": "探査を30加算／行動間隔を1延長",
+          "effect": {
+            "field": "hit",
+            "value": 30,
+            "action_interval_discount": -1,
+            "gates": []
+          },
+          "equipment_cost": 4,
+          "learning_cost_units": 200
+        },
+        "choice-2": {
+          "name": "守りからの設置",
+          "base_name": "守りからの設置",
+          "base_id": "PS01",
+          "kind": "passive",
+          "affixes": [],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "直前の本人行動が防御一致で、今回が設置",
+          "effect_text": "行動間隔を2短縮（最小1）",
+          "effect": {
+            "field": "discount",
+            "value": 2,
+            "action_interval_discount": 0,
+            "gates": []
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        },
+        "choice-3": {
+          "name": "借り技の・回復の工夫",
+          "base_name": "回復の工夫",
+          "base_id": "PS04",
+          "kind": "passive",
+          "affixes": [
+            {
+              "id": "borrowed",
+              "label": "借り技の",
+              "description": "他主体由来の札に限定／効果量+2"
+            }
+          ],
+          "primary": null,
+          "field": null,
+          "life": null,
+          "action_intervals": null,
+          "recovery_rule": null,
+          "trigger_text": "消耗する回復札で本人が回復一致／今回の札が他主体由来",
+          "effect_text": "回復量を6加算（最大余力まで）",
+          "effect": {
+            "field": "power",
+            "value": 6,
+            "action_interval_discount": 0,
+            "gates": [
+              "borrowed"
+            ]
+          },
+          "equipment_cost": 2,
+          "learning_cost_units": 200
+        }
+      },
+      "draft": {
+        "plan": {
+          "retain_learning": [],
+          "cancel_learning": [],
+          "candidate": null,
+          "purchase_timing": "after_preparation",
+          "next_preparation": {
+            "learn": [],
+            "equipment": [],
+            "deck": [
+              "base:f",
+              "base:f",
+              "base:fast",
+              "base:g",
+              "base:h",
+              "base:h",
+              "base:l",
+              "base:l",
+              "base:r",
+              "base:read",
+              "base:salve",
+              "base:sweep"
+            ]
+          }
+        },
+        "dirty": false,
+        "valid": true,
+        "errors": [],
+        "based_on_current": true
+      },
+      "conversion_quote": {
+        "schema": "CW-M1-conversion-1",
+        "ok": true,
+        "read_only": true,
+        "item_ids": [
+          "owned-1"
+        ],
+        "items": [
+          {
+            "id": "owned-1",
+            "blueprint": {
+              "version": "AO1",
+              "kind": "card",
+              "base": "g",
+              "affixes": [
+                "sturdy"
+              ],
+              "key": "AO1:card:g:sturdy"
+            },
+            "band": "ordinary",
+            "units": 50,
+            "remaining_same_variant": false,
+            "free_option_retained": false,
+            "loses_variant_access": true
+          }
+        ],
+        "units": 50,
+        "total_units": 50,
+        "removed_count": 1,
+        "point_gain": 0,
+        "remainder_after": 50,
+        "unspent_before_units": 500,
+        "unspent_after_units": 550,
+        "learning_refund_units": 0,
+        "knowledge_and_unlocks_preserved": true
+      }
+    }
+  }
+]

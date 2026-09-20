@@ -1,0 +1,310 @@
+TAP version 13
+# Subtest: input: unchanged source extraction, D58 rules/content and D03 engine/public versions
+ok 1 - input: unchanged source extraction, D58 rules/content and D03 engine/public versions
+  ---
+  duration_ms: 36.939225
+  type: 'test'
+  ...
+# Subtest: hash: SHA-256 matches Node for empty, UTF-8, padding and multi-block inputs
+ok 2 - hash: SHA-256 matches Node for empty, UTF-8, padding and multi-block inputs
+  ---
+  duration_ms: 47.985318
+  type: 'test'
+  ...
+# Subtest: affixes: every permitted composition matches independent numeric and interval accumulation
+ok 3 - affixes: every permitted composition matches independent numeric and interval accumulation
+  ---
+  duration_ms: 92.922328
+  type: 'test'
+  ...
+# Subtest: affixes: incompatible family, short life, excluded trigger and duplicate affixes reject
+ok 4 - affixes: incompatible family, short life, excluded trigger and duplicate affixes reject
+  ---
+  duration_ms: 1.447722
+  type: 'test'
+  ...
+# Subtest: passives: modifiers compose strength, timing, gates and equipment cost independently
+ok 5 - passives: modifiers compose strength, timing, gates and equipment cost independently
+  ---
+  duration_ms: 2.152271
+  type: 'test'
+  ...
+# Subtest: offers: fixed source fixture and all contexts regenerate exactly without state mutation
+ok 6 - offers: fixed source fixture and all contexts regenerate exactly without state mutation
+  ---
+  duration_ms: 227.478275
+  type: 'test'
+  ...
+# Subtest: offers: empty and short eligible pools do not fabricate or duplicate candidates
+ok 7 - offers: empty and short eligible pools do not fabricate or duplicate candidates
+  ---
+  duration_ms: 0.776106
+  type: 'test'
+  ...
+# Subtest: new campaign: zero funds/possessions/offers; unlock is not free selection or a saleable item
+ok 8 - new campaign: zero funds/possessions/offers; unlock is not free selection or a saleable item
+  ---
+  duration_ms: 109.599287
+  type: 'test'
+  ...
+# Subtest: purchase: direct purchase commits once; replay and reopening cannot mint another UID
+ok 9 - purchase: direct purchase commits once; replay and reopening cannot mint another UID
+  ---
+  duration_ms: 596.431565
+  type: 'test'
+  ...
+# Subtest: purchase: same request ID with different payload rejects without mutation
+ok 10 - purchase: same request ID with different payload rejects without mutation
+  ---
+  duration_ms: 242.979139
+  type: 'test'
+  ...
+# Subtest: purchase: insufficient unspent funds never cancels learning implicitly
+ok 11 - purchase: insufficient unspent funds never cancels learning implicitly
+  ---
+  duration_ms: 298.225297
+  type: 'test'
+  ...
+# Subtest: purchase: save failure and retry have no partial spend, possession or candidate consumption
+ok 12 - purchase: save failure and retry have no partial spend, possession or candidate consumption
+  ---
+  duration_ms: 329.391279
+  type: 'test'
+  ...
+# Subtest: transaction: old revision and mismatched view token reject before handle resolution
+ok 13 - transaction: old revision and mismatched view token reject before handle resolution
+  ---
+  duration_ms: 345.417652
+  type: 'test'
+  ...
+# Subtest: transaction: racing same purchase request is one commit plus one replay
+ok 14 - transaction: racing same purchase request is one commit plus one replay
+  ---
+  duration_ms: 346.935291
+  type: 'test'
+  ...
+# Subtest: transaction: competing different purchases lose CAS without partial local mutation
+ok 15 - transaction: competing different purchases lose CAS without partial local mutation
+  ---
+  duration_ms: 338.433387
+  type: 'test'
+  ...
+# Subtest: preview: purchase-before-preparation supports $purchase and matches committed preparation
+ok 16 - preview: purchase-before-preparation supports $purchase and matches committed preparation
+  ---
+  duration_ms: 196.003286
+  type: 'test'
+  ...
+# Subtest: preview: purchase-after-preparation cannot use the not-yet-purchased item
+ok 17 - preview: purchase-after-preparation cannot use the not-yet-purchased item
+  ---
+  duration_ms: 150.050871
+  type: 'test'
+  ...
+# Subtest: preview: a late invalid deck rolls back cancellation, learning and purchase together
+ok 18 - preview: a late invalid deck rolls back cancellation, learning and purchase together
+  ---
+  duration_ms: 134.862583
+  type: 'test'
+  ...
+# Subtest: preparation: historical learning refund is exact and separate from owned-item conversion
+ok 19 - preparation: historical learning refund is exact and separate from owned-item conversion
+  ---
+  duration_ms: 327.175833
+  type: 'test'
+  ...
+# Subtest: preparation: buying an unlearned passive is allowed; equipping it is not
+ok 20 - preparation: buying an unlearned passive is allowed; equipping it is not
+  ---
+  duration_ms: 297.188198
+  type: 'test'
+  ...
+# Subtest: preparation: a physical copy is used once, same-base variants share the card cap
+ok 21 - preparation: a physical copy is used once, same-base variants share the card cap
+  ---
+  duration_ms: 330.184188
+  type: 'test'
+  ...
+# Subtest: unit equipment: same-base copies can stack within cost 8 but one UID cannot repeat
+ok 22 - unit equipment: same-base copies can stack within cost 8 but one UID cannot repeat
+  ---
+  duration_ms: 1.386048
+  type: 'test'
+  ...
+# Subtest: draft: saved UID references protect items from conversion without modifying confirmed deck
+ok 23 - draft: saved UID references protect items from conversion without modifying confirmed deck
+  ---
+  duration_ms: 447.598
+  type: 'test'
+  ...
+# Subtest: draft: partial legal-shaped deck remains saved as invalid, not silently discarded
+ok 24 - draft: partial legal-shaped deck remains saved as invalid, not silently discarded
+  ---
+  duration_ms: 231.626117
+  type: 'test'
+  ...
+# Subtest: draft: bound candidate becomes explicitly invalid after separate purchase, never another candidate
+ok 25 - draft: bound candidate becomes explicitly invalid after separate purchase, never another candidate
+  ---
+  duration_ms: 255.425992
+  type: 'test'
+  ...
+# Subtest: draft: missing UID and expired batch project to non-reassigning public error handles
+ok 26 - draft: missing UID and expired batch project to non-reassigning public error handles
+  ---
+  duration_ms: 58.279009
+  type: 'test'
+  ...
+# Subtest: conversion: quote is pure, conversion gives 50 units once and retains knowledge/unlocks
+ok 27 - conversion: quote is pure, conversion gives 50 units once and retains knowledge/unlocks
+  ---
+  duration_ms: 347.121416
+  type: 'test'
+  ...
+# Subtest: conversion: deleting the last plain passive copy does not delete its learned base option
+ok 28 - conversion: deleting the last plain passive copy does not delete its learned base option
+  ---
+  duration_ms: 390.597197
+  type: 'test'
+  ...
+# Subtest: conversion: locked items reject; unlocking does not unequip or change funds
+ok 29 - conversion: locked items reject; unlocking does not unequip or change funds
+  ---
+  duration_ms: 449.650288
+  type: 'test'
+  ...
+# Subtest: conversion: confirmed deck references block conversion even with no saved draft
+ok 30 - conversion: confirmed deck references block conversion even with no saved draft
+  ---
+  duration_ms: 231.974651
+  type: 'test'
+  ...
+# Subtest: conversion: duplicate, empty, missing, material and reserved identities cannot be sold
+ok 31 - conversion: duplicate, empty, missing, material and reserved identities cannot be sold
+  ---
+  duration_ms: 539.242108
+  type: 'test'
+  ...
+# Subtest: conversion: write failure leaves original item and funds intact, retry converts once
+ok 32 - conversion: write failure leaves original item and funds intact, retry converts once
+  ---
+  duration_ms: 413.58596
+  type: 'test'
+  ...
+# Subtest: conversion: sold purchase replay never recreates the item; value bands keep fractional points
+ok 33 - conversion: sold purchase replay never recreates the item; value bands keep fractional points
+  ---
+  duration_ms: 314.806144
+  type: 'test'
+  ...
+# Subtest: save validation: altered candidates, prices, inventory, economy and sale ledgers reject
+ok 34 - save validation: altered candidates, prices, inventory, economy and sale ledgers reject
+  ---
+  duration_ms: 444.141908
+  type: 'test'
+  ...
+# Subtest: read purity: inspect/preview/quote/reopen do not change state, RNG, nonce or revision
+ok 35 - read purity: inspect/preview/quote/reopen do not change state, RNG, nonce or revision
+  ---
+  duration_ms: 488.864094
+  type: 'test'
+  ...
+# Subtest: migration: old return migrates once atomically, preserving receipts/rewards/knowledge/content
+ok 36 - migration: old return migrates once atomically, preserving receipts/rewards/knowledge/content
+  ---
+  duration_ms: 241.346686
+  type: 'test'
+  ...
+# Subtest: migration: failed upgrade keeps old slot intact; concurrent upgrade is not repeated
+ok 37 - migration: failed upgrade keeps old slot intact; concurrent upgrade is not repeated
+  ---
+  duration_ms: 348.104369
+  type: 'test'
+  ...
+# Subtest: migration: latest qualifying return wins; ineligible return preserves that batch
+ok 38 - migration: latest qualifying return wins; ineligible return preserves that batch
+  ---
+  duration_ms: 203.71795
+  type: 'test'
+  ...
+# Subtest: migration: current D58 active state/effect tuples are untouched; old active content stays pinned
+ok 39 - migration: current D58 active state/effect tuples are untouched; old active content stays pinned
+  ---
+  duration_ms: 182.579055
+  type: 'test'
+  ...
+# Subtest: migration: tampered pending context, missing context and unknown version reject, never initialize
+ok 40 - migration: tampered pending context, missing context and unknown version reject, never initialize
+  ---
+  duration_ms: 221.879313
+  type: 'test'
+  ...
+# Subtest: migration: explicit import upgrades without overwriting the source or existing destination
+ok 41 - migration: explicit import upgrades without overwriting the source or existing destination
+  ---
+  duration_ms: 46.437753
+  type: 'test'
+  ...
+# Subtest: return: read-only comparison is allowed but purchase/convert/lock remain blocked before acknowledgment
+ok 42 - return: read-only comparison is allowed but purchase/convert/lock remain blocked before acknowledgment
+  ---
+  duration_ms: 612.656035
+  type: 'test'
+  ...
+# Subtest: journey: acquired modified card reaches next run, one-step preview equals execution, resume is exact
+ok 43 - journey: acquired modified card reaches next run, one-step preview equals execution, resume is exact
+  ---
+  duration_ms: 1298.058418
+  type: 'test'
+  ...
+# Subtest: journey: purchased passive details, capacity and launched equipment use one compiled specification
+ok 44 - journey: purchased passive details, capacity and launched equipment use one compiled specification
+  ---
+  duration_ms: 377.676398
+  type: 'test'
+  ...
+# Subtest: journey: departure and empty withdrawal keep the purchased batch, inventory and no extra points
+ok 45 - journey: departure and empty withdrawal keep the purchased batch, inventory and no extra points
+  ---
+  duration_ms: 834.048393
+  type: 'test'
+  ...
+# Subtest: public: bases, candidates, owned details, draft errors and quotes contain no private identifiers
+ok 46 - public: bases, candidates, owned details, draft errors and quotes contain no private identifiers
+  ---
+  duration_ms: 308.878054
+  type: 'test'
+  ...
+# Subtest: offers: unchanged AT draw algorithm matches 64 contexts with the M1 namespace and pool
+ok 47 - offers: unchanged AT draw algorithm matches 64 contexts with the M1 namespace and pool
+  ---
+  duration_ms: 4408.012993
+  type: 'test'
+  ...
+# Subtest: resolver: card tempo delta is applied once before passive discount, preview and execution agree
+ok 48 - resolver: card tempo delta is applied once before passive discount, preview and execution agree
+  ---
+  duration_ms: 33.078138
+  type: 'test'
+  ...
+# Subtest: resolver: distinct same-base passive copies add their effects rather than deduplicating
+ok 49 - resolver: distinct same-base passive copies add their effects rather than deduplicating
+  ---
+  duration_ms: 530.658002
+  type: 'test'
+  ...
+# Subtest: save validation: changing compiled owned-card stats or launched equipment metadata is rejected
+ok 50 - save validation: changing compiled owned-card stats or launched equipment metadata is rejected
+  ---
+  duration_ms: 754.405779
+  type: 'test'
+  ...
+1..50
+# tests 50
+# suites 0
+# pass 50
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24336.529334

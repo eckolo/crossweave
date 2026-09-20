@@ -1,19 +1,21 @@
 // Read the existing design-owned manifest and gzip files; no UI fixture copy.
 const baseURL = new URL('../../../../接続条件/co-d02/saves/', import.meta.url);
+const d03Names = new Set(['offers-home','purchased-home','converted-home','migrated-return','purchased-exploring']);
 const names = new Set(['home', 'entry', 'port', 'return', 'second-return']);
 const hex = bytes => [...new Uint8Array(bytes)].map(x => x.toString(16).padStart(2, '0')).join('');
 async function verify(bytes, length, sha) {
   if (bytes.byteLength !== length || hex(await crypto.subtle.digest('SHA-256', bytes)) !== sha) throw Error('fixture_hash_mismatch');
 }
 export async function loadDocument(name, fetchSource = globalThis.fetch) {
-  if (!names.has(name)) throw Error('unknown_fixture');
-  const manifestResponse = await fetchSource(new URL('manifest.json', baseURL));
+  if (!names.has(name) && !d03Names.has(name)) throw Error('unknown_fixture');
+  const sourceURL=d03Names.has(name)?new URL('./fixtures/',import.meta.url):baseURL;
+  const manifestResponse = await fetchSource(new URL('manifest.json', sourceURL));
   if (!manifestResponse.ok) throw Error('fixture_manifest_unavailable');
   const manifest = await manifestResponse.json();
   const path = 'docs/検証/接続条件/co-d02/saves/' + name + '.save.json.gz';
-  const record = manifest.records?.find(item => item.path === path);
+  const record = manifest.records?.find(item => d03Names.has(name)?item.id===name:item.path === path);
   if (!record) throw Error('fixture_manifest_missing');
-  const response = await fetchSource(new URL(name + '.save.json.gz', baseURL));
+  const response = await fetchSource(new URL(name + '.save.json.gz', sourceURL));
   if (!response.ok) throw Error('fixture_unavailable');
   const gzip = await response.arrayBuffer();
   await verify(gzip, record.gzip_bytes, record.gzip_sha256);

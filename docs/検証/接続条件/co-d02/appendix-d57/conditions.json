@@ -1,0 +1,33 @@
+{
+  "test_id": "CW-M1-D57-001",
+  "source_design_head": "916eb67e05f46c50351b5f55121d644d1e4e6d7f",
+  "plan_commit": "2f093e3aa427d0d6183ccbae4926c0703cef4147",
+  "versions": {
+    "schema": "CW-M1-save-1",
+    "rule_set_id": "CW-M1-rules-0.4",
+    "content_set_id": "CW-M1-SCN001-0.1",
+    "engine_version": "CW-M1-engine-0.4",
+    "input_version": "0.1",
+    "public_contract": "CW-M1-public-0.3"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "storage": "MemoryStore",
+    "browser": false
+  },
+  "input": {
+    "path": "docs/検証/接続条件/co-d02/saves/entry.save.json.gz",
+    "gzip_sha256": "494f83e6804ca347a3cec106014c52feb78f84000faed4535196c719e21a2285",
+    "raw_sha256": "fa13d4bd51164323971a4734829bfdbdafe96dd49e8258719fd0bc333693ddf1"
+  },
+  "source_departure": "retain_adopted_D57",
+  "recipient_departure": "clear_all_adopted_D57",
+  "fixture_method": "Recipient retirement only; source departure retention adopted. Declared actor/card arrangements and 0.3/0.2/0.1 save cases, not a natural route.",
+  "command": "node test/runtime/d57.mjs /tmp/crossweave-d57-check",
+  "unverified": [
+    "SCN-001 support card placement and supply",
+    "UI drawing/layout",
+    "real browser/IndexedDB/input",
+    "player/balance evaluation"
+  ]
+}

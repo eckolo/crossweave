@@ -4,7 +4,7 @@
   const copy = x => x == null ? x : JSON.parse(JSON.stringify(x));
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   const retryable = new Set(['storage_write_failed','storage_unavailable','storage_open_failed','storage_open_blocked','storage_read_failed','connection_failed','invalid_response']);
-  const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle']);
+  const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle','stale_or_unknown_candidate','missing_possession','offer_already_purchased']);
   function fault(code) { return {code,field:null,details:{}}; }
   function responseError(r) { return r?.display_data?.error || r?.error || null; }
   function validateView(r) {
@@ -72,7 +72,7 @@
         if(r.meta.revision!==revision||r.meta.view_token!==token)throw fault('stale_view');
         if(responseError(r))throw responseError(r);
         const value=r.display_data[field];if(value==null)throw fault('invalid_response');
-        if(field==='preparation_comparison')comparison=copy(value);
+        if(field==='preparation_comparison'){comparison=copy(value);draftDetails=copy(r.display_data.details||{});}
         if(field==='conversion_quote')quote=copy(value);
         if(field==='action_preview'&&destination==='action_preview')actionPreview=copy(value);
         if(destination==='reservations')reservations=copy(value.current_reservations);

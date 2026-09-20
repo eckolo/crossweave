@@ -1,8 +1,11 @@
 import C from '../content/m1.mjs';
 import * as K from './knowledge.mjs';
 import {copy,check,canonical} from './common.mjs';
-import {funds,paid,setFunds} from './preparation.mjs';
+import {funds,paid,setFunds} from './items.mjs';
+import {receiveReturn,batchID} from './offers.mjs';
+import {contentFor} from './content.mjs';
 export function rewardLedger(s) {
+  const C=contentFor(s.active.content_set_id);
   return Object.fromEntries(Object.entries(s.game.state.rewards).map(([id,r])=>{
     const spec=C.rewards[id],a=s.active,t=C.targets[spec?.target_id];
     check(spec&&a.targets[r.source]===t.id,'unknown_reward');
@@ -15,6 +18,7 @@ export function rewardLedger(s) {
 export const receiptSignature = r => canonical(Object.fromEntries(Object.entries(r).filter(([k])=>k!=='signature')));
 export function settle(d) {
   const s=d.session,a=s.active,g=s.game.state,e=s.economy,c=d.casebook[a.case_id],outcome=g.outcome;
+  const C=contentFor(a.content_set_id);
   check(['clear','withdrawal','defeat'].includes(outcome)&&g.settlement?.reason===outcome,'unsettled_expedition');
   check(!Object.hasOwn(s.receipts,a.run),'duplicate_settlement');
   if(outcome==='clear')check(g.events.some(ev=>ev.victim==='V1'&&ev.event==='traversed')&&g.rewards[a.mode==='revisit'?'SCN-001-RW05':'SCN-001-RW03'],'invalid_clear');
@@ -52,11 +56,9 @@ export function settle(d) {
     lost_items:lost.flatMap(key=>ledger[key].items.map(x=>copy(x))),new_unlocks:newUnlocks,new_knowledge:newKnowledge,
     knowledge_changes:{observations:newKnowledge.filter(ev=>ev.kind==='observed_card').length,catalogues:newKnowledge.filter(ev=>ev.kind==='initial_catalogue_grant').map(ev=>({profile:ev.profile,version:ev.version})),retained_on_all_outcomes:true},
     case_changes:{before:previousCase.status,after:c.status,resolved_now:previousCase.status!=='resolved'&&c.status==='resolved',route_checked_now:!previousCase.first_route_checked_event&&!!c.first_route_checked_event},
-    expedition_end_hp:g.actors.P.hp,home_hp:40,offer_batch_id:null,
+    expedition_end_hp:g.actors.P.hp,home_hp:40,offer_batch_id:kept.length?batchID({run:a.run,content_set_id:C.content_set_id}):null,
     end_id:outcome==='clear'?(a.mode==='revisit'?'SCN-001-END-R':'SCN-001-END-C'):outcome==='defeat'?'SCN-001-END-E':!Object.values(ledger).some(r=>['SCN-001-RW01','SCN-001-RW04'].includes(r.reward_id))?'SCN-001-END-W0':a.published_scene_ids.some(id=>['SCN-001-S04','SCN-001-S04R'].includes(id))?'SCN-001-END-W2':'SCN-001-END-W1'};
   receipt.signature=receiptSignature(receipt);s.receipts[a.run]=receipt;e.profile.returns[a.run]=receipt.signature;
-  // D03 receives qualifying sources AFTER kept unlocks, without fake candidates/items.
-  if(kept.length)e.at.pending_contexts.push({run:a.run,seed:a.seed,index:a.index,route:'A',tier:'I',sources:[...kept].sort(),
-    card_bases:e.profile.unlocked.filter(id=>C.cards[id]).sort(),status:'generation_not_connected'});
+  receiveReturn(s,receipt);
   a.reward_ledger=ledger;s.phase='return';
 }
