@@ -8,13 +8,17 @@ import {validateDeck,validateEquipment,checkPlanShape,draftFor,funds,paid} from 
 import {eligible} from './story.mjs';
 import {rewardLedger,receiptSignature} from './settlement.mjs';
 import {contentFor} from './content.mjs';
+import {initialize,receiveReturn,contextFor,validateEconomy} from './offers.mjs';
+import {references,resolve} from './items.mjs';
+import {compileCard} from './affixes.mjs';
+import {engineVersion,economyVersion,migrationID} from './versions.mjs';
 const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
 export function safeID(x,field) {check(typeof x==='string'&&x.length>0&&x.length<=1024&&!['__proto__','prototype','constructor'].includes(x),'invalid_identifier',field);}
 function rng(state) {return Array.isArray(state)&&state.length===625&&state.slice(0,624).every(n=>integer(n)&&n<=0xffffffff)&&integer(state[624])&&state[624]<=624;}
-function validate(d) {
+function validate(d,{legacyEconomy=false}={}) {
   check(object(d)&&d.schema==='CW-M1-save-1','unsupported_save_schema');
   check(d.rule_set_id===C.rule_set_id,'unsupported_rule_set');check(d.content_set_id===C.content_set_id,'unsupported_content_set');
-  check(d.engine_version===C.engine_version,'unsupported_engine_version');
+  check(d.engine_version===engineVersion,'unsupported_engine_version');
   for(const key of ['revision','session','draft','casebook','request_log','public_history'])check(Object.hasOwn(d,key),'missing_save_field',key);
   check(integer(d.revision)&&typeof d.view_nonce==='string'&&d.view_nonce.length>0,'invalid_revision');
   const s=d.session;check(object(s)&&['home','exploring','return'].includes(s.phase)&&integer(s.nextRun),'invalid_session');
@@ -25,12 +29,15 @@ function validate(d) {
   check(Object.entries(e.profile.learned).every(([id,n])=>Object.hasOwn(C.rules.learning.bases,id)&&integer(n)),'invalid_learning');
   check(unique(e.profile.unlocked)&&e.profile.unlocked.every(id=>Object.hasOwn(C.cards,id))&&C.initial.unlocked.every(id=>e.profile.unlocked.includes(id)),'invalid_unlocks');
   check(object(e.profile.materials)&&Object.entries(e.profile.materials).every(([id,n])=>id==='M'&&integer(n)),'invalid_materials');
-  check(Object.keys(e.inventory).length===0&&e.at?.current===null&&Object.keys(e.at.batches).length===0,'feature_not_connected','inventory_or_offers');
+  if(legacyEconomy){
+    check(Object.keys(e.inventory).length===0&&e.at?.current===null,'invalid_legacy_economy');
+    for(const x of [e.at.batches,e.at.purchases,e.at.returns,e.sales,e.known,e.references,e.runs])check(object(x)&&Object.keys(x).length===0,'invalid_legacy_economy');
+  }
   check(Array.isArray(e.at.pending_contexts)&&unique(e.at.pending_contexts.map(x=>x.run)),'invalid_pending_offers');
-  validateDeck(s.au?.deck);check(e.aq?.policy==='cost','unsupported_equipment_policy');validateEquipment(e,e.aq.equipped);
+  validateDeck(s.au?.deck,e);check(e.aq?.policy==='cost','unsupported_equipment_policy');validateEquipment(e,e.aq.equipped);
   check(canonical(K.validate(e.profile.knowledge))===canonical(e.profile.knowledge),'invalid_knowledge');
   if(d.draft!==null){checkPlanShape(d.draft.plan);check(integer(d.draft.based_on_revision)&&d.draft.based_on_revision<=d.revision,'invalid_draft_revision');
-    const computed=draftFor(s,d.draft.plan,d.draft.based_on_revision);for(const key of ['dirty','valid','errors'])check(canonical(computed[key])===canonical(d.draft[key]),'invalid_draft',key);}
+    const computed=draftFor(s,d.draft.plan,d.draft.based_on_revision);if(!legacyEconomy)for(const key of ['dirty','valid','errors'])check(canonical(computed[key])===canonical(d.draft[key]),'invalid_draft',key);}
   check(object(s.receipts)&&object(d.request_log)&&Array.isArray(d.public_history),'invalid_ledgers');
   check(Array.isArray(s.action_history),'invalid_action_history');
   for(const row of s.action_history){
@@ -64,7 +71,9 @@ function validate(d) {
     check(canonical([...r.source_events].sort())===canonical(Object.values(r.reward_ledger).map(row=>row.source_event_id).sort()),'invalid_receipt_sources');
   }
   const receipts=Object.values(s.receipts);
-  check(funds(e)+paid(e)===receipts.reduce((n,r)=>n+r.gained_units,0),'invalid_economy_total');
+  const movement=legacyEconomy?{spent:0,converted:0}:validateEconomy(s);
+  check(funds(e)+paid(e)===receipts.reduce((n,r)=>n+r.gained_units,0)-movement.spent+movement.converted,'invalid_economy_total');
+  if(!legacyEconomy)check(canonical(e.references)===canonical(references(d)),'invalid_preparation_references');
   const keptItems=receipts.flatMap(r=>r.kept.flatMap(k=>r.reward_ledger[k].items));
   const unlocked=[...new Set([...C.initial.unlocked,...keptItems.filter(x=>x.kind==='unlock').map(x=>x.type)])].sort();
   check(canonical([...e.profile.unlocked].sort())===canonical(unlocked),'invalid_unlock_provenance');
@@ -92,7 +101,16 @@ function validate(d) {
       const key=w+'|'+purpose;check(rng(s.game.future_rng[key]),'missing_future_rng');if(game.s.actors[w])check(rng(s.game.rng[key]),'missing_actor_rng');
     }
     for(const [id,card] of Object.entries(game.s.cards))check(card.id===id&&typeof card.destroyed==='boolean'&&typeof card.doomed==='boolean'&&cardSpec(card.type,active.content_set_id)&&canonical(I.card(card))===canonical(I.card(cardSpec(card.type,active.content_set_id))),'invalid_card_registry');
-    const playerInitial=Object.values(game.s.cards).filter(c=>c.origin==='P'&&c.birth==='initial').map(c=>'base:'+c.type).sort();
+    const initialCards=Object.values(game.s.cards).filter(c=>c.origin==='P'&&c.birth==='initial');
+    if(game.s.economy_version===economyVersion){
+      const entries=e.aq.equipped.map(id=>resolve(e,id,'passive'));
+      check(canonical(game.s.ah.equipment_entries)===canonical(entries),'invalid_run_equipment');
+      for(const card of initialCards){
+        const row=resolve(e,card.selection_id,'card'),spec=row.uid===null?cardSpec(row.blueprint.base,active.content_set_id):compileCard(row.blueprint,active.content_set_id);
+        check(canonical(I.card(card))===canonical(I.card(spec)),'invalid_initial_owned_card');
+      }
+    }else check(!s.au.deck.some(id=>id.startsWith('owned:'))&&!e.aq.equipped.some(id=>id.startsWith('owned:'))&&!Object.hasOwn(game.s,'economy_version')&&!Object.hasOwn(game.s.ah,'equipment_entries'),'invalid_legacy_run_preparation');
+    const playerInitial=initialCards.map(c=>game.s.economy_version===economyVersion?c.selection_id:'base:'+c.type).sort();
     check(canonical(playerInitial)===canonical([...s.au.deck].sort()),'invalid_initial_player_cards');
     for(const [w,a] of Object.entries(game.s.actors)){check(w==='P'||active.targets[w],'unknown_actor');const spec=w==='P'?content.rules.player:content.targets[active.targets[w]].spec;
       check(a.max_hp===spec.hp&&a.max_posture===spec.max_posture&&a.hand_size===spec.hand_size,'invalid_actor_spec');
@@ -133,34 +151,44 @@ function validate(d) {
 }
 export function validateDocument(d) {
   try {
-    // Only complete, known old version pairs may migrate. Never mutate the supplied document.
-    const legacy=['0.1','0.2','0.3','0.4'].find(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
-    if(legacy){
-      check(d.content_set_id==='CW-M1-SCN001-0.1','unsupported_content_set');
+    // Exact legacy version pairs only. Current D03 engine uses the unchanged D58 rule/content.
+    const legacy=['0.1','0.2','0.3','0.4','0.5'].find(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
+    if(!legacy)return validate(d);
+    check(d.content_set_id===(legacy==='0.5'?C.content_set_id:'CW-M1-SCN001-0.1'),'unsupported_content_set');
+    if(legacy!=='0.5'){
       if(d.session?.active)check(d.session.active.content_set_id===d.content_set_id,'invalid_active_content_version');
       for(const r of Object.values(d.session?.receipts||{}))check(r.content_set_id===d.content_set_id,'invalid_receipt_content_version');
     }
-    // Check raw values before JSON copying: NaN/Infinity must not become null (unlimited).
-    if(legacy&&d.session?.game){
+    // Check non-finite defense values before cloning/normalizing any old representation.
+    if(d.session?.game){
       const state=d.session.game.state;
-      if(['0.3','0.4'].includes(legacy)){
+      if(['0.3','0.4','0.5'].includes(legacy)){
         check(state?.defense_rule==='D56'&&object(state.actors),'invalid_defense_state');
         for(const a of Object.values(state.actors))validateDefense(a,state.actors,{allowRetiredEffects:legacy==='0.3'});
       }else validateLegacyDefense(state);
     }
-    const current=legacy?copy(d):d;
-    if(legacy){
-      if(current.session?.game){
-        const state=current.session.game.state;
-        if(['0.1','0.2'].includes(legacy))migrateLegacyDefense(state);
-        // Old versions retained current effects on retired actor records. Historical logs stay intact.
-        if(legacy!=='0.4')for(const a of Object.values(state.actors))if(!a.active)a.defense_effects=[];
-      }
-      // The installed registry advances; each active run and receipt keeps its authored
-      // content version. Existing effect tuples/history are never recalculated.
-      current.rule_set_id=C.rule_set_id;current.engine_version=C.engine_version;current.content_set_id=C.content_set_id;
+    const current=copy(d);
+    if(current.session?.game){
+      const state=current.session.game.state;
+      if(['0.1','0.2'].includes(legacy))migrateLegacyDefense(state);
+      if(['0.1','0.2','0.3'].includes(legacy))for(const a of Object.values(state.actors))if(!a.active)a.defense_effects=[];
     }
+    current.rule_set_id=C.rule_set_id;current.engine_version=engineVersion;current.content_set_id=C.content_set_id;
+    // Reject inconsistent old funds/receipts/knowledge BEFORE generating any candidates.
+    validate(current,{legacyEconomy:true});
+    const s=current.session,oldContexts=copy(s.economy.at.pending_contexts),rs=Object.values(s.receipts).sort((a,b)=>a.index-b.index);
+    check(oldContexts.length===rs.filter(r=>r.kept.length).length,'missing_pending_offer_context');
+    for(const old of oldContexts){
+      const expected=contextFor(s,s.receipts[old.run]);
+      check(expected&&old.status==='generation_not_connected','invalid_pending_offer_context');
+      for(const key of ['run','seed','index','route','tier','sources','card_bases'])check(canonical(old[key])===canonical(expected[key]),'invalid_pending_offer_context',key);
+    }
+    initialize(s.economy);
+    for(const r of rs)receiveReturn(s,r); // Chronological: latest eligible batch remains current; no rewards are re-applied.
+    current.economy_migration={id:migrationID,source_engine:d.engine_version,source_content:d.content_set_id,
+      processed_runs:rs.map(r=>r.run),initial_current_batch:s.economy.at.current};
+    if(current.draft)current.draft=draftFor(s,current.draft.plan,current.draft.based_on_revision);
+    s.economy.references=references(current);
     return validate(current);
-  }
-  catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
+  }catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
 }

@@ -35,3 +35,17 @@ export function actionHistory(rows) {
     return out;
   });
 }
+
+// Knowledge evidence remains exact in the private ledger. Its public references
+// are scoped to this view, not raw run IDs or the old trial's diagnostic string.
+export function publicKnowledgeEvidence(views) {
+  const ids=new Map();
+  const handle=id=>{if(!ids.has(id))ids.set(id,'evidence-'+(ids.size+1));return ids.get(id);};
+  return views.map(value=>{
+    const out=copy(value);
+    if(out.initial_catalogue)out.initial_catalogue.evidence='攻略時に確認した基本構成';
+    for(const key of ['observed_by_current_actor','observed_elsewhere_this_run','observed_earlier','confirmed_reward_candidates'])
+      for(const row of out[key]||[])row.evidence_ids=row.evidence_ids.map(handle);
+    return out;
+  });
+}

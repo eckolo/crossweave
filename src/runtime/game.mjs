@@ -8,9 +8,12 @@ import {runStreams} from './random.mjs';
 import {copy, check} from './common.mjs';
 import {abilityChanges} from './action-public.mjs';
 import {contentFor} from './content.mjs';
+import {blueprint,compileCard,variantSpec,adjustedEffect} from './affixes.mjs';
+import {resolve} from './items.mjs';
+import {economyVersion} from './versions.mjs';
 
 export const cardSpec = (type,contentSet=C.content_set_id) => {
-  const content=contentFor(contentSet);return content.cards[type]?.card||content.runtime_supply_cards[type];
+  const content=contentFor(contentSet);return content.cards[type]?.card||content.runtime_supply_cards[type]||variantSpec(type,contentSet);
 };
 export function bundleFor(targetSet,contentSet=C.content_set_id) {
   const C=contentFor(contentSet);
@@ -88,14 +91,23 @@ export class Game extends CoreGame {
       if (['nt_flow','nt_pressure','nt_stop'].includes(c.type) && !ah.known_bases_at_departure.includes(c.type)) ah.borrowed_first[c.type] = true;
     }
   }
-  effect(w, c) {
-    const C=this.content;
-    const out = {ids: [], hit: 0, power: 0, discount: 0}; if (w !== 'P') return out;
-    const ah=this.s.ah, match=!!this.s.field[c.attr], p=ah.pending, knows=id=>ah.equipped.includes('base:'+id);
-    if(knows('PS01') && p.after_guard && !match) {out.ids.push('PS01');out.discount=C.rules.learning.bases.PS01.placement_discount;}
-    if(knows('PS02') && match && c.kind==='attack' && p.last_match_attr && p.last_match_attr!==c.attr) {out.ids.push('PS02');out.hit=C.rules.learning.bases.PS02.hit_bonus;}
-    if(knows('PS03') && match && c.kind==='guard' && p.borrowed_guard) {out.ids.push('PS03');out.power+=C.rules.learning.bases.PS03.guard_bonus;}
-    if(knows('PS04') && match && c.kind==='heal' && c.consume_on_recover) {out.ids.push('PS04');out.power+=C.rules.learning.bases.PS04.heal_bonus;}
+  equipment() {
+    return this.s.ah.equipment_entries||this.s.ah.equipped.map(id=>({id,blueprint:blueprint('passive',id.slice(5))}));
+  }
+  hasPassive(base) { return this.equipment().some(x=>x.blueprint.base===base); }
+  effect(w,c) {
+    const out={ids:[],hit:0,power:0,discount:0};if(w!=='P')return out;
+    const match=!!this.s.field[c.attr],p=this.s.ah.pending;
+    for(const entry of this.equipment()) {
+      const b=entry.blueprint,base=b.base,input=this.content.rules.learning.bases[base];
+      const part={ids:[],hit:0,power:0,discount:0};
+      if(base==='PS01'&&p.after_guard&&!match){part.ids.push(base);part.discount=input.placement_discount;}
+      if(base==='PS02'&&match&&c.kind==='attack'&&p.last_match_attr&&p.last_match_attr!==c.attr){part.ids.push(base);part.hit=input.hit_bonus;}
+      if(base==='PS03'&&match&&c.kind==='guard'&&p.borrowed_guard){part.ids.push(base);part.power=input.guard_bonus;}
+      if(base==='PS04'&&match&&c.kind==='heal'&&c.consume_on_recover){part.ids.push(base);part.power=input.heal_bonus;}
+      const adjusted=adjustedEffect(part,b,c,w);out.ids.push(...adjusted.ids);
+      for(const field of ['hit','power','discount'])out[field]+=adjusted[field];
+    }
     return out;
   }
   predict(choice, w='P') {
@@ -118,9 +130,9 @@ export class Game extends CoreGame {
     Object.assign(row,{passives:e.ids,action_cost:cost,card_name:played.name});
     if(w==='P') {
       const ah=this.s.ah, p=ah.pending;
-      p.after_guard=ah.equipped.includes('base:PS01')&&match&&c.kind==='guard';
+      p.after_guard=this.hasPassive('PS01')&&match&&c.kind==='guard';
       if(match) {p.last_match_attr=c.attr;if(c.kind==='guard')p.borrowed_guard=false;
-        if(ah.equipped.includes('base:PS03')&&c.origin!=='P')p.borrowed_guard=true;}
+        if(this.hasPassive('PS03')&&c.origin!=='P')p.borrowed_guard=true;}
     } else this.fact(w,{kind:'observed_card',card:played});
   }
   dispatch(victim, attacker) {
@@ -156,21 +168,24 @@ export class Game extends CoreGame {
     }
   }
 }
-export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge,content_set_id=C.content_set_id}) {
+export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge,inventory={},content_set_id=C.content_set_id}) {
   const content=contentFor(content_set_id);
   const bundle=bundleFor(target_set_id,content_set_id); bundle.future_rng=await runStreams(seed);
   const rng=Object.fromEntries(Object.entries(bundle.future_rng).filter(([k])=>k.startsWith('P|')));
   const cards={}, ids=[...deck].sort().map((handle,i)=>{
     const id='P_initial_'+String(i+1).padStart(4,'0');
-    cards[id]={...copy(cardSpec(handle.slice(5),content_set_id)),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false};return id;
+    const row=resolve({inventory,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},handle,'card');
+    const spec=row.uid===null?cardSpec(row.blueprint.base,content_set_id):compileCard(row.blueprint,content_set_id);
+    cards[id]={...copy(spec),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false,selection_id:handle};return id;
   });
   const shuffle=new MT(rng['P|initial']);shuffle.shuffle(ids);rng['P|initial']=shuffle.state();
   const p={role:'P',acts:true,hp:40,max_hp:40,hit:0,max_posture:100,crit:0,defense_effects:[],hand:[],deck:ids,active:true,next_at:0,actions:0,
     hand_size:3,initial_size:12,cap:12,minimum:3,passives:[],rebuilds:0};
   const known=[...new Set(knowledge.events.flatMap(e=>e.kind==='observed_card'?[e.card.type]:e.kind==='initial_catalogue_grant'?e.cards.map(r=>r.card.type):[]))];
-  const state={posture_rule:'AM1',defense_rule:'D56',actors:{P:p},cards,pool:[],field:{},rewards:{},events:[],boundary_number:0,now:0,ready:false,outcome:null,settlement:null,
+  const equipment_entries=equipped.map(id=>resolve({inventory,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},id,'passive'));
+  const state={economy_version:economyVersion,posture_rule:'AM1',defense_rule:'D56',actors:{P:p},cards,pool:[],field:{},rewards:{},events:[],boundary_number:0,now:0,ready:false,outcome:null,settlement:null,
     rules:'corrected',p_size:12,current_event:'A/start',pending_scene:null,diagnostic:null,
-    ah:{run,learned:copy(learned),equipped:copy(equipped),pending:{after_guard:false,last_match_attr:null,borrowed_guard:false},
+    ah:{run,learned:copy(learned),equipped:copy(equipped),equipment_entries,pending:{after_guard:false,last_match_attr:null,borrowed_guard:false},
       knowledge:copy(knowledge),catalogues:{},seq:0,enemy_result:null,borrowed_first:{},known_bases_at_departure:known}};
   const initial={state,next_card_number:12,memory:{recent:{P:[]},observed_types:{}},rng};
   const game=new Game(bundle,initial);

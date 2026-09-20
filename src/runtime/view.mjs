@@ -6,15 +6,19 @@ import {inspectPreparation,draftFor,planFor} from './preparation.mjs';
 import {publicStory,nextMode} from './story.mjs';
 import {copy} from './common.mjs';
 import {publicContract,persistentSources} from './action-public.mjs';
-import {knowledgeKey,deckCatalogue,actionHistory} from './references-public.mjs';
+import {knowledgeKey,deckCatalogue,actionHistory,publicKnowledgeEvidence} from './references-public.mjs';
 import {contentFor,contentSets} from './content.mjs';
+import {cardDetail,passiveDetail,itemDetail} from './item-details.mjs';
+import {handles} from './selection-public.mjs';
+import {itemUsage} from './items.mjs';
 export const token = d => d.view_nonce;
 const ability=(available,reason)=>({available,reasons:available?[]:[reason]});
 export function capabilities(d) {
   const s=d.session,home=s.phase==='home',exploring=s.phase==='exploring',returned=s.phase==='return';
   const dirty=d.draft?.dirty===true;
   const ops=Object.fromEntries(['save_draft','discard_draft','commit_preparation'].map(op=>[op,ability(home,returned?'return_not_acknowledged':'exploring')]));
-  for(const op of ['purchase','convert_items','set_item_lock','quoteConversion','owned_items','affixes'])ops[op]=ability(false,'feature_not_connected');
+  for(const op of ['purchase','convert_items','set_item_lock','quoteConversion'])ops[op]=ability(home,returned?'return_not_acknowledged':'exploring');
+  for(const op of ['owned_items','affixes'])ops[op]=ability(home||returned,'exploring');
   ops.previewPreparation=ability(home||returned,'exploring');
   ops.depart=ability(home&&!dirty,home?'dirty_draft':returned?'return_not_acknowledged':'already_exploring');
   ops.play=ability(exploring&&!s.scene?.pause&&s.game.state.ready&&!s.game.state.diagnostic,exploring?(s.scene?.pause?'scene_paused':s.game.state.diagnostic||'not_player_turn'):'not_exploring');
@@ -24,27 +28,21 @@ export function capabilities(d) {
   ops.ack_return=ability(returned&&!s.scene?.pause,returned?'scene_paused':'not_return');
   return ops;
 }
-function cardDetail(c) {
-  return {name:c.name,base_name:c.name,base_id:c.type,kind:'card',affixes:[],primary:{kind:c.kind,power:c.power,hit:c.hit,evasion:c.evasion,crit_gain:c.crit_gain,
-    ...Object.fromEntries(['defense_uses','defense_grant'].filter(k=>Object.hasOwn(c,k)).map(k=>[k,copy(c[k])]))},
-    field:{power:c.field_power,hit:c.field_hit},life:c.life,action_intervals:{place:c.place_cost,match:c.match_cost},
-    recovery_rule:c.consume_on_recover?'consumed_on_recovery':c.doomed?'destroyed_on_recovery_retired_origin':c.birth==='filler'?'destroyed_on_recovery_filler':'shared_recovery',
-    trigger_text:null,effect_text:null,equipment_cost:null,learning_cost_units:null};
-}
-function passiveDetail(base) {
-  const input=C.rules.learning.bases[base];
-  const triggers={PS01:'直前の本人行動が防御一致で、今回が設置',PS02:'直前の本人の一致と異なる属性で攻撃一致',PS03:'他主体由来の札で本人が一致し、その後に防御一致',PS04:'消耗する回復札で本人が回復一致'};
-  const effects={PS01:`行動間隔を${input.placement_discount}短縮（最小1）`,PS02:`探査を${input.hit_bonus}加算`,PS03:`身構の基礎値を${input.guard_bonus}加算（使用後に消費）`,PS04:`回復量を${input.heal_bonus}加算（最大余力まで）`};
-  return {name:passiveLabels[base],base_name:passiveLabels[base],base_id:base,kind:'passive',affixes:[],primary:null,field:null,life:null,action_intervals:null,recovery_rule:null,
-    trigger_text:triggers[base],effect_text:effects[base],equipment_cost:C.rules.equipment.base_cost[base],learning_cost_units:C.rules.learning.cost_units[base]};
-}
 export function project(d, extras={}) {
   const s=d.session,story=publicStory(d),details={},home=['home','return'].includes(s.phase)?inspectPreparation(s):null;
   // Kept unlock names/details are public, independently of free deck eligibility.
   // UI never needs to parse a knowledge-history label or read the private registry.
   for(const base of s.economy.profile.unlocked)details['base:'+base]=cardDetail(C.cards[base].card);
-  if(home){home.offers={status:'none',refresh_rule:'eligible_return',carried_from_previous_return:false,connected:false,reason:'feature_not_connected'};
-    for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);}
+  if(home){
+    const batch=s.economy.at.batches[s.economy.at.current],latest=Object.values(s.receipts).sort((a,b)=>b.index-a.index)[0];
+    home.offers={status:batch?.purchased?'purchased':batch?.candidates.length?'available':'none',refresh_rule:'eligible_return',
+      carried_from_previous_return:!!(batch&&latest&&batch.context.run!==latest.run),connected:true,reason:batch&&!batch.candidates.length?'no_eligible_offer':!batch?'no_qualifying_return':null};
+    for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);
+    for(const row of [...home.owned,...home.candidates])details[row.id]=itemDetail(row.blueprint);
+    for(const row of home.owned){row.references=itemUsage(d,row.id.slice(6));row.conversion_available=s.phase==='home'&&!row.locked&&!row.references.length;
+      row.conversion_reasons=[...(s.phase==='return'?['return_not_acknowledged']:[]),...(row.locked?['item_locked']:[]),...(row.references.length?['item_in_use']:[])];}
+    for(const row of extras.preparation_comparison?.prepared?.owned||[])if(!details[row.id])details[row.id]=itemDetail(row.blueprint);
+  }
   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
   // Old complete catalogues remain separate; they do not disclose the new initial deck.
   const knownTargets=[...new Map(contentSets.flatMap(c=>Object.values(c.targets)).map(t=>[knowledgeKey(t),t])).values()]
@@ -76,10 +74,10 @@ export function project(d, extras={}) {
   const draft=home?{plan:copy(stored.plan),dirty:stored.dirty,valid:stored.valid,errors:copy(stored.errors),based_on_current:stored.based_on_revision===d.revision}:null;
   const receipt=s.phase==='return'?s.receipts[s.active.run]:null;
   const return_receipt=receipt?copy(Object.fromEntries(['outcome','gained_units','unspent_after_units','paid_learning_units','kept_items','lost_items','new_unlocks','knowledge_changes','case_changes','expedition_end_hp','home_hp'].map(k=>[k,receipt[k]]))):null;
-  return {schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
-    knowledge_views,texts:story.texts,text_history:story.text_history,action_history:actionHistory(s.action_history),draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
+  return handles(s,[stored.plan]).encode({schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
+    knowledge_views:publicKnowledgeEvidence(knowledge_views),texts:story.texts,text_history:story.text_history,action_history:actionHistory(s.action_history),draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
       available_mode:s.active?.mode||nextMode(d.casebook['SCN-001']),objective_text_id:story.objective,visible_clue_ids:copy(d.casebook['SCN-001'].visible_clue_ids),unlocked_card_ids:copy(s.economy.profile.unlocked)},
-    scene:story.scene,exploration,action_preview:null,return_receipt,operation:null,error:null,...extras}};
+    scene:story.scene,exploration,action_preview:null,return_receipt,operation:null,error:null,...extras}});
 }
 export function actionPreview(d,choice) {
   const g=restoreGame(d.session),p=g.public(),v=g.predict(choice),chosen=g.s.cards[choice.card_id];
