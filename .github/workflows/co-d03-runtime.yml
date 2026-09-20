@@ -1,0 +1,40 @@
+name: CO-D03 runtime checks
+on:
+  push:
+    branches: [dev_design_tmp_assembly]
+    paths:
+      - 'src/runtime/**'
+      - 'src/content/**'
+      - 'test/runtime/d03*.mjs'
+      - '.github/workflows/co-d03-runtime.yml'
+permissions:
+  contents: read
+jobs:
+  d03:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Record fixed source and runtime
+        run: |
+          git rev-parse HEAD
+          node --version
+          git archive --format=tar.gz --output="$RUNNER_TEMP/d03-source.tar.gz" HEAD
+      - name: D03 checks only
+        run: |
+          if [ -f test/runtime/d03.test.mjs ]; then
+            node --test test/runtime/d03.test.mjs
+          else
+            echo 'Bootstrap only: D03 checks are not implemented yet; no D03 pass is claimed.'
+            node --check src/runtime/campaign.mjs
+          fi
+      - name: Retain inspection input temporarily
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: co-d03-source-${{ github.sha }}
+          path: ${{ runner.temp }}/d03-source.tar.gz
+          retention-days: 1
+          if-no-files-found: error
