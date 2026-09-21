@@ -1,0 +1,105 @@
+/* v0.4: the main view never scrolls. Lists have bounded pages; only small
+ * reading/detail windows scroll. Nothing is scaled as a whole to fit. */
+#crossweave-journey .cj-shell{grid-template-rows:44px minmax(0,1fr) 44px}
+#crossweave-journey .cj-header{grid-row:1;height:44px;min-height:44px;padding:0 8px;gap:6px;flex-wrap:nowrap}
+#crossweave-journey .cj-layout{grid-row:2;min-height:0;overflow:clip}
+#crossweave-journey [data-bottom]{grid-row:3;min-height:0}
+#crossweave-journey [data-main]{height:100%;min-height:0;overflow:clip;overscroll-behavior:auto}
+#crossweave-journey[data-screen="explore"] .cj-shell{grid-template-rows:0 minmax(0,1fr) 0}
+#crossweave-journey .cj-header .cj-button{height:44px;min-height:44px;padding:0 8px;min-width:44px;flex:none}
+#crossweave-journey .cj-header .cj-common-nav{width:auto;flex:none;display:flex;gap:4px;flex-wrap:nowrap}
+#crossweave-journey .cj-header .cj-edit-tabs{width:auto;flex:none;display:flex;gap:2px;flex-wrap:nowrap}
+#crossweave-journey .cj-edit-tabs>.cj-button{display:flex;flex-direction:column;justify-content:center;gap:0;border-width:0 0 2px;border-color:transparent;border-radius:0;background:transparent;line-height:17px}
+#crossweave-journey .cj-edit-tabs>.cj-button[aria-pressed="true"]{border-bottom-color:light-dark(#315849,#c6d9ba);background:light-dark(#dfe8d8,#354b3c)}
+#crossweave-journey .cj-edit-tabs small{font-size:11px;line-height:13px;font-variant-numeric:tabular-nums}
+#crossweave-journey .cj-screen-title{font:500 17px/1.2 system-ui,sans-serif;letter-spacing:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;flex:1}
+#crossweave-journey .cj-compact-wallet{margin-left:auto;flex:none;display:flex;gap:4px;align-items:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+#crossweave-journey .cj-compact-wallet>svg{width:16px;height:16px}
+#crossweave-journey .cj-fixed-footer{height:44px;padding:0 8px;display:flex;gap:8px;justify-content:space-between;align-items:center;white-space:nowrap;background:light-dark(#e9eee0,#283d2e);box-shadow:0 -1px light-dark(#c5d0bd,#4e6549)}
+#crossweave-journey .cj-fixed-actions,#crossweave-journey .cj-pager{display:flex;gap:4px;align-items:center;flex-wrap:nowrap}
+#crossweave-journey .cj-fixed-footer .cj-button{min-width:44px;min-height:44px;height:44px;padding:0 10px;flex:none;white-space:nowrap}
+#crossweave-journey .cj-pager>span{font-size:12px;min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
+#crossweave-journey .cj-page-catalogue{height:100%;min-height:0;overflow:clip;display:grid;align-content:center}
+#crossweave-journey .cj-page-grid{display:grid;min-height:0}
+#crossweave-journey .cj-page-grid .cj-cardpiece{display:grid;grid-template-rows:minmax(44px,1fr) 44px;min-height:0;padding:0;gap:0}
+#crossweave-journey .cj-page-grid .cj-card-face{height:100%;min-height:44px;padding:0 6px;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto;gap:0;align-content:center;justify-items:center;line-height:17px}
+#crossweave-journey .cj-page-grid .cj-card-face>strong{font-size:13px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;max-width:100%}
+#crossweave-journey .cj-page-grid .cj-card-art{min-height:0;height:100%;width:calc(100% + 12px);margin:0}
+#crossweave-journey .cj-page-grid .cj-skillpiece .cj-card-face{grid-template-rows:minmax(0,1fr) auto auto auto}
+#crossweave-journey .cj-page-grid .cj-card-face>small,#crossweave-journey .cj-page-grid .cj-card-face>.cj-slot-cost,#crossweave-journey .cj-page-grid .cj-card-face>.cj-state-label{font-size:12px;line-height:16px;min-height:0;margin:0}
+#crossweave-journey .cj-page-grid .cj-counter{height:44px;min-height:0;grid-template-columns:44px minmax(0,1fr) 44px;padding:0;border-top:0}
+#crossweave-journey .cj-page-grid .cj-counter>span{font-size:14px;flex-wrap:nowrap}
+#crossweave-journey .cj-page-grid .cj-counter>.cj-button{height:44px;min-height:44px;border-width:1px 0 0;border-radius:0 0 6px 6px;padding:0}
+#crossweave-journey .cj-page-grid .cj-skill-action{height:44px;min-height:0;padding:0;border:0}
+#crossweave-journey .cj-page-grid .cj-skill-action>.cj-button{height:44px;min-height:44px;border-width:1px 0 0;border-radius:0 0 6px 6px;font-size:12px;padding:0 4px;line-height:15px}
+#crossweave-journey .cj-fixed-result{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;padding:24px;align-items:center}
+#crossweave-journey .cj-result-values{display:grid;gap:12px;min-height:0;align-content:center}
+#crossweave-journey .cj-result-number{display:flex;flex-direction:column;gap:8px;padding:16px;min-height:44px;font-size:14px}
+#crossweave-journey .cj-result-number>span{display:flex;gap:8px;align-items:baseline;justify-content:center;flex-wrap:wrap}
+#crossweave-journey .cj-result-number>span>svg{align-self:center;width:16px;height:16px}
+#crossweave-journey .cj-result-money>strong{font:400 32px/1.1 Georgia,serif;color:light-dark(#42684a,#d9dfa6)}
+#crossweave-journey .cj-reading-window{min-height:0;max-height:100%;height:200px;max-width:480px;width:100%;display:grid;border:1px solid light-dark(#b4c4ad,#64795b);border-radius:8px;background:light-dark(#fcfcf5,#2b3d34);box-shadow:0 2px 8px light-dark(#24402b16,#0004)}
+#crossweave-journey .cj-reading-scroll{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:14px}
+#crossweave-journey .cj-reading-scroll .cj-story{max-width:none;padding:0;font-size:14px;line-height:1.7}
+#crossweave-journey .cj-reading-scroll .cj-optionals{margin-top:10px}
+#crossweave-journey .cj-reading-scroll .cj-optionals .cj-button{min-height:44px}
+#crossweave-journey .cj-fixed-hub{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:24px;padding:24px}
+#crossweave-journey .cj-fixed-hub>.cj-landscape{height:100%;max-height:240px;min-height:0}
+#crossweave-journey .cj-destination-button{min-height:0;max-height:100%;display:flex;flex-direction:column;gap:8px;text-align:center;padding:12px}
+#crossweave-journey .cj-destination-button>strong{font-size:22px}
+#crossweave-journey .cj-destination-button>span,#crossweave-journey .cj-destination-button>strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#crossweave-journey .cj-fixed-scene{position:relative;display:grid;align-items:center;justify-items:center;min-height:0;height:100%;padding:12px}
+#crossweave-journey .cj-fixed-scene>.cj-landscape{position:absolute;inset:12px;height:auto;opacity:.5;z-index:0}
+#crossweave-journey .cj-fixed-scene>.cj-reading-window{position:relative;z-index:1;max-width:min(560px,90%);height:220px}
+#crossweave-journey .cj-fixed-start{height:100%;min-height:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+#crossweave-journey .cj-fixed-start>span{font:400 32px/1.2 Georgia,serif}
+#crossweave-journey .cj-status:not(:empty){position:absolute;z-index:20;left:50%;top:48px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 16px);height:auto;min-height:44px;max-height:calc(100% - 96px);padding:0 8px;gap:4px;border-radius:6px;background:light-dark(#f2e6c8,#453b25);box-shadow:0 2px 10px light-dark(#243a2b30,#0006)}
+#crossweave-journey .cj-status>span{max-height:44px;overflow:auto;font-size:12px}
+#crossweave-journey .cj-status>.cj-button{min-width:44px;min-height:44px;padding:0 6px}
+#crossweave-journey [data-inspector]{overflow:clip}
+#crossweave-journey [data-inspector][data-layout="windows"]:not([data-count="1"]){overflow:auto}
+@container(max-width:620px){
+ #crossweave-journey .cj-header{padding:0 4px;gap:4px}
+ #crossweave-journey .cj-header .cj-common-nav{gap:0}
+ #crossweave-journey .cj-header [data-j="records"]>span{display:none}
+ #crossweave-journey .cj-header .cj-common-nav>.cj-button{width:44px;padding:0}
+ #crossweave-journey .cj-header .cj-edit-tabs>.cj-button{padding:0 5px}
+ #crossweave-journey .cj-compact-wallet{font-size:12px;gap:2px}
+ #crossweave-journey .cj-compact-wallet>span{display:flex;gap:2px}
+ #crossweave-journey .cj-fixed-footer{padding:0 4px;gap:4px;font-size:12px}
+ #crossweave-journey .cj-fixed-footer .cj-button{padding:0 7px;gap:2px;font-size:12px}
+ #crossweave-journey .cj-fixed-actions,#crossweave-journey .cj-pager{gap:2px}
+ #crossweave-journey .cj-action-label{display:none}
+ #crossweave-journey .cj-fixed-result,#crossweave-journey .cj-fixed-hub{padding:8px;gap:12px}
+ #crossweave-journey .cj-result-values{gap:8px}
+ #crossweave-journey .cj-result-number{padding:4px;gap:3px;font-size:12px}
+ #crossweave-journey .cj-result-number>span{gap:4px}
+ #crossweave-journey .cj-result-money>strong{font-size:24px}
+ #crossweave-journey .cj-reading-scroll{padding:8px}
+ #crossweave-journey .cj-destination-button{padding:8px;gap:4px}
+ #crossweave-journey .cj-destination-button>strong{font-size:17px}
+}
+@container(max-width:400px){
+ #crossweave-journey .cj-fixed-result{padding:0;gap:6px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ #crossweave-journey .cj-result-values{gap:0;align-self:stretch;grid-template-rows:1fr 1fr}
+ #crossweave-journey .cj-result-number{padding:0 2px;gap:0;border-radius:0;font-size:12px;line-height:18px}
+ #crossweave-journey .cj-result-number>span{gap:3px;flex-wrap:nowrap;white-space:nowrap}
+ #crossweave-journey .cj-result-money>strong{font:500 16px/1.1 system-ui,sans-serif}
+ #crossweave-journey .cj-result-number small{font-size:11px}
+ #crossweave-journey .cj-result-number svg{display:none}
+ #crossweave-journey .cj-reading-scroll{padding:6px}
+ #crossweave-journey .cj-reading-scroll .cj-story{font-size:13px;line-height:1.5}
+ #crossweave-journey .cj-reading-window{border-radius:4px;height:100%}
+ #crossweave-journey .cj-page-grid .cj-card-art{display:none}
+ #crossweave-journey .cj-page-grid .cj-card-face,#crossweave-journey .cj-page-grid .cj-skillpiece .cj-card-face{grid-template-rows:auto auto;align-content:center}
+ #crossweave-journey .cj-page-grid .cj-skillpiece .cj-state-label{display:none}
+ #crossweave-journey .cj-fixed-hub{padding:0 6px;gap:8px;grid-template-columns:70px minmax(0,1fr)}
+ #crossweave-journey .cj-fixed-hub>.cj-landscape{padding:0 6px;gap:3px;max-height:70px;border-bottom-width:4px}
+ #crossweave-journey .cj-fixed-hub>.cj-landscape>div{border-width:4px}
+ #crossweave-journey .cj-destination-button{padding:2px 6px;gap:0;font-size:12px}
+ #crossweave-journey .cj-destination-button>strong{font-size:15px}
+ #crossweave-journey .cj-destination-button>svg{display:none}
+ #crossweave-journey .cj-fixed-scene{padding:0 6px}
+ #crossweave-journey .cj-fixed-scene>.cj-reading-window{max-width:90%}
+ #crossweave-journey .cj-fixed-start>span{font-size:26px}
+}

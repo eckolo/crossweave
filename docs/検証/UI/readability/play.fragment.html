@@ -1,0 +1,90 @@
+<div id="cw-readability" lang="ja" aria-label="crossweave 探索">
+  <header class="cw-top"><strong>crossweave</strong><span id="cw-phase"></span><span id="cw-turn"></span></header>
+  <div class="cw-status"><span id="cw-progress"></span><span id="cw-reward-summary"></span></div>
+  <div class="cw-section-head"><strong>対象と状態</strong><span id="cw-start-state"></span></div>
+  <div id="cw-actors" class="cw-actors"></div>
+  <div id="cw-queue" class="cw-queue" aria-label="現在の行動予約"></div>
+  <section aria-label="共有の場と手札">
+    <div class="cw-section-head"><strong>共有の場</strong><span id="cw-match-label"></span></div>
+    <div id="cw-field" class="cw-field"></div>
+    <div class="cw-section-head"><strong>手札</strong><span>選ぶ → 今回の変化を確認 → 実行</span></div>
+    <div id="cw-hand" class="cw-hand"></div>
+    <div class="cw-decision">
+      <div id="cw-prediction" aria-live="polite"></div>
+      <button id="cw-use" class="cw-primary" type="button">この札を使う</button>
+      <details id="cw-card-detail"><summary>選択札の効果・計算を確認</summary><div id="cw-card-info"></div><div id="cw-prediction-detail"></div></details>
+    </div>
+  </section>
+  <div id="cw-outcome" role="status"></div>
+  <section class="cw-result" aria-label="行動後の変化"><div class="cw-section-head"><strong>直前の変化</strong><span id="cw-change-time"></span></div><div id="cw-changes" aria-live="polite"></div><details><summary>直前の行動を順に読む</summary><div id="cw-last"></div></details></section>
+  <section class="cw-inventory" aria-label="自分の山札">
+    <div class="cw-section-head"><strong>自分の山札</strong><span id="cw-deck-count"></span></div>
+    <div id="cw-deck-summary" class="cw-deck-summary"></div>
+    <details id="cw-deck-panel"><summary id="cw-deck-title">全種類・残数・効果を確認</summary><div id="cw-deck"></div></details>
+  </section>
+  <details><summary>相手の傾向・確認した札</summary><div id="cw-knowledge"></div></details>
+  <details><summary>持込・補給・報酬</summary><div id="cw-resources"></div></details>
+  <details><summary>ここまでの経過</summary><label class="cw-setting">表示順 <select id="cw-history-order"><option value="newest">新しい順</option><option value="oldest">古い順</option></select></label><div id="cw-history"></div></details>
+  <div class="cw-bottom"><details id="cw-restart-panel"><summary>出発構成・入口からやり直す</summary><div id="cw-build-active"></div><label class="cw-setting">次の構成 <select id="cw-build"><option value="guard5">攻撃6・防御5・回復1</option><option value="guard3">攻撃8・防御3・回復1</option><option value="guard0">攻撃11・防御0・回復1</option></select></label><button id="cw-restart" type="button">この構成で入口から開始</button></details><button id="cw-withdraw" type="button">撤退する</button></div>
+</div>
+<style>
+#cw-readability{--cw-paper:light-dark(#f6f5ef,#222820);--cw-ink:light-dark(#263c32,#f0f3ea);--cw-line:light-dark(#bdc8bc,#697767);--cw-soft:light-dark(#e9eee4,#303d2e);--cw-selected:light-dark(#345747,#c2d8ba);--cw-selected-ink:light-dark(#ffffff,#20311e);--cw-danger:light-dark(#943c25,#ffc5a8);--cw-alert:light-dark(#f9e9d9,#483126);color:var(--cw-ink);background:var(--cw-paper);padding:16px;border-radius:12px;font-family:inherit;overflow-wrap:anywhere;color-scheme:light dark}
+#cw-readability *{box-sizing:border-box;min-width:0}
+#cw-readability button,#cw-readability select{font:inherit;color:var(--cw-ink);background:var(--cw-paper);border:1px solid var(--cw-line);border-radius:8px;padding:10px 12px;min-height:44px;max-width:100%;white-space:normal}
+#cw-readability button{text-align:left;cursor:pointer}
+#cw-readability button:disabled{opacity:.55;cursor:default}
+#cw-readability .cw-top,#cw-readability .cw-status,#cw-readability .cw-section-head,#cw-readability .cw-bottom,#cw-readability .cw-setting{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap}
+#cw-readability .cw-top{padding-bottom:10px;border-bottom:1px solid var(--cw-line)}
+#cw-readability .cw-status{padding:10px 0}
+#cw-readability .cw-section-head{margin:12px 0 8px}
+#cw-readability strong{font-weight:500}
+#cw-readability .cw-actors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#cw-readability .cw-actor{padding:10px 12px;border-radius:8px;background:var(--cw-soft)}
+#cw-readability .cw-actor-label{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+#cw-readability .cw-actors button{background:var(--cw-soft)}
+#cw-readability .cw-actors button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--cw-selected);border-color:var(--cw-selected)}
+#cw-readability .cw-actor-stats{display:flex;flex-wrap:wrap;gap:4px 12px;font-variant-numeric:tabular-nums}
+#cw-readability .cw-actor-state{margin-top:4px}
+#cw-readability progress{width:100%;accent-color:var(--cw-selected);display:block;margin:6px 0}
+#cw-readability .cw-queue{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0;font-variant-numeric:tabular-nums}
+#cw-readability .cw-ticket{padding:4px 8px;background:var(--cw-soft);border-radius:5px}
+#cw-readability .cw-field{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#cw-readability .cw-slot{border:1px solid var(--cw-line);padding:8px;border-radius:8px}
+#cw-readability .cw-slot[data-linked="true"]{box-shadow:inset 0 0 0 2px var(--cw-selected);background:var(--cw-soft)}
+#cw-readability .cw-attr{display:inline-flex;justify-content:center;align-items:center;min-width:28px;min-height:28px;padding:2px 6px;border:1px solid currentColor;border-radius:4px;font-weight:500;margin-right:6px}
+#cw-readability .cw-hand{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#cw-readability .cw-hand button{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+#cw-readability .cw-hand button[aria-pressed="true"]{background:var(--cw-soft);box-shadow:inset 0 0 0 2px var(--cw-selected);border-color:var(--cw-selected)}
+#cw-readability .cw-action-label{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+#cw-readability .cw-card-timing{margin-top:auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px}
+#cw-readability .cw-decision{background:var(--cw-soft);border-radius:8px;padding:12px;margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:start}
+#cw-readability .cw-decision details{grid-column:1/-1}
+#cw-readability .cw-primary{color:var(--cw-selected-ink);background:var(--cw-selected);border-color:var(--cw-selected);text-align:center}
+#cw-readability .cw-impact{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-variant-numeric:tabular-nums}
+#cw-readability .cw-warning{padding:6px 8px;background:var(--cw-alert);color:var(--cw-danger);border-radius:5px;margin-top:6px}
+#cw-readability .cw-loss{color:var(--cw-danger)}
+#cw-readability details{margin-top:10px;padding-top:6px;border-top:1px solid var(--cw-line)}
+#cw-readability summary{cursor:pointer;min-height:40px;padding:6px 0}
+#cw-readability .cw-result,#cw-readability .cw-inventory{margin-top:16px}
+#cw-readability .cw-change-list{display:flex;flex-wrap:wrap;gap:6px 16px}
+#cw-readability .cw-log{padding:5px 0}
+#cw-readability .cw-deck-summary{display:flex;flex-wrap:wrap;gap:6px 18px}
+#cw-readability .cw-deck-row{padding:10px 0;border-bottom:1px solid var(--cw-line)}
+#cw-readability .cw-deck-row:last-child{border-bottom:0}
+#cw-readability .cw-deck-row header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+#cw-readability .cw-deck-effects{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:6px}
+#cw-readability .cw-setting,#cw-readability .cw-bottom{margin-top:10px}
+#cw-readability .cw-setting{justify-content:flex-start}
+#cw-readability .cw-bottom>details{flex:1}
+#cw-readability .cw-counts{font-variant-numeric:tabular-nums}
+#cw-readability #cw-outcome:not(:empty){margin-top:12px;padding:12px;background:var(--cw-alert);border-radius:8px}
+@media(max-width:600px){#cw-readability .cw-actors{grid-template-columns:repeat(2,minmax(0,1fr))}#cw-readability .cw-actor:first-child{grid-column:1/-1}#cw-readability .cw-hand{grid-template-columns:1fr}#cw-readability .cw-hand button{gap:5px}#cw-readability .cw-decision{grid-template-columns:1fr}#cw-readability .cw-primary{width:100%}#cw-readability .cw-deck-effects{grid-template-columns:1fr}}
+@media(max-width:420px){#cw-readability{padding:10px}#cw-readability .cw-field{grid-template-columns:repeat(2,minmax(0,1fr))}#cw-readability .cw-actors{grid-template-columns:1fr}}
+</style>
+<script>
+__CW_ENGINE__
+__CW_FEEDBACK__
+__CW_ECOLOGY__
+__CW_TERRAIN__
+__CW_VIEW__
+</script>

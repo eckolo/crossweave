@@ -1,0 +1,28 @@
+<div id="crossweave-growth-001">
+  <style>__GROWTH_STYLE__</style>
+  <div class="cw-lab">
+    <span>操作試作 · 模擬応答</span>
+    <label>入力 <select data-example aria-label="確認用入力">
+      <option value="return">BC帰還</option><option value="home">BC準備</option>
+      <option value="empty">空所持・候補なし</option><option value="carried">前回候補を保持</option>
+      <option value="purchased">購入済み</option><option value="capacity">容量の境界</option>
+      <option value="disconnected">取得・変換未接続</option><option value="nt">夜潮の帰還・契約抜粋</option>
+    </select></label>
+    <details class="cw-test-tools"><summary>確認用</summary><div>
+      <button type="button" data-action="fail-save">次の保存を失敗</button>
+      <button type="button" data-action="stale">候補の更新を模擬</button>
+      <button type="button" data-action="reopen">同じ応答を再表示</button>
+      <button type="button" data-action="replay">前の確定を再送</button>
+    </div></details>
+    <span data-lab-status aria-live="polite"></span>
+  </div>
+  <section class="cw-game" aria-label="crossweave 準備画面">
+    <div class="cw-place" aria-hidden="true"><div class="cw-window-light"></div><div class="cw-shelves"></div><div class="cw-counter"></div></div>
+    <header class="cw-top" data-top></header>
+    <div class="cw-workspace" data-workspace></div>
+    <div class="cw-notice" data-notice aria-live="polite"></div>
+    <footer class="cw-footer" data-footer></footer>
+    <div class="cw-overlay" data-overlay></div>
+  </section>
+  <script>__GROWTH_SCRIPT__</script>
+</div>

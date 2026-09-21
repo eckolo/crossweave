@@ -1,0 +1,51 @@
+{
+  "id": "CO-D01-boundary-read-1",
+  "version": "0.1",
+  "base_commit": "f2449fab9f61fd5444079416972c3f3c3f161eeb",
+  "plan_commit": "7f6a495132ec41860c524c70f3280a572e816625",
+  "purpose": "接続条件選定のため、既存の完全帰還保存一件から再精算・保存復元・明示準備の確定に用いる下位APIの境界だけを確認する。新本体APIやUIの実装ではない。",
+  "input": {
+    "snapshot": "docs/検証/構築と探索/bc/checkpoints-manifest.json#/snapshots/0-B",
+    "plan": "docs/検証/構築と探索/bd/results.json#/fixtures (0-B, refund_acquisition_first)",
+    "empty_offer": "U.Sessionの既存初期状態。出発なし。"
+  },
+  "steps": [
+    "完全帰還を復元しcollectを二回呼び、精算・所持・候補が増えないことを確認",
+    "JSON往復復元とhome移行で未使用・既払・所持・解放を保持",
+    "保存済みBD表示データを再利用し、Q.learn→M.purchase→Q.equip→setDeckの明示計画をコピーへ適用して一致確認",
+    "購入operation再実行とAP.quote/sellの同一operation再実行を限定確認。元保存へ適用しない",
+    "初期状態inspectで空候補を確認。追加の対照探索は行わない"
+  ],
+  "stop": {
+    "completed": "上記一件と空候補の照合が終了した時点",
+    "failure": "不一致を記録して停止し、旧入力や旧結果で補正しない",
+    "new_battles": 0,
+    "old_study_reruns": 0,
+    "departures": 0,
+    "ui_or_durable_runtime_implementation": false
+  },
+  "sources": {
+    "docs/確定仕様/カード探索ゲーム_基本設計.md": "e37e4f9bd420337350df900625d6bd52b79c0a4081fe8022907112589c7d6588",
+    "docs/検証/構築と探索/bc/checkpoints-manifest.json": "0a8ba7c9fa3ebbe64bfe17fdb3841ca54bcda7bbbba942114e712a35acc44616",
+    "docs/検証/構築と探索/bd/results.json": "d11865cd13c94b935e4bf6b5963359d66f2def0b11d55f6196e4f26832b54110",
+    "docs/検証/構築と探索/bd/preview.cjs": "624ff76da4011c2d1d5a62b5baeef280663c142a6741731b9e3e3d85d1b2c04b",
+    "docs/検証/構築と探索/au/session.cjs": "f95e73d3fce89df8960d6db80c1bc512ee95315bf94c1e4ee7958e181318d3a0",
+    "docs/検証/装備制限/ar/session.cjs": "179379131345f2289be89be4be438697e4e66c49082b95530d93f2dfafcae16c",
+    "docs/検証/装備制限/ar/common.cjs": "396b342521c4464406b59cd8e430aa9eb596e3972b890047d74909bd1c40f56f",
+    "docs/検証/資源用途/at/offers.cjs": "13c2d3b215a8b723010fae951ba126a0ce72e82d8648430151079adabd743af7",
+    "docs/検証/資源用途/at/conditions.json": "92c658c96c83f1e86dc9a7c95dbf7f095548e30c530ac1a410df7c64c2d54594",
+    "docs/検証/装備制限/aq/equipment.cjs": "7c551f7f4bbd34370ad2eeada8bf220d7fa53d6a5a807f099fc8d9e013afad69",
+    "docs/検証/装備制限/aq/conditions.json": "ad11113aa944ef7b01ab77dfa2bf3eb0a0c368da279456a0d0fa326860e758a0",
+    "docs/検証/修飾/ap/conversion.cjs": "8a6b4ec9a191bde04751a31df548fca23c039fb4246612ff20eb5b3f3e57308c",
+    "docs/検証/修飾/ap/conditions.json": "3c23417b1bc50223dbe54930f48921e35b4c9c93c6f744475e06dd3d5e667d00",
+    "docs/検証/修飾/ao/affixes.cjs": "bc2f1d92a1e3f78c154d0985d4a644b98fd2473703f8d120de44cf949fd99f9f",
+    "docs/検証/修飾/ao/conditions.json": "c42515f1e967420e863fe767d9b5dac9970efd7eaaef3ca8958a9f9a800b7f90",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/load.cjs": "3b25b01b6ee7be73ac6a008dd52233250d7b074f9ff9238d2dc5dfed83fec26d",
+    "docs/検証/統合試作/deck_feedback_trial/posture_am/engine.js": "727bb5881106ff162c295487c04834df9dc20db777fee1336c2e33a02068b860",
+    "docs/検証/統合試作/deck_feedback_trial/expedition_choices.js": "1e18b279687017d942a50e0635fb78e99442f1c7520b1cbd3628f61b87cde31f",
+    "docs/検証/統合試作/deck_feedback_trial/reward_preparation.js": "250214408c44b31b39df6837a56a2283b13d4f74c0e55e26ed5ba46b37c1c266",
+    "docs/検証/統合試作/deck_feedback_trial/knowledge.js": "4d78ccdc6d7a2b6dce5fda2057197be9d0b494edfa78fd00bd8946f2c083050c",
+    "docs/検証/試遊/night-tide/src/scenario.js": "efc2ff225ff539daff8fb748b84aa76b7d6401f1f59afb619eee53916d93a055",
+    "docs/検証/試遊/night-tide/src/vendor/choice_inputs.json": "d0a4cb24898976cfc1bb94290296b11a2e34497ebe55fe9369f09179cfa31e9e"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "work_id": "20260910-ui-readability",
+  "version": "0.11.1",
+  "base_commit": "a52b80a1baee5e15a95da114204a6c3eac2a6257",
+  "plan_commit": "0e53882bbd2a680a8d640f7fe044472f406e265d",
+  "technical_commit": "7a0ce6fad3ce873638ad0e8d923c7559b420a6ed",
+  "checked_at_utc": "2026-09-17T04:48:10.524Z",
+  "result": "pass",
+  "count": 24,
+  "checks": [
+    {
+      "name": "非アクティブ化は長押し待ちを取り消し後から札を浮かせない",
+      "pass": true
+    },
+    {
+      "name": "長押し開始直後から実測した札の下端付近へ指を合わせる",
+      "pass": true
+    },
+    {
+      "name": "右端と下端でも実測した札全体を画面内へ収める",
+      "pass": true
+    },
+    {
+      "name": "左端と上端で札を画面外へ出さない",
+      "pass": true
+    },
+    {
+      "name": "無関係の入力の捕捉喪失で現在のドラッグを消さない",
+      "pass": true
+    },
+    {
+      "name": "入力捕捉の喪失で札を戻しつかんだ札の選択は保持する",
+      "pass": true
+    },
+    {
+      "name": "取消直後の合成クリックで別の札を選ばない",
+      "pass": true
+    },
+    {
+      "name": "次の実押下は待たずに通常のタップとして使える",
+      "pass": true
+    },
+    {
+      "name": "pointercancel後の遅い解放で出札しない",
+      "pass": true
+    },
+    {
+      "name": "画面外に加わった第二の指でもドラッグを取り消す",
+      "pass": true
+    },
+    {
+      "name": "タブが非表示になると保留操作と浮いた札を取り消す",
+      "pass": true
+    },
+    {
+      "name": "長押し待ち中のホイール操作で遅れてドラッグを開始しない",
+      "pass": true
+    },
+    {
+      "name": "参照を開いた後に古い長押しでメニューを閉じない",
+      "pass": true
+    },
+    {
+      "name": "手札が移動したら保留中の長押しを取り消す",
+      "pass": true
+    },
+    {
+      "name": "画面外で短く離した入力を長押しとして残さない",
+      "pass": true
+    },
+    {
+      "name": "長押し前の斜め移動は横送りのまま終わり選択や出札をしない",
+      "pass": true
+    },
+    {
+      "name": "操作設定の変更で開始前の長押しを取り消す",
+      "pass": true
+    },
+    {
+      "name": "相手の長押しも非アクティブ化後に詳細を開かない",
+      "pass": true
+    },
+    {
+      "name": "通常の相手長押しは詳細を開き標準の長押しメニューを抑える",
+      "pass": true
+    },
+    {
+      "name": "取消直後でもキーボード相当のクリックは利用できる",
+      "pass": true
+    },
+    {
+      "name": "ドロップ後の予測待ち中に中断したら遅い応答で自動出札しない",
+      "pass": true
+    },
+    {
+      "name": "通常の設置ドロップは実Campaignへ一度だけ送る",
+      "pass": true
+    },
+    {
+      "name": "解放や合成クリックが重なっても二重出札しない",
+      "pass": true
+    },
+    {
+      "name": "スクリプトエラーなし",
+      "pass": true
+    }
+  ],
+  "conditions": [
+    "実Campaign＋元MemoryStore＋JSDOM。配布版を操作。",
+    "pointer/capture/画面矩形は明示した入力。予測応答を遅延させ取消と競合させる。",
+    "正式v0.15の入力取消と実測札位置の移植を対象とする。旧検査一式は再実行していない。"
+  ],
+  "limits": [
+    "実描画・物理タッチ・IndexedDB永続化の確認ではない。",
+    "全能力予測・身構統一・D03は未実装のまま。"
+  ],
+  "runtime": {
+    "node": "v24.19.0",
+    "jsdom": "26.1.0"
+  },
+  "sha256": {
+    "docs/検証/UI/readability/co-u02/exploration.js": "e385c6028d80b68d9e08ecbe8adfea1082cc5fc63261fd9560164e7867c38291",
+    "docs/検証/UI/readability/co-u02/dist/crossweave-ui.js": "787746009bc2a3dbe59a661f045a0c723bf9dbdb14eaad189286c79b3d4e6456",
+    "docs/検証/UI/readability/co-u02/journey/verify-gesture-lifecycle.cjs": "c644bcb7938bd12b009ec34f7dc19dcb7c26a415adc6eaaad1ae7b647c7cc610"
+  }
+}

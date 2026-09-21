@@ -1,0 +1,47 @@
+{
+  "id": "CW-M1-DEF-CYCLE-001",
+  "version": "0.1",
+  "base_commit": "c0dbfd69627a4e9d035ff4d00e5cd82626d919c2",
+  "scope": "Offline first-passage content comparison using unchanged Game modules; not production registration, Campaign save compatibility, human play or a balance ranking",
+  "seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+  "player_action_limit": 80,
+  "stop": "V0 retirement, player defeat, diagnostic or player action limit",
+  "target_set_id": "SCN-001-SET-UNRESOLVED",
+  "player_deck_counts": {"l": 2, "fast": 1, "f": 2, "sweep": 1, "h": 2, "read": 1, "salve": 1, "def_cycle_self": 2},
+  "self_duration_variants": [1, null],
+  "self_card": {
+    "type": "def_cycle_self", "name": "回数対照の構え（試行）", "attr": "D", "kind": "guard",
+    "power": 3, "hit": 0, "evasion": 0, "crit_gain": 20, "field_power": -4, "field_hit": 0,
+    "life": 2, "place_cost": 10, "match_cost": 10, "consume_on_recover": null
+  },
+  "support_card": {
+    "type": "def_cycle_support", "name": "周囲への防御付与（試行）", "attr": "B", "kind": "defense_support",
+    "power": 0, "hit": 0, "evasion": 0, "crit_gain": 0, "field_power": 0, "field_hit": 0,
+    "life": 2, "place_cost": 10, "match_cost": 10, "consume_on_recover": null,
+    "defense_grant": {"effect_kind": "ward", "guard": 2, "evasion": 10, "uses": 1}
+  },
+  "supply_variants": [
+    {"id": "original", "copies": 0, "grant": false, "uses": 1},
+    {"id": "blank2", "copies": 2, "grant": false, "uses": 1},
+    {"id": "ward2_u1", "copies": 2, "grant": true, "uses": 1},
+    {"id": "ward2_u2", "copies": 2, "grant": true, "uses": 2},
+    {"id": "blank4", "copies": 4, "grant": false, "uses": 1},
+    {"id": "ward4_u1", "copies": 4, "grant": true, "uses": 1},
+    {"id": "ward4_u2", "copies": 4, "grant": true, "uses": 2}
+  ],
+  "placement": "Replace the first N weak_B positions in ACT01 authored 12-card deck before its existing initial shuffle; initial_card_counts/catalogue updated in temporary content only",
+  "policies": ["progress", "guard_first"],
+  "policy_rules": {
+    "common": "Use only current public state, legal choices and one-action predictions; heal when full printed recovery is useful or expiring with positive recovery; then exclude heal if any nonheal option exists; prefer attacks on V0, sorted by actual HP loss, posture gain, printed power, shorter remaining lifetime, card_id; fallback positive guard then shortest lifetime/cost/id. NPC policy unchanged.",
+    "progress": "Use common priority; no extra guard preference ahead of attacks",
+    "guard_first": "Before attacks, use a positive self-guard match only when no self_guard effect is active; use the same public action ordering otherwise",
+    "limits": "Neither policy preserves a stance by refusing a legal attack, predicts NPC choices or optimizes multi-action routes; they are probes, not player style models"
+  },
+  "control_notes": [
+    "Same attributes, amount and deck for 1-use and unlimited self effect; this isolates duration and does not rank sustained guard versus a higher-evasion dodge card",
+    "blank controls have kind none and no defense_grant, otherwise the same support-card values and positions; distinguish removal of weak attacks from the additional grants",
+    "Matched support ignores field amount modifiers under the existing declared support implementation; positive/negative support material scaling remains outside this numeric trial",
+    "No forced redraw, immediate regeneration, dedicated replenishment, passive defense, new enemy AI or extra economy",
+    "All inputs fixed before the batch; include every seed, defeat and censored run; do not select success cases"
+  ]
+}

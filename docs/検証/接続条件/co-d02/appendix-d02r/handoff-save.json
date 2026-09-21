@@ -1,0 +1,54 @@
+{
+  "task": "CO-D02R",
+  "work_id": "20260909-design-assembly",
+  "recorded_at_jst": "2026-09-18T10:40:51.307024+09:00",
+  "purpose": "会話引継ぎの復元・保存前照合。ゲーム試験の新規実行ではない。",
+  "source_base_commit": "7c2a43dd34ce4c770589d812530545b8fed17881",
+  "plan_commit": "92d6298e92fb36d737a617740d668c88b0800d08",
+  "ui_reference_commit": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
+  "recovery": {
+    "manifest": "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/manifest.json",
+    "patch_sha256": "fde07470fadb876d041e978e373341d71449c92c449acc2ec6fcd19e8f7bc819",
+    "paths_matched": 38,
+    "mode_blob_sha256_match": true,
+    "recovered_tree_before_plan_sync": "2faec318dea20103bb6849c2454a71ec6e4d8677",
+    "original_worktree_preserved": true,
+    "isolated_checkout": "/workspace/scratch/da0c00905e8e/crossweave-design",
+    "handoff_reason": "旧会話の長さ上限（ユーザー申告）。同じWorkID・担当枠を継承。旧会話を再起動せず元コピーは保全。"
+  },
+  "plan_sync": {
+    "scope": "docs/作業資料/とりまとめ/",
+    "file_count": 17,
+    "all_blobs_match": true,
+    "whole_branch_merged": false
+  },
+  "reused_verification": {
+    "freeze": "code-06.json",
+    "code_and_input_sha256_matches": 23,
+    "protected_original_files": 8,
+    "ui_original_blobs": 232,
+    "runtime_checks_passed_in_original_run": 26,
+    "one_step_states": 8,
+    "ui_checks_passed_in_original_run": 12,
+    "result_and_example_hashes_match": true,
+    "conditions_and_artifact_check_preserved": true,
+    "game_test_reruns": 0,
+    "ui_test_reruns": 0,
+    "reason_no_rerun": "復元コード・入力・UI原本・結果が固定版と完全一致。今回の追加変更は計画コピーと提出記録のみ。",
+    "pt_nt_tree": "7bb3ba7ff8912bad0379341a26cbfabb941a34c7"
+  },
+  "pr_1": "open/draft/unmerged; selected UI receipt already saved in base commit",
+  "remaining": [
+    "UI追加APIの描画接続と担当の受領",
+    "実ブラウザーの描画・物理入力・IndexedDB・閉じた後の再開・実別タブ",
+    "人の受入・選択理由・反復と面白さ"
+  ],
+  "user_decision": "CO-D02R-J01: 未採用、採否待ち。現行演算維持。",
+  "publication_status": "通常保存とGitHub読戻しへ。成果SHAは後続save-readback.jsonに記録する。",
+  "prepublication_heads_rechecked": {
+    "design": "7c2a43dd34ce4c770589d812530545b8fed17881",
+    "plan": "92d6298e92fb36d737a617740d668c88b0800d08",
+    "ui": "ac610be8e07ee026c8330b72ec7e9e8ee8780346"
+  },
+  "whitespace_check": "同期した復元patchの空行コンテキスト9行のみを検出。元blob維持のため変更せず、他の提出差分は問題なし。"
+}

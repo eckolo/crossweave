@@ -1,0 +1,146 @@
+{
+  "id": "CW-M1-UI-001",
+  "group": "fixed-screen-v0.4",
+  "result": "pass",
+  "count": 32,
+  "checks": [
+    {
+      "name": "return summary and a separate text-only reading window replace the full result scroller",
+      "pass": true
+    },
+    {
+      "name": "an unobserved main text cannot be silently marked or advanced",
+      "pass": true
+    },
+    {
+      "name": "only observed main text IDs are recorded; closed optional detail stays unread",
+      "pass": true
+    },
+    {
+      "name": "opening optional text alone does not count as displaying it",
+      "pass": true
+    },
+    {
+      "name": "visible optional text is recorded through the actual Campaign",
+      "pass": true
+    },
+    {
+      "name": "resize preserves the reading-window position and open optional text",
+      "pass": true
+    },
+    {
+      "name": "receipt details keep materials and unlocks accessible without scrolling the main screen",
+      "pass": true
+    },
+    {
+      "name": "one destination action acknowledges return and reaches the real home phase",
+      "pass": true
+    },
+    {
+      "name": "destination purpose and equipped contents are accessible in a small window",
+      "pass": true
+    },
+    {
+      "name": "every deck entry including the last is reachable by bounded pages at 320px",
+      "pass": true
+    },
+    {
+      "name": "resize 1024 keeps the requested ratio, logical list position and pinned detail",
+      "pass": true
+    },
+    {
+      "name": "page geometry 1024 reserves two 44px action bands and fits full-sized card controls",
+      "pass": true
+    },
+    {
+      "name": "resize 736 keeps the requested ratio, logical list position and pinned detail",
+      "pass": true
+    },
+    {
+      "name": "page geometry 736 reserves two 44px action bands and fits full-sized card controls",
+      "pass": true
+    },
+    {
+      "name": "resize 600 keeps the requested ratio, logical list position and pinned detail",
+      "pass": true
+    },
+    {
+      "name": "page geometry 600 reserves two 44px action bands and fits full-sized card controls",
+      "pass": true
+    },
+    {
+      "name": "resize 320 keeps the requested ratio, logical list position and pinned detail",
+      "pass": true
+    },
+    {
+      "name": "page geometry 320 reserves two 44px action bands and fits full-sized card controls",
+      "pass": true
+    },
+    {
+      "name": "expanding then shrinking returns to the same final deck page",
+      "pass": true
+    },
+    {
+      "name": "editing the last page changes the intended card and invalid size disables confirmation",
+      "pass": true
+    },
+    {
+      "name": "undoing the card edit restores the original real draft",
+      "pass": true
+    },
+    {
+      "name": "all public skill choices share the same bounded card grid",
+      "pass": true
+    },
+    {
+      "name": "one-step skill/deck switching preserves the draft and final deck page",
+      "pass": true
+    },
+    {
+      "name": "shared draft and skill page survive both tab switching and resize",
+      "pass": true
+    },
+    {
+      "name": "current and proposed money remain labeled in the compact header",
+      "pass": true
+    },
+    {
+      "name": "comparison contains the actual skill change while confirm/depart stay outside the scrolling body",
+      "pass": true
+    },
+    {
+      "name": "confirmation commits the actual skill and money, with no residual draft",
+      "pass": true
+    },
+    {
+      "name": "unavailable acquisition explains the D03 dependency instead of an empty inventory or lack of funds",
+      "pass": true
+    },
+    {
+      "name": "departure and the text-window continue action reach actual exploration",
+      "pass": true
+    },
+    {
+      "name": "suspend opens a bounded start view with resume in the fixed action band",
+      "pass": true
+    },
+    {
+      "name": "resume returns to the same actual exploration",
+      "pass": true
+    },
+    {
+      "name": "no script errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "node": "v24.19.0",
+  "conditions": [
+    "Real Campaign + original MemoryStore; original natural return save.",
+    "JSDOM; explicit visibility and resize callbacks. Layout function uses 1024/736/600/320px inputs."
+  ],
+  "limits": [
+    "Geometry and DOM reachability are not browser paint, clipping, physical scroll or touch evidence.",
+    "IndexedDB and user acceptance remain unverified. Prior groups were not rerun or counted."
+  ]
+}

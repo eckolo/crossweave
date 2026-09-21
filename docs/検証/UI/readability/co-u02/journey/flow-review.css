@@ -1,0 +1,17 @@
+/* v0.6: visible destinations for a selection, stable parent/child navigation. */
+#crossweave-journey .cj-build-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:6px 16px}
+#crossweave-journey .cj-build-list>li{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0;padding:5px 0;border-bottom:1px solid light-dark(#c8d2bf,#4d624a)}
+#crossweave-journey .cj-build-list>li>span{overflow-wrap:anywhere}
+#crossweave-journey .cj-build-list b{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+#crossweave-journey [data-inspect-key^="records:"],#crossweave-journey [data-inspect-key^="record:"],#crossweave-journey [data-inspect-key^="target:"]{grid-template-rows:44px minmax(0,1fr)}
+#crossweave-journey [data-layout="records-child"]{gap:8px}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-top{padding:0 4px;min-height:44px}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-top h2{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-top .cj-button{min-width:44px;min-height:44px;padding:0}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-top .cj-record-back{min-width:64px;gap:2px;font-size:12px}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-scroll{padding:10px;gap:10px}
+#crossweave-journey [data-layout="records-child"] .cj-inspect-scroll>h3{margin:0}
+@container(max-width:620px){
+ #crossweave-journey [data-inspector][data-layout="records-child"]{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:0}
+ #crossweave-journey [data-layout="records-child"]>[data-inspect-key^="records:"]{display:none}
+}

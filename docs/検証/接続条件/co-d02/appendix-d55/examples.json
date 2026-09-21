@@ -1,0 +1,3187 @@
+{
+  "test_id": "CW-M1-D55-001",
+  "fixtures": [
+    {
+      "name": "攪乱で削り0でも2回→1回、双方の機転を保持",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "input_sha256": "b8ddae4f6ced2c56012500a4dc8ea9a0298a91bf9694438271e9b8f4157daaa3",
+      "expected": {
+        "action": {
+          "hit_gain": 0,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "crit": 105
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 1,
+            "guard_evasion": 20,
+            "crit": 125,
+            "hit": 0
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 100,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 80,
+                "after": 105,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 2,
+                "delta": 1
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 125,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 3,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 1,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              },
+              "after": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 1
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "体勢未到達でも最終回を消費",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "input_sha256": "f28fd277630cbbe972c25e4006917afd5e6d129514a2e03a18b6847329ca3680",
+      "expected": {
+        "action": {
+          "hit_gain": 10,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 125,
+            "hit": 10
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 10,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 90,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 90,
+                "delta": -10
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 125,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 0,
+                "delta": -3
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 0,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 0,
+                "uses": 1
+              },
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "最後の攪乱は今回の攻撃に適用してから終了",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      },
+      "input_sha256": "d8c1d62891e36b8a2902e946d1bb0d40c5faf567f632a417ba35acdcb7bae5e4",
+      "expected": {
+        "action": {
+          "hit_gain": 0,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "guard_evasion": 0,
+            "evasion": 0,
+            "crit": 125,
+            "hit": 0
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 100,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 125,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 0,
+                "delta": -3
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 0,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 1
+              },
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "身構で0ダメージでも一回消費、機転はダメージ解決時に消費",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      },
+      "input_sha256": "40aa4ca782f22830b8eb3fc586f965dddfa073417adbbde95cd03fbf8655e9ba",
+      "expected": {
+        "action": {
+          "hit_gain": 100,
+          "hit_connected": true,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "crit": 0
+          },
+          "E1": {
+            "guard": 9,
+            "guard_uses": 1,
+            "crit": 0,
+            "hit": 0
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 100,
+        "hit_connected": true,
+        "posture_before": 1,
+        "posture_after": 100,
+        "posture_overflow": 99,
+        "posture_multiplier": 1,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 80,
+                "after": 0,
+                "delta": -80
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 99,
+                "after": 0,
+                "delta": -99
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 100,
+                "delta": 99
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 0,
+                "delta": -125
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 1,
+                "delta": -1
+              },
+              "guard": {
+                "status": "known",
+                "before": 9,
+                "after": 9,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 1,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 9,
+                "evasion": 0,
+                "uses": 2
+              },
+              "after": {
+                "value": 9,
+                "evasion": 0,
+                "uses": 1
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "最後の身構を軽減へ適用後に解除し二重消費しない",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      },
+      "input_sha256": "0de1a7103906156bf5dbb8a2cb004cba53776bd33b5e7a678992cac3042b3a4c",
+      "expected": {
+        "action": {
+          "hit_connected": true,
+          "actual_hp_loss": 2
+        },
+        "actors": {
+          "E1": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 0,
+            "hit": 0
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 2,
+        "hit_gain": 100,
+        "hit_connected": true,
+        "posture_before": 1,
+        "posture_after": 100,
+        "posture_overflow": 99,
+        "posture_multiplier": 1,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 80,
+                "after": 0,
+                "delta": -80
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 22,
+                "delta": -2
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 99,
+                "after": 0,
+                "delta": -99
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 100,
+                "delta": 99
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 0,
+                "delta": -125
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 1,
+                "delta": -1
+              },
+              "guard": {
+                "status": "known",
+                "before": 2,
+                "after": 0,
+                "delta": -2
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 0,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 2,
+                "evasion": 0,
+                "uses": 1
+              },
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "他の主体が攻撃されても回数を消費しない",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "V0"
+      },
+      "input_sha256": "1700ebc48c55677762f5145b732f32c6b0922e07a2362b8c9e572e81ba1058e7",
+      "expected": {
+        "actors": {
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2,
+            "guard_evasion": 20
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 12,
+        "hit_gain": 10,
+        "hit_connected": true,
+        "posture_before": 1,
+        "posture_after": 1,
+        "posture_overflow": 9,
+        "posture_multiplier": 1,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 28,
+                "delta": -12
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 3,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              },
+              "after": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "不一致の設置では自分と他者の防御を維持",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      },
+      "input_sha256": "27f19dd99d7047adfe95ae228b573816aed8405e31b2962f1df06098f6c64134",
+      "expected": {
+        "action": {
+          "mode": "place"
+        },
+        "actors": {
+          "P": {
+            "guard": 4,
+            "guard_uses": 1
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      },
+      "preview": {
+        "mode": "place",
+        "crit_added": 0,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": null,
+        "posture_after": null,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 4,
+                "after": 4,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 10,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 10,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 4,
+                "evasion": 10,
+                "uses": 1
+              },
+              "after": {
+                "value": 4,
+                "evasion": 10,
+                "uses": 1
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 3,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              },
+              "after": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "回復一致は従来どおり本人の防御解除、他者は消費しない",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      },
+      "input_sha256": "3dce3b57ec5d3f5f6523bdeae7ebce6c799663fe52dd6e7a23303bee267e2392",
+      "expected": {
+        "action": {
+          "mode": "heal",
+          "hp_restored": 10
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 0
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      },
+      "preview": {
+        "mode": "heal",
+        "crit_added": 10,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": null,
+        "posture_after": null,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 10,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 30,
+                "after": 40,
+                "delta": 10
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 10,
+                "delta": 10
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 4,
+                "after": 0,
+                "delta": -4
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 0,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 0,
+                "delta": -10
+              },
+              "evasion": {
+                "status": "known",
+                "before": 10,
+                "after": 0,
+                "delta": -10
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 4,
+                "evasion": 10,
+                "uses": 1
+              },
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 3,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              },
+              "after": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "防御一致は従来の新しい二回防御へ置換",
+      "actor": "P",
+      "choice": {
+        "card_id": "P_initial_0004",
+        "target": null
+      },
+      "input_sha256": "bcbf78d7ff44b2bfb9ac89e89f6e7ace5f690dbfab39f95280ea20a252603e7c",
+      "expected": {
+        "action": {
+          "mode": "guard"
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 2,
+            "guard_evasion": 0
+          },
+          "E1": {
+            "guard": 3,
+            "guard_uses": 2
+          }
+        }
+      },
+      "preview": {
+        "mode": "guard",
+        "crit_added": 20,
+        "actual_hp_loss": 0,
+        "hit_gain": 0,
+        "hit_connected": false,
+        "posture_before": null,
+        "posture_after": null,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": {
+          "value": 0,
+          "evasion": 0,
+          "uses": 2
+        },
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 20,
+                "delta": 20
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 9,
+                "after": 0,
+                "delta": -9
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 2,
+                "delta": 1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 9,
+                "evasion": 20,
+                "uses": 1
+              },
+              "after": {
+                "value": 0,
+                "evasion": 0,
+                "uses": 2
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 3,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 20,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              },
+              "after": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 2
+              }
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "NPCから本人への攻撃も同じ消費規則",
+      "actor": "E1",
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "P"
+      },
+      "input_sha256": "c4a7ce7fedc5db1804ae480a0f38cf294c4418fea2da093bcc99b71a2459db17",
+      "expected": {
+        "action": {
+          "hit_gain": 80,
+          "hit_connected": false,
+          "actual_hp_loss": 0
+        },
+        "actors": {
+          "P": {
+            "guard": 0,
+            "guard_uses": 0,
+            "crit": 125,
+            "hit": 80
+          }
+        }
+      },
+      "preview": {
+        "mode": "attack",
+        "crit_added": 25,
+        "actual_hp_loss": 0,
+        "hit_gain": 80,
+        "hit_connected": false,
+        "posture_before": 100,
+        "posture_after": 20,
+        "posture_overflow": 0,
+        "posture_multiplier": 0,
+        "hp_restored": 0,
+        "passives": [],
+        "action_cost": 10,
+        "guard": null,
+        "resolution_scope": "after_current_action_before_next_actor",
+        "actor_changes": {
+          "P": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 80,
+                "delta": 80
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 20,
+                "delta": -80
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 125,
+                "after": 125,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 2,
+                "after": 2,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 3,
+                "after": 0,
+                "delta": -3
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 1,
+                "after": 0,
+                "delta": -1
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "evasion": {
+                "status": "known",
+                "before": 20,
+                "after": 0,
+                "delta": -20
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": {
+                "value": 3,
+                "evasion": 20,
+                "uses": 1
+              },
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "V0": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 40,
+                "after": 40,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          },
+          "E1": {
+            "status": "known",
+            "values": {
+              "hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "max_hp": {
+                "status": "known",
+                "before": 24,
+                "after": 24,
+                "delta": 0
+              },
+              "hit": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "posture_remaining": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "max_posture": {
+                "status": "known",
+                "before": 100,
+                "after": 100,
+                "delta": 0
+              },
+              "crit": {
+                "status": "known",
+                "before": 0,
+                "after": 25,
+                "delta": 25
+              },
+              "critical_multiplier": {
+                "status": "known",
+                "before": 1,
+                "after": 1,
+                "delta": 0
+              },
+              "guard": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_uses": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "guard_evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "evasion": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              },
+              "reduction": {
+                "status": "known",
+                "before": 0,
+                "after": 0,
+                "delta": 0
+              }
+            },
+            "active": {
+              "before": true,
+              "after": true
+            },
+            "stance": {
+              "before": null,
+              "after": null
+            },
+            "persistent_sources": {
+              "before": [],
+              "after": []
+            }
+          }
+        }
+      }
+    }
+  ]
+}

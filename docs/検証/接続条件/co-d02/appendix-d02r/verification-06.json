@@ -1,0 +1,398 @@
+{
+  "id": "CW-M1-A-002",
+  "node": "v24.19.0",
+  "checks": [
+    {
+      "name": "旧自然保存 entry の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 entry の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 port の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 port の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 home の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 home の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "旧自然保存 second-return の無変更open・純粋inspect・輸入互換",
+      "pass": true
+    },
+    {
+      "name": "旧履歴 second-return の欠損札名を推定しない",
+      "pass": true
+    },
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0005",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "汐留めで身構置換・常時攪乱込みの総量",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1",
+        "V1"
+      ],
+      "choice": {
+        "card_id": "V1_initial_0047",
+        "target": null
+      }
+    },
+    {
+      "name": "回復一致は上限まで4回復し旧身構が終わる",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0011",
+        "target": null
+      }
+    },
+    {
+      "name": "被攻撃の二回身構は一回残る",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "支援源撃破で本人と別主体の常時作用が消える",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "E1"
+      }
+    },
+    {
+      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
+      "pass": true,
+      "actors": [
+        "P",
+        "V0",
+        "E1"
+      ],
+      "choice": {
+        "card_id": "P_initial_0001",
+        "target": "V0"
+      }
+    },
+    {
+      "name": "全8予測の保存・revision・乱数不変、staleはnull、未知札順／乱数に非依存",
+      "pass": true
+    },
+    {
+      "name": "解決時の本人／NPC札名を実保存・再開・同要求再送で維持、保存失敗は不変",
+      "pass": true
+    },
+    {
+      "name": "履歴名は現在の札名で置換せず、旧欠損はnull、破損追加値は拒否",
+      "pass": true
+    },
+    {
+      "name": "借入札も本人山札で参照、初期／手札／残数／消滅予定を分離、順と他者内訳は非公開",
+      "pass": true
+    },
+    {
+      "name": "本人の公開山札で知った未ドロー札を帰還時も保持する",
+      "pass": true
+    },
+    {
+      "name": "公開主体だけを版付き調査キーへ接続、本人はself、未遭遇対象は追加しない",
+      "pass": true
+    },
+    {
+      "name": "過去本文の公開／既読を分離、未読任意詳細は出さず、実表示後の本文とCL05を帰還再開でも保持",
+      "pass": true
+    },
+    {
+      "name": "追加応答に内部乱数・未来定義・request履歴・本文条件を含めない",
+      "pass": true
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "設置は身構・機転を保持し回復草でも回復しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": false,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 30,
+          "crit": 125,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "758a332ebb1ccd91ff63dbcb12cc50e3c27dbfad9da23a49ecf653030fbc69c3",
+      "forecast_sha256": "46f5a8ce18441606bbe9b87afcf51bbca7ec94360d132a509ed8b5985ef4ac77"
+    },
+    {
+      "name": "攻撃一致で本人の身構終了・機転消費・相手の一回防御終了",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "P": {
+          "crit": 80,
+          "guard": {
+            "value": 4,
+            "evasion": 7,
+            "uses": 2
+          }
+        },
+        "E1": {
+          "hit": 99,
+          "crit": 120,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 1
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "a9a69b0dc8c504477941ba3403a4a198f2344b00e36c06e7e371d05e03987d5e",
+      "forecast_sha256": "1e6aae803eba72d332484e35616b28004f7fbd6e567bfa7d63c13cdf954d860c"
+    },
+    {
+      "name": "届かない攻撃は機転を保持し防御回数を消費しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "h",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "h",
+      "changes": {
+        "P": {
+          "crit": 80
+        },
+        "E1": {
+          "hit": 0,
+          "crit": 120,
+          "guard": {
+            "value": 3,
+            "evasion": 20,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "28e33d9ace7435375bd4d341f2ab7c7bb1288b95bf3103a557afbc3e4352c1a6",
+      "forecast_sha256": "5564d258d3f4b5628e2684aa81ee8c2fd1ff979e461388479464eaa2daa48e7e"
+    },
+    {
+      "name": "汐留めで身構置換・常時攪乱込みの総量",
+      "source": "port.save.json.gz",
+      "type": "nt_stop",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "nt_stop",
+      "changes": {
+        "P": {
+          "guard": {
+            "value": 9,
+            "evasion": 30,
+            "uses": 1
+          }
+        },
+        "V1": {
+          "passives": [
+            {
+              "target": "P",
+              "kind": "evasion",
+              "value": 20
+            },
+            {
+              "target": "P",
+              "kind": "damage_reduction",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "e2f8bf5e0f70cd4f770e7a829a208208bf8909228f110393f51362d2d20df635",
+      "forecast_sha256": "cbb0e993cd5403da6580e63abd7977e9233b05703bbebd32a9e20ed3bcc2a473"
+    },
+    {
+      "name": "回復一致は上限まで4回復し旧身構が終わる",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "salve",
+      "matched": true,
+      "target": "E1",
+      "fieldType": null,
+      "changes": {
+        "P": {
+          "hp": 36,
+          "guard": {
+            "value": 5,
+            "evasion": 30,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "44ccd72434f01eb7b1641b6425cbf7bdb58726f4f9d9ae75fac5bef5d40ce68c",
+      "forecast_sha256": "d0481f37779043950ae3f086d6f387cfa3dee1633c5c83d197940bf693074c0e"
+    },
+    {
+      "name": "被攻撃の二回身構は一回残る",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "E1": {
+          "hit": 99,
+          "guard": {
+            "value": 1,
+            "evasion": 0,
+            "uses": 2
+          }
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "2777a2f1af1550df51d1b59e7f2ee295d63978c0bd11a9e800e43abb7df65700",
+      "forecast_sha256": "bfb8ac23a8d2e0499c2279b1911e8c40fa4d1223573a04b84dd4101e88b6b24b"
+    },
+    {
+      "name": "支援源撃破で本人と別主体の常時作用が消える",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "E1",
+      "fieldType": "f",
+      "changes": {
+        "E1": {
+          "hp": 1,
+          "hit": 99,
+          "passives": [
+            {
+              "target": "P",
+              "kind": "evasion",
+              "value": 20
+            },
+            {
+              "target": "V0",
+              "kind": "damage_reduction",
+              "value": 8
+            }
+          ]
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "06f21ff844455ba429cc54b308442804867f1b1deb21c99b7084e5494e310448",
+      "forecast_sha256": "765f063ae07e663d85f45c8a5f98f17890ca547f10e9b1f91fb750978f70b139"
+    },
+    {
+      "name": "環境踏破の退場まで予測し新しい相手を先に公開しない",
+      "source": "entry.save.json.gz + public continue_scene",
+      "type": "f",
+      "matched": true,
+      "target": "V0",
+      "fieldType": "f",
+      "changes": {
+        "V0": {
+          "hp": 1,
+          "hit": 0
+        },
+        "E1": {
+          "passives": [
+            {
+              "target": "P",
+              "kind": "evasion",
+              "value": 20
+            }
+          ]
+        }
+      },
+      "description": "entry public continue; move current cards as arranged(), preserve registry and provenance",
+      "input_sha256": "3734bf6b9d14bed82862908ac430351d574ac8659ab86a0ac2bdac7e7079f0af",
+      "forecast_sha256": "8c2ab9799688249d9a9271c5e8af62e4d476621d2acd17ef2fc6ec10fee0125c"
+    }
+  ],
+  "one_step_comparisons": 8,
+  "protected_old_saves": 5,
+  "old_natural_run_replays": 0,
+  "old_comparison_replays": 0,
+  "actual_browser": false
+}
