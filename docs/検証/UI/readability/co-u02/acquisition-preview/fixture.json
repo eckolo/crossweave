@@ -1,5 +1,5 @@
 {
-  "version": "two-stage-ui-2",
+  "version": "two-stage-ui-3",
   "source_design": "7565afca98684186705a4e865d4fdf0e0ae489c1",
   "notes": "UI操作確認専用。開始残高6・候補価格4/8・所持の数量は固定入力。新しい経済・初期配布の採用値ではない。",
   "rules": {
@@ -504,17 +504,27 @@
       },
       "equipment_cost": 3
     },
-    "AO1:passive:PS03:swift": {
-      "key": "AO1:passive:PS03:swift",
-      "name": "速効の・借り札の守り",
-      "base_name": "借り札の守り",
-      "base_id": "PS03",
+    "AO1:passive:PS01:borrowed:focused_B:sluggish": {
+      "key": "AO1:passive:PS01:borrowed:focused_B:sluggish",
+      "name": "借り技の・B属性に専心する・鈍重な・守りからの設置",
+      "base_name": "守りからの設置",
+      "base_id": "PS01",
       "kind": "passive",
       "affixes": [
         {
-          "id": "swift",
-          "label": "速効の",
-          "description": "効果量-1／行動間隔-1"
+          "id": "borrowed",
+          "label": "借り技の",
+          "description": "他主体由来の札に限定／効果量+1"
+        },
+        {
+          "id": "focused_B",
+          "label": "B属性に専心する",
+          "description": "B属性の札に限定／効果量+1"
+        },
+        {
+          "id": "sluggish",
+          "label": "鈍重な",
+          "description": "行動間隔+1"
         }
       ],
       "primary": null,
@@ -522,13 +532,16 @@
       "life": null,
       "action_intervals": null,
       "recovery_rule": null,
-      "trigger_text": "他主体由来の札で本人が一致し、その後に防御一致",
-      "effect_text": "今回の身構の基礎値を1加算／行動間隔を1短縮（最小1）",
+      "trigger_text": "直前の本人行動が防御一致で、今回が設置／今回の札が他主体由来／今回の札がB属性",
+      "effect_text": "行動間隔を3短縮（最小1）",
       "effect": {
-        "field": "power",
-        "value": 1,
-        "action_interval_discount": 1,
-        "gates": []
+        "field": "discount",
+        "value": 4,
+        "action_interval_discount": -1,
+        "gates": [
+          "borrowed",
+          "attribute_B"
+        ]
       },
       "equipment_cost": 2
     },
@@ -610,8 +623,8 @@
       "price": 4
     },
     {
-      "id": "offer-guard",
-      "key": "AO1:passive:PS03:swift",
+      "id": "offer-long",
+      "key": "AO1:passive:PS01:borrowed:focused_B:sluggish",
       "price": 4
     },
     {

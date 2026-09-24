@@ -30,11 +30,11 @@ function button(text,action,{key='',id='',uid='',zone='',disabled=false,primary=
 }
 function stateText(key){return (owned(key)?'所持 '+owned(key):'未所持')+(pending(key)?' → '+available(key):'')+' · 編成 '+selected(key);}
 __LAYOUT__
-function mutate(action,key,id,uid){
+function mutate(action,key,id,uid,destination='reserve'){
  if(action==='stage'){
   if(!offer(id)||draft.offers.includes(id)||current.purchased.includes(id))return;
   if(draft.offers.length+current.purchased.length>=fixture.rules.offerLimit){notify('今回の取得予定は1点までです。');return;}
-  draft.offers.push(id);revealUnit('reserve','pending-'+id,offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。着想はまだ支払っていません。');
+  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push('pending-'+id);revealUnit(destination,'pending-'+id,offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
  }else if(action==='unstage'){
   if(!draft.offers.includes(id))return;
   draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!=='pending-'+id);
@@ -55,21 +55,23 @@ function mutate(action,key,id,uid){
  }
  render();
 }
+__GESTURES__
 root.addEventListener('click',event=>{
+ if(event.detail!==0&&Date.now()<suppressUntil){event.preventDefault();return;}
+ cancelGesture(false);
  const b=event.target.closest('button[data-action]');if(!b||!root.contains(b)||b.disabled)return;
  const {action,key,id,uid,zone}=b.dataset;
- if(action==='tab'){view.tab=id;view.pages={offer:0,reserve:0,build:0};render();}
- else if(action==='next'||action==='prev'){view.pages[zone]+=action==='next'?1:-1;render();}
+ if(action==='tab'){view.tab=id;render();}
  else if(action==='detail')openDialog('detail',key,id,uid,zone);
- else if(action==='lane')openDialog('lane',null,null,null,zone);
  else if(action==='review')openDialog('review');
  else if(action==='close')closeDialog();
- else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render();notify('操作案を最初の状態に戻しました。');}
+ else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render(false);notify('操作案を最初の状態に戻しました。');}
  else mutate(action,key,id,uid);
 });
 overlay.addEventListener('click',event=>{if(event.target===overlay)closeDialog();});
 root.addEventListener('keydown',event=>{
- if(!view.dialog)return;
+ if(event.key==='Escape'&&gesture){event.preventDefault();cancelGesture();return;}
+ if(!view.dialog){const grid=event.target.closest('[data-scroll-zone]');if(grid&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();grid.scrollLeft+=event.key==='ArrowLeft'?-134:134;saveScroll();}return;}
  if(event.key==='Escape'){event.preventDefault();closeDialog();}
  if(event.key==='Tab'){
   const buttons=[...overlay.querySelectorAll('button:not(:disabled)')],first=buttons[0],last=buttons.at(-1);
