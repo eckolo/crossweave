@@ -1,2 +1,2 @@
-// Current targeted checks. Prior v1/v2 suites and results remain in history.
-require('./verify-drag.cjs');
+// Current layout checks. Prior interaction suites and results remain in history.
+require('./verify-wide.cjs');

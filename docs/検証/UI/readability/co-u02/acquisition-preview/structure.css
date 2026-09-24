@@ -1,4 +1,4 @@
-#cw-acquisition-review{container-type:inline-size;color-scheme:light dark;max-width:1280px;margin:auto;--cp-ink:light-dark(#243d35,#e6ece3);--cp-muted:light-dark(#586e63,#b0c0b3);--cp-line:light-dark(#bac9ba,#52685b);--cp-paper:light-dark(#fcfcf5,#2b3d34);--cp-active:light-dark(#315849,#c6d9ba);--cp-on-active:light-dark(#fffef5,#193224);--cp-piece-width:128px;--cp-piece-height:112px;color:var(--cp-ink);font:14px/1.5 system-ui,-apple-system,"Noto Sans JP",sans-serif}
+#cw-acquisition-review{container-type:inline-size;color-scheme:light dark;max-width:1280px;margin:auto;--cp-ink:light-dark(#243d35,#e6ece3);--cp-muted:light-dark(#586e63,#b0c0b3);--cp-line:light-dark(#bac9ba,#52685b);--cp-paper:light-dark(#fcfcf5,#2b3d34);--cp-active:light-dark(#315849,#c6d9ba);--cp-on-active:light-dark(#fffef5,#193224);--cp-piece-width:212px;--cp-piece-height:48px;color:var(--cp-ink);font:14px/1.5 system-ui,-apple-system,"Noto Sans JP",sans-serif}
 #cw-acquisition-review *{box-sizing:border-box;min-width:0}
 #cw-acquisition-review [hidden]{display:none!important}
 #cw-acquisition-review h2,#cw-acquisition-review h3,#cw-acquisition-review p{margin:0}
@@ -21,28 +21,32 @@
 #cw-acquisition-review nav .cp-button{border-radius:0;border:none;padding:0 20px}
 #cw-acquisition-review .cp-wallet{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
 #cw-acquisition-review .cp-wallet-next{display:inline-flex;align-items:center;gap:5px;border:1px dashed var(--cp-line);padding:2px 8px;border-radius:5px}
-#cw-acquisition-review .cp-main{display:grid;gap:6px;padding:6px;min-height:0;overflow-x:auto;overflow-y:hidden;touch-action:none;overscroll-behavior:contain;scrollbar-width:thin;align-items:stretch;justify-content:start}
+#cw-acquisition-review .cp-main{display:grid;gap:4px;padding:4px;min-height:0;overflow-x:auto;overflow-y:hidden;touch-action:none;overscroll-behavior:contain;scrollbar-width:thin;align-items:stretch;justify-content:start}
 #cw-acquisition-review .cp-lane{display:grid;grid-template-rows:32px minmax(0,1fr);min-height:0}
+#cw-acquisition-review .cp-main[data-orientation="rows"] .cp-lane{grid-template-columns:52px minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
+#cw-acquisition-review .cp-main[data-orientation="rows"] .cp-lane-head{justify-content:center;padding:2px}
+#cw-acquisition-review .cp-main[data-orientation="rows"] .cp-lane-title{flex-direction:column;gap:0;line-height:14px;font-size:11px}
+#cw-acquisition-review .cp-main[data-orientation="rows"] .cp-lane-title svg{width:14px;height:14px}
 #cw-acquisition-review .cp-lane-head{display:flex;align-items:center;gap:2px;position:relative}
 #cw-acquisition-review .cp-lane-title{display:flex;gap:5px;align-items:center;font-size:12px;white-space:nowrap}
 #cw-acquisition-review .cp-lane-title strong{font-size:11px;font-variant-numeric:tabular-nums;color:var(--cp-muted)}
-#cw-acquisition-review .cp-lane-grid{display:grid;grid-template-rows:repeat(var(--cp-rows),var(--cp-piece-height));grid-auto-flow:column;grid-auto-columns:var(--cp-piece-width);align-content:start;justify-content:start;gap:6px;padding:6px;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;touch-action:none;user-select:none}
-#cw-acquisition-review .cp-lane-offer .cp-lane-grid{border-bottom:4px solid light-dark(#bdb69a,#4b5846)}
+#cw-acquisition-review .cp-lane-grid{display:grid;grid-template-columns:repeat(var(--cp-columns),var(--cp-piece-width));grid-auto-rows:var(--cp-piece-height);grid-auto-flow:row;align-content:start;justify-content:start;gap:2px;padding:2px;min-height:0;overflow:auto;scrollbar-gutter:stable;overscroll-behavior:contain;scrollbar-width:thin;touch-action:none;user-select:none}
+#cw-acquisition-review .cp-lane-offer .cp-lane-grid{box-shadow:inset 0 -2px light-dark(#bdb69a,#4b5846)}
 #cw-acquisition-review .cp-lane-reserve .cp-lane-grid{background:light-dark(#e8eddf,#26362b);box-shadow:inset 1px 0 var(--cp-line),inset -1px 0 var(--cp-line),inset 0 -4px var(--cp-line);border-radius:0 0 8px 8px}
 #cw-acquisition-review .cp-lane-build .cp-lane-grid{background:light-dark(#dce6d2,#213727);border-radius:6px;box-shadow:inset 0 0 0 1px light-dark(#b3c4a4,#4e6545)}
-#cw-acquisition-review .cp-piece{position:relative;display:grid;grid-template-rows:64px 44px;width:var(--cp-piece-width);height:var(--cp-piece-height);border:2px solid var(--cp-line);border-radius:5px;background:var(--cp-paper);isolation:isolate;flex:none}
+#cw-acquisition-review .cp-piece{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 44px;grid-template-rows:44px;width:var(--cp-piece-width);height:var(--cp-piece-height);border:2px solid var(--cp-line);border-radius:5px;background:var(--cp-paper);isolation:isolate;flex:none}
 #cw-acquisition-review .cp-build{border-color:light-dark(#58754a,#809c6b)}
 #cw-acquisition-review .cp-pending{border-style:dashed;border-color:light-dark(#846838,#dbbd78);background:repeating-linear-gradient(135deg,light-dark(#faf8ed,#343d2b),light-dark(#faf8ed,#343d2b) 8px,light-dark(#f1ebd7,#3d442c) 8px,light-dark(#f1ebd7,#3d442c) 10px)}
-#cw-acquisition-review .cp-piece>.cp-button{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:42px 14px;gap:2px;min-height:0;min-width:0;border:none;background:transparent;border-radius:3px 3px 0 0;text-align:left;padding:3px 4px;touch-action:none;cursor:grab}
+#cw-acquisition-review .cp-piece>.cp-button{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:28px 12px;gap:0;min-height:0;min-width:0;border:none;background:transparent;border-radius:3px 3px 0 0;text-align:left;padding:2px 4px;touch-action:none;cursor:grab}
 #cw-acquisition-review .cp-piece>.cp-button>strong{font-size:12px;line-height:14px;letter-spacing:0;align-self:start;word-break:normal;line-break:strict;overflow-wrap:anywhere}
-#cw-acquisition-review .cp-card-meta{display:flex;align-items:center;gap:3px;font-size:11px;line-height:14px;font-variant-numeric:tabular-nums;color:var(--cp-muted)}
+#cw-acquisition-review .cp-card-meta{display:flex;align-items:center;gap:3px;font-size:11px;line-height:12px;font-variant-numeric:tabular-nums;color:var(--cp-muted)}
 #cw-acquisition-review .cp-card-meta svg,#cw-acquisition-review .cp-card-meta i{width:12px;height:12px}
 #cw-acquisition-review .cp-card-mark{display:inline-flex;align-items:center}
 #cw-acquisition-review .cp-build .cp-card-mark{color:var(--cp-active)}
 #cw-acquisition-review .cp-quantity{margin-left:auto}
 #cw-acquisition-review .cp-clock{position:absolute;right:3px;bottom:2px;background:var(--cp-paper);border-radius:50%;color:light-dark(#846838,#dbbd78)}
 #cw-acquisition-review .cp-clock svg,#cw-acquisition-review .cp-clock i{width:14px;height:14px}
-#cw-acquisition-review .cp-item-actions{display:flex;align-items:stretch;min-height:0;box-shadow:inset 0 1px var(--cp-line);background:light-dark(#f5f7ee,#293b2d);border-radius:0 0 3px 3px}
+#cw-acquisition-review .cp-item-actions{display:flex;align-items:stretch;min-height:0;box-shadow:inset 1px 0 var(--cp-line);background:light-dark(#f5f7ee,#293b2d);border-radius:0 3px 3px 0}
 #cw-acquisition-review .cp-item-actions .cp-button{flex:1;min-width:44px;height:44px;min-height:44px;border:none;border-radius:0;padding:0 4px;font-size:12px;background:transparent}
 #cw-acquisition-review .cp-item-actions .cp-primary{background:var(--cp-active)}
 #cw-acquisition-review .cp-item-actions .cp-button+.cp-button{border-left:1px solid var(--cp-line)}

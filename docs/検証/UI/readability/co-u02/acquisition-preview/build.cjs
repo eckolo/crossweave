@@ -29,12 +29,12 @@ async function makeFixture(){
   {id:'offer-tide',key:item('card','nt_stop',['light']),price:4},
   {id:'offer-force',key:item('card','f',['heavy']),price:8}
  ];
- return {version:'two-stage-ui-3',source_design:'7565afca98684186705a4e865d4fdf0e0ae489c1',
+ return {version:'two-stage-ui-4',source_design:'7565afca98684186705a4e865d4fdf0e0ae489c1',
   notes:'UI操作確認専用。開始残高6・候補価格4/8・所持の数量は固定入力。新しい経済・初期配布の採用値ではない。',
   rules:{deckSize:C.rules.deck.size,perKindCap:C.rules.deck.per_base_cap,equipmentLimit:C.rules.equipment.cost_limit,offerLimit:1},
   initial:{wallet:6,units,deck,equipment,purchased:[]},catalogue,offers};
 }
-async function build({write=false,testing=false,output='/workspace/crossweave-uniform-drag.html'}={}){
+async function build({write=false,testing=false,output='/workspace/crossweave-wide-inventory.html'}={}){
  const fixture=await makeFixture();
  const app=read('app.js').replace('__LAYOUT__',()=>read('layout.js')).replace('__GESTURES__',()=>read('gestures.js'))+(testing?'\nroot.__test={snapshot:()=>clone({current,draft,view}),fixture,layout:dimensions};':'');
  new Function('fixture',app);
@@ -47,5 +47,5 @@ async function build({write=false,testing=false,output='/workspace/crossweave-un
  }
  return {html,fixture};
 }
-if(require.main===module)build({write:true,output:process.argv[2]||'/workspace/crossweave-uniform-drag.html'}).then(({html})=>console.log(JSON.stringify({bytes:Buffer.byteLength(html),sha256:hash(html)}))).catch(e=>{console.error(e);process.exitCode=1;});
+if(require.main===module)build({write:true,output:process.argv[2]||'/workspace/crossweave-wide-inventory.html'}).then(({html})=>console.log(JSON.stringify({bytes:Buffer.byteLength(html),sha256:hash(html)}))).catch(e=>{console.error(e);process.exitCode=1;});
 module.exports={build};

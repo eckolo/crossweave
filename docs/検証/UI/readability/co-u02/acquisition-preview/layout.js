@@ -12,11 +12,19 @@ function rowsFor(zone){
  if(zone==='build')return (view.tab==='card'?draft.deck:draft.equipment).map(uid=>({...units.find(x=>x.uid===uid),count:1}));
  const groups=new Map();for(const unit of units.filter(x=>!composed(x.uid))){const id=unit.key+'|'+unitPending(unit.uid);if(!groups.has(id))groups.set(id,{...unit,count:0});groups.get(id).count++;}return [...groups.values()];
 }
-function dimensions(){
- const width=root.getBoundingClientRect().width||1024;
- const total=Math.max(3,Math.floor((width-44)/134)),columns={offer:1,reserve:1,build:1},order=['build','build','reserve','build','reserve','build'];
- for(let i=0;i<total-3;i++)columns[order[i%order.length]]++;
- return {width,columns,laneWidths:Object.fromEntries(zones.map(z=>[z,columns[z]*134+6])),rows:Math.max(1,Math.floor((width*9/16-142)/118)),gridHeight:Math.max(24,width*9/16-148),tileWidth:128,tileHeight:112};
+function dimensions(width=root.getBoundingClientRect().width||1024,counts=null){
+ const tileWidth=212,tileHeight=48,gap=2;
+ counts=counts||{offer:rowsFor('offer').length,reserve:rowsFor('reserve').length,build:view.tab==='card'?Math.max(fixture.rules.deckSize,draft.deck.length):Math.max(4,draft.equipment.length)};
+ if(width<640){
+  const gridHeight=Math.max(24,width*9/16-138),rows=Math.max(1,Math.floor((gridHeight-2)/50));
+  return {width,tileWidth,tileHeight,gap,orientation:'columns',columns:1,rowsByZone:Object.fromEntries(zones.map(z=>[z,rows])),laneHeights:null,laneWidths:Object.fromEntries(zones.map(z=>[z,236])),gridHeights:Object.fromEntries(zones.map(z=>[z,gridHeight])),capacity:Object.fromEntries(zones.map(z=>[z,rows])),boardStyle:'grid-template-columns:repeat(3,236px)'};
+ }
+ const columns=Math.max(1,Math.floor((width-84)/214)),totalRows=Math.max(3,Math.floor((width*9/16-112)/50));
+ const offerRows=Math.min(Math.max(1,Math.ceil(counts.offer/columns)),totalRows-2);
+ const buildRows=Math.min(Math.max(1,Math.ceil(counts.build/columns)),totalRows-offerRows-1);
+ const rowsByZone={offer:offerRows,reserve:totalRows-offerRows-buildRows,build:buildRows};
+ const spare=Math.max(0,width*9/16-112-totalRows*50),laneHeights=Object.fromEntries(zones.map(z=>[z,rowsByZone[z]*50+2+(z==='reserve'?spare:0)]));
+ return {width,tileWidth,tileHeight,gap,orientation:'rows',columns,rowsByZone,laneHeights,laneWidths:Object.fromEntries(zones.map(z=>[z,width-10])),gridHeights:laneHeights,capacity:Object.fromEntries(zones.map(z=>[z,columns*rowsByZone[z]])),boardStyle:'grid-template-columns:minmax(0,1fr);grid-template-rows:'+zones.map(z=>laneHeights[z]+'px').join(' ')};
 }
 function revealUnit(zone,uid,key,id){view.reveal={zone,uid,key,id};}
 function saveScroll(){
@@ -29,18 +37,18 @@ function restoreScroll(){
  if(!view.reveal)return;
  const {zone,uid,key,id}=view.reveal,rows=rowsFor(zone),index=rows.findIndex(row=>zone==='offer'?row.offer.id===id:row.uid===uid||(zone==='reserve'&&row.key===key&&unitPending(row.uid)===unitPending(uid)));
  view.reveal=null;if(index<0)return;
- const el=screen.querySelector('[data-scroll-zone="'+zone+'"]'),left=6+Math.floor(index/d.rows)*134,top=6+(index%d.rows)*118,w=el.clientWidth||d.laneWidths[zone],h=el.clientHeight||d.gridHeight;
- if(left<el.scrollLeft)el.scrollLeft=left-6;else if(left+128>el.scrollLeft+w)el.scrollLeft=left+128-w+6;
- if(top<el.scrollTop)el.scrollTop=top-6;else if(top+112>el.scrollTop+h)el.scrollTop=top+112-h+6;
+ const el=screen.querySelector('[data-scroll-zone="'+zone+'"]'),left=2+(index%d.columns)*(d.tileWidth+d.gap),top=2+Math.floor(index/d.columns)*(d.tileHeight+d.gap),w=el.clientWidth||(d.orientation==='rows'?d.width-62:236),h=el.clientHeight||d.gridHeights[zone];
+ if(left<el.scrollLeft)el.scrollLeft=left-2;else if(left+d.tileWidth>el.scrollLeft+w)el.scrollLeft=left+d.tileWidth-w+2;
+ if(top<el.scrollTop)el.scrollTop=top-2;else if(top+d.tileHeight>el.scrollTop+h)el.scrollTop=top+d.tileHeight-h+2;
  const lane=el.closest('[data-zone]'),lr=lane.getBoundingClientRect(),br=board.getBoundingClientRect();
  if(lr.left<br.left)board.scrollLeft-=br.left-lr.left;else if(lr.right>br.right)board.scrollLeft+=lr.right-br.right;
  saveScroll();
 }
-function localAction(row,zone){
+function localAction(row,zone,{compact=false}={}){
  const key=row.key,uid=row.uid;
  if(zone==='offer')return button('取得','stage',{id:row.offer.id,primary:true,disabled:current.purchased.length+draft.offers.length>=fixture.rules.offerLimit,label:item(key).name+'を未払いで取得する'});
  const put=zone==='reserve';
- return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)?button('取消','unstage',{id:uid.slice(8),label:item(key).name+'の取得をやめる'}):'');
+ return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)&&!compact?button('取消','unstage',{id:uid.slice(8),label:item(key).name+'の取得をやめる'}):'');
 }
 function card(row,zone){
  if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は'+(draft.offers.includes(row.offer.id)?'取得予定へ移動済み':'取得済み')+'">'+icon(draft.offers.includes(row.offer.id)?'arrow-right':'check')+'</div>';
@@ -48,7 +56,7 @@ function card(row,zone){
  const state=zone==='offer'?'取得候補':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
  return '<article class="cp-piece cp-'+zone+(p?' cp-pending':'')+'" data-zone-item="'+zone+'" data-unit="'+esc(row.uid||'')+'" data-key="'+esc(row.key)+'" data-offer="'+esc(o?.id||'')+'" data-motion="'+esc(motionId(row))+'" data-pending="'+p+'" aria-label="'+esc(it.name+'、'+state)+'">'+
   button('<strong>'+esc(it.name)+'</strong><span class="cp-card-meta"><span class="cp-card-mark">'+icon(zone==='build'?'check':it.kind==='card'?'layers':'scroll-text')+'</span>'+(price!==null?icon('lightbulb')+'<span>'+price+'</span>':it.kind==='passive'?icon('grid-2x2')+'<span>'+it.equipment_cost+'</span>':'<span>'+esc(it.attribute)+'</span>')+(row.count>1?'<span class="cp-quantity">×'+row.count+'</span>':'')+'</span>'+(p?'<span class="cp-clock" data-tooltip="支払前">'+icon('clock-3')+'</span>':''),'detail',{key:row.key,id:o?.id,uid:row.uid,zone,label:it.name+'の詳細、'+state,extra:'data-tooltip="'+esc(it.name)+'"'})+
-  '<div class="cp-item-actions">'+localAction(row,zone)+'</div></article>';
+  '<div class="cp-item-actions">'+localAction(row,zone,{compact:true})+'</div></article>';
 }
 function lane(zone){
  const all=rowsFor(zone),d=dimensions();
@@ -58,14 +66,14 @@ function lane(zone){
  let cells=all.map(row=>card(row,zone)).join('');
  if(zone==='build'&&view.tab==='card'&&all.length<fixture.rules.deckSize)cells+=Array.from({length:fixture.rules.deckSize-all.length},()=>'<div class="cp-empty cp-slot" aria-label="空き枠">'+icon('plus')+'</div>').join('');
  if(!cells)cells='<div class="cp-empty" aria-label="'+zoneNames[zone]+'は空です">'+icon(zone==='build'?'square-dashed':zoneIcons[zone])+'</div>';
- return '<section class="cp-lane cp-lane-'+zone+'" data-zone="'+zone+'" aria-label="'+zoneNames[zone]+'"><header class="cp-lane-head"><div class="cp-lane-title">'+title+'</div><span class="cp-drop-label" aria-hidden="true"></span></header><div class="cp-lane-grid" data-scroll-zone="'+zone+'" data-kind="'+view.tab+'" style="--cp-rows:'+d.rows+'">'+cells+'</div></section>';
+ return '<section class="cp-lane cp-lane-'+zone+'" data-zone="'+zone+'" aria-label="'+zoneNames[zone]+'"><header class="cp-lane-head"><div class="cp-lane-title">'+title+'</div><span class="cp-drop-label" aria-hidden="true"></span></header><div class="cp-lane-grid" data-scroll-zone="'+zone+'" data-kind="'+view.tab+'" style="--cp-columns:'+d.columns+'">'+cells+'</div></section>';
 }
 function wallet(){return '<div class="cp-wallet" aria-label="着想 現在'+current.wallet+'、支払予定'+spending()+'、確定後'+(current.wallet-spending())+'">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next '+(spending()>current.wallet?'cp-warning':'')+'" data-tooltip="支払後">'+icon('clock-3')+'<strong>'+(current.wallet-spending())+'</strong></span>':'')+'</div>';}
 function render(preserveScroll=true){
  cancelGesture();if(preserveScroll)saveScroll();
  const focus=document.activeElement?.dataset.focus,hadFocus=root.contains(document.activeElement),scroll=overlay.querySelector('.cp-dialog-scroll')?.scrollTop||0;
  const oldPositions=new Map([...screen.querySelectorAll('[data-motion]')].map(x=>[x.dataset.motion,x.getBoundingClientRect()]));
- screen.innerHTML='<header class="cp-header"><span class="cp-brand">crossweave</span><nav aria-label="管理するもの">'+[['card','札'],['passive','心得']].map(([id,label])=>button(label,'tab',{id,extra:'aria-pressed="'+(view.tab===id)+'"'})).join('')+'</nav>'+wallet()+'</header><main class="cp-main" data-board-scroll style="grid-template-columns:'+zones.map(z=>dimensions().laneWidths[z]+'px').join(' ')+'">'+zones.map(lane).join('')+'</main><footer class="cp-footer"><div class="cp-purchase-track" aria-label="今回の取得、選択済み'+(draft.offers.length+current.purchased.length)+'点、上限'+fixture.rules.offerLimit+'点">'+icon('store')+'<span>'+(draft.offers.length+current.purchased.length)+' / '+fixture.rules.offerLimit+'</span>'+(draft.offers.length?icon('arrow-right')+draft.offers.map(id=>'<span class="cp-pending-token" data-tooltip="'+esc(item(offer(id).key).name)+'">'+icon(item(offer(id).key).kind==='card'?'layers':'scroll-text')+icon('clock-3')+'</span>').join(''):'')+'</div>'+button(icon('undo-2')+'戻す','discard',{disabled:!dirty(),label:'取得予定と編成の変更をすべて戻す'})+button('確認する','review',{primary:true,disabled:!dirty()})+'</footer>';
+ screen.innerHTML='<header class="cp-header"><span class="cp-brand">crossweave</span><nav aria-label="管理するもの">'+[['card','札'],['passive','心得']].map(([id,label])=>button(label,'tab',{id,extra:'aria-pressed="'+(view.tab===id)+'"'})).join('')+'</nav>'+wallet()+'</header><main class="cp-main" data-board-scroll data-orientation="'+dimensions().orientation+'" style="'+dimensions().boardStyle+'">'+zones.map(lane).join('')+'</main><footer class="cp-footer"><div class="cp-purchase-track" aria-label="今回の取得、選択済み'+(draft.offers.length+current.purchased.length)+'点、上限'+fixture.rules.offerLimit+'点">'+icon('store')+'<span>'+(draft.offers.length+current.purchased.length)+' / '+fixture.rules.offerLimit+'</span>'+(draft.offers.length?icon('arrow-right')+draft.offers.map(id=>'<span class="cp-pending-token" data-tooltip="'+esc(item(offer(id).key).name)+'">'+icon(item(offer(id).key).kind==='card'?'layers':'scroll-text')+icon('clock-3')+'</span>').join(''):'')+'</div>'+button(icon('undo-2')+'戻す','discard',{disabled:!dirty(),label:'取得予定と編成の変更をすべて戻す'})+button('確認する','review',{primary:true,disabled:!dirty()})+'</footer>';
  restoreScroll();renderDialog();
  const target=[...root.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===focus&&!x.disabled&&(view.dialog?overlay.contains(x):screen.contains(x)));
  if(target)target.focus({preventScroll:true});else if(view.dialog)overlay.querySelector('[data-action="close"]')?.focus({preventScroll:true});else if(hadFocus)screen.querySelector('[data-action="tab"][aria-pressed="true"]')?.focus({preventScroll:true});

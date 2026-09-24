@@ -71,7 +71,7 @@ root.addEventListener('click',event=>{
 overlay.addEventListener('click',event=>{if(event.target===overlay)closeDialog();});
 root.addEventListener('keydown',event=>{
  if(event.key==='Escape'&&gesture){event.preventDefault();cancelGesture();return;}
- if(!view.dialog){const grid=event.target.closest('[data-scroll-zone]');if(grid&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();grid.scrollLeft+=event.key==='ArrowLeft'?-134:134;saveScroll();}return;}
+ if(!view.dialog){const grid=event.target.closest('[data-scroll-zone]');if(grid&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();const d=dimensions();if(event.key==='ArrowLeft'||event.key==='ArrowRight')grid.scrollLeft+=(event.key==='ArrowLeft'?-1:1)*(d.tileWidth+d.gap);else grid.scrollTop+=(event.key==='ArrowUp'?-1:1)*(d.tileHeight+d.gap);saveScroll();}return;}
  if(event.key==='Escape'){event.preventDefault();closeDialog();}
  if(event.key==='Tab'){
   const buttons=[...overlay.querySelectorAll('button:not(:disabled)')],first=buttons[0],last=buttons.at(-1);
