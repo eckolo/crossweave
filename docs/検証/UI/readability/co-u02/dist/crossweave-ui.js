@@ -1714,6 +1714,7 @@ function updateLayout(){
    feedQueue.push(...rows.slice(historyCursor).map(r=>({time:r.time,text:eventText(r)})));historyCursor=rows.length;if(feedTimer===null)pumpEvent();
   }
   function windowContent(w=windowState,popup=$('#cw-drawer')){if(!w)return;
+   const fieldForecast=projected()?.field,isForecast=w.type==='preview'||w.type==='field'&&fieldForecast?.kind==='place'&&fieldForecast.id===w.id;
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
    if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.defense?.guard??a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`+(a.defense?.effects.length?'<h3>防御の内訳</h3><p>身構 '+esc(api.defenseDuration(a.defense.duration.guard))+' · 攪乱 '+esc(api.defenseDuration(a.defense.duration.evasion))+'</p><ul>'+a.defense.effects.map(e=>'<li>'+esc(names(e.source_actor_id))+' · 身構 '+e.guard+' / 攪乱 '+e.evasion+' · '+(e.uses===null?'回数制限なし':e.uses+'回')+'</li>').join('')+'</ul>':'')+(a.knowledge_key&&onCommon?'<button type="button" data-x="actor-record" data-key="'+esc(a.knowledge_key)+'">調査記録</button>':''):'<p>この対象は離脱しました</p>';}
@@ -1725,8 +1726,9 @@ function updateLayout(){
    if(w.type==='history'){title='履歴';body=`<ol>${history()}</ol>`;}
    if(w.type==='settings'){title='操作';body=`<p>札も相手もクリックで選択・詳細。相手を選ぶと行動の対象も切り替わります。札を短く押し続けて場へ運ぶと出札できます。押してすぐ横へ動かすと手札を送ります。</p>${[['diagram','関係線を表示'],['details','選択時に詳細を開く'],['quick','通常の設置をすぐ実行'],['drag','ドラッグを使う']].map(([k,l])=>`<label><input type="checkbox" data-x-setting="${k}" ${settings[k]?'checked':''}> ${l}</label>`).join('')}<label>つかむまで <select data-x-hold><option value="150">0.15秒</option><option value="220">0.22秒</option><option value="320">0.32秒</option></select></label>`;}
    const bodyNode=popup.querySelector('.cw-drawer-body'),key=w.type+':'+w.id,same=bodyNode.dataset.content===key,scroll=same?bodyNode.scrollTop:0;
-   popup.querySelector('header strong').textContent=w.type==='preview'?'予測 · '+title:title;bodyNode.innerHTML=body;bodyNode.dataset.content=key;bodyNode.scrollTop=scroll;
-   popup.hidden=false;popup.dataset.window=w.type;popup.setAttribute('aria-label',title);
+   const heading=(isForecast?'予測 · ':'')+title;
+   popup.querySelector('header strong').textContent=heading;bodyNode.innerHTML=body;bodyNode.dataset.content=key;bodyNode.scrollTop=scroll;
+   popup.hidden=false;popup.dataset.window=w.type;popup.setAttribute('aria-label',heading);
    const pin=popup.querySelector('[data-x="pin"],[data-x="parent-pin"]');pin.innerHTML=symbol('pin','📌');pin.setAttribute('aria-pressed',String(w.pinned));pin.setAttribute('aria-label',w.pinned?'固定を外す':'固定する');pin.dataset.tooltip=w.pinned?'固定を外す':'固定する';
    if(popup.id==='cw-drawer'){
     $('[data-x="preview"]').setAttribute('aria-expanded',String(w.type==='preview'));
@@ -1755,7 +1757,7 @@ function updateLayout(){
    $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。クリックで選択・詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose,a)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
    const attrs=[...new Set([...field().map(c=>c.attr),...hand().map(c=>c.attr)])];
    const fieldPrediction=projected()?.field;
-   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${f||ghost?' cw-card-face':''}${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f||ghost?cardFace(f?.kind||c?.kind,f?names(f.id):ghost.name,stat(guard?'guard':'power',f?f.field_power:ghost.power)+stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit),attr):`<span class="cw-face-caption"><strong>${esc(attr)}</strong></span>`}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</${tag}>`;}).join('');
+   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f||ghost?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f||ghost?`type="button" data-x-field="${esc(f?.id||ghost.id)}" aria-label="${esc(f?names(f.id):ghost.name)}${ghost?'。予測の場札':''}。詳細"`:''} class="cw-slot${f||ghost?' cw-card-face':''}${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f||ghost?cardFace(f?.kind||c?.kind,f?names(f.id):ghost.name,stat(guard?'guard':'power',f?f.field_power:ghost.power)+stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit),attr):`<span class="cw-face-caption"><strong>${esc(attr)}</strong></span>`}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</${tag}>`;}).join('');
    $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select cw-card-face" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}" aria-description="ホールドで出札を準備">${cardFace(h.kind,names(h.id),main(h),h.attr,`<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span>`)}</button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
    const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null;
@@ -1776,6 +1778,7 @@ function updateLayout(){
    $('[data-x="preview"]').setAttribute('aria-expanded',String(windowState?.type==='preview'));
    $('[data-x="withdraw"]').disabled=busy()||!session.can('withdraw');
    root.dataset.selection=String(!!c);
+   if(windowState?.type==='field'&&![...root.querySelectorAll('[data-x-field]')].some(el=>el.dataset.xField===windowState.id))close();
    if(windowState)windowContent();scrolls.forEach(([id,v])=>$('#'+id).scrollLeft=v);
    root.querySelectorAll('button').forEach(b=>b.classList.add('cursor-interaction'));
    if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:16,height:16}});queueMicrotask(layout);

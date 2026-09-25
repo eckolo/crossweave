@@ -1,3 +1,13 @@
+# 予測の場札の詳細確認入口（UI0.14.8）
+
+2026-09-26。[予測札をクリックして詳細を確認](../journey/field-forecast-details.md)。左端の手札を選び、場に現れた「＋ 予測」の札を押す。既存実装・実Campaign＋MemoryStoreを使用。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-field-forecast-details.html ghost`。[提示照合](field-forecast-details-manifest.json)・[限定9項目](field-forecast-details-checks.json)。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 反対端へ寄せた詳細窓の確認入口（UI0.14.7）
 
 2026-09-26。[隣の札を続けて選べる配置](../journey/edge-details.md)。既存実装・実Campaign＋MemoryStoreを使用。

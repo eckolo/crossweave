@@ -1,3 +1,11 @@
+# CO-U02 予測の場札から詳細を開く（UI0.14.8）
+
+2026-09-26。[予測札の詳細接続](journey/field-forecast-details.md)。場の「＋ 予測」の札もクリックで詳細を開き、手札と予測を維持する。クリックでは出札しない。[生成照合](review/field-forecast-details-manifest.json)・[限定9項目](review/field-forecast-details-checks.json)。位置は概ね了承、縦位置の微調整は今回見送り。実描画・実入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # CO-U02 隣の札を選べる端配置（UI0.14.7）
 
 2026-09-26。[現在の規則](journey/edge-details.md)。詳細・予測を選択元と反対側の画面端へ揃え、隣の札を続けて確認できるようにした。[生成照合](review/edge-details-manifest.json)・[限定8項目](review/edge-details-checks.json)。実描画・実入力・IndexedDBは未確認。
