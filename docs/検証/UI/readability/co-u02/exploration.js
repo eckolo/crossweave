@@ -203,7 +203,7 @@
     // footprint so opening it on every selection leaves the board accessible.
     const actorDetail=fhd&&w.type==='actor';
     const sourceDetail=fhd&&attr&&anchor;
-    const p=actorDetail?api.placeActorWindow({width:rr.width,height:rr.height,anchor,actors:[...root.querySelectorAll('#cw-actors>*')].map(rect)}):sourceDetail?api.placeBesideWindow({width:rr.width,height:rr.height,anchor,bottom:rect($('.cw-bottom'))?.y??rr.height}):api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
+    const p=actorDetail?api.placeActorWindow({width:rr.width,height:rr.height,anchor}):sourceDetail?api.placeEdgeWindow({width:rr.width,height:rr.height,anchor,bottom:rect($('.cw-bottom'))?.y??rr.height}):api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
     const place=(el,q)=>Object.assign(el.style,{width:q.width+'px',height:q.height+'px',maxHeight:q.height+'px',top:q.top+'px',left:q.left+'px'});
     if(windowParent){const pair=api.placeWindowPair({width:rr.width,height:rr.height,parent:parentRect||p,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:8,gap:fhd?16:8});place($('#cw-parent-drawer'),pair[0]);place(popup,pair[1]);}else place(popup,p);
    }

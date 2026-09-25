@@ -1,3 +1,11 @@
+# CO-U02 隣の札を選べる端配置（UI0.14.7）
+
+2026-09-26。[現在の規則](journey/edge-details.md)。詳細・予測を選択元と反対側の画面端へ揃え、隣の札を続けて確認できるようにした。[生成照合](review/edge-details-manifest.json)・[限定8項目](review/edge-details-checks.json)。実描画・実入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # CO-U02 手札・場の詳細も中央側へ開く（UI0.14.6）
 
 2026-09-26。[左右規則の適用漏れ修正](journey/inward-details.md)。手札・場・予測・相手・行動順を「左半分から右、右半分から左」に統一。窓寸法を維持し、詳細と予測を同じ位置に揃える。[生成照合](review/inward-details-manifest.json)・[限定10項目](review/inward-details-checks.json)。実描画・実入力・IndexedDBは未確認。

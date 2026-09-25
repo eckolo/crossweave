@@ -1,3 +1,13 @@
+# 反対端へ寄せた詳細窓の確認入口（UI0.14.7）
+
+2026-09-26。[隣の札を続けて選べる配置](../journey/edge-details.md)。既存実装・実Campaign＋MemoryStoreを使用。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-edge-details.html edge`。[提示照合](edge-details-manifest.json)・[限定8項目](edge-details-checks.json)。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 選択元に対する左右規則の確認入口（UI0.14.6）
 
 2026-09-26。[手札・場・予測まで共通化](../journey/inward-details.md)。既存実装・実Campaign＋MemoryStoreを使い、前回の適用漏れを修正。

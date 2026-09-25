@@ -1050,33 +1050,17 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
   const best=candidates.sort((a,b)=>a.score-b.score)[0]||bounds;
   return {left:Math.max(margin,best.x),top:Math.max(margin,best.y),width:best.w,height:best.h,source_overlap:anchor?overlap(best,anchor):0};
  };
- // Every object-bound window opens inward from the visible source rectangle.
+ // Object details use the opposite screen edge so adjacent objects stay selectable.
  // Vertical clamping keeps lower-row details above the persistent footer.
- api.placeBesideWindow=function({width,height,anchor,preferredWidth=520,preferredHeight=480,margin=16,gap=16,preferredTop=anchor?.y??margin,bottom=height}){
+ api.placeEdgeWindow=function({width,height,anchor,preferredWidth=520,preferredHeight=480,margin=16,preferredTop=anchor?.y??margin,bottom=height}){
   const w=Math.min(preferredWidth,Math.max(1,width-2*margin)),h=Math.min(preferredHeight,Math.max(1,height-2*margin));
   const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-  const right=anchor&&anchor.x+anchor.w/2<width/2;
-  const left=anchor?(right?anchor.x+anchor.w+gap:anchor.x-gap-w):width-margin-w;
-  return {left:clamp(left,margin,width-margin-w),top:clamp(preferredTop,margin,bottom-margin-h),width:w,height:h};
+  // Centered sources belong to the right half, including subpixel scaling noise.
+  const right=!anchor||anchor.x+anchor.w/2<width/2-.01;
+  return {left:right?Math.max(margin,width-margin-w):margin,top:clamp(preferredTop,margin,bottom-margin-h),width:w,height:h};
  };
- // Actor details stay at one height and share the same inward direction.
- // Only actor frames and screen edges can adjust the horizontal position.
- api.placeActorWindow=function({width,height,anchor,actors=[],preferredWidth=416,preferredHeight=384,margin=16,gap=16}){
-  const p=api.placeBesideWindow({width,height,anchor,preferredWidth,preferredHeight,margin,gap,preferredTop:margin});
-  if(!anchor)return p;
-  const {top,width:w,height:h}=p,minimum=margin,maximum=Math.max(margin,width-margin-w),clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-  const right=p.left>=anchor.x+anchor.w;
-  const onSide=x=>right?x>=anchor.x+anchor.w+gap-.01:x+w<=anchor.x-gap+.01;
-  let free=[[minimum,maximum]];
-  for(const b of [anchor,...actors].filter(b=>b&&b.y<top+h&&b.y+b.h>top)){
-   const low=b.x-gap-w,high=b.x+b.w+gap;
-   free=free.flatMap(([l,r])=>r<=low||l>=high?[[l,r]]:[...(low>=l?[[l,Math.min(r,low)]]:[]),...(high<=r?[[Math.max(l,high),r]]:[])]);
-  }
-  const candidates=free.map(([l,r])=>clamp(p.left,l,r)).filter(onSide);
-  // If the actor row fills the width, keep the selected actor unobscured and
-  // keep the same height. Do not revert to a search above/below other content.
-  const ranked=candidates.sort((a,b)=>Math.abs(a-p.left)-Math.abs(b-p.left));
-  return {...p,left:ranked[0]??p.left};
+ api.placeActorWindow=function({width,height,anchor,preferredWidth=416,preferredHeight=384,margin=16}){
+  return api.placeEdgeWindow({width,height,anchor,preferredWidth,preferredHeight,margin,preferredTop:margin});
  };
  // A linked pair keeps the parent where possible. At narrow widths both panes
  // reflow side by side; neither pane covers or silently replaces its parent.
@@ -1817,7 +1801,7 @@ function updateLayout(){
     // footprint so opening it on every selection leaves the board accessible.
     const actorDetail=fhd&&w.type==='actor';
     const sourceDetail=fhd&&attr&&anchor;
-    const p=actorDetail?api.placeActorWindow({width:rr.width,height:rr.height,anchor,actors:[...root.querySelectorAll('#cw-actors>*')].map(rect)}):sourceDetail?api.placeBesideWindow({width:rr.width,height:rr.height,anchor,bottom:rect($('.cw-bottom'))?.y??rr.height}):api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
+    const p=actorDetail?api.placeActorWindow({width:rr.width,height:rr.height,anchor}):sourceDetail?api.placeEdgeWindow({width:rr.width,height:rr.height,anchor,bottom:rect($('.cw-bottom'))?.y??rr.height}):api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
     const place=(el,q)=>Object.assign(el.style,{width:q.width+'px',height:q.height+'px',maxHeight:q.height+'px',top:q.top+'px',left:q.left+'px'});
     if(windowParent){const pair=api.placeWindowPair({width:rr.width,height:rr.height,parent:parentRect||p,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:8,gap:fhd?16:8});place($('#cw-parent-drawer'),pair[0]);place(popup,pair[1]);}else place(popup,p);
    }
