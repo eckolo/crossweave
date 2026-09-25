@@ -1,5 +1,5 @@
 const zones=['offer','reserve','build'];
-const zoneNames={offer:'候補',reserve:'手元',build:'編成'};
+const zoneNames={offer:'取得可能',reserve:'所持',build:'編成'};
 const zoneIcons={offer:'store',reserve:'layers',build:'layout-grid'};
 function emptyView(){return {tab:'card',scroll:{},boardLeft:0,reveal:null,dialog:null,key:null,offer:null,uid:null,zone:null};}
 function icon(name){return '<i data-lucide="'+name+'" aria-hidden="true"></i>';}
@@ -45,7 +45,7 @@ function localAction(row,zone,{compact=false}={}){
 function card(row,zone){
  if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は'+(draft.offers.includes(row.offer.id)?'取得予定へ移動済み':'取得済み')+'">'+icon(draft.offers.includes(row.offer.id)?'arrow-right':'check')+'</div>';
  const it=item(row.key),p=unitPending(row.uid),o=row.offer,price=o?.price??(p?offer(row.uid.slice(8)).price:null);
- const state=zone==='offer'?'取得候補':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
+ const state=zone==='offer'?'取得可能':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
  return '<article class="cp-piece cp-'+zone+(p?' cp-pending':'')+'" data-zone-item="'+zone+'" data-unit="'+esc(row.uid||'')+'" data-key="'+esc(row.key)+'" data-offer="'+esc(o?.id||'')+'" data-motion="'+esc(motionId(row))+'" data-pending="'+p+'" aria-label="'+esc(it.name+'、'+state)+'">'+
   button('<strong>'+esc(it.name)+'</strong><span class="cp-card-meta"><span class="cp-card-mark">'+icon(zone==='build'?'check':it.kind==='card'?'layers':'scroll-text')+'</span>'+(price!==null?icon('lightbulb')+'<span>'+price+'</span>':it.kind==='passive'?icon('grid-2x2')+'<span>'+it.equipment_cost+'</span>':'<span>'+esc(it.attribute)+'</span>')+(row.count>1?'<span class="cp-quantity">×'+row.count+'</span>':'')+'</span>'+(p?'<span class="cp-clock" data-tooltip="支払前">'+icon('clock-3')+'</span>':''),'detail',{key:row.key,id:o?.id,uid:row.uid,zone,label:it.name+'の詳細、'+state,extra:'data-tooltip="'+esc(it.name)+'"'})+
   '<div class="cp-item-actions">'+localAction(row,zone,{compact:true})+'</div></article>';

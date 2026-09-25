@@ -89,6 +89,6 @@ async function fillCapacityFixture(t){
  check('今回の配置・縮尺・操作経路でDOM実行例外なし',()=>assert.deepEqual(runtimeErrors,[]));
  t.dom.window.close();
  const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'inline-manifest.json'),'utf8'));
- fs.writeFileSync(path.join(__dirname,'fhd-checks.json'),JSON.stringify({checked_at_utc:new Date().toISOString(),version:'two-stage-ui-5',environment:{node:process.version,dom:'JSDOM 26.1.0'},scope:'1920×1080の横並び配置、表示倍率、縮尺付きドラッグと主要操作。矩形・hit test・captureは注入。実ブラウザー描画ではない。',inline_sha256:manifest.sha256,passed:checks.length,checks,capacity_fixture:{offers:4,reserve_kinds:20,deck:12,heights,source:'追加した所持品・候補は検査内だけ。共通データの有効な修飾札。本番初期配布の変更ではない。'},old_suites_rerun:false,unverified:['実ブラウザー描画・フォント実測','実ポインター・タッチ','IndexedDB','本編保存','ユーザー受入']},null,2)+'\n');
+ fs.writeFileSync(path.join(__dirname,'fhd-checks.json'),JSON.stringify({checked_at_utc:new Date().toISOString(),version:manifest.version,environment:{node:process.version,dom:'JSDOM 26.1.0'},scope:'1920×1080の横並び配置、表示倍率、縮尺付きドラッグと主要操作。矩形・hit test・captureは注入。実ブラウザー描画ではない。',inline_sha256:manifest.sha256,passed:checks.length,checks,capacity_fixture:{offers:4,reserve_kinds:20,deck:12,heights,source:'追加した所持品・候補は検査内だけ。共通データの有効な修飾札。本番初期配布の変更ではない。'},old_suites_rerun:false,unverified:['実ブラウザー描画・フォント実測','実ポインター・タッチ','IndexedDB','本編保存','ユーザー受入']},null,2)+'\n');
  console.log(JSON.stringify({passed:checks.length,runtimeErrors,heights}));
 })().catch(e=>{console.error(e);process.exit(1);});
