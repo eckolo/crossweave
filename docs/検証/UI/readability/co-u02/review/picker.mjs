@@ -48,7 +48,7 @@ export function mountReview(host, {ui, prepare = id => createCheckpoint(id, load
       current = id; select.value = id;
       if(updateURL){const url = new URL(win.location.href); url.searchParams.set('case', id);
       win.history.replaceState(null, '', url);}
-      status.textContent = prepared.checkpoint.label + 'から操作できます。';
+      status.textContent = cases.find(item => item.id === id).label + 'から操作できます。';
       return true;
     } catch {
       if (!disposed) {

@@ -138,7 +138,7 @@ function panelView(panel,back=false){
  if(panel==='records')body=recordsView();
  if(panel==='menu'){
   const items=[['調査記録','records'],['表示','settings'],['遊び方','help'],['保存データ','data'],...(h()?[['購入','offers'],['所持','owned']]:[]),['文章の記録','texts'],...(canSuspend()?[['探索を中断','suspend']]:[]),...(dirty()?[['変更案を戻す','discard']]:[])];
-  const width=Math.min(340,panelTrail.length?(frameWidth-24)/2:frameWidth-16),height=Math.min(350,frameWidth*9/16-16),cols=width>=280?2:1,rows=Math.max(1,Math.floor((height-96)/44)),capacity=rows*cols,pages=Math.ceil(items.length/capacity);
+  const width=Math.min(520,panelTrail.length?(frameWidth-48)/2:frameWidth-32),height=Math.min(480,frameWidth*9/16-32),cols=width>=280?2:1,rows=Math.max(1,Math.floor((height-144)/56)),capacity=rows*cols,pages=Math.ceil(items.length/capacity);
   menuPage=Math.min(menuPage,pages-1);body='<nav class="cj-menu-grid" style="grid-template-columns:repeat('+cols+',minmax(0,1fr))">'+items.slice(menuPage*capacity,(menuPage+1)*capacity).map(([label,action])=>button(label,action)).join('')+'</nav>';
   actions=pages>1?button(icon('chevron-left'),'menu-page','data-step="-1" aria-label="前のメニュー" '+(!menuPage?'disabled':''))+'<span>'+(menuPage+1)+'/'+pages+'</span>'+button(icon('chevron-right'),'menu-page','data-step="1" aria-label="次のメニュー" '+(menuPage+1===pages?'disabled':'')):'';
  }

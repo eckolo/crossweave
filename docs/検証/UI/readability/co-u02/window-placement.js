@@ -1,5 +1,11 @@
 /* Presentation geometry only. Input rectangles must come from visible UI objects. */
 (function(api){'use strict';
+ api.displayScale=element=>Number(element.closest('[data-display-scale]')?.dataset.displayScale)||1;
+ api.uiSpace=function(element){
+  const r=element.getBoundingClientRect(),scale=api.displayScale(element),left=element.clientLeft||0,top=element.clientTop||0;
+  return {left:r.left+left*scale,top:r.top+top*scale,width:element.clientWidth||r.width/scale-2*left,height:element.clientHeight||r.height/scale-2*top,scale};
+ };
+ api.uiRect=function(element,container){const s=api.uiSpace(container),r=element?.getBoundingClientRect();return r&&r.width&&r.height?{x:(r.left-s.left)/s.scale,y:(r.top-s.top)/s.scale,w:r.width/s.scale,h:r.height/s.scale}:null;};
  api.placeWindow=function({width,height,anchor,avoid=[],preferredWidth=340,preferredHeight=280,margin=8,minWidth=172,minHeight=76}){
   const bounds={x:margin,y:margin,w:Math.max(1,width-2*margin),h:Math.max(1,height-2*margin)};
   const overlap=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));

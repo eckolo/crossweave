@@ -30,7 +30,8 @@
    if(old?.key===key||available<1)continue;
    const probe=document.createElement('span');probe.className='cw-prose-measure';probe.setAttribute('aria-hidden','true');
    Object.assign(probe.style,{position:'absolute',visibility:'hidden',whiteSpace:'pre',pointerEvents:'none',width:'max-content',maxWidth:'none',font:'inherit',letterSpacing:'inherit'});node.append(probe);
-   const lines=api.proseLines(source,text=>{probe.textContent=text;return probe.getBoundingClientRect().width<=available-.5;});
+   const scale=api.displayScale?.(node)||1;
+   const lines=api.proseLines(source,text=>{probe.textContent=text;return probe.getBoundingClientRect().width/scale<=available-.5;});
    probe.remove();node.replaceChildren(...lines.map(text=>{const line=document.createElement('span');line.className='cw-prose-line';line.textContent=text;return line;}));
    cache.set(node,{source,key});
   }

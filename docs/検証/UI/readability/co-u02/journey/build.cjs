@@ -33,9 +33,9 @@ function bundle(){
 function buildView(){
  const panels=read('panels.js').replace('__JOURNEY_RECORDS__',()=>read('records.js')).replace('__JOURNEY_ECONOMY__',()=>read('economy.js'));
  const view=read('view.js').replace('__JOURNEY_PANELS__',()=>panels);
- return read('layout.js')+'\n'+read('launcher.js')+'\n'+view;
+ return read('../display-frame.js')+'\n'+read('layout.js')+'\n'+read('launcher.js')+'\n'+view;
 }
-function buildStyle(){return read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('save-flow.css')+'\n'+read('public-info.css')+'\n'+read('economy.css')+'\n'+read('consistency.css');}
+function buildStyle(){return read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('save-flow.css')+'\n'+read('public-info.css')+'\n'+read('economy.css')+'\n'+read('consistency.css')+'\n'+read('full-hd.css');}
 function build({testing=false,fixture='return',start='journey'}={}){
  if(![null,'return','entry'].includes(fixture)||!['journey','launcher'].includes(start)||(start==='journey'&&!fixture))throw Error('unsupported preview fixture');
  const runtime=bundle();

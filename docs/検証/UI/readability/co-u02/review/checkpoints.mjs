@@ -4,6 +4,8 @@ import {createCampaign} from '../../../../../../src/runtime/campaign.mjs';
 import {MemoryStore} from '../../../../../../test/runtime/support.mjs';
 
 export const checkpoints = Object.freeze([
+  {id:'entry-d03', label:'出発時の本文', fixture:'offers-home', screen:'scene', depart:true},
+  {id:'hub-d03', label:'出発前', fixture:'offers-home', screen:'hub'},
   {id:'skills-current', label:'心得・習得と装備', fixture:'offers-home', screen:'skills', navigate:'skills', currentSkills:true},
   {id:'carried', label:'撤退後・候補の持越し', fixture:'offers-home', screen:'return', departThenWithdraw:true, withdraw:true, outcome:'withdrawal'},
   {id:'offers', label:'購入候補・編成と比較', fixture:'offers-home', screen:'offers', navigate:'offers'},
@@ -52,7 +54,7 @@ export async function createCheckpoint(id, loadDocument) {
     // send none: this is setup, not a player's read receipt.
     await execute('continue_scene', {scene_id:scene.id, advance:true, displayed_text_ids:[]});
   }
-  if (checkpoint.departThenWithdraw) await execute('depart', {case_id:controller.inspect().display_data.case.id});
+  if (checkpoint.depart || checkpoint.departThenWithdraw) await execute('depart', {case_id:controller.inspect().display_data.case.id});
   if (checkpoint.withdraw) await execute('withdraw', {});
   const data = controller.inspect().display_data;
   const screen = data.phase === 'return' ? 'return' : data.scene?.paused ? 'scene' : data.phase === 'exploring' ? 'explore' : 'hub';

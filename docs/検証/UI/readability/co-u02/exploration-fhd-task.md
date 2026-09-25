@@ -2,7 +2,7 @@
 
 2026-09-25／UI内識別子 `UI-FHD-EXP-01`／担当 `20260910-ui-readability`／枝 `ui/readability-20260910`。
 
-状態：**実施すべき後続タスクとして登録・未着手**。ユーザーが一括対応／後続化の判断を委任したため、探索画面と付随する窓をまとめた次のUI作業単位にする。今回了承された取得・編成の構造と名称修正を先に保存する。探索では盤面・手札・人物・予測・詳細窓の位置が相互に関係し、外枠だけ広げた状態を対応完了にしない。
+状態：**実装・限定検査・会話内操作提示まで完了、実描画・実入力は未確認**。ユーザーの取得編成画面了承と続行指示を受け、盤面・手札・人物・予測・詳細窓と前後遷移をUI0.14.0へ調整した。[成果・寸法・選択受領用差分](journey/full-hd.md)、[26項目の限定確認](review/exploration-fhd-checks.json)、[提示物照合](review/exploration-fhd-manifest.json)を参照。登録のみの状態から更新した。
 
 基準は[1920×1080・16:9](../display-baseline.md)。新たな解像度の承認は不要。二段階取得の共通管理APIや新画像の納品も開始条件ではない。とりまとめの計画コピーやCO採番は変更せず、本Workの後続実施対象として渡す。
 
@@ -17,7 +17,7 @@
 | 探索の前後 | 準備→探索→帰還の遷移で共通外枠が変わらず、中断・再開・保存表示を維持。新取得方式の未接続部分を同時に改変しない |
 | 提示 | 同じUIソースから通常配布物と会話内の操作画面を生成。「全体／原寸」と縮尺の表示を用意し、会話幅をゲームの制作寸法へ取り違えない |
 
-候補ファイルは `journey/build.cjs` の `buildStyle`／`buildView`、`journey/layout.js`／`view.js`、探索CSS、`exploration.js`、`window-placement.js`。CSSは `screen.css` の後に `fixed-screen.css`、`fit-review.css`、`exploration-layout.css`、`consistency.css` 等が重なるため、最終生成順まで確認して変更箇所を決める。旧小画面向け指定へFHD用指定を重ね続けるだけにしない。
+実装では `display-frame.js` が固定外枠を管理し、`window-placement.js` へ座標変換を集約した。`journey/build.cjs` の最終段に `full-hd.css` を置き、制作寸法を一か所で指定。既存CSSは旧単独部品・履歴向けに保持。`exploration.js` と共通窓・本文計測へ同じ倍率を適用した。
 
 参照：[journey/build.cjs](journey/build.cjs)、[探索](exploration.js)、[窓配置](window-placement.js)、[通常配布の生成](build.cjs)。UI-Gの固定された描画依存、共通Campaign、経済・進行・保存規則は維持する。
 
@@ -33,4 +33,4 @@
 
 ## 引渡し
 
-とりまとめ `20260913-project-coordination` へ、後続UI単位としての実施範囲・優先配置の入力を渡す。設計 `20260909-design-assembly` には実装後の選択受領用差分と確認入口を渡す。登録は実装・受領・着手・統合の完了を意味しない。ユーザーへ同じ後続化判断や1920×1080の採用を再確認する必要はない。
+とりまとめ `20260913-project-coordination` へ、実装・限定検査・操作提示の成果と実機未確認を渡す。設計 `20260909-design-assembly` には[選択受領用差分と確認入口](journey/full-hd.md)を渡す。引継ぎは[自Work設定](../../../../作業資料/Work/20260910-ui-readability.md)へ保存。受領・着手・統合は未確認。ユーザーへ同じ後続化判断や1920×1080の採用を再確認する必要はない。

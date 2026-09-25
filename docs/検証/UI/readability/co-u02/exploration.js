@@ -11,6 +11,8 @@
  api.mountExploration=function(root,{session,display_data,onScene,onWithdraw,onCommon}){
   let data=display_data,state=session.state(),selected=null,target=null,windowState=null,windowParent=null,parentRect=null,previewChoice=null;
   let previousToken=null,reservationToken=null,dead=false,drag=null,actorHold=null,suppressUntil=0,hoverTimer=null,leaveTimer=null,forecast=null,lastShownTarget=null,lastShownReservation=null,gestureEpoch=0;
+  const fhd=!!root.closest('[data-display="fhd"]');
+  let pan=null,autoScrollFrame=null;
   const settings={diagram:true,details:true,quick:true,drag:true,hold:220};
   const events=new AbortController(),timers=new Set();
   const later=(fn,ms)=>{const t=setTimeout(()=>{timers.delete(t);if(!dead)fn();},ms);timers.add(t);return t;};
@@ -99,9 +101,9 @@
   function pumpEvent(){
    feedTimer=null;if(!feedQueue.length||feedVisible.length>=2)return;
    const row=feedQueue.shift(),node=document.createElement('li');node.className='cw-live-event';node.innerHTML=`<time>${esc(row.time)}</time><span>${esc(row.text)}</span>`;
-   feedVisible.push(node);$('#cw-event-feed').prepend(node);feedVisible.forEach((el,i)=>el.style.bottom=i*26+'px');
+   feedVisible.push(node);$('#cw-event-feed').prepend(node);feedVisible.forEach((el,i)=>el.style.bottom=i*(fhd?40:26)+'px');
    later(()=>{node.dataset.fading='true';},1300);
-   later(()=>{const i=feedVisible.indexOf(node);if(i>=0)feedVisible.splice(i,1);node.remove();feedVisible.forEach((el,j)=>el.style.bottom=j*26+'px');if(feedTimer===null)pumpEvent();},2800);
+   later(()=>{const i=feedVisible.indexOf(node);if(i>=0)feedVisible.splice(i,1);node.remove();feedVisible.forEach((el,j)=>el.style.bottom=j*(fhd?40:26)+'px');if(feedTimer===null)pumpEvent();},2800);
    feedTimer=later(pumpEvent,260);
   }
   function updateEvents(){const rows=list(x()?.public_history);if(rows.length<historyCursor){feedQueue.length=0;feedVisible.splice(0).forEach(el=>el.remove());historyCursor=rows.length;return;}
@@ -110,7 +112,7 @@
   function windowContent(w=windowState,popup=$('#cw-drawer')){if(!w)return;
    let title='',body='';
    if(['card','field','preview'].includes(w.type)){title=names(w.id);body=w.type==='preview'?prediction():cardDetails(w.id);}
-   if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.defense?.guard??a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`+(a.defense?.effects.length?'<h3>防御の内訳</h3><p>身構 '+esc(api.defenseDuration(a.defense.duration.guard))+' · 攪乱 '+esc(api.defenseDuration(a.defense.duration.evasion))+'</p><ul>'+a.defense.effects.map(e=>'<li>'+esc(names(e.source_actor_id))+' · 身構 '+e.guard+' / 攪乱 '+e.evasion+' · '+(e.uses===null?'回数制限なし':e.uses+'回')+'</li>').join('')+'</ul>':'')+(a.knowledge_key&&onCommon?'<button type="button" data-x="actor-record" data-key="'+esc(a.knowledge_key)+'">この相手の調査記録</button>':''):'<p>この対象は離脱しました</p>';}
+   if(w.type==='actor'){const a=actor(w.id);title=a?.name||'相手';body=a?`<p>${esc(a.remaining_label)} ${a.hp}/${a.max_hp} · 隠蔽 ${a.posture_remaining}/${a.max_posture}</p><dl class="cw-ledger">${['guard','crit','evasion'].map(k=>`<dt>${term(k)}</dt><dd>${esc(k==='guard'?a.defense?.guard??a.guard?.value??0:a[k])}</dd>`).join('')}</dl>`+(a.defense?.effects.length?'<h3>防御の内訳</h3><p>身構 '+esc(api.defenseDuration(a.defense.duration.guard))+' · 攪乱 '+esc(api.defenseDuration(a.defense.duration.evasion))+'</p><ul>'+a.defense.effects.map(e=>'<li>'+esc(names(e.source_actor_id))+' · 身構 '+e.guard+' / 攪乱 '+e.evasion+' · '+(e.uses===null?'回数制限なし':e.uses+'回')+'</li>').join('')+'</ul>':'')+(a.knowledge_key&&onCommon?'<button type="button" data-x="actor-record" data-key="'+esc(a.knowledge_key)+'">調査記録</button>':''):'<p>この対象は離脱しました</p>';}
    if(w.type==='order'){const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null,rows=predicted?.flatMap(g=>g.rows)||state.reservations||forecast?.value?.current_reservations;title=predicted?'行動後の予約':'行動予約';body=rows?`<ol class="cw-reservations">${rows.map(r=>`<li ${r.nextSelf?'data-self-next':''}><span>${esc(names(r.actor))}${r.nextSelf?'・次':''}</span><b>${esc(signed(r.at-x().now))}</b></li>`).join('')}</ol>`:'<p>予約の公開応答を確認中…</p>';}
    if(w.type==='more'){title='探索メニュー';body=`<nav class="cw-more">${[['objective','目的','flag'],['status','状況','activity'],['order','行動順','list-ordered'],['deck','山札','layers'],['history','履歴','history'],['texts','文章の記録','book-open'],['records','調査記録','book-open'],['settings','操作','sliders-horizontal'],['menu','設定・保存','settings']].filter(([k])=>onCommon||!['records','menu','texts'].includes(k)).map(args=>menuButton(...args)).join('')}</nav>`;}
    if(w.type==='objective'){title='目的';const t=list(data.texts).find(t=>t.id===data.case?.objective_text_id);body=`<p>${esc(t?.short_text||'目的の本文はまだ公開されていません')}</p>`;}
@@ -138,7 +140,7 @@
    gestureEpoch++;clearTimeout(hoverTimer);clearTimeout(leaveTimer);cancelDrag();
    // Keep a completed actor hold until release so its context menu/click stays suppressed.
    if(!actorHold?.held)cancelActorHold(true);
-   if(source){if(windowState?.type==='more'){windowParent={...windowState};const a=source.getBoundingClientRect(),r=root.getBoundingClientRect();parentRect=a.width?{left:a.left-r.left,top:a.top-r.top,width:a.width,height:a.height}:null;}}
+   if(source){if(windowState?.type==='more'){windowParent={...windowState};const a=api.uiRect(source,root);parentRect=a?{left:a.x,top:a.y,width:a.w,height:a.h}:null;}}
    else {windowParent=null;parentRect=null;}
    if(pinned&&windowState?.type===type&&windowState.id===id){if(windowState.pinned){close();return;}windowState.pinned=true;}
    else windowState={type,id,pinned};
@@ -150,8 +152,8 @@
    $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。タップで対象指定、長押しで詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
    const attrs=[...new Set([...field().map(c=>c.attr),...hand().map(c=>c.attr)])];
    const fieldPrediction=projected()?.field;
-   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${esc(attr)} ${f?esc(names(f.id)):ghost?esc(ghost.name):''}</strong>${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
-   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${attribute(h)}${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></button></article>`).join('');
+   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${f?esc(names(f.id)):ghost?esc(ghost.name):esc(attr)}</strong>${f||ghost?`<span class="cw-attr">${esc(attr)}</span>`:''}${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
+   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-hand-meta">${attribute(h)}<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></span></button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
    const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null;
    const turnFace=r=>`<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${icon(actor(r.actor)?.purpose)}</span>${r.nextSelf?'<b>次</b>':''}</button>`;
@@ -177,31 +179,31 @@
    if(typeof lucide!=='undefined')lucide.createIcons({attrs:{width:16,height:16}});queueMicrotask(layout);
    if(q&&!busy())requestForecast();
   }
-  function layout(){if(dead)return;const rr=root.getBoundingClientRect();if(!rr.width||!rr.height)return;
+  function layout(){if(dead)return;const rr=api.uiSpace(root);if(!rr.width||!rr.height)return;
    root.dataset.compact=String(rr.height<410);root.dataset.dense=String(rr.height<280);
-   root.style.setProperty('--cw-footer-height','44px');
+   root.style.setProperty('--cw-footer-height',fhd?'72px':'44px');
    const nextButton=$('#cw-turn-order [data-self-next]'),nextKey=nextButton?forecast?.key:null;
-   if(nextKey!==lastShownReservation){const row=$('#cw-turn-order'),a=nextButton?.getBoundingClientRect(),r=row.getBoundingClientRect();if(a?.width&&r.width){if(a.left<r.left)row.scrollLeft-=r.left-a.left;else if(a.right>r.right)row.scrollLeft+=a.right-r.right;}lastShownReservation=nextKey;}
+   if(nextKey!==lastShownReservation){const row=$('#cw-turn-order'),a=nextButton?.getBoundingClientRect(),r=row.getBoundingClientRect();if(a?.width&&r.width){if(a.left<r.left)row.scrollLeft-=(r.left-a.left)/rr.scale;else if(a.right>r.right)row.scrollLeft+=(a.right-r.right)/rr.scale;}lastShownReservation=nextKey;}
 
-   if(lastShownTarget!==target){const selectedActor=[...root.querySelectorAll('[data-x-actor]')].find(e=>e.dataset.xActor===target),row=$('#cw-actors'),ar=selectedActor?.getBoundingClientRect(),trackRect=row.getBoundingClientRect();if(ar?.width&&trackRect.width){if(ar.left<trackRect.left)row.scrollLeft-=trackRect.left-ar.left;else if(ar.right>trackRect.right)row.scrollLeft+=ar.right-trackRect.right;}lastShownTarget=target;}
+   if(lastShownTarget!==target){const selectedActor=[...root.querySelectorAll('[data-x-actor]')].find(e=>e.dataset.xActor===target),row=$('#cw-actors'),ar=selectedActor?.getBoundingClientRect(),trackRect=row.getBoundingClientRect();if(ar?.width&&trackRect.width){if(ar.left<trackRect.left)row.scrollLeft-=(trackRect.left-ar.left)/rr.scale;else if(ar.right>trackRect.right)row.scrollLeft+=(ar.right-trackRect.right)/rr.scale;}lastShownTarget=target;}
    const node=[...root.querySelectorAll('[data-x-card]')].find(e=>e.dataset.xCard===selected),cr=node?.getBoundingClientRect(),track=$('#cw-action-track'),tr=track.getBoundingClientRect(),dock=$('#cw-action-anchor');
-   dock.hidden=!node;if(node){const width=dock.getBoundingClientRect().width||164;dock.style.left=Math.max(0,Math.min(tr.width-width,(cr.left+cr.right)/2-tr.left-width/2))+'px';}
+   dock.hidden=!node;if(node){const width=dock.getBoundingClientRect().width/rr.scale||240;dock.style.left=Math.max(0,Math.min(tr.width/rr.scale-width,((cr.left+cr.right)/2-tr.left)/rr.scale-width/2))+'px';}
    for(const el of root.querySelectorAll('[data-track]')){const row=$('#'+el.dataset.track),overflow=row.scrollWidth>row.clientWidth+2;el.dataset.hidden=String(!overflow);el.querySelector('span').textContent=row.children.length+'件';el.querySelector('button:first-child').disabled=row.scrollLeft<=2;el.querySelector('button:last-child').disabled=row.scrollLeft>=row.scrollWidth-row.clientWidth-2;}
    if(windowState){const popup=$('#cw-drawer'),w=windowState;
     const attr={card:'xCard',preview:'xCard',actor:'xActor',field:'xField',order:'xOrder'}[w.type];
     const source=attr?[...root.querySelectorAll('[data-x-card],[data-x-actor],[data-x-field],[data-x-order]')].find(e=>e.dataset[attr]===w.id):root.querySelector('[data-x="'+w.type+'"]');
-    const rect=el=>{const a=el?.getBoundingClientRect();return a&&a.width&&a.height?{x:a.left-rr.left,y:a.top-rr.top,w:a.width,h:a.height}:null;};
+    const rect=el=>api.uiRect(el,root);
     const anchor=rect(source);
     const avoid=[rect($('#cw-actors')),!dock.hidden?rect(dock):null,rect($('.cw-bottom'))].filter(Boolean);
-    const p=api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:320,preferredHeight:260,margin:6,minWidth:144,minHeight:64});
+    const p=api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
     const place=(el,q)=>Object.assign(el.style,{width:q.width+'px',height:q.height+'px',maxHeight:q.height+'px',top:q.top+'px',left:q.left+'px'});
-    if(windowParent){const pair=api.placeWindowPair({width:rr.width,height:rr.height,parent:parentRect||p,preferredWidth:320,preferredHeight:260});place($('#cw-parent-drawer'),pair[0]);place(popup,pair[1]);}else place(popup,p);
+    if(windowParent){const pair=api.placeWindowPair({width:rr.width,height:rr.height,parent:parentRect||p,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:8,gap:fhd?16:8});place($('#cw-parent-drawer'),pair[0]);place(popup,pair[1]);}else place(popup,p);
    }
    api.layoutProse(root);drawRelations(rr);
   }
   function drawRelations(rr){const svg=$('#cw-relations'),c=card(),q=choice();svg.replaceChildren();svg.hidden=!settings.diagram||!c;svg.toggleAttribute('hidden',!settings.diagram||!c);if(!settings.diagram||!c)return;
    svg.setAttribute('viewBox',`0 0 ${rr.width} ${rr.height}`);
-   const point=(node,track,edge)=>{if(!node)return null;const b=node.getBoundingClientRect(),r=track.getBoundingClientRect();const l=Math.max(b.left,r.left,rr.left),right=Math.min(b.right,r.right,rr.right);if(right-l<4)return null;return {x:(l+right)/2-rr.left,y:(edge==='top'?b.top:b.bottom)-rr.top};};
+   const point=(node,track,edge)=>{if(!node)return null;const b=node.getBoundingClientRect(),r=track.getBoundingClientRect();const l=Math.max(b.left,r.left,rr.left),right=Math.min(b.right,r.right,rr.left+rr.width*rr.scale);if(right-l<4)return null;return {x:((l+right)/2-rr.left)/rr.scale,y:((edge==='top'?b.top:b.bottom)-rr.top)/rr.scale};};
    const h=point([...root.querySelectorAll('[data-x-card]')].find(e=>e.dataset.xCard===c.id),$('#cw-hand'),'top');
    const fNode=[...root.querySelectorAll('[data-x-attr]')].find(e=>e.dataset.xAttr===c.attr),fBottom=point(fNode,$('#cw-field'),'bottom'),fTop=point(fNode,$('#cw-field'),'top');
    const dst=q?.target?[...root.querySelectorAll('[data-x-actor]')].find(e=>e.dataset.xActor===q.target):null;
@@ -237,37 +239,51 @@
   root.addEventListener('keydown',e=>{if(e.key==='Escape'){interruptGestures();close();}},{signal:events.signal});
   root.addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;clearTimeout(leaveTimer);const b=e.target.closest('.cw-menu [data-x],#cw-use');if(!b||b.disabled||b.contains(e.relatedTarget)||(windowState?.pinned&&b.id!=='cw-use'))return;clearTimeout(hoverTimer);hoverTimer=later(()=>{if(b.id==='cw-use')preview(false);else if(!['scene','records','menu','target-info'].includes(b.dataset.x))open(b.dataset.x,null,false);},180);},{signal:events.signal});
   root.addEventListener('pointerout',e=>{if(e.target.contains(e.relatedTarget))return;clearTimeout(hoverTimer);if(!e.relatedTarget?.closest?.('#cw-drawer'))leaveTimer=later(()=>{if(windowState&&!windowState.pinned)close();},160);},{signal:events.signal});
-  function cancelDrag(suppress=true,repaint=true){const d=drag;if(!d)return;drag=null;clearTimeout(d.timer);
+  function cancelDrag(suppress=true,repaint=true){if(autoScrollFrame!==null){cancelAnimationFrame(autoScrollFrame);autoScrollFrame=null;}const d=drag;if(!d)return;drag=null;clearTimeout(d.timer);
    // Clear ownership before release, which may synchronously emit lost capture.
    if(root.hasPointerCapture?.(d.pointer))root.releasePointerCapture(d.pointer);
    $('#cw-drag-ghost').hidden=true;$('#cw-drop-zone').dataset.drag='false';if(suppress)suppressUntil=Date.now()+500;
    if(repaint&&d.held&&!dead)redraw();
   }
   function cancelActorHold(suppress=false){if(!actorHold)return;clearTimeout(actorHold.timer);actorHold=null;if(suppress)suppressUntil=Date.now()+500;}
-  function interruptGestures(){gestureEpoch++;clearTimeout(hoverTimer);clearTimeout(leaveTimer);cancelActorHold(true);cancelDrag();}
+  function cancelPan(){const p=pan;pan=null;if(p?.moved){suppressUntil=Date.now()+500;if(root.hasPointerCapture?.(p.pointer))root.releasePointerCapture(p.pointer);}}
+  function interruptGestures(){gestureEpoch++;cancelPan();clearTimeout(hoverTimer);clearTimeout(leaveTimer);cancelActorHold(true);cancelDrag();}
   function positionHeldCard(point){
-   const r=root.getBoundingClientRect(),g=$('#cw-drag-ghost'),size=g.getBoundingClientRect(),width=size.width||180,height=size.height||76;
-   g.style.left=Math.max(0,Math.min(r.width-width,point.clientX-r.left-width/2))+'px';
-   g.style.top=Math.max(0,Math.min(r.height-height,point.clientY-r.top-height+6))+'px';
+   const r=api.uiSpace(root),g=$('#cw-drag-ghost'),width=drag?.width||248,height=drag?.height||208;
+   g.style.left=Math.max(0,Math.min(r.width-width,(point.clientX-r.left)/r.scale-(drag?.offsetX??width/2)))+'px';
+   g.style.top=Math.max(0,Math.min(r.height-height,(point.clientY-r.top)/r.scale-(drag?.offsetY??height/2)))+'px';
   }
-  root.addEventListener('pointerdown',e=>{if(e.isPrimary===false){interruptGestures();return;}if(e.button!==0||busy()||drag||actorHold)return;
+  function scrollWhileHeld(){
+   autoScrollFrame=null;if(!drag?.held||dead)return;
+   for(const row of [$('#cw-field'),$('#cw-hand')]){
+    const r=row.getBoundingClientRect(),edge=64*api.displayScale(root),x=drag.lastX,y=drag.lastY;
+    if(y<r.top||y>r.bottom||x<r.left||x>r.right||row.scrollWidth<=row.clientWidth)continue;
+    const step=x<r.left+edge?-16:x>r.right-edge?16:0;
+    if(step){row.scrollLeft=Math.max(0,Math.min(row.scrollWidth-row.clientWidth,row.scrollLeft+step));layout();}
+   }
+   autoScrollFrame=requestAnimationFrame(scrollWhileHeld);
+  }
+  root.addEventListener('pointerdown',e=>{if(e.isPrimary===false){interruptGestures();return;}if(e.button!==0||busy()||drag||actorHold||pan)return;
    gestureEpoch++;suppressUntil=0;
    const a=e.target.closest('[data-x-actor]');if(a){cancelActorHold();const current=actorHold={id:a.dataset.xActor,pointer:e.pointerId,x:e.clientX,y:e.clientY,held:false,moved:false,token:state.view.meta.view_token};current.timer=later(()=>{if(actorHold!==current||current.moved||state.view.meta.view_token!==current.token)return;current.held=true;open('actor',current.id,true);},350);return;}
-   const c=e.target.closest('[data-x-card]');if(!c||!settings.drag)return;
-   drag={id:c.dataset.xCard,pointer:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,initialScroll:$('#cw-hand').scrollLeft,scroll:false,held:false,token:state.view.meta.view_token};
+   const c=e.target.closest('[data-x-card]');
+   if(!c){const row=e.target.closest('.cw-scroll');if(row&&!e.target.closest('button'))pan={row,pointer:e.pointerId,x:e.clientX,scroll:row.scrollLeft,moved:false};return;}
+   if(!settings.drag)return;
+   const rect=(c.closest('.cw-hand-card')||c).getBoundingClientRect(),scale=api.displayScale(root);
+   drag={id:c.dataset.xCard,pointer:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,initialScroll:$('#cw-hand').scrollLeft,width:rect.width/scale,height:rect.height/scale,offsetX:(e.clientX-rect.left)/scale,offsetY:(e.clientY-rect.top)/scale,face:c.innerHTML,scroll:false,held:false,token:state.view.meta.view_token};
    const current=drag;current.timer=later(()=>{
     if(drag!==current||drag.scroll||dead||busy()||!settings.drag||current.token!==state.view.meta.view_token)return;
     drag.held=true;selected=drag.id;previewChoice=null;retainTarget();close();redraw();
-    const ghost=$('#cw-drag-ghost');ghost.textContent=names(drag.id);ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';
-    positionHeldCard({clientX:drag.lastX,clientY:drag.lastY});root.setPointerCapture?.(e.pointerId);
+    const ghost=$('#cw-drag-ghost');ghost.innerHTML=drag.face;Object.assign(ghost.style,{width:drag.width+'px',height:drag.height+'px'});ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';
+    positionHeldCard({clientX:drag.lastX,clientY:drag.lastY});root.setPointerCapture?.(e.pointerId);autoScrollFrame=requestAnimationFrame(scrollWhileHeld);
    },settings.hold);
   },{signal:events.signal});
-  root.addEventListener('pointermove',e=>{if(actorHold?.pointer===e.pointerId&&Math.hypot(e.clientX-actorHold.x,e.clientY-actorHold.y)>8){clearTimeout(actorHold.timer);actorHold.moved=true;}
+  root.addEventListener('pointermove',e=>{if(pan?.pointer===e.pointerId){const dx=e.clientX-pan.x;if(pan.moved||Math.abs(dx)>8){if(!pan.moved){pan.moved=true;root.setPointerCapture?.(e.pointerId);}pan.row.scrollLeft=pan.scroll-dx/api.displayScale(root);e.preventDefault();layout();}return;}if(actorHold?.pointer===e.pointerId&&Math.hypot(e.clientX-actorHold.x,e.clientY-actorHold.y)>8){clearTimeout(actorHold.timer);actorHold.moved=true;}
    if(!drag||drag.pointer!==e.pointerId)return;drag.lastX=e.clientX;drag.lastY=e.clientY;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-   if(!drag.held&&(drag.scroll||Math.hypot(dx,dy)>8)){clearTimeout(drag.timer);drag.scroll=true;$('#cw-hand').scrollLeft=drag.initialScroll-dx;e.preventDefault();layout();return;}
+   if(!drag.held&&(drag.scroll||Math.hypot(dx,dy)>8)){clearTimeout(drag.timer);drag.scroll=true;$('#cw-hand').scrollLeft=drag.initialScroll-dx/api.displayScale(root);e.preventDefault();layout();return;}
    if(drag.held){e.preventDefault();positionHeldCard(e);}
   },{signal:events.signal,passive:false});
-  root.addEventListener('pointerup',async e=>{if(actorHold?.pointer===e.pointerId){if(actorHold.held||actorHold.moved)suppressUntil=Date.now()+500;cancelActorHold();return;}
+  root.addEventListener('pointerup',async e=>{if(pan?.pointer===e.pointerId){cancelPan();return;}if(actorHold?.pointer===e.pointerId){if(actorHold.held||actorHold.moved)suppressUntil=Date.now()+500;cancelActorHold();return;}
    const d=drag;if(!d||d.pointer!==e.pointerId)return;const hit=document.elementFromPoint?.(e.clientX,e.clientY);cancelDrag(false,false);if(!d.held&&!d.scroll)return;suppressUntil=Date.now()+500;if(!d.held||d.token!==state.view.meta.view_token)return;redraw();
    if(!hit||!$('#cw-drop-zone').contains(hit))return;
    const q=choice();if(!q)return;
@@ -275,16 +291,17 @@
    previewChoice=JSON.parse(JSON.stringify(q));const loses=(p.unused_hand_expiry||[]).some(a=>a.expires&&a.destination==='destroyed');
    if(settings.quick&&p?.mode==='place'&&!loses)await perform();else{windowState={type:'preview',id:selected,pinned:true};windowContent();layout();}
   },{signal:events.signal});
-  for(const type of ['pointercancel','lostpointercapture'])root.addEventListener(type,e=>{if(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId)interruptGestures();},{signal:events.signal});
+  for(const type of ['pointercancel','lostpointercapture'])root.addEventListener(type,e=>{if(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId||pan?.pointer===e.pointerId)interruptGestures();},{signal:events.signal});
   root.addEventListener('pointerleave',()=>{cancelActorHold(true);if(drag&&!drag.held)interruptGestures();},{signal:events.signal});
   root.addEventListener('contextmenu',e=>{if(drag||actorHold?.held)e.preventDefault();},{signal:events.signal});
   root.addEventListener('scroll',e=>{if(e.target.id==='cw-actors')cancelActorHold(true);if(e.target.id==='cw-hand'&&drag&&!drag.held&&!drag.scroll&&Math.abs(e.target.scrollLeft-drag.initialScroll)>1)interruptGestures();layout();},{capture:true,signal:events.signal});
   $('#cw-hand').addEventListener('wheel',interruptGestures,{passive:true,signal:events.signal});
   window.addEventListener('blur',interruptGestures,{signal:events.signal});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptGestures();},{signal:events.signal});
-  document.addEventListener('pointerdown',e=>{if((drag||actorHold)&&e.isPrimary===false)interruptGestures();},{capture:true,signal:events.signal});
-  document.addEventListener('pointerup',e=>{if(!root.contains(e.target)&&(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId))interruptGestures();},{signal:events.signal});
-  const observer=new ResizeObserver(layout);observer.observe(root);
+  document.addEventListener('pointerdown',e=>{if((drag||actorHold||pan)&&e.isPrimary===false)interruptGestures();},{capture:true,signal:events.signal});
+  document.addEventListener('pointerup',e=>{if(!root.contains(e.target)&&(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId||pan?.pointer===e.pointerId))interruptGestures();},{signal:events.signal});
+  const observer=new ResizeObserver(()=>{interruptGestures();layout();});observer.observe(root);
+  (root.closest('[data-display]')||root).addEventListener('cw-display-change',()=>{interruptGestures();layout();},{signal:events.signal});
   function update(d,s=session.state()){data=d;state=s;if(!x())return;
    updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){gestureEpoch++;cancelDrag(true,false);cancelActorHold(true);selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
@@ -294,6 +311,6 @@
   }
   update(data,state);
   document.fonts?.ready.then(()=>{if(!dead)layout();});
-  return {update,dispose(){dead=true;cancelDrag();cancelActorHold();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
+  return {update,dispose(){dead=true;cancelPan();cancelDrag();cancelActorHold();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
  };
 })(globalThis.CrossweaveUI);

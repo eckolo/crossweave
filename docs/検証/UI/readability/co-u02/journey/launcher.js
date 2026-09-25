@@ -9,12 +9,12 @@
   try{link.click();}finally{link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  };
  api.mountJourneyApplication=function(root,{Campaign,config,title='夜潮の排水路',storageMode='persistent'}={}){
-  const launcher=api.makeLauncher(Campaign,config),events=new AbortController();
+  const launcher=api.makeLauncher(Campaign,config),events=new AbortController(),displayFrame=api.mountDisplayFrame(root);
   let child=null,connecting=false,reading=false,dead=false,importing=false,raw='',filename='',error='',message='';
   const busy=()=>connecting||reading||launcher.state().pending;
   const explain=e=>api.saveFailureText(e)||'開始できませんでした。保存と入力は保持しています。';
   const button=(label,action,disabled=false)=>'<button type="button" data-launch="'+action+'" class="cj-button cursor-interaction" '+(disabled?'disabled':'')+'>'+label+'</button>';
-  const resize=()=>{if(child||dead)return;const shell=root.querySelector('.cj-shell'),width=root.getBoundingClientRect().width;if(shell&&width>0)shell.style.height=width*9/16+'px';};
+  const resize=()=>{if(child||dead)return;const shell=root.querySelector('.cj-shell');if(shell)shell.style.height=api.displaySize.height+'px';};
   const observer=new ResizeObserver(resize);observer.observe(root);
   function render(){if(dead||child)return;const s=launcher.state(),locked=busy()||s.canRetry;
    root.dataset.screen='start';root.dataset.storageMode=storageMode;
@@ -54,6 +54,6 @@
    finally{reading=false;render();}
   },{signal:events.signal});
   const off=launcher.subscribe(render);render();
-  return {get journey(){return child;},get session(){return child?.session||null;},state:()=>({launcher:launcher.state(),connecting,reading,filename,importing,storageMode}),dispose(){dead=true;off();observer.disconnect();events.abort();launcher.dispose();child?.dispose();root.replaceChildren();}};
+  return {get journey(){return child;},get session(){return child?.session||null;},state:()=>({launcher:launcher.state(),connecting,reading,filename,importing,storageMode}),dispose(){dead=true;off();observer.disconnect();events.abort();launcher.dispose();child?.dispose();root.replaceChildren();displayFrame.dispose();}};
  };
 })(globalThis.CrossweaveUI);

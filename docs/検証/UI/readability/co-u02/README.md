@@ -1,3 +1,13 @@
+# CO-U02 探索FHD対応（UI 0.14.0／2026-09-25）
+
+最新は[探索・共通外枠の1920×1080対応](journey/full-hd.md)。既存の実Campaign接続を継承し、探索の札・人物・予測・詳細窓・倍率とドラッグ座標、前後遷移を調整。変更に絞った[26項目](review/exploration-fhd-checks.json)を確認した。会話本文から探索・出発本文・帰還・出発前を直接操作できる。[通常入口](index.html)と[場面入口](review/README.md)も同じ生成UIを使う。
+
+[二段階取得5.1](acquisition-preview/README.md)の画面はユーザー了承済み。新方式の本編接続は[管理・経済・保存移行の契約差分](acquisition-preview/integration-handoff.md)が残り、今回の探索成果とは区別する。実ブラウザー描画・実マウス／タッチ・IndexedDBは未確認。[現在の残件](remaining-work.md)と[自Workの引継ぎ](../../../../作業資料/Work/20260910-ui-readability.md)が最新状態。
+
+以下は旧提出時点の履歴。0.13は[統一・操作表示](consistency/README.md)に保存され、旧成果・検査記録・提示物を保持している。
+
+---
+
 # CO-U02 実データ接続（UI 0.12.0／2026-09-20）
 
 最新は [CO-U02-B：公開情報・取得経済](u02b/README.md)。D02R・D58・公開済みD03を接続し、購入／編成／変換と探索を一単位で更新。接続57項目＋会話内画面8項目を確認。今回の公開状態と、とりまとめへの引継ぎは自Work設定を参照。

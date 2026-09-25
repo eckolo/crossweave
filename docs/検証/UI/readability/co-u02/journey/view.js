@@ -16,13 +16,15 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  let skillFilter='all',menuPage=0;
  let purchaseChoice=null,conversionIds=new Set(),viewToken=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0,offers:0,owned:0},events=new AbortController();
- let frameWidth=root.getBoundingClientRect().width||1024;
+ const displayFrame=api.mountDisplayFrame(root);
+ const frameWidth=api.displaySize.width;
  root.dataset.storageMode=storageMode;
  root.innerHTML='<div class="cj-shell"><header class="cj-header" data-header></header><div class="cj-status" data-status role="status" aria-live="polite"></div><div class="cj-layout"><main data-main></main><aside data-inspector hidden></aside></div><div data-bottom></div></div>';
- // The frame follows only its parent's width, never the amount of open content.
- const sizeFrame=width=>{if(width>0){const changed=width!==frameWidth;frameWidth=width;$('.cj-shell').style.height=(width*9/16)+'px';if(changed)queueMicrotask(()=>{if(state.view)render();});}queueMicrotask(layoutWindows);};
- const frameObserver=new ResizeObserver(entries=>sizeFrame(entries[0]?.contentRect?.width||root.getBoundingClientRect().width));
- frameObserver.observe(root);sizeFrame(root.getBoundingClientRect().width);
+ // Game coordinates remain fixed; the outer display owns fitting and scrolling.
+ $('.cj-shell').style.height=api.displaySize.height+'px';
+ const frameObserver=new ResizeObserver(()=>queueMicrotask(layoutWindows));
+ frameObserver.observe(root);
+ root.addEventListener('cw-display-change',()=>queueMicrotask(layoutWindows),{signal:events.signal});
  const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||state.draftDetails?.[id]||(id==='$purchase'?d()?.details?.[p()?.candidate]:null)||{};
  const name=id=>info(id).name||'詳細未提供';
  const composition=plan=>{if(!plan)return null;const value=clone(plan);value.next_preparation.deck.sort();return value;};
@@ -40,7 +42,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
  __JOURNEY_PANELS__
  function resetWindows(){panel=null;windows=[];panelTrail=[];recordParentRect=null;recordTarget=null;recordDetail=null;detailFromRecords=false;windowAnchor=null;scrollMemory.clear();}
- function paneRect(b){const a=b.closest('[data-inspect-key]')?.getBoundingClientRect(),r=$('.cj-shell').getBoundingClientRect();return a?.width?{left:a.left-r.left,top:a.top-r.top,width:a.width,height:a.height}:null;}
+ function paneRect(b){const r=api.uiRect(b.closest('[data-inspect-key]'),$('.cj-shell'));return r?{left:r.x,top:r.y,width:r.w,height:r.h}:null;}
  function enterPanel(b,next){
   const pane=b.closest('[data-inspect-key]'),level=Number(pane?.dataset.level);
   if(!pane){panelTrail=[];recordParentRect=null;return;}
@@ -49,19 +51,19 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  }
  function windowBack(){if(panel==='details'&&!panelTrail.length&&windows.length>2){windows.pop();render();return;}const previous=panelTrail.pop();if(previous){panel=previous.panel;windows=previous.windows;}else{panel=null;windows=[];}recordDetail=null;recordTarget=null;recordParentRect=null;render();}
  function focusRecord(){queueMicrotask(()=>{if(!disposed)$('[data-j="record-back"]')?.focus({preventScroll:true});});}
- function rememberAnchor(button){const r=button.getBoundingClientRect();windowAnchor={action:button.dataset.j,id:button.dataset.id,rect:{left:r.left,top:r.top,width:r.width,height:r.height}};}
+ function rememberAnchor(button){windowAnchor={action:button.dataset.j,id:button.dataset.id,rect:api.uiRect(button,$('.cj-shell'))};}
  function layoutWindows(){
   if(disposed)return;const box=$('[data-inspector]');if(!box||box.hidden){api.layoutProse(root);return;}
-  const r=$('.cj-shell').getBoundingClientRect();if(!r.width||!r.height)return;
+  const r=api.uiSpace($('.cj-shell'));if(!r.width||!r.height)return;
   const source=[...root.querySelectorAll('[data-j]')].find(el=>el.dataset.j===windowAnchor?.action&&el.dataset.id===windowAnchor?.id&&!el.closest('[data-inspector]'));
-  const a=source?.getBoundingClientRect()||windowAnchor?.rect,anchor=a?{x:a.left-r.left,y:a.top-r.top,w:a.width,h:a.height}:null;
+  const anchor=source?api.uiRect(source,$('.cj-shell')):windowAnchor?.rect;
   const many=box.children.length>1;
-  const rect=api.placeWindow({width:r.width,height:r.height,anchor,avoid:[{x:0,y:0,w:r.width,h:44},{x:0,y:r.height-44,w:r.width,h:44}],preferredWidth:340,preferredHeight:Math.min(350,r.height-16)});
+  const rect=api.placeWindow({width:r.width,height:r.height,anchor,avoid:[{x:0,y:0,w:r.width,h:64},{x:0,y:r.height-64,w:r.width,h:64}],preferredWidth:520,preferredHeight:480,margin:16});
   const styles=q=>({left:q.left+'px',top:q.top+'px',width:q.width+'px',height:q.height+'px',right:'auto',bottom:'auto',maxHeight:'none'});
   if(many){
    Object.assign(box.style,styles({left:0,top:0,width:r.width,height:r.height}));
    const parent=recordParentRect||panelTrail.at(-1)?.rect||rect;
-   const pair=api.placeWindowPair({width:r.width,height:r.height,parent});
+   const pair=api.placeWindowPair({width:r.width,height:r.height,parent,preferredWidth:520,preferredHeight:480,margin:16,gap:16});
    [...box.children].forEach((pane,i)=>Object.assign(pane.style,styles(pair[i])));
   }else Object.assign(box.style,styles(rect));
   api.layoutProse(root);
@@ -174,6 +176,6 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
  const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
- return {session,ready,state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();}};
+ return {session,ready,state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();displayFrame.dispose();}};
 };
 })(globalThis.CrossweaveUI);

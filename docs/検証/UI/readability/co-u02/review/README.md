@@ -1,3 +1,24 @@
+# 探索FHDの確認入口（UI 0.14.0／2026-09-25）
+
+[探索FHDの成果](../journey/full-hd.md)を同じ配布ソースから提示する。会話内では「全体／原寸」と倍率を表示。次の4場面へ直接入れるので通しプレイは不要。以下のURLは既存の正規HTTP入口を使う。
+
+| 場面 | 場面入口のquery | 固定入力・準備 |
+|---|---|---|
+| 探索 | `index.html?case=explore-d03` | D03 `purchased-exploring` 原本 |
+| 出発時の本文 | `index.html?case=entry-d03` | D03 `offers-home` 原本から公開 `depart` |
+| 帰還 | `index.html?case=carried` | 同原本から公開 `depart` → `withdraw` |
+| 出発前 | `index.html?case=hub-d03` | D03 `offers-home` 原本 |
+
+実Campaign＋設計所有MemoryStore。入力原本・共通runtimeは変更していない。[提示物・入力・ソース照合](exploration-fhd-manifest.json)、[変更26項目](exploration-fhd-checks.json)、[実機手順](../u02b/browser-review.md)を保存。矩形・文字幅・可視通知等を注入したJSDOM確認であり、実描画・実ポインター・タッチ・IndexedDBは未確認。
+
+この入口から本編の旧取得画面にも進めるが、了承済みの[二段階取得5.1](../acquisition-preview/README.md)はまだ本編に接続していない。FHDの共通外枠への追従と、新しい管理・保存の採用を分けて扱う。
+
+生成：`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-exploration-full-hd.html fhd`。旧0.13用manifestと本文提示物は上書きしない。既存の場面は保持し、今回 `entry-d03`／`hub-d03` を追加した。
+
+---
+
+以下は旧提出時点の記録。現行版の検査済み範囲は上記を参照。
+
 # 追加指摘への修正版（0.13.0）
 
 初期提示は [心得・習得と装備](index.html?case=skills-current)。2種習得・1種装備を公開APIで作った実データの確認状態。覚えるだけ／覚えて装備、現在の習得・装備の絞り込み、同寸法の窓、固定の操作部を確認できる。購入・所持・探索へは場面選択から直接移動でき、通しプレイは不要。

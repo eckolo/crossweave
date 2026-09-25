@@ -56,4 +56,6 @@
 
 [前版5の20項目の限定確認](co-u02/acquisition-preview/fhd-checks.json)が通過。過去の操作検査は全再実行していない。取得・編成の意味と入力数量は維持した。
 
-1920×1080の基準と取得・編成の画面構造は了承済み。名称修正は[限定読戻し](co-u02/acquisition-preview/labels-check.json)で確認した。構造の再承認を待たず、[本編接続条件](co-u02/acquisition-preview/integration-handoff.md)を整理し、[探索画面のFHD調整](co-u02/exploration-fhd-task.md)を実施すべき後続タスクとして登録した。実ブラウザー描画・フォント実測・実ポインター・タッチ・IndexedDBは未確認。本編保存への接続、所持数の長期分布も残件として保持する。
+1920×1080の基準と取得・編成の画面は了承済み。名称修正は[限定読戻し](co-u02/acquisition-preview/labels-check.json)で確認した。続行指示を受け、[探索画面のFHD調整](co-u02/journey/full-hd.md)をUI0.14.0へ実装。通常外枠・盤面・手札・人物・予測・窓とドラッグ座標を揃え、前後遷移を含む変更26項目を確認した。探索FHDを登録のみ・未着手の状態へ戻さない。
+
+実ブラウザー描画・フォント実測・実ポインター・タッチ・IndexedDBは未確認。[二段階取得の本編接続](co-u02/acquisition-preview/integration-handoff.md)、所持数の長期分布も残件として保持する。共通外枠のFHD化で、旧本編の取得方式まで統一管理へ変わったとは扱わない。
