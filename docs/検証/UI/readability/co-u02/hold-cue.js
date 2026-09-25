@@ -4,6 +4,7 @@
   const doc=host.ownerDocument,win=doc.defaultView,node=doc.createElement('div');
   node.className='cw-hold-cue';node.hidden=true;node.setAttribute('aria-hidden','true');
   node.innerHTML='<span class="cw-hold-ring"></span><span class="cw-hold-label"></span>';host.append(node);
+  const revealDelay=120;
   let frame=null,active=null,disposed=false;
   function position(){if(!active)return;const s=scale()||1,r=host.getBoundingClientRect(),pad=Math.max(25,(active.label.length*12+8)/2+4)/s;
    const width=host.clientWidth||r.width/s,height=host.clientHeight||r.height/s;
@@ -13,7 +14,8 @@
    node.style.transform='translate(-50%,-50%) scale('+(1/s)+')';
   }
   function tick(now){frame=null;if(!active||disposed)return;
-   const progress=Math.max(0,Math.min(1,(now-active.started)/active.duration));
+   const elapsed=now-active.started,progress=Math.max(0,Math.min(1,elapsed/active.duration));
+   node.hidden=elapsed<revealDelay;
    node.style.setProperty('--cw-hold-progress',String(progress));position();
    if(progress<1)frame=win.requestAnimationFrame(tick);
   }
@@ -21,7 +23,7 @@
   return {start(event,duration,action,label=action==='detail'?'詳細':'移動'){cancel();if(disposed||duration<=0)return;
     active={x:event.clientX,y:event.clientY,started:win.performance.now(),duration,label};
     node.dataset.holdAction=action;node.querySelector('.cw-hold-label').textContent=label;
-    node.style.setProperty('--cw-hold-progress','0');position();node.hidden=false;frame=win.requestAnimationFrame(tick);
+    node.style.setProperty('--cw-hold-progress','0');position();frame=win.requestAnimationFrame(tick);
    },move(event){if(active){active.x=event.clientX;active.y=event.clientY;position();}},cancel,
    dispose(){cancel();disposed=true;node.remove();}};
  }};

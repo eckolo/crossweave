@@ -1,3 +1,15 @@
+# 敵画像の拡大・ホールド表示遅延の確認入口（UI0.14.3）
+
+2026-09-25。[修正内容](../journey/art-overlap.md)。既存の実装・4場面・1920×1080・全体／原寸・実Campaign＋MemoryStoreから生成する。旧提示物は保持。
+
+生成：`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-art-overlap.html overlap`。[提示照合](art-overlap-manifest.json)、[差分17項目](art-overlap-checks.json)。生成前に既存の `co-u02/build.cjs` で配布JS/CSSを更新する。取得側5.3は `node docs/検証/UI/readability/co-u02/acquisition-preview/build.cjs /workspace/crossweave-acquisition-delay.html`。
+
+今回の本文内提示は探索入口。短い押下とホールド、敵と札の大きさ、枠・ステータスへの重なりを確認できる。実ブラウザー描画・実入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 地形・共通札枠・操作名の確認入口（UI0.14.2）
 
 2026-09-25。[修正内容](../journey/card-frames.md)：地形の対象枠・行動順は記号、手札／場／予測／ドラッグは共通の札面、ホールド名は札の操作ボタンと一致させた。既存4場面・1920×1080・全体／原寸・実Campaign＋MemoryStoreを維持する。
