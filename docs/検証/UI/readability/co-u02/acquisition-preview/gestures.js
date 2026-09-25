@@ -23,8 +23,8 @@ function paintDrop(d){
  d.ghost?.classList.toggle('cp-no-drop',!plan);
 }
 function positionGhost(d){
- const r=root.querySelector('.cp-shell').getBoundingClientRect();
- d.ghost.style.left=(d.lastX-r.left-d.offsetX)+'px';d.ghost.style.top=(d.lastY-r.top-d.offsetY)+'px';
+ const shell=root.querySelector('.cp-shell'),r=shell.getBoundingClientRect();
+ d.ghost.style.left=((d.lastX-r.left-d.offsetX)/previewScale()-shell.clientLeft)+'px';d.ghost.style.top=((d.lastY-r.top-d.offsetY)/previewScale()-shell.clientTop)+'px';
 }
 function scrollAtEdge(el,x,y,horizontal=true,vertical=true){
  if(!el)return;const r=el.getBoundingClientRect(),edge=22;
@@ -70,7 +70,7 @@ root.addEventListener('pointermove',e=>{
  if(d.held){e.preventDefault();positionGhost(d);paintDrop(d);return;}
  if(d.panning||Math.hypot(dx,dy)>moveThreshold){
   clearTimeout(d.timer);d.panning=true;root.dataset.panning='true';capturePointer(d);
-  d.pan.scrollLeft=d.scrollX-dx;d.pan.scrollTop=d.scrollY-dy;e.preventDefault();
+  d.pan.scrollLeft=d.scrollX-dx/previewScale();d.pan.scrollTop=d.scrollY-dy/previewScale();e.preventDefault();
  }
 },{passive:false});
 root.addEventListener('pointerup',e=>{

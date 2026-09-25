@@ -30,6 +30,7 @@ function button(text,action,{key='',id='',uid='',zone='',disabled=false,primary=
 }
 function stateText(key){return (owned(key)?'所持 '+owned(key):'未所持')+(pending(key)?' → '+available(key):'')+' · 編成 '+selected(key);}
 __LAYOUT__
+__PREVIEW__
 function mutate(action,key,id,uid,destination='reserve'){
  if(action==='stage'){
   if(!offer(id)||draft.offers.includes(id)||current.purchased.includes(id))return;
@@ -80,5 +81,6 @@ root.addEventListener('keydown',event=>{
  }
 });
 let previousWidth=0;
-if(globalThis.ResizeObserver)new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==previousWidth){previousWidth=w;render();}}).observe(root);
+if(globalThis.ResizeObserver)new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==previousWidth){previousWidth=w;syncPreview();}}).observe(root);
 render();
+syncPreview();

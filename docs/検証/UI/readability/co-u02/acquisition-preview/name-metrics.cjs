@@ -8,7 +8,7 @@ async function nameMetrics(){
  for(const [id,v] of Object.entries(C.cards))if(v.affix_allowlist)for(const b of variants('card',id))names.push({kind:'card',key:b.key,name:compileCard(b).name});
  for(const id of Object.keys(C.rules.learning.bases))for(const b of variants('passive',id))names.push({kind:'passive',key:b.key,name:passiveDetail(b).name});
  for(const n of names)n.length=[...n.name].length;
- const tile={width:212,height:48,border:2,name_font:12,name_line_height:14,name_lines:2,name_width:156,name_height:28,metadata_height:12,body_gap:0,body_vertical_padding:4,action_width:44,action_height:44,action_placement:'right'};
+ const tile={width:352,height:80,border:2,name_font:20,name_line_height:24,name_lines:2,name_width:260,name_height:48,metadata_height:20,body_gap:0,body_vertical_padding:8,action_width:72,action_height:76,action_placement:'right'};
  const capacity=Math.floor(tile.name_width/tile.name_font)*tile.name_lines;
  if(names.some(n=>n.length>capacity))throw Error('A catalogue name exceeds the common tile name budget');
  return {source_design:'7565afca98684186705a4e865d4fdf0e0ae489c1',scope:'共通m1の全札・心得と許可された修飾の組合せ。将来追加される名称の上限は未確定。',count:names.length,by_kind:['card','passive'].map(kind=>({kind,count:names.filter(n=>n.kind===kind).length,longest:names.filter(n=>n.kind===kind).sort((a,b)=>b.length-a.length)[0]})),max_length:Math.max(...names.map(n=>n.length)),longest:names.sort((a,b)=>b.length-a.length).slice(0,4),tile,full_width_character_budget:capacity,verification:'文字数とCSS寸法による保守的な設計計算。フォントの実描画・実測ではない。'};
