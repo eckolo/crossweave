@@ -1,0 +1,60 @@
+{
+  "version": "0.14.9",
+  "checked_at_utc": "2026-09-25T19:07:27.541Z",
+  "passed": 8,
+  "checks": [
+    {
+      "name": "既存の出発前画面に4候補を表示し、現在の探索先だけを選択する",
+      "passed": true
+    },
+    {
+      "name": "候補を往復して名称・状態・手掛かりを更新し、保存・着想・編成を変えない",
+      "passed": true
+    },
+    {
+      "name": "詳細も選択先に対応し、候補を替えたら旧候補の窓を閉じる",
+      "passed": true
+    },
+    {
+      "name": "札組・心得から戻っても選択を保持し、出発しない",
+      "passed": true
+    },
+    {
+      "name": "仮候補の出発はUIと処理の両方で防ぎ、現在の実探索へのすり替えや決済をしない",
+      "passed": true
+    },
+    {
+      "name": "実探索は明示した出発だけでSCN-001へ接続する",
+      "passed": true
+    },
+    {
+      "name": "カタログを渡さない通常入口は1件表示・既存の目的と出発を維持する",
+      "passed": true
+    },
+    {
+      "name": "提示物は保存した生成物と一致し、外部通信・実行例外がない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "dab6eca965dab9ca2d0de4807d3d20cb3aa546b31fe37ef339ac512361524801",
+  "read_only_until_explicit_departure": true,
+  "fixture_candidates": 4,
+  "real_case_ids": [
+    "SCN-001"
+  ],
+  "injected": [
+    "client寸法・getBoundingClientRect",
+    "ResizeObserver・IntersectionObserver",
+    "button.click()"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント・実際の窓の重なり",
+    "実マウス・タッチ・実キーボード",
+    "IndexedDB・複数タブ"
+  ]
+}

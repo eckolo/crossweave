@@ -2154,7 +2154,7 @@ api.journeyLayout=function(width,total,anchor=0,reserved=0){
 
 /* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
 (function(api){'use strict';
-api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral'}){
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
  const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
@@ -2194,6 +2194,42 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
+ /* Optional review catalogue. Selection is presentation state, never a casebook write.
+ * Only the existing public case may depart. Other entries are UI-only fixtures. */
+const destinationOptions=Array.isArray(destinationPreview)?clone(destinationPreview):[];
+let selectedDestinationId=null;
+root.dataset.destinationPreview=String(destinationOptions.length>0);
+function destinationItem(){
+ const item=destinationOptions.find(x=>x.id===selectedDestinationId)||destinationOptions.find(x=>x.id===d()?.case?.id)||destinationOptions[0];
+ if(!item)return null;
+ const current=item.id===d()?.case?.id&&!item.previewOnly;
+ return {...item,current,name:current?title:item.name,
+  status:current?(d().case.status==='resolved'?'踏破済み':'未踏破'):item.status,
+  objective:current?(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発時に確認できます。'):item.objective};
+}
+function destinationCanDepart(){return !destinationOptions.length||destinationItem()?.current===true;}
+function destinationHeading(){return destinationItem()?.name||title;}
+function destinationClues(item){return '<div class="cj-destination-clues">'+(item.clues||[]).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';}
+function destinationBoard(){
+ const selected=destinationItem();
+ const choices=destinationOptions.map(item=>{
+  const on=item.id===selected.id,current=item.id===d().case.id&&!item.previewOnly;
+  const status=current?(d().case.status==='resolved'?'踏破済み':'未踏破'):item.status;
+  return button('<span class="cj-destination-check" aria-hidden="true">'+icon(on?'check':'map-pin')+'</span><span class="cj-destination-name">'+esc(current?title:item.name)+'</span><small>'+esc(status)+'</small><span class="cj-destination-hint">'+esc(item.clues.join(' · '))+'</span>',
+   'select-destination','data-id="'+esc(item.id)+'" data-focus="destination-'+esc(item.id)+'" aria-pressed="'+on+'" aria-controls="cj-selected-destination"','cj-destination-choice');
+ }).join('');
+ return '<section class="cj-fixed-hub cj-destinations">'+landscape()+
+  '<div class="cj-destination-list" role="group" aria-label="探索先を一つ選択">'+choices+'</div>'+
+  '<section id="cj-selected-destination" class="cj-selected-destination" aria-label="選択中の探索先" aria-live="polite" aria-atomic="true">'+
+   '<small>'+esc(selected.status)+'</small><h2>'+esc(selected.name)+'</h2>'+destinationClues(selected)+
+   '<h3>目的</h3><p class="cj-prose">'+esc(selected.objective)+'</p>'+button('詳細','destination','aria-label="'+esc(selected.name)+'の詳細"')+'</section></section>';
+}
+function destinationDescription(){
+ const item=destinationItem();
+ if(!item)return '<p>'+esc(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発後の本文で確認できます')+'</p>';
+ return '<h3>目的</h3><p class="cj-prose">'+esc(item.objective)+'</p><h3>攻略の手掛かり</h3>'+destinationClues(item);
+}
+
  /* Presentation helpers injected into mountJourney. No private catalogue or price calculation. */
 function paragraph(id){const t=d().texts?.[id];return t?'<p data-j-text="'+esc(id)+'">'+esc(t.short_text||t.detail_text||'')+'</p>':'';}
 // These public details are short paragraphs. Render them in reading order;
@@ -2214,7 +2250,7 @@ function returnView(){const r=d().return_receipt;if(!r)return '<p>帰還結果�
 function receiptDetails(){const r=d().return_receipt;if(!r)return '';
  return '<div class="cj-change"><span>着想</span><strong>+'+pt(r.gained_units)+'（合計 '+pt(r.unspent_after_units)+'）</strong></div><div class="cj-change"><span>余力</span><strong>'+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</strong></div><h3>獲得品</h3>'+((r.kept_items||[]).filter(x=>x.kind!=='points').map(x=>'<p>素材 '+esc(x.type||'')+' +'+esc(x.amount||1)+'</p>').join('')||'<p>なし</p>')+'<h3>記録に追加</h3>'+(r.new_unlocks||[]).map(id=>detailsButton('base:'+id)).join('')+((r.lost_items||[]).length?'<h3>喪失</h3>'+r.lost_items.map(x=>'<p>'+esc(x.kind==='points'?'着想':x.type||x.kind)+' '+esc(x.kind==='points'?pt(x.amount_units):x.amount??'')+'</p>').join(''):'');
 }
-function hubView(){const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
+function hubView(){if(destinationOptions.length)return destinationBoard();const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
 function compactWallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
 function catalogueItems(){if(tab==='offers')return h().offers.status==='purchased'?[]:h().candidates.map(x=>x.id);if(tab==='owned')return h().owned.map(x=>x.id);const skills=tab==='skills';const items=[...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id),...(p()?.candidate&&p().purchase_timing==='before_preparation'&&info(p().candidate).kind===(skills?'passive':'card')?['$purchase']:[])];
  return !skills||skillFilter==='all'?items:items.filter(id=>skillFilter==='learned'?currentlyLearned(info(id).base_id):currentlyEquipped(id));
@@ -2242,11 +2278,11 @@ function headerView(screen){const edit=['deck','skills','offers','owned'].includ
  const filter=tab==='skills'?'<select data-skill-filter class="cj-skill-filter" aria-label="現在の心得を絞り込む">'+[['all','すべて'],['learned','習得済み'],['equipped','装備中']].map(([v,l])=>'<option value="'+v+'" '+(skillFilter===v?'selected':'')+'>'+l+'</option>').join('')+'</select>':'';
  return lead+(edit?'<select data-compose-tab class="cj-compose-select" aria-label="編成と購入の切替">'+mobile.map(([v,l])=>'<option value="'+v+'" '+(selection===v?'selected':'')+'>'+l+'</option>').join('')+'</select>'+filter+pageButtons():'')+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(!edit?button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet'):'')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
 }
-function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary');}
+function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok||!destinationCanDepart()?'disabled':''),'cj-primary');}
 function footerView(screen){let content='';
  if(['deck','skills','offers','owned'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+(screen==='owned'&&conversionIds.size?button('着想に変える '+conversionIds.size+'点','convert-preview','data-j-mutation','cj-primary'):composeActions())+'</div>';
  else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
- else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+button('購入','offers')+'</div><div class="cj-fixed-actions">'+composeActions()+'</div>';
+ else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+button('購入','offers')+'</div><div class="cj-fixed-actions">'+(destinationOptions.length?'<span class="cj-selected-label">'+esc(destinationHeading())+'</span>':'')+composeActions()+'</div>';
  else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
  else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'探索を中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
  return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
@@ -2280,7 +2316,7 @@ function changeRows(){const c=state.comparison;if(!c)return '<p class="cj-muted"
 function summaryContents(){const c=state.comparison;
  return '<div class="cj-setup-line"><span>心得</span><div>'+miniList(p().next_preparation.equipment)+'</div></div><div class="cj-setup-line"><span>札組</span><strong>'+p().next_preparation.deck.length+'枚</strong></div>'+
  (dirty()?'<div class="cj-summary-diff">'+changeRows()+'</div>':'')+
- '<div class="cj-summary-actions">'+button(dirty()?'確定して出発':'出発 '+icon('arrow-right'),'depart','data-j-mutation '+(dirty()&&!c?.ok?'disabled':''),'cj-primary')+
+ '<div class="cj-summary-actions">'+button(dirty()?'確定して出発':'出発 '+icon('arrow-right'),'depart','data-j-mutation '+(dirty()&&!c?.ok||!destinationCanDepart()?'disabled':''),'cj-primary')+
  (dirty()?'<div>'+button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':''))+button('比較','review')+'</div>':'')+'</div>';
 }
 function sceneView(){return '<section class="cj-fixed-scene">'+landscape()+readWindow()+'</section>';}
@@ -2421,11 +2457,11 @@ function renderPanel(){const box=$('[data-inspector]'),hasChild=panel==='records
  box.innerHTML=current;box.dataset.count=box.children.length;box.dataset.layout=box.children.length>1?'linked':'windows';
 }
 function panelView(panel,back=false){
- const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:title,unavailable:'購入・所持',notice:'操作の確認',purchase:'購入の確認',conversion:'着想に変える',texts:'文章の記録'};
+ const titles={review:dirty()?'現在と変更案':committedFlash?'確定後の編成':'現在の編成',records:'調査記録',menu:'メニュー',help:'遊び方',settings:'表示',data:'保存データ',receipt:'帰還の内訳',destination:destinationHeading(),unavailable:'購入・所持',notice:'操作の確認',purchase:'購入の確認',conversion:'着想に変える',texts:'文章の記録'};
  let body='',actions='';
- if(panel==='review'){body=wallet()+(dirty()?changeRows()+purchasePlanControls():'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok?'disabled':'')):'';}
+ if(panel==='review'){body=wallet()+(dirty()?changeRows()+purchasePlanControls():'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok||!destinationCanDepart()?'disabled':'')):'';}
  if(panel==='receipt')body=receiptDetails();
- if(panel==='destination')body='<p>'+esc(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発後の本文で確認できます')+'</p><h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>';
+ if(panel==='destination')body=destinationDescription()+'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>';
  if(panel==='purchase')({body,actions}=purchasePanel());
  if(panel==='conversion')({body,actions}=conversionPanel());
  if(panel==='texts')body=textHistoryView();
@@ -2534,7 +2570,7 @@ function panelView(panel,back=false){
  async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
  async function edit(fn){if(busy())return;const next=clone(p());fn(next);message='';committedFlash=false;if(session.setDraft(next))await session.compare();}
  async function perform(type,payload={}){await sequence(async()=>{const result=await session.execute(type,payload);if(result.ok){panel=null;windows=[];sceneRequested=false;}});}
- async function depart(){await sequence(async()=>{if(!await toHome())return;
+ async function depart(){if(!destinationCanDepart())return;await sequence(async()=>{if(!await toHome())return;
    if(dirty()){const comparison=await session.compare();if(!comparison.ok){place='compose';return;}const result=await session.execute('commit_preparation',{plan:p()});if(!result.ok){continuation='depart';return;}message='編成を確定しました';}
    const result=await session.execute('depart',{case_id:d().case.id});if(result.ok){panel=null;windows=[];continuation=null;sceneRequested=false;}else continuation='depart';
   });}
@@ -2542,6 +2578,7 @@ function panelView(panel,back=false){
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(action==='select-destination'){if(busy()||d().phase!=='home'||!destinationOptions.some(x=>x.id===id))return;selectedDestinationId=id;resetWindows();message='';render();return;}
   if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
   if(action==='menu-page'){menuPage=Math.max(0,menuPage+Number(b.dataset.step));render();return;}
   if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],0);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}

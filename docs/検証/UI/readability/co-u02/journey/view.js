@@ -1,6 +1,6 @@
 /* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
 (function(api){'use strict';
-api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral'}){
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
  const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
@@ -40,6 +40,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
+ __JOURNEY_DESTINATIONS__
  __JOURNEY_PANELS__
  function resetWindows(){panel=null;windows=[];panelTrail=[];recordParentRect=null;recordTarget=null;recordDetail=null;detailFromRecords=false;windowAnchor=null;scrollMemory.clear();}
  function paneRect(b){const r=api.uiRect(b.closest('[data-inspect-key]'),$('.cj-shell'));return r?{left:r.x,top:r.y,width:r.w,height:r.h}:null;}
@@ -132,7 +133,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  async function navigate(destination){await sequence(async()=>{if(!await toHome())return;if(d().phase!=='home')return;if(destination==='hub')place='hub';else{place='compose';tab=destination;}panel=null;windows=[];message='';});}
  async function edit(fn){if(busy())return;const next=clone(p());fn(next);message='';committedFlash=false;if(session.setDraft(next))await session.compare();}
  async function perform(type,payload={}){await sequence(async()=>{const result=await session.execute(type,payload);if(result.ok){panel=null;windows=[];sceneRequested=false;}});}
- async function depart(){await sequence(async()=>{if(!await toHome())return;
+ async function depart(){if(!destinationCanDepart())return;await sequence(async()=>{if(!await toHome())return;
    if(dirty()){const comparison=await session.compare();if(!comparison.ok){place='compose';return;}const result=await session.execute('commit_preparation',{plan:p()});if(!result.ok){continuation='depart';return;}message='編成を確定しました';}
    const result=await session.execute('depart',{case_id:d().case.id});if(result.ok){panel=null;windows=[];continuation=null;sceneRequested=false;}else continuation='depart';
   });}
@@ -140,6 +141,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(action==='select-destination'){if(busy()||d().phase!=='home'||!destinationOptions.some(x=>x.id===id))return;selectedDestinationId=id;resetWindows();message='';render();return;}
   if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
   if(action==='menu-page'){menuPage=Math.max(0,menuPage+Number(b.dataset.step));render();return;}
   if(action==='page'){const items=catalogueItems(),layout=api.journeyLayout(frameWidth,items.length,pageAnchors[tab],0);pageAnchors[tab]=Math.max(0,Math.min(layout.pages-1,layout.page+Number(b.dataset.step)))*layout.capacity;panel=null;windows=windows.filter(w=>w.pinned);if(windows.length)panel='details';render();return;}

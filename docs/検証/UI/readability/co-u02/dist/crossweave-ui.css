@@ -1650,6 +1650,26 @@
 #crossweave-journey[data-display="fhd"] .cw-explore .cw-event-region{width:720px;height:96px;right:40px;bottom:440px}
 #crossweave-journey[data-display="fhd"] .cw-explore .cw-live-event{font-size:18px;line-height:28px;height:36px;padding:4px 12px}
 
+/* 1920x1080 review pattern: four equal 520x152 choices; no full-screen scroll. */
+#crossweave-journey[data-destination-preview="true"] .cj-destination-list{position:absolute;z-index:1;left:48px;top:64px;display:grid;grid-template-columns:520px;grid-auto-rows:152px;gap:20px}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-choice{width:520px;height:152px;display:grid;grid-template-columns:32px minmax(0,1fr) auto;grid-template-rows:auto auto;align-content:center;gap:16px 14px;padding:24px;text-align:left;border:1px solid light-dark(#9aa997,#748e73);border-left:6px solid transparent;border-radius:8px;background:light-dark(#f1f3e8,#233e32);color:light-dark(#253c30,#e2ebd9);box-shadow:0 2px 8px light-dark(#23342620,#0003)}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-choice:hover{background:light-dark(#e6ecdc,#334e3d)}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-choice[aria-pressed="true"]{border-left-color:light-dark(#34583c,#d5e5b3);background:light-dark(#dce7ca,#415c3c);color:light-dark(#203723,#edf3db)}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-check{grid-row:1/3;align-self:center}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-check svg{width:28px;height:28px}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-name{font-size:24px;line-height:32px;font-weight:500;white-space:nowrap}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-choice small{align-self:center;font-size:16px;line-height:24px;white-space:nowrap}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-hint{grid-column:2/4;font-size:18px;line-height:26px}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination{position:absolute;z-index:1;left:664px;top:160px;width:880px;min-height:430px;padding:36px 40px;display:flex;flex-direction:column;align-items:flex-start;gap:16px;border-radius:8px;background:light-dark(#f2f4e9,#263d32);color:light-dark(#273e2e,#e2ebdc);box-shadow:0 4px 20px light-dark(#23342620,#0004)}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination>small{font-size:18px}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination>h2{font-size:40px;line-height:1.3;font-weight:500;margin:0}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination>h3{font-size:20px;font-weight:500;margin:20px 0 0}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination>.cj-prose{font-size:22px;line-height:1.8;max-width:100%;margin:0}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-destination>.cj-button{min-height:56px;font-size:20px;padding:8px 24px;margin-top:8px}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-clues{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:18px}
+#crossweave-journey[data-destination-preview="true"] .cj-destination-clues>span{padding:3px 12px;background:light-dark(#dce5d3,#3c513d);border-radius:4px}
+#crossweave-journey[data-destination-preview="true"] .cj-selected-label{font-size:20px;padding-right:16px}
+
 /* The ring fills once with the real hold duration; it never suggests network loading. */
 .cw-hold-cue{position:absolute;z-index:1000;display:grid;place-items:center;width:32px;height:32px;pointer-events:none;transform-origin:center;user-select:none;--cw-hold-ink:light-dark(#294e3c,#ebf2dc);--cw-hold-paper:light-dark(#faf9ef,#203027);color:var(--cw-hold-ink);filter:drop-shadow(0 1px 2px #0006)}
 .cw-hold-cue[hidden]{display:none}

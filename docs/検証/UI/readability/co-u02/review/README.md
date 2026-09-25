@@ -1,3 +1,13 @@
+# 複数候補からの探索先選択（UI0.14.9）
+
+2026-09-26。[左に4候補、右に選択中の概要](../journey/destination-selection.md)。初期場面は「探索先選択」。候補を選び、詳細・札組／心得との往復を確認できる。追加3件は選択確認用の仮候補で、探索に進めるのは夜潮の排水路だけ。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-destination-selection.html destinations`。[提示照合](destination-selection-manifest.json)・[限定8項目](destination-selection-checks.json)。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の入口は冒頭を参照。
+
 # 予測の場札の詳細確認入口（UI0.14.8）
 
 2026-09-26。[予測札をクリックして詳細を確認](../journey/field-forecast-details.md)。左端の手札を選び、場に現れた「＋ 予測」の札を押す。既存実装・実Campaign＋MemoryStoreを使用。
