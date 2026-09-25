@@ -1,3 +1,13 @@
+# 選択元に対する左右規則の確認入口（UI0.14.6）
+
+2026-09-26。[手札・場・予測まで共通化](../journey/inward-details.md)。既存実装・実Campaign＋MemoryStoreを使い、前回の適用漏れを修正。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-inward-details.html inward`。[提示照合](inward-details-manifest.json)・[限定10項目](inward-details-checks.json)。旧成果・旧検査を保全。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 相手の詳細位置を揃える確認入口（UI0.14.5）
 
 2026-09-26。[従来方式の説明と今回の規則](../journey/steady-details.md)。上端16px・416×384pxを固定し、対象の左右位置に従って同じ高さの脇へ出す。既存の実Campaign＋MemoryStore・1920×1080・4場面から生成。
