@@ -29,6 +29,7 @@
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
   const $=s=>root.querySelector(s),x=()=>data.exploration,details=id=>data.details?.[id];
+  const holdCue=globalThis.CrossweaveHoldCue.mount(root,{scale:()=>api.displayScale(root)});
   const hand=()=>list(x()?.hand),field=()=>list(x()?.field),actors=()=>list(x()?.actors).filter(a=>a.active);
   const card=()=>hand().find(c=>c.id===selected),actor=id=>x()?.actors?.[id]||list(x()?.actors).find(a=>a.id===id);
   const names=id=>details(id)?.name||actor(id)?.name||'札';
@@ -67,7 +68,7 @@
     job.value=r.ok?r.value:null;job.failed=!r.ok;redraw();return job.value;
    });return job.promise;
   }
-  const art=(kind,k)=>`<span class="cw-illustration" data-art-kind="${kind}" aria-hidden="true">${icon(k)}</span>`;
+  const art=(kind,k,entity=null)=>{const a=kind==='actors'?api.actorArtwork?.(data,entity):null;return `<span class="cw-illustration" data-art-kind="${kind}" ${a?`data-artwork="${a.id}"`: ''} aria-hidden="true">${a?`<img src="${a.src}" width="${a.width}" height="${a.height}" alt="" draggable="false">`:icon(k)}</span>`;};
   const attribute=c=>`<span class="cw-attr">${esc(c.attr)}</span>`;
   const main=c=>{const p=details(c.id)?.primary;if(!p)return '詳細未提供';if(p.kind==='defense_support')return stat('guard',p.defense_grant?.guard)+stat('evasion',p.defense_grant?.evasion)+'<small>全員付与</small>';return stat(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power)+stat(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit);};
   function cardDetails(id){const d=details(id);if(!d)return '<p>この詳細はまだ公開されていません</p>';
@@ -149,14 +150,14 @@
   function redraw(){if(dead||!x())return;const c=card();
    const scrolls=['cw-actors','cw-field','cw-hand','cw-turn-order'].map(id=>[id,$('#'+id).scrollLeft]);
    root.dataset.cardDrag=String(settings.drag);root.setAttribute('aria-busy',String(!!state.pending));
-   $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。タップで対象指定、長押しで詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
+   $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。タップで対象指定、長押しで詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose,a)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
    const attrs=[...new Set([...field().map(c=>c.attr),...hand().map(c=>c.attr)])];
    const fieldPrediction=projected()?.field;
-   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f?art('cards',f.kind):''}<span class="cw-face-caption"><strong>${f?esc(names(f.id)):ghost?esc(ghost.name):esc(attr)}</strong>${f||ghost?`<span class="cw-attr">${esc(attr)}</span>`:''}${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</span></${tag}>`;}).join('');
-   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-hand-meta">${attribute(h)}<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></span></button></article>`).join('');
+   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f||ghost?art('cards',f?.kind||c?.kind):''}<span class="cw-face-caption"><strong>${f?esc(names(f.id)):ghost?esc(ghost.name):esc(attr)}</strong>${f||ghost?`<span class="cw-attr">${esc(attr)}</span>`:''}${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}</span>${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</${tag}>`;}).join('');
+   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}" aria-description="ホールドで移動">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-hand-meta">${attribute(h)}<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></span></button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
    const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null;
-   const turnFace=r=>`<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${icon(actor(r.actor)?.purpose)}</span>${r.nextSelf?'<b>次</b>':''}</button>`;
+   const turnFace=r=>{const a=api.actorArtwork?.(data,actor(r.actor));return `<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${a?`<img src="${a.src}" alt="" draggable="false">`:icon(actor(r.actor)?.purpose)}</span>${r.nextSelf?'<b>次</b>':''}</button>`;};
    $('#cw-turn-order').setAttribute('aria-label',predicted?'行動後の本人と現在の相手の予約':'現在の行動予約');
    $('#cw-turn-order').innerHTML=predicted?'<li class="cw-turn-now">本人・今</li>'+predicted.map(g=>`<li class="cw-turn-group" data-at="${g.at}" ${g.rows.length>1?'aria-label="同時刻の予約"':''}>${g.rows.map(turnFace).join('')}<span>+${g.at-x().now}</span></li>`).join(''):reservations?reservations.map(r=>`<li>${turnFace(r)}<span>+${r.at-x().now}</span></li>`).join(''):'<li>行動予約を確認中…</li>';
    const nextIndex=predicted?.findIndex(g=>g.rows.some(r=>r.nextSelf)),nextGroup=nextIndex>=0?predicted[nextIndex]:null;
@@ -239,13 +240,13 @@
   root.addEventListener('keydown',e=>{if(e.key==='Escape'){interruptGestures();close();}},{signal:events.signal});
   root.addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;clearTimeout(leaveTimer);const b=e.target.closest('.cw-menu [data-x],#cw-use');if(!b||b.disabled||b.contains(e.relatedTarget)||(windowState?.pinned&&b.id!=='cw-use'))return;clearTimeout(hoverTimer);hoverTimer=later(()=>{if(b.id==='cw-use')preview(false);else if(!['scene','records','menu','target-info'].includes(b.dataset.x))open(b.dataset.x,null,false);},180);},{signal:events.signal});
   root.addEventListener('pointerout',e=>{if(e.target.contains(e.relatedTarget))return;clearTimeout(hoverTimer);if(!e.relatedTarget?.closest?.('#cw-drawer'))leaveTimer=later(()=>{if(windowState&&!windowState.pinned)close();},160);},{signal:events.signal});
-  function cancelDrag(suppress=true,repaint=true){if(autoScrollFrame!==null){cancelAnimationFrame(autoScrollFrame);autoScrollFrame=null;}const d=drag;if(!d)return;drag=null;clearTimeout(d.timer);
+  function cancelDrag(suppress=true,repaint=true){if(drag)holdCue.cancel();if(autoScrollFrame!==null){cancelAnimationFrame(autoScrollFrame);autoScrollFrame=null;}const d=drag;if(!d)return;drag=null;clearTimeout(d.timer);
    // Clear ownership before release, which may synchronously emit lost capture.
    if(root.hasPointerCapture?.(d.pointer))root.releasePointerCapture(d.pointer);
    $('#cw-drag-ghost').hidden=true;$('#cw-drop-zone').dataset.drag='false';if(suppress)suppressUntil=Date.now()+500;
    if(repaint&&d.held&&!dead)redraw();
   }
-  function cancelActorHold(suppress=false){if(!actorHold)return;clearTimeout(actorHold.timer);actorHold=null;if(suppress)suppressUntil=Date.now()+500;}
+  function cancelActorHold(suppress=false){if(!actorHold)return;holdCue.cancel();clearTimeout(actorHold.timer);actorHold=null;if(suppress)suppressUntil=Date.now()+500;}
   function cancelPan(){const p=pan;pan=null;if(p?.moved){suppressUntil=Date.now()+500;if(root.hasPointerCapture?.(p.pointer))root.releasePointerCapture(p.pointer);}}
   function interruptGestures(){gestureEpoch++;cancelPan();clearTimeout(hoverTimer);clearTimeout(leaveTimer);cancelActorHold(true);cancelDrag();}
   function positionHeldCard(point){
@@ -265,7 +266,7 @@
   }
   root.addEventListener('pointerdown',e=>{if(e.isPrimary===false){interruptGestures();return;}if(e.button!==0||busy()||drag||actorHold||pan)return;
    gestureEpoch++;suppressUntil=0;
-   const a=e.target.closest('[data-x-actor]');if(a){cancelActorHold();const current=actorHold={id:a.dataset.xActor,pointer:e.pointerId,x:e.clientX,y:e.clientY,held:false,moved:false,token:state.view.meta.view_token};current.timer=later(()=>{if(actorHold!==current||current.moved||state.view.meta.view_token!==current.token)return;current.held=true;open('actor',current.id,true);},350);return;}
+   const a=e.target.closest('[data-x-actor]');if(a){cancelActorHold();const current=actorHold={id:a.dataset.xActor,pointer:e.pointerId,x:e.clientX,y:e.clientY,held:false,moved:false,token:state.view.meta.view_token};current.timer=later(()=>{if(actorHold!==current||current.moved||state.view.meta.view_token!==current.token)return;holdCue.cancel();current.held=true;open('actor',current.id,true);},350);holdCue.start(e,350,'detail');return;}
    const c=e.target.closest('[data-x-card]');
    if(!c){const row=e.target.closest('.cw-scroll');if(row&&!e.target.closest('button'))pan={row,pointer:e.pointerId,x:e.clientX,scroll:row.scrollLeft,moved:false};return;}
    if(!settings.drag)return;
@@ -273,14 +274,14 @@
    drag={id:c.dataset.xCard,pointer:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,initialScroll:$('#cw-hand').scrollLeft,width:rect.width/scale,height:rect.height/scale,offsetX:(e.clientX-rect.left)/scale,offsetY:(e.clientY-rect.top)/scale,face:c.innerHTML,scroll:false,held:false,token:state.view.meta.view_token};
    const current=drag;current.timer=later(()=>{
     if(drag!==current||drag.scroll||dead||busy()||!settings.drag||current.token!==state.view.meta.view_token)return;
-    drag.held=true;selected=drag.id;previewChoice=null;retainTarget();close();redraw();
+    holdCue.cancel();drag.held=true;selected=drag.id;previewChoice=null;retainTarget();close();redraw();
     const ghost=$('#cw-drag-ghost');ghost.innerHTML=drag.face;Object.assign(ghost.style,{width:drag.width+'px',height:drag.height+'px'});ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';
     positionHeldCard({clientX:drag.lastX,clientY:drag.lastY});root.setPointerCapture?.(e.pointerId);autoScrollFrame=requestAnimationFrame(scrollWhileHeld);
-   },settings.hold);
+   },settings.hold);holdCue.start(e,settings.hold,'drag');
   },{signal:events.signal});
-  root.addEventListener('pointermove',e=>{if(pan?.pointer===e.pointerId){const dx=e.clientX-pan.x;if(pan.moved||Math.abs(dx)>8){if(!pan.moved){pan.moved=true;root.setPointerCapture?.(e.pointerId);}pan.row.scrollLeft=pan.scroll-dx/api.displayScale(root);e.preventDefault();layout();}return;}if(actorHold?.pointer===e.pointerId&&Math.hypot(e.clientX-actorHold.x,e.clientY-actorHold.y)>8){clearTimeout(actorHold.timer);actorHold.moved=true;}
+  root.addEventListener('pointermove',e=>{holdCue.move(e);if(pan?.pointer===e.pointerId){const dx=e.clientX-pan.x;if(pan.moved||Math.abs(dx)>8){if(!pan.moved){pan.moved=true;root.setPointerCapture?.(e.pointerId);}pan.row.scrollLeft=pan.scroll-dx/api.displayScale(root);e.preventDefault();layout();}return;}if(actorHold?.pointer===e.pointerId&&Math.hypot(e.clientX-actorHold.x,e.clientY-actorHold.y)>8){clearTimeout(actorHold.timer);holdCue.cancel();actorHold.moved=true;}
    if(!drag||drag.pointer!==e.pointerId)return;drag.lastX=e.clientX;drag.lastY=e.clientY;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-   if(!drag.held&&(drag.scroll||Math.hypot(dx,dy)>8)){clearTimeout(drag.timer);drag.scroll=true;$('#cw-hand').scrollLeft=drag.initialScroll-dx/api.displayScale(root);e.preventDefault();layout();return;}
+   if(!drag.held&&(drag.scroll||Math.hypot(dx,dy)>8)){clearTimeout(drag.timer);holdCue.cancel();drag.scroll=true;$('#cw-hand').scrollLeft=drag.initialScroll-dx/api.displayScale(root);e.preventDefault();layout();return;}
    if(drag.held){e.preventDefault();positionHeldCard(e);}
   },{signal:events.signal,passive:false});
   root.addEventListener('pointerup',async e=>{if(pan?.pointer===e.pointerId){cancelPan();return;}if(actorHold?.pointer===e.pointerId){if(actorHold.held||actorHold.moved)suppressUntil=Date.now()+500;cancelActorHold();return;}
@@ -302,7 +303,7 @@
   document.addEventListener('pointerup',e=>{if(!root.contains(e.target)&&(drag?.pointer===e.pointerId||actorHold?.pointer===e.pointerId||pan?.pointer===e.pointerId))interruptGestures();},{signal:events.signal});
   const observer=new ResizeObserver(()=>{interruptGestures();layout();});observer.observe(root);
   (root.closest('[data-display]')||root).addEventListener('cw-display-change',()=>{interruptGestures();layout();},{signal:events.signal});
-  function update(d,s=session.state()){data=d;state=s;if(!x())return;
+  function update(d,s=session.state()){data=d;state=s;if(!x())return;api.applySceneArtwork?.($('#cw-scene-base'),data);
    updateEvents();
    const token=s.view.meta.view_token;if(previousToken&&token!==previousToken){gestureEpoch++;cancelDrag(true,false);cancelActorHold(true);selected=null;previewChoice=null;forecast=null;close();}previousToken=token;
    retainTarget();
@@ -311,6 +312,6 @@
   }
   update(data,state);
   document.fonts?.ready.then(()=>{if(!dead)layout();});
-  return {update,dispose(){dead=true;cancelPan();cancelDrag();cancelActorHold();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
+  return {update,dispose(){dead=true;holdCue.dispose();cancelPan();cancelDrag();cancelActorHold();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
  };
 })(globalThis.CrossweaveUI);

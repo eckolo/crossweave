@@ -6,7 +6,7 @@ function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-st
 function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;
  return '<div class="cj-wallet"><span>'+icon('lightbulb')+'着想</span><strong>'+pt(now)+'</strong>'+(dirty()?'<span class="cj-arrow">→</span><strong class="cj-changed">'+pt(after)+'</strong><small>変更案</small>':committedFlash?'<small>確定済み</small>':'')+'</div>';}
 function outcome(){return ({clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'})[d().return_receipt?.outcome]||'探索終了';}
-function landscape(){return '<div class="cj-landscape cj-backdrop" aria-hidden="true"><div></div><div></div><div></div></div>';}
+function landscape(){const a=api.sceneArtwork?.(d());return '<div class="cj-landscape cj-backdrop" aria-hidden="true"'+(a?' data-artwork="'+a.id+'" style="background-image:url('+a.src+');background-position:'+a.position+'"':'')+'><div></div><div></div><div></div></div>';}
 function readWindow(){return d().scene?'<section class="cj-reading-window" aria-label="場面の本文"><div class="cj-reading-scroll" data-reading="'+esc(d().scene.id)+'">'+sceneCopy()+'</div></section>':'';}
 function returnView(){const r=d().return_receipt;if(!r)return '<p>帰還結果を読み込めませんでした</p>';
  const materials=(r.kept_items||[]).filter(x=>x.kind!=='points'),unlocks=r.new_unlocks||[],lost=r.lost_items||[];

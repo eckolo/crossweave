@@ -1,3 +1,13 @@
+# 仮画像・予測枠・ホールド表示の確認入口（UI 0.14.1）
+
+2026-09-25。[今回の成果](../journey/art-hold.md)は、下記0.14と同じ4場面・実Campaign・設計MemoryStoreを使用。水路と骨董店の仮背景、敵の仮画像、予測札の構造統一、ホールド有効中の表示を追加した。全体／原寸で操作できる。[28項目](art-hold-checks.json)は今回差分だけの確認で、実ブラウザー描画・実入力・IndexedDBの合格ではない。
+
+生成：`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-art-hold.html art`。[提示物・入力・ソースの照合記録](art-hold-manifest.json)。同じ実行コードを圧縮して画像とともに同梱し、外部通信を使わない。旧0.13・0.14のmanifestと本文提示物は保全する。
+
+了承済みの[取得編成5.2](../acquisition-preview/README.md)へも同じホールド表示を適用した。本編の旧取得画面とは別の操作確認入口であり、新方式の本編接続は残件。
+
+---
+
 # 探索FHDの確認入口（UI 0.14.0／2026-09-25）
 
 [探索FHDの成果](../journey/full-hd.md)を同じ配布ソースから提示する。会話内では「全体／原寸」と倍率を表示。次の4場面へ直接入れるので通しプレイは不要。以下のURLは既存の正規HTTP入口を使う。

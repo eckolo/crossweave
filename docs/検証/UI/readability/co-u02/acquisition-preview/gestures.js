@@ -1,6 +1,7 @@
 // Same gesture split as exploration: short hold moves a piece; immediate swipe pans.
 let gesture=null,suppressUntil=0;
 const holdMs=220,moveThreshold=8;
+const holdCue=globalThis.CrossweaveHoldCue.mount(root.querySelector('.cp-shell'),{scale:previewScale});
 function dropPlan(data,to){
  if(!to||to===data.from)return null;
  if(data.from==='offer'){
@@ -41,7 +42,7 @@ function dragFrame(){
 function capturePointer(d){try{root.setPointerCapture?.(d.pointer);}catch{}}
 function startHeld(d){
  if(gesture!==d||d.panning||view.dialog||!d.piece.isConnected)return;
- d.held=true;capturePointer(d);d.piece.classList.add('cp-lifted');
+ holdCue.cancel();d.held=true;capturePointer(d);d.piece.classList.add('cp-lifted');
  const ghost=d.piece.cloneNode(true);ghost.classList.remove('cp-lifted');ghost.classList.add('cp-drag-ghost');ghost.setAttribute('aria-hidden','true');ghost.inert=true;
  for(const el of [ghost,...ghost.querySelectorAll('*')])for(const key of Object.keys(el.dataset))delete el.dataset[key];
  root.querySelector('.cp-shell').append(ghost);d.ghost=ghost;
@@ -49,7 +50,7 @@ function startHeld(d){
  notify(item(d.key).name+'を移動中です。');
 }
 function cancelGesture(suppress=true){
- const d=gesture;if(!d)return;gesture=null;clearTimeout(d.timer);if(d.frame)cancelAnimationFrame(d.frame);
+ holdCue.cancel();const d=gesture;if(!d)return;gesture=null;clearTimeout(d.timer);if(d.frame)cancelAnimationFrame(d.frame);
  d.ghost?.remove();d.piece?.classList.remove('cp-lifted');delete root.dataset.dragging;delete root.dataset.panning;clearDropMarks();
  if(root.hasPointerCapture?.(d.pointer))root.releasePointerCapture(d.pointer);
  if(suppress)suppressUntil=Date.now()+400;saveScroll();
@@ -62,14 +63,14 @@ root.addEventListener('pointerdown',e=>{
  const pan=piece?.closest('[data-scroll-zone]')||e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!pan)return;
  suppressUntil=0;
  const r=piece?.getBoundingClientRect(),d=gesture={pointer:e.pointerId,piece,pan,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,scrollX:pan.scrollLeft,scrollY:pan.scrollTop,held:false,panning:false,from:piece?.dataset.zoneItem,key:piece?.dataset.key,uid:piece?.dataset.unit,id:piece?.dataset.offer,offsetX:r?e.clientX-r.left:0,offsetY:r?e.clientY-r.top:0};
- if(piece)d.timer=setTimeout(()=>startHeld(d),holdMs);
+ if(piece){d.timer=setTimeout(()=>startHeld(d),holdMs);holdCue.start(e,holdMs,'drag');}
 });
 root.addEventListener('pointermove',e=>{
- const d=gesture;if(!d||d.pointer!==e.pointerId)return;d.lastX=e.clientX;d.lastY=e.clientY;
+ const d=gesture;if(!d||d.pointer!==e.pointerId)return;holdCue.move(e);d.lastX=e.clientX;d.lastY=e.clientY;
  const dx=e.clientX-d.x,dy=e.clientY-d.y;
  if(d.held){e.preventDefault();positionGhost(d);paintDrop(d);return;}
  if(d.panning||Math.hypot(dx,dy)>moveThreshold){
-  clearTimeout(d.timer);d.panning=true;root.dataset.panning='true';capturePointer(d);
+  clearTimeout(d.timer);holdCue.cancel();d.panning=true;root.dataset.panning='true';capturePointer(d);
   d.pan.scrollLeft=d.scrollX-dx/previewScale();d.pan.scrollTop=d.scrollY-dy/previewScale();e.preventDefault();
  }
 },{passive:false});

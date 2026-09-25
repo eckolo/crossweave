@@ -1,8 +1,9 @@
 // Reproducible conversation preview: same UI and actual Campaign. No network API.
-const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const {bundle,buildStyle}=require('../journey/build.cjs');
 const read=p=>fs.readFileSync(path.join(__dirname,p),'utf8'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-function build({testing=false,fhd=false}={}){
+function build({testing=false,fhd=false,art=false}={}){
+ fhd=fhd||art;
  const runtime=bundle(),manifest=JSON.parse(read('fixtures/manifest.json'));
  const selected=manifest.records.filter(r=>fhd?['purchased-exploring','offers-home'].includes(r.id):r.id!=='migrated-return');
  const packed=Object.fromEntries(selected.map(r=>[r.id,{...r,data:fs.readFileSync(path.join(__dirname,'fixtures',r.path)).toString('base64')}]));
@@ -20,15 +21,19 @@ function build({testing=false,fhd=false}={}){
  `const review=mountReview(host,{ui:CrossweaveUI,cases,initial:'${fhd?'explore-d03':'skills-current'}',updateURL:false,prepare:id=>createCheckpoint(id,loadDocument)});`,
  testing?'host.__test={review,runtime:CWJourneyRuntime};':'','})();'].join('\n');
  new Function(script);
- const html=read(fhd?'exploration-fhd.fragment.html':'preview.fragment.html').replace('__STYLE__',()=>buildStyle()).replace('__SCRIPT__',()=>script.replace(/<\/script/gi,'<\\/script'));
+ // Compress the unchanged executable source to leave room for embedded artwork.
+ // This is local decoding, using the same gzip support as the pinned save inputs.
+ const encoded=art?zlib.gzipSync(Buffer.from(script)).toString('base64'):null;
+ const delivered=art?`(async()=>{const host=document.getElementById('${hostId}');try{const packed=Uint8Array.from(atob('${encoded}'),c=>c.charCodeAt(0));const source=await new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).text();const script=document.createElement('script');script.textContent=source;host.append(script);script.remove();}catch(error){host.querySelector('#crossweave-journey').textContent='画面を開けませんでした（'+error.message+'）';}})();`:script;
+ const html=read(fhd?'exploration-fhd.fragment.html':'preview.fragment.html').replace('__STYLE__',()=>buildStyle()).replace('__SCRIPT__',()=>delivered.replace(/<\/script/gi,'<\\/script'));
  if(Buffer.byteLength(html)>=1000000||/<(?:html|head|body)\b|<!doctype/i.test(html)||/\b(?:fetch|XMLHttpRequest|WebSocket)\s*\(/.test(html))throw Error('invalid inline contract '+Buffer.byteLength(html));
- return {html,sources:runtime.sources,fixtures:selected.map(({id,source,source_sha256,raw_sha256})=>({id,source,source_sha256,raw_sha256}))};
+ return {html,script_sha256:sha(script),sources:runtime.sources,fixtures:selected.map(({id,source,source_sha256,raw_sha256})=>({id,source,source_sha256,raw_sha256}))};
 }
 if(require.main===module){
- const fhd=process.argv[3]==='fhd',result=build({fhd}),output=process.argv[2]||(fhd?'/workspace/crossweave-exploration-full-hd.html':'/workspace/crossweave-ui-consistency.html');
+ const art=process.argv[3]==='art',fhd=art||process.argv[3]==='fhd',result=build({fhd,art}),output=process.argv[2]||(art?'/workspace/crossweave-art-hold.html':fhd?'/workspace/crossweave-exploration-full-hd.html':'/workspace/crossweave-ui-consistency.html');
  fs.writeFileSync(output,result.html);
- const files=['../dist/crossweave-ui.js','../dist/crossweave-ui.css','../display-frame.js','../window-placement.js','../prose-layout.js','../exploration.js','../journey/view.js','../journey/panels.js','../journey/layout.js','../journey/launcher.js','../journey/full-hd.css','../journey/build.cjs','build-inline.cjs','picker.mjs','checkpoints.mjs',fhd?'exploration-fhd.fragment.html':'preview.fragment.html',...(fhd?['display-controls.js']:[])];
- fs.writeFileSync(path.join(__dirname,fhd?'exploration-fhd-manifest.json':'inline-manifest.json'),JSON.stringify({version:fhd?'0.14.0':'0.13.0',path:output,bytes:Buffer.byteLength(result.html),sha256:sha(result.html),runtime_sources:result.sources,fixtures:result.fixtures,ui_sources:files.map(p=>({path:p,sha256:sha(read(p))}))},null,2)+'\n');
+ const files=['../dist/crossweave-ui.js','../dist/crossweave-ui.css','../display-frame.js','../window-placement.js','../prose-layout.js','../exploration.js','../journey/view.js','../journey/panels.js','../journey/layout.js','../journey/launcher.js','../journey/full-hd.css','../journey/build.cjs','../build.cjs','build-inline.cjs','picker.mjs','checkpoints.mjs',fhd?'exploration-fhd.fragment.html':'preview.fragment.html',...(fhd?['display-controls.js']:[]),...(art?['../hold-cue.js','../hold-cue.css','../art-assets/build.cjs','../art-assets/presentation.js','../art-assets/presentation.css']:[])];
+ fs.writeFileSync(path.join(__dirname,art?'art-hold-manifest.json':fhd?'exploration-fhd-manifest.json':'inline-manifest.json'),JSON.stringify({version:art?'0.14.1':fhd?'0.14.0':'0.13.0',path:output,bytes:Buffer.byteLength(result.html),sha256:sha(result.html),...(art?{script_encoding:'gzip-base64',decoded_script_sha256:result.script_sha256}:{}),runtime_sources:result.sources,fixtures:result.fixtures,ui_sources:files.map(p=>({path:p,sha256:sha(read(p))}))},null,2)+'\n');
  console.log(JSON.stringify({path:output,bytes:Buffer.byteLength(result.html),sha256:sha(result.html)}));
 }
 module.exports={build};
