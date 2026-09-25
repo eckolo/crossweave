@@ -1,3 +1,13 @@
+# 相手の選択・詳細を一回にまとめる確認入口（UI0.14.4）
+
+2026-09-26。[操作と配置](../journey/select-details.md)。敵・地形のクリックで対象と詳細を切り替え、ホールドには何も割り当てない。札の既存ドラッグは保持。1920×1080・実Campaign＋MemoryStore・既存4場面を使い、旧入口を保全した。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-select-details.html selection`。[提示照合](select-details-manifest.json)、[限定15項目](select-details-checks.json)。窓の寸法と相手・場・手札・行動順の非重複は注入したサンプル矩形で確認。実描画・実入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 敵画像の拡大・ホールド表示遅延の確認入口（UI0.14.3）
 
 2026-09-25。[修正内容](../journey/art-overlap.md)。既存の実装・4場面・1920×1080・全体／原寸・実Campaign＋MemoryStoreから生成する。旧提示物は保持。
