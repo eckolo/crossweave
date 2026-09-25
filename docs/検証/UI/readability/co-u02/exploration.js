@@ -25,7 +25,7 @@
    <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span id="cw-notice" role="status"></span></div><div class="cw-scroll" id="cw-hand"></div><div class="cw-scroll-help" data-track="cw-hand"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div><div id="cw-action-track"><div class="cw-actions" id="cw-action-anchor" hidden><button type="button" data-x="preview">予測</button><button type="button" id="cw-use" data-x="use" class="cw-primary">場に出す</button></div></div></section>
    <footer class="cw-bottom"><div class="cw-footer-state"><div class="cw-self" id="cw-self" aria-label="本人の状態"></div><span id="cw-hand-count"></span></div><nav class="cw-menu" aria-label="探索メニュー">${menuButton('target-info','対象の詳細','info')}${menuButton('more','メニュー','menu')}</nav><button type="button" data-x="withdraw">撤退</button></footer>
    <div class="cw-event-region" aria-label="直前の行動"><ol id="cw-event-feed" aria-live="polite" aria-relevant="additions"></ol></div>
-   <svg id="cw-relations" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden></svg><div id="cw-drag-ghost" aria-hidden="true" hidden></div>
+   <svg id="cw-relations" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden></svg><div id="cw-drag-ghost" class="cw-card-face" aria-hidden="true" hidden></div>
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
    <section class="cw-drawer" id="cw-parent-drawer" role="dialog" aria-label="探索メニュー" hidden><header><strong></strong><button type="button" data-x="parent-pin" aria-label="固定する">${symbol('pin','📌')}</button><button type="button" data-x="parent-close" aria-label="窓を閉じる">×</button></header><div class="cw-drawer-body"></div></section>`;
   const $=s=>root.querySelector(s),x=()=>data.exploration,details=id=>data.details?.[id];
@@ -47,15 +47,18 @@
   const actorStats=a=>{const p=projected()?.actors[a.id];return '<span class="cw-actor-stats">'+['guard','crit','evasion'].map(k=>stat(k,k==='guard'?a.defense?.guard??a.guard?.value??0:a[k],p?.[k])).join('')+'</span>';};
   const vitals=a=>{const p=projected()?.actors[a.id];return `<span class="cw-vitals">${stat('hp',a.hp,p?.hp,a.max_hp)}${stat('posture',a.posture_remaining,p?.posture,a.max_posture)}</span><span class="cw-vital-bars"><progress value="${a.hp}" max="${a.max_hp}" aria-label="${esc(a.remaining_label||'余力')}"></progress><progress value="${a.posture_remaining}" max="${a.max_posture}" aria-label="隠蔽"></progress></span>`;};
   const busy=()=>['write','inspect'].includes(state.pending?.kind)||state.canRetry||state.stale;
-  const choices=()=>list(x()?.legal_actions).map(a=>a.choice??a).filter(a=>a.card_id===selected);
+  const choicesFor=id=>list(x()?.legal_actions).map(a=>a.choice??a).filter(a=>a.card_id===id);
+  const choices=()=>choicesFor(selected);
   const choice=()=>choices().find(a=>a.target===target)||choices().find(a=>a.target===null)||null;
   // Keep the player's target across turns, as in formal v0.15. Derive a first
   // target only from public legal choices, preferring the passage when present.
-  function retainTarget(legal=choices()){
+  function targetFor(legal){
    const allowed=legal.filter(a=>a.target!==null).map(a=>a.target),candidates=actors().filter(a=>a.id!==x().self.id&&(!allowed.length||allowed.includes(a.id)));
-   if(candidates.some(a=>a.id===target))return;
-   target=candidates.find(a=>a.purpose==='passage')?.id??candidates[0]?.id??null;
+   return candidates.some(a=>a.id===target)?target:candidates.find(a=>a.purpose==='passage')?.id??candidates[0]?.id??null;
   }
+  function retainTarget(legal=choices()){target=targetFor(legal);}
+  const actionLabel=(c,q)=>q?q.target?(actor(q.target)?.action_label||'攻撃'):field().some(f=>f.attr===c.attr)?(c.kind==='guard'?label('guard','身構'):c.kind==='heal'?'回復':c.kind==='defense_support'?'付与':'一致して使う'):'場に置く':'対象を選択';
+  function handActionLabel(id){const c=hand().find(h=>h.id===id),legal=choicesFor(id),t=targetFor(legal);return actionLabel(c,legal.find(a=>a.target===t)||legal.find(a=>a.target===null));}
   function requestForecast(retry=false){
    const q=choice(),key=forecastKey(q);if(!q||busy())return Promise.resolve(null);
    if(forecast?.key===key&&!(retry&&forecast.failed))return forecast.promise;
@@ -68,8 +71,10 @@
     job.value=r.ok?r.value:null;job.failed=!r.ok;redraw();return job.value;
    });return job.promise;
   }
-  const art=(kind,k,entity=null)=>{const a=kind==='actors'?api.actorArtwork?.(data,entity):null;return `<span class="cw-illustration" data-art-kind="${kind}" ${a?`data-artwork="${a.id}"`: ''} aria-hidden="true">${a?`<img src="${a.src}" width="${a.width}" height="${a.height}" alt="" draggable="false">`:icon(k)}</span>`;};
+  const actorIcon=a=>a?.purpose==='passage'?symbol('mountain','△'):icon(a?.purpose);
+  const art=(kind,k,entity=null)=>{const a=kind==='actors'?api.actorArtwork?.(data,entity):null;return `<span class="cw-illustration" data-art-kind="${kind}" ${kind==='actors'&&entity?.purpose==='passage'?'data-terrain':''} ${a?`data-artwork="${a.id}"`: ''} aria-hidden="true">${a?`<img src="${a.src}" width="${a.width}" height="${a.height}" alt="" draggable="false">`:kind==='actors'?actorIcon(entity):icon(k)}</span>`;};
   const attribute=c=>`<span class="cw-attr">${esc(c.attr)}</span>`;
+  const cardFace=(kind,name,values,attr,meta='')=>art('cards',kind)+`<span class="cw-face-caption"><strong>${esc(name)}</strong><span class="cw-stat-line">${values}</span><span class="cw-hand-meta">${attribute({attr})}${meta}</span></span>`;
   const main=c=>{const p=details(c.id)?.primary;if(!p)return '詳細未提供';if(p.kind==='defense_support')return stat('guard',p.defense_grant?.guard)+stat('evasion',p.defense_grant?.evasion)+'<small>全員付与</small>';return stat(p.kind==='guard'?'guard':p.kind==='heal'?'heal':'power',p.power)+stat(p.kind==='guard'?'evasion':'hit',p.kind==='guard'?p.evasion:p.hit);};
   function cardDetails(id){const d=details(id);if(!d)return '<p>この詳細はまだ公開されていません</p>';
    const p=d.primary,f=d.field,rows=[],h=hand().find(c=>c.id===id),match=h&&field().find(c=>c.attr===h.attr);
@@ -153,11 +158,11 @@
    $('#cw-actors').innerHTML=actors().filter(a=>a.id!==x().self.id).map(a=>`<article class="cw-actor-item"><button type="button" class="cw-actor" data-x-actor="${esc(a.id)}" aria-label="${target===a.id?'対象：':''}${esc(a.name)}。タップで対象指定、長押しで詳細" aria-pressed="${target===a.id}">${art('actors',a.purpose,a)}<span class="cw-face-caption"><strong>${target===a.id?`<span class="cw-target-mark" aria-hidden="true">${symbol('crosshair','⊕')}</span>`:''}${esc(a.name)}</strong>${vitals(a)}${actorStats(a)}</span></button></article>`).join('');
    const attrs=[...new Set([...field().map(c=>c.attr),...hand().map(c=>c.attr)])];
    const fieldPrediction=projected()?.field;
-   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f||ghost?art('cards',f?.kind||c?.kind):''}<span class="cw-face-caption"><strong>${f?esc(names(f.id)):ghost?esc(ghost.name):esc(attr)}</strong>${f||ghost?`<span class="cw-attr">${esc(attr)}</span>`:''}${f||ghost?`<span class="cw-stat-line">${stat(guard?'guard':'power',f?f.field_power:ghost.power)}${stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit)}</span>`:''}</span>${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</${tag}>`;}).join('');
-   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}" aria-description="ホールドで移動">${art('cards',h.kind)}<span class="cw-face-caption"><strong>${esc(names(h.id))}</strong><span class="cw-stat-line">${main(h)}</span><span class="cw-hand-meta">${attribute(h)}<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span></span></span></button></article>`).join('');
+   $('#cw-field').innerHTML=attrs.map(attr=>{const f=field().find(f=>f.attr===attr),ghost=!f&&fieldPrediction?.kind==='place'&&fieldPrediction.attr===attr?fieldPrediction:null,consumes=f&&fieldPrediction?.kind==='consume'&&fieldPrediction.id===f.id,tag=f?'button':'div',guard=['guard','defense_support'].includes(c?.kind)&&c.attr===attr;return `<${tag} ${f?`type="button" data-x-field="${esc(f.id)}"`:''} class="cw-slot${f||ghost?' cw-card-face':''}${ghost?' cw-field-forecast':''}" data-x-attr="${esc(attr)}" data-linked="${c?.attr===attr}" data-forecast="${ghost?'place':consumes?'consume':''}">${f||ghost?cardFace(f?.kind||c?.kind,f?names(f.id):ghost.name,stat(guard?'guard':'power',f?f.field_power:ghost.power)+stat(guard?'evasion':'hit',f?f.field_hit:ghost.hit),attr):`<span class="cw-face-caption"><strong>${esc(attr)}</strong></span>`}${ghost||consumes?`<small class="cw-field-change">${ghost?'＋ 予測':'使用後に場から離れる'}</small>`:''}</${tag}>`;}).join('');
+   $('#cw-hand').innerHTML=hand().map(h=>`<article class="cw-hand-card" data-selected="${h.id===selected}"><button type="button" class="cw-select cw-card-face" data-x-card="${esc(h.id)}" aria-pressed="${h.id===selected}" aria-description="ホールドで出札を準備">${cardFace(h.kind,names(h.id),main(h),h.attr,`<span class="cw-life ${h.remaining===1?'cw-loss':''}">${h.remaining===1?'今回まで':'あと'+h.remaining+'行動'}</span>`)}</button></article>`).join('');
    const reservations=state.reservations||forecast?.value?.current_reservations;
    const predicted=forecast?.key===forecastKey()?api.projectReservations(data,forecast.value):null;
-   const turnFace=r=>{const a=api.actorArtwork?.(data,actor(r.actor));return `<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${a?`<img src="${a.src}" alt="" draggable="false">`:icon(actor(r.actor)?.purpose)}</span>${r.nextSelf?'<b>次</b>':''}</button>`;};
+   const turnFace=r=>{const a=api.actorArtwork?.(data,actor(r.actor));return `<button type="button" data-x-order="${esc(r.actor)}" ${r.nextSelf?'data-self-next':''} aria-label="${esc(names(r.actor))}、${r.nextSelf?'行動後の次回予約':'予約'} +${r.at-x().now}"><span class="cw-turn-face">${a?`<img src="${a.src}" alt="" draggable="false">`:actorIcon(actor(r.actor))}</span>${r.nextSelf?'<b>次</b>':''}</button>`;};
    $('#cw-turn-order').setAttribute('aria-label',predicted?'行動後の本人と現在の相手の予約':'現在の行動予約');
    $('#cw-turn-order').innerHTML=predicted?'<li class="cw-turn-now">本人・今</li>'+predicted.map(g=>`<li class="cw-turn-group" data-at="${g.at}" ${g.rows.length>1?'aria-label="同時刻の予約"':''}>${g.rows.map(turnFace).join('')}<span>+${g.at-x().now}</span></li>`).join(''):reservations?reservations.map(r=>`<li>${turnFace(r)}<span>+${r.at-x().now}</span></li>`).join(''):'<li>行動予約を確認中…</li>';
    const nextIndex=predicted?.findIndex(g=>g.rows.some(r=>r.nextSelf)),nextGroup=nextIndex>=0?predicted[nextIndex]:null;
@@ -168,7 +173,7 @@
    $('#cw-self').innerHTML=vitals(x().self)+actorStats(x().self);$('#cw-hand-count').textContent=`手札 ${hand().length}枚`;
    const match=c&&field().some(f=>f.attr===c.attr);$('#cw-match-label').textContent=c?c.attr+' · '+(match?'一致':'設置'):'';
    $('#cw-notice').textContent=busy()?'処理中…':state.error?'操作結果を確認してください':c&&choices().length&&!choice()?'対象を選択':'';
-   const q=choice(),verb=q?q.target?(actor(q.target)?.action_label||'攻撃'):match?(c.kind==='guard'?label('guard','身構'):c.kind==='heal'?'回復':c.kind==='defense_support'?'付与':'一致して使う'):'場に置く':'対象を選択';
+   const q=choice(),verb=actionLabel(c,q);
    $('#cw-use').textContent=verb;$('#cw-use').setAttribute('aria-label',q?.target?names(q.target)+'を対象に'+verb:verb);
    $('[data-x="target-info"]').disabled=!target;
    $('#cw-use').disabled=busy()||!q||!session.can('play');$('[data-x="preview"]').disabled=(!q||busy())&&windowState?.type!=='preview';
@@ -277,7 +282,7 @@
     holdCue.cancel();drag.held=true;selected=drag.id;previewChoice=null;retainTarget();close();redraw();
     const ghost=$('#cw-drag-ghost');ghost.innerHTML=drag.face;Object.assign(ghost.style,{width:drag.width+'px',height:drag.height+'px'});ghost.hidden=false;$('#cw-drop-zone').dataset.drag='true';
     positionHeldCard({clientX:drag.lastX,clientY:drag.lastY});root.setPointerCapture?.(e.pointerId);autoScrollFrame=requestAnimationFrame(scrollWhileHeld);
-   },settings.hold);holdCue.start(e,settings.hold,'drag');
+   },settings.hold);holdCue.start(e,settings.hold,'drag',handActionLabel(current.id));
   },{signal:events.signal});
   root.addEventListener('pointermove',e=>{holdCue.move(e);if(pan?.pointer===e.pointerId){const dx=e.clientX-pan.x;if(pan.moved||Math.abs(dx)>8){if(!pan.moved){pan.moved=true;root.setPointerCapture?.(e.pointerId);}pan.row.scrollLeft=pan.scroll-dx/api.displayScale(root);e.preventDefault();layout();}return;}if(actorHold?.pointer===e.pointerId&&Math.hypot(e.clientX-actorHold.x,e.clientY-actorHold.y)>8){clearTimeout(actorHold.timer);holdCue.cancel();actorHold.moved=true;}
    if(!drag||drag.pointer!==e.pointerId)return;drag.lastX=e.clientX;drag.lastY=e.clientY;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;

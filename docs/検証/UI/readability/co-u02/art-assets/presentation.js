@@ -4,7 +4,7 @@
  function profile(data,actor){return (data.knowledge_views||[]).find(v=>v.key===actor?.knowledge_key)?.target_id;}
  api.actorArtwork=function(data,actor){
   if(data.case?.id!=='SCN-001')return null;
-  const id=profile(data,actor);return id==='SCN-001-ACT02'?assets.diver:['SCN-001-ACT01','SCN-001-ACT04'].includes(id)?assets.water:null;
+  return profile(data,actor)==='SCN-001-ACT02'?assets.diver:null;
  };
  api.sceneArtwork=function(data){
   if(data.case?.id!=='SCN-001')return null;

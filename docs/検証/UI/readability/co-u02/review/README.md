@@ -1,3 +1,11 @@
+# 地形・共通札枠・操作名の確認入口（UI0.14.2）
+
+2026-09-25。[修正内容](../journey/card-frames.md)：地形の対象枠・行動順は記号、手札／場／予測／ドラッグは共通の札面、ホールド名は札の操作ボタンと一致させた。既存4場面・1920×1080・全体／原寸・実Campaign＋MemoryStoreを維持する。
+
+生成：`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-card-frames.html cards`。[提示照合](card-frames-manifest.json)、[差分検査](card-frames-checks.json)。実ブラウザー描画・実タッチ・IndexedDBは未確認。[操作統一案](../journey/interaction-proposal.md)は未採用・未実装で、この版の敵のクリック／ホールドはまだ従来通り。
+
+---
+
 # 仮画像・予測枠・ホールド表示の確認入口（UI 0.14.1）
 
 2026-09-25。[今回の成果](../journey/art-hold.md)は、下記0.14と同じ4場面・実Campaign・設計MemoryStoreを使用。水路と骨董店の仮背景、敵の仮画像、予測札の構造統一、ホールド有効中の表示を追加した。全体／原寸で操作できる。[28項目](art-hold-checks.json)は今回差分だけの確認で、実ブラウザー描画・実入力・IndexedDBの合格ではない。

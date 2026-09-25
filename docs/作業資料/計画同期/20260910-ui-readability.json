@@ -39,8 +39,8 @@
     "docs/作業資料/とりまとめ/計画同期手順.md": "d9bd697eb21ce4633e35a69cf7cb1d152d89a2ed"
   },
   "technical_source": "dev_design_tmp_assembly@7565afca98684186705a4e865d4fdf0e0ae489c1",
-  "status": "計画全28blob一致・追加コピー不要。UI0.14.1の仮画像・予測枠・共通ホールド表示と取得5.2を保存・引継ぎ。本編の統一取得接続と実機確認は未完了。",
-  "checked_at_utc": "2026-09-25T10:25:11.452Z",
+  "status": "計画28blob一致、前回切断後の公開履歴同期を完了。UI0.14.2の地形・共通札枠・操作名を修正し、クリック／ホールド統一案を整理。本編接続・実機確認は未完了。",
+  "checked_at_utc": "2026-09-25T11:37:01.079Z",
   "ui_start": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
   "old_copy_clean": true,
   "latest_previous_copy_available": false,
@@ -1908,5 +1908,108 @@
       "status": "match"
     },
     "image_recipe_and_dimensions": "3点の派生物を再現し原本・SHA256・寸法・alphaを照合"
+  },
+  "card_frames_and_interaction_20260925": {
+    "request": "地形縮小背景を除去、札枠統一、ホールド名整合、ビジュアル制作方針厳守、クリック／ホールドの統一案",
+    "own_public_head_at_start": "114cd152c2fe16734895cf6533c69fae91d65dfc",
+    "local_head_at_start": "9c2aa1c472848da7c68b57ab5da7905568935cdf",
+    "uncommitted_changes_at_start": 0,
+    "previous_public_history_recovered": true,
+    "synced_local_head": "af86863cb754acd6e447fa0cff6468074a3b2d43",
+    "synced_tree": "8b7e184bc6fd35ca5a17a10ab1a0fcbd2c3118ad",
+    "source_commit": "4c47d0a3230568735de33129610123c9be714856",
+    "technical_commit": "7565afca98684186705a4e865d4fdf0e0ae489c1",
+    "files": {
+      "docs/作業資料/とりまとめ/CO-01_実装基準.md": "e27172e3127824b42a99b41d56c32097005c4b07",
+      "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md": "100ac9d53f8f00e3676a233570a720d0cce2d387",
+      "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md": "656b33b71218e930acb8e88b17ebdfc39b66df8b",
+      "docs/作業資料/とりまとめ/Codex導入/運用検討.md": "09b42973c30c174f5651a22ae7ca79eb4ee4d79b",
+      "docs/作業資料/とりまとめ/Work別実施計画.md": "095fbb0176efa8426a8eeb4d5e962dbd2de1fbdb",
+      "docs/作業資料/とりまとめ/仮置き・未決事項.md": "b8b60eb19a992bc49aa1b26e7724e16c20c82d55",
+      "docs/作業資料/とりまとめ/全体計画.md": "92807bbff9ad441c7161f30420c7b54528bba77a",
+      "docs/作業資料/とりまとめ/完了報告と引継ぎ規則.md": "bb44322c1e18634c885ab40706a8373ba823567a",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/README.md": "844e17238ef7d6fbd72084bc387d9740c88273bd",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/manifest.json": "4af6d0da095fa8bb4cf5e4a7f20600f009562ce7",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/staged.patch": "78eb86db0945705e69e64fb6469c976e5285bfc9",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/README.md": "0c2e7d3c3aa12ac0beed8a9d0efd17f86be09027",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/manifest.json": "d13653e507d66730e0dafeb9631e64a6ec95e36b",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/unstaged.patch": "80ed37397ef48e982b5cf72714bf7581ddfa8dca",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920_成果受領/README.md": "00eb49d23490a376fa580b64fd9252f7a0f43c8d",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920_成果受領/verification.json": "4e17c56c7704b5ee9553abf1e9cd8e5232609af8",
+      "docs/作業資料/とりまとめ/現状棚卸し.md": "3cc624718d2ef315516037ddc5413e931efc4b41",
+      "docs/作業資料/とりまとめ/着手指示/CO-01A_接続データ照合.md": "81f3a0d81bb84dbfa7b20ba9fc3714817b902bab",
+      "docs/作業資料/とりまとめ/着手指示/CO-D01_設計集約.md": "868efcc390fc41dfe4f1a4b473d5f662a62eee16",
+      "docs/作業資料/とりまとめ/着手指示/CO-D02R_UI受領と公開情報追補.md": "37ebb6df0a4948315cd6c503eed9b15bdbe22649",
+      "docs/作業資料/とりまとめ/着手指示/CO-D02_継続本体.md": "1f692a919733a1fd55038c849dfee6695132b287",
+      "docs/作業資料/とりまとめ/着手指示/CO-D03_取得と個体経済.md": "9b1011c41223e9dcf68922cabe8063a72bccdfbd",
+      "docs/作業資料/とりまとめ/着手指示/CO-S01_シナリオ.md": "053a500da2f3257b344069542c007b23e7b41953",
+      "docs/作業資料/とりまとめ/着手指示/CO-U01_UI.md": "a9095146a4c353e233fd6b3e0eb05c78f1008cc7",
+      "docs/作業資料/とりまとめ/着手指示/CO-U02B_公開情報と取得経済の接続.md": "48e3db483ec7d2115c8e906ca171db01287d66c0",
+      "docs/作業資料/とりまとめ/着手指示/CO-U02_実データ接続.md": "afc2b4dec6510e45ba0bae9324f9a006fade2876",
+      "docs/作業資料/とりまとめ/着手指示/CO-V01_用途確定と初回素材.md": "963c2e078a61c95b114ee555e5289415e7ed1c6c",
+      "docs/作業資料/とりまとめ/計画同期手順.md": "d9bd697eb21ce4633e35a69cf7cb1d152d89a2ed"
+    },
+    "all_28_plan_blobs_match": true,
+    "technical_already_integrated": true,
+    "plan_version": "0.9",
+    "sync_protocol_version": "1.9",
+    "completion_report_rule_version": "1.0",
+    "prepublication_heads": {
+      "plan": "4c47d0a3230568735de33129610123c9be714856",
+      "design": "7565afca98684186705a4e865d4fdf0e0ae489c1",
+      "ui": "114cd152c2fe16734895cf6533c69fae91d65dfc",
+      "visual": "25e7ce99bffc551e2370568b74704865c3de13e0"
+    },
+    "checked_at_utc": "2026-09-25T11:37:01.079Z",
+    "visual_reference": {
+      "commit": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "mode": "read-only",
+      "method": "docs/仕様案/ビジュアル・演出/Dの制作手順.md",
+      "method_version": "1.0",
+      "connection_version": "0.5",
+      "new_image_generated": false,
+      "diver_pose": "了承",
+      "diver_style": "背景と不一致。次回正式手順・指定作例に準拠"
+    },
+    "ui_version": "0.14.2",
+    "inline": {
+      "path": "/workspace/crossweave-card-frames.html",
+      "bytes": 727640,
+      "sha256": "3cf5a5e39ca6cf163b053fd052aae006ae1cecb2d881b3a34d87fd7276186db6"
+    },
+    "limited_checks": {
+      "path": "docs/検証/UI/readability/co-u02/review/card-frames-checks.json",
+      "passed": 13,
+      "environment": {
+        "node": "v24.19.0",
+        "dom": "JSDOM 26.1.0"
+      },
+      "injected": [
+        "矩形・client寸法・capture・hit test",
+        "ResizeObserver・可視通知"
+      ]
+    },
+    "old_suites_rerun": false,
+    "old_inline_artifacts_preserved": true,
+    "runtime_economy_save_or_fixture_modified": false,
+    "interaction_proposal": "docs/検証/UI/readability/co-u02/journey/interaction-proposal.md",
+    "interaction_proposal_adopted_or_implemented": false,
+    "request_status": "未完了（操作統一案の採用後の実装、本編の二段階取得接続、実環境確認）",
+    "implemented": "地形・共通札枠・操作名の修正。操作統一は文章の提案のみ。",
+    "unverified": [
+      "実ブラウザー描画・実フォント",
+      "実マウス・物理タッチ",
+      "IndexedDB・複数タブ",
+      "提案中のクリック／ホールド統一の使いやすさ"
+    ],
+    "relative_links_checked": 231,
+    "artifact_and_source_hashes": {
+      "runtime": 28,
+      "ui": 23,
+      "fixtures": 2,
+      "status": "match"
+    },
+    "handoff": "docs/作業資料/Work/20260910-ui-readability.md",
+    "other_work_receipt_and_integration": "未確認"
   }
 }

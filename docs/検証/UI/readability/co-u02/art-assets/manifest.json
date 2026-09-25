@@ -126,16 +126,37 @@
   ],
   "temporary_bindings": {
     "case_id": "SCN-001",
-    "actor_lookup": "actor.knowledge_key equals public knowledge_views key; use its target_id",
-    "night_tide": [
-      "SCN-001-ACT-01",
-      "SCN-001-ACT-04"
-    ],
-    "diver": [
-      "SCN-001-ACT-02"
-    ],
-    "ACT_04_revisit_reuse": "今回のみの仮使用。正式な解決後・再訪差分は後続。",
+    "actor_lookup": "actor.knowledge_key equals public knowledge_views key; use target_id",
+    "actor_artwork": {
+      "SCN-001-ACT02": "diver-placeholder"
+    },
+    "scene_background": {
+      "water_scene_ids": [
+        "SCN-001-S02",
+        "SCN-001-S02R"
+      ],
+      "water_active_actor_ids": [
+        "SCN-001-ACT01",
+        "SCN-001-ACT04"
+      ],
+      "shop_phases": [
+        "home",
+        "return"
+      ]
+    },
+    "terrain_actor_artwork": "none; passage uses mountain icon in actor and turn order",
+    "ACT04_revisit_reuse": "全面背景だけに仮使用。正式な解決後・再訪差分は後続。",
     "unknown_or_other_case": "既存の一般背景・絵へfallback"
   },
-  "real_browser_composite": "未確認"
+  "real_browser_composite": "未確認",
+  "current_ui_version": "0.14.2",
+  "user_feedback_20260925": {
+    "diver_pose": "了承",
+    "diver_style": "背景と不一致。今回の修正対象ではない",
+    "regeneration_performed": false,
+    "next_creation": "ビジュアル担当の最新正式手順・基本②と背景③・指定作例と使用背景を参照",
+    "reference_commit": "25e7ce99bffc551e2370568b74704865c3de13e0",
+    "method_path": "docs/仕様案/ビジュアル・演出/Dの制作手順.md",
+    "method_version": "1.0"
+  }
 }
