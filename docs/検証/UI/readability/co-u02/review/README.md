@@ -1,3 +1,13 @@
+# 相手の詳細位置を揃える確認入口（UI0.14.5）
+
+2026-09-26。[従来方式の説明と今回の規則](../journey/steady-details.md)。上端16px・416×384pxを固定し、対象の左右位置に従って同じ高さの脇へ出す。既存の実Campaign＋MemoryStore・1920×1080・4場面から生成。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-steady-details.html placement`。[提示照合](steady-details-manifest.json)、[限定11項目](steady-details-checks.json)。旧提示物と検査記録は保全。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+---
+
+以下は過去の記録。現在の状態は冒頭を参照。
+
 # 相手の選択・詳細を一回にまとめる確認入口（UI0.14.4）
 
 2026-09-26。[操作と配置](../journey/select-details.md)。敵・地形のクリックで対象と詳細を切り替え、ホールドには何も割り当てない。札の既存ドラッグは保持。1920×1080・実Campaign＋MemoryStore・既存4場面を使い、旧入口を保全した。

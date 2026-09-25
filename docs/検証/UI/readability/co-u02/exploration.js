@@ -198,14 +198,11 @@
     const source=attr?[...root.querySelectorAll('[data-x-card],[data-x-actor],[data-x-field],[data-x-order]')].find(e=>e.dataset[attr]===w.id):root.querySelector('[data-x="'+w.type+'"]');
     const rect=el=>api.uiRect(el,root);
     const anchor=rect(source);
-    // Actor details use the empty space around actual pieces, rather than
-    // treating the entire wide actor row as occupied.
-    const pieces=w.type==='actor'?[...root.querySelectorAll('#cw-actors>* ,#cw-field>*,#cw-hand>*,#cw-turn-order [data-x-order]')].map(rect):[rect($('#cw-actors'))];
-    const avoid=[...pieces,!dock.hidden?rect(dock):null,rect($('.cw-bottom'))].filter(Boolean);
+    const avoid=[rect($('#cw-actors')),!dock.hidden?rect(dock):null,rect($('.cw-bottom'))].filter(Boolean);
     // The shorter actor summary keeps the common 13:12 ratio at a fixed 80%
     // footprint so opening it on every selection leaves the board accessible.
     const actorDetail=fhd&&w.type==='actor';
-    const p=api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:actorDetail?416:fhd?520:320,preferredHeight:actorDetail?384:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
+    const p=actorDetail?api.placeActorWindow({width:rr.width,height:rr.height,anchor,actors:[...root.querySelectorAll('#cw-actors>*')].map(rect)}):api.placeWindow({width:rr.width,height:rr.height,anchor,avoid,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:6,minWidth:144,minHeight:64});
     const place=(el,q)=>Object.assign(el.style,{width:q.width+'px',height:q.height+'px',maxHeight:q.height+'px',top:q.top+'px',left:q.left+'px'});
     if(windowParent){const pair=api.placeWindowPair({width:rr.width,height:rr.height,parent:parentRect||p,preferredWidth:fhd?520:320,preferredHeight:fhd?480:260,margin:fhd?16:8,gap:fhd?16:8});place($('#cw-parent-drawer'),pair[0]);place(popup,pair[1]);}else place(popup,p);
    }

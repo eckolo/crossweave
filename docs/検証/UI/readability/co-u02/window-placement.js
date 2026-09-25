@@ -34,6 +34,27 @@
   const best=candidates.sort((a,b)=>a.score-b.score)[0]||bounds;
   return {left:Math.max(margin,best.x),top:Math.max(margin,best.y),width:best.w,height:best.h,source_overlap:anchor?overlap(best,anchor):0};
  };
+ // Actor details stay at one height and open toward the middle of the screen.
+ // Only actor frames and screen edges can adjust the horizontal position.
+ api.placeActorWindow=function({width,height,anchor,actors=[],preferredWidth=416,preferredHeight=384,margin=16,gap=16}){
+  const w=Math.min(preferredWidth,Math.max(1,width-2*margin)),h=Math.min(preferredHeight,Math.max(1,height-2*margin));
+  const top=margin,minimum=margin,maximum=Math.max(margin,width-margin-w),clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+  if(!anchor)return {left:maximum,top,width:w,height:h};
+  const side=anchor.x+anchor.w/2<width/2?'right':'left';
+  const desired={left:anchor.x-gap-w,right:anchor.x+anchor.w+gap};
+  const onSide=(x,s)=>s==='left'?x+w<=anchor.x-gap+.01:x>=anchor.x+anchor.w+gap-.01;
+  let free=[[minimum,maximum]];
+  for(const b of [anchor,...actors].filter(b=>b&&b.y<top+h&&b.y+b.h>top)){
+   const low=b.x-gap-w,high=b.x+b.w+gap;
+   free=free.flatMap(([l,r])=>r<=low||l>=high?[[l,r]]:[...(low>=l?[[l,Math.min(r,low)]]:[]),...(high<=r?[[Math.max(l,high),r]]:[])]);
+  }
+  const candidates=free.map(([l,r])=>clamp(desired[side],l,r));
+  // If the actor row fills the width, keep the selected actor unobscured and
+  // keep the same height. Do not revert to a search above/below other content.
+  if(!candidates.length)for(const s of [side,side==='left'?'right':'left']){const x=desired[s];if(x>=minimum&&x<=maximum)candidates.push(x);}
+  const ranked=candidates.sort((a,b)=>Number(!onSide(a,side))-Number(!onSide(b,side))||Math.abs(a-desired[side])-Math.abs(b-desired[side]));
+  return {left:ranked[0]??clamp(desired[side],minimum,maximum),top,width:w,height:h};
+ };
  // A linked pair keeps the parent where possible. At narrow widths both panes
  // reflow side by side; neither pane covers or silently replaces its parent.
  api.placeWindowPair=function({width,height,parent,preferredWidth=340,preferredHeight=350,margin=8,gap=8,minWidth=144}){
