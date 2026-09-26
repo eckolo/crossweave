@@ -1,6 +1,6 @@
 # ゲームバランス検討への依頼：CO-D04A 共通本体の実保存確認
 
-版：0.2／2026-09-26。P0。**未完了・外部条件待ちをとりまとめ受領。** 成果`feda48c503ed03c289c3e18f74d313b33c3b140b`、記録`4ad410b3d5406c3bd8e9ef2d1f6c67e72eb3de4a`。Cloud Browserがlocalhost入口を`ERR_BLOCKED_BY_CLIENT`で拒否し、実IndexedDB・再読込・実2タブは0件。再開物・阻害記録は保存済み。以下のA1〜A4は残件の範囲として維持する。
+版：0.3／2026-09-26。P0。**未完了。実行環境の確立を同じ設計Workの[CO-D04E](CO-D04E_実保存環境の確立.md)として割当。** 成果`feda48c503ed03c289c3e18f74d313b33c3b140b`、記録`4ad410b3d5406c3bd8e9ef2d1f6c67e72eb3de4a`。提出時はCloud Browserがlocalhost入口を`ERR_BLOCKED_BY_CLIENT`で拒否し、実IndexedDB・再読込・実2タブは0件。再開物・A1〜A4を維持し、環境待ちだけを繰り返さない。
 
 | 項目 | 指定 |
 |---|---|
@@ -13,7 +13,9 @@
 
 ## 現在の再開条件
 
-正当な権限で確認ページ・ES Modulesを同一originから開け、native IndexedDB・sessionStorage・BroadcastChannelと独立した2タブを使える環境、または同梱手順による実結果JSONが必要。現環境への同じ継続指示・再試行だけを繰り返さない。設計[CO-D04B](CO-D04B_UI統合と実行版固定.md)のUI統合・実行版固定は独立して先行できる。D04Aを完了扱いにせず、環境／結果受領後は同じ設計Workが実結果確認・必要修正・保存を再開する。
+確認対象は、ゲーム保存の永続化・再読込・移行・競合／再送の正しさであり、localhost:8000への接続ではない。D04EでGitHub Actionsの同じrunner内にサーバーと実Chromiumを置く経路を第一候補として確立する。確認ページ・ES Modulesが同一originで開け、native IndexedDB・sessionStorage・BroadcastChannelと独立した2ページを利用できる実証を得て、同じ条件のままA2〜A4へ続行する。Eで実施した項目を二重実行しない。
+
+現在のCloud Browserへ同じURLを再送する手順は今回の経路から外す。Actionsの実行・依存導入等に具体的な阻害がある場合だけ、D04Eの次候補と完成済み起動一式から必要なユーザー操作を提示する。設計[CO-D04B](CO-D04B_UI統合と実行版固定.md)のUI統合・実行版固定は独立して進められる。実Chromiumが起動できたことと、Aの全代表経路が合格したことを区別する。
 
 [現在の再開手順](https://github.com/eckolo/crossweave/blob/4ad410b3d5406c3bd8e9ef2d1f6c67e72eb3de4a/docs/検証/接続条件/co-d04a/README.md)を使い、実行一式を用意してから利用者に必要な具体的操作を渡す。ゲーム仕様の判断や通常保存の再承認は不要。ブラウザーアクセス拒否をGitHubの書込み拒否と混同しない。
 
@@ -22,7 +24,7 @@
 - 自Workの最後はCO-D03R R1〜R5完了。本体`442af718d30b30284cf5ac976eb7421992d94dfd`、完了記録`9d5dd304dee942965b9f1dd62368bee9f3c9e670`。専用37件とCI成功はNode／MemoryStoreで、実IndexedDB・実複数タブの合格ではない。完了済み37件・旧50件の一律再実行や実装のやり直しは不要。
 - 自会話末尾・自Work・未保存差分を保全し、計画元`ops/project-coordination-20260913`の`docs/作業資料/とりまとめ/`全体を[同期手順](../計画同期手順.md)に従って受領する。設計自身に別の技術同期元は追加しない。
 - 現提供版はengine0.7／public0.6／preparation2／save2。`docs/検証/接続条件/co-d03r/`のUI受渡し・保存manifest・移行例・固定結果、`src/runtime/storage.mjs`・`campaign.mjs`、既存`test/runtime/browser-smoke.mjs`とco-d02の保存確認入口を読む。
-- co-d02の過去記録はローカル入口へのアクセス拒否で実IndexedDB未実施。現在利用可能な許可された実行環境を確認し、過去の拒否を迂回する経路変更や同じ失敗の反復はしない。確認用画面を新しい製品UIとして作り込まない。
+- co-d02の過去記録はローカル入口へのアクセス拒否で実IndexedDB未実施。ローカル起動手順とCloud Browserからの到達性を同一視せず、D04Eの許可された検証環境を確立する。Cloud Browserの拒否を迂回する経路変更や同じ失敗の反復はしない。既存確認画面と固定入力を再利用する。
 
 ## A1〜A4
 
