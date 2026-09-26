@@ -11,7 +11,7 @@ function destinationItem(){
   status:current?(d().case.status==='resolved'?'踏破済み':'未踏破'):item.status,
   objective:current?(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発時に確認できます。'):item.objective};
 }
-function destinationCanDepart(){return !destinationOptions.length||destinationItem()?.current===true;}
+function destinationCanDepart(){return !(acquisitionPreview&&collection?.modified())&&(!destinationOptions.length||destinationItem()?.current===true);}
 function destinationHeading(){return destinationItem()?.name||title;}
 function destinationClues(item){return '<div class="cj-destination-clues">'+(item.clues||[]).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';}
 function destinationBoard(){

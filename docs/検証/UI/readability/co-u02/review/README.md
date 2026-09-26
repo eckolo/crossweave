@@ -1,3 +1,15 @@
+# 取得・編成と共通操作を統合した確認入口（UI0.15.0）
+
+2026-09-26。[帰還後も前回了承された同じ取得UIを開く](../journey/unified-navigation.md)。帰還結果の「進む」→左上「編成」。札／心得と三つの置き場を共有する。右上の調査記録・メニューは、探索先・編成・本文・探索・中断で共通。旧「札組／心得／購入／構成を見る」は現行導線へ出さない。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-unified-navigation.html unified`。[提示照合](unified-navigation-manifest.json)・[限定17項目](unified-navigation-checks.json)。取得・編成は本編未接続の確認用状態で、変更後の実出発は止める。実ブラウザー描画・物理入力・IndexedDBは未確認。
+
+ユーザーへの現行再提示はこの入口を使う。下記の過去入口・旧D03直結画面は履歴と技術接続検証のために保全し、同じ役割の新画面として再提示しない。
+
+---
+
+以下は過去の記録。
+
 # 複数候補からの探索先選択（UI0.14.9）
 
 2026-09-26。[左に4候補、右に選択中の概要](../journey/destination-selection.md)。初期場面は「探索先選択」。候補を選び、詳細・札組／心得との往復を確認できる。追加3件は選択確認用の仮候補で、探索に進めるのは夜潮の排水路だけ。

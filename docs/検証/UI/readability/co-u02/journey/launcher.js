@@ -19,8 +19,8 @@
   function render(){if(dead||child)return;const s=launcher.state(),locked=busy()||s.canRetry;
    root.dataset.screen='start';root.dataset.storageMode=storageMode;
    const content=importing?'<label class="cj-import-file">保存ファイル<input type="file" accept=".json,application/json" data-launch-file '+(locked?'disabled':'')+'></label><p class="cj-import-name">'+escape(filename)+'</p>':'<h2>crossweave</h2>';
-   const actions=importing?button('←','back',locked)+button('読み込む','import',locked||s.active||!raw):button('続きから','open',locked)+button('はじめから','create',locked||s.active)+button('読み込む','import-menu',locked||s.active);
-   root.innerHTML='<div class="cj-shell cj-launch-shell"><header class="cj-header"><span class="cj-screen-title">'+(importing?'保存を読み込む':'crossweave')+'</span></header><main class="cj-layout cj-launch-main">'+content+'<div class="cj-launch-notice" role="'+(error?'alert':'status')+'">'+escape(error||(busy()?'読み込み中…':message))+'</div></main><footer class="cj-fixed-footer">'+(s.canRetry?button('もう一度','retry',busy()):actions)+'</footer></div>';
+   const actions=importing?button('読み込む','import',locked||s.active||!raw):button('続きから','open',locked)+button('はじめから','create',locked||s.active)+button('読み込む','import-menu',locked||s.active);
+   root.innerHTML='<div class="cj-shell cj-launch-shell"><header class="cj-header">'+(importing?button('戻る','back',locked):'')+'<span class="cj-screen-title">'+(importing?'保存を読み込む':'crossweave')+'</span></header><main class="cj-layout cj-launch-main">'+content+'<div class="cj-launch-notice" role="'+(error?'alert':'status')+'">'+escape(error||(busy()?'読み込み中…':message))+'</div></main><footer class="cj-fixed-footer">'+(s.canRetry?button('もう一度','retry',busy()):actions)+'</footer></div>';
    root.setAttribute('aria-busy',String(busy()));resize();
    root.querySelector('[data-launch="back"]')?.setAttribute('aria-label','開始画面に戻る');
   }

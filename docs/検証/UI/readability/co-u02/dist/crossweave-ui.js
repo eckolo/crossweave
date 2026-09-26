@@ -1014,6 +1014,15 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else scope.CrossweaveUI=api;
 })(globalThis);
 
+/* Shared positions and labels for loaded-game surfaces. */
+(function(api){'use strict';
+ api.commonNavigationHTML=function(attribute='data-j',menuAction='menu'){
+  return '<nav class="cw-common-nav" aria-label="共通">'+
+   '<button type="button" class="cursor-interaction" '+attribute+'="records" data-common-control="records" aria-label="調査記録"><i data-lucide="book-open" aria-hidden="true"></i><span>調査記録</span></button>'+
+   '<button type="button" class="cursor-interaction" '+attribute+'="'+menuAction+'" data-common-control="menu" aria-label="メニュー" data-tooltip="メニュー"><i data-lucide="menu" aria-hidden="true"></i></button></nav>';
+ };
+})(globalThis.CrossweaveUI);
+
 /* Presentation geometry only. Input rectangles must come from visible UI objects. */
 (function(api){'use strict';
  api.displayScale=element=>Number(element.closest('[data-display-scale]')?.dataset.displayScale)||1;
@@ -1617,11 +1626,11 @@ function updateLayout(){
   let historyCursor=list(display_data.exploration?.public_history).length,feedTimer=null;
   const feedQueue=[],feedVisible=[];
   root.classList.add('cw-explore');root.setAttribute('aria-label','crossweave 探索');
-  root.innerHTML=`<div id="cw-scene" aria-hidden="true"><div id="cw-scene-base"></div></div>
+  root.innerHTML=`${api.commonNavigationHTML(onCommon?'data-j':'data-x',onCommon?'menu':'more')}<div id="cw-scene" aria-hidden="true"><div id="cw-scene-base"></div></div>
    <section class="cw-region cw-world" aria-label="相手と環境"><div class="cw-heading"><div class="cw-order-strip"><ol id="cw-turn-order" aria-label="現在の行動予約"></ol></div></div><div class="cw-scroll" id="cw-actors"></div><div class="cw-scroll-help" data-track="cw-actors"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-board" id="cw-drop-zone" aria-label="札を出す場"><div class="cw-heading"><span id="cw-match-label"></span></div><div class="cw-scroll" id="cw-field"></div><div class="cw-scroll-help" data-track="cw-field"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div></section>
    <section class="cw-region cw-hand-region" aria-label="手札"><div class="cw-heading"><span id="cw-notice" role="status"></span></div><div class="cw-scroll" id="cw-hand"></div><div class="cw-scroll-help" data-track="cw-hand"><button type="button" data-x-scroll="-1">前へ</button><span></span><button type="button" data-x-scroll="1">次へ</button></div><div id="cw-action-track"><div class="cw-actions" id="cw-action-anchor" hidden><button type="button" data-x="preview">予測</button><button type="button" id="cw-use" data-x="use" class="cw-primary">場に出す</button></div></div></section>
-   <footer class="cw-bottom"><div class="cw-footer-state"><div class="cw-self" id="cw-self" aria-label="本人の状態"></div><span id="cw-hand-count"></span></div><nav class="cw-menu" aria-label="探索メニュー">${menuButton('more','メニュー','menu')}</nav><button type="button" data-x="withdraw">撤退</button></footer>
+   <footer class="cw-bottom"><div class="cw-footer-state"><div class="cw-self" id="cw-self" aria-label="本人の状態"></div><span id="cw-hand-count"></span></div><button type="button" data-x="withdraw">撤退</button></footer>
    <div class="cw-event-region" aria-label="直前の行動"><ol id="cw-event-feed" aria-live="polite" aria-relevant="additions"></ol></div>
    <svg id="cw-relations" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden></svg><div id="cw-drag-ghost" class="cw-card-face" aria-hidden="true" hidden></div>
    <section class="cw-drawer" id="cw-drawer" role="dialog" aria-label="詳細" hidden><header><button type="button" data-x="window-back" aria-label="元の窓に戻る" hidden>${symbol('arrow-left','←')}</button><strong id="cw-drawer-title"></strong><button type="button" data-x="pin" aria-label="固定する" id="cw-window-state">${symbol('pin','📌')}</button><button type="button" data-x="close" aria-label="詳細を閉じる">×</button></header><div class="cw-drawer-body"></div></section>
@@ -1922,7 +1931,7 @@ function updateLayout(){
   }
   update(data,state);
   document.fonts?.ready.then(()=>{if(!dead)layout();});
-  return {update,dispose(){dead=true;holdCue.dispose();cancelPan();cancelDrag();cancelActorPress();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
+  return {update,openPanel(kind){if(['objective','status','order','deck','history','settings'].includes(kind))open(kind,null,false);},dispose(){dead=true;holdCue.dispose();cancelPan();cancelDrag();cancelActorPress();observer.disconnect();events.abort();for(const t of timers)clearTimeout(t);root.replaceChildren();root.classList.remove('cw-explore');}};
  };
 })(globalThis.CrossweaveUI);
 
@@ -2113,8 +2122,8 @@ api.journeyLayout=function(width,total,anchor=0,reserved=0){
   function render(){if(dead||child)return;const s=launcher.state(),locked=busy()||s.canRetry;
    root.dataset.screen='start';root.dataset.storageMode=storageMode;
    const content=importing?'<label class="cj-import-file">保存ファイル<input type="file" accept=".json,application/json" data-launch-file '+(locked?'disabled':'')+'></label><p class="cj-import-name">'+escape(filename)+'</p>':'<h2>crossweave</h2>';
-   const actions=importing?button('←','back',locked)+button('読み込む','import',locked||s.active||!raw):button('続きから','open',locked)+button('はじめから','create',locked||s.active)+button('読み込む','import-menu',locked||s.active);
-   root.innerHTML='<div class="cj-shell cj-launch-shell"><header class="cj-header"><span class="cj-screen-title">'+(importing?'保存を読み込む':'crossweave')+'</span></header><main class="cj-layout cj-launch-main">'+content+'<div class="cj-launch-notice" role="'+(error?'alert':'status')+'">'+escape(error||(busy()?'読み込み中…':message))+'</div></main><footer class="cj-fixed-footer">'+(s.canRetry?button('もう一度','retry',busy()):actions)+'</footer></div>';
+   const actions=importing?button('読み込む','import',locked||s.active||!raw):button('続きから','open',locked)+button('はじめから','create',locked||s.active)+button('読み込む','import-menu',locked||s.active);
+   root.innerHTML='<div class="cj-shell cj-launch-shell"><header class="cj-header">'+(importing?button('戻る','back',locked):'')+'<span class="cj-screen-title">'+(importing?'保存を読み込む':'crossweave')+'</span></header><main class="cj-layout cj-launch-main">'+content+'<div class="cj-launch-notice" role="'+(error?'alert':'status')+'">'+escape(error||(busy()?'読み込み中…':message))+'</div></main><footer class="cj-fixed-footer">'+(s.canRetry?button('もう一度','retry',busy()):actions)+'</footer></div>';
    root.setAttribute('aria-busy',String(busy()));resize();
    root.querySelector('[data-launch="back"]')?.setAttribute('aria-label','開始画面に戻る');
   }
@@ -2154,7 +2163,7 @@ api.journeyLayout=function(width,total,anchor=0,reserved=0){
 
 /* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
 (function(api){'use strict';
-api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null}){
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null,acquisitionPreview=null}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
  const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
@@ -2167,6 +2176,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
  const recordEntries=new Map(),scrollMemory=new Map();
  let lastContext=null,lastPhase=null;
+ let collection=null,collectionNode=null,collectionState=null;
  let skillFilter='all',menuPage=0;
  let purchaseChoice=null,conversionIds=new Set(),viewToken=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0,offers:0,owned:0},events=new AbortController();
@@ -2191,7 +2201,16 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
  function reason(e){const specific=economyFailure(e);if(specific)return specific;return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
- function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
+ function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return acquisitionPreview&&place==='collection'?'collection':place==='hub'?'hub':tab;}
+ function mountCollection(){
+  if(!collectionNode){
+   collectionNode=document.createElement('div');collectionNode.id='cw-acquisition-review';collectionNode.dataset.embedded='true';
+   collectionNode.innerHTML='<section class="cp-shell" aria-label="札と心得の編成"><div data-screen class="cp-screen"></div><div data-overlay class="cp-overlay" hidden></div></section><p class="cp-live" role="status" aria-live="polite" data-live></p>';
+   $('[data-main]').append(collectionNode);
+   const fixture=clone(acquisitionPreview);if(Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
+   collection=api.mountAcquisitionReview(collectionNode,fixture,{onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
+  }else if(!collectionNode.isConnected)$('[data-main]').append(collectionNode);
+ }
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
  /* Optional review catalogue. Selection is presentation state, never a casebook write.
@@ -2207,7 +2226,7 @@ function destinationItem(){
   status:current?(d().case.status==='resolved'?'踏破済み':'未踏破'):item.status,
   objective:current?(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発時に確認できます。'):item.objective};
 }
-function destinationCanDepart(){return !destinationOptions.length||destinationItem()?.current===true;}
+function destinationCanDepart(){return !(acquisitionPreview&&collection?.modified())&&(!destinationOptions.length||destinationItem()?.current===true);}
 function destinationHeading(){return destinationItem()?.name||title;}
 function destinationClues(item){return '<div class="cj-destination-clues">'+(item.clues||[]).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';}
 function destinationBoard(){
@@ -2251,7 +2270,7 @@ function receiptDetails(){const r=d().return_receipt;if(!r)return '';
  return '<div class="cj-change"><span>着想</span><strong>+'+pt(r.gained_units)+'（合計 '+pt(r.unspent_after_units)+'）</strong></div><div class="cj-change"><span>余力</span><strong>'+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</strong></div><h3>獲得品</h3>'+((r.kept_items||[]).filter(x=>x.kind!=='points').map(x=>'<p>素材 '+esc(x.type||'')+' +'+esc(x.amount||1)+'</p>').join('')||'<p>なし</p>')+'<h3>記録に追加</h3>'+(r.new_unlocks||[]).map(id=>detailsButton('base:'+id)).join('')+((r.lost_items||[]).length?'<h3>喪失</h3>'+r.lost_items.map(x=>'<p>'+esc(x.kind==='points'?'着想':x.type||x.kind)+' '+esc(x.kind==='points'?pt(x.amount_units):x.amount??'')+'</p>').join(''):'');
 }
 function hubView(){if(destinationOptions.length)return destinationBoard();const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
-function compactWallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
+function compactWallet(){if(acquisitionPreview&&collectionState)return '<span class="cj-compact-wallet" aria-label="着想">'+icon('lightbulb')+'<span>'+esc(collectionState.wallet)+(collectionState.pending?' → '+esc(collectionState.wallet-collectionState.pending):'')+'</span></span>';const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
 function catalogueItems(){if(tab==='offers')return h().offers.status==='purchased'?[]:h().candidates.map(x=>x.id);if(tab==='owned')return h().owned.map(x=>x.id);const skills=tab==='skills';const items=[...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id),...(p()?.candidate&&p().purchase_timing==='before_preparation'&&info(p().candidate).kind===(skills?'passive':'card')?['$purchase']:[])];
  return !skills||skillFilter==='all'?items:items.filter(id=>skillFilter==='learned'?currentlyLearned(info(id).base_id):currentlyEquipped(id));
 }
@@ -2276,14 +2295,16 @@ function headerView(screen){const edit=['deck','skills','offers','owned'].includ
  const selection=tab==='skills'?'skills:'+skillFilter:tab;
  const mobile=[['deck','札組'],['skills:all','心得・すべて'],['skills:learned','心得・習得済み'],['skills:equipped','心得・装備中'],['offers','購入'],['owned','所持']];
  const filter=tab==='skills'?'<select data-skill-filter class="cj-skill-filter" aria-label="現在の心得を絞り込む">'+[['all','すべて'],['learned','習得済み'],['equipped','装備中']].map(([v,l])=>'<option value="'+v+'" '+(skillFilter===v?'selected':'')+'>'+l+'</option>').join('')+'</select>':'';
- return lead+(edit?'<select data-compose-tab class="cj-compose-select" aria-label="編成と購入の切替">'+mobile.map(([v,l])=>'<option value="'+v+'" '+(selection===v?'selected':'')+'>'+l+'</option>').join('')+'</select>'+filter+pageButtons():'')+(h()?compactWallet():'')+'<nav class="cj-common-nav" aria-label="共通">'+(!edit?button(icon('book-open')+'<span>調査記録</span>','records','aria-label="調査記録"','cj-quiet'):'')+button(icon('menu'),'menu','aria-label="メニュー"','cj-quiet')+'</nav>';
+ const shortcut=acquisitionPreview&&screen==='hub'?button('編成','collection','aria-label="札と心得を取得・編成する"','cj-back'):screen==='scene'&&!d().scene?.paused?button(icon('arrow-left')+'戻る','scene-back','aria-label="探索に戻る"','cj-back'):'';
+ return shortcut+lead+(edit?'<select data-compose-tab class="cj-compose-select" aria-label="編成と購入の切替">'+mobile.map(([v,l])=>'<option value="'+v+'" '+(selection===v?'selected':'')+'>'+l+'</option>').join('')+'</select>'+filter+pageButtons():'')+(h()?compactWallet():'')+api.commonNavigationHTML();
 }
 function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok||!destinationCanDepart()?'disabled':''),'cj-primary');}
 function footerView(screen){let content='';
  if(['deck','skills','offers','owned'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+(screen==='owned'&&conversionIds.size?button('着想に変える '+conversionIds.size+'点','convert-preview','data-j-mutation','cj-primary'):composeActions())+'</div>';
- else if(screen==='return')content='<span></span>'+button('拠点へ','hub','data-j-mutation','cj-primary');
+ else if(screen==='return')content='<span></span>'+button(acquisitionPreview?'進む':'拠点へ','hub','data-j-mutation','cj-primary');
+ else if(screen==='hub'&&acquisitionPreview)content='<span></span><div class="cj-fixed-actions"><span class="cj-selected-label">'+esc(destinationHeading())+'</span>'+button('出発','depart','data-j-mutation '+(!destinationCanDepart()?'disabled':''),'cj-primary')+'</div>';
  else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+button('購入','offers')+'</div><div class="cj-fixed-actions">'+(destinationOptions.length?'<span class="cj-selected-label">'+esc(destinationHeading())+'</span>':'')+composeActions()+'</div>';
- else if(screen==='scene')content='<span></span>'+button(d().scene?.paused?'進む':'探索に戻る',d().scene?.paused?'continue':'scene-back','data-j-mutation','cj-primary');
+ else if(screen==='scene'&&d().scene?.paused)content='<span></span>'+button('進む','continue','data-j-mutation','cj-primary');
  else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'探索を中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
  return content?'<div class="cj-fixed-footer">'+content+'</div>':'';
 }
@@ -2461,20 +2482,21 @@ function panelView(panel,back=false){
  let body='',actions='';
  if(panel==='review'){body=wallet()+(dirty()?changeRows()+purchasePlanControls():'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok||!destinationCanDepart()?'disabled':'')):'';}
  if(panel==='receipt')body=receiptDetails();
- if(panel==='destination')body=destinationDescription()+'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>';
+ if(panel==='destination')body=destinationDescription()+(acquisitionPreview?'':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');
  if(panel==='purchase')({body,actions}=purchasePanel());
  if(panel==='conversion')({body,actions}=conversionPanel());
  if(panel==='texts')body=textHistoryView();
  if(panel==='notice'){body='<p>'+esc(reason(state.error))+'</p>';actions=(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');}
  if(panel==='records')body=recordsView();
  if(panel==='menu'){
-  const items=[['調査記録','records'],['表示','settings'],['遊び方','help'],['保存データ','data'],...(h()?[['購入','offers'],['所持','owned']]:[]),['文章の記録','texts'],...(canSuspend()?[['探索を中断','suspend']]:[]),...(dirty()?[['変更案を戻す','discard']]:[])];
+  const items=[['調査記録','records'],['表示','settings'],['遊び方','help'],['保存データ','data'],['文章の記録','texts'],...(!acquisitionPreview&&h()?[['購入','offers'],['所持','owned']]:[]),...(currentScreen()==='explore'?[['目的','explore-objective'],['状況','explore-status'],['行動順','explore-order'],['山札','explore-deck'],['履歴','explore-history'],['操作','explore-settings']]:[]),...(canSuspend()?[['中断','suspend']]:[]),...(!acquisitionPreview&&dirty()?[['変更案を戻す','discard']]:[])];
   const width=Math.min(520,panelTrail.length?(frameWidth-48)/2:frameWidth-32),height=Math.min(480,frameWidth*9/16-32),cols=width>=280?2:1,rows=Math.max(1,Math.floor((height-144)/56)),capacity=rows*cols,pages=Math.ceil(items.length/capacity);
   menuPage=Math.min(menuPage,pages-1);body='<nav class="cj-menu-grid" style="grid-template-columns:repeat('+cols+',minmax(0,1fr))">'+items.slice(menuPage*capacity,(menuPage+1)*capacity).map(([label,action])=>button(label,action)).join('')+'</nav>';
   actions=pages>1?button(icon('chevron-left'),'menu-page','data-step="-1" aria-label="前のメニュー" '+(!menuPage?'disabled':''))+'<span>'+(menuPage+1)+'/'+pages+'</span>'+button(icon('chevron-right'),'menu-page','data-step="1" aria-label="次のメニュー" '+(menuPage+1===pages?'disabled':'')):'';
  }
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help')body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚える」と「覚えて装備」を選べる。「習得済み」「装備中」で現在の状態を確認する。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手を押し続けると詳細。情報ボタンからも選択中の相手を確認できる。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転などは消費も含む一手解決後の差分。続く相手の行動は含まない。行動予約の「次」は、選んだ行動の後の本人の予約。同時刻の相手は一組で示す。途中の行動で順序や到達可否は変わる。</p><h3>身構と攪乱</h3><p>複数の発生源から受けた防御を合計して表示する。回数が異なる組は「混在」。詳細で内訳を確認できる。</p><h3>購入と所持</h3><p>候補から購入すると所持に加わる。「編成と比較」では購入と札組・心得の変更を一緒に確定できる。心得を買っても、まだ覚えていなければ別に習得が必要。所持品を「保護」すると、着想への変換を防ぐ。「着想に変える」とその個体は失われる。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='help'&&!acquisitionPreview)body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚える」と「覚えて装備」を選べる。「習得済み」「装備中」で現在の状態を確認する。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手の選択と同時に詳細を表示する。相手のホールドは使わない。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転などは消費も含む一手解決後の差分。続く相手の行動は含まない。行動予約の「次」は、選んだ行動の後の本人の予約。同時刻の相手は一組で示す。途中の行動で順序や到達可否は変わる。</p><h3>身構と攪乱</h3><p>複数の発生源から受けた防御を合計して表示する。回数が異なる組は「混在」。詳細で内訳を確認できる。</p><h3>購入と所持</h3><p>候補から購入すると所持に加わる。「編成と比較」では購入と札組・心得の変更を一緒に確定できる。心得を買っても、まだ覚えていなければ別に習得が必要。所持品を「保護」すると、着想への変換を防ぐ。「着想に変える」とその個体は失われる。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='help'&&acquisitionPreview)body='<h3>編成</h3><p>探索先画面の「編成」から札・心得を切り替える。取得可能・所持・編成の間を、ボタンまたはホールド後のドラッグで移せる。取得は支払前に編成へ試せる。「確認する」で差分を見て確定する。「戻す」は未確定の変更をまとめて取り消す。</p><h3>探索</h3><p>札と相手はクリックで選択と詳細を表示する。選んだ札のボタン、またはホールド後のドラッグで行動する。予測の場札も詳細を開ける。</p><h3>共通操作</h3><p>調査記録とメニューは右上。前の画面へ戻る操作は左上、窓を閉じる操作はその窓の右上にある。帰還結果は「進む」で送り、その後の探索先画面から編成できる。</p>' ;
  if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は自動保存されます。')+'</p>'+(d().phase==='home'?'<p>編成は「確定」で保存します。編集中の内容は、確定するまで保存済みの編成を変えません。</p>':'')+'<p>書き出しは保存済みの内容です。</p>';actions=button('書き出す','export','data-j-mutation')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'');}
  return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
@@ -2519,9 +2541,10 @@ function panelView(panel,back=false){
   const scrollNodes='[data-reading],.cj-inspect-scroll';
   if(!changed)for(const el of root.querySelectorAll(scrollNodes))scrollMemory.set(scrollKey(el),el.scrollTop);
   $('[data-header]').innerHTML=headerView(screen);
-  $('[data-header]').hidden=screen==='explore';
-  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source,key)=>{rememberAnchor(source);panelTrail=[];panel=key?kind:panel===kind?null:kind;recordTab='targets';recordTarget=key||null;recordDetail=null;render();}});lastScreen=screen;}
+  $('[data-header]').hidden=['explore','collection'].includes(screen);
+  if(screen!==lastScreen){child?.dispose();child=null;collection?.suspend();$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source,key)=>{rememberAnchor(source);panelTrail=[];panel=key?kind:panel===kind?null:kind;recordTab='targets';recordTarget=key||null;recordDetail=null;render();}});lastScreen=screen;}
   if(screen==='explore')child?.update(d(),state);
+  else if(screen==='collection')mountCollection();
   else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
   root.dataset.screen=screen;
   $('[data-bottom]').innerHTML=footerView(screen);
@@ -2578,6 +2601,11 @@ function panelView(panel,back=false){
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(acquisitionPreview&&['collection','deck','skills','offers','owned','review'].includes(action)){
+   if(d().phase==='return')await navigate('hub');if(d().phase!=='home')return;
+   place='collection';resetWindows();render();if(action==='skills')collection.setTab('passive');return;
+  }
+  if(action.startsWith('explore-')){const kind=action.slice(8);resetWindows();render();child?.openPanel(kind);return;}
   if(action==='select-destination'){if(busy()||d().phase!=='home'||!destinationOptions.some(x=>x.id===id))return;selectedDestinationId=id;resetWindows();message='';render();return;}
   if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
   if(action==='menu-page'){menuPage=Math.max(0,menuPage+Number(b.dataset.step));render();return;}
@@ -2615,6 +2643,336 @@ function panelView(panel,back=false){
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
  const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
- return {session,ready,state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();displayFrame.dispose();}};
+ return {session,ready,get collection(){return collection;},state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();collection?.dispose();session.dispose();displayFrame.dispose();}};
 };
 })(globalThis.CrossweaveUI);
+
+(function(api){api.mountAcquisitionReview=function(node,fixture,settings={}){const acquisitionOptions={...settings,root:node,embedded:true};
+const options=typeof acquisitionOptions==='undefined'?{}:acquisitionOptions;
+const root=options.root||document.getElementById('cw-acquisition-review');
+const eventScope=new AbortController();
+const listen=(node,type,fn,extra={})=>node?.addEventListener(type,fn,{...extra,signal:eventScope.signal});
+const screen=root.querySelector('[data-screen]'),overlay=root.querySelector('[data-overlay]'),live=root.querySelector('[data-live]');
+const clone=x=>JSON.parse(JSON.stringify(x));
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const item=key=>fixture.catalogue[key],offer=id=>fixture.offers.find(x=>x.id===id);
+let current=clone(fixture.initial),draft=freshDraft(),view=emptyView(),lastFocus=null;
+function freshDraft(){return {offers:[],deck:[...current.deck],equipment:[...current.equipment]};}
+function projected(){return [...current.units,...draft.offers.map(id=>({uid:'pending-'+id,key:offer(id).key}))];}
+function spending(){return draft.offers.reduce((sum,id)=>sum+offer(id).price,0);}
+function selected(key,which=draft){const units=projected();return [...which.deck,...which.equipment].filter(uid=>units.find(x=>x.uid===uid)?.key===key).length;}
+function owned(key){return current.units.filter(x=>x.key===key).length;}
+function available(key){return projected().filter(x=>x.key===key).length;}
+function pending(key){return draft.offers.find(id=>offer(id).key===key);}
+function load(equipment=draft.equipment){return equipment.reduce((sum,uid)=>sum+(item(projected().find(x=>x.uid===uid)?.key)?.equipment_cost||0),0);}
+function dirty(){return draft.offers.length>0||JSON.stringify(draft.deck)!==JSON.stringify(current.deck)||JSON.stringify(draft.equipment)!==JSON.stringify(current.equipment);}
+function errors(){
+ const result=[],units=projected(),byUid=new Map(units.map(x=>[x.uid,x]));
+ if(spending()>current.wallet)result.push('着想が'+(spending()-current.wallet)+'不足しています。');
+ if(draft.offers.length+current.purchased.length>fixture.rules.offerLimit)result.push('今回の取得は'+fixture.rules.offerLimit+'点までです。');
+ if(draft.deck.length!==fixture.rules.deckSize)result.push('札組を'+fixture.rules.deckSize+'枚にしてください（現在'+draft.deck.length+'枚）。');
+ const counts={};for(const uid of draft.deck){const it=item(byUid.get(uid)?.key);if(!it){result.push('編成に含まれる札を確認してください。');continue;}counts[it.base_id]=(counts[it.base_id]||0)+1;}
+ for(const [id,n] of Object.entries(counts))if(n>fixture.rules.perKindCap)result.push(item(units.find(x=>item(x.key).base_id===id).key).base_name+'は'+fixture.rules.perKindCap+'枚までです。');
+ if(load()>fixture.rules.equipmentLimit)result.push('心得の枠が'+(load()-fixture.rules.equipmentLimit)+'超過しています。');
+ for(const key of ['deck','equipment'])if(new Set(draft[key]).size!==draft[key].length||draft[key].some(uid=>!byUid.has(uid)))result.push('編成に使う所持品を確認してください。');
+ return result;
+}
+function notify(text){live.textContent=text;}
+function button(text,action,{key='',id='',uid='',zone='',disabled=false,primary=false,extra='',label=''}={}){
+ return '<button type="button" class="cp-button cursor-interaction'+(primary?' cp-primary':'')+'" data-action="'+action+'"'+(key?' data-key="'+esc(key)+'"':'')+(id?' data-id="'+esc(id)+'"':'')+(uid?' data-uid="'+esc(uid)+'"':'')+(zone?' data-zone="'+esc(zone)+'"':'')+' data-focus="'+esc(action+'|'+(uid||key||id||zone))+'"'+(disabled?' disabled':'')+(label?' aria-label="'+esc(label)+'"':'')+' '+extra+'>'+text+'</button>';
+}
+function stateText(key){return (owned(key)?'所持 '+owned(key):'未所持')+(pending(key)?' → '+available(key):'')+' · 編成 '+selected(key);}
+const zones=['offer','reserve','build'];
+const zoneNames={offer:'取得可能',reserve:'所持',build:'編成'};
+const zoneIcons={offer:'store',reserve:'layers',build:'layout-grid'};
+function emptyView(){return {tab:'card',scroll:{},boardLeft:0,reveal:null,dialog:null,key:null,offer:null,uid:null,zone:null};}
+function icon(name){return '<i data-lucide="'+name+'" aria-hidden="true"></i>';}
+function unitPending(uid){return String(uid||'').startsWith('pending-');}
+function composed(uid){return draft.deck.includes(uid)||draft.equipment.includes(uid);}
+function motionId(row){return row.offer?'offer-'+row.offer.id:unitPending(row.uid)?'offer-'+row.uid.slice(8):row.uid?.startsWith('acquired-')?'offer-'+row.uid.slice(9):row.uid;}
+function rowsFor(zone){
+ if(zone==='offer')return fixture.offers.filter(o=>item(o.key).kind===view.tab).map(o=>({key:o.key,offer:o,placeholder:draft.offers.includes(o.id)||current.purchased.includes(o.id)}));
+ const units=projected().filter(x=>item(x.key).kind===view.tab);
+ if(zone==='build')return (view.tab==='card'?draft.deck:draft.equipment).map(uid=>({...units.find(x=>x.uid===uid),count:1}));
+ const groups=new Map();for(const unit of units.filter(x=>!composed(x.uid))){const id=unit.key+'|'+unitPending(unit.uid);if(!groups.has(id))groups.set(id,{...unit,count:0});groups.get(id).count++;}return [...groups.values()];
+}
+function dimensions(){
+ const columnsByZone={offer:1,reserve:2,build:2},laneWidths={offer:376,reserve:735,build:735};
+ return {width:1920,height:1080,tileWidth:352,tileHeight:80,gap:8,orientation:'columns',columnsByZone,laneWidths,
+  gridHeights:{offer:878,reserve:878,build:878},capacity:{offer:10,reserve:20,build:20},
+  boardStyle:'grid-template-columns:'+zones.map(z=>laneWidths[z]+'px').join(' ')};
+}
+function revealUnit(zone,uid,key,id){view.reveal={zone,uid,key,id};}
+function saveScroll(){
+ for(const el of screen.querySelectorAll('[data-scroll-zone]'))view.scroll[el.dataset.kind+':'+el.dataset.scrollZone]={left:el.scrollLeft,top:el.scrollTop};
+ const board=screen.querySelector('[data-board-scroll]');if(board)view.boardLeft=board.scrollLeft;
+}
+function restoreScroll(){
+ const d=dimensions(),board=screen.querySelector('[data-board-scroll]');if(board)board.scrollLeft=view.boardLeft;
+ for(const el of screen.querySelectorAll('[data-scroll-zone]')){const saved=view.scroll[view.tab+':'+el.dataset.scrollZone];if(saved){el.scrollLeft=saved.left;el.scrollTop=saved.top;}}
+ if(!view.reveal)return;
+ const {zone,uid,key,id}=view.reveal,rows=rowsFor(zone),index=rows.findIndex(row=>zone==='offer'?row.offer.id===id:row.uid===uid||(zone==='reserve'&&row.key===key&&unitPending(row.uid)===unitPending(uid)));
+ view.reveal=null;if(index<0)return;
+ const columns=d.columnsByZone[zone],el=screen.querySelector('[data-scroll-zone="'+zone+'"]'),left=2+(index%columns)*(d.tileWidth+d.gap),top=2+Math.floor(index/columns)*(d.tileHeight+d.gap),w=el.clientWidth||d.laneWidths[zone]-16,h=el.clientHeight||d.gridHeights[zone];
+ if(left<el.scrollLeft)el.scrollLeft=left-2;else if(left+d.tileWidth>el.scrollLeft+w)el.scrollLeft=left+d.tileWidth-w+2;
+ if(top<el.scrollTop)el.scrollTop=top-2;else if(top+d.tileHeight>el.scrollTop+h)el.scrollTop=top+d.tileHeight-h+2;
+ const lane=el.closest('[data-zone]'),lr=lane.getBoundingClientRect(),br=board.getBoundingClientRect();
+ if(lr.left<br.left)board.scrollLeft-=(br.left-lr.left)/previewScale();else if(lr.right>br.right)board.scrollLeft+=(lr.right-br.right)/previewScale();
+ saveScroll();
+}
+function localAction(row,zone,{compact=false}={}){
+ const key=row.key,uid=row.uid;
+ if(zone==='offer')return button('取得','stage',{id:row.offer.id,primary:true,disabled:current.purchased.length+draft.offers.length>=fixture.rules.offerLimit,label:item(key).name+'を未払いで取得する'});
+ const put=zone==='reserve';
+ return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)&&!compact?button('取消','unstage',{id:uid.slice(8),label:item(key).name+'の取得をやめる'}):'');
+}
+function card(row,zone){
+ if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は'+(draft.offers.includes(row.offer.id)?'取得予定へ移動済み':'取得済み')+'">'+icon(draft.offers.includes(row.offer.id)?'arrow-right':'check')+'</div>';
+ const it=item(row.key),p=unitPending(row.uid),o=row.offer,price=o?.price??(p?offer(row.uid.slice(8)).price:null);
+ const state=zone==='offer'?'取得可能':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
+ return '<article class="cp-piece cp-'+zone+(p?' cp-pending':'')+'" data-zone-item="'+zone+'" data-unit="'+esc(row.uid||'')+'" data-key="'+esc(row.key)+'" data-offer="'+esc(o?.id||'')+'" data-motion="'+esc(motionId(row))+'" data-pending="'+p+'" aria-label="'+esc(it.name+'、'+state)+'">'+
+  button('<strong>'+esc(it.name)+'</strong><span class="cp-card-meta"><span class="cp-card-mark">'+icon(zone==='build'?'check':it.kind==='card'?'layers':'scroll-text')+'</span>'+(price!==null?icon('lightbulb')+'<span>'+price+'</span>':it.kind==='passive'?icon('grid-2x2')+'<span>'+it.equipment_cost+'</span>':'<span>'+esc(it.attribute)+'</span>')+(row.count>1?'<span class="cp-quantity">×'+row.count+'</span>':'')+'</span>'+(p?'<span class="cp-clock" data-tooltip="支払前">'+icon('clock-3')+'</span>':''),'detail',{key:row.key,id:o?.id,uid:row.uid,zone,label:it.name+'の詳細、'+state,extra:'data-tooltip="'+esc(it.name)+'"'})+
+  '<div class="cp-item-actions">'+localAction(row,zone,{compact:true})+'</div></article>';
+}
+function lane(zone){
+ const all=rowsFor(zone),d=dimensions();
+ const count=zone==='build'?(view.tab==='card'?draft.deck.length+' / '+fixture.rules.deckSize:load()+' / '+fixture.rules.equipmentLimit):zone==='reserve'?all.reduce((n,x)=>n+x.count,0):all.filter(x=>!x.placeholder).length;
+ const capacityBad=zone==='build'&&(view.tab==='card'?draft.deck.length!==fixture.rules.deckSize:load()>fixture.rules.equipmentLimit);
+ const title=icon(zoneIcons[zone])+'<span>'+zoneNames[zone]+'</span><strong class="'+(capacityBad?'cp-warning':'')+'">'+count+'</strong>';
+ let cells=all.map(row=>card(row,zone)).join('');
+ if(zone==='build'&&view.tab==='card'&&all.length<fixture.rules.deckSize)cells+=Array.from({length:fixture.rules.deckSize-all.length},()=>'<div class="cp-empty cp-slot" aria-label="空き枠">'+icon('plus')+'</div>').join('');
+ if(!cells)cells='<div class="cp-empty" aria-label="'+zoneNames[zone]+'は空です">'+icon(zone==='build'?'square-dashed':zoneIcons[zone])+'</div>';
+ return '<section class="cp-lane cp-lane-'+zone+'" data-zone="'+zone+'" aria-label="'+zoneNames[zone]+'"><header class="cp-lane-head"><div class="cp-lane-title">'+title+'</div><span class="cp-drop-label" aria-hidden="true"></span></header><div class="cp-lane-grid" data-scroll-zone="'+zone+'" data-kind="'+view.tab+'" style="--cp-columns:'+d.columnsByZone[zone]+'">'+cells+'</div></section>';
+}
+function wallet(){return '<div class="cp-wallet" aria-label="着想 現在'+current.wallet+'、支払予定'+spending()+'、確定後'+(current.wallet-spending())+'">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next '+(spending()>current.wallet?'cp-warning':'')+'" data-tooltip="支払後">'+icon('clock-3')+'<strong>'+(current.wallet-spending())+'</strong></span>':'')+'</div>';}
+function render(preserveScroll=true){
+ cancelGesture();if(preserveScroll)saveScroll();
+ const focus=document.activeElement?.dataset.focus,hadFocus=root.contains(document.activeElement),scroll=overlay.querySelector('.cp-dialog-scroll')?.scrollTop||0;
+ const oldPositions=new Map([...screen.querySelectorAll('[data-motion]')].map(x=>[x.dataset.motion,x.getBoundingClientRect()]));
+ screen.innerHTML='<header class="cp-header"><span class="cp-brand">crossweave</span><nav aria-label="管理するもの">'+[['card','札'],['passive','心得']].map(([id,label])=>button(label,'tab',{id,extra:'aria-pressed="'+(view.tab===id)+'"'})).join('')+'</nav>'+wallet()+'</header><main class="cp-main" data-board-scroll data-orientation="'+dimensions().orientation+'" style="'+dimensions().boardStyle+'">'+zones.map(lane).join('')+'</main><footer class="cp-footer"><div class="cp-purchase-track" aria-label="今回の取得、選択済み'+(draft.offers.length+current.purchased.length)+'点、上限'+fixture.rules.offerLimit+'点">'+icon('store')+'<span>'+(draft.offers.length+current.purchased.length)+' / '+fixture.rules.offerLimit+'</span>'+(draft.offers.length?icon('arrow-right')+draft.offers.map(id=>'<span class="cp-pending-token" data-tooltip="'+esc(item(offer(id).key).name)+'">'+icon(item(offer(id).key).kind==='card'?'layers':'scroll-text')+icon('clock-3')+'</span>').join(''):'')+'</div>'+button(icon('undo-2')+'戻す','discard',{disabled:!dirty(),label:'取得予定と編成の変更をすべて戻す'})+button('確認する','review',{primary:true,disabled:!dirty()})+'</footer>';
+ if(options.embedded){
+  const header=screen.querySelector('.cp-header');
+  header.querySelector('.cp-brand').outerHTML=button(icon('arrow-left')+'戻る','back',{label:'探索先に戻る'});
+  header.insertAdjacentHTML('beforeend',globalThis.CrossweaveUI.commonNavigationHTML());
+ }
+ restoreScroll();renderDialog();
+ const target=[...root.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===focus&&!x.disabled&&(view.dialog?overlay.contains(x):screen.contains(x)));
+ if(target)target.focus({preventScroll:true});else if(view.dialog)overlay.querySelector('[data-action="close"]')?.focus({preventScroll:true});else if(hadFocus)screen.querySelector('[data-action="tab"][aria-pressed="true"]')?.focus({preventScroll:true});
+ if(overlay.querySelector('.cp-dialog-scroll'))overlay.querySelector('.cp-dialog-scroll').scrollTop=scroll;
+ if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});
+ if(!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)for(const el of screen.querySelectorAll('[data-motion]')){const before=oldPositions.get(el.dataset.motion);if(!before||!el.animate)continue;const after=el.getBoundingClientRect();const dx=(before.x-after.x)/previewScale(),dy=(before.y-after.y)/previewScale();if(dx||dy)el.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'translate(0,0)'}],{duration:200,easing:'ease-out'});}
+ options.onChange?.({modified:dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),wallet:current.wallet,pending:spending()});
+}
+function facts(it){
+ const row=(label,value)=>'<div><dt>'+label+'</dt><dd>'+esc(value)+'</dd></div>';
+ if(it.kind==='passive')return '<dl class="cp-facts">'+row('枠消費',it.equipment_cost)+row('発動条件',it.trigger_text.replaceAll('／','。'))+row('効果',it.effect_text.replaceAll('／','。'))+'</dl>';
+ const p=it.primary;return '<dl class="cp-facts">'+row('属性',it.attribute)+row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power)+(p.kind==='guard'?row('攪乱',p.evasion):p.kind==='attack'?row('探査',p.hit):'')+row('手札期限',it.life)+row('行動間隔','置く '+it.action_intervals.place+' / 一致 '+it.action_intervals.match)+row('場の効果','突破／身構 '+it.field.power+'、探査／攪乱 '+it.field.hit)+(it.recovery_rule==='consumed_on_recovery'?row('性質','この探索では回収時に消滅。所持品は残る。'):'')+'</dl>';
+}
+function changesFor(field){const keys=[...new Set([...current[field],...draft[field]].map(uid=>projected().find(x=>x.uid===uid)?.key))];return keys.map(key=>({key,before:current[field].filter(uid=>current.units.find(x=>x.uid===uid)?.key===key).length,after:draft[field].filter(uid=>projected().find(x=>x.uid===uid)?.key===key).length})).filter(x=>x.before!==x.after);}
+function reviewBody(){
+ const issues=errors(),changed=[...changesFor('deck'),...changesFor('equipment')];
+ const balance='<div class="cp-review-wallet">'+icon('lightbulb')+'<strong>'+current.wallet+'</strong>'+icon('arrow-right')+'<strong>'+(current.wallet-spending())+'</strong><small>−'+spending()+'</small></div>';
+ const purchases=draft.offers.map(id=>{const o=offer(id),zone=composed('pending-'+id)?'build':'reserve';return '<div class="cp-change cp-review-purchase" aria-label="'+esc(item(o.key).name)+'を取得し、'+(zone==='build'?'編成する':'編成せず所持する')+'"><span class="cp-pending-token">'+icon('clock-3')+'</span><strong>'+esc(item(o.key).name)+'</strong>'+icon('arrow-right')+icon(zoneIcons[zone])+'<span>'+icon('lightbulb')+o.price+'</span></div>';}).join('');
+ const diffs=changed.map(x=>'<div class="cp-change"><span>'+esc(item(x.key).name)+'</span><strong>'+x.before+' '+icon('arrow-right')+' '+x.after+'</strong></div>').join('');
+ const effects=changesFor('equipment').map(x=>'<details><summary>'+esc(item(x.key).name)+'</summary>'+facts(item(x.key))+'</details>').join('');
+ return (issues.length?'<div role="alert" class="cp-problems">'+issues.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>':'')+balance+(purchases?'<section class="cp-review-group"><h3>'+icon('store')+'取得</h3>'+purchases+'</section>':'')+(diffs?'<section class="cp-review-group"><h3>'+icon('layout-grid')+'編成</h3>'+diffs+'</section>':'')+'<div class="cp-capacity"><span>'+icon('layers')+'札</span><strong>'+draft.deck.length+' / '+fixture.rules.deckSize+'</strong><span>'+icon('grid-2x2')+'心得</span><strong>'+load()+' / '+fixture.rules.equipmentLimit+'</strong></div>'+effects;
+}
+function renderDialog(){
+ overlay.hidden=!view.dialog;screen.inert=!!view.dialog;const reset=root.querySelector('[data-action="reset"]');if(reset)reset.disabled=!!view.dialog;if(!view.dialog){overlay.replaceChildren();return;}
+ let title,body,actions;
+ if(view.dialog==='detail'){
+  const key=view.key,it=item(key);let unit=projected().find(x=>x.uid===view.uid);
+  if(!unit&&pending(key))unit=projected().find(x=>x.uid==='pending-'+pending(key));
+  if(!unit&&owned(key)&&!view.offer)unit=projected().find(x=>x.key===key);
+  const o=view.offer?offer(view.offer):pending(key)?offer(pending(key)):null,zone=unit?(composed(unit.uid)?'build':'reserve'):'offer';
+  const p=unit&&unitPending(unit.uid),path=zones.map(z=>'<span class="'+(z===zone?'is-active':'')+'" aria-label="'+zoneNames[z]+'">'+icon(zoneIcons[z])+'</span>').join(icon('chevron-right'));
+  title=it.name;body='<div class="cp-location">'+path+(p?'<span class="cp-pending-token" aria-label="未払い">'+icon('clock-3')+'</span>':'')+'</div>'+facts(it)+(it.affixes.length?'<details><summary>修飾</summary>'+it.affixes.map(x=>'<p>'+esc(x.label)+'：'+esc(x.description.replaceAll('／','。'))+'</p>').join('')+'</details>':'');
+  if(o&&(zone==='offer'||p))body+='<div class="cp-price">'+icon('lightbulb')+'<strong>'+o.price+'</strong></div>';
+  actions=unit?localAction({...unit,count:1},zone):o?localAction({key,offer:o},'offer'):'';
+ }else{title='変更内容';body=reviewBody();actions='<span class="cp-payment">'+icon('lightbulb')+'<strong>'+spending()+'</strong></span>'+button('確定する','commit',{primary:true,disabled:errors().length>0||!dirty(),label:'表示中の取得と編成を確定する'});}
+ overlay.innerHTML='<section class="cp-dialog" role="dialog" aria-modal="true" aria-labelledby="cp-dialog-title"><header class="cp-dialog-head"><h2 id="cp-dialog-title">'+esc(title)+'</h2>'+button(icon('x'),'close',{label:'閉じる'})+'</header><div class="cp-dialog-scroll">'+body+'</div><footer class="cp-dialog-actions">'+actions+'</footer></section>';
+}
+function openDialog(type,key,id,uid,zone){lastFocus=document.activeElement?.dataset.focus;view.dialog=type;view.key=key;view.offer=id||null;view.uid=uid||null;view.zone=zone||null;render();overlay.querySelector('[data-action="close"]').focus({preventScroll:true});}
+function closeDialog(){view.dialog=null;render();if(!view.dialog)[...screen.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===lastFocus&&!x.disabled)?.focus({preventScroll:true});}
+
+// The game remains 1920x1080. Only this surrounding review viewport scales it.
+const previewState={mode:'fit',scale:1};
+function previewScale(){return options.embedded?(globalThis.CrossweaveUI.displayScale(root)||1):previewState.scale;}
+function syncPreview(){
+ cancelGesture();
+ if(options.embedded)return;
+ const viewport=root.querySelector('[data-preview-window]'),space=root.querySelector('[data-preview-space]');
+ const width=viewport.clientWidth||root.getBoundingClientRect().width||1024;
+ const scale=previewState.mode==='actual'?1:Math.min(1,width/1920);
+ previewState.scale=scale;
+ root.style.setProperty('--cp-preview-scale',String(scale));
+ space.style.width=(1920*scale)+'px';space.style.height=(1080*scale)+'px';
+ viewport.style.height=(previewState.mode==='actual'?Math.min(720,Math.max(440,width*.7)):1080*scale)+'px';
+ root.querySelector('[data-preview-scale]').textContent=Math.round(scale*100)+'%'+(scale<1?' · 縮小':' · 1:1');
+ for(const b of root.querySelectorAll('[data-preview]'))b.setAttribute('aria-pressed',String(b.dataset.preview===previewState.mode));
+ if(previewState.mode==='fit'){viewport.scrollLeft=0;viewport.scrollTop=0;}
+}
+listen(root.querySelector('.cp-reviewbar'),'click',e=>{
+ const b=e.target.closest('button[data-preview]');if(!b)return;
+ previewState.mode=b.dataset.preview;syncPreview();
+});
+
+function mutate(action,key,id,uid,destination='reserve'){
+ if(action==='stage'){
+  if(!offer(id)||draft.offers.includes(id)||current.purchased.includes(id))return;
+  if(draft.offers.length+current.purchased.length>=fixture.rules.offerLimit){notify('今回の取得予定は1点までです。');return;}
+  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push('pending-'+id);revealUnit(destination,'pending-'+id,offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
+ }else if(action==='unstage'){
+  if(!draft.offers.includes(id))return;
+  draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!=='pending-'+id);
+  if(view.dialog==='detail'&&view.key===offer(id).key){view.uid=null;view.offer=id;}
+  revealUnit('offer',null,null,id);
+  notify('取得予定を取り消しました。その予定分の編成も外しました。着想は変わりません。');
+ }else if(action==='add'||action==='remove'){
+  if(!item(key))return;const field=item(key).kind==='card'?'deck':'equipment';
+  if(action==='add'){const unit=projected().find(x=>x.key===key&&!draft[field].includes(x.uid)&&(!uid||x.uid===uid));if(!unit)return;draft[field].push(unit.uid);revealUnit('build',unit.uid,key);}
+  else{const target=uid&&draft[field].includes(uid)?uid:draft[field].findLast(u=>projected().find(x=>x.uid===u)?.key===key);if(!target)return;draft[field]=draft[field].filter(x=>x!==target);revealUnit('reserve',target,key);}
+  notify(item(key).name+'を編成'+(action==='add'?'に入れました。':'から外しました。')+(pending(key)?'取得予定と支払予定額は変わりません。':'所持品はそのままです。'));
+ }else if(action==='discard'){draft=freshDraft();view.dialog=null;notify('取得予定と編成の変更をすべて取り消しました。最後に確定した状態です。');}
+ else if(action==='commit'){
+  const issues=errors();if(issues.length||!dirty()){notify(issues[0]||'変更はありません。');return;}
+  const cost=spending(),mapping=Object.fromEntries(draft.offers.map(id=>['pending-'+id,'acquired-'+id]));
+  const next={wallet:current.wallet-cost,units:[...clone(current.units),...draft.offers.map(id=>({uid:mapping['pending-'+id],key:offer(id).key}))],purchased:[...current.purchased,...draft.offers],deck:draft.deck.map(uid=>mapping[uid]||uid),equipment:draft.equipment.map(uid=>mapping[uid]||uid)};
+  current=next;draft=freshDraft();view.dialog=null;notify((cost?'着想'+cost+'を支払い、正式に取得しました。':'')+'編成を確定しました。現在の着想は'+current.wallet+'です。');
+ }
+ render();
+}
+// Same gesture split as exploration: short hold moves a piece; immediate swipe pans.
+let gesture=null,suppressUntil=0;
+const holdMs=220,moveThreshold=8;
+const holdCue=globalThis.CrossweaveHoldCue.mount(root.querySelector('.cp-shell'),{scale:previewScale});
+function dropPlan(data,to){
+ if(!to||to===data.from)return null;
+ if(data.from==='offer'){
+  if(!offer(data.id)||draft.offers.includes(data.id)||current.purchased.includes(data.id)||draft.offers.length+current.purchased.length>=fixture.rules.offerLimit)return null;
+  return ['reserve','build'].includes(to)?{action:'stage',label:to==='build'?'取得・編成':'取得',destination:to}:null;
+ }
+ const unit=projected().find(x=>x.uid===data.uid);
+ if(!unit||unit.key!==data.key||(composed(data.uid)?'build':'reserve')!==data.from)return null;
+ if(to==='offer')return unitPending(data.uid)?{action:'unstage',label:'取消',id:data.uid.slice(8)}:null;
+ if(to==='build'&&data.from==='reserve')return {action:'add',label:'編成'};
+ if(to==='reserve'&&data.from==='build')return {action:'remove',label:'外す'};
+ return null;
+}
+function hitLane(x,y){const el=document.elementFromPoint?.(x,y),lane=el?.closest?.('section[data-zone]');return lane&&screen.contains(lane)?lane:null;}
+function clearDropMarks(){for(const lane of screen.querySelectorAll('section[data-zone]')){delete lane.dataset.drop;lane.querySelector('.cp-drop-label').textContent='';}}
+function paintDrop(d){
+ clearDropMarks();const lane=hitLane(d.lastX,d.lastY);if(!lane)return;
+ const plan=dropPlan(d,lane.dataset.zone);lane.dataset.drop=plan?'allowed':'blocked';
+ lane.querySelector('.cp-drop-label').textContent=plan?.label||'';
+ d.ghost?.classList.toggle('cp-no-drop',!plan);
+}
+function positionGhost(d){
+ const shell=root.querySelector('.cp-shell'),r=shell.getBoundingClientRect();
+ d.ghost.style.left=((d.lastX-r.left-d.offsetX)/previewScale()-shell.clientLeft)+'px';d.ghost.style.top=((d.lastY-r.top-d.offsetY)/previewScale()-shell.clientTop)+'px';
+}
+function scrollAtEdge(el,x,y,horizontal=true,vertical=true){
+ if(!el)return;const r=el.getBoundingClientRect(),edge=22;
+ if(x<r.left||x>r.right||y<r.top||y>r.bottom)return;
+ if(horizontal&&el.scrollWidth>el.clientWidth){if(x<r.left+edge)el.scrollLeft-=7;else if(x>r.right-edge)el.scrollLeft+=7;}
+ if(vertical&&el.scrollHeight>el.clientHeight){if(y<r.top+edge)el.scrollTop-=7;else if(y>r.bottom-edge)el.scrollTop+=7;}
+}
+function dragFrame(){
+ const d=gesture;if(!d?.held)return;
+ const lane=hitLane(d.lastX,d.lastY);scrollAtEdge(lane?.querySelector('[data-scroll-zone]'),d.lastX,d.lastY);
+ scrollAtEdge(screen.querySelector('[data-board-scroll]'),d.lastX,d.lastY,true,false);
+ paintDrop(d);d.frame=requestAnimationFrame(dragFrame);
+}
+function capturePointer(d){try{root.setPointerCapture?.(d.pointer);}catch{}}
+function startHeld(d){
+ if(gesture!==d||d.panning||view.dialog||!d.piece.isConnected)return;
+ holdCue.cancel();d.held=true;capturePointer(d);d.piece.classList.add('cp-lifted');
+ const ghost=d.piece.cloneNode(true);ghost.classList.remove('cp-lifted');ghost.classList.add('cp-drag-ghost');ghost.setAttribute('aria-hidden','true');ghost.inert=true;
+ for(const el of [ghost,...ghost.querySelectorAll('*')])for(const key of Object.keys(el.dataset))delete el.dataset[key];
+ root.querySelector('.cp-shell').append(ghost);d.ghost=ghost;
+ root.dataset.dragging='true';positionGhost(d);paintDrop(d);d.frame=requestAnimationFrame(dragFrame);
+ notify(item(d.key).name+'を移動中です。');
+}
+function cancelGesture(suppress=true){
+ holdCue.cancel();const d=gesture;if(!d)return;gesture=null;clearTimeout(d.timer);if(d.frame)cancelAnimationFrame(d.frame);
+ d.ghost?.remove();d.piece?.classList.remove('cp-lifted');delete root.dataset.dragging;delete root.dataset.panning;clearDropMarks();
+ if(root.hasPointerCapture?.(d.pointer))root.releasePointerCapture(d.pointer);
+ if(suppress)suppressUntil=Date.now()+400;saveScroll();
+}
+listen(root,'pointerdown',e=>{
+ if(e.isPrimary===false){cancelGesture();return;}
+ if(e.button!==0||gesture||view.dialog)return;
+ const piece=e.target.closest('.cp-piece'),buttonTarget=e.target.closest('button');
+ if(buttonTarget&&buttonTarget.dataset.action!=='detail')return;
+ const pan=piece?.closest('[data-scroll-zone]')||e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!pan)return;
+ suppressUntil=0;
+ const r=piece?.getBoundingClientRect(),d=gesture={pointer:e.pointerId,piece,pan,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,scrollX:pan.scrollLeft,scrollY:pan.scrollTop,held:false,panning:false,from:piece?.dataset.zoneItem,key:piece?.dataset.key,uid:piece?.dataset.unit,id:piece?.dataset.offer,offsetX:r?e.clientX-r.left:0,offsetY:r?e.clientY-r.top:0};
+ if(piece){d.timer=setTimeout(()=>startHeld(d),holdMs);holdCue.start(e,holdMs,'drag');}
+});
+listen(root,'pointermove',e=>{
+ const d=gesture;if(!d||d.pointer!==e.pointerId)return;holdCue.move(e);d.lastX=e.clientX;d.lastY=e.clientY;
+ const dx=e.clientX-d.x,dy=e.clientY-d.y;
+ if(d.held){e.preventDefault();positionGhost(d);paintDrop(d);return;}
+ if(d.panning||Math.hypot(dx,dy)>moveThreshold){
+  clearTimeout(d.timer);holdCue.cancel();d.panning=true;root.dataset.panning='true';capturePointer(d);
+  d.pan.scrollLeft=d.scrollX-dx/previewScale();d.pan.scrollTop=d.scrollY-dy/previewScale();e.preventDefault();
+ }
+},{passive:false});
+listen(root,'pointerup',e=>{
+ const d=gesture;if(!d||d.pointer!==e.pointerId)return;
+ const lane=hitLane(e.clientX,e.clientY),plan=d.held?dropPlan(d,lane?.dataset.zone):null,active=d.held||d.panning;
+ cancelGesture(active);
+ if(plan)mutate(plan.action,d.key,plan.id||d.id,d.uid,plan.destination);
+ else if(d.held)notify('移動を取り消しました。');
+});
+for(const type of ['pointercancel','lostpointercapture'])listen(root,type,e=>{if(gesture?.pointer===e.pointerId)cancelGesture();});
+listen(root,'pointerleave',()=>{if(gesture&&!gesture.held&&!gesture.panning)cancelGesture();});
+listen(root,'contextmenu',e=>{if(gesture)e.preventDefault();});
+listen(root,'wheel',e=>{
+ cancelGesture();const grid=e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!grid||e.ctrlKey)return;
+ if(grid.scrollWidth>grid.clientWidth&&grid.scrollHeight<=grid.clientHeight+1&&Math.abs(e.deltaY)>Math.abs(e.deltaX)){
+  e.preventDefault();grid.scrollLeft+=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?grid.clientWidth:1);saveScroll();
+ }
+},{passive:false});
+listen(root,'scroll',e=>{if(e.target.matches?.('[data-scroll-zone],[data-board-scroll]'))saveScroll();},{capture:true});
+listen(window,'blur',()=>cancelGesture());
+listen(document,'visibilitychange',()=>{if(document.hidden)cancelGesture();});
+listen(document,'pointerdown',e=>{if(e.isPrimary===false)cancelGesture();},{capture:true});
+listen(document,'pointerup',e=>{if(gesture?.pointer===e.pointerId&&!root.contains(e.target))cancelGesture();});
+
+listen(root,'click',event=>{
+ if(event.detail!==0&&Date.now()<suppressUntil){event.preventDefault();return;}
+ cancelGesture(false);
+ const b=event.target.closest('button[data-action]');if(!b||!root.contains(b)||b.disabled)return;
+ const {action,key,id,uid,zone}=b.dataset;
+ if(action==='back'){cancelGesture();options.onBack?.();}
+ else if(action==='tab'){view.tab=id;render();}
+ else if(action==='detail')openDialog('detail',key,id,uid,zone);
+ else if(action==='review')openDialog('review');
+ else if(action==='close')closeDialog();
+ else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render(false);notify('操作案を最初の状態に戻しました。');}
+ else mutate(action,key,id,uid);
+});
+listen(overlay,'click',event=>{if(event.target===overlay)closeDialog();});
+listen(root,'keydown',event=>{
+ if(event.key==='Escape'&&gesture){event.preventDefault();cancelGesture();return;}
+ if(!view.dialog){const grid=event.target.closest('[data-scroll-zone]');if(grid&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();const d=dimensions();if(event.key==='ArrowLeft'||event.key==='ArrowRight')grid.scrollLeft+=(event.key==='ArrowLeft'?-1:1)*(d.tileWidth+d.gap);else grid.scrollTop+=(event.key==='ArrowUp'?-1:1)*(d.tileHeight+d.gap);saveScroll();}return;}
+ if(event.key==='Escape'){event.preventDefault();closeDialog();}
+ if(event.key==='Tab'){
+  const buttons=[...overlay.querySelectorAll('button:not(:disabled)')],first=buttons[0],last=buttons.at(-1);
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+ }
+});
+let previousWidth=0;
+const resizeObserver=globalThis.ResizeObserver?new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==previousWidth){previousWidth=w;syncPreview();}}):null;
+resizeObserver?.observe(root);
+render();
+syncPreview();
+const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),
+ setTab(tab){if(['card','passive'].includes(tab)){view.tab=tab;render();}},
+ suspend(){cancelGesture();if(view.dialog)closeDialog();},
+ dispose(){cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+options.onReady?.(acquisitionHandle);
+
+return acquisitionHandle;};})(globalThis.CrossweaveUI);

@@ -1,6 +1,6 @@
 /* UI-PLAN-001 journey prototype. All game state and prices come from CW-M1-view-1. */
 (function(api){'use strict';
-api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null}){
+api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:providedSession=null,storageMode='ephemeral',destinationPreview=null,acquisitionPreview=null}){
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const clone=x=>x==null?x:JSON.parse(JSON.stringify(x)),pt=n=>Number.isInteger(n)?String(n/100):'—';
  const session=providedSession||api.makeSession(controller,{reopen:()=>Campaign.open({slot_id})});
@@ -13,6 +13,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
  const recordEntries=new Map(),scrollMemory=new Map();
  let lastContext=null,lastPhase=null;
+ let collection=null,collectionNode=null,collectionState=null;
  let skillFilter='all',menuPage=0;
  let purchaseChoice=null,conversionIds=new Set(),viewToken=null;
  const selected={deck:null,skills:null},pageAnchors={deck:0,skills:0,offers:0,owned:0},events=new AbortController();
@@ -37,7 +38,16 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
  function reason(e){const specific=economyFailure(e);if(specific)return specific;return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
- function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return place==='hub'?'hub':tab;}
+ function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return acquisitionPreview&&place==='collection'?'collection':place==='hub'?'hub':tab;}
+ function mountCollection(){
+  if(!collectionNode){
+   collectionNode=document.createElement('div');collectionNode.id='cw-acquisition-review';collectionNode.dataset.embedded='true';
+   collectionNode.innerHTML='<section class="cp-shell" aria-label="札と心得の編成"><div data-screen class="cp-screen"></div><div data-overlay class="cp-overlay" hidden></div></section><p class="cp-live" role="status" aria-live="polite" data-live></p>';
+   $('[data-main]').append(collectionNode);
+   const fixture=clone(acquisitionPreview);if(Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
+   collection=api.mountAcquisitionReview(collectionNode,fixture,{onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
+  }else if(!collectionNode.isConnected)$('[data-main]').append(collectionNode);
+ }
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
  function detailsButton(id,extra=''){return button(mark(id)+'<span>'+esc(name(id))+'</span>','detail','data-id="'+esc(id)+'" '+extra,'cj-object');}
  __JOURNEY_DESTINATIONS__
@@ -82,9 +92,10 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
   const scrollNodes='[data-reading],.cj-inspect-scroll';
   if(!changed)for(const el of root.querySelectorAll(scrollNodes))scrollMemory.set(scrollKey(el),el.scrollTop);
   $('[data-header]').innerHTML=headerView(screen);
-  $('[data-header]').hidden=screen==='explore';
-  if(screen!==lastScreen){child?.dispose();child=null;$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source,key)=>{rememberAnchor(source);panelTrail=[];panel=key?kind:panel===kind?null:kind;recordTab='targets';recordTarget=key||null;recordDetail=null;render();}});lastScreen=screen;}
+  $('[data-header]').hidden=['explore','collection'].includes(screen);
+  if(screen!==lastScreen){child?.dispose();child=null;collection?.suspend();$('[data-main]').replaceChildren();if(screen==='explore')child=api.mountExploration($('[data-main]'),{session,display_data:d(),onScene:()=>{sceneRequested=true;render();},onWithdraw:()=>perform('withdraw'),onCommon:(kind,source,key)=>{rememberAnchor(source);panelTrail=[];panel=key?kind:panel===kind?null:kind;recordTab='targets';recordTarget=key||null;recordDetail=null;render();}});lastScreen=screen;}
   if(screen==='explore')child?.update(d(),state);
+  else if(screen==='collection')mountCollection();
   else $('[data-main]').innerHTML=screen==='return'?returnView():screen==='hub'?hubView():screen==='scene'?sceneView():screen==='start'?startView():composeView();
   root.dataset.screen=screen;
   $('[data-bottom]').innerHTML=footerView(screen);
@@ -141,6 +152,11 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
+  if(acquisitionPreview&&['collection','deck','skills','offers','owned','review'].includes(action)){
+   if(d().phase==='return')await navigate('hub');if(d().phase!=='home')return;
+   place='collection';resetWindows();render();if(action==='skills')collection.setTab('passive');return;
+  }
+  if(action.startsWith('explore-')){const kind=action.slice(8);resetWindows();render();child?.openPanel(kind);return;}
   if(action==='select-destination'){if(busy()||d().phase!=='home'||!destinationOptions.some(x=>x.id===id))return;selectedDestinationId=id;resetWindows();message='';render();return;}
   if(['detail','menu','records','help','review','data','settings','receipt','destination','unavailable','notice','texts'].includes(action)&&!b.closest('[data-inspector]'))rememberAnchor(b);
   if(action==='menu-page'){menuPage=Math.max(0,menuPage+Number(b.dataset.step));render();return;}
@@ -178,6 +194,6 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const off=session.subscribe(s=>{state=s;if(state.view)render();});
  document.fonts?.ready.then(()=>{if(!disposed)layoutWindows();});
  const ready=(state.view?Promise.resolve({ok:true}):session.refresh({preserveLocal:false})).then(async result=>{if(result.ok)await compareRestoredDraft();return result;});
- return {session,ready,state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();session.dispose();displayFrame.dispose();}};
+ return {session,ready,get collection(){return collection;},state:()=>({tab,skillFilter,place,panel,panelTrail:clone(panelTrail),pageAnchors:clone(pageAnchors),recordTab,recordTarget,recordDetail:clone(recordDetail),windows:clone(windows),screen:currentScreen(),seen:[...seen],visible:[...visible]}),dispose(){disposed=true;observer?.disconnect();frameObserver.disconnect();off();events.abort();child?.dispose();collection?.dispose();session.dispose();displayFrame.dispose();}};
 };
 })(globalThis.CrossweaveUI);

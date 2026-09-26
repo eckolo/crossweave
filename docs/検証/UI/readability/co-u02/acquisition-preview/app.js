@@ -1,4 +1,7 @@
-const root=document.getElementById('cw-acquisition-review');
+const options=typeof acquisitionOptions==='undefined'?{}:acquisitionOptions;
+const root=options.root||document.getElementById('cw-acquisition-review');
+const eventScope=new AbortController();
+const listen=(node,type,fn,extra={})=>node?.addEventListener(type,fn,{...extra,signal:eventScope.signal});
 const screen=root.querySelector('[data-screen]'),overlay=root.querySelector('[data-overlay]'),live=root.querySelector('[data-live]');
 const clone=x=>JSON.parse(JSON.stringify(x));
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -57,20 +60,21 @@ function mutate(action,key,id,uid,destination='reserve'){
  render();
 }
 __GESTURES__
-root.addEventListener('click',event=>{
+listen(root,'click',event=>{
  if(event.detail!==0&&Date.now()<suppressUntil){event.preventDefault();return;}
  cancelGesture(false);
  const b=event.target.closest('button[data-action]');if(!b||!root.contains(b)||b.disabled)return;
  const {action,key,id,uid,zone}=b.dataset;
- if(action==='tab'){view.tab=id;render();}
+ if(action==='back'){cancelGesture();options.onBack?.();}
+ else if(action==='tab'){view.tab=id;render();}
  else if(action==='detail')openDialog('detail',key,id,uid,zone);
  else if(action==='review')openDialog('review');
  else if(action==='close')closeDialog();
  else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render(false);notify('操作案を最初の状態に戻しました。');}
  else mutate(action,key,id,uid);
 });
-overlay.addEventListener('click',event=>{if(event.target===overlay)closeDialog();});
-root.addEventListener('keydown',event=>{
+listen(overlay,'click',event=>{if(event.target===overlay)closeDialog();});
+listen(root,'keydown',event=>{
  if(event.key==='Escape'&&gesture){event.preventDefault();cancelGesture();return;}
  if(!view.dialog){const grid=event.target.closest('[data-scroll-zone]');if(grid&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();const d=dimensions();if(event.key==='ArrowLeft'||event.key==='ArrowRight')grid.scrollLeft+=(event.key==='ArrowLeft'?-1:1)*(d.tileWidth+d.gap);else grid.scrollTop+=(event.key==='ArrowUp'?-1:1)*(d.tileHeight+d.gap);saveScroll();}return;}
  if(event.key==='Escape'){event.preventDefault();closeDialog();}
@@ -81,6 +85,12 @@ root.addEventListener('keydown',event=>{
  }
 });
 let previousWidth=0;
-if(globalThis.ResizeObserver)new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==previousWidth){previousWidth=w;syncPreview();}}).observe(root);
+const resizeObserver=globalThis.ResizeObserver?new ResizeObserver(entries=>{const w=Math.round(entries[0].contentRect.width);if(w!==previousWidth){previousWidth=w;syncPreview();}}):null;
+resizeObserver?.observe(root);
 render();
 syncPreview();
+const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),
+ setTab(tab){if(['card','passive'].includes(tab)){view.tab=tab;render();}},
+ suspend(){cancelGesture();if(view.dialog)closeDialog();},
+ dispose(){cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+options.onReady?.(acquisitionHandle);

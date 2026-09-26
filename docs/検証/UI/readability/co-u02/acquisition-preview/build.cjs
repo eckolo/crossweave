@@ -1,6 +1,8 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const read=p=>fs.readFileSync(path.join(__dirname,p),'utf8');
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+function applicationSource(){return read('app.js').replace('__LAYOUT__',()=>read('layout.js')).replace('__PREVIEW__',()=>read('preview.js')).replace('__GESTURES__',()=>read('gestures.js'));}
+function component(){return '(function(api){api.mountAcquisitionReview=function(node,fixture,settings={}){const acquisitionOptions={...settings,root:node,embedded:true};\n'+applicationSource()+'\nreturn acquisitionHandle;};})(globalThis.CrossweaveUI);';}
 async function makeFixture(){
  const base=path.resolve(__dirname,'../../../../../..');
  const C=(await import(path.join(base,'src/content/m1.mjs'))).default;
@@ -36,7 +38,7 @@ async function makeFixture(){
 }
 async function build({write=false,testing=false,output='/workspace/crossweave-acquisition-delay.html'}={}){
  const fixture=await makeFixture();
- const app=read('../hold-cue.js')+'\n'+read('app.js').replace('__LAYOUT__',()=>read('layout.js')).replace('__PREVIEW__',()=>read('preview.js')).replace('__GESTURES__',()=>read('gestures.js'))+(testing?'\nroot.__test={snapshot:()=>clone({current,draft,view}),fixture,layout:dimensions,preview:()=>clone(previewState),resizePreview:syncPreview};':'');
+ const app=read('../hold-cue.js')+'\n'+applicationSource()+(testing?'\nroot.__test={snapshot:()=>clone({current,draft,view}),fixture,layout:dimensions,preview:()=>clone(previewState),resizePreview:syncPreview,handle:acquisitionHandle};':'');
  new Function('fixture',app);
  const html=read('preview.fragment.html').replace('__STYLE__',()=>read('structure.css')+'\n'+read('../hold-cue.css')).replace('__FIXTURE__',()=>JSON.stringify(fixture).replace(/</g,'\\u003c')).replace('__APP__',()=>app.replace(/<\/script/gi,'<\\/script'));
  if(Buffer.byteLength(html)>=1000000||/<(?:html|head|body)\b|<!doctype/i.test(html)||/\b(?:fetch|XMLHttpRequest|WebSocket)\s*\(/.test(html))throw Error('Invalid conversation fragment');
@@ -48,4 +50,4 @@ async function build({write=false,testing=false,output='/workspace/crossweave-ac
  return {html,fixture};
 }
 if(require.main===module)build({write:true,output:process.argv[2]||'/workspace/crossweave-acquisition-delay.html'}).then(({html})=>console.log(JSON.stringify({bytes:Buffer.byteLength(html),sha256:hash(html)}))).catch(e=>{console.error(e);process.exitCode=1;});
-module.exports={build};
+module.exports={build,component,applicationSource};

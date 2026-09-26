@@ -55,7 +55,7 @@ function cancelGesture(suppress=true){
  if(root.hasPointerCapture?.(d.pointer))root.releasePointerCapture(d.pointer);
  if(suppress)suppressUntil=Date.now()+400;saveScroll();
 }
-root.addEventListener('pointerdown',e=>{
+listen(root,'pointerdown',e=>{
  if(e.isPrimary===false){cancelGesture();return;}
  if(e.button!==0||gesture||view.dialog)return;
  const piece=e.target.closest('.cp-piece'),buttonTarget=e.target.closest('button');
@@ -65,7 +65,7 @@ root.addEventListener('pointerdown',e=>{
  const r=piece?.getBoundingClientRect(),d=gesture={pointer:e.pointerId,piece,pan,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,scrollX:pan.scrollLeft,scrollY:pan.scrollTop,held:false,panning:false,from:piece?.dataset.zoneItem,key:piece?.dataset.key,uid:piece?.dataset.unit,id:piece?.dataset.offer,offsetX:r?e.clientX-r.left:0,offsetY:r?e.clientY-r.top:0};
  if(piece){d.timer=setTimeout(()=>startHeld(d),holdMs);holdCue.start(e,holdMs,'drag');}
 });
-root.addEventListener('pointermove',e=>{
+listen(root,'pointermove',e=>{
  const d=gesture;if(!d||d.pointer!==e.pointerId)return;holdCue.move(e);d.lastX=e.clientX;d.lastY=e.clientY;
  const dx=e.clientX-d.x,dy=e.clientY-d.y;
  if(d.held){e.preventDefault();positionGhost(d);paintDrop(d);return;}
@@ -74,24 +74,24 @@ root.addEventListener('pointermove',e=>{
   d.pan.scrollLeft=d.scrollX-dx/previewScale();d.pan.scrollTop=d.scrollY-dy/previewScale();e.preventDefault();
  }
 },{passive:false});
-root.addEventListener('pointerup',e=>{
+listen(root,'pointerup',e=>{
  const d=gesture;if(!d||d.pointer!==e.pointerId)return;
  const lane=hitLane(e.clientX,e.clientY),plan=d.held?dropPlan(d,lane?.dataset.zone):null,active=d.held||d.panning;
  cancelGesture(active);
  if(plan)mutate(plan.action,d.key,plan.id||d.id,d.uid,plan.destination);
  else if(d.held)notify('移動を取り消しました。');
 });
-for(const type of ['pointercancel','lostpointercapture'])root.addEventListener(type,e=>{if(gesture?.pointer===e.pointerId)cancelGesture();});
-root.addEventListener('pointerleave',()=>{if(gesture&&!gesture.held&&!gesture.panning)cancelGesture();});
-root.addEventListener('contextmenu',e=>{if(gesture)e.preventDefault();});
-root.addEventListener('wheel',e=>{
+for(const type of ['pointercancel','lostpointercapture'])listen(root,type,e=>{if(gesture?.pointer===e.pointerId)cancelGesture();});
+listen(root,'pointerleave',()=>{if(gesture&&!gesture.held&&!gesture.panning)cancelGesture();});
+listen(root,'contextmenu',e=>{if(gesture)e.preventDefault();});
+listen(root,'wheel',e=>{
  cancelGesture();const grid=e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!grid||e.ctrlKey)return;
  if(grid.scrollWidth>grid.clientWidth&&grid.scrollHeight<=grid.clientHeight+1&&Math.abs(e.deltaY)>Math.abs(e.deltaX)){
   e.preventDefault();grid.scrollLeft+=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?grid.clientWidth:1);saveScroll();
  }
 },{passive:false});
-root.addEventListener('scroll',e=>{if(e.target.matches?.('[data-scroll-zone],[data-board-scroll]'))saveScroll();},{capture:true});
-window.addEventListener('blur',()=>cancelGesture());
-document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelGesture();});
-document.addEventListener('pointerdown',e=>{if(e.isPrimary===false)cancelGesture();},{capture:true});
-document.addEventListener('pointerup',e=>{if(gesture?.pointer===e.pointerId&&!root.contains(e.target))cancelGesture();});
+listen(root,'scroll',e=>{if(e.target.matches?.('[data-scroll-zone],[data-board-scroll]'))saveScroll();},{capture:true});
+listen(window,'blur',()=>cancelGesture());
+listen(document,'visibilitychange',()=>{if(document.hidden)cancelGesture();});
+listen(document,'pointerdown',e=>{if(e.isPrimary===false)cancelGesture();},{capture:true});
+listen(document,'pointerup',e=>{if(gesture?.pointer===e.pointerId&&!root.contains(e.target))cancelGesture();});
