@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><title>CO-D04A 実保存の限定確認</title>
+<style>body{max-width:76rem;margin:2rem auto;padding:0 1rem;font-family:system-ui;line-height:1.6}button,input{font:inherit}button{margin:.25rem;padding:.4rem .8rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f5f7;padding:1rem}input{width:min(48rem,90%)}</style>
+<h1>CO-D04A 実保存の限定確認</h1>
+<p>既存CO-D02の確認入口と公開controllerを使う開発用検証です。製品UIの検査・人の試遊ではありません。この入口は準備済みですが、提出時点ではブラウザーアクセスが阻害され、実行未確認です。</p>
+<p>新しい専用DB <code>crossweave-CW-M1-D04A-&lt;UUID&gt;</code> のみを使います。通常の保存枠・旧PT-NT保存を読み書きせず、MemoryStoreへ切り替えません。検査用DBも自動削除しません。</p>
+<p><a href="README.md">実行条件・未確認・再開手順</a></p>
+<label>実行OSとブラウザーの正式版番号 <input id="environment" placeholder="例：OSの版／ブラウザー名と完全な版番号"></label>
+<p id="status" role="status">準備ファイルを確認中</p>
+<div id="controls">
+<button id="start" disabled>1. 専用枠で保存・移行・失敗保全</button>
+<button id="reload" disabled>2. このページを再読込</button>
+<button id="verify" disabled>3. 新controllerで再開・照合</button>
+<a id="peer" target="_blank" rel="noopener" hidden>4. 同じDBを別タブで開く</a>
+<button id="two" disabled>5. 実2タブの競合・同要求再送</button>
+<button id="download" disabled>結果JSONを保存</button>
+</div>
+<p>5の後に2→3をもう一度実行し、二重決済がなく最終再読込できた結果を保存します。途中失敗は結果に残り、成功へ読み替えません。</p>
+<pre id="result">未実行</pre>
+<script type="module" src="runner.mjs"></script></html>

@@ -4,8 +4,9 @@ import E from '../content/economy.mjs';
 import {copy,check,canonical,integer,unique} from './common.mjs';
 import {blueprint,variants,validateBlueprint} from './affixes.mjs';
 import {sha256} from './hash.mjs';
-import {funds,setFunds,conversionUnits} from './items.mjs';
+import {funds,setFunds,conversionUnits,convertible} from './items.mjs';
 import {economyVersion} from './versions.mjs';
+import {validatePossessions} from './possessions.mjs';
 const cfg=E.offers,cache=new Map(),pools=new Map();
 export const batchID=r=>JSON.stringify(['CW-M1-offer-1',r.run,r.content_set_id]);
 export const candidateRef=(batch,choice)=>JSON.stringify(['CW-M1-candidate-1',batch,choice]);
@@ -85,9 +86,9 @@ export function purchase(e,ref,operation){
   batch.purchased=operation;e.at.purchases[operation]={batch:batch.id,choice:c.id,units:c.price_units,uid,
     signature:canonical({batch:batch.id,choice:c.id})};return e.inventory[uid];
 }
-export function validateEconomy(s){
+export function validateEconomy(s,{legacy=false}={}){
   const e=s.economy,a=e.at;
-  check(e.runtime_version===economyVersion&&a?.version===cfg.version,'unsupported_economy_version');
+  check(e.runtime_version===(legacy?'CW-M1-economy-1':economyVersion)&&a?.version===cfg.version,'unsupported_economy_version');
   for(const x of [a.batches,a.purchases,a.returns,e.sales,e.known,e.references])check(x&&typeof x==='object'&&!Array.isArray(x),'invalid_economy_ledger');
   check(Array.isArray(a.pending_contexts)&&a.pending_contexts.length===0,'pending_offer_migration_required');
   const rs=Object.values(s.receipts).sort((x,y)=>x.index-y.index),expectedBatches=[],known={};let last=null;
@@ -103,7 +104,8 @@ export function validateEconomy(s){
   }
   check(a.current===last&&canonical(Object.keys(a.batches).sort())===canonical(expectedBatches.sort()),'invalid_current_offer');
   check(canonical(e.known)===canonical(known),'invalid_known_blueprints');
-  const acquired=new Map();let spent=0,converted=0;
+  const grants=legacy?{acquired:new Map(),spent:0}:validatePossessions(e);
+  const acquired=grants.acquired;let spent=grants.spent,converted=0;
   for(const [operation,r]of Object.entries(a.purchases)){
     const b=a.batches[r.batch],c=b?.candidates.find(x=>x.id===r.choice);
     check(c&&b.purchased===operation&&r.uid===purchaseUID(b.id,c.id)&&r.units===c.price_units&&r.signature===canonical({batch:b.id,choice:c.id}),'invalid_purchase_receipt');
@@ -115,7 +117,7 @@ export function validateEconomy(s){
     let units=0;
     for(const [i,uid]of sale.ids.entries()){
       const original=acquired.get(uid),item=sale.items[i];
-      check(original&&!sold.has(uid)&&item?.uid===uid&&item.locked===false&&canonical(item.blueprint)===canonical(original.blueprint)&&item.band===original.band,'invalid_sold_item');
+      check(original&&convertible(e,uid)&&!sold.has(uid)&&item?.uid===uid&&item.locked===false&&canonical(item.blueprint)===canonical(original.blueprint)&&item.band===original.band,'invalid_sold_item');
       units+=conversionUnits(item.band);sold.add(uid);
     }
     check(units===sale.units,'invalid_conversion_units');converted+=units;

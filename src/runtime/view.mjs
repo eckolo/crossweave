@@ -18,6 +18,7 @@ export function capabilities(d) {
   const dirty=d.draft?.dirty===true;
   const ops=Object.fromEntries(['save_draft','discard_draft','commit_preparation'].map(op=>[op,ability(home,returned?'return_not_acknowledged':'exploring')]));
   for(const op of ['purchase','convert_items','set_item_lock','quoteConversion'])ops[op]=ability(home,returned?'return_not_acknowledged':'exploring');
+  if(s.economy.unified)ops.purchase=ability(false,'use_commit_preparation');
   for(const op of ['owned_items','affixes'])ops[op]=ability(home||returned,'exploring');
   ops.previewPreparation=ability(home||returned,'exploring');
   ops.depart=ability(home&&!dirty,home?'dirty_draft':returned?'return_not_acknowledged':'already_exploring');
@@ -38,9 +39,9 @@ export function project(d, extras={}) {
     home.offers={status:batch?.purchased?'purchased':batch?.candidates.length?'available':'none',refresh_rule:'eligible_return',
       carried_from_previous_return:!!(batch&&latest&&batch.context.run!==latest.run),connected:true,reason:batch&&!batch.candidates.length?'no_eligible_offer':!batch?'no_qualifying_return':null};
     for(const base of Object.keys(C.rules.learning.bases))details['base:'+base]=passiveDetail(base);
-    for(const row of [...home.owned,...home.candidates])details[row.id]=itemDetail(row.blueprint);
-    for(const row of home.owned){row.references=itemUsage(d,row.id.slice(6));row.conversion_available=s.phase==='home'&&!row.locked&&!row.references.length;
-      row.conversion_reasons=[...(s.phase==='return'?['return_not_acknowledged']:[]),...(row.locked?['item_locked']:[]),...(row.references.length?['item_in_use']:[])];}
+    for(const row of [...home.owned,...home.candidates,...(home.acquisition||[])])details[row.id]=itemDetail(row.blueprint);
+    for(const row of home.owned){row.references=itemUsage(d,row.id.slice(6));row.conversion_available=s.phase==='home'&&row.convertible!==false&&!row.locked&&!row.references.length;
+      row.conversion_reasons=[...(row.convertible===false?['initial_grant_not_convertible']:[]),...(s.phase==='return'?['return_not_acknowledged']:[]),...(row.locked?['item_locked']:[]),...(row.references.length?['item_in_use']:[])];}
     for(const row of extras.preparation_comparison?.prepared?.owned||[])if(!details[row.id])details[row.id]=itemDetail(row.blueprint);
   }
   const ledger=s.game?.state.ah.knowledge||s.economy.profile.knowledge;
@@ -74,7 +75,7 @@ export function project(d, extras={}) {
   const draft=home?{plan:copy(stored.plan),dirty:stored.dirty,valid:stored.valid,errors:copy(stored.errors),based_on_current:stored.based_on_revision===d.revision}:null;
   const receipt=s.phase==='return'?s.receipts[s.active.run]:null;
   const return_receipt=receipt?copy(Object.fromEntries(['outcome','gained_units','unspent_after_units','paid_learning_units','kept_items','lost_items','new_unlocks','knowledge_changes','case_changes','expedition_end_hp','home_hp'].map(k=>[k,receipt[k]]))):null;
-  return handles(s,[stored.plan]).encode({schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
+  return handles(s,[stored.plan]).encode({schema:'CW-M1-view-1',meta:{revision:d.revision,view_token:token(d)},display_data:{public_contract:publicContract,migration_notice:d.acquisition_migration?{id:d.acquisition_migration.id,source_engine:d.acquisition_migration.source_engine,legacy_draft_archived:!!d.acquisition_migration.legacy_draft,review_required:d.draft?.plan?.migration_review==='legacy_draft_requires_review'}:null,phase:s.phase,capabilities:capabilities(d),home,details,stat_labels:statLabels,
     knowledge_views:publicKnowledgeEvidence(knowledge_views),texts:story.texts,text_history:story.text_history,action_history:actionHistory(s.action_history),draft,preparation_comparison:null,conversion_quote:null,case:{id:'SCN-001',status:d.casebook['SCN-001'].status,attempts:d.casebook['SCN-001'].attempts,
       available_mode:s.active?.mode||nextMode(d.casebook['SCN-001']),objective_text_id:story.objective,visible_clue_ids:copy(d.casebook['SCN-001'].visible_clue_ids),unlocked_card_ids:copy(s.economy.profile.unlocked)},
     scene:story.scene,exploration,action_preview:null,return_receipt,operation:null,error:null,...extras}});

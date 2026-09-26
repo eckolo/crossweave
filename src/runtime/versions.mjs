@@ -1,4 +1,4 @@
-// D03 changes economy persistence/API, not D58 combat rules or authored content.
-export const engineVersion='CW-M1-engine-0.6';
-export const economyVersion='CW-M1-economy-1';
-export const migrationID='CW-M1-D03-1';
+// D03R changes ownership persistence/API; D58 combat/content remain pinned.
+export const engineVersion='CW-M1-engine-0.7';
+export const economyVersion='CW-M1-economy-2';
+export const migrationID='CW-M1-D03R-1';

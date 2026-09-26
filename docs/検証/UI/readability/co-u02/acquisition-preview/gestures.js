@@ -3,14 +3,14 @@ let gesture=null,suppressUntil=0;
 const holdMs=220,moveThreshold=8;
 const holdCue=globalThis.CrossweaveHoldCue.mount(root.querySelector('.cp-shell'),{scale:previewScale});
 function dropPlan(data,to){
- if(!to||to===data.from)return null;
+ if(!to||to===data.from||runtimeLocked()||migrationPending())return null;
  if(data.from==='offer'){
-  if(!offer(data.id)||draft.offers.includes(data.id)||current.purchased.includes(data.id)||draft.offers.length+current.purchased.length>=fixture.rules.offerLimit)return null;
+  if(!canStage(data.id)||runtimeLocked()||migrationPending())return null;
   return ['reserve','build'].includes(to)?{action:'stage',label:to==='build'?'取得・編成':'取得',destination:to}:null;
  }
  const unit=projected().find(x=>x.uid===data.uid);
  if(!unit||unit.key!==data.key||(composed(data.uid)?'build':'reserve')!==data.from)return null;
- if(to==='offer')return unitPending(data.uid)?{action:'unstage',label:'取消',id:data.uid.slice(8)}:null;
+ if(to==='offer')return unitPending(data.uid)?{action:'unstage',label:'取消',id:pendingOffer(data.uid)}:null;
  if(to==='build'&&data.from==='reserve')return {action:'add',label:'編成'};
  if(to==='reserve'&&data.from==='build')return {action:'remove',label:'外す'};
  return null;
@@ -57,7 +57,7 @@ function cancelGesture(suppress=true){
 }
 listen(root,'pointerdown',e=>{
  if(e.isPrimary===false){cancelGesture();return;}
- if(e.button!==0||gesture||view.dialog)return;
+ if(e.button!==0||gesture||view.dialog||runtimeLocked()||migrationPending())return;
  const piece=e.target.closest('.cp-piece'),buttonTarget=e.target.closest('button');
  if(buttonTarget&&buttonTarget.dataset.action!=='detail')return;
  const pan=piece?.closest('[data-scroll-zone]')||e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!pan)return;

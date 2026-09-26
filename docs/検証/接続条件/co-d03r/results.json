@@ -1,0 +1,175 @@
+{
+  "test_id": "CW-M1-D03R-001",
+  "node": "v24.19.0",
+  "environment": "Node / MemoryStore",
+  "versions": {
+    "schema": "CW-M1-save-2",
+    "rule_set_id": "CW-M1-rules-0.5",
+    "content_set_id": "CW-M1-SCN001-0.2",
+    "engine_version": "CW-M1-engine-0.7",
+    "input_version": "0.2",
+    "public_contract": "CW-M1-public-0.6",
+    "preparation_contract": "CW-M1-preparation-2",
+    "economy_version": "CW-M1-economy-2",
+    "acquisition_policy": "CW-M1-acquisition-1"
+  },
+  "checks": [
+    {
+      "name": "versions: save2 / preparation2 / public0.6; combat and authored content pinned",
+      "pass": true
+    },
+    {
+      "name": "new start: 20 real initial units, 12 selected, zero funds, no offer group",
+      "pass": true
+    },
+    {
+      "name": "preview: initial composition rearrangement is pure and public groups partition all individuals",
+      "pass": true
+    },
+    {
+      "name": "preview: acquisition, unequip, cancel and reselection do not save or spend",
+      "pass": true
+    },
+    {
+      "name": "atomic: modified passive plus basic passive uses one commit and no extra type learning",
+      "pass": true
+    },
+    {
+      "name": "atomic: modified card replaces initial unit and departure uses its exact variant",
+      "pass": true
+    },
+    {
+      "name": "departure: acquired unlearned passive entries apply and survive play, return and reload",
+      "pass": true
+    },
+    {
+      "name": "limits: insufficient total funds cannot partially acquire or consume a candidate",
+      "pass": true
+    },
+    {
+      "name": "limits: one return-offer per group and one base catalogue stock; pending requires acquisition",
+      "pass": true
+    },
+    {
+      "name": "limits: equipment capacity, duplicate individual and deck size/base cap reject atomically",
+      "pass": true
+    },
+    {
+      "name": "save failure: acquired inventory, funds, composition and offer selection all stay unchanged",
+      "pass": true
+    },
+    {
+      "name": "replay: one request commits once; conflict rejects; reopen/import do not migrate again",
+      "pass": true
+    },
+    {
+      "name": "stale revision/token: refreshed handles are never substituted into an old request",
+      "pass": true
+    },
+    {
+      "name": "CAS: concurrent same request is commit+replay, different request stays uncommitted",
+      "pass": true
+    },
+    {
+      "name": "draft: saved pending references protect existing possessions; reload/discard cannot charge",
+      "pass": true
+    },
+    {
+      "name": "conversion/lock: acquired items use existing safeguards; no learning refund; initial rights cannot mint currency",
+      "pass": true
+    },
+    {
+      "name": "basic conversion: low-efficiency sale restores catalogue stock without refund or duplicated grant",
+      "pass": true
+    },
+    {
+      "name": "public diagnostics: invalid pending card selection stays public in preview, commit and saved draft",
+      "pass": true
+    },
+    {
+      "name": "migration replay: request committed on D03 remains replayable without another acquisition",
+      "pass": true
+    },
+    {
+      "name": "legacy API: direct purchase and refund-bearing old plan are explicitly refused",
+      "pass": true
+    },
+    {
+      "name": "migration: test/runtime/d03-natural-home.json.br.b64",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d03/converted_home.save.json.br.b64",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d03/migrated_return.save.json.br.b64",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d03/purchased_exploring.save.json.br.b64",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d03/purchased_home.save.json.br.b64",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d02/saves/entry.save.json.gz",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d02/saves/home.save.json.gz",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d02/saves/port.save.json.gz",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d02/saves/return.save.json.gz",
+      "pass": true
+    },
+    {
+      "name": "migration: docs/検証/接続条件/co-d02/saves/second-return.save.json.gz",
+      "pass": true
+    },
+    {
+      "name": "migration failure: write denial, invalid source and unsupported schema leave source intact",
+      "pass": true
+    },
+    {
+      "name": "migration CAS: two open calls perform a single durable upgrade",
+      "pass": true
+    },
+    {
+      "name": "migration: paid learning becomes one equipable individual, historical payment and balance stay exact",
+      "pass": true
+    },
+    {
+      "name": "migration: old dirty refund draft is archived and blocks departure until explicit review/discard",
+      "pass": true
+    },
+    {
+      "name": "migration: locked purchased item and saved references survive; tampering grants/payment is rejected",
+      "pass": true
+    },
+    {
+      "name": "offers: no-reward return retains unpurchased group and never represents a read failure as empty",
+      "pass": true
+    },
+    {
+      "name": "natural initial journey: public commands only, no injected cash; eligible return creates actual offers",
+      "pass": true
+    }
+  ],
+  "passed": 37,
+  "failed": 0,
+  "unverified": [
+    "real IndexedDB",
+    "browser rendering/input",
+    "physical multi-tab",
+    "UI connection",
+    "human evaluation"
+  ]
+}

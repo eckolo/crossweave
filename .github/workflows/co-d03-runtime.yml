@@ -1,4 +1,4 @@
-name: CO-D03 runtime checks
+name: CO-D03R runtime checks
 on:
   push:
     branches: [dev_design_tmp_assembly]
@@ -10,7 +10,7 @@ on:
 permissions:
   contents: read
 jobs:
-  d03:
+  d03r:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -21,20 +21,14 @@ jobs:
         run: |
           git rev-parse HEAD
           node --version
-          git archive --format=tar.gz --output="$RUNNER_TEMP/d03-source.tar.gz" HEAD
-      - name: D03 checks only
-        run: |
-          if [ -f test/runtime/d03.test.mjs ]; then
-            node --test test/runtime/d03.test.mjs
-          else
-            echo 'Bootstrap only: D03 checks are not implemented yet; no D03 pass is claimed.'
-            node --check src/runtime/campaign.mjs
-          fi
+          git archive --format=tar.gz --output="$RUNNER_TEMP/d03r-source.tar.gz" HEAD
+      - name: D03R changed paths only
+        run: node --test --test-reporter=tap test/runtime/d03r.test.mjs
       - name: Retain inspection input temporarily
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: co-d03-source-${{ github.sha }}
-          path: ${{ runner.temp }}/d03-source.tar.gz
+          name: co-d03r-source-${{ github.sha }}
+          path: ${{ runner.temp }}/d03r-source.tar.gz
           retention-days: 1
           if-no-files-found: error

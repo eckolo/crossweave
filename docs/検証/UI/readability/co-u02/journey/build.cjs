@@ -12,6 +12,12 @@ function bundle(){
   // This closed source set uses only static imports and immutable runtime exports.
   // The test-support module is used only for MemoryStore, not mutable test serials.
   const names=[];
+  src=src.replace(/^export\s*\{([^}]+)\}\s+from\s+['"](.+?)['"];\s*$/gm,(_,list,relative)=>{
+   if(!relative.startsWith('.'))throw Error('external re-export: '+relative);
+   const dep=visit(path.resolve(path.dirname(file),relative));
+   for(const item of list.split(',')){const [from,to]=item.trim().split(/\s+as\s+/);names.push([to||from,'get('+dep+').'+from]);}
+   return '';
+  });
   src=src.replace(/^import\s+(.+?)\s+from\s+['"](.+?)['"];\s*$/gm,(_,binding,relative)=>{
    if(!relative.startsWith('.'))throw Error('external import: '+relative);
    const dep=visit(path.resolve(path.dirname(file),relative));
@@ -19,7 +25,7 @@ function bundle(){
    if(binding.startsWith('* as '))return 'const '+binding.slice(5)+'=get('+dep+');';
    return 'const '+binding+'=get('+dep+').default;';
   });
-  src=src.replace(/^export\s+default\s+(.+);\s*$/gm,(_,expr)=>'const __default__='+expr+';');
+  src=src.replace(/^export\s+default\s+/gm,'const __default__=');
   if(src.includes('const __default__='))names.push(['default','__default__']);
   src=src.replace(/^export\s+((?:async\s+)?function|class|const|let)\s+(\w+)/gm,(_,kind,name)=>{names.push([name,name]);return kind+' '+name;});
   src=src.replace(/^export\s*\{([^}]+)\};\s*$/gm,(_,list)=>{for(const item of list.split(',')){const [from,to]=item.trim().split(/\s+as\s+/);names.push([to||from,from]);}return '';});

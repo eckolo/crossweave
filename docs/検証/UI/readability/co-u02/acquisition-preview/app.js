@@ -5,18 +5,20 @@ const listen=(node,type,fn,extra={})=>node?.addEventListener(type,fn,{...extra,s
 const screen=root.querySelector('[data-screen]'),overlay=root.querySelector('[data-overlay]'),live=root.querySelector('[data-live]');
 const clone=x=>JSON.parse(JSON.stringify(x));
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+__RUNTIME__
 const item=key=>fixture.catalogue[key],offer=id=>fixture.offers.find(x=>x.id===id);
 let current=clone(fixture.initial),draft=freshDraft(),view=emptyView(),lastFocus=null;
 function freshDraft(){return {offers:[],deck:[...current.deck],equipment:[...current.equipment]};}
-function projected(){return [...current.units,...draft.offers.map(id=>({uid:'pending-'+id,key:offer(id).key}))];}
-function spending(){return draft.offers.reduce((sum,id)=>sum+offer(id).price,0);}
+function projected(){return [...current.units,...draft.offers.map(id=>({uid:pendingUid(id),key:offer(id).key}))];}
+function spending(){if(runtime)return runtimeState.comparison?.payment?.cost_units!=null?runtimeState.comparison.payment.cost_units/100:dirty()?'—':0;return draft.offers.reduce((sum,id)=>sum+offer(id).price,0);}
 function selected(key,which=draft){const units=projected();return [...which.deck,...which.equipment].filter(uid=>units.find(x=>x.uid===uid)?.key===key).length;}
 function owned(key){return current.units.filter(x=>x.key===key).length;}
 function available(key){return projected().filter(x=>x.key===key).length;}
 function pending(key){return draft.offers.find(id=>offer(id).key===key);}
-function load(equipment=draft.equipment){return equipment.reduce((sum,uid)=>sum+(item(projected().find(x=>x.uid===uid)?.key)?.equipment_cost||0),0);}
-function dirty(){return draft.offers.length>0||JSON.stringify(draft.deck)!==JSON.stringify(current.deck)||JSON.stringify(draft.equipment)!==JSON.stringify(current.equipment);}
+function load(equipment=draft.equipment){if(runtime)return runtimeState.comparison?.prepared?.equipment.used??(dirty()?'—':runtimeState.view.display_data.home.equipment.used);return equipment.reduce((sum,uid)=>sum+(item(projected().find(x=>x.uid===uid)?.key)?.equipment_cost||0),0);}
+function dirty(){if(runtime)return !!runtimeState.view.display_data.migration_notice?.review_required||!globalThis.CrossweaveUI.samePreparation(runtimeState.draft,globalThis.CrossweaveUI.currentPlan(runtimeState.view));return draft.offers.length>0||JSON.stringify(draft.deck)!==JSON.stringify(current.deck)||JSON.stringify(draft.equipment)!==JSON.stringify(current.equipment);}
 function errors(){
+ if(runtime)return runtimeErrors();
  const result=[],units=projected(),byUid=new Map(units.map(x=>[x.uid,x]));
  if(spending()>current.wallet)result.push('着想が'+(spending()-current.wallet)+'不足しています。');
  if(draft.offers.length+current.purchased.length>fixture.rules.offerLimit)result.push('今回の取得は'+fixture.rules.offerLimit+'点までです。');
@@ -35,13 +37,14 @@ function stateText(key){return (owned(key)?'所持 '+owned(key):'未所持')+(pe
 __LAYOUT__
 __PREVIEW__
 function mutate(action,key,id,uid,destination='reserve'){
+ if(runtime&&['commit','discard','rebuild','retry','reload'].includes(action)){void runtimeAction(action);return;}
+ if(runtimeLocked()||migrationPending())return;
  if(action==='stage'){
-  if(!offer(id)||draft.offers.includes(id)||current.purchased.includes(id))return;
-  if(draft.offers.length+current.purchased.length>=fixture.rules.offerLimit){notify('今回の取得予定は1点までです。');return;}
-  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push('pending-'+id);revealUnit(destination,'pending-'+id,offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
+  if(!canStage(id))return;
+  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push(pendingUid(id));revealUnit(destination,pendingUid(id),offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
  }else if(action==='unstage'){
   if(!draft.offers.includes(id))return;
-  draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!=='pending-'+id);
+  draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!==pendingUid(id));
   if(view.dialog==='detail'&&view.key===offer(id).key){view.uid=null;view.offer=id;}
   revealUnit('offer',null,null,id);
   notify('取得予定を取り消しました。その予定分の編成も外しました。着想は変わりません。');
@@ -53,11 +56,11 @@ function mutate(action,key,id,uid,destination='reserve'){
  }else if(action==='discard'){draft=freshDraft();view.dialog=null;notify('取得予定と編成の変更をすべて取り消しました。最後に確定した状態です。');}
  else if(action==='commit'){
   const issues=errors();if(issues.length||!dirty()){notify(issues[0]||'変更はありません。');return;}
-  const cost=spending(),mapping=Object.fromEntries(draft.offers.map(id=>['pending-'+id,'acquired-'+id]));
-  const next={wallet:current.wallet-cost,units:[...clone(current.units),...draft.offers.map(id=>({uid:mapping['pending-'+id],key:offer(id).key}))],purchased:[...current.purchased,...draft.offers],deck:draft.deck.map(uid=>mapping[uid]||uid),equipment:draft.equipment.map(uid=>mapping[uid]||uid)};
+  const cost=spending(),mapping=Object.fromEntries(draft.offers.map(id=>[pendingUid(id),'acquired-'+id]));
+  const next={wallet:current.wallet-cost,units:[...clone(current.units),...draft.offers.map(id=>({uid:mapping[pendingUid(id)],key:offer(id).key}))],purchased:[...current.purchased,...draft.offers],deck:draft.deck.map(uid=>mapping[uid]||uid),equipment:draft.equipment.map(uid=>mapping[uid]||uid)};
   current=next;draft=freshDraft();view.dialog=null;notify((cost?'着想'+cost+'を支払い、正式に取得しました。':'')+'編成を確定しました。現在の着想は'+current.wallet+'です。');
  }
- render();
+ if(runtime)runtimeEdit();else render();
 }
 __GESTURES__
 listen(root,'click',event=>{
@@ -68,7 +71,7 @@ listen(root,'click',event=>{
  if(action==='back'){cancelGesture();options.onBack?.();}
  else if(action==='tab'){view.tab=id;render();}
  else if(action==='detail')openDialog('detail',key,id,uid,zone);
- else if(action==='review')openDialog('review');
+ else if(action==='review'){if(runtime)void runtimeAction('review');else openDialog('review');}
  else if(action==='close')closeDialog();
  else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render(false);notify('操作案を最初の状態に戻しました。');}
  else mutate(action,key,id,uid);
@@ -89,8 +92,9 @@ const resizeObserver=globalThis.ResizeObserver?new ResizeObserver(entries=>{cons
 resizeObserver?.observe(root);
 render();
 syncPreview();
-const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),
+const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||(!runtime&&JSON.stringify(current)!==JSON.stringify(fixture.initial)),
  setTab(tab){if(['card','passive'].includes(tab)){view.tab=tab;render();}},
  suspend(){cancelGesture();if(view.dialog)closeDialog();},
- dispose(){cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+ dispose(){runtimeOff?.();cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+if(runtime)runtimeOff=runtime.subscribe(runtimeReceive);
 options.onReady?.(acquisitionHandle);

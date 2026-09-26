@@ -1,3 +1,13 @@
+# 本編につながる取得・編成入口（UI0.16.0）
+
+2026-09-26。現行は[本編接続](../acquisition-preview/runtime-connection.md)。通常配布物と同じ開始・再開・取得部品・探索を使用する。自然開始とD03R／既存D03の確認用保存を場面選択で区別。会話内は一時MemoryStore、通常の[index.html](../index.html)はCampaignのIndexedDB経路。実永続保存の検証とは区別する。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` → `node docs/検証/UI/readability/co-u02/review/build-connected-inline.cjs`。[提示照合](connected-manifest.json)・[変更33項目](connected-results.json)。旧確認入口・固定fixtureは下記に履歴保全している。
+
+---
+
+以下は過去の記録。現在の入口・接続状態は冒頭を参照。
+
 # 取得確定後・候補なしの確認入口（UI0.15.1）
 
 2026-09-26。[空状態の表示と持越しの扱い](../acquisition-preview/empty-states.md)。既存の場面選択に「編成・取得前／編成・取得確定後／編成・候補なし」を追加。取得確定後から開始する。取得可能の見出しを保ち、候補を空にして完了または候補なしを表示する。所持・編成は継続操作できる。

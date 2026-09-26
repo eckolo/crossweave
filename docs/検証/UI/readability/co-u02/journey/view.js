@@ -7,7 +7,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const $=s=>root.querySelector(s),list=x=>Array.isArray(x)?x:Object.values(x||{});
  const icon=n=>'<i data-lucide="'+n+'" aria-hidden="true"></i>';
  const button=(label,action,extra='',kind='')=>'<button type="button" data-j="'+action+'" '+extra+' class="cj-button cursor-interaction '+kind+'">'+label+'</button>';
- let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'compose':'hub',panel=null,windows=[],child=null,lastScreen=null;
+ let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'collection':'hub',panel=null,windows=[],child=null,lastScreen=null;
  let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
  let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),committedFlash=false;
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
@@ -28,24 +28,26 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  root.addEventListener('cw-display-change',()=>queueMicrotask(layoutWindows),{signal:events.signal});
  const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||state.draftDetails?.[id]||(id==='$purchase'?d()?.details?.[p()?.candidate]:null)||{};
  const name=id=>info(id).name||'詳細未提供';
- const composition=plan=>{if(!plan)return null;const value=clone(plan);value.next_preparation.deck.sort();return value;};
- const dirty=()=>p()&&JSON.stringify(composition(p()))!==JSON.stringify(composition(api.currentPlan(state.view)));
+ const connectedAcquisition=()=>d()?.public_contract==='CW-M1-public-0.6'&&!acquisitionPreview;
+ const unifiedAcquisition=()=>!!acquisitionPreview||connectedAcquisition();
+ const composition=plan=>{if(!plan)return null;const value=clone(plan);(value.composition||value.next_preparation).deck.sort();return value;};
+ const dirty=()=>p()&&(connectedAcquisition()?(!!d().migration_notice?.review_required||!api.samePreparation(p(),api.currentPlan(state.view))):JSON.stringify(composition(p()))!==JSON.stringify(composition(api.currentPlan(state.view))));
  const busy=()=>running||!!state.pending||state.canRetry||state.stale;
  const canSuspend=()=>!suspended&&d()?.phase==='exploring';
- const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
- const equipped=id=>p()?.next_preparation.equipment.includes(id);
- const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
+ const learned=base=>p()?.retain_learning?.includes(base)||p()?.next_preparation?.learn.includes(base);
+ const equipped=id=>(p()?.composition||p()?.next_preparation)?.equipment.includes(id);
+ const count=(id,deck=(p()?.composition||p()?.next_preparation)?.deck||[])=>deck.filter(x=>x===id).length;
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
  function reason(e){const specific=economyFailure(e);if(specific)return specific;return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
- function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return acquisitionPreview&&place==='collection'?'collection':place==='hub'?'hub':tab;}
+ function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return unifiedAcquisition()&&place==='collection'?'collection':place==='hub'?'hub':tab;}
  function mountCollection(){
   if(!collectionNode){
    collectionNode=document.createElement('div');collectionNode.id='cw-acquisition-review';collectionNode.dataset.embedded='true';
    collectionNode.innerHTML='<section class="cp-shell" aria-label="札と心得の編成"><div data-screen class="cp-screen"></div><div data-overlay class="cp-overlay" hidden></div></section><p class="cp-live" role="status" aria-live="polite" data-live></p>';
    $('[data-main]').append(collectionNode);
-   const fixture=clone(acquisitionPreview);if(Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
-   collection=api.mountAcquisitionReview(collectionNode,fixture,{onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
+   const fixture=clone(acquisitionPreview);if(fixture&&Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
+   collection=api.mountAcquisitionReview(collectionNode,fixture,{session:connectedAcquisition()?session:null,onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
   }else if(!collectionNode.isConnected)$('[data-main]').append(collectionNode);
  }
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
@@ -152,7 +154,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
-  if(acquisitionPreview&&['collection','deck','skills','offers','owned','review'].includes(action)){
+  if(unifiedAcquisition()&&['collection','deck','skills','offers','owned','review'].includes(action)){
    if(d().phase==='return')await navigate('hub');if(d().phase!=='home')return;
    place='collection';resetWindows();render();if(action==='skills')collection.setTab('passive');return;
   }

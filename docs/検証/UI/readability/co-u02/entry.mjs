@@ -1,4 +1,4 @@
-// CO-D02 public entry, checked against 7a0ce6fad3ce873638ad0e8d923c7559b420a6ed.
+// CO-D03R public entry: engine 0.7 / preparation 2; design 9d5dd304.
 const root = document.querySelector('#crossweave-journey');
 try {
   const {Campaign, versions} = await import('../../../../../src/runtime/campaign.mjs');

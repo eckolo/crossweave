@@ -833,6 +833,10 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
   'use strict';
   const copy = x => x == null ? x : JSON.parse(JSON.stringify(x));
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+  function samePreparation(a,b){
+    const normalize=p=>p?.schema==='CW-M1-preparation-2'?{schema:p.schema,acquire:[...p.acquire].sort(),deck:[...p.composition.deck].sort(),equipment:[...p.composition.equipment].sort(),migration_review:p.migration_review}:p;
+    return same(normalize(a),normalize(b));
+  }
   const retryable = new Set(['storage_write_failed','storage_unavailable','storage_open_failed','storage_open_blocked','storage_read_failed','connection_failed','invalid_response']);
   const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle','stale_or_unknown_candidate','missing_possession','offer_already_purchased']);
   function fault(code) { return {code,field:null,details:{}}; }
@@ -849,6 +853,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
   }
   function currentPlan(view) {
     const h=view?.display_data?.home;
+    if(h?.contract==='CW-M1-preparation-2')return {schema:h.contract,acquire:[],composition:{deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id)),equipment:h.equipment.entries.map(x=>x.id)},migration_review:null};
     return h ? {retain_learning:h.economy.learned.map(x=>x.base),cancel_learning:[],candidate:null,
       purchase_timing:view.display_data.draft?.plan?.purchase_timing||'after_preparation',next_preparation:{learn:[],equipment:h.equipment.entries.map(x=>x.id),
       deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id))}} : null;
@@ -859,7 +864,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
     let pending=null,error=null,failed=null,stale=false,disposed=false,epoch=0,readSeq=0,editSeq=0;
     const listeners=new Set(), displayed=new Map();
     const state=()=>copy({view,draft,draftDetails,comparison,quote,actionPreview,reservations,pending,error,stale,
-      canRetry:!!failed,localDirty:!!view&&!same(draft,view.display_data.draft?.plan ?? currentPlan(view))});
+      canRetry:!!failed,localDirty:!!view&&!samePreparation(draft,view.display_data.draft?.plan ?? currentPlan(view))});
     const notify=()=>{if(!disposed)for(const f of listeners)f(state());};
     const busy=()=>disposed||pending?.kind==='write'||pending?.kind==='inspect';
     const allowed=type=>view?.display_data?.capabilities?.[type]?.available===true;
@@ -945,7 +950,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
       const cancelled=copy(draft?.cancel_learning||[]);
       const result=await execute('ack_return');if(!result.ok)return result;
       // Only stable base IDs are carried; no handle/name remapping or purchase plan transfer.
-      const learned=new Set(view.display_data.home?.economy.learned.map(x=>x.base)||[]);
+      const learned=new Set(view.display_data.home?.economy.learned?.map(x=>x.base)||[]);
       const cancel=cancelled.filter(id=>learned.has(id));
       if(draft&&cancel.length){const p=copy(draft);p.cancel_learning=cancel;p.retain_learning=p.retain_learning.filter(x=>!cancel.includes(x));
         p.next_preparation.equipment=p.next_preparation.equipment.filter(id=>!cancel.includes(view.display_data.details?.[id]?.base_id));
@@ -1010,7 +1015,7 @@ return {"default":Zap};}],cache=[];function get(id){return cache[id]||(cache[id]
       retry:()=>failed?run(failed.method,failed.args,true):Promise.resolve({ok:false,error:fault('nothing_to_retry')}),
       dispose(){disposed=true;listeners.clear();}};
   }
-  const api={makeSession,makeLauncher,currentPlan,validateView};
+  const api={makeSession,makeLauncher,currentPlan,validateView,samePreparation};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else scope.CrossweaveUI=api;
 })(globalThis);
 
@@ -2170,7 +2175,7 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  const $=s=>root.querySelector(s),list=x=>Array.isArray(x)?x:Object.values(x||{});
  const icon=n=>'<i data-lucide="'+n+'" aria-hidden="true"></i>';
  const button=(label,action,extra='',kind='')=>'<button type="button" data-j="'+action+'" '+extra+' class="cj-button cursor-interaction '+kind+'">'+label+'</button>';
- let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'compose':'hub',panel=null,windows=[],child=null,lastScreen=null;
+ let state=session.state(),tab='deck',place=state.view?.display_data.draft?.dirty?'collection':'hub',panel=null,windows=[],child=null,lastScreen=null;
  let message='',continuation=null,running=false,suspended=false,disposed=false,sceneRequested=false;
  let observer=null,recording=false,sceneKey='',seen=new Set(),visible=new Set(),committedFlash=false;
  let recordTab='targets',recordTarget=null,detailFromRecords=false,recordDetail=null,windowAnchor=null,panelTrail=[],recordParentRect=null;
@@ -2191,24 +2196,26 @@ api.mountJourney=function(root,{controller,Campaign,slot_id,title,session:provid
  root.addEventListener('cw-display-change',()=>queueMicrotask(layoutWindows),{signal:events.signal});
  const d=()=>state.view?.display_data,h=()=>d()?.home,p=()=>state.draft,info=id=>d()?.details?.[id]||state.draftDetails?.[id]||(id==='$purchase'?d()?.details?.[p()?.candidate]:null)||{};
  const name=id=>info(id).name||'詳細未提供';
- const composition=plan=>{if(!plan)return null;const value=clone(plan);value.next_preparation.deck.sort();return value;};
- const dirty=()=>p()&&JSON.stringify(composition(p()))!==JSON.stringify(composition(api.currentPlan(state.view)));
+ const connectedAcquisition=()=>d()?.public_contract==='CW-M1-public-0.6'&&!acquisitionPreview;
+ const unifiedAcquisition=()=>!!acquisitionPreview||connectedAcquisition();
+ const composition=plan=>{if(!plan)return null;const value=clone(plan);(value.composition||value.next_preparation).deck.sort();return value;};
+ const dirty=()=>p()&&(connectedAcquisition()?(!!d().migration_notice?.review_required||!api.samePreparation(p(),api.currentPlan(state.view))):JSON.stringify(composition(p()))!==JSON.stringify(composition(api.currentPlan(state.view))));
  const busy=()=>running||!!state.pending||state.canRetry||state.stale;
  const canSuspend=()=>!suspended&&d()?.phase==='exploring';
- const learned=base=>p()?.retain_learning.includes(base)||p()?.next_preparation.learn.includes(base);
- const equipped=id=>p()?.next_preparation.equipment.includes(id);
- const count=(id,deck=p()?.next_preparation.deck||[])=>deck.filter(x=>x===id).length;
+ const learned=base=>p()?.retain_learning?.includes(base)||p()?.next_preparation?.learn.includes(base);
+ const equipped=id=>(p()?.composition||p()?.next_preparation)?.equipment.includes(id);
+ const count=(id,deck=(p()?.composition||p()?.next_preparation)?.deck||[])=>deck.filter(x=>x===id).length;
  const group=ids=>[...new Set(ids)].map(id=>({id,count:count(id,ids)}));
  const itemIcon=id=>info(id).kind==='passive'?'sparkles':({attack:'swords',guard:'shield',heal:'heart-pulse'})[info(id).primary?.kind]||'layers';
  function reason(e){const specific=economyFailure(e);if(specific)return specific;return api.saveFailureText?.(e)||({download_unavailable:'この表示環境ではファイルを書き出せません。保存内容は保持しています',deck_size:'札を12枚にしてください',invalid_deck_size:'札を12枚にしてください',deck_base_cap_exceeded:'同じ札は2枚までです',equipment_capacity_exceeded:'心得の装備枠が足りません',insufficient_learning_funds:'着想が足りません',storage_write_failed:'確定できませんでした。変更案は残っています',stale_revision:'別の操作で変わりました。最新の内容を読み直してください',feature_not_connected:'この機能は未対応です',comparison_required:'変更の確認が必要です',connection_failed:'応答を確認できませんでした'})[e?.code]||'操作を完了できませんでした';}
- function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return acquisitionPreview&&place==='collection'?'collection':place==='hub'?'hub':tab;}
+ function currentScreen(){const v=d();if(suspended)return 'start';if(v.phase==='return')return 'return';if(v.scene?.paused||sceneRequested)return 'scene';if(v.phase==='exploring')return 'explore';return unifiedAcquisition()&&place==='collection'?'collection':place==='hub'?'hub':tab;}
  function mountCollection(){
   if(!collectionNode){
    collectionNode=document.createElement('div');collectionNode.id='cw-acquisition-review';collectionNode.dataset.embedded='true';
    collectionNode.innerHTML='<section class="cp-shell" aria-label="札と心得の編成"><div data-screen class="cp-screen"></div><div data-overlay class="cp-overlay" hidden></div></section><p class="cp-live" role="status" aria-live="polite" data-live></p>';
    $('[data-main]').append(collectionNode);
-   const fixture=clone(acquisitionPreview);if(Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
-   collection=api.mountAcquisitionReview(collectionNode,fixture,{onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
+   const fixture=clone(acquisitionPreview);if(fixture&&Number.isInteger(h()?.economy.unspent_units))fixture.initial.wallet=h().economy.unspent_units/100;
+   collection=api.mountAcquisitionReview(collectionNode,fixture,{session:connectedAcquisition()?session:null,onBack(){collection.suspend();place='hub';resetWindows();render();},onChange(value){collectionState=value;root.dispatchEvent(new CustomEvent('cw-acquisition-state',{bubbles:true,detail:value}));}});
   }else if(!collectionNode.isConnected)$('[data-main]').append(collectionNode);
  }
  function mark(id){return '<span class="cj-mark" aria-hidden="true">'+icon(itemIcon(id))+'</span>';}
@@ -2226,7 +2233,7 @@ function destinationItem(){
   status:current?(d().case.status==='resolved'?'踏破済み':'未踏破'):item.status,
   objective:current?(d().texts?.[d().case.objective_text_id]?.short_text||'目的は出発時に確認できます。'):item.objective};
 }
-function destinationCanDepart(){return !(acquisitionPreview&&collection?.modified())&&(!destinationOptions.length||destinationItem()?.current===true);}
+function destinationCanDepart(){if(connectedAcquisition()&&(dirty()||state.pending||state.canRetry||state.stale||!session.can('depart')))return false;return !(acquisitionPreview&&collection?.modified())&&(!destinationOptions.length||destinationItem()?.current===true);}
 function destinationHeading(){return destinationItem()?.name||title;}
 function destinationClues(item){return '<div class="cj-destination-clues">'+(item.clues||[]).map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>';}
 function destinationBoard(){
@@ -2254,7 +2261,7 @@ function paragraph(id){const t=d().texts?.[id];return t?'<p data-j-text="'+esc(i
 // These public details are short paragraphs. Render them in reading order;
 // visibility observation, never DOM insertion, decides the read receipt.
 function sceneCopy(){const s=d().scene;if(!s)return '';return '<div class="cj-story">'+[...new Set([...(s.text_ids||[]),...(s.optional_text_ids||[])])].map(paragraph).join('')+'</div>';}
-function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;
+function wallet(){const now=h()?.economy.unspent_units,after=state.comparison?.ok?(state.comparison.payment?.unspent_after_units??state.comparison.stages?.prepared.unspent_units):null;
  return '<div class="cj-wallet"><span>'+icon('lightbulb')+'着想</span><strong>'+pt(now)+'</strong>'+(dirty()?'<span class="cj-arrow">→</span><strong class="cj-changed">'+pt(after)+'</strong><small>変更案</small>':committedFlash?'<small>確定済み</small>':'')+'</div>';}
 function outcome(){return ({clear:'踏破',withdrawal:'撤退',defeat:'緊急脱出'})[d().return_receipt?.outcome]||'探索終了';}
 function landscape(){const a=api.sceneArtwork?.(d());return '<div class="cj-landscape cj-backdrop" aria-hidden="true"'+(a?' data-artwork="'+a.id+'" style="background-image:url('+a.src+');background-position:'+a.position+'"':'')+'><div></div><div></div><div></div></div>';}
@@ -2270,11 +2277,11 @@ function receiptDetails(){const r=d().return_receipt;if(!r)return '';
  return '<div class="cj-change"><span>着想</span><strong>+'+pt(r.gained_units)+'（合計 '+pt(r.unspent_after_units)+'）</strong></div><div class="cj-change"><span>余力</span><strong>'+esc(r.expedition_end_hp)+' → '+esc(r.home_hp)+'</strong></div><h3>獲得品</h3>'+((r.kept_items||[]).filter(x=>x.kind!=='points').map(x=>'<p>素材 '+esc(x.type||'')+' +'+esc(x.amount||1)+'</p>').join('')||'<p>なし</p>')+'<h3>記録に追加</h3>'+(r.new_unlocks||[]).map(id=>detailsButton('base:'+id)).join('')+((r.lost_items||[]).length?'<h3>喪失</h3>'+r.lost_items.map(x=>'<p>'+esc(x.kind==='points'?'着想':x.type||x.kind)+' '+esc(x.kind==='points'?pt(x.amount_units):x.amount??'')+'</p>').join(''):'');
 }
 function hubView(){if(destinationOptions.length)return destinationBoard();const objective=d().texts?.[d().case.objective_text_id];return '<section class="cj-fixed-hub">'+landscape()+'<section class="cj-destination-summary"><small>'+(d().case.status==='resolved'?'踏破済み':'探索先')+'</small><div class="cj-destination-heading"><h2>'+esc(title)+'</h2>'+button('詳細','destination','aria-label="'+esc(title)+'の詳細"')+'</div><p class="cj-prose">'+esc(objective?.short_text||'')+'</p></section></section>';}
-function compactWallet(){if(acquisitionPreview&&collectionState)return '<span class="cj-compact-wallet" aria-label="着想">'+icon('lightbulb')+'<span>'+esc(collectionState.wallet)+(collectionState.pending?' → '+esc(collectionState.wallet-collectionState.pending):'')+'</span></span>';const now=h()?.economy.unspent_units,after=state.comparison?.ok?state.comparison.stages.prepared.unspent_units:null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
+function compactWallet(){if(acquisitionPreview&&collectionState)return '<span class="cj-compact-wallet" aria-label="着想">'+icon('lightbulb')+'<span>'+esc(collectionState.wallet)+(collectionState.pending?' → '+esc(collectionState.wallet-collectionState.pending):'')+'</span></span>';const now=h()?.economy.unspent_units,after=state.comparison?.ok?(state.comparison.payment?.unspent_after_units??state.comparison.stages?.prepared.unspent_units):null;return '<span class="cj-compact-wallet" aria-label="着想 現在 '+pt(now)+(dirty()?'、変更案 '+pt(after):committedFlash?'、確定済み':'')+'">'+icon('lightbulb')+'<span>'+pt(now)+(dirty()?'<span class="cj-changed">→'+pt(after)+'</span>':'')+'</span></span>';}
 function catalogueItems(){if(tab==='offers')return h().offers.status==='purchased'?[]:h().candidates.map(x=>x.id);if(tab==='owned')return h().owned.map(x=>x.id);const skills=tab==='skills';const items=[...(skills?h().learning_options.map(x=>'base:'+x.base):h().free_card_options),...h().owned.filter(x=>x.selection_kind===(skills?'equipment':'deck')).map(x=>x.id),...(p()?.candidate&&p().purchase_timing==='before_preparation'&&info(p().candidate).kind===(skills?'passive':'card')?['$purchase']:[])];
  return !skills||skillFilter==='all'?items:items.filter(id=>skillFilter==='learned'?currentlyLearned(info(id).base_id):currentlyEquipped(id));
 }
-function currentlyLearned(base){return h()?.economy.learned.some(x=>x.base===base);}
+function currentlyLearned(base){return h()?.economy.learned?.some(x=>x.base===base);}
 function currentlyEquipped(id){return h()?.equipment.entries.some(x=>x.id===id);}
 function skillState(id){const item=info(id),wasKnown=currentlyLearned(item.base_id),wasOn=currentlyEquipped(id),known=learned(item.base_id),on=equipped(id);
  const now=wasKnown?'習得済み'+(wasOn?'・装備中':''):'未習得';
@@ -2295,14 +2302,14 @@ function headerView(screen){const edit=['deck','skills','offers','owned'].includ
  const selection=tab==='skills'?'skills:'+skillFilter:tab;
  const mobile=[['deck','札組'],['skills:all','心得・すべて'],['skills:learned','心得・習得済み'],['skills:equipped','心得・装備中'],['offers','購入'],['owned','所持']];
  const filter=tab==='skills'?'<select data-skill-filter class="cj-skill-filter" aria-label="現在の心得を絞り込む">'+[['all','すべて'],['learned','習得済み'],['equipped','装備中']].map(([v,l])=>'<option value="'+v+'" '+(skillFilter===v?'selected':'')+'>'+l+'</option>').join('')+'</select>':'';
- const shortcut=acquisitionPreview&&screen==='hub'?button('編成','collection','aria-label="札と心得を取得・編成する"','cj-back'):screen==='scene'&&!d().scene?.paused?button(icon('arrow-left')+'戻る','scene-back','aria-label="探索に戻る"','cj-back'):'';
+ const shortcut=unifiedAcquisition()&&screen==='hub'?button('編成','collection','aria-label="札と心得を取得・編成する"','cj-back'):screen==='scene'&&!d().scene?.paused?button(icon('arrow-left')+'戻る','scene-back','aria-label="探索に戻る"','cj-back'):'';
  return shortcut+lead+(edit?'<select data-compose-tab class="cj-compose-select" aria-label="編成と購入の切替">'+mobile.map(([v,l])=>'<option value="'+v+'" '+(selection===v?'selected':'')+'>'+l+'</option>').join('')+'</select>'+filter+pageButtons():'')+(h()?compactWallet():'')+api.commonNavigationHTML();
 }
 function composeActions(){const c=state.comparison;return button('<span>'+(dirty()?'比較':'構成を見る')+'</span>','review','aria-label="'+(dirty()?'現在と変更案を比較':'現在の札組・心得・着想を確認')+'"','cj-review-button')+(dirty()?button('確定','commit','data-j-mutation '+(!c?.ok?'disabled':'')):'')+button(dirty()?'確定して出発':'出発','depart','data-j-mutation '+(dirty()&&!c?.ok||!destinationCanDepart()?'disabled':''),'cj-primary');}
 function footerView(screen){let content='';
  if(['deck','skills','offers','owned'].includes(screen))content=button(icon('arrow-left')+'戻る','hub','aria-label="編成を閉じて拠点に戻る"')+'<div class="cj-fixed-actions">'+(screen==='owned'&&conversionIds.size?button('着想に変える '+conversionIds.size+'点','convert-preview','data-j-mutation','cj-primary'):composeActions())+'</div>';
- else if(screen==='return')content='<span></span>'+button(acquisitionPreview?'進む':'拠点へ','hub','data-j-mutation','cj-primary');
- else if(screen==='hub'&&acquisitionPreview)content='<span></span><div class="cj-fixed-actions"><span class="cj-selected-label">'+esc(destinationHeading())+'</span>'+button('出発','depart','data-j-mutation '+(!destinationCanDepart()?'disabled':''),'cj-primary')+'</div>';
+ else if(screen==='return')content='<span></span>'+button(unifiedAcquisition()?'進む':'拠点へ','hub','data-j-mutation','cj-primary');
+ else if(screen==='hub'&&unifiedAcquisition())content='<span></span><div class="cj-fixed-actions"><span class="cj-selected-label">'+esc(destinationHeading())+'</span>'+button('出発','depart','data-j-mutation '+(!destinationCanDepart()?'disabled':''),'cj-primary')+'</div>';
  else if(screen==='hub')content='<div class="cj-fixed-actions">'+button('札組','deck')+button('心得','skills')+button('購入','offers')+'</div><div class="cj-fixed-actions">'+(destinationOptions.length?'<span class="cj-selected-label">'+esc(destinationHeading())+'</span>':'')+composeActions()+'</div>';
  else if(screen==='scene'&&d().scene?.paused)content='<span></span>'+button('進む','continue','data-j-mutation','cj-primary');
  else if(screen==='start')content='<small>'+(storageMode==='ephemeral'?'この試作を開いている間だけ保持':'探索を中断中')+'</small>'+button('続きから','resume','data-j-mutation','cj-primary');
@@ -2355,7 +2362,7 @@ function cardFacts(item,snapshot=false){
   '<h3>次の行動まで</h3><dl class="cj-record-stats">'+row('置く',snapshot?item.place_cost:item.action_intervals?.place)+row('一致',snapshot?item.match_cost:item.action_intervals?.match)+'</dl>'+
   properties;
 }
-function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=info(id),base=item.base_id,passive=item.kind==='passive',known=learned(base),cancelled=p()?.cancel_learning.includes(base);
+function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=info(id),base=item.base_id,passive=item.kind==='passive',known=learned(base),cancelled=p()?.cancel_learning?.includes(base);
  const pinLabel=w?.pinned?'固定を外す':'固定する';
  const head='<div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2 data-tooltip="'+esc(name(id))+'">'+esc(name(id))+'</h2>'+button(icon('pin'),'pin','data-id="'+esc(id)+'" aria-label="'+pinLabel+'" data-tooltip="'+pinLabel+'" aria-pressed="'+!!w?.pinned+'"','cj-icon-button')+(!back?button(icon('x'),'close-item','data-id="'+esc(id)+'" aria-label="詳細を閉じる"','cj-icon-button'):'')+'</div>';
  let body='',actions='';
@@ -2363,10 +2370,10 @@ function detailView(id,{back=false,w=windows.find(x=>x.id===id)}={}){const item=
  else body+=cardFacts(item);
  body+=affixView(item);
  if(h()?.owned.some(x=>x.id===id)){const row=h().owned.find(x=>x.id===id);body+='<p>'+esc((row.references||[]).map(x=>usageLabels[x]||'使用中').join('・')||(row.eligibility_reason==='owned_but_base_not_learned'?'基礎の心得は未習得':'所持'))+'</p>';}
- if(d().phase==='home'&&passive&&(id.startsWith('base:')||h().owned.some(x=>x.id===id)||id==='$purchase')){actions=skillActions(id);
+ if(!connectedAcquisition()&&d().phase==='home'&&passive&&(id.startsWith('base:')||h().owned.some(x=>x.id===id)||id==='$purchase')){actions=skillActions(id);
   body='<p class="cj-skill-state">'+esc(skillState(id))+'</p>'+body+(!known?'<p>覚える費用：着想 −'+pt(item.learning_cost_units)+'</p>':'');
- }else if(d().phase==='home'&&(h().free_card_options.includes(id)||h().owned.some(x=>x.id===id)||id==='$purchase'))actions=button('−1枚','remove','data-id="'+esc(id)+'" data-j-mutation '+(!count(id)?'disabled':''))+ '<strong>'+count(id)+'枚</strong>'+button('+1枚','add','data-id="'+esc(id)+'" data-j-mutation '+(p().next_preparation.deck.filter(x=>info(x).base_id===base).length>=h().deck.per_base_cap||(!id.startsWith('base:')&&count(id))?'disabled':''));
- else if(!(h()?.free_card_options||[]).includes(id)&&item.kind==='card')body+='<p class="cj-muted">未所持。解放された札と、所持している札は別です。</p>';
+ }else if(!connectedAcquisition()&&d().phase==='home'&&(h().free_card_options.includes(id)||h().owned.some(x=>x.id===id)||id==='$purchase'))actions=button('−1枚','remove','data-id="'+esc(id)+'" data-j-mutation '+(!count(id)?'disabled':''))+ '<strong>'+count(id)+'枚</strong>'+button('+1枚','add','data-id="'+esc(id)+'" data-j-mutation '+(p().next_preparation.deck.filter(x=>info(x).base_id===base).length>=h().deck.per_base_cap||(!id.startsWith('base:')&&count(id))?'disabled':''));
+ else if(!h()?.owned.some(x=>x.id===id)&&!(h()?.free_card_options||[]).includes(id)&&item.kind==='card')body+='<p class="cj-muted">未所持。解放された札と、所持している札は別です。</p>';
  return '<section class="cj-inspect-item" data-inspect-key="'+esc(id)+'">'+head+'<div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
 // D03 presentation and explicit commands only. Prices, eligibility and quotes
@@ -2482,21 +2489,21 @@ function panelView(panel,back=false){
  let body='',actions='';
  if(panel==='review'){body=wallet()+(dirty()?changeRows()+purchasePlanControls():'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');actions=dirty()?button('確定','commit','data-j-mutation '+(!state.comparison?.ok?'disabled':''),'cj-primary')+button('確定して出発','depart','data-j-mutation '+(!state.comparison?.ok||!destinationCanDepart()?'disabled':'')):'';}
  if(panel==='receipt')body=receiptDetails();
- if(panel==='destination')body=destinationDescription()+(acquisitionPreview?'':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');
+ if(panel==='destination')body=destinationDescription()+(unifiedAcquisition()?'':'<h3>札組</h3><div>'+miniList(p().next_preparation.deck)+'</div><h3>心得</h3><div>'+miniList(p().next_preparation.equipment)+'</div>');
  if(panel==='purchase')({body,actions}=purchasePanel());
  if(panel==='conversion')({body,actions}=conversionPanel());
  if(panel==='texts')body=textHistoryView();
  if(panel==='notice'){body='<p>'+esc(reason(state.error))+'</p>';actions=(state.canRetry?button('もう一度','retry'):'')+(state.stale?button('最新を読む','refresh'):'');}
  if(panel==='records')body=recordsView();
  if(panel==='menu'){
-  const items=[['調査記録','records'],['表示','settings'],['遊び方','help'],['保存データ','data'],['文章の記録','texts'],...(!acquisitionPreview&&h()?[['購入','offers'],['所持','owned']]:[]),...(currentScreen()==='explore'?[['目的','explore-objective'],['状況','explore-status'],['行動順','explore-order'],['山札','explore-deck'],['履歴','explore-history'],['操作','explore-settings']]:[]),...(canSuspend()?[['中断','suspend']]:[]),...(!acquisitionPreview&&dirty()?[['変更案を戻す','discard']]:[])];
+  const items=[['調査記録','records'],['表示','settings'],['遊び方','help'],['保存データ','data'],['文章の記録','texts'],...(!unifiedAcquisition()&&h()?[['購入','offers'],['所持','owned']]:[]),...(currentScreen()==='explore'?[['目的','explore-objective'],['状況','explore-status'],['行動順','explore-order'],['山札','explore-deck'],['履歴','explore-history'],['操作','explore-settings']]:[]),...(canSuspend()?[['中断','suspend']]:[]),...(!unifiedAcquisition()&&dirty()?[['変更案を戻す','discard']]:[])];
   const width=Math.min(520,panelTrail.length?(frameWidth-48)/2:frameWidth-32),height=Math.min(480,frameWidth*9/16-32),cols=width>=280?2:1,rows=Math.max(1,Math.floor((height-144)/56)),capacity=rows*cols,pages=Math.ceil(items.length/capacity);
   menuPage=Math.min(menuPage,pages-1);body='<nav class="cj-menu-grid" style="grid-template-columns:repeat('+cols+',minmax(0,1fr))">'+items.slice(menuPage*capacity,(menuPage+1)*capacity).map(([label,action])=>button(label,action)).join('')+'</nav>';
   actions=pages>1?button(icon('chevron-left'),'menu-page','data-step="-1" aria-label="前のメニュー" '+(!menuPage?'disabled':''))+'<span>'+(menuPage+1)+'/'+pages+'</span>'+button(icon('chevron-right'),'menu-page','data-step="1" aria-label="次のメニュー" '+(menuPage+1===pages?'disabled':'')):'';
  }
  if(panel==='settings')body='<label class="cj-setting"><input type="checkbox" data-motion '+(root.dataset.motion==='reduced'?'checked':'')+'> 動きを抑える</label>';
- if(panel==='help'&&!acquisitionPreview)body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚える」と「覚えて装備」を選べる。「習得済み」「装備中」で現在の状態を確認する。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手の選択と同時に詳細を表示する。相手のホールドは使わない。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転などは消費も含む一手解決後の差分。続く相手の行動は含まない。行動予約の「次」は、選んだ行動の後の本人の予約。同時刻の相手は一組で示す。途中の行動で順序や到達可否は変わる。</p><h3>身構と攪乱</h3><p>複数の発生源から受けた防御を合計して表示する。回数が異なる組は「混在」。詳細で内訳を確認できる。</p><h3>購入と所持</h3><p>候補から購入すると所持に加わる。「編成と比較」では購入と札組・心得の変更を一緒に確定できる。心得を買っても、まだ覚えていなければ別に習得が必要。所持品を「保護」すると、着想への変換を防ぐ。「着想に変える」とその個体は失われる。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
- if(panel==='help'&&acquisitionPreview)body='<h3>編成</h3><p>探索先画面の「編成」から札・心得を切り替える。取得可能・所持・編成の間を、ボタンまたはホールド後のドラッグで移せる。取得は支払前に編成へ試せる。「確認する」で差分を見て確定する。「戻す」は未確定の変更をまとめて取り消す。</p><h3>探索</h3><p>札と相手はクリックで選択と詳細を表示する。選んだ札のボタン、またはホールド後のドラッグで行動する。予測の場札も詳細を開ける。</p><h3>共通操作</h3><p>調査記録とメニューは右上。前の画面へ戻る操作は左上、窓を閉じる操作はその窓の右上にある。帰還結果は「進む」で送り、その後の探索先画面から編成できる。</p>' ;
+ if(panel==='help'&&!unifiedAcquisition())body='<h3>編成</h3><p>札の＋／−で枚数を変える。心得は「覚える」と「覚えて装備」を選べる。「習得済み」「装備中」で現在の状態を確認する。名前を押すと発動条件と効果を確認できる。</p><p>着想と構成の差分を見て確定すると、自動保存される。札組と心得の切替では、編集中の内容はそのまま残る。</p><h3>探索</h3><p>「探索を中断」で進行を止め、「続きから」で同じ探索に戻る。中断では撤退・帰還しない。</p><p>札を選び、相手をタップして対象を指定する。相手の選択と同時に詳細を表示する。相手のホールドは使わない。</p><p>予測はもう一度押すと閉じる。札を押し続けて場へ運ぶ操作も使える。低い画面では、同じ札をもう一度押すと札の詳細。</p><h3>予測</h3><p>選んだ札の直後の変化を表示する。隠蔽は攻撃による減少後・再設定前の値。機転などは消費も含む一手解決後の差分。続く相手の行動は含まない。行動予約の「次」は、選んだ行動の後の本人の予約。同時刻の相手は一組で示す。途中の行動で順序や到達可否は変わる。</p><h3>身構と攪乱</h3><p>複数の発生源から受けた防御を合計して表示する。回数が異なる組は「混在」。詳細で内訳を確認できる。</p><h3>購入と所持</h3><p>候補から購入すると所持に加わる。「編成と比較」では購入と札組・心得の変更を一緒に確定できる。心得を買っても、まだ覚えていなければ別に習得が必要。所持品を「保護」すると、着想への変換を防ぐ。「着想に変える」とその個体は失われる。</p><h3>詳細窓</h3><p>ピンで固定し、もう一度押すと固定を外す。矢印で元の窓に戻る。</p><div class="cj-help-symbols">'+[['arrow-up-right','突破'],['scan-search','探査'],['venetian-mask','隠蔽'],['zap','機転'],['shield','身構'],['wind','攪乱']].map(([symbol,label])=>'<span>'+icon(symbol)+label+'</span>').join('')+'</div>';
+ if(panel==='help'&&unifiedAcquisition())body='<h3>編成</h3><p>探索先画面の「編成」から札・心得を切り替える。取得可能・所持・編成の間を、ボタンまたはホールド後のドラッグで移せる。取得は支払前に編成へ試せる。「確認する」で差分を見て確定する。「戻す」は未確定の変更をまとめて取り消す。</p><h3>探索</h3><p>札と相手はクリックで選択と詳細を表示する。選んだ札のボタン、またはホールド後のドラッグで行動する。予測の場札も詳細を開ける。</p><h3>共通操作</h3><p>調査記録とメニューは右上。前の画面へ戻る操作は左上、窓を閉じる操作はその窓の右上にある。帰還結果は「進む」で送り、その後の探索先画面から編成できる。</p>' ;
  if(panel==='data'){body='<p>'+(storageMode==='ephemeral'?'この試作は、閉じると保存が失われます。':'確定した操作は自動保存されます。')+'</p>'+(d().phase==='home'?'<p>編成は「確定」で保存します。編集中の内容は、確定するまで保存済みの編成を変えません。</p>':'')+'<p>書き出しは保存済みの内容です。</p>';actions=button('書き出す','export','data-j-mutation')+(canSuspend()?button('探索を中断','suspend','data-j-mutation'):'');}
  return '<section class="cj-inspect-item" data-inspect-key="'+panel+'"><div class="cj-inspect-top">'+(back?button(icon('arrow-left'),'window-back','aria-label="元の窓に戻る"','cj-icon-button'):'')+'<h2>'+titles[panel]+'</h2>'+button(icon('x'),'close','aria-label="窓を閉じる"','cj-icon-button')+'</div><div class="cj-inspect-scroll">'+body+'</div><div class="cj-detail-actions">'+actions+'</div></section>';
 }
@@ -2601,7 +2608,7 @@ function panelView(panel,back=false){
  root.addEventListener('click',async event=>{
   const b=event.target.closest('[data-j]');if(!b){if(panel&&!event.target.closest('[data-inspector]')){panel=null;windows=[];render();}return;}if(!root.contains(b)||b.disabled)return;
   const action=b.dataset.j,id=b.dataset.id,base=info(id).base_id;
-  if(acquisitionPreview&&['collection','deck','skills','offers','owned','review'].includes(action)){
+  if(unifiedAcquisition()&&['collection','deck','skills','offers','owned','review'].includes(action)){
    if(d().phase==='return')await navigate('hub');if(d().phase!=='home')return;
    place='collection';resetWindows();render();if(action==='skills')collection.setTab('passive');return;
   }
@@ -2655,18 +2662,117 @@ const listen=(node,type,fn,extra={})=>node?.addEventListener(type,fn,{...extra,s
 const screen=root.querySelector('[data-screen]'),overlay=root.querySelector('[data-overlay]'),live=root.querySelector('[data-live]');
 const clone=x=>JSON.parse(JSON.stringify(x));
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Public D03R adapter for the accepted acquisition component. No save/price owner.
+const runtime=options.session||null;
+let runtimeState=runtime?.state(),runtimeOff=null,runtimeToken=null;
+function publicFixture(s){
+ const h=s.view.display_data.home,details={...s.view.display_data.details,...s.draftDetails},catalogue={};
+ for(const row of [...h.owned,...h.acquisition]){
+  const detail=details[row.id];
+  if(!detail)throw Error('acquisition_detail_missing');
+  catalogue[row.blueprint.key]={key:row.blueprint.key,...clone(detail)};
+ }
+ return {rules:{deckSize:h.deck.required_size,perKindCap:h.deck.per_base_cap,equipmentLimit:h.equipment.capacity},
+  initial:{wallet:h.economy.unspent_units/100,units:h.owned.map(x=>({uid:x.id,key:x.blueprint.key})),deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id)),equipment:h.equipment.entries.map(x=>x.id),purchased:[]},
+  catalogue,offers:h.acquisition.filter(x=>x.available&&x.available_quantity>0).map(x=>({id:x.id,key:x.blueprint.key,price:x.price_units/100,pending_uid:x.pending_selection_id,group:x.group_id,limit:x.group_limit})),groups:clone(h.acquisition_groups)};
+}
+if(runtime){fixture=publicFixture(runtimeState);runtimeToken=runtimeState.view.meta.view_token;}
+function pendingUid(id){return runtime?offer(id)?.pending_uid:'pending-'+id;}
+function pendingOffer(uid){return runtime?fixture.offers.find(x=>x.pending_uid===uid)?.id:String(uid).slice(8);}
+function canStage(id){
+ const o=offer(id);if(!o||draft.offers.includes(id)||current.purchased.includes(id))return false;
+ return runtime?draft.offers.filter(x=>offer(x)?.group===o.group).length<o.limit:draft.offers.length+current.purchased.length<fixture.rules.offerLimit;
+}
+function runtimeLocked(){return !!runtime&&(runtimeState.view.display_data.phase!=='home'||runtimeState.stale||runtimeState.canRetry||['write','inspect'].includes(runtimeState.pending?.kind));}
+function migrationPending(){return !!runtimeState?.draft?.migration_review;}
+function runtimeReason(e){return globalThis.CrossweaveUI.saveFailureText?.(e)||({
+ insufficient_unspent_funds:'着想が足りません。取得予定を見直してください。',
+ invalid_deck_size:'札組を'+fixture.rules.deckSize+'枚にしてください。',deck_size:'札組を'+fixture.rules.deckSize+'枚にしてください。',
+ deck_base_cap_exceeded:'同じ札の上限を超えています。',equipment_capacity_exceeded:'心得の枠が足りません。',
+ duplicate_equipment_base:'同じ種類の心得は一つまで編成できます。',duplicate_equipment:'同じ心得を重ねて編成できません。',
+ acquisition_group_limit:'同じ候補群の取得上限を超えています。',migration_review_required:'旧保存の変更案を確認してください。',
+ stale_view:'状態が変わりました。読み直して選び直してください。',stale_revision:'状態が変わりました。読み直して選び直してください。',
+ unknown_selection_handle:'選択が古くなりました。読み直して選び直してください。',preparation_contract_changed:'変更案の形式が変わりました。組み直してください。'
+ })[e?.code]||'変更を確定できませんでした（'+(e?.code||'確認待ち')+'）。案は残っています。';}
+function runtimeErrors(){
+ if(runtimeState.pending)return ['確認中です。'];
+ if(migrationPending())return ['旧保存の変更案は再確認が必要です。'];
+ if(runtimeState.error)return [runtimeReason(runtimeState.error)];
+ if(runtimeState.comparison?.refusal)return [runtimeReason(runtimeState.comparison.refusal)];
+ return runtimeState.comparison?.ok?[]:dirty()?['変更内容を確認してください。']:[];
+}
+function runtimePlan(){return {schema:'CW-M1-preparation-2',acquire:[...draft.offers],composition:{deck:[...draft.deck],equipment:[...draft.equipment]},migration_review:runtimeState.draft.migration_review};}
+function runtimeEdit(){if(runtime.setDraft(runtimePlan()))void runtime.compare();}
+function runtimeReceive(s){
+ runtimeState=s;
+ // Home information is intentionally absent during exploration. The component is detached then.
+ if(!s.view?.display_data.home){view.dialog=null;return;}
+ // Never attach a new token to stale selection handles. Keep the visible draft until explicit reload.
+ if(!s.stale&&s.view?.display_data.home){
+  const changed=runtimeToken!==s.view.meta.view_token;
+  fixture=publicFixture(s);current=clone(fixture.initial);
+  if(s.draft?.schema==='CW-M1-preparation-2')draft={offers:[...s.draft.acquire],deck:[...s.draft.composition.deck],equipment:[...s.draft.composition.equipment]};
+  if(changed){view.dialog=null;view.key=view.offer=view.uid=null;}
+  runtimeToken=s.view.meta.view_token;
+ }
+ render();
+}
+async function runtimeAction(action){
+ if(action==='retry'){if(!runtimeState.pending)await runtime.retry();return;}
+ if(action==='reload'){if(!runtimeState.pending)await runtime.refresh({preserveLocal:false});return;}
+ if(runtimeLocked())return;
+ if(action==='rebuild'){
+  const plan=globalThis.CrossweaveUI.currentPlan(runtimeState.view);
+  if(runtime.setDraft(plan)){view.dialog=null;await runtime.compare();}return;
+ }
+ if(action==='discard'){
+  if(runtimeState.view.display_data.draft.dirty||migrationPending())await runtime.execute('discard_draft');
+  else {runtime.setDraft(globalThis.CrossweaveUI.currentPlan(runtimeState.view));view.dialog=null;render();}
+  return;
+ }
+ if(action==='review'){
+  view.dialog='review';render();await runtime.compare();return;
+ }
+ if(action==='commit'){
+  if(runtimeErrors().length||!dirty())return;
+  const result=await runtime.execute('commit_preparation',{plan:clone(runtimeState.draft)});
+  if(result.ok)notify('取得と編成を保存しました。着想は'+current.wallet+'です。');
+ }
+}
+function runtimeNotice(){
+ if(!runtime)return '';
+ if(migrationPending())return '<div class="cp-runtime-notice" role="status"><span>旧保存の変更案は再確認が必要です。確定済みの所持・編成は保持しています。</span>'+button('組み直す','rebuild')+button('戻す','discard')+'</div>';
+ if(runtimeState.error||runtimeState.stale||runtimeState.canRetry)return '<div class="cp-runtime-notice" role="alert"><span>'+esc(runtimeReason(runtimeState.error))+'</span>'+(runtimeState.canRetry?button('再試行','retry'):'')+(runtimeState.stale?button('読み直す','reload',{label:'変更案を戻して最新の状態を読み直す'}):'')+'</div>';
+ return '';
+}
+function runtimeTrack(){
+ const group=fixture.groups.find(x=>x.id==='return-offer'),chosen=draft.offers.filter(id=>offer(id)?.group===group?.id).length;
+ return '<div class="cp-purchase-track">'+icon(group?.status==='acquired'?'circle-check':'store')+'<span>'+(group?.status==='acquired'?'帰還分 取得済み':group?.status==='available'?'帰還分 '+chosen+' / '+group.limit:'帰還分 候補なし')+'</span>'+(draft.offers.length?'<span class="cp-pending-token">'+icon('clock-3')+draft.offers.length+'</span>':'')+'</div>';
+}
+function runtimeReviewBody(){
+ const c=runtimeState.comparison,issues=runtimeErrors(),payment=c?.payment;
+ const problems=issues.length?'<div role="alert" class="cp-problems">'+issues.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>':'';
+ if(!c?.ok)return problems;
+ const balance='<div class="cp-review-wallet">'+icon('lightbulb')+'<strong>'+payment.unspent_before_units/100+'</strong>'+icon('arrow-right')+'<strong>'+payment.unspent_after_units/100+'</strong><small>−'+payment.cost_units/100+'</small></div>';
+ const purchases=draft.offers.map(id=>{const o=offer(id),zone=composed(pendingUid(id))?'build':'reserve';return '<div class="cp-change cp-review-purchase"><span class="cp-pending-token">'+icon('clock-3')+'</span><strong>'+esc(item(o.key).name)+'</strong>'+icon('arrow-right')+icon(zoneIcons[zone])+'<span>'+icon('lightbulb')+o.price+'</span></div>';}).join('');
+ const changes=[...changesFor('deck'),...changesFor('equipment')];
+ const diffs=changes.map(x=>'<div class="cp-change"><span>'+esc(item(x.key).name)+'</span><strong>'+x.before+' '+icon('arrow-right')+' '+x.after+'</strong></div>').join('');
+ return problems+balance+(purchases?'<section class="cp-review-group"><h3>'+icon('store')+'取得</h3>'+purchases+'</section>':'')+(diffs?'<section class="cp-review-group"><h3>'+icon('layout-grid')+'編成</h3>'+diffs+'</section>':'')+'<div class="cp-capacity"><span>札</span><strong>'+c.prepared.deck.size+' / '+c.prepared.deck.required_size+'</strong><span>心得</span><strong>'+c.prepared.equipment.used+' / '+c.prepared.equipment.capacity+'</strong></div>'+changesFor('equipment').map(x=>'<details><summary>'+esc(item(x.key).name)+'</summary>'+facts(item(x.key))+'</details>').join('');
+}
+
 const item=key=>fixture.catalogue[key],offer=id=>fixture.offers.find(x=>x.id===id);
 let current=clone(fixture.initial),draft=freshDraft(),view=emptyView(),lastFocus=null;
 function freshDraft(){return {offers:[],deck:[...current.deck],equipment:[...current.equipment]};}
-function projected(){return [...current.units,...draft.offers.map(id=>({uid:'pending-'+id,key:offer(id).key}))];}
-function spending(){return draft.offers.reduce((sum,id)=>sum+offer(id).price,0);}
+function projected(){return [...current.units,...draft.offers.map(id=>({uid:pendingUid(id),key:offer(id).key}))];}
+function spending(){if(runtime)return runtimeState.comparison?.payment?.cost_units!=null?runtimeState.comparison.payment.cost_units/100:dirty()?'—':0;return draft.offers.reduce((sum,id)=>sum+offer(id).price,0);}
 function selected(key,which=draft){const units=projected();return [...which.deck,...which.equipment].filter(uid=>units.find(x=>x.uid===uid)?.key===key).length;}
 function owned(key){return current.units.filter(x=>x.key===key).length;}
 function available(key){return projected().filter(x=>x.key===key).length;}
 function pending(key){return draft.offers.find(id=>offer(id).key===key);}
-function load(equipment=draft.equipment){return equipment.reduce((sum,uid)=>sum+(item(projected().find(x=>x.uid===uid)?.key)?.equipment_cost||0),0);}
-function dirty(){return draft.offers.length>0||JSON.stringify(draft.deck)!==JSON.stringify(current.deck)||JSON.stringify(draft.equipment)!==JSON.stringify(current.equipment);}
+function load(equipment=draft.equipment){if(runtime)return runtimeState.comparison?.prepared?.equipment.used??(dirty()?'—':runtimeState.view.display_data.home.equipment.used);return equipment.reduce((sum,uid)=>sum+(item(projected().find(x=>x.uid===uid)?.key)?.equipment_cost||0),0);}
+function dirty(){if(runtime)return !!runtimeState.view.display_data.migration_notice?.review_required||!globalThis.CrossweaveUI.samePreparation(runtimeState.draft,globalThis.CrossweaveUI.currentPlan(runtimeState.view));return draft.offers.length>0||JSON.stringify(draft.deck)!==JSON.stringify(current.deck)||JSON.stringify(draft.equipment)!==JSON.stringify(current.equipment);}
 function errors(){
+ if(runtime)return runtimeErrors();
  const result=[],units=projected(),byUid=new Map(units.map(x=>[x.uid,x]));
  if(spending()>current.wallet)result.push('着想が'+(spending()-current.wallet)+'不足しています。');
  if(draft.offers.length+current.purchased.length>fixture.rules.offerLimit)result.push('今回の取得は'+fixture.rules.offerLimit+'点までです。');
@@ -2687,10 +2793,10 @@ const zoneNames={offer:'取得可能',reserve:'所持',build:'編成'};
 const zoneIcons={offer:'store',reserve:'layers',build:'layout-grid'};
 function emptyView(){return {tab:'card',scroll:{},boardLeft:0,reveal:null,dialog:null,key:null,offer:null,uid:null,zone:null};}
 function icon(name){return '<i data-lucide="'+name+'" aria-hidden="true"></i>';}
-function unitPending(uid){return String(uid||'').startsWith('pending-');}
+function unitPending(uid){return runtime?fixture.offers.some(x=>x.pending_uid===uid):String(uid||'').startsWith('pending-');}
 function composed(uid){return draft.deck.includes(uid)||draft.equipment.includes(uid);}
-function offerPhase(){return current.purchased.length>0&&current.purchased.length>=fixture.rules.offerLimit?'complete':fixture.offers.length?'open':'empty';}
-function motionId(row){return row.offer?'offer-'+row.offer.id:unitPending(row.uid)?'offer-'+row.uid.slice(8):row.uid?.startsWith('acquired-')?'offer-'+row.uid.slice(9):row.uid;}
+function offerPhase(){if(runtime)return fixture.offers.some(o=>item(o.key).kind===view.tab)?'open':fixture.groups.some(g=>g.status==='acquired')?'complete':'empty';return current.purchased.length>0&&current.purchased.length>=fixture.rules.offerLimit?'complete':fixture.offers.length?'open':'empty';}
+function motionId(row){return row.offer?'offer-'+row.offer.id:unitPending(row.uid)?'offer-'+pendingOffer(row.uid):row.uid?.startsWith('acquired-')?'offer-'+row.uid.slice(9):row.uid;}
 function rowsFor(zone){
  if(zone==='offer')return offerPhase()==='complete'?[]:fixture.offers.filter(o=>item(o.key).kind===view.tab&&!current.purchased.includes(o.id)).map(o=>({key:o.key,offer:o,placeholder:draft.offers.includes(o.id)}));
  const units=projected().filter(x=>item(x.key).kind===view.tab);
@@ -2723,16 +2829,16 @@ function restoreScroll(){
 }
 function localAction(row,zone,{compact=false}={}){
  const key=row.key,uid=row.uid;
- if(zone==='offer')return button('取得','stage',{id:row.offer.id,primary:true,disabled:current.purchased.length+draft.offers.length>=fixture.rules.offerLimit,label:item(key).name+'を未払いで取得する'});
+ if(zone==='offer')return button('取得','stage',{id:row.offer.id,primary:true,disabled:!canStage(row.offer.id),label:item(key).name+'を未払いで取得する'});
  const put=zone==='reserve';
- return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)&&!compact?button('取消','unstage',{id:uid.slice(8),label:item(key).name+'の取得をやめる'}):'');
+ return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)&&!compact?button('取消','unstage',{id:pendingOffer(uid),label:item(key).name+'の取得をやめる'}):'');
 }
 function card(row,zone){
  if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は取得予定へ移動済み">'+icon('arrow-right')+'</div>';
- const it=item(row.key),p=unitPending(row.uid),o=row.offer,price=o?.price??(p?offer(row.uid.slice(8)).price:null);
+ const it=item(row.key),p=unitPending(row.uid),o=row.offer,price=o?.price??(p?offer(pendingOffer(row.uid)).price:null);
  const state=zone==='offer'?'取得可能':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
  return '<article class="cp-piece cp-'+zone+(p?' cp-pending':'')+'" data-zone-item="'+zone+'" data-unit="'+esc(row.uid||'')+'" data-key="'+esc(row.key)+'" data-offer="'+esc(o?.id||'')+'" data-motion="'+esc(motionId(row))+'" data-pending="'+p+'" aria-label="'+esc(it.name+'、'+state)+'">'+
-  button('<strong>'+esc(it.name)+'</strong><span class="cp-card-meta"><span class="cp-card-mark">'+icon(zone==='build'?'check':it.kind==='card'?'layers':'scroll-text')+'</span>'+(price!==null?icon('lightbulb')+'<span>'+price+'</span>':it.kind==='passive'?icon('grid-2x2')+'<span>'+it.equipment_cost+'</span>':'<span>'+esc(it.attribute)+'</span>')+(row.count>1?'<span class="cp-quantity">×'+row.count+'</span>':'')+'</span>'+(p?'<span class="cp-clock" data-tooltip="支払前">'+icon('clock-3')+'</span>':''),'detail',{key:row.key,id:o?.id,uid:row.uid,zone,label:it.name+'の詳細、'+state,extra:'data-tooltip="'+esc(it.name)+'"'})+
+  button('<strong>'+esc(it.name)+'</strong><span class="cp-card-meta"><span class="cp-card-mark">'+icon(zone==='build'?'check':it.kind==='card'?'layers':'scroll-text')+'</span>'+(price!==null?icon('lightbulb')+'<span>'+price+'</span>':it.kind==='passive'?icon('grid-2x2')+'<span>'+it.equipment_cost+'</span>':'<span>'+esc(it.attribute||'')+'</span>')+(row.count>1?'<span class="cp-quantity">×'+row.count+'</span>':'')+'</span>'+(p?'<span class="cp-clock" data-tooltip="支払前">'+icon('clock-3')+'</span>':''),'detail',{key:row.key,id:o?.id,uid:row.uid,zone,label:it.name+'の詳細、'+state,extra:'data-tooltip="'+esc(it.name)+'"'})+
   '<div class="cp-item-actions">'+localAction(row,zone,{compact:true})+'</div></article>';
 }
 function lane(zone){
@@ -2745,8 +2851,9 @@ function lane(zone){
  if(!cells)cells=zone==='offer'?'<p class="cp-offer-message" data-offer-state="'+offerPhase()+'" role="status">'+icon(offerPhase()==='complete'?'circle-check':'inbox')+'<span>'+(offerPhase()==='complete'?'今回の取得は完了':'取得できる'+(view.tab==='card'?'札':'心得')+'はありません')+'</span></p>':'<div class="cp-empty" aria-label="'+zoneNames[zone]+'は空です">'+icon(zone==='build'?'square-dashed':zoneIcons[zone])+'</div>';
  return '<section class="cp-lane cp-lane-'+zone+'" data-zone="'+zone+'" aria-label="'+zoneNames[zone]+'"><header class="cp-lane-head"><div class="cp-lane-title">'+title+'</div><span class="cp-drop-label" aria-hidden="true"></span></header><div class="cp-lane-grid" data-scroll-zone="'+zone+'" data-kind="'+view.tab+'" style="--cp-columns:'+d.columnsByZone[zone]+'">'+cells+'</div></section>';
 }
-function wallet(){return '<div class="cp-wallet" aria-label="着想 現在'+current.wallet+'、支払予定'+spending()+'、確定後'+(current.wallet-spending())+'">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next '+(spending()>current.wallet?'cp-warning':'')+'" data-tooltip="支払後">'+icon('clock-3')+'<strong>'+(current.wallet-spending())+'</strong></span>':'')+'</div>';}
+function wallet(){if(runtime){const after=runtimeState.comparison?.payment?.unspent_after_units;return '<div class="cp-wallet" aria-label="着想">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next">'+icon('clock-3')+'<strong>'+(after==null?'—':after/100)+'</strong></span>':'')+'</div>';}return '<div class="cp-wallet" aria-label="着想 現在'+current.wallet+'、支払予定'+spending()+'、確定後'+(current.wallet-spending())+'">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next '+(spending()>current.wallet?'cp-warning':'')+'" data-tooltip="支払後">'+icon('clock-3')+'<strong>'+(current.wallet-spending())+'</strong></span>':'')+'</div>';}
 function purchaseTrack(){
+ if(runtime)return runtimeTrack();
  const phase=offerPhase();
  if(phase==='complete')return '<div class="cp-purchase-track">'+icon('circle-check')+'<span>取得済み '+current.purchased.length+' / '+fixture.rules.offerLimit+'</span></div>';
  if(phase==='empty')return '<div class="cp-purchase-track">'+icon('inbox')+'<span>取得候補なし</span></div>';
@@ -2762,24 +2869,27 @@ function render(preserveScroll=true){
   header.querySelector('.cp-brand').outerHTML=button(icon('arrow-left')+'戻る','back',{label:'探索先に戻る'});
   header.insertAdjacentHTML('beforeend',globalThis.CrossweaveUI.commonNavigationHTML());
  }
+ screen.insertAdjacentHTML('afterbegin',runtimeNotice());
  restoreScroll();renderDialog();
+ if(runtime){for(const b of root.querySelectorAll('button[data-action]')){const a=b.dataset.action;if(runtimeLocked()&&!['tab','detail','close','back','retry','reload'].includes(a)||migrationPending()&&!['tab','detail','close','back','discard','rebuild'].includes(a)||runtimeState.pending&&['commit','review','retry','reload'].includes(a))b.disabled=true;}}
  const target=[...root.querySelectorAll('[data-focus]')].find(x=>x.dataset.focus===focus&&!x.disabled&&(view.dialog?overlay.contains(x):screen.contains(x)));
  if(target)target.focus({preventScroll:true});else if(view.dialog)overlay.querySelector('[data-action="close"]')?.focus({preventScroll:true});else if(hadFocus)screen.querySelector('[data-action="tab"][aria-pressed="true"]')?.focus({preventScroll:true});
  if(overlay.querySelector('.cp-dialog-scroll'))overlay.querySelector('.cp-dialog-scroll').scrollTop=scroll;
  if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});
  if(!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)for(const el of screen.querySelectorAll('[data-motion]')){const before=oldPositions.get(el.dataset.motion);if(!before||!el.animate)continue;const after=el.getBoundingClientRect();const dx=(before.x-after.x)/previewScale(),dy=(before.y-after.y)/previewScale();if(dx||dy)el.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'translate(0,0)'}],{duration:200,easing:'ease-out'});}
- options.onChange?.({modified:dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),wallet:current.wallet,pending:spending()});
+ options.onChange?.({modified:dirty()||(!runtime&&JSON.stringify(current)!==JSON.stringify(fixture.initial)),wallet:current.wallet,pending:spending()});
 }
 function facts(it){
  const row=(label,value)=>'<div><dt>'+label+'</dt><dd>'+esc(value)+'</dd></div>';
  if(it.kind==='passive')return '<dl class="cp-facts">'+row('枠消費',it.equipment_cost)+row('発動条件',it.trigger_text.replaceAll('／','。'))+row('効果',it.effect_text.replaceAll('／','。'))+'</dl>';
- const p=it.primary;return '<dl class="cp-facts">'+row('属性',it.attribute)+row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power)+(p.kind==='guard'?row('攪乱',p.evasion):p.kind==='attack'?row('探査',p.hit):'')+row('手札期限',it.life)+row('行動間隔','置く '+it.action_intervals.place+' / 一致 '+it.action_intervals.match)+row('場の効果','突破／身構 '+it.field.power+'、探査／攪乱 '+it.field.hit)+(it.recovery_rule==='consumed_on_recovery'?row('性質','この探索では回収時に消滅。所持品は残る。'):'')+'</dl>';
+ const p=it.primary;if(p?.kind==='defense_support')return '<dl class="cp-facts">'+row('全員へ身構',p.defense_grant.guard)+row('全員へ攪乱',p.defense_grant.evasion)+row('手札期限',it.life)+'</dl>';return '<dl class="cp-facts">'+(it.attribute?row('属性',it.attribute):'')+row(p.kind==='guard'?'身構':p.kind==='heal'?'回復':'突破',p.power)+(p.kind==='guard'?row('攪乱',p.evasion):p.kind==='attack'?row('探査',p.hit):'')+row('手札期限',it.life)+row('行動間隔','置く '+it.action_intervals.place+' / 一致 '+it.action_intervals.match)+row('場の効果','突破／身構 '+it.field.power+'、探査／攪乱 '+it.field.hit)+(it.recovery_rule==='consumed_on_recovery'?row('性質','この探索では回収時に消滅。所持品は残る。'):'')+'</dl>';
 }
 function changesFor(field){const keys=[...new Set([...current[field],...draft[field]].map(uid=>projected().find(x=>x.uid===uid)?.key))];return keys.map(key=>({key,before:current[field].filter(uid=>current.units.find(x=>x.uid===uid)?.key===key).length,after:draft[field].filter(uid=>projected().find(x=>x.uid===uid)?.key===key).length})).filter(x=>x.before!==x.after);}
 function reviewBody(){
+ if(runtime)return runtimeReviewBody();
  const issues=errors(),changed=[...changesFor('deck'),...changesFor('equipment')];
  const balance='<div class="cp-review-wallet">'+icon('lightbulb')+'<strong>'+current.wallet+'</strong>'+icon('arrow-right')+'<strong>'+(current.wallet-spending())+'</strong><small>−'+spending()+'</small></div>';
- const purchases=draft.offers.map(id=>{const o=offer(id),zone=composed('pending-'+id)?'build':'reserve';return '<div class="cp-change cp-review-purchase" aria-label="'+esc(item(o.key).name)+'を取得し、'+(zone==='build'?'編成する':'編成せず所持する')+'"><span class="cp-pending-token">'+icon('clock-3')+'</span><strong>'+esc(item(o.key).name)+'</strong>'+icon('arrow-right')+icon(zoneIcons[zone])+'<span>'+icon('lightbulb')+o.price+'</span></div>';}).join('');
+ const purchases=draft.offers.map(id=>{const o=offer(id),zone=composed(pendingUid(id))?'build':'reserve';return '<div class="cp-change cp-review-purchase" aria-label="'+esc(item(o.key).name)+'を取得し、'+(zone==='build'?'編成する':'編成せず所持する')+'"><span class="cp-pending-token">'+icon('clock-3')+'</span><strong>'+esc(item(o.key).name)+'</strong>'+icon('arrow-right')+icon(zoneIcons[zone])+'<span>'+icon('lightbulb')+o.price+'</span></div>';}).join('');
  const diffs=changed.map(x=>'<div class="cp-change"><span>'+esc(item(x.key).name)+'</span><strong>'+x.before+' '+icon('arrow-right')+' '+x.after+'</strong></div>').join('');
  const effects=changesFor('equipment').map(x=>'<details><summary>'+esc(item(x.key).name)+'</summary>'+facts(item(x.key))+'</details>').join('');
  return (issues.length?'<div role="alert" class="cp-problems">'+issues.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>':'')+balance+(purchases?'<section class="cp-review-group"><h3>'+icon('store')+'取得</h3>'+purchases+'</section>':'')+(diffs?'<section class="cp-review-group"><h3>'+icon('layout-grid')+'編成</h3>'+diffs+'</section>':'')+'<div class="cp-capacity"><span>'+icon('layers')+'札</span><strong>'+draft.deck.length+' / '+fixture.rules.deckSize+'</strong><span>'+icon('grid-2x2')+'心得</span><strong>'+load()+' / '+fixture.rules.equipmentLimit+'</strong></div>'+effects;
@@ -2789,7 +2899,7 @@ function renderDialog(){
  let title,body,actions;
  if(view.dialog==='detail'){
   const key=view.key,it=item(key);let unit=projected().find(x=>x.uid===view.uid);
-  if(!unit&&pending(key))unit=projected().find(x=>x.uid==='pending-'+pending(key));
+  if(!unit&&pending(key))unit=projected().find(x=>x.uid===pendingUid(pending(key)));
   if(!unit&&owned(key)&&!view.offer)unit=projected().find(x=>x.key===key);
   const o=view.offer?offer(view.offer):pending(key)?offer(pending(key)):null,zone=unit?(composed(unit.uid)?'build':'reserve'):'offer';
   const p=unit&&unitPending(unit.uid),path=zones.map(z=>'<span class="'+(z===zone?'is-active':'')+'" aria-label="'+zoneNames[z]+'">'+icon(zoneIcons[z])+'</span>').join(icon('chevron-right'));
@@ -2797,6 +2907,7 @@ function renderDialog(){
   if(o&&(zone==='offer'||p))body+='<div class="cp-price">'+icon('lightbulb')+'<strong>'+o.price+'</strong></div>';
   actions=unit?localAction({...unit,count:1},zone):o?localAction({key,offer:o},'offer'):'';
  }else{title='変更内容';body=reviewBody();actions='<span class="cp-payment">'+icon('lightbulb')+'<strong>'+spending()+'</strong></span>'+button('確定する','commit',{primary:true,disabled:errors().length>0||!dirty(),label:'表示中の取得と編成を確定する'});}
+ if(runtime&&view.dialog==='review'&&(runtimeState.canRetry||runtimeState.stale))actions=(runtimeState.canRetry?button('再試行','retry',{primary:true}):'')+(runtimeState.stale?button('読み直す','reload',{primary:true,label:'変更案を戻して最新の状態を読み直す'}):'');
  overlay.innerHTML='<section class="cp-dialog" role="dialog" aria-modal="true" aria-labelledby="cp-dialog-title"><header class="cp-dialog-head"><h2 id="cp-dialog-title">'+esc(title)+'</h2>'+button(icon('x'),'close',{label:'閉じる'})+'</header><div class="cp-dialog-scroll">'+body+'</div><footer class="cp-dialog-actions">'+actions+'</footer></section>';
 }
 function openDialog(type,key,id,uid,zone){lastFocus=document.activeElement?.dataset.focus;view.dialog=type;view.key=key;view.offer=id||null;view.uid=uid||null;view.zone=zone||null;render();overlay.querySelector('[data-action="close"]').focus({preventScroll:true});}
@@ -2825,13 +2936,14 @@ listen(root.querySelector('.cp-reviewbar'),'click',e=>{
 });
 
 function mutate(action,key,id,uid,destination='reserve'){
+ if(runtime&&['commit','discard','rebuild','retry','reload'].includes(action)){void runtimeAction(action);return;}
+ if(runtimeLocked()||migrationPending())return;
  if(action==='stage'){
-  if(!offer(id)||draft.offers.includes(id)||current.purchased.includes(id))return;
-  if(draft.offers.length+current.purchased.length>=fixture.rules.offerLimit){notify('今回の取得予定は1点までです。');return;}
-  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push('pending-'+id);revealUnit(destination,'pending-'+id,offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
+  if(!canStage(id))return;
+  draft.offers.push(id);if(destination==='build')draft[item(offer(id).key).kind==='card'?'deck':'equipment'].push(pendingUid(id));revealUnit(destination,pendingUid(id),offer(id).key);notify(item(offer(id).key).name+'を取得予定に追加しました。'+(destination==='build'?'編成しました。':'')+'着想はまだ支払っていません。');
  }else if(action==='unstage'){
   if(!draft.offers.includes(id))return;
-  draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!=='pending-'+id);
+  draft.offers=draft.offers.filter(x=>x!==id);for(const type of ['deck','equipment'])draft[type]=draft[type].filter(uid=>uid!==pendingUid(id));
   if(view.dialog==='detail'&&view.key===offer(id).key){view.uid=null;view.offer=id;}
   revealUnit('offer',null,null,id);
   notify('取得予定を取り消しました。その予定分の編成も外しました。着想は変わりません。');
@@ -2843,25 +2955,25 @@ function mutate(action,key,id,uid,destination='reserve'){
  }else if(action==='discard'){draft=freshDraft();view.dialog=null;notify('取得予定と編成の変更をすべて取り消しました。最後に確定した状態です。');}
  else if(action==='commit'){
   const issues=errors();if(issues.length||!dirty()){notify(issues[0]||'変更はありません。');return;}
-  const cost=spending(),mapping=Object.fromEntries(draft.offers.map(id=>['pending-'+id,'acquired-'+id]));
-  const next={wallet:current.wallet-cost,units:[...clone(current.units),...draft.offers.map(id=>({uid:mapping['pending-'+id],key:offer(id).key}))],purchased:[...current.purchased,...draft.offers],deck:draft.deck.map(uid=>mapping[uid]||uid),equipment:draft.equipment.map(uid=>mapping[uid]||uid)};
+  const cost=spending(),mapping=Object.fromEntries(draft.offers.map(id=>[pendingUid(id),'acquired-'+id]));
+  const next={wallet:current.wallet-cost,units:[...clone(current.units),...draft.offers.map(id=>({uid:mapping[pendingUid(id)],key:offer(id).key}))],purchased:[...current.purchased,...draft.offers],deck:draft.deck.map(uid=>mapping[uid]||uid),equipment:draft.equipment.map(uid=>mapping[uid]||uid)};
   current=next;draft=freshDraft();view.dialog=null;notify((cost?'着想'+cost+'を支払い、正式に取得しました。':'')+'編成を確定しました。現在の着想は'+current.wallet+'です。');
  }
- render();
+ if(runtime)runtimeEdit();else render();
 }
 // Same gesture split as exploration: short hold moves a piece; immediate swipe pans.
 let gesture=null,suppressUntil=0;
 const holdMs=220,moveThreshold=8;
 const holdCue=globalThis.CrossweaveHoldCue.mount(root.querySelector('.cp-shell'),{scale:previewScale});
 function dropPlan(data,to){
- if(!to||to===data.from)return null;
+ if(!to||to===data.from||runtimeLocked()||migrationPending())return null;
  if(data.from==='offer'){
-  if(!offer(data.id)||draft.offers.includes(data.id)||current.purchased.includes(data.id)||draft.offers.length+current.purchased.length>=fixture.rules.offerLimit)return null;
+  if(!canStage(data.id)||runtimeLocked()||migrationPending())return null;
   return ['reserve','build'].includes(to)?{action:'stage',label:to==='build'?'取得・編成':'取得',destination:to}:null;
  }
  const unit=projected().find(x=>x.uid===data.uid);
  if(!unit||unit.key!==data.key||(composed(data.uid)?'build':'reserve')!==data.from)return null;
- if(to==='offer')return unitPending(data.uid)?{action:'unstage',label:'取消',id:data.uid.slice(8)}:null;
+ if(to==='offer')return unitPending(data.uid)?{action:'unstage',label:'取消',id:pendingOffer(data.uid)}:null;
  if(to==='build'&&data.from==='reserve')return {action:'add',label:'編成'};
  if(to==='reserve'&&data.from==='build')return {action:'remove',label:'外す'};
  return null;
@@ -2908,7 +3020,7 @@ function cancelGesture(suppress=true){
 }
 listen(root,'pointerdown',e=>{
  if(e.isPrimary===false){cancelGesture();return;}
- if(e.button!==0||gesture||view.dialog)return;
+ if(e.button!==0||gesture||view.dialog||runtimeLocked()||migrationPending())return;
  const piece=e.target.closest('.cp-piece'),buttonTarget=e.target.closest('button');
  if(buttonTarget&&buttonTarget.dataset.action!=='detail')return;
  const pan=piece?.closest('[data-scroll-zone]')||e.target.closest('[data-scroll-zone]')||e.target.closest('[data-board-scroll]');if(!pan)return;
@@ -2955,7 +3067,7 @@ listen(root,'click',event=>{
  if(action==='back'){cancelGesture();options.onBack?.();}
  else if(action==='tab'){view.tab=id;render();}
  else if(action==='detail')openDialog('detail',key,id,uid,zone);
- else if(action==='review')openDialog('review');
+ else if(action==='review'){if(runtime)void runtimeAction('review');else openDialog('review');}
  else if(action==='close')closeDialog();
  else if(action==='reset'){current=clone(fixture.initial);draft=freshDraft();view=emptyView();render(false);notify('操作案を最初の状態に戻しました。');}
  else mutate(action,key,id,uid);
@@ -2976,10 +3088,11 @@ const resizeObserver=globalThis.ResizeObserver?new ResizeObserver(entries=>{cons
 resizeObserver?.observe(root);
 render();
 syncPreview();
-const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||JSON.stringify(current)!==JSON.stringify(fixture.initial),
+const acquisitionHandle={snapshot:()=>clone({current,draft,view}),modified:()=>dirty()||(!runtime&&JSON.stringify(current)!==JSON.stringify(fixture.initial)),
  setTab(tab){if(['card','passive'].includes(tab)){view.tab=tab;render();}},
  suspend(){cancelGesture();if(view.dialog)closeDialog();},
- dispose(){cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+ dispose(){runtimeOff?.();cancelGesture();eventScope.abort();resizeObserver?.disconnect();holdCue.dispose();root.replaceChildren();}};
+if(runtime)runtimeOff=runtime.subscribe(runtimeReceive);
 options.onReady?.(acquisitionHandle);
 
 return acquisitionHandle;};})(globalThis.CrossweaveUI);

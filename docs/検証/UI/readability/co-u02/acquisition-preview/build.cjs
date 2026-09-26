@@ -1,7 +1,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const read=p=>fs.readFileSync(path.join(__dirname,p),'utf8');
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
-function applicationSource(){return read('app.js').replace('__LAYOUT__',()=>read('layout.js')).replace('__PREVIEW__',()=>read('preview.js')).replace('__GESTURES__',()=>read('gestures.js'));}
+function applicationSource(){return read('app.js').replace('__RUNTIME__',()=>read('runtime.js')).replace('__LAYOUT__',()=>read('layout.js')).replace('__PREVIEW__',()=>read('preview.js')).replace('__GESTURES__',()=>read('gestures.js'));}
 function component(){return '(function(api){api.mountAcquisitionReview=function(node,fixture,settings={}){const acquisitionOptions={...settings,root:node,embedded:true};\n'+applicationSource()+'\nreturn acquisitionHandle;};})(globalThis.CrossweaveUI);';}
 async function makeFixture(){
  const base=path.resolve(__dirname,'../../../../../..');

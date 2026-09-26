@@ -1,0 +1,61 @@
+{
+  "schema": "CW-M1-D04A-readiness-1",
+  "checked_at": "2026-09-26T09:21:54.248602+00:00",
+  "status": "preparation_verified_actual_browser_unexecuted",
+  "node": "v24.19.0",
+  "syntax_files": [
+    "test/runtime/d04a-prepare.mjs",
+    "test/runtime/d04a-browser.mjs",
+    "docs/検証/接続条件/co-d04a/runner.mjs"
+  ],
+  "local_relative_module_references": [
+    {
+      "file": "test/runtime/d04a-browser.mjs",
+      "import": "../../src/runtime/campaign.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-browser.mjs",
+      "import": "../../src/runtime/storage.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-browser.mjs",
+      "import": "../../src/runtime/common.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-browser.mjs",
+      "import": "./support.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-prepare.mjs",
+      "import": "../../src/runtime/validate.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-prepare.mjs",
+      "import": "../../src/runtime/common.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-prepare.mjs",
+      "import": "../../src/runtime/preparation-legacy.mjs"
+    },
+    {
+      "file": "test/runtime/d04a-prepare.mjs",
+      "import": "../../src/runtime/items.mjs"
+    },
+    {
+      "file": "docs/検証/接続条件/co-d04a/runner.mjs",
+      "import": "../../../../test/runtime/d04a-browser.mjs"
+    }
+  ],
+  "existing_code_hashes_matched": 33,
+  "existing_fixture_hashes_matched": 6,
+  "derived_boundary_fixtures": 1,
+  "derived_old_draft_matches_published_example": true,
+  "generated_inputs_sha256": "c50042a91deb4d1aebda41512b8c7404337e5bd074c69b072ea48fd8359d6c26",
+  "input_manifest_sha256": "aa7cdcad680fa231a6af77aa07e09f4263767194108f723b1ad59cc74025ee42",
+  "real_indexeddb_checks": 0,
+  "memory_store_tests_run": 0,
+  "fake_indexeddb_tests_run": 0,
+  "old_suites_rerun": false,
+  "runtime_api_changes": false,
+  "validation_limit": "Syntax, source/fixture hashes, pure input validation and referenced local modules only; no browser behavior or persistence result."
+}

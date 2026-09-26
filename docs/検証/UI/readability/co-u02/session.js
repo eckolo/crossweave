@@ -3,6 +3,10 @@
   'use strict';
   const copy = x => x == null ? x : JSON.parse(JSON.stringify(x));
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+  function samePreparation(a,b){
+    const normalize=p=>p?.schema==='CW-M1-preparation-2'?{schema:p.schema,acquire:[...p.acquire].sort(),deck:[...p.composition.deck].sort(),equipment:[...p.composition.equipment].sort(),migration_review:p.migration_review}:p;
+    return same(normalize(a),normalize(b));
+  }
   const retryable = new Set(['storage_write_failed','storage_unavailable','storage_open_failed','storage_open_blocked','storage_read_failed','connection_failed','invalid_response']);
   const outdated = new Set(['stale_view','stale_revision','stale_candidate','unknown_selection_handle','stale_or_unknown_candidate','missing_possession','offer_already_purchased']);
   function fault(code) { return {code,field:null,details:{}}; }
@@ -19,6 +23,7 @@
   }
   function currentPlan(view) {
     const h=view?.display_data?.home;
+    if(h?.contract==='CW-M1-preparation-2')return {schema:h.contract,acquire:[],composition:{deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id)),equipment:h.equipment.entries.map(x=>x.id)},migration_review:null};
     return h ? {retain_learning:h.economy.learned.map(x=>x.base),cancel_learning:[],candidate:null,
       purchase_timing:view.display_data.draft?.plan?.purchase_timing||'after_preparation',next_preparation:{learn:[],equipment:h.equipment.entries.map(x=>x.id),
       deck:h.deck.composition.flatMap(x=>Array(x.count).fill(x.id))}} : null;
@@ -29,7 +34,7 @@
     let pending=null,error=null,failed=null,stale=false,disposed=false,epoch=0,readSeq=0,editSeq=0;
     const listeners=new Set(), displayed=new Map();
     const state=()=>copy({view,draft,draftDetails,comparison,quote,actionPreview,reservations,pending,error,stale,
-      canRetry:!!failed,localDirty:!!view&&!same(draft,view.display_data.draft?.plan ?? currentPlan(view))});
+      canRetry:!!failed,localDirty:!!view&&!samePreparation(draft,view.display_data.draft?.plan ?? currentPlan(view))});
     const notify=()=>{if(!disposed)for(const f of listeners)f(state());};
     const busy=()=>disposed||pending?.kind==='write'||pending?.kind==='inspect';
     const allowed=type=>view?.display_data?.capabilities?.[type]?.available===true;
@@ -115,7 +120,7 @@
       const cancelled=copy(draft?.cancel_learning||[]);
       const result=await execute('ack_return');if(!result.ok)return result;
       // Only stable base IDs are carried; no handle/name remapping or purchase plan transfer.
-      const learned=new Set(view.display_data.home?.economy.learned.map(x=>x.base)||[]);
+      const learned=new Set(view.display_data.home?.economy.learned?.map(x=>x.base)||[]);
       const cancel=cancelled.filter(id=>learned.has(id));
       if(draft&&cancel.length){const p=copy(draft);p.cancel_learning=cancel;p.retain_learning=p.retain_learning.filter(x=>!cancel.includes(x));
         p.next_preparation.equipment=p.next_preparation.equipment.filter(id=>!cancel.includes(view.display_data.details?.[id]?.base_id));
@@ -180,6 +185,6 @@
       retry:()=>failed?run(failed.method,failed.args,true):Promise.resolve({ok:false,error:fault('nothing_to_retry')}),
       dispose(){disposed=true;listeners.clear();}};
   }
-  const api={makeSession,makeLauncher,currentPlan,validateView};
+  const api={makeSession,makeLauncher,currentPlan,validateView,samePreparation};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else scope.CrossweaveUI=api;
 })(globalThis);

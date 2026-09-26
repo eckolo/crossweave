@@ -1,3 +1,11 @@
+# CO-U02 取得・編成の本編接続（UI0.16.0）
+
+2026-09-26。UI-ACQ-INT-01。[接続仕様・通常入口・確認範囲](acquisition-preview/runtime-connection.md)。了承済み三領域をD03Rの公開所持・予測・一括確定・保存・実出発へ接続した。変更33項目を実Campaign＋MemoryStore＋JSDOMで確認。通常入口は[index.html](index.html)、本文内入口は[生成記録](review/connected-manifest.json)。実描画・物理入力・実IndexedDB／実複数タブは未確認。保存読戻しと最終状態は[自Work](../../../../作業資料/Work/20260910-ui-readability.md)へ。
+
+---
+
+以下は過去の記録。現在の入口・接続状態は冒頭を参照。
+
 # CO-U02 予測の場札から詳細を開く（UI0.14.8）
 
 2026-09-26。[予測札の詳細接続](journey/field-forecast-details.md)。場の「＋ 予測」の札もクリックで詳細を開き、手札と予測を維持する。クリックでは出札しない。[生成照合](review/field-forecast-details-manifest.json)・[限定9項目](review/field-forecast-details-checks.json)。位置は概ね了承、縦位置の微調整は今回見送り。実描画・実入力・IndexedDBは未確認。

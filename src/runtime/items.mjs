@@ -1,5 +1,6 @@
 // AP ownership/conversion and AU/AQ selection. All mutation is on the caller's transaction copy.
 import C from '../content/m1.mjs';
+import A from '../content/acquisition.mjs';
 import {copy,check,unique,sum,canonical,integer} from './common.mjs';
 import {blueprint,validateBlueprint,equipmentCost} from './affixes.mjs';
 export const funds=e=>e.profile.points*100+e.remainder;
@@ -9,6 +10,7 @@ export const ownedHandle=uid=>'owned:'+uid;
 export function resolve(e,id,kind,{requireLearned=true}={}){
   check(typeof id==='string','unknown_selection_handle');let b,uid=null;
   if(id.startsWith('base:')){
+    check(!e.unified,'legacy_selection_not_supported',null,{related_ids:[id]});
     const base=id.slice(5);
     check(kind==='card'?C.initial.free_card_bases.includes(base):Object.hasOwn(C.rules.learning.bases,base),'unknown_selection_handle',null,{related_ids:[id]});
     b=blueprint(kind,base);
@@ -18,14 +20,14 @@ export function resolve(e,id,kind,{requireLearned=true}={}){
     check(item,'missing_possession',null,{related_ids:[id]});b=validateBlueprint(item.blueprint);
   }
   check(b.kind===kind,'wrong_selection_kind',null,{related_ids:[id]});
-  if(kind==='passive'&&requireLearned)check(Object.hasOwn(e.profile.learned,b.base),'unlearned_equipment_base',null,{related_ids:[id]});
+  if(kind==='passive'&&requireLearned&&!e.unified)check(Object.hasOwn(e.profile.learned,b.base),'unlearned_equipment_base',null,{related_ids:[id]});
   return {id,uid,blueprint:copy(b),...(kind==='passive'?{cost:equipmentCost(b)}:{})};
 }
 export function references(d){
   const s=d.session,out={};
   const add=(ids,label)=>{for(const [i,id]of (ids||[]).entries())if(id.startsWith('owned:'))out[label+':'+i]=id.slice(6);};
   add(s.economy.aq.equipped,'equipment');add(s.au.deck,'confirmed_deck');
-  if(d.draft){add(d.draft.plan.next_preparation.equipment,'saved_draft_equipment');add(d.draft.plan.next_preparation.deck,'saved_draft_deck');}
+  if(d.draft){const p=d.draft.plan.composition||d.draft.plan.next_preparation;add(p.equipment,'saved_draft_equipment');add(p.deck,'saved_draft_deck');}
   return out;
 }
 export function syncReferences(d){d.session.economy.references=references(d);}
@@ -36,7 +38,8 @@ export function conversionUnits(band){
   const value=C.rules.conversion.value_bands_units[band];check(integer(value),'unknown_value_band');
   const [n,den]=C.rules.conversion.rate;return Math.floor(value*n/den);
 }
-const freeAccess=(e,b)=>!b.affixes.length&&(b.kind==='card'?C.initial.free_card_bases.includes(b.base):Object.hasOwn(e.profile.learned,b.base));
+export const convertible=(e,uid)=>e.unified?.grants[uid]?.source!=='initial_card'||A.initial_cards_convertible;
+const freeAccess=(e,b)=>!e.unified&&!b.affixes.length&&(b.kind==='card'?C.initial.free_card_bases.includes(b.base):Object.hasOwn(e.profile.learned,b.base));
 export function quote(d,ids){
   check(unique(ids)&&ids.length>0,'duplicate_or_empty_conversion','item_ids');
   const e=d.session.economy,selected=new Set(ids),rows=[];
@@ -44,6 +47,7 @@ export function quote(d,ids){
     check(id.startsWith('owned:'),'not_saleable_possession','item_ids',{related_ids:[id]});
     const uid=id.slice(6),item=Object.hasOwn(e.inventory,uid)?e.inventory[uid]:null;
     check(item,'missing_possession','item_ids',{related_ids:[id]});
+    check(convertible(e,uid),'initial_grant_not_convertible','item_ids',{related_ids:[id]});
     check(!item.locked,'item_locked','item_ids',{related_ids:[id]});
     const usage=itemUsage(d,uid);check(!usage.length,'item_in_use','item_ids',{related_ids:[id],references:usage});
     const retained=Object.values(e.inventory).some(x=>x.blueprint.key===item.blueprint.key&&!selected.has(ownedHandle(x.uid)));
