@@ -1,14 +1,36 @@
-# 現在の依頼：UI-ACQ-INT-01（2026-09-26）
+# 現在：UI-ACQ-INT-01 本編接続完了（UI0.16.0）
 
-今回の依頼全体：未完了（GitHub保存・読戻し・最終引継ぎを進行中）。実装と変更33項目は完了。現在の状態：進行中。
+2026-09-26。**今回の依頼全体は完了。現在の状態：完了・とりまとめへ引継ぎ。**
 
-成果は [UI0.16.0 本編接続](../../検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md)、[検査33項目](../../検証/UI/readability/co-u02/review/connected-results.json)、[操作可能入口の生成照合](../../検証/UI/readability/co-u02/review/connected-manifest.json)。D04A feda48cも受領しruntime/API差分0を確認。実環境の未確認は今回の実装待ちへ戻さない。
+成果コード：[9ca472ea81b17b309ca44781fd8ecfd9281d58f6](https://github.com/eckolo/crossweave/commit/9ca472ea81b17b309ca44781fd8ecfd9281d58f6)。了承済みUI0.15.1をD03Rの実所持・予測・一括確定・保存・探索出発へ接続した。[接続範囲・通常入口](../../検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md)、[変更33項目](../../検証/UI/readability/co-u02/review/connected-results.json)、[本文内入口の生成照合](../../検証/UI/readability/co-u02/review/connected-manifest.json)、[公開読戻し](../../検証/UI/readability/co-u02/review/connected-publication.json)。以下が今回のとりまとめ向け引継ぎ。以前の「D03R待ち」「本編未接続」は履歴。
 
-全体・Work別計画0.13／CO-U02指示0.12／dd16ba6e のとりまとめ配下31対象を全件同期。設計9d5dd304（D03R本体442af718、engine0.7・public0.6・preparation2・save2）を通常マージし、計画を再照合した。開始時のUI公開6c6ac218とローカルは同内容、未保存差分なし。
+## とりまとめへの引継ぎ（UI-ACQ-INT-01）
 
-今回範囲は了承済みUIの取得予定・確認・一括確定、実所持・残高・編成・保存、同じ編成での出発。取消・失敗・失効・再送を変更経路で確認し、通常入口と同じ操作可能画面、GitHub保存・読戻し、とりまとめ／設計引継ぎまで完了条件とする。D04Aを待たず進める。実描画・タッチ・実IndexedDB／複数タブは別担当の未確認事項。以下のD03R待ちは過去の記録。
+- Work：UI改善／`20260910-ui-readability`／`ui/readability-20260910`。
+- 今回の依頼全体：**完了**。対象はUI-ACQ-INT-01。CO-U02全体・D04・M1・人の受入の完了へ広げない。
+- 同期：とりまとめ`dd16ba6e`配下31対象を全件同パスへ保存・blob照合。全体／Work別0.13・担当指示0.12。設計D03R`9d5dd304`→D04A`feda48c`→完了記録`4ad410b3`を通常マージし、最後も計画全件一致。後二者のruntime/API差分0。計画枝全体をマージした記録にはしない。
+- 使用本体：`442af718`、engine0.7・public0.6・preparation2・save2・economy2・acquisition1。UI側で共通runtime・content・価格・報酬・仮素材を変更していない。
+
+| 必要成果 | 状態と根拠 |
+|---|---|
+| 札／心得の取得予定・編成・確認 | 完了。同じ三領域・寸法・述語ボタン・ドラッグ。公開個体／pending IDとplanを使用。追加習得や返金なし |
+| 一括確定と所持・残高・保存 | 完了。公開予測を確認し、同じplanで共通commit。成功／replayed後に全viewを更新。複数群の同時取得、取消・失敗・失効・再送・移行案を確認 |
+| 確定した編成での実出発 | 完了。修飾札を含む実個体12枚の一致と、取得した心得の実装備を確認。未確定／失敗状態の遮断を保持 |
+| 操作可能な本編入口 | 完了。通常は `docs/検証/UI/readability/co-u02/index.html`。会話内は `/workspace/crossweave-connected-acquisition.html`、679334 bytes、SHA-256 `f26c4167e1aa3eeadc79530225dd7b1ca1f6cd5e52d1c1e90051d93f2709670f`。同じ配布UIで操作できる形で最終応答へ提示 |
+| 検査・保存・読戻し | 完了。変更33項目。コード成果`9ca472ea`、tree `9c804877f2590127a451e3cf03921ab130630ecb`。UI変更29本文を全文読戻し、設計同期を含む差分88blob、ref・親・treeを照合。既存ドラフトPR #1へ同じ枝で反映 |
+| 最終引継ぎ | 本節と公開読戻しJSONに保存。この記録のコミットSHAは読戻し後の最終応答で提示。とりまとめ受領・設計統合は未確認 |
+
+確認済み：Node v24.19.0・実Campaign・元MemoryStore・JSDOMの合成入力／寸法。自然開始と代表保存を分け、UIによる新しい性能・資金の追加はない。旧検査一式は再実行していない。通常入口は設計所有IndexedDB経路、会話内入口は一時保存として区別する。
+
+**依頼内残件：なし。ユーザー判断事項：なし。** 現行画面の操作感・人の受入は未確認だが、この接続・限定検査・保存の依頼を人評価待ちへ変更しない。
+
+後続への入力：設計担当は既存[ドラフトPR #1](https://github.com/eckolo/crossweave/pull/1)と上記コードSHAを受け取り、D03R前提の同じ取得部品を統合できる。D04Aの実IndexedDB・再読込・実2タブは設計側の環境待ち。実ブラウザー描画・実マウス／タッチ／キーボード・総合人評価はD04／P02。探索先追加3件はM2の具体割当後。これらを今回依頼内の未実装、ユーザーによるコード実装待ちとはしない。
+
+開始保全：開始時ローカル`4ce390a`と公開`6c6ac218`のtreeが一致、未保存差分なし。旧`9605826c9c52`コピーは存在しなかった。0.13・0.15.1および既存固定データ・画像・検査記録を保全し、同じWorkで継続した。
 
 ---
+
+以下は過去の記録。
 
 # 取得確定後・候補なしの表示（2026-09-26／UI0.15.1）
 
