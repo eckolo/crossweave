@@ -48,6 +48,7 @@ WorkID：AIが採番する作業の識別子（ChatGPT内部IDではない）
 | `20260912-scenario-content` | 代表案件の依頼から探索・帰還・準備・再訪までの場面・本文・素材対応と仕様接続案 | `design/scenario-content-20260912` | [作業設定（シナリオブランチ）](https://github.com/eckolo/crossweave/blob/design/scenario-content-20260912/docs/作業資料/Work/20260912-scenario-content.md) |
 | `20260912-visual-direction` | ビジュアル・空間・札と道具・行動演出の比較見本、UI接続条件 | `design/visual-direction-20260912` | [作業設定（ビジュアルブランチ）](https://github.com/eckolo/crossweave/blob/design/visual-direction-20260912/docs/作業資料/Work/20260912-visual-direction.md) |
 | `20260913-project-coordination` | 全Workのマイルストーン・優先度・依存関係・目標別実施計画と計画必須同期を管轄 | `ops/project-coordination-20260913` | [作業設定（とりまとめブランチ）](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/Work/20260913-project-coordination.md)・[全体計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/全体計画.md)・[Work別実施計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/Work別実施計画.md) |
+| `20260926-runtime-delivery` | 実行基盤・配布設計。CO-M1Rの方式比較・利用手順・保存方針・責務別後続計画（実装・公開は今回対象外） | `design/runtime-delivery-20260926` | [作業設定（実行基盤・配布ブランチ）](https://github.com/eckolo/crossweave/blob/design/runtime-delivery-20260926/docs/作業資料/Work/20260926-runtime-delivery.md) |
 
 設計検討・試遊という役割自体は下記の既存分担を維持する。別Workの個別設定を作成・開始済みと推定しない。共通の基本設計・仕様案・要検討事項・統合検討・試験条件・共通エンジンへの統合は設計検討Workが担当し、試遊Workは原記録の担当を維持する。
 
