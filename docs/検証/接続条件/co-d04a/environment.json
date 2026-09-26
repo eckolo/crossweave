@@ -1,0 +1,55 @@
+{
+  "schema": "CW-M1-D04A-environment-1",
+  "observed_date": "2026-09-26",
+  "recorded_at": "2026-09-26T09:21:54.248602+00:00",
+  "status": "blocked_before_page_execution",
+  "local_preparation_environment": {
+    "os": "Ubuntu 24.04.3 LTS",
+    "node": "v24.19.0",
+    "architecture": "x86_64"
+  },
+  "browser": {
+    "surface": "cua_repl / Cloud Browser",
+    "name": "Chrome",
+    "browser_id": "1",
+    "tab_id": "1",
+    "os": null,
+    "full_version": null,
+    "note": "Cloud browser OS/version not observed; local OS is not substituted"
+  },
+  "attempt": {
+    "requested_url": "http://127.0.0.1:8000/docs/検証/接続条件/co-d02/harness.html",
+    "count_this_task": 1,
+    "observed_error": "Browser reported: net::ERR_BLOCKED_BY_CLIENT",
+    "stage": "navigation, before harness execution",
+    "underlying_policy_reason": "not exposed by the browser tool",
+    "same_failure_repeated_after_current_denial": false,
+    "alternative_route_or_browser_attempted": false,
+    "result": "Browser Use cannot open the requested URL in tab 1"
+  },
+  "prior_evidence": "docs/検証/接続条件/co-d02/browser-check.json",
+  "local_browser_inventory": {
+    "playwright_package_present": true,
+    "chromium_default_executable_exists": false,
+    "firefox_default_executable_exists": false,
+    "webkit_default_executable_exists": false,
+    "browser_installation_or_alternative_execution_attempted": false
+  },
+  "real_indexeddb_checks": 0,
+  "page_reload_checks": 0,
+  "real_two_tab_checks": 0,
+  "runtime_fixes": 0,
+  "resume_requirements": [
+    "Authorized browser can access repository harness and ES modules on the same origin",
+    "Native IndexedDB, sessionStorage, BroadcastChannel and two independent pages are available",
+    "Record actual browser OS/full version and code SHA; run README steps and return results JSON"
+  ],
+  "unverified": [
+    "new save and real page reload",
+    "atomic acquisition persistence and preview/cancel immutability",
+    "exploration and settled return reload",
+    "save1 and old draft migration persistence/idempotence",
+    "real two-tab stale revision/replay/latest recovery",
+    "invalid source preservation and artificial native abort/retry"
+  ]
+}
