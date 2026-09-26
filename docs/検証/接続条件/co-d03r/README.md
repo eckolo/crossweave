@@ -4,7 +4,7 @@
 
 完成済みD03を継承し、取得予定と編成を支払前に確認して一括保存する共通本体を提供する。初期札・取得札・心得を実個体の同じ公開一覧へ統一し、取得した心得への追加種類習得を除去した。旧保存は残高・履歴・探索状態を保持して移行する。
 
-現在の提出状態・成果コミット・読戻しは [publication.json](publication.json)、依頼全体の完了判定は [自Workのとりまとめ引継ぎ](../../../作業資料/Work/20260909-design-assembly.md#とりまとめへの引継ぎco-d03r)を参照。UI受領・接続の完了を代行した記録ではない。
+**R1〜R5の依頼全体は完了**。本体 [`442af718`](https://github.com/eckolo/crossweave/commit/442af718d30b30284cf5ac976eb7421992d94dfd) を公開・読戻しし、[専用CI](https://github.com/eckolo/crossweave/actions/runs/36223942471)も成功。現在の提出状態・成果コミット・読戻しは [publication.json](publication.json)、依頼全体の完了判定は [自Workのとりまとめ引継ぎ](../../../作業資料/Work/20260909-design-assembly.md#とりまとめへの引継ぎco-d03r)を参照。UI受領・接続の完了を代行した記録ではない。
 
 | 依頼 | 成果 |
 |---|---|

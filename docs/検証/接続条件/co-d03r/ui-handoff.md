@@ -2,6 +2,8 @@
 
 2026-09-26／受取先 `20260910-ui-readability`・`UI-ACQ-INT-01`。実装参照UIは `102b243919e1563df66900a6e85887ad1c9e97c6`。公開前に最新 `6c6ac2184d56da9e19966c075c708538c62f5136` の画面・空状態了承を受領し、契約要件に変更なしと照合。提出したコードSHA・対象差分は [publication.json](publication.json)／[変更一覧](integration-files.txt)。本体提供、UI受領、UI接続、D04統合、人の受入は別の状態。
 
+提供コード：[`442af718d30b30284cf5ac976eb7421992d94dfd`](https://github.com/eckolo/crossweave/commit/442af718d30b30284cf5ac976eb7421992d94dfd)。このコードの専用37項目・GitHub全文読戻し・CI成功を確認済み。画面の再承認や旧50件の再実行を受領条件にしない。
+
 ## 契約版
 
 | 対象 | 版 |
