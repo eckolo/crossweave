@@ -1,18 +1,20 @@
 // Public browser/Node entry. All commands are explicit, durable, and awaitable.
 import C from '../content/m1.mjs';
+import A from '../content/acquisition.mjs';
 import {IndexedDBStore} from './storage.mjs';
 import {copy,check,canonical,fail,integer} from './common.mjs';
 import {validateDocument,safeID} from './validate.mjs';
 import {project,token,capabilities,actionPreview} from './view.mjs';
-import {preview,planFor,draftFor,checkPlanShape} from './preparation.mjs';
+import {preview,planFor,draftFor,checkPlanShape,preparationContract} from './preparation.mjs';
 import {departGame,restoreGame} from './game.mjs';
 import {nextMode,publishScene,publishConditionals,recordDisplayed} from './story.mjs';
 import {settle,rewardLedger} from './settlement.mjs';
 import {publicContract} from './action-public.mjs';
-import {engineVersion,migrationID} from './versions.mjs';
+import {engineVersion,economyVersion,migrationID} from './versions.mjs';
 import {initialize,purchase} from './offers.mjs';
 import {quote,convert,setLock,syncReferences} from './items.mjs';
 import {handles} from './selection-public.mjs';
+import {initializePossessions,mapLegacySelections} from './possessions.mjs';
 const uuid=()=>globalThis.crypto.randomUUID();
 const typedError=error=>fail(error).error;
 function assertToken(d,t){check(t===token(d),'stale_view','view_token');}
@@ -38,7 +40,7 @@ class CampaignController {
   previewPreparation({view_token,plan}={}) {
     try{assertToken(this.#document,view_token);requireCapability(this.#document,'previewPreparation');checkPlanShape(plan);
       const d=this.#document,h=handles(d.session,[d.draft?.plan]),internal=h.plan(plan),result=preview(d.session,internal);
-      const display=handles(d.session,[d.draft?.plan,internal],result.purchase_uid).encode(result.display);
+      const display=handles(d.session,[d.draft?.plan,internal],result.purchase_uid,result.pending_items).encode(result.display);
       return project(d,{preparation_comparison:display});}
     catch(error){return project(this.#document,{error:typedError(error)});}
   }
@@ -73,11 +75,12 @@ class CampaignController {
       if(type==='save_draft'){assertPayload(payload,['plan']);checkPlanShape(payload.plan);next.draft=draftFor(s,h.plan(payload.plan),next.revision);}
       else if(type==='discard_draft'){assertPayload(payload,[]);next.draft=draftFor(s,planFor(s),next.revision);}
       else if(type==='commit_preparation'){
-        assertPayload(payload,['plan']);checkPlanShape(payload.plan);const result=preview(s,h.plan(payload.plan),{operation:command.request_id});
+        assertPayload(payload,['plan']);checkPlanShape(payload.plan);const internal=h.plan(payload.plan),result=preview(s,internal,{operation:command.request_id});
+        result.display=handles(s,[next.draft?.plan,internal],result.purchase_uid,result.pending_items).encode(result.display);
         check(result.ok,result.display.refusal?.code||'invalid_plan',result.display.refusal?.field,result.display.refusal?.details);
         next.session=result.next;next.draft=draftFor(next.session,planFor(next.session),next.revision);
       }else if(type==='purchase'){
-        assertPayload(payload,['candidate']);purchase(s.economy,h.candidate(payload.candidate),command.request_id);
+        assertPayload(payload,['candidate']);check(!s.economy.unified,'use_commit_preparation','type');purchase(s.economy,h.candidate(payload.candidate),command.request_id);
       }else if(type==='convert_items'){
         assertPayload(payload,['item_ids']);check(Array.isArray(payload.item_ids),'duplicate_or_empty_conversion','item_ids');
         convert(next,payload.item_ids.map(id=>h.selection(id,'item_ids')),command.request_id);
@@ -90,7 +93,7 @@ class CampaignController {
         const previousKnowledge=copy(s.economy.profile.knowledge);
         s.active={run,index,seed:index,case_id:payload.case_id,content_set_id:C.content_set_id,mode,target_set_id,targets:copy(C.target_sets[target_set_id].slot_map),
           published_clue_ids:[],read_text_ids:[],reward_ledger:{},published_scene_ids:[],emitted_conditionals:[],departure_case_state:{status:c.status,attempts_before:c.attempts}};
-        s.game=await departGame({target_set_id,run,seed:index,deck:s.au.deck,equipped:s.economy.aq.equipped,learned:Object.keys(s.economy.profile.learned),knowledge:previousKnowledge,inventory:s.economy.inventory});
+        s.game=await departGame({target_set_id,run,seed:index,deck:s.au.deck,equipped:s.economy.aq.equipped,learned:Object.keys(s.economy.profile.learned),knowledge:previousKnowledge,inventory:s.economy.inventory,unified:s.economy.unified});
         s.phase='exploring';s.economy.profile.phase='exploring';s.economy.profile.run=run;s.nextRun++;c.attempts++;s.action_history=[];next.draft=null;
         publishScene(next,mode==='revisit'?'SCN-001-S02R':'SCN-001-S02',{knowledge:previousKnowledge});
       }else if(type==='continue_scene'){
@@ -139,11 +142,11 @@ export function createCampaign({storage=new IndexedDBStore()}={}) {
       check(await storage.load(slot_id)===null,'slot_not_empty','slot_id');
       const profile={schema:'AH1',phase:'home',run:null,points:0,learned:{},materials:{},unlocked:copy(C.initial.unlocked),clears:[],knowledge:{schema:'AD1',events:[],encounters:[]},returns:{}};
       const economy={schema:'AP1',profile,remainder:0,inventory:{},known:{},runs:{},sales:{},references:{},aq:{policy:'cost',equipped:[]},at:{current:null,batches:{},purchases:{},returns:{},pending_contexts:[]}};
-      initialize(economy);
-      const d={schema:'CW-M1-save-1',rule_set_id,content_set_id,engine_version:engineVersion,revision:0,view_nonce:uuid(),
+      initialize(economy);initializePossessions(economy);
+      const d={schema:'CW-M1-save-2',rule_set_id,content_set_id,engine_version:engineVersion,revision:0,view_nonce:uuid(),
         session:{campaign_id:uuid(),phase:'home',nextRun:0,economy,au:{deck:Object.entries(C.initial.deck_counts).sort().flatMap(([base,n])=>Array(n).fill('base:'+base))},
           active:null,game:null,scene:null,receipts:{},action_history:[]},draft:null,casebook:copy(C.initial.casebook),request_log:{},public_history:[]};
-      d.request_log[request_id]={signature:canonical({type:'create',payload:{rule_set_id,content_set_id}}),committed_revision:0};publishScene(d,'SCN-001-S01');validateDocument(d);
+      d.request_log[request_id]={signature:canonical({type:'create',payload:{rule_set_id,content_set_id}}),committed_revision:0};d.session.au.deck=mapLegacySelections(d.session.au.deck,'card');syncReferences(d);publishScene(d,'SCN-001-S01');validateDocument(d);
       await storage.commit(slot_id,null,d);return new CampaignController(storage,slot_id,d);
     },
     async open({slot_id}) {
@@ -173,4 +176,4 @@ export function createCampaign({storage=new IndexedDBStore()}={}) {
   };
 }
 export const Campaign=createCampaign();
-export const versions=Object.freeze({schema:'CW-M1-save-1',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:engineVersion,input_version:C.version,public_contract:publicContract});
+export const versions=Object.freeze({schema:'CW-M1-save-2',rule_set_id:C.rule_set_id,content_set_id:C.content_set_id,engine_version:engineVersion,input_version:C.version,public_contract:publicContract,preparation_contract:preparationContract,economy_version:economyVersion,acquisition_policy:A.version});

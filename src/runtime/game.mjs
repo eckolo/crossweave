@@ -168,21 +168,21 @@ export class Game extends CoreGame {
     }
   }
 }
-export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge,inventory={},content_set_id=C.content_set_id}) {
+export async function departGame({target_set_id, run, seed, deck, equipped, learned, knowledge,inventory={},unified=false,content_set_id=C.content_set_id}) {
   const content=contentFor(content_set_id);
   const bundle=bundleFor(target_set_id,content_set_id); bundle.future_rng=await runStreams(seed);
   const rng=Object.fromEntries(Object.entries(bundle.future_rng).filter(([k])=>k.startsWith('P|')));
   const cards={}, ids=[...deck].sort().map((handle,i)=>{
     const id='P_initial_'+String(i+1).padStart(4,'0');
-    const row=resolve({inventory,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},handle,'card');
-    const spec=row.uid===null?cardSpec(row.blueprint.base,content_set_id):compileCard(row.blueprint,content_set_id);
+    const row=resolve({inventory,unified,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},handle,'card');
+    const spec=row.uid===null||unified?.grants[row.uid]?.source==='initial_card'?cardSpec(row.blueprint.base,content_set_id):compileCard(row.blueprint,content_set_id);
     cards[id]={...copy(spec),id,origin:'P',birth:'initial',remaining:null,doomed:false,destroyed:false,selection_id:handle};return id;
   });
   const shuffle=new MT(rng['P|initial']);shuffle.shuffle(ids);rng['P|initial']=shuffle.state();
   const p={role:'P',acts:true,hp:40,max_hp:40,hit:0,max_posture:100,crit:0,defense_effects:[],hand:[],deck:ids,active:true,next_at:0,actions:0,
     hand_size:3,initial_size:12,cap:12,minimum:3,passives:[],rebuilds:0};
   const known=[...new Set(knowledge.events.flatMap(e=>e.kind==='observed_card'?[e.card.type]:e.kind==='initial_catalogue_grant'?e.cards.map(r=>r.card.type):[]))];
-  const equipment_entries=equipped.map(id=>resolve({inventory,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},id,'passive'));
+  const equipment_entries=equipped.map(id=>resolve({inventory,unified,profile:{learned:Object.fromEntries(learned.map(x=>[x,0]))}},id,'passive'));
   const state={economy_version:economyVersion,posture_rule:'AM1',defense_rule:'D56',actors:{P:p},cards,pool:[],field:{},rewards:{},events:[],boundary_number:0,now:0,ready:false,outcome:null,settlement:null,
     rules:'corrected',p_size:12,current_event:'A/start',pending_scene:null,diagnostic:null,
     ah:{run,learned:copy(learned),equipped:copy(equipped),equipment_entries,pending:{after_guard:false,last_match_attr:null,borrowed_guard:false},

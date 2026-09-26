@@ -4,7 +4,7 @@ import I from './information.mjs';
 import * as K from './knowledge.mjs';
 import {cardSpec,restoreGame} from './game.mjs';
 import {check,integer,unique,canonical,copy} from './common.mjs';
-import {validateDeck,validateEquipment,checkPlanShape,draftFor,funds,paid} from './preparation.mjs';
+import {validateDeck,validateEquipment,checkPlanShape,draftFor,funds,paid,preparationContract} from './preparation.mjs';
 import {eligible} from './story.mjs';
 import {rewardLedger,receiptSignature} from './settlement.mjs';
 import {contentFor} from './content.mjs';
@@ -12,18 +12,22 @@ import {initialize,receiveReturn,contextFor,validateEconomy} from './offers.mjs'
 import {references,resolve} from './items.mjs';
 import {compileCard} from './affixes.mjs';
 import {engineVersion,economyVersion,migrationID} from './versions.mjs';
+import {migrateAcquisition} from './migration-acquisition.mjs';
 const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
 export function safeID(x,field) {check(typeof x==='string'&&x.length>0&&x.length<=1024&&!['__proto__','prototype','constructor'].includes(x),'invalid_identifier',field);}
 function rng(state) {return Array.isArray(state)&&state.length===625&&state.slice(0,624).every(n=>integer(n)&&n<=0xffffffff)&&integer(state[624])&&state[624]<=624;}
-function validate(d,{legacyEconomy=false}={}) {
-  check(object(d)&&d.schema==='CW-M1-save-1','unsupported_save_schema');
+function validate(d,{legacyEconomy=false,legacyD03=false}={}) {
+  const old=legacyEconomy||legacyD03;
+  check(object(d)&&d.schema===(old?'CW-M1-save-1':'CW-M1-save-2'),'unsupported_save_schema');
   check(d.rule_set_id===C.rule_set_id,'unsupported_rule_set');check(d.content_set_id===C.content_set_id,'unsupported_content_set');
-  check(d.engine_version===engineVersion,'unsupported_engine_version');
+  check(d.engine_version===(old?'CW-M1-engine-0.6':engineVersion),'unsupported_engine_version');
   for(const key of ['revision','session','draft','casebook','request_log','public_history'])check(Object.hasOwn(d,key),'missing_save_field',key);
   check(integer(d.revision)&&typeof d.view_nonce==='string'&&d.view_nonce.length>0,'invalid_revision');
   const s=d.session;check(object(s)&&['home','exploring','return'].includes(s.phase)&&integer(s.nextRun),'invalid_session');
   safeID(s.campaign_id,'campaign_id');check(object(d.casebook)&&object(d.casebook['SCN-001']),'missing_casebook');
   const c=d.casebook['SCN-001'],e=s.economy;
+  if(old)check(!e?.unified,'invalid_legacy_economy');
+  else if(e?.unified?.origin==='migrated')check(d.acquisition_migration?.id===migrationID&&d.acquisition_migration.source_schema==='CW-M1-save-1'&&['0.1','0.2','0.3','0.4','0.5','0.6'].some(v=>d.acquisition_migration.source_engine==='CW-M1-engine-'+v),'missing_acquisition_migration');
   check(object(e)&&e.schema==='AP1'&&e.profile?.schema==='AH1'&&object(e.inventory)&&object(e.profile.learned),'invalid_economy');
   check(integer(e.profile.points)&&integer(e.remainder)&&e.remainder<100&&integer(funds(e))&&integer(paid(e)),'invalid_funds');
   check(Object.entries(e.profile.learned).every(([id,n])=>Object.hasOwn(C.rules.learning.bases,id)&&integer(n)),'invalid_learning');
@@ -36,7 +40,7 @@ function validate(d,{legacyEconomy=false}={}) {
   check(Array.isArray(e.at.pending_contexts)&&unique(e.at.pending_contexts.map(x=>x.run)),'invalid_pending_offers');
   validateDeck(s.au?.deck,e);check(e.aq?.policy==='cost','unsupported_equipment_policy');validateEquipment(e,e.aq.equipped);
   check(canonical(K.validate(e.profile.knowledge))===canonical(e.profile.knowledge),'invalid_knowledge');
-  if(d.draft!==null){checkPlanShape(d.draft.plan);check(integer(d.draft.based_on_revision)&&d.draft.based_on_revision<=d.revision,'invalid_draft_revision');
+  if(d.draft!==null){if(!old)check(d.draft.plan?.schema===preparationContract,'unsupported_preparation_schema');checkPlanShape(d.draft.plan);check(integer(d.draft.based_on_revision)&&d.draft.based_on_revision<=d.revision,'invalid_draft_revision');
     const computed=draftFor(s,d.draft.plan,d.draft.based_on_revision);if(!legacyEconomy)for(const key of ['dirty','valid','errors'])check(canonical(computed[key])===canonical(d.draft[key]),'invalid_draft',key);}
   check(object(s.receipts)&&object(d.request_log)&&Array.isArray(d.public_history),'invalid_ledgers');
   check(Array.isArray(s.action_history),'invalid_action_history');
@@ -71,7 +75,7 @@ function validate(d,{legacyEconomy=false}={}) {
     check(canonical([...r.source_events].sort())===canonical(Object.values(r.reward_ledger).map(row=>row.source_event_id).sort()),'invalid_receipt_sources');
   }
   const receipts=Object.values(s.receipts);
-  const movement=legacyEconomy?{spent:0,converted:0}:validateEconomy(s);
+  const movement=legacyEconomy?{spent:0,converted:0}:validateEconomy(s,{legacy:legacyD03});
   check(funds(e)+paid(e)===receipts.reduce((n,r)=>n+r.gained_units,0)-movement.spent+movement.converted,'invalid_economy_total');
   if(!legacyEconomy)check(canonical(e.references)===canonical(references(d)),'invalid_preparation_references');
   const keptItems=receipts.flatMap(r=>r.kept.flatMap(k=>r.reward_ledger[k].items));
@@ -102,15 +106,15 @@ function validate(d,{legacyEconomy=false}={}) {
     }
     for(const [id,card] of Object.entries(game.s.cards))check(card.id===id&&typeof card.destroyed==='boolean'&&typeof card.doomed==='boolean'&&cardSpec(card.type,active.content_set_id)&&canonical(I.card(card))===canonical(I.card(cardSpec(card.type,active.content_set_id))),'invalid_card_registry');
     const initialCards=Object.values(game.s.cards).filter(c=>c.origin==='P'&&c.birth==='initial');
-    if(game.s.economy_version===economyVersion){
+    if(game.s.economy_version===(old?'CW-M1-economy-1':economyVersion)){
       const entries=e.aq.equipped.map(id=>resolve(e,id,'passive'));
       check(canonical(game.s.ah.equipment_entries)===canonical(entries),'invalid_run_equipment');
       for(const card of initialCards){
-        const row=resolve(e,card.selection_id,'card'),spec=row.uid===null?cardSpec(row.blueprint.base,active.content_set_id):compileCard(row.blueprint,active.content_set_id);
+        const row=resolve(e,card.selection_id,'card'),spec=row.uid===null||e.unified?.grants[row.uid]?.source==='initial_card'?cardSpec(row.blueprint.base,active.content_set_id):compileCard(row.blueprint,active.content_set_id);
         check(canonical(I.card(card))===canonical(I.card(spec)),'invalid_initial_owned_card');
       }
     }else check(!s.au.deck.some(id=>id.startsWith('owned:'))&&!e.aq.equipped.some(id=>id.startsWith('owned:'))&&!Object.hasOwn(game.s,'economy_version')&&!Object.hasOwn(game.s.ah,'equipment_entries'),'invalid_legacy_run_preparation');
-    const playerInitial=initialCards.map(c=>game.s.economy_version===economyVersion?c.selection_id:'base:'+c.type).sort();
+    const playerInitial=initialCards.map(c=>game.s.economy_version===(old?'CW-M1-economy-1':economyVersion)?c.selection_id:'base:'+c.type).sort();
     check(canonical(playerInitial)===canonical([...s.au.deck].sort()),'invalid_initial_player_cards');
     for(const [w,a] of Object.entries(game.s.actors)){check(w==='P'||active.targets[w],'unknown_actor');const spec=w==='P'?content.rules.player:content.targets[active.targets[w]].spec;
       check(a.max_hp===spec.hp&&a.max_posture===spec.max_posture&&a.hand_size===spec.hand_size,'invalid_actor_spec');
@@ -151,9 +155,12 @@ function validate(d,{legacyEconomy=false}={}) {
 }
 export function validateDocument(d) {
   try {
-    // Exact legacy version pairs only. Current D03 engine uses the unchanged D58 rule/content.
+    // Exact legacy version pairs only. Current engine uses the unchanged D58 rule/content.
     const legacy=['0.1','0.2','0.3','0.4','0.5'].find(v=>d?.rule_set_id==='CW-M1-rules-'+v&&d?.engine_version==='CW-M1-engine-'+v);
-    if(!legacy)return validate(d);
+    if(!legacy){
+      if(d?.engine_version==='CW-M1-engine-0.6')return validate(migrateAcquisition(validate(d,{legacyD03:true}),d));
+      return validate(d);
+    }
     check(d.content_set_id===(legacy==='0.5'?C.content_set_id:'CW-M1-SCN001-0.1'),'unsupported_content_set');
     if(legacy!=='0.5'){
       if(d.session?.active)check(d.session.active.content_set_id===d.content_set_id,'invalid_active_content_version');
@@ -173,7 +180,7 @@ export function validateDocument(d) {
       if(['0.1','0.2'].includes(legacy))migrateLegacyDefense(state);
       if(['0.1','0.2','0.3'].includes(legacy))for(const a of Object.values(state.actors))if(!a.active)a.defense_effects=[];
     }
-    current.rule_set_id=C.rule_set_id;current.engine_version=engineVersion;current.content_set_id=C.content_set_id;
+    current.rule_set_id=C.rule_set_id;current.engine_version='CW-M1-engine-0.6';current.content_set_id=C.content_set_id;
     // Reject inconsistent old funds/receipts/knowledge BEFORE generating any candidates.
     validate(current,{legacyEconomy:true});
     const s=current.session,oldContexts=copy(s.economy.at.pending_contexts),rs=Object.values(s.receipts).sort((a,b)=>a.index-b.index);
@@ -183,12 +190,12 @@ export function validateDocument(d) {
       check(expected&&old.status==='generation_not_connected','invalid_pending_offer_context');
       for(const key of ['run','seed','index','route','tier','sources','card_bases'])check(canonical(old[key])===canonical(expected[key]),'invalid_pending_offer_context',key);
     }
-    initialize(s.economy);
+    initialize(s.economy);s.economy.runtime_version='CW-M1-economy-1';
     for(const r of rs)receiveReturn(s,r); // Chronological: latest eligible batch remains current; no rewards are re-applied.
-    current.economy_migration={id:migrationID,source_engine:d.engine_version,source_content:d.content_set_id,
+    current.economy_migration={id:'CW-M1-D03-1',source_engine:d.engine_version,source_content:d.content_set_id,
       processed_runs:rs.map(r=>r.run),initial_current_batch:s.economy.at.current};
     if(current.draft)current.draft=draftFor(s,current.draft.plan,current.draft.based_on_revision);
     s.economy.references=references(current);
-    return validate(current);
+    return validate(migrateAcquisition(validate(current,{legacyD03:true}),d));
   }catch(error){if(typeof error.code==='string')throw error;throw Object.assign(new Error('invalid_save'),{code:'invalid_save',field:null,details:{}});}
 }

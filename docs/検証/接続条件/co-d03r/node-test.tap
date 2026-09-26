@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: versions: save2 / preparation2 / public0.6; combat and authored content pinned
+ok 1 - versions: save2 / preparation2 / public0.6; combat and authored content pinned
+  ---
+  duration_ms: 1.362958
+  type: 'test'
+  ...
+# Subtest: new start: 20 real initial units, 12 selected, zero funds, no offer group
+ok 2 - new start: 20 real initial units, 12 selected, zero funds, no offer group
+  ---
+  duration_ms: 37.576346
+  type: 'test'
+  ...
+# Subtest: preview: initial composition rearrangement is pure and public groups partition all individuals
+ok 3 - preview: initial composition rearrangement is pure and public groups partition all individuals
+  ---
+  duration_ms: 43.415642
+  type: 'test'
+  ...
+# Subtest: preview: acquisition, unequip, cancel and reselection do not save or spend
+ok 4 - preview: acquisition, unequip, cancel and reselection do not save or spend
+  ---
+  duration_ms: 213.784001
+  type: 'test'
+  ...
+# Subtest: atomic: modified passive plus basic passive uses one commit and no extra type learning
+ok 5 - atomic: modified passive plus basic passive uses one commit and no extra type learning
+  ---
+  duration_ms: 181.22467
+  type: 'test'
+  ...
+# Subtest: atomic: modified card replaces initial unit and departure uses its exact variant
+ok 6 - atomic: modified card replaces initial unit and departure uses its exact variant
+  ---
+  duration_ms: 259.090983
+  type: 'test'
+  ...
+# Subtest: departure: acquired unlearned passive entries apply and survive play, return and reload
+ok 7 - departure: acquired unlearned passive entries apply and survive play, return and reload
+  ---
+  duration_ms: 750.050341
+  type: 'test'
+  ...
+# Subtest: limits: insufficient total funds cannot partially acquire or consume a candidate
+ok 8 - limits: insufficient total funds cannot partially acquire or consume a candidate
+  ---
+  duration_ms: 22.690537
+  type: 'test'
+  ...
+# Subtest: limits: one return-offer per group and one base catalogue stock; pending requires acquisition
+ok 9 - limits: one return-offer per group and one base catalogue stock; pending requires acquisition
+  ---
+  duration_ms: 223.570809
+  type: 'test'
+  ...
+# Subtest: limits: equipment capacity, duplicate individual and deck size/base cap reject atomically
+ok 10 - limits: equipment capacity, duplicate individual and deck size/base cap reject atomically
+  ---
+  duration_ms: 404.195933
+  type: 'test'
+  ...
+# Subtest: save failure: acquired inventory, funds, composition and offer selection all stay unchanged
+ok 11 - save failure: acquired inventory, funds, composition and offer selection all stay unchanged
+  ---
+  duration_ms: 189.41081
+  type: 'test'
+  ...
+# Subtest: replay: one request commits once; conflict rejects; reopen/import do not migrate again
+ok 12 - replay: one request commits once; conflict rejects; reopen/import do not migrate again
+  ---
+  duration_ms: 298.185572
+  type: 'test'
+  ...
+# Subtest: stale revision/token: refreshed handles are never substituted into an old request
+ok 13 - stale revision/token: refreshed handles are never substituted into an old request
+  ---
+  duration_ms: 197.885606
+  type: 'test'
+  ...
+# Subtest: CAS: concurrent same request is commit+replay, different request stays uncommitted
+ok 14 - CAS: concurrent same request is commit+replay, different request stays uncommitted
+  ---
+  duration_ms: 470.48663
+  type: 'test'
+  ...
+# Subtest: draft: saved pending references protect existing possessions; reload/discard cannot charge
+ok 15 - draft: saved pending references protect existing possessions; reload/discard cannot charge
+  ---
+  duration_ms: 251.14802
+  type: 'test'
+  ...
+# Subtest: conversion/lock: acquired items use existing safeguards; no learning refund; initial rights cannot mint currency
+ok 16 - conversion/lock: acquired items use existing safeguards; no learning refund; initial rights cannot mint currency
+  ---
+  duration_ms: 510.260239
+  type: 'test'
+  ...
+# Subtest: basic conversion: low-efficiency sale restores catalogue stock without refund or duplicated grant
+ok 17 - basic conversion: low-efficiency sale restores catalogue stock without refund or duplicated grant
+  ---
+  duration_ms: 272.17629
+  type: 'test'
+  ...
+# Subtest: public diagnostics: invalid pending card selection stays public in preview, commit and saved draft
+ok 18 - public diagnostics: invalid pending card selection stays public in preview, commit and saved draft
+  ---
+  duration_ms: 202.699857
+  type: 'test'
+  ...
+# Subtest: migration replay: request committed on D03 remains replayable without another acquisition
+ok 19 - migration replay: request committed on D03 remains replayable without another acquisition
+  ---
+  duration_ms: 115.634308
+  type: 'test'
+  ...
+# Subtest: legacy API: direct purchase and refund-bearing old plan are explicitly refused
+ok 20 - legacy API: direct purchase and refund-bearing old plan are explicitly refused
+  ---
+  duration_ms: 141.222545
+  type: 'test'
+  ...
+# Subtest: migration: test/runtime/d03-natural-home.json.br.b64
+ok 21 - migration: test/runtime/d03-natural-home.json.br.b64
+  ---
+  duration_ms: 238.95406
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d03/converted_home.save.json.br.b64
+ok 22 - migration: docs/検証/接続条件/co-d03/converted_home.save.json.br.b64
+  ---
+  duration_ms: 124.947748
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d03/migrated_return.save.json.br.b64
+ok 23 - migration: docs/検証/接続条件/co-d03/migrated_return.save.json.br.b64
+  ---
+  duration_ms: 188.518908
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d03/purchased_exploring.save.json.br.b64
+ok 24 - migration: docs/検証/接続条件/co-d03/purchased_exploring.save.json.br.b64
+  ---
+  duration_ms: 233.094838
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d03/purchased_home.save.json.br.b64
+ok 25 - migration: docs/検証/接続条件/co-d03/purchased_home.save.json.br.b64
+  ---
+  duration_ms: 130.049383
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d02/saves/entry.save.json.gz
+ok 26 - migration: docs/検証/接続条件/co-d02/saves/entry.save.json.gz
+  ---
+  duration_ms: 107.504707
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d02/saves/home.save.json.gz
+ok 27 - migration: docs/検証/接続条件/co-d02/saves/home.save.json.gz
+  ---
+  duration_ms: 66.408271
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d02/saves/port.save.json.gz
+ok 28 - migration: docs/検証/接続条件/co-d02/saves/port.save.json.gz
+  ---
+  duration_ms: 111.44263
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d02/saves/return.save.json.gz
+ok 29 - migration: docs/検証/接続条件/co-d02/saves/return.save.json.gz
+  ---
+  duration_ms: 162.776017
+  type: 'test'
+  ...
+# Subtest: migration: docs/検証/接続条件/co-d02/saves/second-return.save.json.gz
+ok 30 - migration: docs/検証/接続条件/co-d02/saves/second-return.save.json.gz
+  ---
+  duration_ms: 193.070242
+  type: 'test'
+  ...
+# Subtest: migration failure: write denial, invalid source and unsupported schema leave source intact
+ok 31 - migration failure: write denial, invalid source and unsupported schema leave source intact
+  ---
+  duration_ms: 150.664712
+  type: 'test'
+  ...
+# Subtest: migration CAS: two open calls perform a single durable upgrade
+ok 32 - migration CAS: two open calls perform a single durable upgrade
+  ---
+  duration_ms: 125.940132
+  type: 'test'
+  ...
+# Subtest: migration: paid learning becomes one equipable individual, historical payment and balance stay exact
+ok 33 - migration: paid learning becomes one equipable individual, historical payment and balance stay exact
+  ---
+  duration_ms: 228.545697
+  type: 'test'
+  ...
+# Subtest: migration: old dirty refund draft is archived and blocks departure until explicit review/discard
+ok 34 - migration: old dirty refund draft is archived and blocks departure until explicit review/discard
+  ---
+  duration_ms: 231.144699
+  type: 'test'
+  ...
+# Subtest: migration: locked purchased item and saved references survive; tampering grants/payment is rejected
+ok 35 - migration: locked purchased item and saved references survive; tampering grants/payment is rejected
+  ---
+  duration_ms: 91.057921
+  type: 'test'
+  ...
+# Subtest: offers: no-reward return retains unpurchased group and never represents a read failure as empty
+ok 36 - offers: no-reward return retains unpurchased group and never represents a read failure as empty
+  ---
+  duration_ms: 335.001311
+  type: 'test'
+  ...
+# Subtest: natural initial journey: public commands only, no injected cash; eligible return creates actual offers
+ok 37 - natural initial journey: public commands only, no injected cash; eligible return creates actual offers
+  ---
+  duration_ms: 5437.584783
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15294.4817
