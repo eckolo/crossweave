@@ -1,0 +1,129 @@
+{
+  "id": "UI-FHD-EXP-01",
+  "version": "0.14.0",
+  "checked_at_utc": "2026-09-25T09:32:32.075Z",
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "18e8ea2c679ebdff70bae58e69d600d9f6f1fc544d47ff9f1e8fc5d582e0139a",
+  "passed": 26,
+  "checks": [
+    {
+      "name": "固定された実Campaignの探索へ直接入る",
+      "passed": true
+    },
+    {
+      "name": "縮小表示でも1920×1080の座標と密度を維持する",
+      "passed": true
+    },
+    {
+      "name": "予測は公開APIから受け、520×480の窓と操作位置を設計座標で置く",
+      "passed": true
+    },
+    {
+      "name": "原寸への変更で探索・選択・窓・予測線を失わない",
+      "passed": true
+    },
+    {
+      "name": "縮小へ戻しても同じ窓位置・探索状態を保つ",
+      "passed": true
+    },
+    {
+      "name": "文章の計測を縮尺で補正し原寸と同じ改行になる（注入文字幅）",
+      "passed": true
+    },
+    {
+      "name": "保持前のスワイプが縮小率によらず80設計pxを送る",
+      "passed": true
+    },
+    {
+      "name": "余白ドラッグも40設計pxを送り、ゲーム状態を変えない",
+      "passed": true
+    },
+    {
+      "name": "保持ドラッグで札寸法と掴み位置を維持する",
+      "passed": true
+    },
+    {
+      "name": "保持中は端へ寄せた場の一覧だけを自動スクロールする",
+      "passed": true
+    },
+    {
+      "name": "場の外へのドロップでは一手も支払いも発生しない",
+      "passed": true
+    },
+    {
+      "name": "表示幅変更で移動を中断し、遅い応答による出札を防ぐ",
+      "passed": true
+    },
+    {
+      "name": "縮小中の場へのドロップが既存の予測／出札処理へ届く",
+      "passed": true
+    },
+    {
+      "name": "主要ボタンは実Campaignの一手を実行して画面を更新する",
+      "passed": true
+    },
+    {
+      "name": "探索メニューと子窓を同寸法で重ねず並べる",
+      "passed": true
+    },
+    {
+      "name": "探索から共通の調査記録へ渡し、親子窓を画面内で分離する",
+      "passed": true
+    },
+    {
+      "name": "出発本文から探索へ進んでも1920×1080の同じ外枠を使う",
+      "passed": true
+    },
+    {
+      "name": "撤退→帰還→拠点の実遷移でも外枠と保存状態を維持する",
+      "passed": true
+    },
+    {
+      "name": "320pxの提示幅で全体／原寸を切替可能",
+      "passed": true
+    },
+    {
+      "name": "1024pxの提示幅で全体／原寸を切替可能",
+      "passed": true
+    },
+    {
+      "name": "1280pxの提示幅で全体／原寸を切替可能",
+      "passed": true
+    },
+    {
+      "name": "1920pxの提示幅で全体／原寸を切替可能",
+      "passed": true
+    },
+    {
+      "name": "場面終了で表示枠と監視を解放する",
+      "passed": true
+    },
+    {
+      "name": "通常入口の開始→本編でも表示枠を二重に作らない",
+      "passed": true
+    },
+    {
+      "name": "通常入口の終了も表示枠を解放する",
+      "passed": true
+    },
+    {
+      "name": "外部通信・永続保存への代替接続・実行例外なし",
+      "passed": true
+    }
+  ],
+  "injected": [
+    "要素矩形・client寸法・スクロール幅",
+    "Pointer capture・hit test",
+    "文章の文字幅・ResizeObserver通知・本文の表示通知"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・フォント実測",
+    "実マウス・タッチ",
+    "IndexedDB・複数タブ",
+    "ユーザーの探索画面評価"
+  ]
+}

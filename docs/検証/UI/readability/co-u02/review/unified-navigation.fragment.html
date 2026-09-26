@@ -1,0 +1,28 @@
+<div id="cw-exploration-fhd" data-review lang="ja">
+  <header class="review-controls">
+    <label for="cw-fhd-case">場面</label>
+    <select id="cw-fhd-case" data-review-case></select>
+    <button type="button" class="cursor-interaction" data-review-open>開き直す</button>
+    <span>1920×1080 <output data-display-readout aria-live="polite"></output></span>
+    <div role="group" aria-label="表示倍率">
+      <button type="button" class="cursor-interaction" data-display-mode="fit" aria-pressed="true">全体</button>
+      <button type="button" class="cursor-interaction" data-display-mode="actual" aria-pressed="false">原寸</button>
+    </div>
+  </header>
+  <p class="review-note" data-review-note role="status" aria-live="polite">取得・編成は操作確認用です。探索への反映は未接続です。</p>
+  <p class="review-status" data-review-status role="status" aria-live="polite"></p>
+  <div id="crossweave-journey"></div>
+</div>
+<style>
+#cw-exploration-fhd{width:100%;min-width:0;font-family:system-ui,sans-serif;color:light-dark(#263c32,#d6e5dc)}
+#cw-exploration-fhd .review-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:14px}
+#cw-exploration-fhd .review-controls select,#cw-exploration-fhd .review-controls button{font:inherit;padding:6px 10px;min-height:36px;max-width:100%;border:1px solid light-dark(#acbdad,#697767);border-radius:5px;background:light-dark(#f7f8f4,#263c32);color:inherit}
+#cw-exploration-fhd .review-controls [aria-pressed="true"]{background:light-dark(#345747,#c2d8ba);color:light-dark(#fff,#20311e)}
+#cw-exploration-fhd .review-controls [role="group"]{display:flex;gap:4px}
+#cw-exploration-fhd .review-status{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#cw-exploration-fhd .review-note{font-size:14px;margin:8px 0}
+__STYLE__
+</style>
+<script>
+__SCRIPT__
+</script>

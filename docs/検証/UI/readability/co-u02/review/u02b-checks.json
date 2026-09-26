@@ -1,0 +1,240 @@
+{
+  "id": "CW-M1-UI-U02B-001",
+  "environment": {
+    "node": "v24.19.0",
+    "jsdom": "26.1.0",
+    "storage": "design MemoryStore",
+    "rendering": "DOM and geometry contract only; no browser paint/touch/IndexedDB"
+  },
+  "checks": [
+    {
+      "name": "D03自然保存から候補一覧を直接開く",
+      "pass": true
+    },
+    {
+      "name": "ownedは実phaseから指定画面へ入る",
+      "pass": true
+    },
+    {
+      "name": "convertedは実phaseから指定画面へ入る",
+      "pass": true
+    },
+    {
+      "name": "return-d03は実phaseから指定画面へ入る",
+      "pass": true
+    },
+    {
+      "name": "explore-d03は実phaseから指定画面へ入る",
+      "pass": true
+    },
+    {
+      "name": "購入前に対象・追加1点・公開価格を表示する",
+      "pass": true
+    },
+    {
+      "name": "実purchaseで1点追加し購入額だけ減る",
+      "pass": true
+    },
+    {
+      "name": "購入は無料札の生成や解放へ混同しない",
+      "pass": true
+    },
+    {
+      "name": "所持品詳細に公開された修飾を示す",
+      "pass": true
+    },
+    {
+      "name": "ロック成功後の新viewで変換を抑止",
+      "pass": true
+    },
+    {
+      "name": "最後の個体を失うことを見積りで確認できる",
+      "pass": true
+    },
+    {
+      "name": "見積りと同じ個体を実convert_itemsへ渡し新viewへ更新",
+      "pass": true
+    },
+    {
+      "name": "変換後も候補の購入済みを区別する",
+      "pass": true
+    },
+    {
+      "name": "購入と編成の比較に$purchaseの公開詳細を用いる",
+      "pass": true
+    },
+    {
+      "name": "比較は現在・購入前後・確定後の金額と所持差を表示",
+      "pass": true
+    },
+    {
+      "name": "比較と確定は同一plan、確認後にだけ保存済みへ変わる",
+      "pass": true
+    },
+    {
+      "name": "購入予定札は実所持の1枚として札組へ接続",
+      "pass": true
+    },
+    {
+      "name": "使用中はロックと区別して変換を禁止",
+      "pass": true
+    },
+    {
+      "name": "編成確定の自動保存はopenで再現する",
+      "pass": true
+    },
+    {
+      "name": "購入・札組をexportSave/importSaveで引き継げる",
+      "pass": true
+    },
+    {
+      "name": "編成確定後の出発は実phaseで選択し小窓を解除",
+      "pass": true
+    },
+    {
+      "name": "表示通知していない段落を進行時に一括既読にしない",
+      "pass": true
+    },
+    {
+      "name": "次の探索に購入した札の公開内訳がある",
+      "pass": true
+    },
+    {
+      "name": "修飾心得の購入・基礎習得・装備を同時確定",
+      "pass": true
+    },
+    {
+      "name": "保存失敗を成功に見せず元の所持・金額を維持",
+      "pass": true
+    },
+    {
+      "name": "再試行はrequest ID・revision・token・payloadを全て維持",
+      "pass": true
+    },
+    {
+      "name": "保存pending中の二重購入を抑止",
+      "pass": true
+    },
+    {
+      "name": "他クライアント更新を古いhandleへ新tokenを付けて送らない",
+      "pass": true
+    },
+    {
+      "name": "古い状態はslotをopenし候補を再選択させる",
+      "pass": true
+    },
+    {
+      "name": "帰還確認前は購入を書き込めない",
+      "pass": true
+    },
+    {
+      "name": "帰還から拠点・取得へ進み不足を空候補と区別",
+      "pass": true
+    },
+    {
+      "name": "失敗した比較はローカル案を削除しない",
+      "pass": true
+    },
+    {
+      "name": "実撤退から拠点へ戻り公開の持越し理由を表示",
+      "pass": true
+    },
+    {
+      "name": "本人の予測を詳細窓なしで表示する",
+      "pass": true
+    },
+    {
+      "name": "全公開主体の機転・身構・攪乱をactor_changesから読む",
+      "pass": true
+    },
+    {
+      "name": "山札内訳は公開の持込・山札・手札枚数",
+      "pass": true
+    },
+    {
+      "name": "山札詳細を公開detail_idで開き親窓も残す",
+      "pass": true
+    },
+    {
+      "name": "公開履歴札名を解決時記録から表示する",
+      "pass": true
+    },
+    {
+      "name": "既読本文を公開text_historyから参照する",
+      "pass": true
+    },
+    {
+      "name": "相手詳細から内容版別knowledge keyの記録を開く",
+      "pass": true
+    },
+    {
+      "name": "1024pxの一覧末尾と固定操作領域の幾何条件",
+      "pass": true
+    },
+    {
+      "name": "736pxの一覧末尾と固定操作領域の幾何条件",
+      "pass": true
+    },
+    {
+      "name": "600pxの一覧末尾と固定操作領域の幾何条件",
+      "pass": true
+    },
+    {
+      "name": "320pxの一覧末尾と固定操作領域の幾何条件",
+      "pass": true
+    },
+    {
+      "name": "古い購入案の遅い比較応答は新しい案を上書きしない",
+      "pass": true
+    },
+    {
+      "name": "確定後の応答喪失も同requestの再送で購入1点を維持",
+      "pass": true
+    },
+    {
+      "name": "閉じた画面へ遅い書込応答を反映しない",
+      "pass": true
+    },
+    {
+      "name": "編成後に購入する順序も公開比較で確認",
+      "pass": true
+    },
+    {
+      "name": "購入後順序で購入予定品を先に使えず案は保持",
+      "pass": true
+    },
+    {
+      "name": "候補なしを購入済み・所持なしと区別",
+      "pass": true
+    },
+    {
+      "name": "D58公開付与例の全受け手・弱い張り直しを追加演算せず投影",
+      "pass": true
+    },
+    {
+      "name": "未公開の能力変化を0として表示しない",
+      "pass": true
+    },
+    {
+      "name": "付与札は範囲と防御回数を固有性質へ表示",
+      "pass": true
+    },
+    {
+      "name": "有限・無制限・混在の回数を区別",
+      "pass": true
+    },
+    {
+      "name": "同名の旧・新目録は異なる公開keyの選択先を持つ",
+      "pass": true
+    },
+    {
+      "name": "DOM操作中に実行時エラーなし",
+      "pass": true
+    },
+    {
+      "name": "確認入口は実IndexedDBへ触れない",
+      "pass": true
+    }
+  ],
+  "passed": 57
+}

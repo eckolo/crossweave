@@ -12,6 +12,12 @@ function bundle(){
   // This closed source set uses only static imports and immutable runtime exports.
   // The test-support module is used only for MemoryStore, not mutable test serials.
   const names=[];
+  src=src.replace(/^export\s*\{([^}]+)\}\s+from\s+['"](.+?)['"];\s*$/gm,(_,list,relative)=>{
+   if(!relative.startsWith('.'))throw Error('external re-export: '+relative);
+   const dep=visit(path.resolve(path.dirname(file),relative));
+   for(const item of list.split(',')){const [from,to]=item.trim().split(/\s+as\s+/);names.push([to||from,'get('+dep+').'+from]);}
+   return '';
+  });
   src=src.replace(/^import\s+(.+?)\s+from\s+['"](.+?)['"];\s*$/gm,(_,binding,relative)=>{
    if(!relative.startsWith('.'))throw Error('external import: '+relative);
    const dep=visit(path.resolve(path.dirname(file),relative));
@@ -19,7 +25,7 @@ function bundle(){
    if(binding.startsWith('* as '))return 'const '+binding.slice(5)+'=get('+dep+');';
    return 'const '+binding+'=get('+dep+').default;';
   });
-  src=src.replace(/^export\s+default\s+(.+);\s*$/gm,(_,expr)=>'const __default__='+expr+';');
+  src=src.replace(/^export\s+default\s+/gm,'const __default__=');
   if(src.includes('const __default__='))names.push(['default','__default__']);
   src=src.replace(/^export\s+((?:async\s+)?function|class|const|let)\s+(\w+)/gm,(_,kind,name)=>{names.push([name,name]);return kind+' '+name;});
   src=src.replace(/^export\s*\{([^}]+)\};\s*$/gm,(_,list)=>{for(const item of list.split(',')){const [from,to]=item.trim().split(/\s+as\s+/);names.push([to||from,from]);}return '';});
@@ -31,17 +37,17 @@ function bundle(){
  new Function(code);return {code,sources};
 }
 function buildView(){
- const panels=read('panels.js').replace('__JOURNEY_RECORDS__',()=>read('records.js'));
- const view=read('view.js').replace('__JOURNEY_PANELS__',()=>panels);
- return read('layout.js')+'\n'+read('launcher.js')+'\n'+view;
+ const panels=read('panels.js').replace('__JOURNEY_RECORDS__',()=>read('records.js')).replace('__JOURNEY_ECONOMY__',()=>read('economy.js'));
+ const view=read('view.js').replace('__JOURNEY_DESTINATIONS__',()=>read('destinations.js')).replace('__JOURNEY_PANELS__',()=>panels);
+ return read('../display-frame.js')+'\n'+read('layout.js')+'\n'+read('launcher.js')+'\n'+view;
 }
-function buildStyle(){return read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('save-flow.css')+'\n'+read('public-info.css');}
+function buildStyle(){return read('../../interaction/table.css').replaceAll('#cw-playtable','#crossweave-journey .cw-explore')+'\n'+read('../exploration.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('screen.css')+'\n'+read('viewport.css')+'\n'+read('interaction-review.css')+'\n'+read('fixed-screen.css')+'\n'+read('backdrop.css')+'\n'+read('flow-review.css')+'\n'+read('actor-review.css')+'\n'+read('fit-review.css')+'\n'+read('../exploration-layout.css').replaceAll('.cw-explore','#crossweave-journey .cw-explore')+'\n'+read('save-flow.css')+'\n'+read('public-info.css')+'\n'+read('economy.css')+'\n'+read('consistency.css')+'\n'+read('full-hd.css')+'\n'+read('destinations.css')+'\n'+read('../hold-cue.css')+'\n'+read('../art-assets/presentation.css')+'\n'+read('../acquisition-preview/structure.css')+'\n'+read('../common-navigation.css');}
 function build({testing=false,fixture='return',start='journey'}={}){
  if(![null,'return','entry'].includes(fixture)||!['journey','launcher'].includes(start)||(start==='journey'&&!fixture))throw Error('unsupported preview fixture');
  const runtime=bundle();
  const save=fixture&&JSON.parse(zlib.gunzipSync(fs.readFileSync(path.resolve(__dirname,'../../../../接続条件/co-d02/saves/'+fixture+'.save.json.gz'))));
  const quest=JSON.parse(read('../../flow/fixtures.json')).quest;
- const script=[runtime.code,read('../session.js'),read('../window-placement.js'),read('../prose-layout.js'),read('../card-properties.js'),read('../action-forecast.js'),read('../exploration.js'),buildView(),
+ const script=[runtime.code,read('../session.js'),read('../common-navigation.js'),read('../window-placement.js'),read('../prose-layout.js'),read('../card-properties.js'),read('../action-forecast.js'),read('../hold-cue.js'),require('../art-assets/build.cjs').build(),read('../exploration.js'),buildView(),
   '(async()=>{const root=document.getElementById("crossweave-journey");try{',
   'const storage=new CWJourneyRuntime.MemoryStore(),Campaign=CWJourneyRuntime.createCampaign({storage});',
   save?'const controller=await Campaign.importSave({slot_id:"journey-preview",document:'+JSON.stringify(save).replace(/</g,'\\u003c')+',request_id:"journey-preview-import"});':'const controller=null;',

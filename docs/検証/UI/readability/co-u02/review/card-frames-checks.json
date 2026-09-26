@@ -1,0 +1,89 @@
+{
+  "version": "0.14.2",
+  "checked_at_utc": "2026-09-25T11:35:55.416Z",
+  "passed": 13,
+  "checks": [
+    {
+      "name": "地形の対象枠・行動順から背景サムネイルを外し地形印にする",
+      "passed": true
+    },
+    {
+      "name": "全面背景と潜水服の既存画像は維持する",
+      "passed": true
+    },
+    {
+      "name": "手札・場の札・予測札に同じ名称／効果／属性の内部構造を使う",
+      "passed": true
+    },
+    {
+      "name": "共通の本文区画120px・名称48px／効果24px／属性28pxを指定する",
+      "passed": true
+    },
+    {
+      "name": "残り行動は手札に保持し予測印は本文区画を動かさない",
+      "passed": true
+    },
+    {
+      "name": "各手札のホールド名は場に置く／一致時の手札下ボタン名と一致する",
+      "passed": true
+    },
+    {
+      "name": "別の札をホールドしても以前の選択札の操作名を流用しない",
+      "passed": true
+    },
+    {
+      "name": "成立後のドラッグ札も共通の内部構造を保つ",
+      "passed": true
+    },
+    {
+      "name": "領域外で離した場合は出札せずホールド表示を残さない",
+      "passed": true
+    },
+    {
+      "name": "全体／原寸の切替で札の区画と選択の予測を保持する",
+      "passed": true
+    },
+    {
+      "name": "長い操作名も画面端で必要な余白を取る",
+      "passed": true
+    },
+    {
+      "name": "共通化後も実APIで札を場へ置き同じ区画に場の数値を表示する",
+      "passed": true
+    },
+    {
+      "name": "変更経路に外部通信・実行例外がない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "3cf5a5e39ca6cf163b053fd052aae006ae1cecb2d881b3a34d87fd7276186db6",
+  "action_names": [
+    {
+      "id": "P_initial_0011",
+      "verb": "場に置く"
+    },
+    {
+      "id": "P_initial_0010",
+      "verb": "場に置く"
+    },
+    {
+      "id": "P_initial_0002",
+      "verb": "進む"
+    }
+  ],
+  "injected": [
+    "矩形・client寸法・capture・hit test",
+    "ResizeObserver・可視通知"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント",
+    "実マウス・物理タッチ",
+    "IndexedDB・複数タブ",
+    "提案中のクリック／ホールド統一の使いやすさ"
+  ]
+}

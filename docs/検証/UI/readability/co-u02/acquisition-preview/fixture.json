@@ -1,0 +1,641 @@
+{
+  "version": "two-stage-ui-5.3",
+  "source_design": "7565afca98684186705a4e865d4fdf0e0ae489c1",
+  "notes": "UI操作確認専用。開始残高6・候補価格4/8・所持の数量は固定入力。新しい経済・初期配布の採用値ではない。",
+  "rules": {
+    "deckSize": 12,
+    "perKindCap": 2,
+    "equipmentLimit": 8,
+    "offerLimit": 1
+  },
+  "initial": {
+    "wallet": 6,
+    "units": [
+      {
+        "uid": "owned-f-0",
+        "key": "AO1:card:f"
+      },
+      {
+        "uid": "owned-f-1",
+        "key": "AO1:card:f"
+      },
+      {
+        "uid": "owned-h-0",
+        "key": "AO1:card:h"
+      },
+      {
+        "uid": "owned-h-1",
+        "key": "AO1:card:h"
+      },
+      {
+        "uid": "owned-l-0",
+        "key": "AO1:card:l"
+      },
+      {
+        "uid": "owned-l-1",
+        "key": "AO1:card:l"
+      },
+      {
+        "uid": "owned-j-0",
+        "key": "AO1:card:j"
+      },
+      {
+        "uid": "owned-j-1",
+        "key": "AO1:card:j"
+      },
+      {
+        "uid": "owned-g-0",
+        "key": "AO1:card:g"
+      },
+      {
+        "uid": "owned-g-1",
+        "key": "AO1:card:g"
+      },
+      {
+        "uid": "owned-r-0",
+        "key": "AO1:card:r"
+      },
+      {
+        "uid": "owned-r-1",
+        "key": "AO1:card:r"
+      },
+      {
+        "uid": "owned-fast-0",
+        "key": "AO1:card:fast"
+      },
+      {
+        "uid": "owned-fast-1",
+        "key": "AO1:card:fast"
+      },
+      {
+        "uid": "owned-read-0",
+        "key": "AO1:card:read"
+      },
+      {
+        "uid": "owned-read-1",
+        "key": "AO1:card:read"
+      },
+      {
+        "uid": "owned-sweep-0",
+        "key": "AO1:card:sweep"
+      },
+      {
+        "uid": "owned-sweep-1",
+        "key": "AO1:card:sweep"
+      },
+      {
+        "uid": "owned-salve-0",
+        "key": "AO1:card:salve"
+      },
+      {
+        "uid": "owned-salve-1",
+        "key": "AO1:card:salve"
+      },
+      {
+        "uid": "owned-PS01",
+        "key": "AO1:passive:PS01"
+      },
+      {
+        "uid": "owned-PS03",
+        "key": "AO1:passive:PS03"
+      },
+      {
+        "uid": "owned-PS04",
+        "key": "AO1:passive:PS04"
+      }
+    ],
+    "deck": [
+      "owned-f-0",
+      "owned-f-1",
+      "owned-h-0",
+      "owned-h-1",
+      "owned-l-0",
+      "owned-l-1",
+      "owned-g-0",
+      "owned-r-0",
+      "owned-fast-0",
+      "owned-read-0",
+      "owned-sweep-0",
+      "owned-salve-0"
+    ],
+    "equipment": [
+      "owned-PS01",
+      "owned-PS03",
+      "owned-PS04"
+    ],
+    "purchased": []
+  },
+  "catalogue": {
+    "AO1:card:f": {
+      "key": "AO1:card:f",
+      "name": "牽制",
+      "base_name": "牽制",
+      "base_id": "f",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 3,
+        "hit": 70,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": 30
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "A"
+    },
+    "AO1:card:h": {
+      "key": "AO1:card:h",
+      "name": "重撃",
+      "base_name": "重撃",
+      "base_id": "h",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 12,
+        "hit": 30,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": -20
+      },
+      "life": 3,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "B"
+    },
+    "AO1:card:l": {
+      "key": "AO1:card:l",
+      "name": "踏み込み",
+      "base_name": "踏み込み",
+      "base_id": "l",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 4,
+        "hit": 50,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 6,
+        "hit": 0
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 8,
+        "match": 12
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "B"
+    },
+    "AO1:card:j": {
+      "key": "AO1:card:j",
+      "name": "小突き",
+      "base_name": "小突き",
+      "base_id": "j",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 3,
+        "hit": 40,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": 0
+      },
+      "life": 1,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "C"
+    },
+    "AO1:card:g": {
+      "key": "AO1:card:g",
+      "name": "防御",
+      "base_name": "防御",
+      "base_id": "g",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "guard",
+        "power": 3,
+        "hit": 0,
+        "evasion": 0,
+        "crit_gain": 20
+      },
+      "field": {
+        "power": -4,
+        "hit": 0
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "D"
+    },
+    "AO1:card:r": {
+      "key": "AO1:card:r",
+      "name": "受け流し",
+      "base_name": "受け流し",
+      "base_id": "r",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "guard",
+        "power": 2,
+        "hit": 0,
+        "evasion": 0,
+        "crit_gain": 40
+      },
+      "field": {
+        "power": -2,
+        "hit": 0
+      },
+      "life": 3,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "A"
+    },
+    "AO1:card:fast": {
+      "key": "AO1:card:fast",
+      "name": "速撃",
+      "base_name": "速撃",
+      "base_id": "fast",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 2,
+        "hit": 100,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": -20
+      },
+      "life": 1,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "A"
+    },
+    "AO1:card:read": {
+      "key": "AO1:card:read",
+      "name": "見切り",
+      "base_name": "見切り",
+      "base_id": "read",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "guard",
+        "power": 1,
+        "hit": 0,
+        "evasion": 30,
+        "crit_gain": 20
+      },
+      "field": {
+        "power": 0,
+        "hit": 20
+      },
+      "life": 3,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "C"
+    },
+    "AO1:card:sweep": {
+      "key": "AO1:card:sweep",
+      "name": "打ち払い",
+      "base_name": "打ち払い",
+      "base_id": "sweep",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "attack",
+        "power": 4,
+        "hit": 60,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": 20
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "D"
+    },
+    "AO1:card:salve": {
+      "key": "AO1:card:salve",
+      "name": "回復草",
+      "base_name": "回復草",
+      "base_id": "salve",
+      "kind": "card",
+      "affixes": [],
+      "primary": {
+        "kind": "heal",
+        "power": 16,
+        "hit": 0,
+        "evasion": 0,
+        "crit_gain": 10
+      },
+      "field": {
+        "power": -4,
+        "hit": 0
+      },
+      "life": 16,
+      "action_intervals": {
+        "place": 10,
+        "match": 10
+      },
+      "recovery_rule": "consumed_on_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "C"
+    },
+    "AO1:passive:PS01": {
+      "key": "AO1:passive:PS01",
+      "name": "守りからの設置",
+      "base_name": "守りからの設置",
+      "base_id": "PS01",
+      "kind": "passive",
+      "affixes": [],
+      "primary": null,
+      "field": null,
+      "life": null,
+      "action_intervals": null,
+      "recovery_rule": null,
+      "trigger_text": "直前の本人行動が防御一致で、今回が設置",
+      "effect_text": "行動間隔を2短縮（最小1）",
+      "effect": {
+        "field": "discount",
+        "value": 2,
+        "action_interval_discount": 0,
+        "gates": []
+      },
+      "equipment_cost": 2
+    },
+    "AO1:passive:PS03": {
+      "key": "AO1:passive:PS03",
+      "name": "借り札の守り",
+      "base_name": "借り札の守り",
+      "base_id": "PS03",
+      "kind": "passive",
+      "affixes": [],
+      "primary": null,
+      "field": null,
+      "life": null,
+      "action_intervals": null,
+      "recovery_rule": null,
+      "trigger_text": "他主体由来の札で本人が一致し、その後に防御一致",
+      "effect_text": "今回の身構の基礎値を2加算",
+      "effect": {
+        "field": "power",
+        "value": 2,
+        "action_interval_discount": 0,
+        "gates": []
+      },
+      "equipment_cost": 2
+    },
+    "AO1:passive:PS04": {
+      "key": "AO1:passive:PS04",
+      "name": "回復の工夫",
+      "base_name": "回復の工夫",
+      "base_id": "PS04",
+      "kind": "passive",
+      "affixes": [],
+      "primary": null,
+      "field": null,
+      "life": null,
+      "action_intervals": null,
+      "recovery_rule": null,
+      "trigger_text": "消耗する回復札で本人が回復一致",
+      "effect_text": "回復量を4加算（最大余力まで）",
+      "effect": {
+        "field": "power",
+        "value": 4,
+        "action_interval_discount": 0,
+        "gates": []
+      },
+      "equipment_cost": 2
+    },
+    "AO1:passive:PS02": {
+      "key": "AO1:passive:PS02",
+      "name": "属性連携",
+      "base_name": "属性連携",
+      "base_id": "PS02",
+      "kind": "passive",
+      "affixes": [],
+      "primary": null,
+      "field": null,
+      "life": null,
+      "action_intervals": null,
+      "recovery_rule": null,
+      "trigger_text": "直前の本人の一致と異なる属性で攻撃一致",
+      "effect_text": "探査を20加算",
+      "effect": {
+        "field": "hit",
+        "value": 20,
+        "action_interval_discount": 0,
+        "gates": []
+      },
+      "equipment_cost": 3
+    },
+    "AO1:passive:PS01:borrowed:focused_B:sluggish": {
+      "key": "AO1:passive:PS01:borrowed:focused_B:sluggish",
+      "name": "借り技の・B属性に専心する・鈍重な・守りからの設置",
+      "base_name": "守りからの設置",
+      "base_id": "PS01",
+      "kind": "passive",
+      "affixes": [
+        {
+          "id": "borrowed",
+          "label": "借り技の",
+          "description": "他主体由来の札に限定／効果量+1"
+        },
+        {
+          "id": "focused_B",
+          "label": "B属性に専心する",
+          "description": "B属性の札に限定／効果量+1"
+        },
+        {
+          "id": "sluggish",
+          "label": "鈍重な",
+          "description": "行動間隔+1"
+        }
+      ],
+      "primary": null,
+      "field": null,
+      "life": null,
+      "action_intervals": null,
+      "recovery_rule": null,
+      "trigger_text": "直前の本人行動が防御一致で、今回が設置／今回の札が他主体由来／今回の札がB属性",
+      "effect_text": "行動間隔を3短縮（最小1）",
+      "effect": {
+        "field": "discount",
+        "value": 4,
+        "action_interval_discount": -1,
+        "gates": [
+          "borrowed",
+          "attribute_B"
+        ]
+      },
+      "equipment_cost": 2
+    },
+    "AO1:card:nt_stop:light": {
+      "key": "AO1:card:nt_stop:light",
+      "name": "軽い・汐留め",
+      "base_name": "汐留め",
+      "base_id": "nt_stop",
+      "kind": "card",
+      "affixes": [
+        {
+          "id": "light",
+          "label": "軽い",
+          "description": "主効果-1／設置・一致の行動間隔-1"
+        }
+      ],
+      "primary": {
+        "kind": "guard",
+        "power": 2,
+        "hit": 0,
+        "evasion": 20,
+        "crit_gain": 20
+      },
+      "field": {
+        "power": 2,
+        "hit": 20
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 9,
+        "match": 9
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "D"
+    },
+    "AO1:card:f:heavy": {
+      "key": "AO1:card:f:heavy",
+      "name": "重い・牽制",
+      "base_name": "牽制",
+      "base_id": "f",
+      "kind": "card",
+      "affixes": [
+        {
+          "id": "heavy",
+          "label": "重い",
+          "description": "主効果+2／設置・一致の行動間隔+1"
+        }
+      ],
+      "primary": {
+        "kind": "attack",
+        "power": 5,
+        "hit": 70,
+        "evasion": 0,
+        "crit_gain": 25
+      },
+      "field": {
+        "power": 0,
+        "hit": 30
+      },
+      "life": 2,
+      "action_intervals": {
+        "place": 11,
+        "match": 11
+      },
+      "recovery_rule": "shared_recovery",
+      "trigger_text": null,
+      "effect_text": null,
+      "equipment_cost": null,
+      "attribute": "A"
+    }
+  },
+  "offers": [
+    {
+      "id": "offer-link",
+      "key": "AO1:passive:PS02",
+      "price": 4
+    },
+    {
+      "id": "offer-long",
+      "key": "AO1:passive:PS01:borrowed:focused_B:sluggish",
+      "price": 4
+    },
+    {
+      "id": "offer-tide",
+      "key": "AO1:card:nt_stop:light",
+      "price": 4
+    },
+    {
+      "id": "offer-force",
+      "key": "AO1:card:f:heavy",
+      "price": 8
+    }
+  ]
+}

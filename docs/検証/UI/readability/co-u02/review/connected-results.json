@@ -1,0 +1,149 @@
+{
+  "task": "UI-ACQ-INT-01",
+  "ui": "0.16.0",
+  "runtime": "CW-M1-engine-0.7",
+  "environment": "Node v24.19.0; actual Campaign; MemoryStore; JSDOM synthetic geometry/input",
+  "not_verified": [
+    "real browser rendering",
+    "physical touch",
+    "IndexedDB",
+    "real multiple tabs",
+    "human acceptance"
+  ],
+  "passed": 33,
+  "checks": [
+    {
+      "name": "自然入口は通常配布物と同じ開始・再開・読み込み画面",
+      "passed": true
+    },
+    {
+      "name": "新規開始は元の初期残高と全初期個体を公開所持から表示",
+      "passed": true
+    },
+    {
+      "name": "残高不足は公開拒否理由を表示し、一括確定しない",
+      "passed": true
+    },
+    {
+      "name": "取消で初期所持・残高・保存を変更しない",
+      "passed": true
+    },
+    {
+      "name": "同じドラッグ処理が公開pending_selection_idで取得・編成へ接続",
+      "passed": true
+    },
+    {
+      "name": "未払い個体のドラッグ取消は取得可能へ戻り保存しない",
+      "passed": true
+    },
+    {
+      "name": "修飾心得も追加習得なしで未払い編成し、公開効果を表示",
+      "passed": true
+    },
+    {
+      "name": "外す操作は取得予定を維持し、所持へ戻す",
+      "passed": true
+    },
+    {
+      "name": "取得前取消・別候補への再選択で支払・候補消費・保存なし",
+      "passed": true
+    },
+    {
+      "name": "異なる群の複数取得と編成を一つの公開比較にまとめる",
+      "passed": true
+    },
+    {
+      "name": "保存待機中は確定前の現在値を維持し、二重確定を抑止",
+      "passed": true
+    },
+    {
+      "name": "保存失敗時は下書きを保持し、窓内に再試行を出す",
+      "passed": true
+    },
+    {
+      "name": "失敗後は同じrequest_idで再送し、成功後だけ全体を更新",
+      "passed": true
+    },
+    {
+      "name": "帰還群取得済みと残る取得可能を分ける",
+      "passed": true
+    },
+    {
+      "name": "取得済み群の札欄は空で取得完了を表示",
+      "passed": true
+    },
+    {
+      "name": "確定済みの所持・残高・編成を共通openで読み戻す",
+      "passed": true
+    },
+    {
+      "name": "保存した修飾心得と通常心得をそのまま探索に装備",
+      "passed": true
+    },
+    {
+      "name": "出発本文の先で了承済み探索画面を操作可能",
+      "passed": true
+    },
+    {
+      "name": "編成不足は自動補充せず、公開拒否で確定を止める",
+      "passed": true
+    },
+    {
+      "name": "修飾札を初期札と同じ操作で差し替え、同一12個体で実出発",
+      "passed": true
+    },
+    {
+      "name": "保存成功後の応答喪失でも表示だけを確定しない",
+      "passed": true
+    },
+    {
+      "name": "応答喪失の同一再送はreplayedとなり二重取得・二重支払なし",
+      "passed": true
+    },
+    {
+      "name": "競合失効は案を保って停止し、新tokenへの付け替えや自動決済なし",
+      "passed": true
+    },
+    {
+      "name": "明示的な読み直しで新しい公開状態に戻り、再選択・再確認を要求",
+      "passed": true
+    },
+    {
+      "name": "取消後に届く遅い予測は古い取得予定を復活させない",
+      "passed": true
+    },
+    {
+      "name": "移行した旧案を要再確認として表示し、自動取得しない",
+      "passed": true
+    },
+    {
+      "name": "組み直す操作は未保存案で、確認・確定後に移行確認を保存",
+      "passed": true
+    },
+    {
+      "name": "移行旧案の戻す操作は確定編成と残高を保つ",
+      "passed": true
+    },
+    {
+      "name": "成果なし帰還でも持ち越した未取得群を空欄にしない",
+      "passed": true
+    },
+    {
+      "name": "編成だけの一括確定は費用0・所持数量維持",
+      "passed": true
+    },
+    {
+      "name": "画面往復で確定済みの変更を仮編成と誤認して出発を遮断しない",
+      "passed": true
+    },
+    {
+      "name": "同じ編成入口・共通メニューと操作説明を使う",
+      "passed": true
+    },
+    {
+      "name": "ネットワーク・実IndexedDBへ接続せず、実行時エラーなし",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

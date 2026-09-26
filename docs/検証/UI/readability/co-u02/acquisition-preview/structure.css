@@ -1,0 +1,111 @@
+#cw-acquisition-review{color-scheme:light dark;width:100%;margin:auto;--cp-ink:light-dark(#243d35,#e6ece3);--cp-muted:light-dark(#586e63,#b0c0b3);--cp-line:light-dark(#bac9ba,#52685b);--cp-paper:light-dark(#fcfcf5,#2b3d34);--cp-active:light-dark(#315849,#c6d9ba);--cp-on-active:light-dark(#fffef5,#193224);--cp-piece-width:352px;--cp-piece-height:80px;color:var(--cp-ink);font:24px/1.5 system-ui,-apple-system,"Noto Sans JP",sans-serif}
+#cw-acquisition-review *{box-sizing:border-box;min-width:0}
+#cw-acquisition-review [hidden]{display:none!important}
+#cw-acquisition-review h2,#cw-acquisition-review h3,#cw-acquisition-review p{margin:0}
+#cw-acquisition-review h2,#cw-acquisition-review h3,#cw-acquisition-review strong{font-size:inherit;font-weight:500}
+#cw-acquisition-review button{font:inherit;color:inherit}
+#cw-acquisition-review i,#cw-acquisition-review svg{width:24px;height:24px;flex:none;vertical-align:middle}
+#cw-acquisition-review small{font-size:18px;color:var(--cp-muted)}
+#cw-acquisition-review .cp-reviewbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;font-size:14px}
+#cw-acquisition-review .cp-reviewbar button{min-height:44px;border:1px solid var(--cp-line);border-radius:6px;background:var(--cp-paper);padding:0 12px}
+#cw-acquisition-review .cp-shell{width:1920px;height:1080px;aspect-ratio:16/9;position:absolute;left:0;top:0;transform:scale(var(--cp-preview-scale,1));transform-origin:top left;isolation:isolate;overflow:hidden;background:light-dark(#f1f1e8,#1d2b27);border:1px solid var(--cp-line);border-radius:8px}
+#cw-acquisition-review .cp-screen{position:absolute;inset:0;display:grid;grid-template-rows:64px minmax(0,1fr) 64px}
+#cw-acquisition-review .cp-header,#cw-acquisition-review .cp-footer{display:flex;gap:16px;align-items:center;padding:0 24px}
+#cw-acquisition-review .cp-header{border-bottom:1px solid var(--cp-line)}
+#cw-acquisition-review .cp-brand{font:30px/1 Georgia,serif;letter-spacing:.05em;margin-right:12px}
+#cw-acquisition-review nav{display:flex;height:64px;gap:8px}
+#cw-acquisition-review .cp-button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:64px;min-height:64px;max-width:100%;padding:8px 20px;border:1px solid var(--cp-line);border-radius:5px;background:var(--cp-paper);text-align:center;line-height:1.35}
+#cw-acquisition-review .cp-button:hover{background:light-dark(#e6eddf,#3a5043)}
+#cw-acquisition-review .cp-button:disabled{opacity:.42;cursor:default}
+#cw-acquisition-review .cp-button[aria-pressed="true"],#cw-acquisition-review .cp-primary{background:var(--cp-active);color:var(--cp-on-active);border-color:var(--cp-active)}
+#cw-acquisition-review nav .cp-button{border-radius:0;border:none;padding:0 20px}
+#cw-acquisition-review .cp-wallet{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-wallet-next{display:inline-flex;align-items:center;gap:5px;border:1px dashed var(--cp-line);padding:2px 8px;border-radius:5px}
+#cw-acquisition-review .cp-main{display:grid;gap:20px;padding:16px;min-height:0;overflow-x:auto;overflow-y:hidden;touch-action:none;overscroll-behavior:contain;scrollbar-width:thin;align-items:stretch;justify-content:start}
+#cw-acquisition-review .cp-lane{display:grid;grid-template-rows:32px minmax(0,1fr);gap:8px;min-height:0}
+#cw-acquisition-review .cp-lane-head{display:flex;align-items:center;gap:8px;position:relative}
+#cw-acquisition-review .cp-lane-title{display:flex;gap:12px;align-items:center;font-size:24px;white-space:nowrap}
+#cw-acquisition-review .cp-lane-title strong{font-size:20px;font-variant-numeric:tabular-nums;color:var(--cp-muted)}
+#cw-acquisition-review .cp-lane-grid{display:grid;grid-template-columns:repeat(var(--cp-columns),var(--cp-piece-width));grid-auto-rows:var(--cp-piece-height);grid-auto-flow:row;align-content:start;justify-content:start;gap:8px;padding:2px;min-height:0;overflow:auto;scrollbar-gutter:stable;overscroll-behavior:contain;scrollbar-width:thin;touch-action:none;user-select:none}
+#cw-acquisition-review .cp-lane-offer .cp-lane-grid{box-shadow:inset 0 -2px light-dark(#bdb69a,#4b5846)}
+#cw-acquisition-review .cp-lane-reserve .cp-lane-grid{background:light-dark(#e8eddf,#26362b);box-shadow:inset 1px 0 var(--cp-line),inset -1px 0 var(--cp-line),inset 0 -4px var(--cp-line);border-radius:0 0 8px 8px}
+#cw-acquisition-review .cp-lane-build .cp-lane-grid{background:light-dark(#dce6d2,#213727);border-radius:6px;box-shadow:inset 0 0 0 1px light-dark(#b3c4a4,#4e6545)}
+#cw-acquisition-review .cp-piece{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 72px;grid-template-rows:76px;width:var(--cp-piece-width);height:var(--cp-piece-height);border:2px solid var(--cp-line);border-radius:5px;background:var(--cp-paper);isolation:isolate;flex:none}
+#cw-acquisition-review .cp-build{border-color:light-dark(#58754a,#809c6b)}
+#cw-acquisition-review .cp-pending{border-style:dashed;border-color:light-dark(#846838,#dbbd78);background:repeating-linear-gradient(135deg,light-dark(#faf8ed,#343d2b),light-dark(#faf8ed,#343d2b) 8px,light-dark(#f1ebd7,#3d442c) 8px,light-dark(#f1ebd7,#3d442c) 10px)}
+#cw-acquisition-review .cp-piece>.cp-button{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:48px 20px;gap:0;min-height:0;min-width:0;border:none;background:transparent;border-radius:3px 3px 0 0;text-align:left;padding:4px 8px;touch-action:none;cursor:grab}
+#cw-acquisition-review .cp-piece>.cp-button>strong{font-size:20px;line-height:24px;letter-spacing:0;align-self:start;word-break:normal;line-break:strict;overflow-wrap:anywhere}
+#cw-acquisition-review .cp-card-meta{display:flex;align-items:center;gap:6px;font-size:18px;line-height:20px;font-variant-numeric:tabular-nums;color:var(--cp-muted)}
+#cw-acquisition-review .cp-card-meta svg,#cw-acquisition-review .cp-card-meta i{width:18px;height:18px}
+#cw-acquisition-review .cp-card-mark{display:inline-flex;align-items:center}
+#cw-acquisition-review .cp-build .cp-card-mark{color:var(--cp-active)}
+#cw-acquisition-review .cp-quantity{margin-left:auto}
+#cw-acquisition-review .cp-clock{position:absolute;right:6px;bottom:4px;background:var(--cp-paper);border-radius:50%;color:light-dark(#846838,#dbbd78)}
+#cw-acquisition-review .cp-clock svg,#cw-acquisition-review .cp-clock i{width:18px;height:18px}
+#cw-acquisition-review .cp-item-actions{display:flex;align-items:stretch;min-height:0;box-shadow:inset 1px 0 var(--cp-line);background:light-dark(#f5f7ee,#293b2d);border-radius:0 3px 3px 0}
+#cw-acquisition-review .cp-item-actions .cp-button{flex:1;min-width:72px;height:76px;min-height:76px;border:none;border-radius:0;padding:0 8px;font-size:20px;background:transparent}
+#cw-acquisition-review .cp-item-actions .cp-primary{background:var(--cp-active)}
+#cw-acquisition-review .cp-item-actions .cp-button+.cp-button{border-left:1px solid var(--cp-line)}
+#cw-acquisition-review .cp-empty,#cw-acquisition-review .cp-offer-empty{display:grid;place-items:center;width:var(--cp-piece-width);height:var(--cp-piece-height);color:var(--cp-muted);border-radius:5px}
+#cw-acquisition-review .cp-empty{border:1px dashed var(--cp-line);background:light-dark(#e2e9d8,#2a3c2b)}
+#cw-acquisition-review .cp-empty svg,#cw-acquisition-review .cp-offer-empty svg{width:24px;height:24px;opacity:.6}
+#cw-acquisition-review .cp-offer-empty{box-shadow:inset 0 -3px light-dark(#c4c2ac,#52614b)}
+#cw-acquisition-review .cp-offer-message{display:flex;align-items:center;gap:12px;width:var(--cp-piece-width);height:var(--cp-piece-height);margin:0;padding:12px;color:var(--cp-muted);font-size:20px;line-height:28px}
+#cw-acquisition-review .cp-offer-message svg{width:24px;height:24px;flex:none}
+#cw-acquisition-review .cp-footer{background:light-dark(#e9eee0,#283d2e);border-top:1px solid var(--cp-line);justify-content:flex-end}
+#cw-acquisition-review .cp-footer .cp-button{border:none;border-radius:0;padding:0 24px;font-size:22px;white-space:nowrap}
+#cw-acquisition-review .cp-purchase-track{margin-right:auto;display:flex;align-items:center;gap:12px;font-size:22px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-pending-token{display:inline-flex;align-items:center;gap:2px;border:1px dashed light-dark(#846838,#dbbd78);border-radius:4px;padding:3px;background:light-dark(#f5eedb,#3d442c)}
+#cw-acquisition-review .cp-drop-label{display:none;position:absolute;inset:0;align-items:center;justify-content:center;border-radius:5px;background:var(--cp-active);color:var(--cp-on-active);font-size:22px}
+#cw-acquisition-review [data-drop="allowed"] .cp-drop-label{display:flex}
+#cw-acquisition-review [data-drop="allowed"] .cp-lane-grid{outline:2px solid var(--cp-active);outline-offset:-2px}
+#cw-acquisition-review [data-drop="blocked"] .cp-lane-grid{outline:1px dashed var(--cp-muted);outline-offset:-2px}
+#cw-acquisition-review .cp-lifted{opacity:.3}
+#cw-acquisition-review .cp-drag-ghost{position:absolute;z-index:5;pointer-events:none;box-shadow:0 6px 18px light-dark(#203a3540,#0008)}
+#cw-acquisition-review .cp-no-drop{opacity:.75}
+#cw-acquisition-review[data-dragging="true"],#cw-acquisition-review[data-panning="true"]{cursor:grabbing;user-select:none}
+#cw-acquisition-review .cp-overlay{position:absolute;inset:0;background:light-dark(#283d3555,#09191088);display:grid;place-items:center;padding:32px;z-index:2}
+#cw-acquisition-review .cp-dialog{width:min(960px,100%);height:min(820px,100%);display:grid;grid-template-rows:64px minmax(0,1fr) 72px;overflow:hidden;border:1px solid var(--cp-line);border-radius:8px;background:light-dark(#f4f6ec,#26382e);box-shadow:0 10px 30px #0003}
+#cw-acquisition-review .cp-dialog-head{display:flex;align-items:center;padding-left:12px;gap:8px;border-bottom:1px solid var(--cp-line)}
+#cw-acquisition-review .cp-dialog-head h2{flex:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-size:24px}
+#cw-acquisition-review .cp-dialog-head .cp-button{border:none;background:transparent}
+#cw-acquisition-review .cp-dialog-scroll{overflow:auto;overscroll-behavior:contain;min-height:0;padding:24px;display:flex;flex-direction:column;gap:24px;font-size:22px;scrollbar-width:thin}
+#cw-acquisition-review .cp-dialog-scroll>*{flex-shrink:0}
+#cw-acquisition-review .cp-dialog-actions{display:flex;gap:4px;align-items:center;justify-content:flex-end;padding:2px 6px;border-top:1px solid var(--cp-line)}
+#cw-acquisition-review .cp-dialog-actions .cp-button{flex:1;font-size:22px;padding:4px 12px}
+#cw-acquisition-review .cp-dialog-actions [data-action="commit"]{flex:0 0 auto;min-width:160px}
+#cw-acquisition-review .cp-payment{display:flex;gap:6px;align-items:center;padding:0 12px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-facts{display:grid;gap:12px;margin:0}
+#cw-acquisition-review .cp-facts>div{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px}
+#cw-acquisition-review .cp-facts dt{font-size:20px;color:var(--cp-muted)}
+#cw-acquisition-review .cp-facts dd{margin:0;line-break:strict;overflow-wrap:break-word;word-break:normal}
+#cw-acquisition-review .cp-location{display:flex;gap:12px;align-items:center}
+#cw-acquisition-review .cp-location>span{display:grid;place-items:center;width:64px;height:48px;border-radius:6px;opacity:.45}
+#cw-acquisition-review .cp-location>.is-active{background:var(--cp-active);color:var(--cp-on-active);opacity:1}
+#cw-acquisition-review .cp-location>.cp-pending-token{margin-left:auto;opacity:1}
+#cw-acquisition-review .cp-price{display:flex;align-items:center;justify-content:flex-end;gap:6px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-review-wallet{display:flex;align-items:center;justify-content:center;gap:14px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-review-wallet>strong{font-size:36px}
+#cw-acquisition-review .cp-review-group{display:grid;gap:8px}
+#cw-acquisition-review .cp-review-group h3{display:flex;align-items:center;gap:12px;font-size:20px;color:var(--cp-muted)}
+#cw-acquisition-review .cp-change{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--cp-line)}
+#cw-acquisition-review .cp-change>strong{display:flex;align-items:center;gap:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-review-purchase>strong{flex:1;white-space:normal;font-size:22px}
+#cw-acquisition-review .cp-review-purchase>span:last-child{display:flex;gap:4px;align-items:center}
+#cw-acquisition-review .cp-capacity{display:grid;grid-template-columns:1fr auto;gap:12px;font-size:22px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-capacity>span{display:flex;gap:8px;align-items:center}
+#cw-acquisition-review summary{min-height:64px;align-content:center}
+#cw-acquisition-review details .cp-facts{margin:8px 0}
+#cw-acquisition-review .cp-warning{color:light-dark(#883e20,#ffc4a8)}
+#cw-acquisition-review .cp-problems{padding:8px;background:light-dark(#f6e3d6,#513b2c);color:light-dark(#803d25,#ffcfb2);font-size:20px}
+#cw-acquisition-review .cp-live{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
+
+#cw-acquisition-review .cp-preview-controls{display:flex;gap:4px;margin-left:auto}
+#cw-acquisition-review .cp-reviewbar output{color:var(--cp-muted);margin-left:8px;font-variant-numeric:tabular-nums}
+#cw-acquisition-review .cp-reviewbar button[aria-pressed="true"]{background:var(--cp-active);color:var(--cp-on-active)}
+#cw-acquisition-review .cp-preview-window{width:100%;max-width:100%;overflow:auto;overscroll-behavior:contain}
+#cw-acquisition-review .cp-preview-space{position:relative;overflow:hidden}
+
+/* D03R recovery stays inside the same fixed composition screen. */
+#cw-acquisition-review .cp-runtime-notice{position:absolute;z-index:5;left:24px;right:24px;top:76px;display:flex;align-items:center;gap:16px;padding:16px;background:var(--cp-paper);color:var(--cp-ink);box-shadow:0 4px 18px #0005}
+#cw-acquisition-review .cp-runtime-notice>span{flex:1}
