@@ -1,3 +1,15 @@
+# 取得確定後・候補なしの確認入口（UI0.15.1）
+
+2026-09-26。[空状態の表示と持越しの扱い](../acquisition-preview/empty-states.md)。既存の場面選択に「編成・取得前／編成・取得確定後／編成・候補なし」を追加。取得確定後から開始する。取得可能の見出しを保ち、候補を空にして完了または候補なしを表示する。所持・編成は継続操作できる。
+
+生成：`node docs/検証/UI/readability/co-u02/build.cjs` に続き、`node docs/検証/UI/readability/co-u02/review/build-inline.cjs /workspace/crossweave-acquisition-empty.html acquisition-states`。[提示照合](acquisition-empty-manifest.json)・[限定16項目](acquisition-empty-checks.json)。UI0.15.0と同じ共通導線を維持する。取得は確認用入力、本編反映は未接続。実描画・実入力・IndexedDBは未確認。
+
+ユーザーへの現行再提示はこの統合入口を使う。旧入口は履歴・技術互換用として保全し、現行画面に代えない。
+
+---
+
+以下は過去の記録。
+
 # 取得・編成と共通操作を統合した確認入口（UI0.15.0）
 
 2026-09-26。[帰還後も前回了承された同じ取得UIを開く](../journey/unified-navigation.md)。帰還結果の「進む」→左上「編成」。札／心得と三つの置き場を共有する。右上の調査記録・メニューは、探索先・編成・本文・探索・中断で共通。旧「札組／心得／購入／構成を見る」は現行導線へ出さない。

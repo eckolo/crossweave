@@ -2689,9 +2689,10 @@ function emptyView(){return {tab:'card',scroll:{},boardLeft:0,reveal:null,dialog
 function icon(name){return '<i data-lucide="'+name+'" aria-hidden="true"></i>';}
 function unitPending(uid){return String(uid||'').startsWith('pending-');}
 function composed(uid){return draft.deck.includes(uid)||draft.equipment.includes(uid);}
+function offerPhase(){return current.purchased.length>0&&current.purchased.length>=fixture.rules.offerLimit?'complete':fixture.offers.length?'open':'empty';}
 function motionId(row){return row.offer?'offer-'+row.offer.id:unitPending(row.uid)?'offer-'+row.uid.slice(8):row.uid?.startsWith('acquired-')?'offer-'+row.uid.slice(9):row.uid;}
 function rowsFor(zone){
- if(zone==='offer')return fixture.offers.filter(o=>item(o.key).kind===view.tab).map(o=>({key:o.key,offer:o,placeholder:draft.offers.includes(o.id)||current.purchased.includes(o.id)}));
+ if(zone==='offer')return offerPhase()==='complete'?[]:fixture.offers.filter(o=>item(o.key).kind===view.tab&&!current.purchased.includes(o.id)).map(o=>({key:o.key,offer:o,placeholder:draft.offers.includes(o.id)}));
  const units=projected().filter(x=>item(x.key).kind===view.tab);
  if(zone==='build')return (view.tab==='card'?draft.deck:draft.equipment).map(uid=>({...units.find(x=>x.uid===uid),count:1}));
  const groups=new Map();for(const unit of units.filter(x=>!composed(x.uid))){const id=unit.key+'|'+unitPending(unit.uid);if(!groups.has(id))groups.set(id,{...unit,count:0});groups.get(id).count++;}return [...groups.values()];
@@ -2727,7 +2728,7 @@ function localAction(row,zone,{compact=false}={}){
  return button(put?'編成':'外す',put?'add':'remove',{key,uid,primary:put,label:item(key).name+'を編成'+(put?'に入れる':'から外す')})+(unitPending(uid)&&!compact?button('取消','unstage',{id:uid.slice(8),label:item(key).name+'の取得をやめる'}):'');
 }
 function card(row,zone){
- if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は'+(draft.offers.includes(row.offer.id)?'取得予定へ移動済み':'取得済み')+'">'+icon(draft.offers.includes(row.offer.id)?'arrow-right':'check')+'</div>';
+ if(row.placeholder)return '<div class="cp-offer-empty" aria-label="'+esc(item(row.key).name)+'は取得予定へ移動済み">'+icon('arrow-right')+'</div>';
  const it=item(row.key),p=unitPending(row.uid),o=row.offer,price=o?.price??(p?offer(row.uid.slice(8)).price:null);
  const state=zone==='offer'?'取得可能':(p?'取得予定、未払い':'所持')+(zone==='build'?'、編成中':'、未編成');
  return '<article class="cp-piece cp-'+zone+(p?' cp-pending':'')+'" data-zone-item="'+zone+'" data-unit="'+esc(row.uid||'')+'" data-key="'+esc(row.key)+'" data-offer="'+esc(o?.id||'')+'" data-motion="'+esc(motionId(row))+'" data-pending="'+p+'" aria-label="'+esc(it.name+'、'+state)+'">'+
@@ -2741,15 +2742,21 @@ function lane(zone){
  const title=icon(zoneIcons[zone])+'<span>'+zoneNames[zone]+'</span><strong class="'+(capacityBad?'cp-warning':'')+'">'+count+'</strong>';
  let cells=all.map(row=>card(row,zone)).join('');
  if(zone==='build'&&view.tab==='card'&&all.length<fixture.rules.deckSize)cells+=Array.from({length:fixture.rules.deckSize-all.length},()=>'<div class="cp-empty cp-slot" aria-label="空き枠">'+icon('plus')+'</div>').join('');
- if(!cells)cells='<div class="cp-empty" aria-label="'+zoneNames[zone]+'は空です">'+icon(zone==='build'?'square-dashed':zoneIcons[zone])+'</div>';
+ if(!cells)cells=zone==='offer'?'<p class="cp-offer-message" data-offer-state="'+offerPhase()+'" role="status">'+icon(offerPhase()==='complete'?'circle-check':'inbox')+'<span>'+(offerPhase()==='complete'?'今回の取得は完了':'取得できる'+(view.tab==='card'?'札':'心得')+'はありません')+'</span></p>':'<div class="cp-empty" aria-label="'+zoneNames[zone]+'は空です">'+icon(zone==='build'?'square-dashed':zoneIcons[zone])+'</div>';
  return '<section class="cp-lane cp-lane-'+zone+'" data-zone="'+zone+'" aria-label="'+zoneNames[zone]+'"><header class="cp-lane-head"><div class="cp-lane-title">'+title+'</div><span class="cp-drop-label" aria-hidden="true"></span></header><div class="cp-lane-grid" data-scroll-zone="'+zone+'" data-kind="'+view.tab+'" style="--cp-columns:'+d.columnsByZone[zone]+'">'+cells+'</div></section>';
 }
 function wallet(){return '<div class="cp-wallet" aria-label="着想 現在'+current.wallet+'、支払予定'+spending()+'、確定後'+(current.wallet-spending())+'">'+icon('lightbulb')+'<span>着想</span><strong>'+current.wallet+'</strong>'+(dirty()?icon('arrow-right')+'<span class="cp-wallet-next '+(spending()>current.wallet?'cp-warning':'')+'" data-tooltip="支払後">'+icon('clock-3')+'<strong>'+(current.wallet-spending())+'</strong></span>':'')+'</div>';}
+function purchaseTrack(){
+ const phase=offerPhase();
+ if(phase==='complete')return '<div class="cp-purchase-track">'+icon('circle-check')+'<span>取得済み '+current.purchased.length+' / '+fixture.rules.offerLimit+'</span></div>';
+ if(phase==='empty')return '<div class="cp-purchase-track">'+icon('inbox')+'<span>取得候補なし</span></div>';
+ return '<div class="cp-purchase-track" aria-label="今回の取得、選択済み'+(draft.offers.length+current.purchased.length)+'点、上限'+fixture.rules.offerLimit+'点">'+icon('store')+'<span>'+(draft.offers.length+current.purchased.length)+' / '+fixture.rules.offerLimit+'</span>'+(draft.offers.length?icon('arrow-right')+draft.offers.map(id=>'<span class="cp-pending-token" data-tooltip="'+esc(item(offer(id).key).name)+'">'+icon(item(offer(id).key).kind==='card'?'layers':'scroll-text')+icon('clock-3')+'</span>').join(''):'')+'</div>';
+}
 function render(preserveScroll=true){
  cancelGesture();if(preserveScroll)saveScroll();
  const focus=document.activeElement?.dataset.focus,hadFocus=root.contains(document.activeElement),scroll=overlay.querySelector('.cp-dialog-scroll')?.scrollTop||0;
  const oldPositions=new Map([...screen.querySelectorAll('[data-motion]')].map(x=>[x.dataset.motion,x.getBoundingClientRect()]));
- screen.innerHTML='<header class="cp-header"><span class="cp-brand">crossweave</span><nav aria-label="管理するもの">'+[['card','札'],['passive','心得']].map(([id,label])=>button(label,'tab',{id,extra:'aria-pressed="'+(view.tab===id)+'"'})).join('')+'</nav>'+wallet()+'</header><main class="cp-main" data-board-scroll data-orientation="'+dimensions().orientation+'" style="'+dimensions().boardStyle+'">'+zones.map(lane).join('')+'</main><footer class="cp-footer"><div class="cp-purchase-track" aria-label="今回の取得、選択済み'+(draft.offers.length+current.purchased.length)+'点、上限'+fixture.rules.offerLimit+'点">'+icon('store')+'<span>'+(draft.offers.length+current.purchased.length)+' / '+fixture.rules.offerLimit+'</span>'+(draft.offers.length?icon('arrow-right')+draft.offers.map(id=>'<span class="cp-pending-token" data-tooltip="'+esc(item(offer(id).key).name)+'">'+icon(item(offer(id).key).kind==='card'?'layers':'scroll-text')+icon('clock-3')+'</span>').join(''):'')+'</div>'+button(icon('undo-2')+'戻す','discard',{disabled:!dirty(),label:'取得予定と編成の変更をすべて戻す'})+button('確認する','review',{primary:true,disabled:!dirty()})+'</footer>';
+ screen.innerHTML='<header class="cp-header"><span class="cp-brand">crossweave</span><nav aria-label="管理するもの">'+[['card','札'],['passive','心得']].map(([id,label])=>button(label,'tab',{id,extra:'aria-pressed="'+(view.tab===id)+'"'})).join('')+'</nav>'+wallet()+'</header><main class="cp-main" data-board-scroll data-orientation="'+dimensions().orientation+'" style="'+dimensions().boardStyle+'">'+zones.map(lane).join('')+'</main><footer class="cp-footer">'+purchaseTrack()+button(icon('undo-2')+'戻す','discard',{disabled:!dirty(),label:'取得予定と編成の変更をすべて戻す'})+button('確認する','review',{primary:true,disabled:!dirty()})+'</footer>';
  if(options.embedded){
   const header=screen.querySelector('.cp-header');
   header.querySelector('.cp-brand').outerHTML=button(icon('arrow-left')+'戻る','back',{label:'探索先に戻る'});

@@ -39,9 +39,9 @@
     "docs/作業資料/とりまとめ/計画同期手順.md": "d9bd697eb21ce4633e35a69cf7cb1d152d89a2ed"
   },
   "technical_source": "dev_design_tmp_assembly@7565afca98684186705a4e865d4fdf0e0ae489c1",
-  "status": "計画・設計同期済み。UI0.14.5の相手詳細位置修正を提出。依頼全体は未完了",
-  "checked_at_utc": "2026-09-25T16:30:31.908526+00:00",
-  "ui_start": "ac610be8e07ee026c8330b72ec7e9e8ee8780346",
+  "status": "計画・設計同期済み。UI0.15.1の取得確定後・候補なし表示を提出。依頼全体は未完了",
+  "checked_at_utc": "2026-09-26T05:46:12.674663+00:00",
+  "ui_start": "9432b850ef4b8c2fe6ffbbd66b1c35fb56b4612d",
   "old_copy_clean": true,
   "latest_previous_copy_available": false,
   "plan_version": "0.9",
@@ -2752,5 +2752,33 @@
       "ui": 36,
       "status": "match"
     }
+  },
+  "acquisition_empty_20260926": {
+    "version": "0.15.1",
+    "source_plan": "4c47d0a3230568735de33129610123c9be714856",
+    "source_design": "7565afca98684186705a4e865d4fdf0e0ae489c1",
+    "ui_start": "9432b850ef4b8c2fe6ffbbd66b1c35fb56b4612d",
+    "local_start": "6147a5aaf2ef5da0d182dc861f09fe5214686549",
+    "start_tree": "77d9adaed9ccc3e6de831bf8e722b0228f7e6e0e",
+    "initial_uncommitted_changes": 0,
+    "plan_blob_count": 28,
+    "plan_all_equal": true,
+    "technical_ancestor": true,
+    "latest_refs_changed": false,
+    "artifact": {
+      "path": "/workspace/crossweave-acquisition-empty.html",
+      "bytes": 768829,
+      "sha256": "a456134b24d1f3a077984d84ab6e91c0cd5d1641ca27bfde82b7fa8433bdecc5"
+    },
+    "checks": 16,
+    "empty_rule": "取得確定後は群の候補を除去。候補なしは空表示。成果なしでも未取得候補は持ち越す。",
+    "scope": "同じ取得画面の表示と確認用場面。取得上限・経済・持越し仕様は変更しない。",
+    "not_verified": [
+      "実ブラウザー描画",
+      "実マウス・タッチ・キーボード",
+      "IndexedDB・複数タブ",
+      "統一取得・経済・保存接続",
+      "ユーザー受入・他Work受領統合"
+    ]
   }
 }

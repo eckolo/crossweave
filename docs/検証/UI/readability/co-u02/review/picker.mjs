@@ -3,7 +3,7 @@ import {loadDocument} from './source.mjs';
 
 // All controls in this module are outside the game frame. The production
 // launcher, rendering, session and persistence modules are unchanged.
-export function mountReview(host, {ui, prepare = id => createCheckpoint(id, loadDocument), cases=checkpoints, initial=null, updateURL=true} = {}) {
+export function mountReview(host, {ui, prepare = id => createCheckpoint(id, loadDocument), cases=checkpoints, initial=null, updateURL=true, afterOpen=null} = {}) {
   const select = host.querySelector('[data-review-case]');
   const open = host.querySelector('[data-review-open]');
   const status = host.querySelector('[data-review-status]');
@@ -44,6 +44,7 @@ export function mountReview(host, {ui, prepare = id => createCheckpoint(id, load
         button.click();
         }
       }
+      if (afterOpen) await afterOpen({app,prepared,root});
       if (root.dataset.screen !== prepared.checkpoint.screen) throw Error('checkpoint_screen_changed');
       current = id; select.value = id;
       if(updateURL){const url = new URL(win.location.href); url.searchParams.set('case', id);
