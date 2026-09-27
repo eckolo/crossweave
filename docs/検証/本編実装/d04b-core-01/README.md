@@ -7,7 +7,7 @@
 - 本体：`apps/crossweave-godot/Core/Application/`、名前空間 `Crossweave.Core.Application`。単一所有者はGameApplication。ProofSession／ProofStoreを本編へ流用していない。
 - [C1対応表](本編対応表.md)、[画面・保存への受渡し](画面・保存への受渡し.md)、[受領版・原本hash](source-receipt.json)。計画全37ファイルのblobは自Workの計画同期JSON。
 - `ApplicationTests.cs`に操作列との比較と境界検査、`Fixtures/application-oracle.json.br`に旧版の固定期待結果と操作列。テストはNodeなしで動く。
-- [とりまとめ向け引継ぎ](とりまとめ引継ぎ.md)と自Work設定が依頼全体の状態を示す。共有索引の登録は保留。
+- [とりまとめ向け引継ぎ](とりまとめ引継ぎ.md)と自Work設定が依頼全体の状態を示す。共有索引の登録・読戻しも完了（7f6f0fc）。
 
 リポジトリの `apps/crossweave-godot/` から、固定SDKで実行する。
 
