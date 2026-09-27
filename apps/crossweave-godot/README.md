@@ -1,6 +1,8 @@
-# crossweave Godot基盤・代表試作
+# crossweave Godot基盤・代表試作・本編Core
 
 RD-ENV-02／RD-PROOF-02。CO-M1Rで選んだGodot.NET＋C#の実動用土台。ゲーム本編の完成版ではありません。
+
+D04B-CORE-01では `Core/Application/` に独立した純C#・メモリー本編を追加。`GameApplication.Create()`からSCN-001の準備・探索・3帰還・取得編成・再出発を継続できます。Godot画面は代表試作のままです。[本編検証・CLI入口](../../docs/検証/本編実装/d04b-core-01/README.md)と[画面／DTO契約](../../docs/検証/本編実装/d04b-core-01/画面・保存への受渡し.md)を参照。本編29＋基盤13の検査を同じTestsで実行します。
 
 ## 入口
 
@@ -32,13 +34,13 @@ Godotエディターは`dotnet/project/solution_directory=".."`で親の一つ�
 
 | 領域 | 内容 | 本編への扱い |
 |---|---|---|
-| Core | エンジン型を参照しない、状態・命令・gesture | 境界とgestureは利用候補。ProofSessionは3札だけの検査モデルで本編runtimeではない |
+| Core | エンジン型を参照しない、状態・命令・gesture | Application名前空間がメモリー本編。ProofSessionは3札だけの別の検査モデル |
 | Infrastructure | 専用小状態・ファイル書込み | 保存先を引数で受ける境界を継承。ProofStoreは正式セーブへ昇格させない |
 | Godot | 画面・入力・音・Core接続・専用保存先の解決 | 同一project／描画と状態の境界を利用。試作画面とAutomationは本編時に置換・分離 |
-| Tests | Core／gesture／ファイルの13試験 | 本編試験を増設する入口。旧JS試験の代替・移植完了とはしない |
+| Tests | 本編29＋既存Core／gesture／ファイル13試験 | 旧JSの代表入力と比較。旧JS全試験の移植完了とはしない |
 | packaging | 依存取得、生成・検査、manifest、起動／確認票 | 版・入力・出力を追う生成経路として継承。Steam接続は未実装 |
 
-CoreへNode・Resource・Godotパスを持ち込まない。確定状態はProofSessionだけが所有し、viewは選択・ドラッグ・表示演出のみを持つ。演出は確定後の見かけのコピーで、UI配置とアニメーションが同じ座標を別々に書かない。重複操作ID、古いrevision、消費済み札をCoreで拒否する。
+CoreへNode・Resource・Godotパスを持ち込まない。確定状態は代表試作ではProofSession、本編ではGameApplicationが所有し、viewは選択・ドラッグ・表示演出のみを持つ。演出は確定後の見かけのコピーで、UI配置とアニメーションが同じ座標を別々に書かない。重複操作ID、古いrevision、消費済み札をCoreで扱う。
 
 ## 実行と試験の区別
 
@@ -57,4 +59,4 @@ Windowsホストでは一括入口がWindows Release自体を起動して疎通�
 
 目標はFHD60fps・視覚応答100ms・関連メモリー500MB程度。headlessのフレームやイベント処理時間をその合格値にしない。起動の初scene／描画callback／操作準備は別に記録し、表示の実感はWindows確認票で扱う。
 
-出典と現在の実行結果は[検証記録](../../docs/検証/実行基盤/m1-godot/README.md)。本編実装D04Bは固定成果SHAから受領し、担当の編集境界を設定して開始する。
+基盤の出典と実行結果は[基盤検証記録](../../docs/検証/実行基盤/m1-godot/README.md)。本編実装D04Bは固定提出0ef16895（土台f2eb59bc）から受領。Coreの到達点・成果SHA・残件は[本編引継ぎ](../../docs/検証/本編実装/d04b-core-01/とりまとめ引継ぎ.md)に分けて記録する。

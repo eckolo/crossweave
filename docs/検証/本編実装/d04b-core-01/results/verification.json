@@ -1,0 +1,173 @@
+{
+  "work_id": "20260927-game-application",
+  "checked_at": "2026-09-27T16:12:51.961619+00:00",
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "sdk": "10.0.401",
+    "runtime": "10.0.12",
+    "node_oracle_generation": "v24.19.0"
+  },
+  "solution_build": {
+    "exit": 0,
+    "warnings": 0,
+    "errors": 0
+  },
+  "tests": {
+    "total": 42,
+    "passed": 42,
+    "failed": 0,
+    "skipped": 0,
+    "application": 29,
+    "existing_proof_boundary": 13,
+    "trx_counters": {
+      "total": "42",
+      "executed": "42",
+      "passed": "42",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    }
+  },
+  "legacy_oracle": {
+    "technical_sha": "9f46e0e63593d6aa396ec0f159bdf4923eb4e108",
+    "cases": [
+      {
+        "name": "natural",
+        "commands": 79,
+        "result": "equal at every step"
+      },
+      {
+        "name": "withdraw-before",
+        "commands": 5,
+        "result": "equal at every step"
+      },
+      {
+        "name": "withdraw-protected",
+        "commands": 20,
+        "result": "equal at every step"
+      },
+      {
+        "name": "defeat",
+        "commands": 50,
+        "result": "equal at every step"
+      },
+      {
+        "name": "withdraw-unprotected",
+        "commands": 2,
+        "result": "equal at every step"
+      },
+      {
+        "name": "legal-acquisition",
+        "commands": 4,
+        "result": "equal at every step"
+      }
+    ],
+    "combat_cases": [
+      "D58-V0-weak_B",
+      "D58-V0-l",
+      "D58-V0-h",
+      "D58-P-l",
+      "D55-D58-hit-0",
+      "D55-D58-hit-99"
+    ],
+    "mt_seeds": 3,
+    "differences": []
+  },
+  "source_audit": {
+    "plan_files": 37,
+    "plan_all_blobs_match": true,
+    "technical_sources_all_hashes_match": true,
+    "runtime_preserved_files": 43,
+    "runtime_preserved_all_blobs_match": true,
+    "original_source_test_godot_infrastructure_packaging_workflow_diff_empty": true
+  },
+  "verified_artifacts": {
+    "apps/crossweave-godot/Core/Application/Assembly.cs": {
+      "bytes": 91,
+      "sha256": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+      "blob": "126c263641cd70b02ea6b55bdd23ac7644557392"
+    },
+    "apps/crossweave-godot/Core/Application/Content/acquisition.json": {
+      "bytes": 263,
+      "sha256": "ce17dd6a837e024327aed662cfe6d1ce8f307e124ee10f4b9b39e7a8a715e449",
+      "blob": "9bf1ee1308a7ce45d213675baabdb1f7c9b37a13"
+    },
+    "apps/crossweave-godot/Core/Application/Content/economy.json": {
+      "bytes": 9204,
+      "sha256": "fa56fab381afc4cd530bb8b12c41682ece525bdbeebe333f17111632bcd05bcb",
+      "blob": "6bed91e61db7ed44ca01d142e44c19ecf47666f3"
+    },
+    "apps/crossweave-godot/Core/Application/Content/m1.json": {
+      "bytes": 90564,
+      "sha256": "33d090e76c4159e70e679bcdc1f922fd5b3ff31dfb7c8473f7937db460c9076e",
+      "blob": "befd0a4e0e617346f822c9749f7be8c5adaca0be"
+    },
+    "apps/crossweave-godot/Core/Application/Expedition.cs": {
+      "bytes": 37758,
+      "sha256": "4fee8d839e46545633e87cdad63878efc9f1df20d2c81c65467839710ed09609",
+      "blob": "3f078b75e0b00db81cae2fa6dd2c8183ce780f00"
+    },
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": {
+      "bytes": 26733,
+      "sha256": "d330d54efa5ef1c787430883edcada690f2a9319d5d69937f8e958cd30a5f9bb",
+      "blob": "5f847a99d9713847e79f3264784f2226ef846326"
+    },
+    "apps/crossweave-godot/Core/Application/Json.cs": {
+      "bytes": 7502,
+      "sha256": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+      "blob": "3b05bd0d5c2f924c862aeac1cf43a4fb355eeea4"
+    },
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": {
+      "bytes": 3837,
+      "sha256": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+      "blob": "662ca4feb3bfd5bae77885e84922fd6ddb36602d"
+    },
+    "apps/crossweave-godot/Core/Application/Preparation.cs": {
+      "bytes": 22466,
+      "sha256": "1468fe4de300365e7bbc334a7e126b6a4363f86441de49a695cc87080a704dd1",
+      "blob": "3aeaa0a5bc3ba20dd3224c3808227822f9bf2724"
+    },
+    "apps/crossweave-godot/Core/Application/Story.cs": {
+      "bytes": 15011,
+      "sha256": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+      "blob": "7f45967bd2322187439327d1e2fc28c1ed8d8ad5"
+    },
+    "apps/crossweave-godot/Core/Crossweave.Core.csproj": {
+      "bytes": 128,
+      "sha256": "3a21b15907b93d8cd8ebdb6fad619d5fdd7ed1d2d6fffaf1d5a3eb021674f3f0",
+      "blob": "850bf1bd2e88274f14b6b7e9b77eeb7976dba0b4"
+    },
+    "apps/crossweave-godot/Tests/ApplicationTests.cs": {
+      "bytes": 23226,
+      "sha256": "e1c11bb5c5ba41f28093959ab7d96f5946d8bb94f5e969a0cd1a01506a8f62a1",
+      "blob": "2e379e1fc819a2c9be2a7c8d112137fb1a5cf79d"
+    },
+    "apps/crossweave-godot/Tests/Crossweave.Tests.csproj": {
+      "bytes": 617,
+      "sha256": "babbc379601d6415418dca3ecf01a66327dc198e8b49dcea5cbc3daa45e46704",
+      "blob": "6c7c72fcfde8e6a031243e829dc6a7dc66ee47da"
+    },
+    "apps/crossweave-godot/Tests/Fixtures/application-oracle.json.br": {
+      "bytes": 535011,
+      "sha256": "590e2be5259591a9c3faf5eeb8cc978f480f504c195c4288337d813302a586ec",
+      "blob": "5aa8ff0b8f87735f9ce09f6674bd493f4b3dddd6"
+    },
+    "apps/crossweave-godot/Tests/application-oracle.mjs": {
+      "bytes": 8696,
+      "sha256": "f23bb78db163b861dedfefe3b1dd290361fb8739664dec90fcb150f5f6ba3557",
+      "blob": "5c6fe7de87c3eb88c5568537c02f07d72684ffc2"
+    }
+  },
+  "scope_limit": "Memory only. No Godot application UI, formal save, Windows physical test, distribution finish, or M1 acceptance.",
+  "fixture_encoding": "Brotli; decompressed bytes verified identical to the previously compared gzip input"
+}
