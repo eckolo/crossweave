@@ -25,6 +25,22 @@ jobs:
         run: python packaging/bootstrap.py
       - name: Core tests, Godot input events, Release and separate-process save probe
         run: python packaging/verify.py --target windows
+      - name: Split unchanged ZIP for bounded artifact transfer
+        shell: python
+        run: |
+          import hashlib, json
+          from pathlib import Path
+          source = Path('artifacts/crossweave-rd-proof-02-windows-x64.zip')
+          output = Path('artifacts/transport'); output.mkdir()
+          parts = []
+          with source.open('rb') as f:
+              while data := f.read(24 * 1024 * 1024):
+                  name = 'payload-%02d.part' % (len(parts) + 1)
+                  (output / name).write_bytes(data)
+                  parts.append(dict(name=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()))
+          if len(parts) > 4:
+              raise RuntimeError('Update explicit transport artifact count before enlarging this proof')
+          (output / 'transport.json').write_text(json.dumps(dict(archive=source.name, sha256=hashlib.sha256(source.read_bytes()).hexdigest(), parts=parts), indent=2))
       - name: Retain executable and evidence (no desktop-input acceptance)
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -34,6 +50,46 @@ jobs:
             apps/crossweave-godot/artifacts/crossweave-rd-proof-02-windows-x64.zip
             apps/crossweave-godot/artifacts/delivery-windows.json
             apps/crossweave-godot/artifacts/verification-windows/
+            apps/crossweave-godot/artifacts/transport/transport.json
+            apps/crossweave-godot/Tests/TestResults/proof.trx
+          retention-days: 7
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-transfer-01-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/transport/payload-01.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-transfer-02-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/transport/payload-02.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-transfer-03-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/transport/payload-03.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-transfer-04-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/transport/payload-04.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rd-evidence-${{ github.sha }}
+          path: |
+            apps/crossweave-godot/artifacts/delivery-windows.json
+            apps/crossweave-godot/artifacts/verification-windows/
+            apps/crossweave-godot/artifacts/transport/transport.json
             apps/crossweave-godot/Tests/TestResults/proof.trx
           retention-days: 7
           if-no-files-found: error
