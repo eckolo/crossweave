@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <!-- Export publishes with a single RID and omits editor-only packages.
+         Keep each dependency graph independent from the normal solution build. -->
+    <_LockRuntime Condition="'$(RuntimeIdentifier)' == ''">portable</_LockRuntime>
+    <_LockRuntime Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</_LockRuntime>
+    <NuGetLockFilePath>packages.$(Configuration).$(_LockRuntime).lock.json</NuGetLockFilePath>
+    <RestoreLockedMode>true</RestoreLockedMode>
+  </PropertyGroup>
+</Project>

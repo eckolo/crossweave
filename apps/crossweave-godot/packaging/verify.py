@@ -41,7 +41,14 @@ def main():
     if build.exists(): shutil.rmtree(build)
     build.mkdir()
     exe = build / ('Crossweave.Proof.exe' if args.target=='windows' else 'Crossweave.Proof.x86_64')
+    rid = 'win-x64' if args.target=='windows' else 'linux-x64'
+    for project in ['Core','Infrastructure','Godot']:
+        if not (ROOT/project/('packages.ExportRelease.'+rid+'.lock.json')).is_file():
+            raise RuntimeError('Missing committed export lock: '+project+' '+rid)
+    run('restore-export',[dotnet,'restore','Godot/Crossweave.Proof.csproj','--locked-mode','--disable-parallel','-p:Configuration=ExportRelease','-p:RuntimeIdentifier='+rid])
     run('export',[godot,'--headless','--path','Godot','--export-release','Windows Desktop' if args.target=='windows' else 'Linux',exe],is_godot=True)
+    # Export must not invalidate the normal IDE/test dependency graph.
+    run('restore-after-export',[dotnet,'restore','Crossweave.sln','--locked-mode','--disable-parallel'])
     required = ['Crossweave.Proof.pck','Crossweave.Proof.dll','Crossweave.Core.dll','Crossweave.Infrastructure.dll', 'coreclr.dll' if args.target=='windows' else 'libcoreclr.so']
     for name in required:
         if not any(p.name==name for p in build.rglob('*')): raise RuntimeError('Missing export dependency '+name)
@@ -68,7 +75,7 @@ def main():
     write=json.loads((logs/'write.json').read_text()); read=json.loads((logs/'read.json').read_text())
     if write['process_instance']==read['process_instance'] or write['state']!=read['state']: raise RuntimeError('Restart proof mismatch')
     process_restart={'status':'passed','scope':'exported release' if host_matches else 'editor runtime','write_pid':write['process_id'],'read_pid':read['process_id'],'write_instance':write['process_instance'],'read_instance':read['process_instance'],'host':platform.system()}
-    licenses = build/'licenses'; licenses.mkdir()
+    licenses = build/'licenses'; licenses.mkdir(exist_ok=True)
     for path in (ROOT/'packaging/licenses').iterdir(): shutil.copy2(path,licenses/path.name)
     shutil.copy2(ROOT/'Godot/Assets/OFL.txt',licenses/'NotoSansJP-OFL.txt')
     # Microsoft runtime packages carry their own license/notice alongside the SDK.
@@ -87,6 +94,8 @@ def main():
         if rel.as_posix()=='Godot/Assets/NotoSansJP.ttf': continue
         source_files[rel.as_posix()]=digest(path,'sha256')
     source_manifest=json.dumps(source_files,sort_keys=True).encode()
+    # The generated manifest describes payload files, never a previous manifest.
+    (build/'manifest.json').unlink(missing_ok=True)
     files=[{'path':str(p.relative_to(build)).replace('\\','/'),'bytes':p.stat().st_size,'sha256':digest(p,'sha256')} for p in sorted(build.rglob('*')) if p.is_file()]
     manifest={'task':'RD-ENV-02/RD-PROOF-02','source_commit':sha,'source_files_sha256':source_files,'source_manifest_sha256':hashlib.sha256(source_manifest).hexdigest(),
         'toolchain':LOCK,'runtime_configs':runtime,'build_host':platform.platform(),'target':args.target,'commands':commands,'process_restart':process_restart,

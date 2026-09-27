@@ -24,7 +24,7 @@ RD-ENV-02／RD-PROOF-02。CO-M1Rで選んだGodot.NET＋C#の実動用土台。�
 | Godot試験 | 本試作内の`ProofAutomation.cs`。第三者Godot用adapterは追加しない |
 | 日本語 | 固定commitのNoto Sans JPをhash照合して同梱。OFLは同梱。既存フォントの利用で、素材制作はしていない |
 
-[toolchain.lock.json](packaging/toolchain.lock.json)に取得URL・hash、各`packages.lock.json`にNuGetの推移依存を記録。安定版URLを追うのではなく、この版の同じバイトを使う。
+[toolchain.lock.json](packaging/toolchain.lock.json)に取得URL・hash、各lockファイルにNuGetの推移依存を記録。通常ビルドとexportでは構成・RID・エディター依存が異なるため、全projectで`packages.<Configuration>.<portableまたはRID>.lock.json`に分けて固定する。Debug／ExportRelease、Windows／Linuxの生成が互いのlockを上書きしない。安定版URLを追うのではなく、この版の同じバイトを使う。
 
 Godotエディターは`dotnet/project/solution_directory=".."`で親の一つのsolutionを探索する。Godot csprojにはTFMを直接書く。Directory.Build.propsだけの指定ではエディターがnet8.0を追加したため修正済み。検証ホストではMSBuildの並列ノード起動が失敗したため、入口は直列ビルドを使う。
 
