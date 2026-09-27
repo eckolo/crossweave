@@ -1,0 +1,26 @@
+{
+  "stage": "RD-ENV-02 minimal before PROOF",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "sdk": "10.0.401",
+  "tfm": "net10.0",
+  "csharp": "14.0",
+  "host": "Linux x86_64",
+  "build": "passed, serial MSBuild",
+  "core_boundary_test": "1 passed",
+  "godot_headless_boot": "ENV_BOOT_OK RD-ENV-PROOF-02",
+  "windows_export": {
+    "status": "generated, no ERROR or WARNING in final export log",
+    "files": 198,
+    "bytes": 202808467,
+    "exe_sha256": "16e0ec3cfd398b938f514de95ff2474b532b5061ada78f92226dba3f7584d55d"
+  },
+  "windows_execution": "not yet run",
+  "gui": "Xvfb could not create listening sockets; no Linux GUI result",
+  "resolved_issues": [
+    "Serial build required in this host; default multiprocess build failed without a useful error",
+    "Set dotnet/project/solution_directory=.. for the single root solution",
+    "Explicit TargetFramework in Godot csproj; Godot had inserted net8.0 when TFM only lived in Directory.Build.props",
+    "Reject ERROR text and missing runtime assemblies even if Godot export exits zero"
+  ],
+  "status": "ENV incomplete until actual Windows route; generation foundation ready for PROOF"
+}

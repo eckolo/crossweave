@@ -1,0 +1,39 @@
+name: RD Godot environment and proof
+on:
+  push:
+    branches: [design/runtime-delivery-20260926]
+    paths:
+      - 'apps/crossweave-godot/**'
+      - '.github/workflows/rd-godot-proof.yml'
+permissions:
+  contents: read
+concurrency:
+  group: rd-godot-proof-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-proof:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: apps/crossweave-godot
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Acquire and verify pinned toolchain
+        run: python packaging/bootstrap.py
+      - name: Core tests, Godot input events, Release and separate-process save probe
+        run: python packaging/verify.py --target windows
+      - name: Retain executable and evidence (no desktop-input acceptance)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-godot-windows-${{ github.sha }}
+          path: |
+            apps/crossweave-godot/artifacts/crossweave-rd-proof-02-windows-x64.zip
+            apps/crossweave-godot/artifacts/delivery-windows.json
+            apps/crossweave-godot/artifacts/verification-windows/
+            apps/crossweave-godot/Tests/TestResults/proof.trx
+          retention-days: 7
+          if-no-files-found: error

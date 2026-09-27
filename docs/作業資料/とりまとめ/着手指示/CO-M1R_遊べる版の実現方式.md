@@ -1,4 +1,22 @@
-# CO-M1R — 「ひとまず遊べる」版の実現方式
+# CO-M1R — 「ひとまず遊べる」版の実現方式（完了・受領）
+
+版：0.3／2026-09-27。**依頼全体は完了・とりまとめ受領済み。** 方式検討を再実行する指示ではない。次の唯一の割当は、既存実行基盤・配布Workの[RD-ENV-02→RD-PROOF-02](RD-ENV-PROOF-02_Godot基盤と代表試作.md)。
+
+| 受領項目 | 内容 |
+|---|---|
+| 担当・枝 | 実行基盤・配布設計／20260926-runtime-delivery／design/runtime-delivery-20260926。Workは作成・登録済み |
+| 成果と完了記録 | 成果e574c21d3f5389054f53dec02fedc2f06df78a1f、参照HEAD a32a05da8560c3ee6c39fe33819ca8b4822b38db。R1〜R4と方式案・後続計画・引継ぎ0.8を確認 |
+| 採用方向 | ユーザーのGodot採用方針を継承。Godot.NET＋C#、Windows 11 x64、本人向けRelease ZIP、オフライン、将来Steamへ継続。旧Electron・MonoGame推奨は履歴 |
+| 構成・保存方針 | 純C# Core／Infrastructure／Godot／Tests／packaging、同一solution。配布先と分離した版付きファイル、確定境界・書込み所有者・二重適用防止・Godot版初回配布後の更新互換 |
+| この完了に含めない範囲 | Godot・SDK等の正確な版の固定、依存導入、実ビルド・Release生成、Windows実機・性能・正式保存・Steam確認は未実施 |
+| 旧検証 | D04E/Aのブラウザー検証をM1主経路から除外。目的はENV/PROOF、RD-SAVE-02/D04へ引継ぎ。旧実保存0件・再開物は保全 |
+| 次の順序 | ENV→PROOF→Godot本編D04B→RD-SAVE-02→RD-PACK-02→D04→P02→CO-02。今回は既存1WorkのENV/PROOFまで |
+
+出典：[方式案0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/仕様案/カード探索ゲーム_M1実行基盤と配布案.md)、[後続計画0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_後続実施計画.md)、[完了引継ぎ](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)。専門原本は同Workの保存を正本とする。
+
+## 完了した当初指示の履歴（0.2・再実行しない）
+
+以下の「今回」「未決」「新規Work」「依頼文」は2026-09-26時点の記録。現在の割当・判断は上記と最新計画を優先する。
 
 版：0.2／2026-09-26。**P0・最優先。現状の不足確認とタスク登録まで完了。具体案の比較・方式決定は未了。** 保存方式を先に固定せず、プレイヤーが受け取って遊ぶ形から実装・保存・確認の順序を定める。
 
