@@ -1,11 +1,13 @@
 # 実行基盤・配布設計 Work
 
 WorkID：`20260926-runtime-delivery`／開始日：2026-09-26（日本時間）。
-**前回完了：0.8／2026-09-27。今回の依頼全体は完了。ユーザーが当面Godot採用の方向を選択済み。Godot.NET＋C#を前提にR1〜R4と後続計画を整合し、成果12本文をGitHub保存・読戻し済み。とりまとめへの引継ぎとして提出。** [とりまとめへの引継ぎ（現行）](#handoff-current)と[回答本文](../実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)を参照。以下0.1〜0.7は履歴で、当時の推薦・未採用状態を現行判断へ適用しない。
+**前回CO-M1R完了：0.8／2026-09-27。前回の資料提出依頼は完了。ユーザーが当面Godot採用の方向を選択済み。Godot.NET＋C#を前提にR1〜R4と後続計画を整合し、成果12本文をGitHub保存・読戻し済み。とりまとめへの引継ぎとして提出。** [前回CO-M1Rの引継ぎ](#handoff-current)と[回答本文](../実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)を参照。以下0.1〜0.7は履歴で、当時の推薦・未採用状態を現行判断へ適用しない。
 
-**最新：2026-09-27 RD-ENV-02→RD-PROOF-02を同一Workで実施中。今回依頼全体は未完了・進行中。** [今回の着手・引継ぎ](#rd-env-proof-current)。CO-M1Rは完了受領済み。以下0.8までの実装対象外という境界は前回依頼の履歴。
+**最新：2026-09-27 RD-ENV-02→RD-PROOF-02の実装・Windows CI・配布一式の保存読戻しを実施。ENV／PROOF／今回依頼全体は未完了。残件はWindows 11実機確認と結果反映。** [今回の着手・引継ぎ](#rd-env-proof-current)。CO-M1Rは完了受領済み。以下0.8までの実装対象外という境界は前回依頼の履歴。
 
-## 開始設定
+## 開始設定（CO-M1R当時の記録）
+
+今回のRD-ENV／PROOFの編集範囲・実装許可は末尾の着手設定と提出記録を参照。
 
 | 項目 | 設定 |
 |---|---|
@@ -182,3 +184,16 @@ R1〜R4の方式・手順・保存・後続計画を自枝へ保存し、GitHub�
 - その後、Core／Infrastructure／Godot／Tests／packagingに分けた代表試作を作成。純.NET13試験とGodotノード・viewport合成入力20項目、Linuxの専用小状態保存終了再起動・書込み失敗表示に成功。実描画・物理入力の確認とは分ける。
 - Windows Releaseを生成済み。専用CIでWindows Releaseの起動・プロセス再起動を実確認し、生成物・manifest・結果を固定SHAへ紐付ける作業を継続中。実機入力・GPU・DPI・性能は未確認。ENV／PROOF／依頼全体は現時点で未完了。
 - [新しい検証入口](../../検証/実行基盤/m1-godot/README.md)。成果SHA・外部保存・最終残件は保存読戻し後の引継ぎへ追記する。
+
+
+### RD-ENV／PROOF 提出・読戻し結果
+
+- 今回依頼全体：**未完了**。RD-ENV-02：**未完了**。RD-PROOF-02：**未完了**。残件はWindows 11実機での実入力・日本語表示・音・100/125/150%倍率・FHD60fps／視覚応答100ms／関連メモリー500MB程度の確認と結果反映。Windows Serverのheadless成功は実機合格ではない。
+- 本編へ渡す土台SHA：`f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8`。単一solution、Core／Infrastructure／Godot／Tests、SDK・engine・templatesと生成入口を保存。Godot 4.7.2 .NET、SDK 10.0.401、net10.0／C#14、runtime 10.0.12、Compatibilityを実ビルド・exportで確認。
+- [Windows CI 36293805533](https://github.com/eckolo/crossweave/actions/runs/36293805533)：C#13試験、Godot実ノード・合成入力20項目、Release生成、Release本体起動、専用状態41の別プロセス読戻し、書込み失敗表示に成功。初回のNuGet lock衝突を構成・RID別固定で修正し、export後の開発用復元も確認した。
+- 実行一式：`crossweave-rd-proof-02-20260927-f2eb59b-win-x64.zip`、82,448,984 bytes、SHA-256 `dd959c05dde262cf8719216e1125ed6e913eceb7dba5872e7e581644f255a67f`。既存外部成果物ルートの`docs/検証/`へ新規版で保存。Dropbox保存後に全ZIPを読戻し、hash・source SHA・207 payload hash一致。上書き・公開範囲変更なし。
+- [生成manifest・配布読戻し](../../検証/実行基盤/m1-godot/delivery-record.json)、[ソース読戻し](../../検証/実行基盤/m1-godot/source-readback.json)、[確認結果](../../検証/実行基盤/m1-godot/README.md)を保存。計画35blobと技術包含を再検査し、同期元refに変更なし。
+- [とりまとめへの回答](../../検証/実行基盤/m1-godot/とりまとめ引継ぎ.md)を自Workから提出する。土台SHA・再利用可能部分・試作用コード・担当編集境界・外部成果物登録案・再開条件を明記。横断計画と外部成果物一覧の原本への反映はとりまとめが担当。受領・反映は未確認。
+- 利用者に残る操作：ZIPをWindows 11へ全展開→`start-proof.cmd`で同梱確認票を実施→記入済み確認票と`manual/metrics.json`、必要な`screen.png`を返す。専用カウンターだけ保存し、盤面はメモリー保持。本編全実装、正式保存・移行・全経路、Steam公開、素材制作には続行しない。
+- 通常保存・実装の追加承認待ちやGodot方式再判断待ちはない。試作品の実機不具合が出た場合は同Workで修正して該当項目を再確認する。他Work・内部並列エージェントは稼働していない。共通規則・UI原本・既存成果・仮データ・固定試験は保全した。
+- 本提出記録と検証資料もGitHubへ保存・固定SHAで読戻しして成果コミットを提示する。自己コミットSHAを本文へ再帰的に埋め込まず、提出記録のコミットはGit履歴と最終応答で識別する。

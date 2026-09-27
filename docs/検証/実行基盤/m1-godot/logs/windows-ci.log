@@ -1,0 +1,358 @@
+﻿2026-09-27T04:16:02.3337722Z Current runner version: '2.337.0'
+2026-09-27T04:16:02.3367577Z ##[group]Runner Image Provisioner
+2026-09-27T04:16:02.3368393Z Hosted Compute Agent
+2026-09-27T04:16:02.3368958Z Version: 20260828.587
+2026-09-27T04:16:02.3369524Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-27T04:16:02.3370206Z Build Date: 2026-08-28T16:44:25Z
+2026-09-27T04:16:02.3371273Z Worker ID: {2f93260f-07d8-44a6-a524-1b92911293b7}
+2026-09-27T04:16:02.3371956Z Azure Region: westus
+2026-09-27T04:16:02.3372535Z ##[endgroup]
+2026-09-27T04:16:02.3374009Z ##[group]Operating System
+2026-09-27T04:16:02.3374602Z Microsoft Windows Server 2025
+2026-09-27T04:16:02.3375223Z 10.0.26100
+2026-09-27T04:16:02.3375946Z Datacenter
+2026-09-27T04:16:02.3376473Z ##[endgroup]
+2026-09-27T04:16:02.3376963Z ##[group]Runner Image
+2026-09-27T04:16:02.3377491Z Image: windows-2025-vs2026
+2026-09-27T04:16:02.3378077Z Version: 20260922.246.2
+2026-09-27T04:16:02.3379571Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260922.246/images/windows/Windows2025-VS2026-Readme.md
+2026-09-27T04:16:02.3381171Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260922.246
+2026-09-27T04:16:02.3382083Z ##[endgroup]
+2026-09-27T04:16:02.3383126Z ##[group]GITHUB_TOKEN Permissions
+2026-09-27T04:16:02.3385113Z Contents: read
+2026-09-27T04:16:02.3385807Z Metadata: read
+2026-09-27T04:16:02.3386322Z ##[endgroup]
+2026-09-27T04:16:02.3388577Z Secret source: Actions
+2026-09-27T04:16:02.3389464Z Cache mode: write
+2026-09-27T04:16:02.3390125Z Prepare workflow directory
+2026-09-27T04:16:02.3881379Z Prepare all required actions
+2026-09-27T04:16:02.3952802Z Getting action download info
+2026-09-27T04:16:02.7430425Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-09-27T04:16:02.8767547Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-09-27T04:16:03.2428727Z Complete job name: windows-proof
+2026-09-27T04:16:03.3817479Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-09-27T04:16:03.3819052Z with:
+2026-09-27T04:16:03.3819625Z   persist-credentials: false
+2026-09-27T04:16:03.3820298Z   repository: eckolo/crossweave
+2026-09-27T04:16:03.3825630Z   token: ***
+2026-09-27T04:16:03.3826168Z   ssh-strict: true
+2026-09-27T04:16:03.3826680Z   ssh-user: git
+2026-09-27T04:16:03.3827091Z   clean: true
+2026-09-27T04:16:03.3827528Z   sparse-checkout-cone-mode: true
+2026-09-27T04:16:03.3828075Z   fetch-depth: 1
+2026-09-27T04:16:03.3828510Z   fetch-tags: false
+2026-09-27T04:16:03.3828957Z   show-progress: true
+2026-09-27T04:16:03.3829402Z   lfs: false
+2026-09-27T04:16:03.3829833Z   submodules: false
+2026-09-27T04:16:03.3830293Z   set-safe-directory: true
+2026-09-27T04:16:03.3831000Z ##[endgroup]
+2026-09-27T04:16:03.5384020Z Syncing repository: eckolo/crossweave
+2026-09-27T04:16:03.5385953Z ##[group]Getting Git version info
+2026-09-27T04:16:03.5386737Z Working directory is 'D:\a\crossweave\crossweave'
+2026-09-27T04:16:03.6402018Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-27T04:16:03.9930350Z git version 2.55.0.windows.5
+2026-09-27T04:16:03.9993047Z ##[endgroup]
+2026-09-27T04:16:04.0002145Z Temporarily overriding HOME='D:\a\_temp\7c0eec87-1504-41c5-909d-ed78e1ad2c29' before making global git config changes
+2026-09-27T04:16:04.0003653Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-27T04:16:04.0013101Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\crossweave\crossweave
+2026-09-27T04:16:04.0638415Z Deleting the contents of 'D:\a\crossweave\crossweave'
+2026-09-27T04:16:04.0645142Z ##[group]Initializing the repository
+2026-09-27T04:16:04.0654187Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\crossweave\crossweave
+2026-09-27T04:16:04.1542793Z Initialized empty Git repository in D:/a/crossweave/crossweave/.git/
+2026-09-27T04:16:04.1587608Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/eckolo/crossweave
+2026-09-27T04:16:04.2182459Z ##[endgroup]
+2026-09-27T04:16:04.2183641Z ##[group]Disabling automatic garbage collection
+2026-09-27T04:16:04.2190675Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-09-27T04:16:04.2493525Z ##[endgroup]
+2026-09-27T04:16:04.2494701Z ##[group]Setting up auth
+2026-09-27T04:16:04.2505543Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-27T04:16:04.2809488Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-27T04:16:05.7151127Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-27T04:16:05.7482730Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-27T04:16:06.2983455Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-09-27T04:16:06.3291705Z ##[endgroup]
+2026-09-27T04:16:06.3293460Z ##[group]Fetching the repository
+2026-09-27T04:16:06.3306675Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8:refs/remotes/origin/design/runtime-delivery-20260926
+2026-09-27T04:16:07.8794167Z From https://github.com/eckolo/crossweave
+2026-09-27T04:16:07.8795396Z  * [new ref]         f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 -> origin/design/runtime-delivery-20260926
+2026-09-27T04:16:07.8850854Z ##[endgroup]
+2026-09-27T04:16:07.8853103Z ##[group]Determining the checkout info
+2026-09-27T04:16:07.8857572Z ##[endgroup]
+2026-09-27T04:16:07.8866263Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-09-27T04:16:07.9320838Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-09-27T04:16:07.9617670Z ##[group]Checking out the ref
+2026-09-27T04:16:07.9626759Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B design/runtime-delivery-20260926 refs/remotes/origin/design/runtime-delivery-20260926
+2026-09-27T04:16:08.4464378Z Switched to a new branch 'design/runtime-delivery-20260926'
+2026-09-27T04:16:08.4542908Z branch 'design/runtime-delivery-20260926' set up to track 'origin/design/runtime-delivery-20260926'.
+2026-09-27T04:16:08.4605178Z ##[endgroup]
+2026-09-27T04:16:08.5018211Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-09-27T04:16:08.5293616Z f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:16:08.5333260Z ##[group]Removing auth
+2026-09-27T04:16:08.5341724Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-27T04:16:08.5645559Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-27T04:16:09.1024296Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-27T04:16:09.1285910Z http.https://github.com/.extraheader
+2026-09-27T04:16:09.1329384Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-09-27T04:16:09.1646657Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-27T04:16:09.7212195Z ##[endgroup]
+2026-09-27T04:16:09.7595968Z ##[group]Run python packaging/bootstrap.py
+2026-09-27T04:16:09.7596442Z [36;1mpython packaging/bootstrap.py[0m
+2026-09-27T04:16:09.8215332Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-27T04:16:09.8215836Z ##[endgroup]
+2026-09-27T04:16:11.8013791Z Downloading dotnet-sdk-10.0.401-win-x64.zip
+2026-09-27T04:16:20.9906484Z Downloading Godot_v4.7.2-stable_mono_win64.zip
+2026-09-27T04:16:23.8078544Z Downloading Godot_v4.7.2-stable_mono_export_templates.tpz
+2026-09-27T04:16:37.6228991Z Downloading NotoSansJP.ttf
+2026-09-27T04:16:38.4338323Z {
+2026-09-27T04:16:38.4339012Z   "dotnet": "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+2026-09-27T04:16:38.4340588Z   "godot": "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+2026-09-27T04:16:38.4342077Z   "templates": "C:\\Users\\runneradmin\\AppData\\Roaming\\Godot\\export_templates\\4.7.2.stable.mono",
+2026-09-27T04:16:38.4342749Z   "sdk": "10.0.401",
+2026-09-27T04:16:38.4343005Z   "engine": "4.7.2.stable.mono.official.ed1daf0bf"
+2026-09-27T04:16:38.4343291Z }
+2026-09-27T04:16:38.5758933Z ##[group]Run python packaging/verify.py --target windows
+2026-09-27T04:16:38.5759443Z [36;1mpython packaging/verify.py --target windows[0m
+2026-09-27T04:16:38.5831894Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-09-27T04:16:38.5832253Z ##[endgroup]
+2026-09-27T04:16:39.1606144Z sdk-version passed
+2026-09-27T04:16:39.2131350Z engine-version passed
+2026-09-27T04:16:58.7755397Z restore passed
+2026-09-27T04:17:04.8503914Z build passed
+2026-09-27T04:17:07.9515502Z dotnet-tests passed
+2026-09-27T04:17:15.4409128Z import passed
+2026-09-27T04:17:17.0690970Z engine-nodes-input passed
+2026-09-27T04:17:18.8858837Z restore-export passed
+2026-09-27T04:17:28.6220735Z export passed
+2026-09-27T04:17:30.4455793Z restore-after-export passed
+2026-09-27T04:17:32.1808571Z release-nodes-input passed
+2026-09-27T04:17:33.8347827Z release-save passed
+2026-09-27T04:17:34.7135297Z release-restart-read passed
+2026-09-27T04:17:35.3747242Z release-write-failure passed
+2026-09-27T04:17:47.8053986Z {
+2026-09-27T04:17:47.8054431Z   "archive": "crossweave-rd-proof-02-windows-x64.zip",
+2026-09-27T04:17:47.8054928Z   "bytes": 82448984,
+2026-09-27T04:17:47.8056867Z   "sha256": "dd959c05dde262cf8719216e1125ed6e913eceb7dba5872e7e581644f255a67f",
+2026-09-27T04:17:47.8057901Z   "source_commit": "f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8",
+2026-09-27T04:17:47.8058849Z   "source_manifest_sha256": "b4b39bd0802681e51a6ccf6df293a7478faa0e39ab15134b1bbb7e7259a8329a",
+2026-09-27T04:17:47.8059885Z   "target": "windows",
+2026-09-27T04:17:47.8060365Z   "process_restart": {
+2026-09-27T04:17:47.8060796Z     "status": "passed",
+2026-09-27T04:17:47.8061307Z     "scope": "exported release",
+2026-09-27T04:17:47.8061888Z     "write_pid": 5544,
+2026-09-27T04:17:47.8062437Z     "read_pid": 7620,
+2026-09-27T04:17:47.8063111Z     "write_instance": "77f18f2c0f3d44de87553951ffa7a2b6",
+2026-09-27T04:17:47.8064122Z     "read_instance": "c0760f45423b4ecfa8e658b8bebf35ce",
+2026-09-27T04:17:47.8064876Z     "host": "Windows"
+2026-09-27T04:17:47.8065324Z   }
+2026-09-27T04:17:47.8065714Z }
+2026-09-27T04:17:47.9377300Z ##[group]Run import hashlib, json
+2026-09-27T04:17:47.9377680Z [36;1mimport hashlib, json[0m
+2026-09-27T04:17:47.9377956Z [36;1mfrom pathlib import Path[0m
+2026-09-27T04:17:47.9378377Z [36;1msource = Path('artifacts/crossweave-rd-proof-02-windows-x64.zip')[0m
+2026-09-27T04:17:47.9378845Z [36;1moutput = Path('artifacts/transport'); output.mkdir()[0m
+2026-09-27T04:17:47.9379171Z [36;1mparts = [][0m
+2026-09-27T04:17:47.9379389Z [36;1mwith source.open('rb') as f:[0m
+2026-09-27T04:17:47.9379678Z [36;1m    while data := f.read(24 * 1024 * 1024):[0m
+2026-09-27T04:17:47.9380016Z [36;1m        name = 'payload-%02d.part' % (len(parts) + 1)[0m
+2026-09-27T04:17:47.9380582Z [36;1m        (output / name).write_bytes(data)[0m
+2026-09-27T04:17:47.9381062Z [36;1m        parts.append(dict(name=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()))[0m
+2026-09-27T04:17:47.9381541Z [36;1mif len(parts) > 4:[0m
+2026-09-27T04:17:47.9382018Z [36;1m    raise RuntimeError('Update explicit transport artifact count before enlarging this proof')[0m
+2026-09-27T04:17:47.9382912Z [36;1m(output / 'transport.json').write_text(json.dumps(dict(archive=source.name, sha256=hashlib.sha256(source.read_bytes()).hexdigest(), parts=parts), indent=2))[0m
+2026-09-27T04:17:47.9403887Z shell: C:\hostedtoolcache\windows\Python\3.12.10\x64\python.EXE {0}
+2026-09-27T04:17:47.9404242Z ##[endgroup]
+2026-09-27T04:17:48.2233537Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:17:48.2234019Z with:
+2026-09-27T04:17:48.2234318Z   name: rd-godot-windows-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:17:48.2235732Z   path: apps/crossweave-godot/artifacts/crossweave-rd-proof-02-windows-x64.zip
+apps/crossweave-godot/artifacts/delivery-windows.json
+apps/crossweave-godot/artifacts/verification-windows/
+apps/crossweave-godot/artifacts/transport/transport.json
+apps/crossweave-godot/Tests/TestResults/proof.trx
+
+2026-09-27T04:17:48.2237018Z   retention-days: 7
+2026-09-27T04:17:48.2237227Z   if-no-files-found: error
+2026-09-27T04:17:48.2237456Z   compression-level: 6
+2026-09-27T04:17:48.2237663Z   overwrite: false
+2026-09-27T04:17:48.2237879Z   include-hidden-files: false
+2026-09-27T04:17:48.2238113Z ##[endgroup]
+2026-09-27T04:17:48.4217863Z (node:9212) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:17:48.4218675Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:17:48.4389035Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-09-27T04:17:48.4393599Z The least common ancestor is D:\a\crossweave\crossweave\apps\crossweave-godot. This will be the root directory of the artifact
+2026-09-27T04:17:48.4395070Z With the provided path, there will be 26 files uploaded
+2026-09-27T04:17:48.4400363Z Artifact name is valid!
+2026-09-27T04:17:48.4402139Z Root directory input is valid!
+2026-09-27T04:17:48.8288251Z Beginning upload of artifact content to blob storage
+2026-09-27T04:17:49.1197895Z (node:9212) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:17:50.3042949Z Uploaded bytes 8388608
+2026-09-27T04:17:50.5569845Z Uploaded bytes 16777216
+2026-09-27T04:17:50.5695182Z Uploaded bytes 25165824
+2026-09-27T04:17:50.8304085Z Uploaded bytes 33554432
+2026-09-27T04:17:50.8739534Z Uploaded bytes 41943040
+2026-09-27T04:17:51.0150486Z Uploaded bytes 50331648
+2026-09-27T04:17:51.1356090Z Uploaded bytes 58720256
+2026-09-27T04:17:51.2623787Z Uploaded bytes 67108864
+2026-09-27T04:17:51.5167373Z Uploaded bytes 75497472
+2026-09-27T04:17:51.8386078Z Uploaded bytes 82122768
+2026-09-27T04:17:51.9210779Z Finished uploading artifact content to blob storage!
+2026-09-27T04:17:51.9215818Z SHA256 digest of uploaded artifact zip is fcc6b3641a8b92877a56fcebb1c1f34d086eb418695562fc1886ad517f6bc7b7
+2026-09-27T04:17:51.9218785Z Finalizing artifact upload
+2026-09-27T04:17:52.1650976Z Artifact rd-godot-windows-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10923600575
+2026-09-27T04:17:52.1653145Z Artifact rd-godot-windows-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 82122768 bytes. Artifact ID is 10923600575
+2026-09-27T04:17:52.1666243Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10923600575
+2026-09-27T04:17:52.2050133Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:17:52.2050827Z with:
+2026-09-27T04:17:52.2051116Z   name: rd-transfer-01-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:17:52.2051568Z   path: apps/crossweave-godot/artifacts/transport/payload-01.part
+2026-09-27T04:17:52.2051918Z   retention-days: 7
+2026-09-27T04:17:52.2052115Z   compression-level: 0
+2026-09-27T04:17:52.2052338Z   if-no-files-found: error
+2026-09-27T04:17:52.2052555Z   overwrite: false
+2026-09-27T04:17:52.2052758Z   include-hidden-files: false
+2026-09-27T04:17:52.2052987Z ##[endgroup]
+2026-09-27T04:17:52.4025716Z (node:3476) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:17:52.4026496Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:17:52.4079345Z With the provided path, there will be 1 file uploaded
+2026-09-27T04:17:52.4085043Z Artifact name is valid!
+2026-09-27T04:17:52.4087054Z Root directory input is valid!
+2026-09-27T04:17:52.7843872Z Beginning upload of artifact content to blob storage
+2026-09-27T04:17:52.8433177Z (node:3476) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:17:54.1283226Z Uploaded bytes 8388608
+2026-09-27T04:17:54.1310928Z Uploaded bytes 16777216
+2026-09-27T04:17:54.2045437Z Uploaded bytes 25165824
+2026-09-27T04:17:54.2835834Z Uploaded bytes 25165968
+2026-09-27T04:17:54.3689043Z Finished uploading artifact content to blob storage!
+2026-09-27T04:17:54.3690675Z SHA256 digest of uploaded artifact zip is 0f4096992f7679db0316d6f57062eb45987eb5cca1e3e042f558073bd1983fe4
+2026-09-27T04:17:54.3693178Z Finalizing artifact upload
+2026-09-27T04:17:54.6355064Z Artifact rd-transfer-01-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10923665384
+2026-09-27T04:17:54.6356791Z Artifact rd-transfer-01-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 25165968 bytes. Artifact ID is 10923665384
+2026-09-27T04:17:54.6367529Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10923665384
+2026-09-27T04:17:54.6705453Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:17:54.6705952Z with:
+2026-09-27T04:17:54.6706231Z   name: rd-transfer-02-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:17:54.6706699Z   path: apps/crossweave-godot/artifacts/transport/payload-02.part
+2026-09-27T04:17:54.6707051Z   retention-days: 7
+2026-09-27T04:17:54.6707252Z   compression-level: 0
+2026-09-27T04:17:54.6707482Z   if-no-files-found: error
+2026-09-27T04:17:54.6707696Z   overwrite: false
+2026-09-27T04:17:54.6707893Z   include-hidden-files: false
+2026-09-27T04:17:54.6708123Z ##[endgroup]
+2026-09-27T04:17:54.8762462Z (node:4284) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:17:54.8763546Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:17:54.8824643Z With the provided path, there will be 1 file uploaded
+2026-09-27T04:17:54.8830518Z Artifact name is valid!
+2026-09-27T04:17:54.8832715Z Root directory input is valid!
+2026-09-27T04:17:55.2655825Z Beginning upload of artifact content to blob storage
+2026-09-27T04:17:55.3262677Z (node:4284) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:17:56.5007555Z Uploaded bytes 8388608
+2026-09-27T04:17:56.6812885Z Uploaded bytes 16777216
+2026-09-27T04:17:56.8356196Z Uploaded bytes 25165824
+2026-09-27T04:17:56.9128390Z Uploaded bytes 25165968
+2026-09-27T04:17:56.9951001Z Finished uploading artifact content to blob storage!
+2026-09-27T04:17:56.9952385Z SHA256 digest of uploaded artifact zip is 767d5462398a2f2bc6be8602a6f5e5ed9d2cca4e07965e183cba4c23d4fdd84a
+2026-09-27T04:17:56.9954950Z Finalizing artifact upload
+2026-09-27T04:17:57.2463844Z Artifact rd-transfer-02-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10923476093
+2026-09-27T04:17:57.2466678Z Artifact rd-transfer-02-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 25165968 bytes. Artifact ID is 10923476093
+2026-09-27T04:17:57.2477349Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10923476093
+2026-09-27T04:17:57.2796616Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:17:57.2797112Z with:
+2026-09-27T04:17:57.2797408Z   name: rd-transfer-03-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:17:57.2797890Z   path: apps/crossweave-godot/artifacts/transport/payload-03.part
+2026-09-27T04:17:57.2798255Z   retention-days: 7
+2026-09-27T04:17:57.2798490Z   compression-level: 0
+2026-09-27T04:17:57.2798709Z   if-no-files-found: error
+2026-09-27T04:17:57.2798934Z   overwrite: false
+2026-09-27T04:17:57.2799134Z   include-hidden-files: false
+2026-09-27T04:17:57.2799365Z ##[endgroup]
+2026-09-27T04:17:57.4837456Z (node:864) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:17:57.4839524Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:17:57.4914772Z With the provided path, there will be 1 file uploaded
+2026-09-27T04:17:57.4922146Z Artifact name is valid!
+2026-09-27T04:17:57.4924555Z Root directory input is valid!
+2026-09-27T04:17:57.8973519Z Beginning upload of artifact content to blob storage
+2026-09-27T04:17:57.9634270Z (node:864) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:17:59.1038886Z Uploaded bytes 8388608
+2026-09-27T04:17:59.1648434Z Uploaded bytes 16777216
+2026-09-27T04:17:59.2849470Z Uploaded bytes 25165824
+2026-09-27T04:17:59.3564953Z Uploaded bytes 25165968
+2026-09-27T04:17:59.4343360Z Finished uploading artifact content to blob storage!
+2026-09-27T04:17:59.4345287Z SHA256 digest of uploaded artifact zip is 8aa67bc1b01a67a66125418d80c6cd97f61867daeb8e9543d1ade3ecc67decf5
+2026-09-27T04:17:59.4348646Z Finalizing artifact upload
+2026-09-27T04:17:59.6836062Z Artifact rd-transfer-03-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10922704543
+2026-09-27T04:17:59.6838114Z Artifact rd-transfer-03-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 25165968 bytes. Artifact ID is 10922704543
+2026-09-27T04:17:59.6849840Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10922704543
+2026-09-27T04:17:59.7250835Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:17:59.7251644Z with:
+2026-09-27T04:17:59.7252121Z   name: rd-transfer-04-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:17:59.7252934Z   path: apps/crossweave-godot/artifacts/transport/payload-04.part
+2026-09-27T04:17:59.7253576Z   retention-days: 7
+2026-09-27T04:17:59.7253930Z   compression-level: 0
+2026-09-27T04:17:59.7254303Z   if-no-files-found: error
+2026-09-27T04:17:59.7254683Z   overwrite: false
+2026-09-27T04:17:59.7255024Z   include-hidden-files: false
+2026-09-27T04:17:59.7255421Z ##[endgroup]
+2026-09-27T04:17:59.9378128Z (node:4128) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:17:59.9379739Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:17:59.9439324Z With the provided path, there will be 1 file uploaded
+2026-09-27T04:17:59.9445716Z Artifact name is valid!
+2026-09-27T04:17:59.9447562Z Root directory input is valid!
+2026-09-27T04:18:00.3357478Z Beginning upload of artifact content to blob storage
+2026-09-27T04:18:00.3919912Z (node:4128) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:18:01.3610718Z Uploaded bytes 6951656
+2026-09-27T04:18:01.4418713Z Finished uploading artifact content to blob storage!
+2026-09-27T04:18:01.4420053Z SHA256 digest of uploaded artifact zip is 48db0b9b048fec0ac865e1043b2faa364b89523450a1ff64e0dfd9fc6a927e6e
+2026-09-27T04:18:01.4422666Z Finalizing artifact upload
+2026-09-27T04:18:01.6817898Z Artifact rd-transfer-04-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10923625558
+2026-09-27T04:18:01.6819854Z Artifact rd-transfer-04-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 6951656 bytes. Artifact ID is 10923625558
+2026-09-27T04:18:01.6831488Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10923625558
+2026-09-27T04:18:01.7168377Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-09-27T04:18:01.7168852Z with:
+2026-09-27T04:18:01.7169149Z   name: rd-evidence-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8
+2026-09-27T04:18:01.7170221Z   path: apps/crossweave-godot/artifacts/delivery-windows.json
+apps/crossweave-godot/artifacts/verification-windows/
+apps/crossweave-godot/artifacts/transport/transport.json
+apps/crossweave-godot/Tests/TestResults/proof.trx
+
+2026-09-27T04:18:01.7171199Z   retention-days: 7
+2026-09-27T04:18:01.7171419Z   if-no-files-found: error
+2026-09-27T04:18:01.7171662Z   compression-level: 6
+2026-09-27T04:18:01.7171875Z   overwrite: false
+2026-09-27T04:18:01.7172090Z   include-hidden-files: false
+2026-09-27T04:18:01.7172330Z ##[endgroup]
+2026-09-27T04:18:01.9226686Z (node:6952) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-27T04:18:01.9227522Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-27T04:18:01.9386995Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-09-27T04:18:01.9391436Z The least common ancestor is D:\a\crossweave\crossweave\apps\crossweave-godot. This will be the root directory of the artifact
+2026-09-27T04:18:01.9392439Z With the provided path, there will be 25 files uploaded
+2026-09-27T04:18:01.9398080Z Artifact name is valid!
+2026-09-27T04:18:01.9399663Z Root directory input is valid!
+2026-09-27T04:18:02.3209457Z Beginning upload of artifact content to blob storage
+2026-09-27T04:18:02.3781486Z (node:6952) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-27T04:18:02.7193231Z Uploaded bytes 28582
+2026-09-27T04:18:02.7982821Z Finished uploading artifact content to blob storage!
+2026-09-27T04:18:02.7983966Z SHA256 digest of uploaded artifact zip is cb1af8828381ab735036ed98fca20609921b3199c79e437de52d36a9fcd75f6a
+2026-09-27T04:18:02.7986429Z Finalizing artifact upload
+2026-09-27T04:18:03.0507286Z Artifact rd-evidence-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8.zip successfully finalized. Artifact ID 10923680376
+2026-09-27T04:18:03.0509218Z Artifact rd-evidence-f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8 has been successfully uploaded! Final size is 28582 bytes. Artifact ID is 10923680376
+2026-09-27T04:18:03.0519931Z Artifact download URL: https://github.com/eckolo/crossweave/actions/runs/36293805533/artifacts/10923680376
+2026-09-27T04:18:03.0887409Z Post job cleanup.
+2026-09-27T04:18:03.2818895Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-09-27T04:18:03.3099419Z git version 2.55.0.windows.5
+2026-09-27T04:18:03.3167891Z Temporarily overriding HOME='D:\a\_temp\7bb13cfc-2caf-4bae-a694-a124db93dd82' before making global git config changes
+2026-09-27T04:18:03.3169453Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-27T04:18:03.3180004Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\crossweave\crossweave
+2026-09-27T04:18:03.3515258Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-09-27T04:18:03.3818960Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-09-27T04:18:03.9328302Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-27T04:18:03.9636450Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-09-27T04:18:04.5492791Z Cleaning up orphan processes
+2026-09-27T04:18:04.5762501Z Terminate orphan process: pid (7520) (dotnet)
+2026-09-27T04:18:04.5818539Z Terminate orphan process: pid (7440) (conhost)
+2026-09-27T04:18:04.6433789Z Terminate orphan process: pid (7292) (dotnet)
+2026-09-27T04:18:04.6504953Z Terminate orphan process: pid (6568) (conhost)
+2026-09-27T04:18:04.6622029Z Terminate orphan process: pid (8336) (dotnet)
+2026-09-27T04:18:04.6716640Z Terminate orphan process: pid (7000) (conhost)
+2026-09-27T04:18:04.6851303Z Terminate orphan process: pid (1492) (VBCSCompiler)
+2026-09-27T04:18:04.6944693Z Terminate orphan process: pid (3044) (conhost)
+2026-09-27T04:18:04.6966688Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

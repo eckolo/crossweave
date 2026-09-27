@@ -1,6 +1,8 @@
 # RD-ENV-02／RD-PROOF-02 検証・引継ぎ
 
-2026-09-27。実行基盤・配布設計 `20260926-runtime-delivery`。現在は成果保存・Windows実行経路の確認中。依頼全体・ENV・PROOFとも、Windows実機未確認のため未完了。
+2026-09-27。実行基盤・配布設計 `20260926-runtime-delivery`。**依頼全体・ENV・PROOFとも未完了。残件はWindows 11実機の入力・表示・DPI・音・性能確認。** コード・実行一式・自動検査・保存読戻しは済み、実機確認を再開できる状態で提出する。
+
+[とりまとめ引継ぎ](とりまとめ引継ぎ.md)／[生成manifest](generation-manifest.json)／[配布先・hash・読戻し記録](delivery-record.json)／[ソース読戻し](source-readback.json)／[Windows CI結果](windows-ci.json)。土台SHA：`f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8`。
 
 ## 成果と確認の区分
 
@@ -9,7 +11,9 @@
 - [利用者の起動手順](../../../../apps/crossweave-godot/packaging/START-HERE.md)、[Windows確認票](../../../../apps/crossweave-godot/packaging/Windows確認票.md)
 - [ENVの最小生成記録](env-minimal.json)。PROOF着手前に最小C#画面の起動・Windows実行一式の生成を確認した。
 
-LinuxホストでCore／ファイル13試験、Godotノード・viewportへの合成入力20項目、専用状態41の書込み→プロセス終了→別プロセスでの一致、実ファイルの書込み失敗表示を確認。Windows Releaseは生成済み。Windowsの実入力・描画・音・GPU・DPI・性能は未確認。専用CIでWindows Releaseのheadless起動・保存疎通を別途実行し、結果を追記する。
+LinuxホストでCore／ファイル13試験、Godotノード・viewportへの合成入力20項目、専用状態41の書込み→プロセス終了→別プロセスでの一致、実ファイルの書込み失敗表示を確認。その後、Windows Server 2025の専用CIでも13試験・20項目とWindows Release本体の起動、保存終了再起動・書込み失敗経路を確認した。[実際のCI](https://github.com/eckolo/crossweave/actions/runs/36293805533)、[生の結果](windows-results/)、[実行ログ](logs/windows-ci.log)。Windows 11実機での実入力・描画・音・GPU・DPI・性能は未確認。
+
+Windows生成ZIPは82,448,984 bytes（約78.63 MiB）、展開payloadは203,097,502 bytes＋manifest。保存後のZIP全バイト・内包manifest・207 payload hashを照合済み。Windows checkoutでは45 sourceファイルの改行がCRLFとなるためGit blobと生hashは異なるが、改行変換後のhashは46件すべて一致。これを未知のソース変更と混同しない。
 
 ビルド成功・ノード試験・Linux保存疎通・Windows生成・Windows実行・実機操作を相互代用しない。headlessメトリクスはFHD60fps・視覚応答100ms・500MBの合否に使わない。
 
@@ -34,4 +38,4 @@ LinuxホストでCore／ファイル13試験、Godotノード・viewportへの�
 
 本編D04BはCore／Godotのモデルと操作を実装し、基盤担当は保存・起動・exportを扱う。正式保存はRD-SAVE-02。規則や経済の意味を変更する必要が出た具体点だけゲームバランス検討へ渡す。原本・旧試作・仮データ・固定試験は変更していない。
 
-今回の残件：Windows実行経路の結果取得、実機確認、固定ソースSHA付き最終実行物とmanifestの保存・読戻し、引継ぎ確定。未確認を成功に変更しない。
+残件は[Windows確認票](../../../../apps/crossweave-godot/packaging/Windows確認票.md)の実機項目と結果反映。確認票・manual/metrics.json・必要なscreen.pngを受領し、本Workで残項目だけ再確認する。とりまとめの受領・計画反映は未確認。本編・正式保存・公開へ自動続行しない。

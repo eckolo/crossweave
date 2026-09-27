@@ -1,0 +1,189 @@
+[
+  {
+    "name": "sdk-version",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "seconds": 0.17199999999996862,
+    "passed": true
+  },
+  {
+    "name": "engine-version",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "seconds": 0.047000000000025466,
+    "passed": true
+  },
+  {
+    "name": "restore",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Crossweave.sln",
+      "--locked-mode",
+      "--disable-parallel"
+    ],
+    "exit_code": 0,
+    "seconds": 19.547000000000025,
+    "passed": true
+  },
+  {
+    "name": "build",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "build",
+      "Crossweave.sln",
+      "--no-restore",
+      "-m:1",
+      "-nr:false",
+      "--nologo"
+    ],
+    "exit_code": 0,
+    "seconds": 6.0779999999999745,
+    "passed": true
+  },
+  {
+    "name": "dotnet-tests",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "test",
+      "Crossweave.sln",
+      "--no-build",
+      "-m:1",
+      "--logger",
+      "trx;LogFileName=proof.trx"
+    ],
+    "exit_code": 0,
+    "seconds": 3.1100000000000136,
+    "passed": true
+  },
+  {
+    "name": "import",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--headless",
+      "--path",
+      "Godot",
+      "--editor",
+      "--import"
+    ],
+    "exit_code": 0,
+    "seconds": 7.4839999999999804,
+    "passed": true
+  },
+  {
+    "name": "engine-nodes-input",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--headless",
+      "--path",
+      "Godot",
+      "--",
+      "--proof-smoke",
+      "--probe-slot=auto-windows-3aca7e9a22"
+    ],
+    "exit_code": 0,
+    "seconds": 1.593999999999994,
+    "passed": true
+  },
+  {
+    "name": "restore-export",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Godot/Crossweave.Proof.csproj",
+      "--locked-mode",
+      "--disable-parallel",
+      "-p:Configuration=ExportRelease",
+      "-p:RuntimeIdentifier=win-x64"
+    ],
+    "exit_code": 0,
+    "seconds": 1.8129999999999882,
+    "passed": true
+  },
+  {
+    "name": "export",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--headless",
+      "--path",
+      "Godot",
+      "--export-release",
+      "Windows Desktop",
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\win-x64\\Crossweave.Proof.exe"
+    ],
+    "exit_code": 0,
+    "seconds": 9.734000000000037,
+    "passed": true
+  },
+  {
+    "name": "restore-after-export",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Crossweave.sln",
+      "--locked-mode",
+      "--disable-parallel"
+    ],
+    "exit_code": 0,
+    "seconds": 1.8120000000000118,
+    "passed": true
+  },
+  {
+    "name": "release-nodes-input",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\win-x64\\Crossweave.Proof.exe",
+      "--headless",
+      "--",
+      "--proof-smoke",
+      "--probe-slot=auto-windows-3aca7e9a22"
+    ],
+    "exit_code": 0,
+    "seconds": 1.7040000000000077,
+    "passed": true
+  },
+  {
+    "name": "release-save",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\win-x64\\Crossweave.Proof.exe",
+      "--headless",
+      "--",
+      "--probe-write=41",
+      "--probe-slot=auto-windows-3aca7e9a22"
+    ],
+    "exit_code": 0,
+    "seconds": 1.656000000000006,
+    "passed": true
+  },
+  {
+    "name": "release-restart-read",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\win-x64\\Crossweave.Proof.exe",
+      "--headless",
+      "--",
+      "--expect-probe=41",
+      "--probe-slot=auto-windows-3aca7e9a22"
+    ],
+    "exit_code": 0,
+    "seconds": 0.875,
+    "passed": true
+  },
+  {
+    "name": "release-write-failure",
+    "command": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\win-x64\\Crossweave.Proof.exe",
+      "--headless",
+      "--",
+      "--probe-fail-write",
+      "--probe-slot=auto-windows-3aca7e9a22"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6719999999999686,
+    "passed": true
+  }
+]
