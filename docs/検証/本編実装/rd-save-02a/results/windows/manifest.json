@@ -1,0 +1,140 @@
+{
+  "task": "RD-SAVE-02A",
+  "host": "windows",
+  "platform": "Windows-2025Server-10.0.26100-SP0",
+  "sdk": "10.0.401",
+  "runtime": "10.0.12",
+  "commit": "e6b3b7446626f99131396e10bfbfdbd5990d8694",
+  "commands": {
+    "restore": {
+      "arguments": [
+        "restore",
+        "Tests/Crossweave.Tests.csproj",
+        "-m:1",
+        "--locked-mode",
+        "-p:NuGetAudit=false"
+      ],
+      "exit": 0
+    },
+    "build": {
+      "arguments": [
+        "build",
+        "Tests/Crossweave.Tests.csproj",
+        "--no-restore",
+        "-m:1",
+        "--nologo"
+      ],
+      "exit": 0
+    },
+    "test": {
+      "arguments": [
+        "test",
+        "Tests/Crossweave.Tests.csproj",
+        "--no-build",
+        "--no-restore",
+        "-m:1",
+        "--nologo",
+        "--logger",
+        "trx;LogFileName=save.trx",
+        "--results-directory",
+        "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\rd-save-02a-windows"
+      ],
+      "exit": 0
+    }
+  },
+  "artifacts": {
+    "build.log": {
+      "bytes": 586,
+      "sha256": "ec9198c864b89308c631693853d91f9f7b40fe063fa7b01df287083326262efd"
+    },
+    "checks/campaign-defeat.json": {
+      "bytes": 23498,
+      "sha256": "ee198b51c9d4c7940a88d1a99b97adc9c2d876460da9591467bcc9b997dd7376"
+    },
+    "checks/campaign-legal-acquisition.json": {
+      "bytes": 2063,
+      "sha256": "9fa0ef2b4c7502a177683089afee5adda427c6b4694080f5d064ddb7059b9d5e"
+    },
+    "checks/campaign-natural.json": {
+      "bytes": 37217,
+      "sha256": "8b4f6ee59179f085a36e1aa57c5f5d1f17ebbd563bfb9e26eb0b8c81070eda2c"
+    },
+    "checks/campaign-withdraw-before.json": {
+      "bytes": 2512,
+      "sha256": "2e8b1e9493d1c0667534d19123dbd2fede4c0b3fa36c3f7a7d3c5a2741326512"
+    },
+    "checks/campaign-withdraw-protected.json": {
+      "bytes": 9714,
+      "sha256": "a7e267ef723d4e177176359951c050510bd5c4f4b8120efd5dad89399edff78a"
+    },
+    "checks/campaign-withdraw-unprotected.json": {
+      "bytes": 1095,
+      "sha256": "8c6e0cee05c4d089cd05531974ede1bbb2ebf615eb26c1e6455ca6d23168c834"
+    },
+    "checks/crash-AfterFlush.json": {
+      "bytes": 321,
+      "sha256": "525d9ceb9caea35f14b874f1e1a3f477bfeab3efd67178c8975bcf6e296db00d"
+    },
+    "checks/crash-AfterReplace.json": {
+      "bytes": 322,
+      "sha256": "84bd86728bd485497960c2dc972135f4332299d626f825c19f94acfde6c3a010"
+    },
+    "checks/crash-BeforeReplace.json": {
+      "bytes": 324,
+      "sha256": "f97e9268c8924ee21df610b70cf5d6672309879fbee770f9ec4e48bc498fb376"
+    },
+    "checks/crash-DuringWrite.json": {
+      "bytes": 322,
+      "sha256": "6c21b653fa19ff415963045c17de30a960f2ba06865f24278fe751e172fa1b7b"
+    },
+    "restore.log": {
+      "bytes": 486,
+      "sha256": "ec9d167f0b066b3831ce9135b0cfb668c3acbe4e9ce8ee23d7bd99b932f5455d"
+    },
+    "save.trx": {
+      "bytes": 100059,
+      "sha256": "223ac4f634fb69d9b11c15ffa47ff8bfc28569c55c627d6b1f53c8ac674f7943"
+    },
+    "test.log": {
+      "bytes": 421,
+      "sha256": "d2f8a07a0cabd4d03a987e54e6d487bfec075fc3a45d9cddac0fbfd0da12a300"
+    }
+  },
+  "scope": "Real application DTO + real files + separate processes; no Godot UI or physical Windows acceptance",
+  "test_counters": {
+    "total": "72",
+    "executed": "72",
+    "passed": "72",
+    "failed": "0",
+    "error": "0",
+    "timeout": "0",
+    "aborted": "0",
+    "inconclusive": "0",
+    "passedButRunAborted": "0",
+    "notRunnable": "0",
+    "notExecuted": "0",
+    "disconnected": "0",
+    "warning": "0",
+    "completed": "0",
+    "inProgress": "0",
+    "pending": "0"
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "0e7a6791d6bbc8d600d078b149bc614a372a9dd959291ecd93e93ef395aec731",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "c566635a3286edf21ebe1bebde157bbc055fedce1f16d5852137738331e9eb15",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "3e5ea1b775e9e05798a53d0ba09df9e99f4bbb13e21e4a84544201e71036b8ce",
+    "apps/crossweave-godot/Core/Application/Json.cs": "f2c29b75f2a23e4fdcff2dc627dc46d14c94aa2d29cca52a6d36f94f6e3fa39e",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "39b06f045fcf2f8e2f778e49c4079713d3521c0ed3f99fb772d9cce57e6460dc",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "6c9f42650df2b7ef4c2f5ddf9e9ff7e288f69ee653aa8ea6c4e6d0e46fca5839",
+    "apps/crossweave-godot/Core/Application/Story.cs": "08b7ef18941d3a4d6cf4befd4cb36ebaaf277939294ca33b5a08db5486728c31",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "65b76b7fc0d3a8a27bcce2a12fc574d51f25b1550f98be78dab47d3372c3f873",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "ddfec0a0a677c83f08ed60bc99123f52a843bdd9dfe1876b6f68ab3447899f4b",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "71c732bc46df82aefe5befaa673805479c84c86936e7183085c0fcecc7cbc8dd",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "0a24f5b3e5f071c5650df8f77731dcc1d54d7a3eb73842e7a92583b81139c040",
+    "apps/crossweave-godot/SaveProbe/Program.cs": "5ddb39bbaa488997bb535df1bcd9400cf6668c9ad729cf3d711daef33d091480",
+    "apps/crossweave-godot/SaveProbe/verify.py": "e6062dc9be211be3ae0bec781d9a477052d9a5f529355fd0d45e0b5da6fd38a8",
+    "apps/crossweave-godot/Tests/Fixtures/application-oracle.json.br": "590e2be5259591a9c3faf5eeb8cc978f480f504c195c4288337d813302a586ec",
+    "apps/crossweave-godot/Tests/Fixtures/save-file-v1.json": "28251c44b81f6eaf924f5f28813a644198a78d27614e5204952e90644bdca351",
+    "apps/crossweave-godot/Tests/SaveTests.cs": "4166d131a64e3f18d42762ded9d9883dc8882bed22dd81146006b8c8161c54eb"
+  }
+}
