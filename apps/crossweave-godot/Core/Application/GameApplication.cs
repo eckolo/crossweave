@@ -4,12 +4,19 @@ namespace Crossweave.Core.Application;
 public sealed record GameCommand(string RequestId, long ExpectedRevision, string ViewToken, string Type, JsonObject Payload);
 public sealed record ApplicationDto(int FormatVersion, string RuleSetId, string ContentSetId, JsonObject State);
 public sealed record CommandResult(string Status, string? Error, JsonObject View);
-/// <summary>Optional durable compare-and-swap boundary. Throw/false must mean no durable commit.
-/// The default application is memory only. File atomicity/recovery are RD-SAVE-02 responsibilities.</summary>
+/// <summary>
+/// 一操作分の候補を保存してから、Coreの所有状態を交換するための境界。
+/// false／通常例外は「候補は永続確定していない」。成否を判断できない場合だけ
+/// ApplicationCommitUncertainExceptionを使い、再読込みまで操作を止める。
+/// 境界を渡さない既存のメモリー本編の動作は変わらない。
+/// </summary>
 public interface IApplicationCommitBoundary
 {
     bool TryCommit(long expectedRevision, ApplicationDto candidate);
 }
+
+/// <summary>置換後の読戻し不能など、保存成否を確定できない通知。単なる保存失敗とは区別する。</summary>
+public sealed class ApplicationCommitUncertainException(string message, Exception? inner = null) : Exception(message, inner);
 
 /// <summary>Single owner of campaign, expedition, preparations, receipts and request history.
 /// Every public read is a detached copy; only Execute can publish a new revision.</summary>
@@ -20,6 +27,9 @@ public sealed class GameApplication
     private JsonObject document;
     private readonly IApplicationCommitBoundary? boundary;
     private bool publishing;
+    private bool commitBlocked;
+    /// <summary>成否不明の確定が発生したらtrue。保存側で再読込みして新しい本体を作るまで解除しない。</summary>
+    public bool IsCommitBlocked { get { lock (gate) return commitBlocked; } }
     private GameApplication(JsonObject d, IApplicationCommitBoundary? commitBoundary)
     {
         document = d.Copy();
@@ -47,14 +57,18 @@ public sealed class GameApplication
     public ApplicationDto ExportDto()
     {
         lock (gate)
+        {
+            // この時点のメモリーは永続側より古い可能性があり、正常な保存候補として外へ出さない。
+            if (commitBlocked) throw new ApplicationCommitUncertainException("確定成否が不明です。保存から再読込みしてください。");
             return Dto(document);
+        }
     }
 
     private static ApplicationDto Dto(JsonObject d) => new(DtoVersion, d.S("rule_set_id"), d.S("content_set_id"), d.Copy());
     public JsonObject Inspect()
     {
         lock (gate)
-            return View(document);
+            return CurrentView();
     }
 
     public JsonObject PreviewPreparation(long expectedRevision, string viewToken, JsonObject plan)
@@ -62,6 +76,7 @@ public sealed class GameApplication
         lock (gate)
             try
             {
+                J.Check(!commitBlocked, "commit_outcome_unknown");
                 Fresh(document, expectedRevision, viewToken);
                 Require(document, "preview_preparation");
                 var map = new Handles(document);
@@ -92,6 +107,7 @@ public sealed class GameApplication
         lock (gate)
             try
             {
+                J.Check(!commitBlocked, "commit_outcome_unknown");
                 Fresh(document, expectedRevision, viewToken);
                 Require(document, "preview_action");
                 var g = Game(document.O("session"));
@@ -111,6 +127,7 @@ public sealed class GameApplication
         lock (gate)
             try
             {
+                J.Check(!commitBlocked, "commit_outcome_unknown");
                 Fresh(document, expectedRevision, viewToken);
                 Require(document, "quote_conversion");
                 var map = new Handles(document);
@@ -128,6 +145,7 @@ public sealed class GameApplication
         lock (gate)
             try
             {
+                if (commitBlocked) return new("blocked", "commit_outcome_unknown", CurrentView());
                 J.Check(!publishing, "commit_in_progress");
                 J.Check(command is not null && command.RequestId.Length is> 0 and <= 1024 && command.ExpectedRevision >= 0, "invalid_request");
                 J.Check(command!.Payload is not null, "invalid_payload");
@@ -263,6 +281,12 @@ public sealed class GameApplication
                         publishing = true;
                         committed = boundary.TryCommit(document.L("revision"), Dto(next));
                     }
+                    catch (ApplicationCommitUncertainException)
+                    {
+                        // 旧状態を成功表示せず、候補も勝手に確定しない。保存の実物から復元するまで停止する。
+                        commitBlocked = true;
+                        return new("indeterminate", "commit_outcome_unknown", CurrentView());
+                    }
                     catch (Exception)
                     {
                         throw new RuleException("commit_boundary_failed");
@@ -282,6 +306,20 @@ public sealed class GameApplication
             {
                 return new("rejected", ErrorCode(ex), View(document));
             }
+    }
+
+    private JsonObject CurrentView()
+    {
+        var view = View(document);
+        if (!commitBlocked) return view;
+        view.Put("commit_state", "indeterminate");
+        view.Put("stale", true);
+        foreach (var capability in view.O("capabilities").Values())
+        {
+            capability.Put("available", false);
+            capability.Put("reason", "commit_outcome_unknown");
+        }
+        return view;
     }
 
     private static bool IsRefusal(Exception e) => e is RuleException or InvalidOperationException or InvalidCastException or ArgumentException or KeyNotFoundException or NullReferenceException or OverflowException;

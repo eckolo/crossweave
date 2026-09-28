@@ -4,6 +4,8 @@ RD-ENV-02／RD-PROOF-02。CO-M1Rで選んだGodot.NET＋C#の実動用土台。�
 
 D04B-CORE-01では `Core/Application/` に独立した純C#・メモリー本編を追加。`GameApplication.Create()`からSCN-001の準備・探索・3帰還・取得編成・再出発を継続できます。Godot画面は代表試作のままです。[本編検証・CLI入口](../../docs/検証/本編実装/d04b-core-01/README.md)と[画面／DTO契約](../../docs/検証/本編実装/d04b-core-01/画面・保存への受渡し.md)を参照。本編29＋基盤13の検査を同じTestsで実行します。
 
+RD-SAVE-02Aでは `Infrastructure/Application/FileGameSession.cs` に本編の実ファイル保存と再開を追加。絶対OSパスを渡し、所持・編成・探索・乱数・要求履歴をDTOごと確定します。`python SaveProbe/verify.py` が固定SDKで実ファイル・別プロセス・障害30検査と既存42検査を実行します。Godotの通常入口への接続は02Bです。[接続契約](../../docs/検証/本編実装/rd-save-02a/接続契約.md)と[コード解説](../../docs/検証/本編実装/rd-save-02a/コード解説.md)を参照してください。
+
 ## 入口
 
 - **IDE：`Crossweave.sln`一つを開く。** Core／Infrastructure／Godot／Testsを同じsolutionで追う。VS Code等でもCLIを共用でき、特定IDEの購入は不要。
@@ -35,9 +37,9 @@ Godotエディターは`dotnet/project/solution_directory=".."`で親の一つ�
 | 領域 | 内容 | 本編への扱い |
 |---|---|---|
 | Core | エンジン型を参照しない、状態・命令・gesture | Application名前空間がメモリー本編。ProofSessionは3札だけの別の検査モデル |
-| Infrastructure | 専用小状態・ファイル書込み | 保存先を引数で受ける境界を継承。ProofStoreは正式セーブへ昇格させない |
+| Infrastructure | 試作小状態／独立した本編ファイル保存 | 本編はFileGameSessionとApplicationFileStore。ProofStoreとは別のモデル・保存先 |
 | Godot | 画面・入力・音・Core接続・専用保存先の解決 | 同一project／描画と状態の境界を利用。試作画面とAutomationは本編時に置換・分離 |
-| Tests | 本編29＋既存Core／gesture／ファイル13試験 | 旧JSの代表入力と比較。旧JS全試験の移植完了とはしない |
+| Tests／SaveProbe | 本編29＋既存基盤13＋本編保存30試験／別プロセス検査CLI | 本編の実DTO・実ファイル・中断・排他・再送を検査。旧JS全試験の移植完了とはしない |
 | packaging | 依存取得、生成・検査、manifest、起動／確認票 | 版・入力・出力を追う生成経路として継承。Steam接続は未実装 |
 
 CoreへNode・Resource・Godotパスを持ち込まない。確定状態は代表試作ではProofSession、本編ではGameApplicationが所有し、viewは選択・ドラッグ・表示演出のみを持つ。演出は確定後の見かけのコピーで、UI配置とアニメーションが同じ座標を別々に書かない。重複操作ID、古いrevision、消費済み札をCoreで扱う。
@@ -49,13 +51,13 @@ CoreへNode・Resource・Godotパスを持ち込まない。確定状態は代�
 - `プロセス再起動`：専用スロットに小状態41を書き、プロセスが終了してから別プロセスで読み、内容とプロセス識別子を照合する。一括入口または配布用`verify-restart.cmd`。
 - `Windows実画面`：同梱確認票。FHD／OS倍率100・125・150%、文字、マウス、音、演出、性能は人の操作と実機条件を記録する。
 
-Windowsホストでは一括入口がWindows Release自体を起動して疎通を確認する。LinuxホストでWindowsを生成した場合、Windows実行は`not-run`として扱い、LinuxのGodot runtimeでの保存疎通を別記する。専用CIは`.github/workflows/rd-godot-proof.yml`のみ。CI成功も実マウス・GPU・DPI合格を意味しない。
+Windowsホストでは一括入口がWindows Release自体を起動して疎通を確認する。LinuxホストでWindowsを生成した場合、Windows実行は`not-run`として扱い、LinuxのGodot runtimeでの保存疎通を別記する。基盤専用CIは`.github/workflows/rd-godot-proof.yml`、本編保存専用CIは`.github/workflows/rd-save-02a.yml`。CI成功も実マウス・GPU・DPI合格を意味しない。
 
 ## 保存と限界
 
-`user://proofs/rd-proof-02/<slot>/probe.json`だけを使う。手動はmanual、CLI／CIは別slot。本編`m1.json`を読まない。カウンター・形式版・日本語文字列だけが保存され、盤面は毎起動メモリーで初期化される。
+代表試作の画面は`user://proofs/rd-proof-02/<slot>/probe.json`だけを使う。手動はmanual、CLI／CIは別slot。本編`m1.json`を読まない。カウンター・形式版・日本語文字列だけが保存され、試作盤面は毎起動メモリーで初期化される。
 
-保存失敗を成功表示にせず、別の場所へ黙って保存しない。読めない保存は保全し、上書きを抑止。正式セーブ互換、破損復旧、停電耐性、マルチプロセス所有権、本編の全状態や精算はRD-SAVE-02へ残す。
+本編保存部02Aは、版付きファイル・バックアップ・明示復旧・単一所有者・成否不明時の操作停止を実装します。Godotの通常保存先への接続、起動／終了／復旧表示は02B、配布物更新の実機受入はD04です。停電・任意改ざん・ネットワーク共有への耐性は検証範囲外です。
 
 目標はFHD60fps・視覚応答100ms・関連メモリー500MB程度。headlessのフレームやイベント処理時間をその合格値にしない。起動の初scene／描画callback／操作準備は別に記録し、表示の実感はWindows確認票で扱う。
 

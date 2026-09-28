@@ -1,6 +1,6 @@
 # CO-M1R — 「ひとまず遊べる」版の実現方式（完了・受領）
 
-版：0.4／2026-09-27。**依頼全体は完了・とりまとめ受領済み。** 方式検討を再実行する指示ではない。後続ENV/PROOFは実装・自動確認・配布物提出を受領し、Windows実機残件を保持。今回の唯一の割当は、新規本編Workの[D04B-CORE-01](D04B-CORE-01_CSharp本編と一巡.md)。
+版：0.5／2026-09-28。**依頼全体は完了・とりまとめ受領済み。** 方式検討を再実行する指示ではない。後続ENV/PROOFは実装・自動確認・配布物提出を受領し、Windows実機残件を保持。本編Coreは完了受領。今回の唯一の割当は、既存本編Workの[RD-SAVE-02A](RD-SAVE-02A_本編ファイル保存と再開.md)。
 
 | 受領項目 | 内容 |
 |---|---|
@@ -8,9 +8,9 @@
 | 成果と完了記録 | 成果e574c21d3f5389054f53dec02fedc2f06df78a1f、参照HEAD a32a05da8560c3ee6c39fe33819ca8b4822b38db。R1〜R4と方式案・後続計画・引継ぎ0.8を確認 |
 | 採用方向 | ユーザーのGodot採用方針を継承。Godot.NET＋C#、Windows 11 x64、本人向けRelease ZIP、オフライン、将来Steamへ継続。旧Electron・MonoGame推奨は履歴 |
 | 構成・保存方針 | 純C# Core／Infrastructure／Godot／Tests／packaging、同一solution。配布先と分離した版付きファイル、確定境界・書込み所有者・二重適用防止・Godot版初回配布後の更新互換 |
-| この完了に含めない範囲 | CO-M1Rは方式検討の完了。後続で基盤版固定・ビルド・CI・実行一式の提出は受領済みだが、Windows11実機・本編・正式保存・M1配布は未完了 |
+| この完了に含めない範囲 | CO-M1Rは方式検討の完了。基盤提出・本編Coreは後続で受領済み。Windows11実機、本編画面、正式保存・M1配布は未完了 |
 | 旧検証 | D04E/Aのブラウザー検証をM1主経路から除外。目的はENV/PROOF、RD-SAVE-02/D04へ引継ぎ。旧実保存0件・再開物は保全 |
-| 次の順序 | 今回は本編Coreを先行。Coreと基盤実機残件の両方を受領してGodot画面統合→正式保存→配布→D04→P02→CO-02。現行指示は最新Work別実施計画を参照 |
+| 次の順序 | Core完了→今回SAVE-02A。基盤実機残件受領→Godot画面統合→SAVE-02B→配布→D04→P02→CO-02。現行指示は最新Work別実施計画を参照 |
 
 出典：[方式案0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/仕様案/カード探索ゲーム_M1実行基盤と配布案.md)、[後続計画0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_後続実施計画.md)、[完了引継ぎ](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)。専門原本は同Workの保存を正本とする。
 

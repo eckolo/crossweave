@@ -1,0 +1,34 @@
+name: RD SAVE 02A real file and process verification
+on:
+  push:
+    branches: [impl/m1-godot-application-20260927]
+    paths:
+      - 'apps/crossweave-godot/Core/**'
+      - 'apps/crossweave-godot/Infrastructure/**'
+      - 'apps/crossweave-godot/SaveProbe/**'
+      - 'apps/crossweave-godot/Tests/**'
+      - '.github/workflows/rd-save-02a.yml'
+permissions:
+  contents: read
+concurrency:
+  group: rd-save-02a-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-save:
+    # 既存proofと同じWindows runner・固定SDK・artifact経路を使う。物理画面の合格とは別。
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Real application saves, restart, interruption, ownership and regression
+        run: python apps/crossweave-godot/SaveProbe/verify.py
+      - name: Retain test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-save-02a-windows-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/rd-save-02a-windows/
+          retention-days: 14
+          if-no-files-found: error
