@@ -20,8 +20,12 @@ def git(*args):
 
 def clean():
     # 全リポジトリの追跡変更・未追跡入力を拒否する。ignoredな生成物は入力にしない。
-    if git('status', '--porcelain', '--untracked-files=all'):
-        raise RuntimeError('保存されていない入力があります。commit後の清潔なcheckoutで生成してください。')
+    status = git('status', '--porcelain', '--untracked-files=all')
+    if status:
+        # 何が変わったかを失敗時にも残す。許可範囲を広げて黙認しない。
+        EVIDENCE.mkdir(parents=True, exist_ok=True)
+        (EVIDENCE/'source-changes.txt').write_text(status+'\n'+git('diff','--no-ext-diff'), encoding='utf-8')
+        raise RuntimeError('生成入力が変化しました: '+ascii(status)+'; source-changes.txtを参照')
 
 
 def main():

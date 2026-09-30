@@ -213,3 +213,5 @@ R1〜R4の方式・手順・保存・後続計画を自枝へ保存し、GitHub�
 - 直接編集：`apps/crossweave-godot/packaging/`、必要最小のexport/project・配布検査入口、アプリREADME、専用`.github/workflows/rd-pack-02.yml`、`docs/検証/実行基盤/rd-pack-02/`、自Work・同期記録と登録索引の自分の行。Core・保存形式・規則・画面の再実装なし。
 - 固定条件：Godot.NET4.7.2、SDK10.0.401、runtime10.0.12、Compatibility、保存v1、custom_user_dir=crossweave。本編はMain.tscn、通常保存user://saves/local/m1.json。旧proofとfixtureを通常利用者の入口へ混ぜない。
 - ENV／PROOFのWindows 11実機結果は未受領。今回のWindows CI結果を実入力・DPI・音・GPU性能の合格にしない。D04・P02・M1受入・Steam公開・素材制作へ自動続行しない。
+
+- 通常登録更新：技術枝の自Work行だけを新配布枝へ合わせ、`21ddd349b6bec69ecac6d9db288c537553dab860`で保存・読戻し。自枝の同じ行とも一致。ゲーム本編や他Work行の変更はない。
