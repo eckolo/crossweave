@@ -1,0 +1,90 @@
+name: RD PACK 02 Windows main release
+on:
+  push:
+    branches: [impl/m1-windows-package-20260930]
+    paths:
+      - 'apps/crossweave-godot/**'
+      - '.github/workflows/rd-pack-02.yml'
+permissions:
+  contents: read
+concurrency:
+  group: rd-pack-02-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-package:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/crossweave-godot
+    steps:
+      # 正確なcommitを完全checkout。生成物や未保存入力はbuild.pyで拒否する。
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: 固定toolchainの取得とhash確認
+        run: python packaging/bootstrap.py
+      - name: 既存72試験と本編Release ZIP生成
+        run: python packaging/m1/build.py
+      - name: 完成ZIPの展開・実描画・一巡・再開・別フォルダー入替
+        run: python packaging/m1/verify.py
+      # 成否に関係なく根拠を残す。アップロード成功自体は検査合格ではない。
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: rd-pack-evidence-${{ github.sha }}
+          path: |
+            apps/crossweave-godot/artifacts/m1-package/evidence/
+            apps/crossweave-godot/artifacts/m1-package/delivery.json
+            apps/crossweave-godot/artifacts/m1-package/transport/transport.json
+          retention-days: 7
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-release-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/*.zip
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-01-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-01.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-02-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-02.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-03-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-03.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-04-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-04.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-05-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-05.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rd-pack-part-06-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/m1-package/transport/payload-06.part
+          retention-days: 7
+          compression-level: 0
+          if-no-files-found: warn

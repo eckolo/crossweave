@@ -1,10 +1,16 @@
 # crossweave 本編アプリ・Core・保存・Godot
 
-通常起動は本編の `Main.tscn` です。D04B-CORE-01の純C#本編とRD-SAVE-02Aの実ファイル保存を、D04B-UI-01／RD-SAVE-02BでGodotの画面・入力・終了へ接続しています。準備→夜潮の排水路→3種の帰還→取得・編成→再出発と、終了後の再開が今回の範囲です。正式配布・Windows 11実機受入・人の試遊・M1完成は別判定です。
+通常起動は本編の `Main.tscn` です。D04B-CORE-01の純C#本編とRD-SAVE-02Aの実ファイル保存を、D04B-UI-01／RD-SAVE-02BでGodotの画面・入力・終了へ接続しています。準備→夜潮の排水路→3種の帰還→取得・編成→再出発と、終了後の再開が今回の範囲です。本編配布はRD-PACK-02で追加しています。Windows 11実機受入・人の試遊・M1完成は別判定です。
 
 以下のコード表記はすべて**リポジトリルートからの相対パス**。読み物はこのREADMEへ集約します。
 
-## 最初の起動
+## 利用者の起動（本編Release ZIP）
+
+ZIPを全展開し **Crossweave.exe** を開きます。開発環境の導入・追加取得は不要です。通常保存先は `%APPDATA%\crossweave\saves\local\m1.json`。更新はアプリ終了後、新しいフォルダーへ全展開して「続きから」です。
+
+配布版の所在・SHA・hash・確認結果は `docs/検証/実行基盤/rd-pack-02/とりまとめ引継ぎ.md` へ集約します。利用者向け手順は `apps/crossweave-godot/packaging/m1/START-HERE.md`、実機の残項目は `apps/crossweave-godot/packaging/m1/Windows11確認票.md`。旧 `apps/crossweave-godot/packaging/START-HERE.md` は代表試作専用です。
+
+## 開発者の最初の起動
 
 Python 3.12以上を用意し、リポジトリルートで実行します。
 
@@ -36,6 +42,9 @@ python apps/crossweave-godot/UiProbe/launch.py
 | 7 保存・寿命の接続 | `docs/検証/本編実装/d04b-ui-save-01/接続契約.md` | `apps/crossweave-godot/Godot/Application/GameScreen.cs` のOpen／Send／ExecuteLast／Reload／Close |
 | 8 実ノード検査 | `docs/検証/本編実装/d04b-ui-save-01/確認結果.md` | `apps/crossweave-godot/Godot/Application/UiAutomation.cs`、`apps/crossweave-godot/UiProbe/verify.py` |
 | 9 成果・残件 | `docs/検証/本編実装/d04b-ui-save-01/とりまとめ引継ぎ.md` | `docs/作業資料/Work/20260927-game-application.md` |
+| 10 本編配布の読み始め | `docs/検証/実行基盤/rd-pack-02/コード解説.md` | `apps/crossweave-godot/packaging/m1/build.py` → `apps/crossweave-godot/packaging/m1/verify.py` |
+| 11 配布exeの証拠 | `docs/検証/実行基盤/rd-pack-02/確認結果.md` | `apps/crossweave-godot/Godot/Application/PackageEvidence.cs`、`apps/crossweave-godot/Godot/Application/UiAutomation.cs` |
+| 12 配布版・残件 | `docs/検証/実行基盤/rd-pack-02/とりまとめ引継ぎ.md` | `.github/workflows/rd-pack-02.yml`、`docs/作業資料/Work/20260926-runtime-delivery.md` |
 | 基盤の過去記録 | `docs/検証/実行基盤/m1-godot/README.md` | `apps/crossweave-godot/Godot/ProofView.cs`、`ProofAutomation.cs`（同フォルダ） |
 
 ## 自動確認の入口
@@ -50,7 +59,19 @@ python apps/crossweave-godot/SaveProbe/verify.py
 
 本編検査は `user://proofs/d04b-ui-save-01/<一意slot>/m1.json` のみ。通常保存とは別です。自然初回と合法fixtureを分け、通常起動へ検査残高を入れません。証拠は `apps/crossweave-godot/artifacts/d04b-ui-save-01-<OS>/`、Windows経路は `.github/workflows/d04b-ui-save-01.yml`。既存の72試験も利用し、新しい検査は画面と保存の境界へ集中します。
 
-Godotの実ノードと合成入力、CI上の実描画、Windows 11実機・物理入力・DPI・GPU性能・人の受入は別です。現行の実測状況は上記「確認結果」を参照してください。正式配布の仕上げはRD-PACK-02です。
+Godotの実ノードと合成入力、CI上の実描画、Windows 11実機・物理入力・DPI・GPU性能・人の受入は別です。現行の実測状況は上記「確認結果」を参照してください。完成ZIPの確認はRD-PACK-02の結果を参照してください。
+
+## 本編配布を生成・確認する入口（Windows開発者／CI）
+
+```sh
+python apps/crossweave-godot/packaging/bootstrap.py
+python apps/crossweave-godot/packaging/m1/build.py
+python apps/crossweave-godot/packaging/m1/verify.py
+```
+
+保存済みの清潔なcheckoutが必要です。固定依存を取得して既存72試験→export→完成ZIPを作り、そのZIPをWindowsの別フォルダーへ展開して本編を合成操作します。資料への入口は上表10〜12。生成物は `apps/crossweave-godot/artifacts/m1-package/`。通常起動にこれらのスクリプトは要りません。
+
+`apps/crossweave-godot/packaging/verify.py` は旧ENV/PROOFの小試作用のまま保全しています。今回の配布証拠は混ぜません。
 
 ## 固定環境
 
