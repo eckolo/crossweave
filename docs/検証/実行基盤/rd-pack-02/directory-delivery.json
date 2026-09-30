@@ -1,0 +1,2307 @@
+{
+  "schema_version": 1,
+  "task": "RD-PACK-02/P5-DIR",
+  "work_id": "20260926-runtime-delivery",
+  "branch": "impl/m1-windows-package-20260930",
+  "observed_date": "2026-09-30",
+  "status": "completed",
+  "binary_source_commit": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
+  "accepted_main_commit": "749d648fac7f439f243b84b2e84ce9cd0e5198b2",
+  "delivery_revision": "20260930-dir.1",
+  "delivery_format": "directory",
+  "dropbox_directory": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64",
+  "dropbox_namespace_path": "ns:316114324//gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64",
+  "dropbox_folder_id": "id:VsVuJOM-0QMAAAAAAA2ZdQ",
+  "launch": "Crossweave.exe",
+  "windows_save": "%APPDATA%\\crossweave\\saves\\local\\m1.json",
+  "windows_log": "%APPDATA%\\crossweave\\logs\\godot.log",
+  "file_count": 210,
+  "total_bytes": 205539216,
+  "subdirectories": [
+    "data_Crossweave.Proof_windows_x86_64",
+    "licenses"
+  ],
+  "manifest_sha256": "f32ed692a2a6fff8c75af6ca5adaf4ab70c09e9bb36735d1798d90dcf3f0f2cb",
+  "generation": {
+    "reused_binary": true,
+    "rebuild": false,
+    "unchanged_files": 206,
+    "updated_documents": [
+      "START-HERE.md",
+      "Windows11確認票.md",
+      "更新案内.md"
+    ],
+    "new_manifest": true,
+    "original_manifest_sha256": "dfee4ab299a4a3586fd94101fdabe0e9cc1dc81f8dcc716a3ffdc3d3b7a5b8f7",
+    "preparation_script": "apps/crossweave-godot/packaging/m1/prepare_directory.py",
+    "preparation_script_sha256": "ad0195de05bd6c334e56abf399f1914e67418b2f2d51c597847ecfcc2a778d8d",
+    "local_final_rehash_all_files": true
+  },
+  "verification": {
+    "missing": [],
+    "extra": [],
+    "size_mismatches": [],
+    "local_full_sha256_matches": true,
+    "dropbox_list_pagination_complete": true,
+    "dropbox_listed_file_count": 210,
+    "dropbox_listed_total_bytes": 205539216,
+    "metadata_key_files_checked": [
+      "/",
+      "Crossweave.exe",
+      "Crossweave.pck",
+      "manifest.json",
+      "data_Crossweave.Proof_windows_x86_64/Crossweave.Core.dll",
+      "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.runtimeconfig.json",
+      "data_Crossweave.Proof_windows_x86_64/coreclr.dll",
+      "data_Crossweave.Proof_windows_x86_64/hostfxr.dll",
+      "data_Crossweave.Proof_windows_x86_64/hostpolicy.dll"
+    ],
+    "text_readback": {
+      "manifest.json": {
+        "exact_text_equal": false,
+        "after_trimming_equal": true,
+        "json_equal": true,
+        "extraction_difference": "remote extracted text has one additional final LF"
+      },
+      "START-HERE.md": {
+        "exact_text_equal": false,
+        "after_trimming_equal": true,
+        "extraction_difference": "remote extracted text has one additional final LF"
+      },
+      "Windows11確認票.md": {
+        "exact_text_equal": false,
+        "after_trimming_equal": true,
+        "extraction_difference": "remote extracted text has one additional final LF"
+      },
+      "更新案内.md": {
+        "exact_text_equal": false,
+        "after_trimming_equal": true,
+        "extraction_difference": "remote extracted text has one additional final LF"
+      }
+    },
+    "route": "Dropbox plugin upload_file/check_upload_file_status/list_folder/get_file_metadata/fetch only",
+    "connected_account_access": "folder listing, metadata, guide and manifest extraction succeeded",
+    "user_windows_pc_access": "not yet confirmed",
+    "remote_binary_sha256": "not exposed by used metadata tools; not independently rehashed",
+    "full_binary_download": false,
+    "new_zip_generation": false,
+    "old_zip_download_retry": false
+  },
+  "reused_windows_ci": {
+    "run_id": 36686770622,
+    "url": "https://github.com/eckolo/crossweave/actions/runs/36686770622",
+    "source_commit": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
+    "host": "Windows Server 2025; software ANGLE/Microsoft Basic Render Driver; synthetic input",
+    "existing_tests": 72,
+    "package_cases": 7,
+    "checks": 370,
+    "state_comparisons": 82,
+    "images": 9,
+    "scope": "same executable/runtime/resources: launch, natural loop, separate process restart and same-release folder replacement; unchanged 206 files",
+    "physical_windows11": "not checked",
+    "future_version_save_migration": "not checked"
+  },
+  "incidents": [
+    {
+      "stage": "local preparation",
+      "result": "first attempt stopped on changed staging Crossweave.exe; original source staging changed to 74252288 bytes while copied destination remained 109513728",
+      "cause": "unconfirmed",
+      "resolution": "restored staging exe from already available verified local archive and reran same preparation; final 210 hashes match",
+      "failed_draft_uploaded": false
+    },
+    {
+      "stage": "upload progress observation",
+      "result": "progress notifications did not show current completions; driver stopped once for inspection",
+      "diagnosis": "plugin listing showed 71 files saved; not an upload failure",
+      "resolution": "compared saved paths and sizes; uploaded only remaining 139 files",
+      "duplicate_upload": false
+    },
+    {
+      "stage": "manifest extracted-text read",
+      "first_attempt": "INVALID_ARGUMENT / Fetch service returned an invalid response. Please try again.",
+      "same_plugin_retry_count": 1,
+      "retry_result": "success; JSON equal and text equal except extra final LF",
+      "cause": "transient extraction/service cause not established",
+      "alternate_route": false
+    }
+  ],
+  "old_p5": {
+    "status": "out_of_scope_requirement_change",
+    "label": "要件変更により対象外",
+    "history": "docs/検証/実行基盤/rd-pack-02/storage-readback.json",
+    "preserved_http403": true,
+    "success_rewrite": false,
+    "standing_wait": false
+  },
+  "acceptance": {
+    "P5_DIR": "completed",
+    "RD_PACK_02": "completed_under_v0.3",
+    "CO_D04C": "incomplete_awaiting_user_windows11",
+    "ENV": "incomplete",
+    "PROOF": "incomplete",
+    "D04": "incomplete",
+    "whole_request": "incomplete_awaiting_user_windows11",
+    "P02": "not_started",
+    "M1": "not_accepted"
+  },
+  "metadata": {
+    "/": {
+      "folder": {
+        "folder_size": 205539216,
+        "id": "id:VsVuJOM-0QMAAAAAAA2ZdQ",
+        "name": "crossweave-m1-20260930-0765f1588e63-win-x64",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64",
+        "permissions": {},
+        "sharing_info": {
+          "is_parent_shared_folder_read_only": {},
+          "parent_shared_folder_id": {
+            "value": "316114324"
+          }
+        },
+        "tag": "folder"
+      },
+      "metadata_type": "folder"
+    },
+    "Crossweave.exe": {
+      "file": {
+        "client_modified": "2026-09-30T14:33:22Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2ZeA",
+        "is_downloadable": true,
+        "mime_type": "application/x-msdos-program",
+        "name": "Crossweave.exe",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/Crossweave.exe",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/crossweave.exe",
+        "permissions": {},
+        "rev": "65cb42ebf3cbe12d78594",
+        "server_modified": "2026-09-30T14:33:28Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 109513728,
+        "size_display": "104.44 MB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "Crossweave.pck": {
+      "file": {
+        "client_modified": "2026-09-30T14:36:14Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2ZeQ",
+        "is_downloadable": true,
+        "mime_type": "application/octet-stream",
+        "name": "Crossweave.pck",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/Crossweave.pck",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/crossweave.pck",
+        "permissions": {},
+        "rev": "65cb438c58e3112d78594",
+        "server_modified": "2026-09-30T14:36:16Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 8816824,
+        "size_display": "8.41 MB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "manifest.json": {
+      "file": {
+        "client_modified": "2026-09-30T15:13:12Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2aSQ",
+        "is_downloadable": true,
+        "mime_type": "application/octet-stream",
+        "name": "manifest.json",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/manifest.json",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/manifest.json",
+        "permissions": {},
+        "rev": "65cb4bcdf129f12d78594",
+        "server_modified": "2026-09-30T15:13:12Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 47275,
+        "size_display": "46.17 KB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "data_Crossweave.Proof_windows_x86_64/Crossweave.Core.dll": {
+      "file": {
+        "client_modified": "2026-09-30T14:36:33Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2ZfA",
+        "is_downloadable": true,
+        "mime_type": "application/x-msdos-program",
+        "name": "Crossweave.Core.dll",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_Crossweave.Proof_windows_x86_64/Crossweave.Core.dll",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_crossweave.proof_windows_x86_64/crossweave.core.dll",
+        "permissions": {},
+        "rev": "65cb439d9246612d78594",
+        "server_modified": "2026-09-30T14:36:34Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 251392,
+        "size_display": "245.50 KB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.runtimeconfig.json": {
+      "file": {
+        "client_modified": "2026-09-30T14:37:24Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2Zgw",
+        "is_downloadable": true,
+        "mime_type": "application/octet-stream",
+        "name": "Crossweave.Proof.runtimeconfig.json",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.runtimeconfig.json",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_crossweave.proof_windows_x86_64/crossweave.proof.runtimeconfig.json",
+        "permissions": {},
+        "rev": "65cb43cd4d1bf12d78594",
+        "server_modified": "2026-09-30T14:37:24Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 374,
+        "size_display": "374 B",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "data_Crossweave.Proof_windows_x86_64/coreclr.dll": {
+      "file": {
+        "client_modified": "2026-09-30T15:10:28Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2aNQ",
+        "is_downloadable": true,
+        "mime_type": "application/x-msdos-program",
+        "name": "coreclr.dll",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_Crossweave.Proof_windows_x86_64/coreclr.dll",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_crossweave.proof_windows_x86_64/coreclr.dll",
+        "permissions": {},
+        "rev": "65cb4b320c06512d78594",
+        "server_modified": "2026-09-30T15:10:29Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 4614992,
+        "size_display": "4.40 MB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "data_Crossweave.Proof_windows_x86_64/hostfxr.dll": {
+      "file": {
+        "client_modified": "2026-09-30T15:11:00Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2aNw",
+        "is_downloadable": true,
+        "mime_type": "application/x-msdos-program",
+        "name": "hostfxr.dll",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_Crossweave.Proof_windows_x86_64/hostfxr.dll",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_crossweave.proof_windows_x86_64/hostfxr.dll",
+        "permissions": {},
+        "rev": "65cb4b50279e012d78594",
+        "server_modified": "2026-09-30T15:11:00Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 379688,
+        "size_display": "370.79 KB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    },
+    "data_Crossweave.Proof_windows_x86_64/hostpolicy.dll": {
+      "file": {
+        "client_modified": "2026-09-30T15:11:08Z",
+        "id": "id:VsVuJOM-0QMAAAAAAA2aOA",
+        "is_downloadable": true,
+        "mime_type": "application/x-msdos-program",
+        "name": "hostpolicy.dll",
+        "path_display": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_Crossweave.Proof_windows_x86_64/hostpolicy.dll",
+        "path_lower": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64/data_crossweave.proof_windows_x86_64/hostpolicy.dll",
+        "permissions": {},
+        "rev": "65cb4b57b889412d78594",
+        "server_modified": "2026-09-30T15:11:08Z",
+        "sharing_info": {
+          "last_modifier": {
+            "account_id": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g",
+            "display_name": "久乃銑泉",
+            "email": "sanemoto.hisano@gmail.com",
+            "email_verified": true,
+            "user_id": "199114148"
+          },
+          "modified_by": {
+            "value": "dbid:AAD3hjg5t2UEpfXblvyhzxL2WJU3iyBS6_g"
+          },
+          "parent_shared_folder_id": "316114324"
+        },
+        "size": 378664,
+        "size_display": "369.79 KB",
+        "tag": "file"
+      },
+      "metadata_type": "file"
+    }
+  },
+  "files": [
+    {
+      "path": "Crossweave.exe",
+      "bytes": 109513728,
+      "sha256": "16e0ec3cfd398b938f514de95ff2474b532b5061ada78f92226dba3f7584d55d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZeA",
+      "dropbox_bytes": 109513728,
+      "dropbox_modified_time": "2026-09-30T14:33:28Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "Crossweave.pck",
+      "bytes": 8816824,
+      "sha256": "02fb9a593f8f71e34fa067749e3a223942c085b7d141852250398c51ef71b3eb",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZeQ",
+      "dropbox_bytes": 8816824,
+      "dropbox_modified_time": "2026-09-30T14:36:16Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 3758,
+      "sha256": "2e709224527294f4febbca4946c454ceb1450bc73846a7892b201a87f935817c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zeg",
+      "dropbox_bytes": 3758,
+      "dropbox_modified_time": "2026-09-30T14:36:23Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "Windows11確認票.md",
+      "bytes": 5110,
+      "sha256": "c6fd8929358c5709623afa3deed59061167cc290f4f77b0742aefb9774e6c438",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zew",
+      "dropbox_bytes": 5110,
+      "dropbox_modified_time": "2026-09-30T14:36:28Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Core.dll",
+      "bytes": 251392,
+      "sha256": "61bee44127a7b1b7ad6e76ed92039b605f723fdfeea27091d8441b09ba884802",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZfA",
+      "dropbox_bytes": 251392,
+      "dropbox_modified_time": "2026-09-30T14:36:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Core.pdb",
+      "bytes": 48328,
+      "sha256": "a453b7cb372e3b1c7c53f25a6e637a00598bce6d74d457ae08de322620b2024e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZfQ",
+      "dropbox_bytes": 48328,
+      "dropbox_modified_time": "2026-09-30T14:36:41Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Infrastructure.dll",
+      "bytes": 27648,
+      "sha256": "22761cdb85f1ecff3eeca2318860f0e4823d7f77407721a4dd9877b721f68478",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zfg",
+      "dropbox_bytes": 27648,
+      "dropbox_modified_time": "2026-09-30T14:36:49Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Infrastructure.pdb",
+      "bytes": 18364,
+      "sha256": "6bdb211de461953c5da0b1fa1c7aeb9a4f971ab0b7a7c731783c1c2c0107a0f0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zfw",
+      "dropbox_bytes": 18364,
+      "dropbox_modified_time": "2026-09-30T14:36:55Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.deps.json",
+      "bytes": 29490,
+      "sha256": "a84190ca966f62d2aae5f0baa48371f465dadc2105c8c8aa366a279f6693c308",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZgA",
+      "dropbox_bytes": 29490,
+      "dropbox_modified_time": "2026-09-30T14:37:00Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.dll",
+      "bytes": 216576,
+      "sha256": "a1e0c2fe08a38de047fcfa07a63bb8df66bd70233ec9c35605ecf19810c68f8f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZgQ",
+      "dropbox_bytes": 216576,
+      "dropbox_modified_time": "2026-09-30T14:37:08Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.pdb",
+      "bytes": 74160,
+      "sha256": "5e950c2b8bb95bd4697cffb8788fb61447c2954ec27a9c3969baf49fbf98d74d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zgg",
+      "dropbox_bytes": 74160,
+      "dropbox_modified_time": "2026-09-30T14:37:17Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Crossweave.Proof.runtimeconfig.json",
+      "bytes": 374,
+      "sha256": "5f8fa34afd7f3e5a94948944eeda37e8d1bfa294aaf4001c9c0f24d1ed83a2c7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zgw",
+      "dropbox_bytes": 374,
+      "dropbox_modified_time": "2026-09-30T14:37:24Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/GodotSharp.dll",
+      "bytes": 5928960,
+      "sha256": "2afe2686aacfefac36da6601b59aeb05e560f06e4970cd5036100acd2ca4249d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZhA",
+      "dropbox_bytes": 5928960,
+      "dropbox_modified_time": "2026-09-30T14:37:35Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.CSharp.dll",
+      "bytes": 980776,
+      "sha256": "2000912f2fc52e0c64ed893d79f4e7b143502540fb7170b5ae5fcea7099ba431",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZhQ",
+      "dropbox_bytes": 980776,
+      "dropbox_modified_time": "2026-09-30T14:37:46Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.DiaSymReader.Native.amd64.dll",
+      "bytes": 2377016,
+      "sha256": "70e4b89978ce57ef87b28f4921f3140c383b04aa96e7f3bdb3c4ebb898fd8a72",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zhg",
+      "dropbox_bytes": 2377016,
+      "dropbox_modified_time": "2026-09-30T14:37:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.VisualBasic.Core.dll",
+      "bytes": 1193768,
+      "sha256": "2666b24eb6e295476b44abd057ea250fd5957db9c1c7adee6a223a747ddfe3d2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zhw",
+      "dropbox_bytes": 1193768,
+      "dropbox_modified_time": "2026-09-30T14:38:06Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.VisualBasic.dll",
+      "bytes": 17192,
+      "sha256": "e192508adde6a758138a5a8e28998dccb64e7f45eaf30d8ab3564f87749028b1",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZiA",
+      "dropbox_bytes": 17192,
+      "dropbox_modified_time": "2026-09-30T14:38:12Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.Win32.Primitives.dll",
+      "bytes": 15656,
+      "sha256": "6c21472b0ae2f9b484a97614fad5485a22f18f9f19ee1adb9ceb3ed8ddb072d7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZiQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:38:19Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/Microsoft.Win32.Registry.dll",
+      "bytes": 116520,
+      "sha256": "76849cfde4369f3ae93e28261fe5e1010dbf1332f7da95c98543cba9b03961c0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zig",
+      "dropbox_bytes": 116520,
+      "dropbox_modified_time": "2026-09-30T14:38:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.AppContext.dll",
+      "bytes": 15144,
+      "sha256": "d9dd9fa44e019f27172d6b2662e2b6038f48c270912ac8aae53d4d909da7e9be",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Ziw",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:38:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Buffers.dll",
+      "bytes": 15144,
+      "sha256": "a1a35f5524e2f831d08ca55f702fbddcb8c6dfecd264f0f563d81a1c8b8280bd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZjA",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:38:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Collections.Concurrent.dll",
+      "bytes": 231248,
+      "sha256": "082f4bc0da1141eb65111b6da633d75624adfb7bb067d7ee90c5622c8b30885b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZjQ",
+      "dropbox_bytes": 231248,
+      "dropbox_modified_time": "2026-09-30T14:38:48Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Collections.Immutable.dll",
+      "bytes": 976680,
+      "sha256": "b527dd7b2beb82c22aa39787298cbeb33f3eac9eb9b83a0f0271353421db28db",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zjg",
+      "dropbox_bytes": 976680,
+      "dropbox_modified_time": "2026-09-30T14:38:57Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Collections.NonGeneric.dll",
+      "bytes": 104232,
+      "sha256": "aa4d5216d066c91cb489f63c6cbfcaf1f47b6e74e070db45639d3460454fc60b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zjw",
+      "dropbox_bytes": 104232,
+      "dropbox_modified_time": "2026-09-30T14:39:04Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Collections.Specialized.dll",
+      "bytes": 104272,
+      "sha256": "e31af1f866e880844e027be59f545b9a6b34108e0b0680ebe3fbc19a53070819",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZkA",
+      "dropbox_bytes": 104272,
+      "dropbox_modified_time": "2026-09-30T14:39:12Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Collections.dll",
+      "bytes": 296744,
+      "sha256": "df6f2037eabee28100184e92f7536427ba2f086c1110629804d466b124bc4d54",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZkQ",
+      "dropbox_bytes": 296744,
+      "dropbox_modified_time": "2026-09-30T14:39:18Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.Annotations.dll",
+      "bytes": 198480,
+      "sha256": "e3be2d35d81e6475c64110cfc099895b71df22c8b46a18c2d7c76a913b8ba903",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zkg",
+      "dropbox_bytes": 198480,
+      "dropbox_modified_time": "2026-09-30T14:39:26Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.DataAnnotations.dll",
+      "bytes": 16720,
+      "sha256": "d40e8c7062e6b9ce11ba83eab3d26be0eec8066b99970ea88b8e87fb75f411bd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zkw",
+      "dropbox_bytes": 16720,
+      "dropbox_modified_time": "2026-09-30T14:39:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.EventBasedAsync.dll",
+      "bytes": 46888,
+      "sha256": "cc84fe814ef5e58271d83193e328f8ec220efd4696d90af9a7c4690c10451495",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZlA",
+      "dropbox_bytes": 46888,
+      "dropbox_modified_time": "2026-09-30T14:39:43Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.Primitives.dll",
+      "bytes": 79656,
+      "sha256": "1e2451184c287409ea25acde3c90f25950bf34d16458a6e52a94ca4292434f62",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZlQ",
+      "dropbox_bytes": 79656,
+      "dropbox_modified_time": "2026-09-30T14:39:52Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.TypeConverter.dll",
+      "bytes": 767784,
+      "sha256": "10dae312a6697718f8ce3dfcdb17d6ae4b74687c765d74d50de8a8e69e08f5e7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zlg",
+      "dropbox_bytes": 767784,
+      "dropbox_modified_time": "2026-09-30T14:40:01Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ComponentModel.dll",
+      "bytes": 30544,
+      "sha256": "e3b6f75864ee944898540937c1f300e04f44a1b2729516f0bbf948589a8b14b2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zlw",
+      "dropbox_bytes": 30544,
+      "dropbox_modified_time": "2026-09-30T14:40:11Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Configuration.dll",
+      "bytes": 19240,
+      "sha256": "3952a72e1f18774f16952b46c20e80ed2bc601a06eca01f33fa924c738022a9c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZmA",
+      "dropbox_bytes": 19240,
+      "dropbox_modified_time": "2026-09-30T14:43:22Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Console.dll",
+      "bytes": 169808,
+      "sha256": "3b85daf02a3d9ed99b84bb1c639fe8b1ced46d8d157fa56f525f6b8c5be43b3e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZmQ",
+      "dropbox_bytes": 169808,
+      "dropbox_modified_time": "2026-09-30T14:43:29Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Core.dll",
+      "bytes": 23336,
+      "sha256": "ac23faf1b37fa49f1b117baad951a65609e799a6e669a6df06d3552677e0c086",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zmg",
+      "dropbox_bytes": 23336,
+      "dropbox_modified_time": "2026-09-30T14:43:42Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Data.Common.dll",
+      "bytes": 2770728,
+      "sha256": "66bdd62047ee460e2ce2c33d15dd1173ac97997b2745864a905179594f821acc",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zmw",
+      "dropbox_bytes": 2770728,
+      "dropbox_modified_time": "2026-09-30T14:43:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Data.DataSetExtensions.dll",
+      "bytes": 15656,
+      "sha256": "aeeae0755c8c7f6747765cdf82fa43182e320e97f2035e3a0a19f21905e6c113",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZnA",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:43:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Data.dll",
+      "bytes": 25424,
+      "sha256": "49f52958a2a6e461d0fd7a47e54a199eb263c69ecfcc0fc684b73b5918ebf466",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZnQ",
+      "dropbox_bytes": 25424,
+      "dropbox_modified_time": "2026-09-30T14:44:03Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.Contracts.dll",
+      "bytes": 16208,
+      "sha256": "6c05cacd9b61b08ae75f2d783cc402b0b5fc848e3d68c29c10b93897cc083e8b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zng",
+      "dropbox_bytes": 16208,
+      "dropbox_modified_time": "2026-09-30T14:44:08Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.Debug.dll",
+      "bytes": 15656,
+      "sha256": "8b160ffe7518588bf64e13c01c6dcb2ef504d64f38bbf0f198d31e7b698db92c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Znw",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:44:16Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.DiagnosticSource.dll",
+      "bytes": 501544,
+      "sha256": "6267c1bd1bdf2bdd4b5748b885b0adcda10f18697adfea8488a19a009ad44fdb",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZoA",
+      "dropbox_bytes": 501544,
+      "dropbox_modified_time": "2026-09-30T14:44:24Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.FileVersionInfo.dll",
+      "bytes": 46928,
+      "sha256": "e94f158142e93834dec3100bde3313935517d549ff36c65819a06d3104dec427",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZoQ",
+      "dropbox_bytes": 46928,
+      "dropbox_modified_time": "2026-09-30T14:44:32Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.Process.dll",
+      "bytes": 329552,
+      "sha256": "51a57fbe918f8b68930c090792b718fc0850ea12da869d50b97a3796af29a740",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zog",
+      "dropbox_bytes": 329552,
+      "dropbox_modified_time": "2026-09-30T14:44:38Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.StackTrace.dll",
+      "bytes": 46888,
+      "sha256": "8f6397c1e2ba9b8b8bfa317962151b5035049ce8d6b3575e5027a0d0eeacc797",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zow",
+      "dropbox_bytes": 46888,
+      "dropbox_modified_time": "2026-09-30T14:44:45Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.TextWriterTraceListener.dll",
+      "bytes": 67368,
+      "sha256": "1bf165cee916a854e1150f489e4348ce94755359d5fcdcc0bc2bbbe6a7102bdd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZpA",
+      "dropbox_bytes": 67368,
+      "dropbox_modified_time": "2026-09-30T14:44:51Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.Tools.dll",
+      "bytes": 15144,
+      "sha256": "841c5e2b6c171fa9aaff0fc6295f3fbc93dc5dcab44118b62f1c942bb674aff2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZpQ",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:44:57Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.TraceSource.dll",
+      "bytes": 141096,
+      "sha256": "8445c7f1bbaae6cffde60e2c9a8753faaa5100255fbe31d0a1927d9d9bb7f194",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zpg",
+      "dropbox_bytes": 141096,
+      "dropbox_modified_time": "2026-09-30T14:45:04Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Diagnostics.Tracing.dll",
+      "bytes": 16208,
+      "sha256": "9563d5eec35f94d13a5e62eaa9535dbe0e9ea474f055da132fb8af46b0b01263",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zpw",
+      "dropbox_bytes": 16208,
+      "dropbox_modified_time": "2026-09-30T14:45:10Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Drawing.Primitives.dll",
+      "bytes": 132944,
+      "sha256": "17585b32ca91bac8ccff2ef1c6ddf62ee9ea5efc552928c3a9d1b868394246e9",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZqA",
+      "dropbox_bytes": 132944,
+      "dropbox_modified_time": "2026-09-30T14:45:18Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Drawing.dll",
+      "bytes": 20304,
+      "sha256": "585a8da9952d715f8de7a7b1879b59d68ff8608b92f6ed1c5f0e1d251180d3c6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZqQ",
+      "dropbox_bytes": 20304,
+      "dropbox_modified_time": "2026-09-30T14:45:28Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Dynamic.Runtime.dll",
+      "bytes": 16168,
+      "sha256": "c0eac30c791db8c1a2b50b61c50d029f4ddd0eadfdd35433745001688a3e7466",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zqg",
+      "dropbox_bytes": 16168,
+      "dropbox_modified_time": "2026-09-30T14:45:36Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Formats.Asn1.dll",
+      "bytes": 239440,
+      "sha256": "a163fe5f96d1689f1bc1ac531b38c3aba95792ac7dd52231d325d658947fbcfd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zqw",
+      "dropbox_bytes": 239440,
+      "dropbox_modified_time": "2026-09-30T14:45:44Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Formats.Tar.dll",
+      "bytes": 272168,
+      "sha256": "44c9984f269a158915195fd32007f22c3bb692dcfeb933cda8ea45a3ac6cd1ce",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZrA",
+      "dropbox_bytes": 272168,
+      "dropbox_modified_time": "2026-09-30T14:45:53Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Globalization.Calendars.dll",
+      "bytes": 15656,
+      "sha256": "e0f3f3f6e4acc7b6755782fed5cb075ecf70beee4fc5d404579ae99bc0883ef2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZrQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:45:59Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Globalization.Extensions.dll",
+      "bytes": 15144,
+      "sha256": "be0390557cc72078a7217cf94fd44b9ab66aa30838c00a92aa78c62469c44aa0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zrg",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:46:06Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Globalization.dll",
+      "bytes": 15696,
+      "sha256": "66902cffd057673b4b77aa68faf80d33ffa4c94510e61db2a067943cc53b7702",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zrw",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T14:46:11Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Compression.Brotli.dll",
+      "bytes": 83752,
+      "sha256": "0a59a95787ee15784d73079fdd5dc555b78659a6c560b6cbbf0d7452e638df89",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZsA",
+      "dropbox_bytes": 83752,
+      "dropbox_modified_time": "2026-09-30T14:46:19Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Compression.FileSystem.dll",
+      "bytes": 15184,
+      "sha256": "4aeec2c0189f73ba8122f05c0d759008ddae1a8873b167cc8a558d53f2af80e1",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZsQ",
+      "dropbox_bytes": 15184,
+      "dropbox_modified_time": "2026-09-30T14:46:25Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Compression.Native.dll",
+      "bytes": 937256,
+      "sha256": "4d174b78aa8b3516c7e3cec0355dfe9ae570894055c377d2e5565d077a9a7a1e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zsg",
+      "dropbox_bytes": 937256,
+      "dropbox_modified_time": "2026-09-30T14:46:32Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Compression.ZipFile.dll",
+      "bytes": 100176,
+      "sha256": "2da76eb281740be485b5637da8c60fe0ce12bc2848d1a1a81ce144fa74313e18",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zsw",
+      "dropbox_bytes": 100176,
+      "dropbox_modified_time": "2026-09-30T14:46:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Compression.dll",
+      "bytes": 419624,
+      "sha256": "c942747f84b730887090f5e0cf86d164c0ee402e524dce2750e06a6df48513fb",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZtA",
+      "dropbox_bytes": 419624,
+      "dropbox_modified_time": "2026-09-30T14:46:46Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.FileSystem.AccessControl.dll",
+      "bytes": 104232,
+      "sha256": "f7f9ed6cdab35274711e9345266784ec332ae8040db184d141c70e7941fbbec5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZtQ",
+      "dropbox_bytes": 104232,
+      "dropbox_modified_time": "2026-09-30T14:46:54Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.FileSystem.DriveInfo.dll",
+      "bytes": 55120,
+      "sha256": "0a7f3dd2fb6147a3fc046aeac8501d764effe5a3d8cfa56d2b244aa50b874b98",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Ztg",
+      "dropbox_bytes": 55120,
+      "dropbox_modified_time": "2026-09-30T14:46:59Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.FileSystem.Primitives.dll",
+      "bytes": 15144,
+      "sha256": "d3b21b8b38e48c6b4d1cb5cfe9adfe4abad7b3353601febd3c7e4027f9ef9c6b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Ztw",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:47:04Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.FileSystem.Watcher.dll",
+      "bytes": 87848,
+      "sha256": "8ab1704e4bd171056ec5a11e886d5199d05a641c6d0233c53d4766bf30328dd3",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZuA",
+      "dropbox_bytes": 87848,
+      "dropbox_modified_time": "2026-09-30T14:47:14Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.FileSystem.dll",
+      "bytes": 15656,
+      "sha256": "c251f33b29382c47b773d907463edd9fe978a06e39efd5670ef3b3b1d4f8c2b7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZuQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:47:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.IsolatedStorage.dll",
+      "bytes": 87848,
+      "sha256": "2272a8bde18ed0e7c9e54ece9b849b9be76c90b978909d2b2fc94cf0ccbce427",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zug",
+      "dropbox_bytes": 87848,
+      "dropbox_modified_time": "2026-09-30T14:47:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.MemoryMappedFiles.dll",
+      "bytes": 83752,
+      "sha256": "6e8b281ecb2f0f5e7aad3980f61d8812caa6b37884737f542f95410a76663e0e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zuw",
+      "dropbox_bytes": 83752,
+      "dropbox_modified_time": "2026-09-30T14:47:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Pipelines.dll",
+      "bytes": 190248,
+      "sha256": "ee9f0fd6c659f50799afd103c6ed9c5e408967e28dfa059bddf4b0a3fd2557dd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZvA",
+      "dropbox_bytes": 190248,
+      "dropbox_modified_time": "2026-09-30T14:47:45Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Pipes.AccessControl.dll",
+      "bytes": 15656,
+      "sha256": "1102f25a6e88f2fae81e4cd3628d8ef826f847b9c9b6a4d32ff8b37e0300da35",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZvQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:47:52Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.Pipes.dll",
+      "bytes": 165712,
+      "sha256": "3804f9992861122e60990b0765d0b50b33cdc2e4d89d26d9dbf8641d1d0134a2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zvg",
+      "dropbox_bytes": 165712,
+      "dropbox_modified_time": "2026-09-30T14:47:57Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.UnmanagedMemoryStream.dll",
+      "bytes": 15696,
+      "sha256": "ad6a5f859589e1951103a00f45566da079cf87bd8b03f0c6ad985a6f39f19c5a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zvw",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T14:49:13Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.IO.dll",
+      "bytes": 15656,
+      "sha256": "388400ccb189b819d6ec5f1ef70710a39641d93ed5b870fc9324866b75dfb78b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZwA",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:49:21Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Linq.AsyncEnumerable.dll",
+      "bytes": 1292072,
+      "sha256": "925208e8ac40ac3f7b988aba6ccbbb58adac38ad1876a7d97ee137be6c21a653",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZwQ",
+      "dropbox_bytes": 1292072,
+      "dropbox_modified_time": "2026-09-30T14:49:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Linq.Expressions.dll",
+      "bytes": 3639080,
+      "sha256": "8830f4a6a6982f53cfbb54f992858ee36b4994a6ff6e6078c39627e77bef282f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zwg",
+      "dropbox_bytes": 3639080,
+      "dropbox_modified_time": "2026-09-30T14:49:38Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Linq.Parallel.dll",
+      "bytes": 775976,
+      "sha256": "aa6068e3d8f6b2e492cc63dcaad6b02942edbae445cb2b88c24f1850b25c49f5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zww",
+      "dropbox_bytes": 775976,
+      "dropbox_modified_time": "2026-09-30T14:49:47Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Linq.Queryable.dll",
+      "bytes": 182056,
+      "sha256": "b3b3a9c1b87a51dacd46a3f9ec392c5d05e449152d44d6bd495df0994350e2fa",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZxA",
+      "dropbox_bytes": 182056,
+      "dropbox_modified_time": "2026-09-30T14:49:53Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Linq.dll",
+      "bytes": 698192,
+      "sha256": "284d38945b6e92e847129bd28af458b19818d0f2181f79882888ab2003f4c519",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZxQ",
+      "dropbox_bytes": 698192,
+      "dropbox_modified_time": "2026-09-30T14:50:02Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Memory.dll",
+      "bytes": 161576,
+      "sha256": "f8f9d38efd6b0de30954d6bf1f353e9617bfb36d3d245c013a3b12be9f6bd88a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zxg",
+      "dropbox_bytes": 161576,
+      "dropbox_modified_time": "2026-09-30T14:50:09Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Http.Json.dll",
+      "bytes": 128848,
+      "sha256": "a9fe81ba3c048f9977e0099800eefd570a49be723c555725da57ba797c92b4e0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zxw",
+      "dropbox_bytes": 128848,
+      "dropbox_modified_time": "2026-09-30T14:50:16Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Http.dll",
+      "bytes": 1746768,
+      "sha256": "b98ed0cb80dd54c33fc049f33af5448710752155bbd5cc8cbcd932e01f066801",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZyA",
+      "dropbox_bytes": 1746768,
+      "dropbox_modified_time": "2026-09-30T14:50:24Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.HttpListener.dll",
+      "bytes": 534312,
+      "sha256": "3dfe11fb30c5f84c911d9562be6c2037113cd8976ef2def3550ac415ae58955b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZyQ",
+      "dropbox_bytes": 534312,
+      "dropbox_modified_time": "2026-09-30T14:50:41Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Mail.dll",
+      "bytes": 481064,
+      "sha256": "b585a55ee67c80d7f02a84d50d626d279c7aa77fd3e38206b434bd20c181eedc",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zyg",
+      "dropbox_bytes": 481064,
+      "dropbox_modified_time": "2026-09-30T14:50:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.NameResolution.dll",
+      "bytes": 124712,
+      "sha256": "e786c0940f5322f0ad6e8e34e7b582e5b050df0fb2230329325307e61bfd994c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zyw",
+      "dropbox_bytes": 124712,
+      "dropbox_modified_time": "2026-09-30T14:50:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.NetworkInformation.dll",
+      "bytes": 157520,
+      "sha256": "7e8791833eb2d0aea77b119fed3cab8bf501f6a553155cc1c4e5b1c02f65593b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZzA",
+      "dropbox_bytes": 157520,
+      "dropbox_modified_time": "2026-09-30T14:51:06Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Ping.dll",
+      "bytes": 91984,
+      "sha256": "06bb307343db955a312634d00ba5e097cf5168a901284437592c28d780804e33",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2ZzQ",
+      "dropbox_bytes": 91984,
+      "dropbox_modified_time": "2026-09-30T14:51:13Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Primitives.dll",
+      "bytes": 210728,
+      "sha256": "4dbb41a178ef013a898327152eccd146228dd2eb83859b9bb36078333b41f0f1",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zzg",
+      "dropbox_bytes": 210728,
+      "dropbox_modified_time": "2026-09-30T14:51:20Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Quic.dll",
+      "bytes": 358224,
+      "sha256": "af5b52cdee62d014af677c411530a3fde5c1c368adecb8f83dcfe9246e8bbe73",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Zzw",
+      "dropbox_bytes": 358224,
+      "dropbox_modified_time": "2026-09-30T14:51:31Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Requests.dll",
+      "bytes": 374568,
+      "sha256": "ed82d9d0b7942b2b02c5744a4591fbe2316879618adfc5660c9f111f814155f2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z0A",
+      "dropbox_bytes": 374568,
+      "dropbox_modified_time": "2026-09-30T14:51:38Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Security.dll",
+      "bytes": 665424,
+      "sha256": "a78bd713e807729f15b0e085c67fd6cbfefa85736a2618512d4ff1212759eba5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z0Q",
+      "dropbox_bytes": 665424,
+      "dropbox_modified_time": "2026-09-30T14:51:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.ServerSentEvents.dll",
+      "bytes": 83752,
+      "sha256": "c0b1944020d0e5688b90fba9f29209e367674e29d2020f700c302994d5417eda",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z0g",
+      "dropbox_bytes": 83752,
+      "dropbox_modified_time": "2026-09-30T14:51:57Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.ServicePoint.dll",
+      "bytes": 15144,
+      "sha256": "84fa83cd96e62fda02991b8a8e99fa1c7b3ac08807b04f7486a896cfe6b4a760",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z0w",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:52:16Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.Sockets.dll",
+      "bytes": 530216,
+      "sha256": "645c56d637ce15976998119e50722a911315682ce141b4aab98874ce1b063f3a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z1A",
+      "dropbox_bytes": 530216,
+      "dropbox_modified_time": "2026-09-30T14:52:22Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.WebClient.dll",
+      "bytes": 165672,
+      "sha256": "defa7bbf90c77ed01d6add53f678e4adfbcf97f3b1152affec06e652d327f1a2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z1Q",
+      "dropbox_bytes": 165672,
+      "dropbox_modified_time": "2026-09-30T14:52:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.WebHeaderCollection.dll",
+      "bytes": 63312,
+      "sha256": "74d66f776b4c15936a7b887f47ceb8bf277dbe82e71a78dd3ea5d02502b081e7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z1g",
+      "dropbox_bytes": 63312,
+      "dropbox_modified_time": "2026-09-30T14:52:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.WebProxy.dll",
+      "bytes": 42832,
+      "sha256": "408e3daabb3f42b4f1b72a1e1def38f12ba58eb9d23dca620086819cf7484195",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z1w",
+      "dropbox_bytes": 42832,
+      "dropbox_modified_time": "2026-09-30T14:52:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.WebSockets.Client.dll",
+      "bytes": 104232,
+      "sha256": "f308a69b9ee1ac982f53d1d94374f4972a7e3c700742901ff7c2bbfb570019d2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z2A",
+      "dropbox_bytes": 104232,
+      "dropbox_modified_time": "2026-09-30T14:52:49Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.WebSockets.dll",
+      "bytes": 243496,
+      "sha256": "c014a074d408c71011e26eac69be85003a852cfe115e8608bb5d4fd70536eb2e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z2Q",
+      "dropbox_bytes": 243496,
+      "dropbox_modified_time": "2026-09-30T14:52:55Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Net.dll",
+      "bytes": 17192,
+      "sha256": "481b38c912f8779b3510cd00f079e45096ea22b6defdaab66780d5ac3ae6986a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z2g",
+      "dropbox_bytes": 17192,
+      "dropbox_modified_time": "2026-09-30T14:53:01Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Numerics.Vectors.dll",
+      "bytes": 15656,
+      "sha256": "a9a980ee33ed0c798a5e1960c4557521f465ac9e0987dfd2c3049d53b1f2fa5a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z2w",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:53:07Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Numerics.dll",
+      "bytes": 15184,
+      "sha256": "35adc9360421b3b7a3d50399cb2c651c160158d7e8c302907acbce5f61f4a4f7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z3A",
+      "dropbox_bytes": 15184,
+      "dropbox_modified_time": "2026-09-30T14:53:16Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ObjectModel.dll",
+      "bytes": 79656,
+      "sha256": "2179bb19f335b4fcacd0994ad2ccfdac6840deff09c7889debfe9dbb5b88a3e6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z3Q",
+      "dropbox_bytes": 79656,
+      "dropbox_modified_time": "2026-09-30T14:54:03Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Private.CoreLib.dll",
+      "bytes": 16033576,
+      "sha256": "1125acc8106c43fc8bad2d203c4c4485df6182d292846c2fff415c1040c54678",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z3g",
+      "dropbox_bytes": 16033576,
+      "dropbox_modified_time": "2026-09-30T14:54:18Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Private.DataContractSerialization.dll",
+      "bytes": 2062120,
+      "sha256": "8c07a5333c4e938cad8ac8f24b5965121bc0622442a352cbe81c58f17c2349a8",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z3w",
+      "dropbox_bytes": 2062120,
+      "dropbox_modified_time": "2026-09-30T14:54:28Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Private.Uri.dll",
+      "bytes": 255824,
+      "sha256": "b15c84d2120e1ec9612c66ba59bc3d7e67d841e2bce7b7d0478cb212537539b4",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z4A",
+      "dropbox_bytes": 255824,
+      "dropbox_modified_time": "2026-09-30T14:54:37Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Private.Xml.Linq.dll",
+      "bytes": 390952,
+      "sha256": "c832b73de9783e6929ca5ff4863fc313e13ef7cfb5965c52587c4f77f6e037a7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z4Q",
+      "dropbox_bytes": 390952,
+      "dropbox_modified_time": "2026-09-30T14:54:43Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Private.Xml.dll",
+      "bytes": 7788328,
+      "sha256": "d71e72a7a9de324352edd281a46466b51bd0bdd2831b1573f8d3bae8bd2dd4a6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z4g",
+      "dropbox_bytes": 7788328,
+      "dropbox_modified_time": "2026-09-30T14:54:55Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.DispatchProxy.dll",
+      "bytes": 75600,
+      "sha256": "bf93a361c0bba8497889c9f7713add5968ba39394f9e6bda27e86294c6c43560",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z4w",
+      "dropbox_bytes": 75600,
+      "dropbox_modified_time": "2026-09-30T14:55:01Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Emit.ILGeneration.dll",
+      "bytes": 15656,
+      "sha256": "6b42ddd05b0ca1c7342d73ea9f401fe588044215d65c67b756deb780f0894a26",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z5A",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:55:05Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Emit.Lightweight.dll",
+      "bytes": 15656,
+      "sha256": "d2724a2b7b46146877ec1f6e400c49ea05f84bdd31f3bba52ae139ee68a4f779",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z5Q",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:55:10Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Emit.dll",
+      "bytes": 309032,
+      "sha256": "09059981bbeea0fdc5df589be5d7e3937d57e22bec4d78ceb492c587926fc238",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z5g",
+      "dropbox_bytes": 309032,
+      "dropbox_modified_time": "2026-09-30T14:55:17Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Extensions.dll",
+      "bytes": 15144,
+      "sha256": "ceb1b81e1eb488d87bd43d16dc54450b2a78e0b653c44c988aae2a20abc162bc",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z5w",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:55:30Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Metadata.dll",
+      "bytes": 1156904,
+      "sha256": "82973e772017944a0548e445f30757595d95fe99e1f5c4a446df8c4db04b1c18",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z6A",
+      "dropbox_bytes": 1156904,
+      "dropbox_modified_time": "2026-09-30T14:55:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.Primitives.dll",
+      "bytes": 15656,
+      "sha256": "c2bbd885d03da5e880667c228ac1f56a5f3a72ea37d43f010ada000adc33da28",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z6Q",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:55:47Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.TypeExtensions.dll",
+      "bytes": 42792,
+      "sha256": "7cac73ed746ce05a4a2f1e61dd52d41322ecc6ba84cfec463380f49487031459",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z6g",
+      "dropbox_bytes": 42792,
+      "dropbox_modified_time": "2026-09-30T14:55:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Reflection.dll",
+      "bytes": 16168,
+      "sha256": "95059346d6271dd6d0322cc321e5fb8cceab662f550c67aee7615059e41739bb",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z6w",
+      "dropbox_bytes": 16168,
+      "dropbox_modified_time": "2026-09-30T14:56:04Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Resources.Reader.dll",
+      "bytes": 15144,
+      "sha256": "20bdb5d302b5e28f6042c9f281cfa3ae2f2358544cc40783052fe5abf6aa859b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z7A",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T14:56:09Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Resources.ResourceManager.dll",
+      "bytes": 15696,
+      "sha256": "f709eb5cf16e26679782784c428825019785fcc7085562092425d4999bece03d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z7Q",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T14:56:15Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Resources.Writer.dll",
+      "bytes": 50984,
+      "sha256": "684836486b9ba2817efa3099118860d259fd16db0c4c0533d42cad8c6c165b62",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z7g",
+      "dropbox_bytes": 50984,
+      "dropbox_modified_time": "2026-09-30T14:56:20Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.CompilerServices.Unsafe.dll",
+      "bytes": 15184,
+      "sha256": "6e685ec0477b21a688cd38bfcafc673888cdf186c99df3c96fab352e96d6fdc8",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z7w",
+      "dropbox_bytes": 15184,
+      "dropbox_modified_time": "2026-09-30T14:56:26Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.CompilerServices.VisualC.dll",
+      "bytes": 30504,
+      "sha256": "5fd85d3d7b47a921bdf48bf938c6615a49a4a3d493e1ea199f1b997c709618f4",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z8A",
+      "dropbox_bytes": 30504,
+      "dropbox_modified_time": "2026-09-30T14:56:32Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Extensions.dll",
+      "bytes": 17704,
+      "sha256": "3d7b517d4fd89ee58c53e0f642cc9be42e7a8669b51a85e861dafe118067cbfd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z8Q",
+      "dropbox_bytes": 17704,
+      "dropbox_modified_time": "2026-09-30T14:59:14Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Handles.dll",
+      "bytes": 15656,
+      "sha256": "985457a3e6a67e96a445ee0fb69b2d58bcdadc4c964253fb63e2d5061a36b050",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z8g",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:59:19Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.InteropServices.JavaScript.dll",
+      "bytes": 50984,
+      "sha256": "5ba32bcde2d72362db2d6e02763ece79fa35bc878b50493e956ce594307e997f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z8w",
+      "dropbox_bytes": 50984,
+      "dropbox_modified_time": "2026-09-30T14:59:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.InteropServices.RuntimeInformation.dll",
+      "bytes": 15656,
+      "sha256": "c26d9f94329422bd000f28f6c65fdc162bf9397a6d29e418a189d4ca49c5c3ec",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z9A",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:59:32Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.InteropServices.dll",
+      "bytes": 112464,
+      "sha256": "e5eb1679f3579c9141e2bb9dbdce62624a623f38d299805cc1de07bacd21841f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z9Q",
+      "dropbox_bytes": 112464,
+      "dropbox_modified_time": "2026-09-30T14:59:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Intrinsics.dll",
+      "bytes": 17192,
+      "sha256": "b07694ec91f3a200acf0f8b37c6ce5fcf05126a9198ae156d839fa5ca8439dc5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z9g",
+      "dropbox_bytes": 17192,
+      "dropbox_modified_time": "2026-09-30T14:59:44Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Loader.dll",
+      "bytes": 15656,
+      "sha256": "9b9b2a4f0358d9146e76178ddb87d019be380c78baa7dac853493d45df089f03",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z9w",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T14:59:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Numerics.dll",
+      "bytes": 354128,
+      "sha256": "8ac94fb810c092a9297a903762e79a75ae07d7229d0721540c391f86d3d5d220",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z-A",
+      "dropbox_bytes": 354128,
+      "dropbox_modified_time": "2026-09-30T14:59:58Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Serialization.Formatters.dll",
+      "bytes": 124712,
+      "sha256": "5e8e957c6b7a63132555ede5bcf5fe6a59934c83300e28074ec6e9845ecdd17f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z-Q",
+      "dropbox_bytes": 124712,
+      "dropbox_modified_time": "2026-09-30T15:00:06Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Serialization.Json.dll",
+      "bytes": 15656,
+      "sha256": "2fd71e3545dab4fc89b3fe54d13a1142f26a0cf187ebe375b3f7fa210fcb2596",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z-g",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:00:18Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Serialization.Primitives.dll",
+      "bytes": 38696,
+      "sha256": "f96093940e64d8eead98c86de9773d3c9d12c2b033bc6b1312ac88398303fdf3",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z-w",
+      "dropbox_bytes": 38696,
+      "dropbox_modified_time": "2026-09-30T15:00:48Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Serialization.Xml.dll",
+      "bytes": 16680,
+      "sha256": "eedb66ea2cd1a26cc45a46d6631209ccbec959af82208872a93b3ae52f189222",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z_A",
+      "dropbox_bytes": 16680,
+      "dropbox_modified_time": "2026-09-30T15:00:53Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.Serialization.dll",
+      "bytes": 17192,
+      "sha256": "d565fc261ca98cbd14833821f777860291e8a0f775de7aee91778a9f6647f6f4",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z_Q",
+      "dropbox_bytes": 17192,
+      "dropbox_modified_time": "2026-09-30T15:01:05Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Runtime.dll",
+      "bytes": 44840,
+      "sha256": "76be53624f64b23d0249dfa0bbe85390086de7c44bfd490642ea86c6faaf44af",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z_g",
+      "dropbox_bytes": 44840,
+      "dropbox_modified_time": "2026-09-30T15:01:12Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.AccessControl.dll",
+      "bytes": 227112,
+      "sha256": "cdc304f9ddb32023adb8db8953e56711c9b64462e4341d0b62e87ccd19dc7b10",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2Z_w",
+      "dropbox_bytes": 227112,
+      "dropbox_modified_time": "2026-09-30T15:01:20Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Claims.dll",
+      "bytes": 100176,
+      "sha256": "c53c8a7e95d8296f951872fdd2e6334d11c20bffd4322f1a088773bf9dcaa3c2",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aAA",
+      "dropbox_bytes": 100176,
+      "dropbox_modified_time": "2026-09-30T15:01:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.Algorithms.dll",
+      "bytes": 17232,
+      "sha256": "eb99ae7dbe058a1b015aba6769ce1f65155b7ff51ff9a7203fcf6d7cdea5fef7",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aAQ",
+      "dropbox_bytes": 17232,
+      "dropbox_modified_time": "2026-09-30T15:01:39Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.Cng.dll",
+      "bytes": 16168,
+      "sha256": "7319f97896d92a7d0729cf28dc6c4d1f797c1520b656ee01a780eec726ec2c16",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aAg",
+      "dropbox_bytes": 16168,
+      "dropbox_modified_time": "2026-09-30T15:01:45Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.Csp.dll",
+      "bytes": 16208,
+      "sha256": "4002af141e9cb29875b677841adf64a9681e5672c2595492dcbc161460d4e121",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aAw",
+      "dropbox_bytes": 16208,
+      "dropbox_modified_time": "2026-09-30T15:01:59Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.Encoding.dll",
+      "bytes": 15656,
+      "sha256": "994494aec7760f40fade2264aa7c13eebae36360f0b1399a7134bb19c9d58fda",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aBA",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:02:07Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.OpenSsl.dll",
+      "bytes": 15656,
+      "sha256": "1a8902bbad1b577a98bec62a8472105dc1e9a253e390f69fbe3d167e93206968",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aBQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:02:21Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.Primitives.dll",
+      "bytes": 15656,
+      "sha256": "194cccea9354bb248e44c954b5373f9069163f8f21524b3ee4b3185fe436bc15",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aBg",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:02:31Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.X509Certificates.dll",
+      "bytes": 16680,
+      "sha256": "7439c3b90bc2ee49a9275b28ed29052b4d48b45999ac1b7d25593033b1bb8dd6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aBw",
+      "dropbox_bytes": 16680,
+      "dropbox_modified_time": "2026-09-30T15:02:38Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Cryptography.dll",
+      "bytes": 2549544,
+      "sha256": "e0a839a540e47343b53a936b32d91599a3470005228d50fd0b896f8bbdcc65b0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aCA",
+      "dropbox_bytes": 2549544,
+      "dropbox_modified_time": "2026-09-30T15:02:45Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Principal.Windows.dll",
+      "bytes": 178000,
+      "sha256": "2311a3f92971de918943573dfb66e04e25c1d543663951eb24e8eb1a0dcd4251",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aCQ",
+      "dropbox_bytes": 178000,
+      "dropbox_modified_time": "2026-09-30T15:02:54Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.Principal.dll",
+      "bytes": 15144,
+      "sha256": "1d3e351058be3a33214b23b308fe57f78cd6fd4d8fad448fc84cbbe7376129f9",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aCg",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T15:03:03Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.SecureString.dll",
+      "bytes": 15696,
+      "sha256": "73aac97072b7deefa4de9647bf822162224f1452ad467841b989ff89d4d94595",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aCw",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:03:10Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Security.dll",
+      "bytes": 18256,
+      "sha256": "d8efd304765e859369698efef9b3ca707defa8e142721fe5605d7a2de7d38375",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aDA",
+      "dropbox_bytes": 18256,
+      "dropbox_modified_time": "2026-09-30T15:03:20Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ServiceModel.Web.dll",
+      "bytes": 16680,
+      "sha256": "ce91013ee3a9a9d69a85e258f7749e6ece488295d7cb66f7c1079f2e8678fc5e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aDQ",
+      "dropbox_bytes": 16680,
+      "dropbox_modified_time": "2026-09-30T15:03:35Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ServiceProcess.dll",
+      "bytes": 15696,
+      "sha256": "63fc498c9d04e3c4345dfdb8016ad0639d54562dd7d8c707c072792c854df944",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aDg",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:03:41Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.Encoding.CodePages.dll",
+      "bytes": 862032,
+      "sha256": "226e216e33c94ef7594bdffe670ba4dc5907151c113cb41ac9e9d570227e1765",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aDw",
+      "dropbox_bytes": 862032,
+      "dropbox_modified_time": "2026-09-30T15:04:21Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.Encoding.Extensions.dll",
+      "bytes": 15656,
+      "sha256": "8f51b9535db64fe027a40d6076200b1a6b0889bf05f62bb8e68c3eb083c7f113",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aEA",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:04:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.Encoding.dll",
+      "bytes": 15696,
+      "sha256": "5e347db6b4f9b2746d50e1ac85be2d9cc7dc4038fde98ac4295bc7030c83cda9",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aEQ",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:04:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.Encodings.Web.dll",
+      "bytes": 124752,
+      "sha256": "d20431f20d992e71a4e82e5f25c822474e2f4097d8527972d3d78ea1f26e47c3",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aEg",
+      "dropbox_bytes": 124752,
+      "dropbox_modified_time": "2026-09-30T15:04:43Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.Json.dll",
+      "bytes": 1890128,
+      "sha256": "fa99f413be21ed5f484a09093fe5f0beba7de3062cf9cc9f847dbf8108dba55a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aEw",
+      "dropbox_bytes": 1890128,
+      "dropbox_modified_time": "2026-09-30T15:04:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Text.RegularExpressions.dll",
+      "bytes": 1034064,
+      "sha256": "060bcc88a688e687ff1404b83b5fb5cf17e19ec57f33d5b8a48ab494da83c134",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aFA",
+      "dropbox_bytes": 1034064,
+      "dropbox_modified_time": "2026-09-30T15:05:04Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.AccessControl.dll",
+      "bytes": 75560,
+      "sha256": "66d618b5522b3e4f7a3c7f2bd872fc378fa6f9bbdca3636854eb1a8cb948e631",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aFQ",
+      "dropbox_bytes": 75560,
+      "dropbox_modified_time": "2026-09-30T15:05:14Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Channels.dll",
+      "bytes": 157480,
+      "sha256": "afc5deb3c32b3f64bced2025d0b01b316d41b691ebc6ccb1a2ec445ad4c15e39",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aFg",
+      "dropbox_bytes": 157480,
+      "dropbox_modified_time": "2026-09-30T15:05:19Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Overlapped.dll",
+      "bytes": 15696,
+      "sha256": "89fde15f8e520c4bcbc6cbfdceba2baed8670cdf52399a4cd7a21c6efb276c1a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aFw",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:05:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Tasks.Dataflow.dll",
+      "bytes": 472872,
+      "sha256": "a895b0c73d3a1afc4d89c1d9e445ed447af12864c25aad2c4cb7398ff50aa934",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aGA",
+      "dropbox_bytes": 472872,
+      "dropbox_modified_time": "2026-09-30T15:05:35Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Tasks.Extensions.dll",
+      "bytes": 15696,
+      "sha256": "f148e3a1414b7c2763ae21529ad79ad759f7cfd3c885256b64b0d2209dec2613",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aGQ",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:06:15Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Tasks.Parallel.dll",
+      "bytes": 132904,
+      "sha256": "6fa359bdbebb56be96339f244ed41658afcead5e010074da470df1115d1e7699",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aGg",
+      "dropbox_bytes": 132904,
+      "dropbox_modified_time": "2026-09-30T15:06:26Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Tasks.dll",
+      "bytes": 16680,
+      "sha256": "f80b21f7dae04377b73945456cabe25e2ab1f4b564095aed546c2aa571644567",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aGw",
+      "dropbox_bytes": 16680,
+      "dropbox_modified_time": "2026-09-30T15:06:34Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Thread.dll",
+      "bytes": 15696,
+      "sha256": "ce71949bb1ea67b686e799128582015ebf8758f1107e59e43f342ece3f662930",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aHA",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:06:42Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.ThreadPool.dll",
+      "bytes": 15656,
+      "sha256": "58fbc6c4b9c72087152fd0f0670a527098c00b0c19ba8d0979d3ca5ce07c6936",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aHQ",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:06:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.Timer.dll",
+      "bytes": 15144,
+      "sha256": "9e4620846572f49aeb476aa99405071b4bbd0df4323e4e232787ed73642b1ee5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aHg",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T15:06:56Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Threading.dll",
+      "bytes": 83792,
+      "sha256": "6c32ed1bf8067e4169e8feddd15e6489b89d19d1c7aae1520a551b57745d0a60",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aHw",
+      "dropbox_bytes": 83792,
+      "dropbox_modified_time": "2026-09-30T15:07:03Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Transactions.Local.dll",
+      "bytes": 640808,
+      "sha256": "8d0283a311a16333ffb6f966d9765e4d8b866777ad99291a93b30db349a15bc4",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aIA",
+      "dropbox_bytes": 640808,
+      "dropbox_modified_time": "2026-09-30T15:07:11Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Transactions.dll",
+      "bytes": 16720,
+      "sha256": "56abfca0350c111d077b3d86a2469ea3da4fccc1871f7c51a8b4fdb664bb0ede",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aIQ",
+      "dropbox_bytes": 16720,
+      "dropbox_modified_time": "2026-09-30T15:07:18Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.ValueTuple.dll",
+      "bytes": 15696,
+      "sha256": "07a5347f6a597e5e0d72109efa1a525697e8c3f74fb0029005500f8ebbf9187a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aIg",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:07:24Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Web.HttpUtility.dll",
+      "bytes": 63272,
+      "sha256": "2cedef51b0a2c2b84240583339ecf2422c650e3388aa46f3494160b93b673887",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aIw",
+      "dropbox_bytes": 63272,
+      "dropbox_modified_time": "2026-09-30T15:07:40Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Web.dll",
+      "bytes": 15144,
+      "sha256": "bc260b3db247ad9a6e4a82a275da85c3691a41272cc745cb7eaefcf1f31cc817",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aJA",
+      "dropbox_bytes": 15144,
+      "dropbox_modified_time": "2026-09-30T15:07:54Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Windows.dll",
+      "bytes": 15696,
+      "sha256": "716eee98ceee87d38f0b301224462f8442aa793f4b1b9c3ffac315753320ab37",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aJQ",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:08:19Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.Linq.dll",
+      "bytes": 15696,
+      "sha256": "ae04903b25717fa4695e7e63489091f0d461e791e0bd264c6c85250d668f540d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aJg",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:08:25Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.ReaderWriter.dll",
+      "bytes": 21840,
+      "sha256": "8e48fed4d12bcffff01e8059caafb564697275797d2f5ec6823fdd82b87fe938",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aJw",
+      "dropbox_bytes": 21840,
+      "dropbox_modified_time": "2026-09-30T15:08:31Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.Serialization.dll",
+      "bytes": 16208,
+      "sha256": "489694401c60905cb6dca8ef0bf738cb609cd45b337126a01c825b913086ba43",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aKA",
+      "dropbox_bytes": 16208,
+      "dropbox_modified_time": "2026-09-30T15:08:39Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.XDocument.dll",
+      "bytes": 15696,
+      "sha256": "3ff858607de5146051498a7124ef983bea280d86e165f993516c6c26af81cfb5",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aKQ",
+      "dropbox_bytes": 15696,
+      "dropbox_modified_time": "2026-09-30T15:08:47Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.XPath.XDocument.dll",
+      "bytes": 30504,
+      "sha256": "5bcd27a7e93515b745993f6dda51391033883cb8a1a8a2e3dad5caed3548f0da",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aKg",
+      "dropbox_bytes": 30504,
+      "dropbox_modified_time": "2026-09-30T15:08:52Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.XPath.dll",
+      "bytes": 15656,
+      "sha256": "c817b11c58d95fa942fbc62a4cfa8219e16dafa5641eb004cb2be424028ed5d8",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aKw",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:09:00Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.XmlDocument.dll",
+      "bytes": 15656,
+      "sha256": "a50b9b3a03596e36e73e7a7d54f4d018e8dcfaa7fe79e8cf900af8838ef3ec36",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aLA",
+      "dropbox_bytes": 15656,
+      "dropbox_modified_time": "2026-09-30T15:09:09Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.XmlSerializer.dll",
+      "bytes": 17744,
+      "sha256": "0b7d057c2b5b2272e8d4096a755edfd96f3cf03ab9aaa3fef54b462bf48d517e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aLQ",
+      "dropbox_bytes": 17744,
+      "dropbox_modified_time": "2026-09-30T15:09:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.Xml.dll",
+      "bytes": 23376,
+      "sha256": "277a84ba155fe7808a514f32694a8157ec9f0eeeef00ef9643e5250004054ff0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aLg",
+      "dropbox_bytes": 23376,
+      "dropbox_modified_time": "2026-09-30T15:09:32Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/System.dll",
+      "bytes": 50472,
+      "sha256": "ef135f0bda0c41e142fdbd67b93e5aa7911916cb250f7df302f4151a3bbfa380",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aLw",
+      "dropbox_bytes": 50472,
+      "dropbox_modified_time": "2026-09-30T15:09:37Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/WindowsBase.dll",
+      "bytes": 16208,
+      "sha256": "0ec46a38f29a234b9a4d0ae9364c8322f661a47c831c5b948f2787b7ca12dbbd",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aMA",
+      "dropbox_bytes": 16208,
+      "dropbox_modified_time": "2026-09-30T15:09:44Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/clretwrc.dll",
+      "bytes": 317736,
+      "sha256": "7a2186201c87bbc597a1b8b26facd88e68f03be4c4a4211fd65cc6595c72e45b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aMQ",
+      "dropbox_bytes": 317736,
+      "dropbox_modified_time": "2026-09-30T15:09:50Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/clrgc.dll",
+      "bytes": 674088,
+      "sha256": "65e2f97d263824bfb9f75f92e66ebd22229aaf3a5faddef9345811d856c8840e",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aMg",
+      "dropbox_bytes": 674088,
+      "dropbox_modified_time": "2026-09-30T15:10:01Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/clrgcexp.dll",
+      "bytes": 711464,
+      "sha256": "23a8050ec68542989b6da6cc906a90faf8a14e6416fd2871a260b781b1c374ae",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aMw",
+      "dropbox_bytes": 711464,
+      "dropbox_modified_time": "2026-09-30T15:10:08Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/clrjit.dll",
+      "bytes": 2092328,
+      "sha256": "0749d8fc8e944d0576e1bb47120f87add8f875e5cd8968995633063fc79256f6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aNA",
+      "dropbox_bytes": 2092328,
+      "dropbox_modified_time": "2026-09-30T15:10:17Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/coreclr.dll",
+      "bytes": 4614992,
+      "sha256": "128aee8c62a673d64739e585e3876b61133571cec83a46240a62581d5465639b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aNQ",
+      "dropbox_bytes": 4614992,
+      "dropbox_modified_time": "2026-09-30T15:10:29Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/createdump.exe",
+      "bytes": 71552,
+      "sha256": "315307159925d33eb604186a512901d080ecfc4cd8b8198030a7d398c6af2b0b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aNg",
+      "dropbox_bytes": 71552,
+      "dropbox_modified_time": "2026-09-30T15:10:36Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/hostfxr.dll",
+      "bytes": 379688,
+      "sha256": "838591885c5396fb0588a3aedc2f3e841d3afc67570868b1bce615264005a44c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aNw",
+      "dropbox_bytes": 379688,
+      "dropbox_modified_time": "2026-09-30T15:11:00Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/hostpolicy.dll",
+      "bytes": 378664,
+      "sha256": "e92a2e71eeeaf7c574e905935b3e3724ef29bade44317659dbe06f505e99dbe0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aOA",
+      "dropbox_bytes": 378664,
+      "dropbox_modified_time": "2026-09-30T15:11:08Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/mscordaccore.dll",
+      "bytes": 1356640,
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aOQ",
+      "dropbox_bytes": 1356640,
+      "dropbox_modified_time": "2026-09-30T15:11:20Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/mscordaccore_amd64_amd64_10.0.1226.42308.dll",
+      "bytes": 1356640,
+      "sha256": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aOg",
+      "dropbox_bytes": 1356640,
+      "dropbox_modified_time": "2026-09-30T15:11:27Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/mscordbi.dll",
+      "bytes": 1237888,
+      "sha256": "753e92805f3886221f56dcfc07191ad7ee44235bf689db0490bdf777f25e9175",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aOw",
+      "dropbox_bytes": 1237888,
+      "dropbox_modified_time": "2026-09-30T15:11:39Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/mscorlib.dll",
+      "bytes": 59728,
+      "sha256": "b698595367a7d4fa57ccacab73751fde0bb8f2415345c62cdfe7ced890da2c0c",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aPA",
+      "dropbox_bytes": 59728,
+      "dropbox_modified_time": "2026-09-30T15:11:45Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/mscorrc.dll",
+      "bytes": 133968,
+      "sha256": "f0d8c7491d4659a4c5a4c00615255a60e05634f311162c2775a51e03c070c9e0",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aPQ",
+      "dropbox_bytes": 133968,
+      "dropbox_modified_time": "2026-09-30T15:11:53Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/msquic.dll",
+      "bytes": 536344,
+      "sha256": "b7158d427b01c70483bb3d80c5211e387dd98e9471c8a70e4484d449de9157e8",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aPg",
+      "dropbox_bytes": 536344,
+      "dropbox_modified_time": "2026-09-30T15:12:02Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "data_Crossweave.Proof_windows_x86_64/netstandard.dll",
+      "bytes": 100648,
+      "sha256": "3dc81dbc9dacd28261632c94410859eda24c2db50cd6c14309cbb2a434b50c57",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aPw",
+      "dropbox_bytes": 100648,
+      "dropbox_modified_time": "2026-09-30T15:12:09Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/Godot-COPYRIGHT.txt",
+      "bytes": 102487,
+      "sha256": "7ae231c4b877ac30c39c2a95d0f3ad7548dfaa917c79ad8e4f43c151ebe2312a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aQA",
+      "dropbox_bytes": 102487,
+      "dropbox_modified_time": "2026-09-30T15:12:15Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/Godot-LICENSE.txt",
+      "bytes": 1169,
+      "sha256": "0cc27400b8da8c06bb35350422c14715647cd2632c138921fd49caa6610a1ef6",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aQQ",
+      "dropbox_bytes": 1169,
+      "dropbox_modified_time": "2026-09-30T15:12:24Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/NotoSansJP-OFL.txt",
+      "bytes": 4481,
+      "sha256": "e35ffdebb2225b49814c31889cbb3ce69cb3509e6a9f431edaba5e1a6de8cd15",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aQg",
+      "dropbox_bytes": 4481,
+      "dropbox_modified_time": "2026-09-30T15:12:30Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/assets-Application-source.json",
+      "bytes": 896,
+      "sha256": "64bb3f22344cd3c199d2341c4ca8d0152b8054ed3598ab53e15d2e4d1f5b438a",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aQw",
+      "dropbox_bytes": 896,
+      "dropbox_modified_time": "2026-09-30T15:12:36Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/assets-source.json",
+      "bytes": 170,
+      "sha256": "cec4d10384de22e45a14c82657614c5eb9a379156ea03620793e34abfee3f17b",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aRA",
+      "dropbox_bytes": 170,
+      "dropbox_modified_time": "2026-09-30T15:12:42Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/dotnet-LICENSE.txt",
+      "bytes": 9519,
+      "sha256": "7f6839a61ce892b79c6549e2dc5a81fdbd240a0b260f8881216b45b7fda8b45d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aRQ",
+      "dropbox_bytes": 9519,
+      "dropbox_modified_time": "2026-09-30T15:12:47Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/dotnet-ThirdPartyNotices.txt",
+      "bytes": 78887,
+      "sha256": "deb4427a295e1ed474b0d81c5a0d972c1b550b9a715cda939cdfa9236b1b418f",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aRg",
+      "dropbox_bytes": 78887,
+      "dropbox_modified_time": "2026-09-30T15:12:53Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "licenses/素材出典.md",
+      "bytes": 1758,
+      "sha256": "088aec9d3912737161d4105cf6cb9f2911bc1d16e6a0a1c98ff112b4c92aa84d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aRw",
+      "dropbox_bytes": 1758,
+      "dropbox_modified_time": "2026-09-30T15:13:02Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "更新案内.md",
+      "bytes": 1126,
+      "sha256": "ec266b8eec9f9e5e03c45bfe3b494c460a52f0c293b2dcde2ceacdf3730e2f4d",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aSA",
+      "dropbox_bytes": 1126,
+      "dropbox_modified_time": "2026-09-30T15:13:06Z",
+      "path_and_size_match": true
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 47275,
+      "sha256": "f32ed692a2a6fff8c75af6ca5adaf4ab70c09e9bb36735d1798d90dcf3f0f2cb",
+      "dropbox_file_id": "id:VsVuJOM-0QMAAAAAAA2aSQ",
+      "dropbox_bytes": 47275,
+      "dropbox_modified_time": "2026-09-30T15:13:12Z",
+      "path_and_size_match": true
+    }
+  ]
+}

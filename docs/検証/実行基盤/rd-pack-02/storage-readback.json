@@ -1,6 +1,6 @@
 {
   "task": "RD-PACK-02",
-  "status": "incomplete",
+  "status": "out_of_scope_requirement_change",
   "source_commit": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
   "storage": "saved",
   "files": [
@@ -33,9 +33,22 @@
     }
   ],
   "distinction": "Dropboxの保存完了・metadata・content_hash一致は確認済み。全ZIPを取得した読戻しではない。",
-  "remaining": "両ZIPをDropboxから全バイト取得し、SHA-256・内容を照合。CI成果の取得と内容照合は別途成功済み。",
-  "next": "ブラウザー案は利用者により却下。プラグイン経路の成功・失敗を比較済み。ZIP原本を返す対応機能またはプラグイン発行URLへの接続が許可された実行環境が利用可能になったら再開。別経路採用は事前相談。",
+  "remaining": "旧P5としての残件なし（要件変更により対象外。読戻し成功ではない）",
+  "next": "P5-DIRのフォルダー受渡しを別記録で判定し、CO-D04Cの実機確認へ進む。",
   "diagnosis": "docs/検証/実行基盤/rd-pack-02/download-diagnosis.json",
   "access_comparison": "docs/検証/実行基盤/rd-pack-02/dropbox-access-comparison.json",
-  "browser_fallback": "rejected_by_user"
+  "browser_fallback": "rejected_by_user",
+  "current_disposition": {
+    "status": "out_of_scope_requirement_change",
+    "label": "旧P5のZIP取得・全量読戻しは要件変更により対象外",
+    "instruction": "RD-PACK-02 0.3 / CO-D04C 0.2",
+    "retry": false,
+    "new_gate": "P5-DIR: docs/検証/実行基盤/rd-pack-02/directory-delivery.json",
+    "note": "403・未実施の履歴を保全。成功へ変更しない。常設の条件待ち・利用者代理検証にしない。"
+  },
+  "previous_completion_condition": {
+    "status": "incomplete",
+    "remaining": "両ZIPをDropboxから全バイト取得し、SHA-256・内容を照合。CI成果の取得と内容照合は別途成功済み。",
+    "next": "ブラウザー案は利用者により却下。プラグイン経路の成功・失敗を比較済み。ZIP原本を返す対応機能またはプラグイン発行URLへの接続が許可された実行環境が利用可能になったら再開。別経路採用は事前相談。"
+  }
 }

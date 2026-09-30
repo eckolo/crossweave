@@ -2,7 +2,7 @@
 
 WorkID：`20260926-runtime-delivery`／開始日：2026-09-26（日本時間）。
 
-**最新：2026-09-30 RD-PACK-02はP1〜P4・P6完了、P5は外部保存済み／全バイト読戻し未了。今回依頼全体は未完了。** 現在の作業枝は `impl/m1-windows-package-20260930`。[今回の開始・引継ぎ](#rd-pack-02-current)。以下の旧ENV／PROOF状態は履歴で、Windows 11実機未確認を継承する。
+**最新：P5-DIR受渡し完了／RD-PACK-02完了（改訂0.3）。CO-D04C・ENV・PROOF・親D04・今回依頼全体はWindows 11実機結果待ちで未完了。** 旧P5は要件変更により対象外。作業枝 `impl/m1-windows-package-20260930`。[現行引継ぎ](../../検証/実行基盤/rd-pack-02/とりまとめ引継ぎ.md)。以下の旧P5未了・ZIP再開条件は当時の履歴で、現在の待ち条件ではない。
 **前回CO-M1R完了：0.8／2026-09-27。前回の資料提出依頼は完了。ユーザーが当面Godot採用の方向を選択済み。Godot.NET＋C#を前提にR1〜R4と後続計画を整合し、成果12本文をGitHub保存・読戻し済み。とりまとめへの引継ぎとして提出。** [前回CO-M1Rの引継ぎ](#handoff-current)と[回答本文](../実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)を参照。以下0.1〜0.7は履歴で、当時の推薦・未採用状態を現行判断へ適用しない。
 
 **旧記録：2026-09-27 RD-ENV-02→RD-PROOF-02の実装・Windows CI・配布一式の保存読戻しを実施。ENV／PROOF／今回依頼全体は未完了。残件はWindows 11実機確認と結果反映。** [今回の着手・引継ぎ](#rd-env-proof-current)。CO-M1Rは完了受領済み。以下0.8までの実装対象外という境界は前回依頼の履歴。
@@ -246,3 +246,15 @@ R1〜R4の方式・手順・保存・後続計画を自枝へ保存し、GitHub�
 ### 他WorkのZIP取扱経路の追加調査（2026-09-30）
 
 CO-D03成果受領はLibraryファイルIDとZIP hash・36変更／753復元ファイル照合が記録され、取得元はChatGPT Library。D04B-UI＋SAVEの証拠ZIPはGitHub Actions artifact IDと3,507,623 bytes・download_digest_matchが記録され、取得元はGitHub Actions。この2例はDropboxプラグイン単独のZIP取得成功とは区別する。具体的な呼出ツール名は記録がないため推測しない。根拠・固定refを `docs/検証/実行基盤/rd-pack-02/Dropboxアクセス比較.md` と同comparison JSONへ追補。保存先・実行コード・ZIP・P5未完了状態に変更なし。
+
+
+## P5-DIRとCO-D04C（現行の開始設定・引継ぎ）
+
+- 本Workのみ継続。開始HEAD ce4870479ca49cb4ef7ca6b2001dab28828dae1e、作業先／通常保存先は impl/m1-windows-package-20260930。旧基盤枝・既存未保存成果を保全し、新Workや並列エージェントを起動していない。
+- 必須同期①：ops/project-coordination-20260913 @ b76ce4ccb0614b1a32094ee7a5fb869b1e693345 のとりまとめ全45blobを実同期・一致確認。②：その後 dev_design_tmp_assembly @ 21ddd349b6bec69ecac6d9db288c537553dab860 を確認、前回比追加差分なし。自Work登録は現配布枝で整合済み。
+- 成果統合先：コード・自担当資料は自枝。計画原本・外部成果物一覧はとりまとめへ引継ぎ。共通仕様はゲームバランス検討、UI原本はUI担当。本編・保存の具体的修正は本編実装担当。今回は共通原本・他枝への逆統合なし。
+- ビルド元0765f1588e63b591733f3ea87635c8f4814dc1bcを再利用。206ファイル無変更、案内3点とmanifest改訂、210ファイルをDropboxプラグインのみで保存・一覧照合。再ビルド・本編再実装・保存形式変更なし。
+- P5-DIR D1〜D4完了、RD-PACK-02は改訂条件で完了。旧ZIP読戻しは「要件変更により対象外」、403履歴維持、追加取得なし。CO-D04C C1の利用者環境とC2〜C5は未確認、C6は案内・未確認記録を保存した段階。依頼全体は実機結果待ちで未完了。
+- 案内・未記入結果欄・切り分け表を docs/検証/実行基盤/co-d04c-windows11/ に保存。最初は起動→短い探索→中断終了→再起動して続きから。利用者原文と実測を受領してから判定する。
+- 実フォルダー、起動ファイル、保存先、確認範囲と残件は docs/検証/実行基盤/rd-pack-02/とりまとめ引継ぎ.md。生成／共有先対応は docs/検証/実行基盤/rd-pack-02/directory-delivery.json、GitHub成果commitと固定SHA読戻しは docs/検証/実行基盤/rd-pack-02/directory-source-readback.json に記録。資料の入口は apps/crossweave-godot/README.md。
+- 次の利用者対応はWindows 11実機結果。P02・M1受入・Steam・素材制作へ進めない。とりまとめによる今回の受領・横断計画反映は未確認。

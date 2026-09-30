@@ -1,16 +1,16 @@
 # CO-M1R — 「ひとまず遊べる」版の実現方式（完了・受領）
 
-版：0.7／2026-09-30。**方式検討の依頼全体は完了・受領済み。** 基盤実装・本編Core・保存部・Godot画面と通常保存接続まで後続で受領済み。今回の唯一の割当は既存実行基盤・配布設計の[RD-PACK-02](RD-PACK-02_Windows本編配布.md)。Windows11実機・人の受入は未了。
+版：0.9／2026-09-30。**方式検討の依頼全体は完了・受領済み。** 基盤実装・本編Core・保存部・Godot画面と通常保存接続まで後続で受領済み。本編配布P1〜P4・P6まで受領し、旧P5のZIP読戻しは要件変更で対象外。先にP5-DIRで実行フォルダーを渡す。次は同担当の[CO-D04C](CO-D04C_Windows本編の実機確認.md)。Windows11実機・人の受入は未了。
 
 | 受領項目 | 内容 |
 |---|---|
 | 担当・枝 | 実行基盤・配布設計／20260926-runtime-delivery／design/runtime-delivery-20260926。Workは作成・登録済み |
 | 成果と完了記録 | 成果e574c21d3f5389054f53dec02fedc2f06df78a1f、参照HEAD a32a05da8560c3ee6c39fe33819ca8b4822b38db。R1〜R4と方式案・後続計画・引継ぎ0.8を確認 |
-| 採用方向 | ユーザーのGodot採用方針を継承。Godot.NET＋C#、Windows 11 x64、本人向けRelease ZIP、オフライン、将来Steamへ継続。旧Electron・MonoGame推奨は履歴 |
+| 採用方向 | ユーザーのGodot採用方針を継承。Godot.NET＋C#、Windows 11 x64、本人向け実行フォルダー（20:47にZIP不要へ変更）、オフライン、将来Steamへ継続。旧Electron・MonoGame推奨は履歴 |
 | 構成・保存方針 | 純C# Core／Infrastructure／Godot／Tests／packaging、同一solution。配布先と分離した版付きファイル、確定境界・書込み所有者・二重適用防止・Godot版初回配布後の更新互換 |
-| この完了に含めない範囲 | 方式検討の完了と、その後に受領した実装を区別。現在は本編接続まで受領、配布・実機・人評価は未了 |
+| この完了に含めない範囲 | 方式検討と後続成果を区別。本編・ビルド・CI確認は受領。フォルダー受渡し・実機・人評価は未了。旧ZIP未実施履歴は保存 |
 | 旧検証 | D04E/Aのブラウザー検証をM1主経路から除外。目的はENV/PROOF、RD-SAVE-02/D04へ引継ぎ。旧実保存0件・再開物は保全 |
-| 次の順序 | 本編接続完了→今回RD-PACK-02→D04→P02→CO-02。基盤実機残件もM1受入前に解消。開発起動と利用者向けZIPを区別 |
+| 次の順序 | P5-DIRの実行フォルダー受渡し→D04Cと基盤実機残件→必要修正→P02→CO-02。ZIP生成・展開・読戻しは不要 |
 
 出典：[方式案0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/仕様案/カード探索ゲーム_M1実行基盤と配布案.md)、[後続計画0.8](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_後続実施計画.md)、[完了引継ぎ](https://github.com/eckolo/crossweave/blob/a32a05da8560c3ee6c39fe33819ca8b4822b38db/docs/作業資料/実行基盤・配布/CO-M1R_とりまとめ引継ぎ.md)。専門原本は同Workの保存を正本とする。
 
