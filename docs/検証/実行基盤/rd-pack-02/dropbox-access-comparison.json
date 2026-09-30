@@ -1,0 +1,102 @@
+{
+  "observed_date": "2026-09-30",
+  "comparison_scope": "same Dropbox project folder; old successful archive report; current plugin read versus external URL GET",
+  "prior_archive": {
+    "record_ref": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+    "record_path": "docs/検証/実行基盤/m1-godot/delivery-record.json",
+    "record_blob_sha": "7e9e527f10049d719f545b81808074271c11f3a3",
+    "record": {
+      "schema_version": 1,
+      "task": "RD-ENV-02/RD-PROOF-02",
+      "work_id": "20260926-runtime-delivery",
+      "branch": "design/runtime-delivery-20260926",
+      "source_commit": "f2eb59bc3bb16e444acb0deb7030b7cf73ee94a8",
+      "archive": "crossweave-rd-proof-02-20260927-f2eb59b-win-x64.zip",
+      "archive_bytes": 82448984,
+      "archive_sha256": "dd959c05dde262cf8719216e1125ed6e913eceb7dba5872e7e581644f255a67f",
+      "uncompressed_payload_bytes_excluding_manifest": 203097502,
+      "payload_files": 207,
+      "generation_manifest": "generation-manifest.json",
+      "ci": {
+        "run_id": 36293805533,
+        "job_id": 108548783815,
+        "url": "https://github.com/eckolo/crossweave/actions/runs/36293805533",
+        "conclusion": "success",
+        "host": "Windows Server 2025 / 10.0.26100",
+        "mode": "headless",
+        "original_full_artifact_id": 10923600575,
+        "artifact_retention_until": "2026-10-04",
+        "note": "Dropbox is the durable archive; Actions retention is only seven days."
+      },
+      "external_archive": {
+        "path": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-rd-proof-02-20260927-f2eb59b-win-x64.zip",
+        "id": "id:VsVuJOM-0QMAAAAAAA2Vvw",
+        "rev": "65c6f47b6185012d78594",
+        "bytes": 82448984,
+        "modified": "2026-09-27T04:21:14Z",
+        "content_hash": "3aec7ab80ab820390a718dc689aba62820748e34567c4c08aa9c47dd0880a325"
+      },
+      "readback": {
+        "github_source": "source-readback.json",
+        "ci_archive": "Four transport parts checked against transport.json; combined ZIP matches Windows CI archive SHA-256.",
+        "dropbox": "Full downloaded ZIP bytes match; embedded manifest source SHA and all 207 payload hashes verified after upload.",
+        "source_manifest": "All 46 source hashes compared with fixed Git blobs: 45 equal after Windows checkout CRLF conversion; one exact.",
+        "content_hash_algorithm": "Dropbox SHA-256 of concatenated 4 MiB block SHA-256 digests; verified locally."
+      },
+      "acceptance": {
+        "ENV": "incomplete: Windows 11 physical desktop acceptance pending",
+        "PROOF": "incomplete: physical input/visual/audio/DPI/performance pending",
+        "whole_request": "incomplete; executable and reproducible preparation delivered",
+        "core_tests": 13,
+        "godot_node_synthetic_input_checks": 20,
+        "windows_release_launch": "passed",
+        "dedicated_state_separate_process_restart": "passed",
+        "write_failure_display_path": "passed",
+        "physical_windows_input": "not checked",
+        "japanese_visual_display": "not checked",
+        "audio_heard": "not checked",
+        "dpi_100_125_150": "not checked",
+        "fhd_60fps": "not measured",
+        "visual_input_latency_100ms": "not measured",
+        "related_process_memory_500mb": "not measured",
+        "coordinator_receipt": "not confirmed"
+      },
+      "not_in_scope": [
+        "full game",
+        "production save and update compatibility",
+        "Steam publication",
+        "new art assets"
+      ],
+      "resume": "Complete bundled Windows確認票.md and return manual/metrics.json and relevant screen.png, then reassess only outstanding items in the same Work."
+    }
+  },
+  "old_archive_metadata_now": {
+    "path": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-rd-proof-02-20260927-f2eb59b-win-x64.zip",
+    "id": "id:VsVuJOM-0QMAAAAAAA2Vvw",
+    "rev": "65c6f47b6185012d78594",
+    "bytes": 82448984,
+    "is_downloadable": true
+  },
+  "plugin_text_read_now": {
+    "tool": "dropbox.fetch",
+    "path": "/久乃銑泉/gist/crossweave/docs/検証/外部成果物.md",
+    "title": "外部成果物.md",
+    "server_modified": "2026-09-09T11:51:36Z",
+    "text_character_count": 1842,
+    "nonempty": true,
+    "raw_archive_download": false
+  },
+  "current_tool_contract": {
+    "fetch": "extracted text only; max 5 MiB; returns text, not original archive bytes",
+    "download_link": "single-use URL plus metadata; does not return archive bytes",
+    "file_preview": "thumbnail/open links; not original archive bytes"
+  },
+  "history_lookup": {
+    "rd_proof": "Success report found; request/response/command/download host not recovered",
+    "recovery_zip": "Import source and extracted file hashes found in deck_feedback_trial/README.md; transport log not recovered"
+  },
+  "user_constraint": {
+    "browser_fallback": "rejected; do not use",
+    "alternative_routes": "investigate cause and discuss before adoption"
+  }
+}
