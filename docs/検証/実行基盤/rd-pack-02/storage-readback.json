@@ -1,0 +1,37 @@
+{
+  "task": "RD-PACK-02",
+  "status": "incomplete",
+  "source_commit": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
+  "storage": "saved",
+  "files": [
+    {
+      "path": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-win-x64.zip",
+      "id": "id:VsVuJOM-0QMAAAAAAA2Zcw",
+      "rev": "65caec913117e12d78594",
+      "bytes": 84480241,
+      "modified": "2026-09-30T08:07:07Z",
+      "sha256": "6aeeec90699dcd4e9330b6fd93eab7bc8d42f143f4c4d9c98bd8f2abd1c9e7e3",
+      "dropbox_content_hash": "c86991864b90d36fc9e9c253a5a6c80f91a50456bce89278ddd34d0569f8bac7",
+      "server_content_hash_matches": true,
+      "full_byte_readback": "http403",
+      "downloaded_bytes": 0,
+      "blocker": "HTTP 403 from Dropbox temporary download URL in this execution environment"
+    },
+    {
+      "path": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-evidence.zip",
+      "id": "id:VsVuJOM-0QMAAAAAAA2ZdA",
+      "rev": "65caec9c1c4f812d78594",
+      "bytes": 3014391,
+      "modified": "2026-09-30T08:07:19Z",
+      "sha256": "68a0ba39c6b4e7ffb0024012463d7b2af85ee26c77d05c0e0e73c3436fe8bf68",
+      "dropbox_content_hash": "172f05d6ae6822c3f2a7643b806dab07aaabf653e58fe02366a6e5cf47c29ee4",
+      "server_content_hash_matches": true,
+      "full_byte_readback": "not_attempted",
+      "downloaded_bytes": 0,
+      "blocker": "本編ZIPの単回URLがHTTP403で停止したため、証拠ZIPのGETは未実行。metadata照合のみ。"
+    }
+  ],
+  "distinction": "Dropboxの保存完了・metadata・content_hash一致は確認済み。全ZIPを取得した読戻しではない。",
+  "remaining": "両ZIPをDropboxから全バイト取得し、SHA-256・内容を照合。CI成果の取得と内容照合は別途成功済み。",
+  "next": "ユーザー許可後のブラウザー取得、またはユーザー側のダウンロードとSHA-256結果受領。Windows実機試遊は開始しない。"
+}

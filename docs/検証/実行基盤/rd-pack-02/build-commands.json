@@ -1,0 +1,114 @@
+[
+  {
+    "name": "sdk-version",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "--version"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "godot-version",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--version"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "regression-72",
+    "arguments": [
+      "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\SaveProbe\\verify.py",
+      "--no-acquire",
+      "--evidence",
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\m1-package\\evidence\\regression"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "restore-debug",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Crossweave.sln",
+      "--locked-mode",
+      "--disable-parallel",
+      "-m:1"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "build-debug",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "build",
+      "Crossweave.sln",
+      "--no-restore",
+      "-m:1",
+      "-nr:false"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "import",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--headless",
+      "--path",
+      "Godot",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "restore-export",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Godot/Crossweave.Proof.csproj",
+      "--locked-mode",
+      "--disable-parallel",
+      "-p:Configuration=ExportRelease",
+      "-p:RuntimeIdentifier=win-x64",
+      "-m:1"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "export",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+      "--headless",
+      "--path",
+      "Godot",
+      "--export-release",
+      "Windows Desktop",
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\artifacts\\m1-package\\payload-mutpjnah\\Crossweave.exe"
+    ],
+    "exit": 0,
+    "passed": true
+  },
+  {
+    "name": "restore-after-export",
+    "arguments": [
+      "D:\\a\\crossweave\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+      "restore",
+      "Crossweave.sln",
+      "--locked-mode",
+      "--disable-parallel",
+      "-m:1"
+    ],
+    "exit": 0,
+    "passed": true
+  }
+]
