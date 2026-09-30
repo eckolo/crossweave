@@ -43,7 +43,8 @@ def main():
     env=os.environ.copy()
     for key in list(env):
         if key.startswith(('DOTNET_', 'MSBUILD', 'NUGET_', 'GODOT_')): env.pop(key)
-    system=Path(env['SystemRoot'])
+    # Windowsのos.environ.copy()ではキーが大文字の通常dictになる。
+    system=Path(env['SYSTEMROOT'])
     env['PATH']=str(system/'System32')+os.pathsep+str(system)
     env['DOTNET_MULTILEVEL_LOOKUP']='0'
     # SDKがあるCIという事実を残しつつ、実際にロードされたDLLが展開先かを照合する。
