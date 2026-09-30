@@ -20,6 +20,17 @@
 - ただし、この記録と取得できた会話には、当時のダウンロードツール、コマンド、HTTP応答、URLホスト、ネットワーク許可条件がない。成功報告を否定はしないが、現在同じ経路を再現できたとも扱わない。以前だけ動いた理由や、当時と今回の環境差は未確定。
 - 9月9日の回復構築ZIPから通常ファイルへ取り出した記録も確認した。`docs/検証/統合試作/deck_feedback_trial/README.md` に元ZIP rev／bytes／取り出したファイルhashがあるが、バイナリ転送方法のログはない。これだけでは成功経路を復元できない。
 
+## 他Workで取得元まで特定できたZIP（追加調査）
+
+| Work／成果 | 取得元と処理 | 記録の根拠 |
+|---|---|---|
+| ゲームバランス検討 CO-D03、9月20日 | ChatGPT Library上の `crossweave-CO-D03-delivery.zip` を受領し展開。11,031,736 bytes | Library file ID `libfile_ef0abeeed330819199e75d6e3d36cda0` とダウンロード参照先、ZIP SHA-256、変更36ファイル・復元後753ファイルの照合を記録 |
+| ゲーム本編実装 D04B-UI-01＋RD-SAVE-02B、9月30日 | GitHub Actionsの証拠ZIPをダウンロードしhash照合。3,507,623 bytes | artifact ID `11073242830`、ZIP SHA-256、download_digest_match=trueを記録 |
+
+CO-D03の根拠は `docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920_成果受領/README.md`・同 `verification.json`、受領側は `docs/検証/接続条件/co-d03/receipt-20260920/README.md`。ゲーム本編の根拠は `docs/検証/本編実装/d04b-ui-save-01/results/ci-receipt.json`。今回固定ref `523d2693666fd100bd97d11dad5dd57008874c47` から取得して確認した。
+
+これらは取得元を特定できるZIP処理の成功例である。一方、当時のダウンロード呼出ツール名・コマンド自体はこの記録にはないため推測で補わない。LibraryとGitHub ActionsからZIPを受け取れることを、Dropboxプラグイン単独でZIP原本を受け取れた証拠にはしない。今回の保存先を変更する提案・操作でもない。Dropbox由来の旧ZIP読戻しの転送方法は、前節のとおり未確定。
+
 ## 現在のプラグイン機能との対応
 
 公開されているDropboxツール群を確認した。`fetch` は5 MiBまでの抽出テキストを返す機能で、ZIP原本を返す機能ではない。`download_link` は一時URLとmetadataを返す。`file_preview` は画像プレビュー・リンクで原本取得ではない。今回の80 MiB超のZIPを、URLの外部GETを挟まず原本ファイルとして返す機能は、現在公開されている機能には見当たらない。

@@ -242,3 +242,7 @@ R1〜R4の方式・手順・保存・後続計画を自枝へ保存し、GitHub�
 - 旧ENV/PROOFの保存後全ZIP読戻し成功記録、および回復構築ZIPの抽出元hash記録を確認。ただし取得ツール・コマンド・URLホスト・HTTP応答・環境条件は回収できず、過去と今回の違いは未確定。過去成功を否定も再現済み扱いもしない。
 - 公開Dropbox機能ではfetchは5 MiBまでの本文抽出、download_linkは一時URL、previewはプレビューである。80 MiB超のZIP原本を直接返す機能は見当たらない。比較証拠は `docs/検証/実行基盤/rd-pack-02/dropbox-access-comparison.json`、説明は同フォルダーの `Dropboxアクセス比較.md`。
 - P5／依頼全体は未完了。プラグインからZIP原本を取得できる対応機能、または発行URLへ接続が許可された実行環境が必要。別経路採用・設定変更は事前相談。配布コード・ZIP・既存の旧成果を変更せず、実機試遊も始めない。
+
+### 他WorkのZIP取扱経路の追加調査（2026-09-30）
+
+CO-D03成果受領はLibraryファイルIDとZIP hash・36変更／753復元ファイル照合が記録され、取得元はChatGPT Library。D04B-UI＋SAVEの証拠ZIPはGitHub Actions artifact IDと3,507,623 bytes・download_digest_matchが記録され、取得元はGitHub Actions。この2例はDropboxプラグイン単独のZIP取得成功とは区別する。具体的な呼出ツール名は記録がないため推測しない。根拠・固定refを `docs/検証/実行基盤/rd-pack-02/Dropboxアクセス比較.md` と同comparison JSONへ追補。保存先・実行コード・ZIP・P5未完了状態に変更なし。
