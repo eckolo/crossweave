@@ -1,0 +1,62 @@
+{
+  "task": "RD-PACK-02",
+  "initial_attempt": {
+    "count": 1,
+    "http_status": 403,
+    "downloaded_bytes": 0,
+    "response_body_recorded": false,
+    "cause_was_unconfirmed": true,
+    "retry_before_browser_proposal": false
+  },
+  "retry": {
+    "attempt": 2,
+    "method": "GET",
+    "route": "Dropbox connector download_link -> default urllib HTTPS transport",
+    "fresh_link": true,
+    "preflight": false,
+    "alternate_route": false,
+    "started_at": "2026-09-30T09:38:11.125563+00:00",
+    "url_host": "ucd87923b43bddc01a1414d15258.dl.dropboxusercontent.com",
+    "expiration_in_sec": 600,
+    "expected_bytes": 84480241,
+    "expected_rev": "65caec913117e12d78594",
+    "http_status": 403,
+    "downloaded_bytes": 0,
+    "response_headers": {
+      "Content-Type": "text/plain",
+      "content-length": "45"
+    },
+    "response_body": "Forbidden. Calls to this URL are not allowed.",
+    "outcome": "http_error",
+    "elapsed_seconds": 12.565,
+    "finished_at": "2026-09-30T09:38:23.690798+00:00"
+  },
+  "metadata_recheck": {
+    "is_downloadable": true,
+    "bytes": 84480241,
+    "rev": "65caec913117e12d78594",
+    "same_saved_version": true
+  },
+  "link_issue": "success; new single-use URL, expiration 600 seconds, first request GET, no HEAD/Range preflight",
+  "environment_evidence": {
+    "network_access": "restricted",
+    "allowed_hosts": [
+      "chatgpt.com",
+      "git.chatgpt-team.site",
+      "oaisdmntpr*.blob.core.windows.net",
+      "oaisdmntpr*aws.s3.*.amazonaws.com",
+      "oaisdsorpr*.blob.core.windows.net",
+      "sdmntpr*.oaiusercontent.com"
+    ],
+    "download_host_in_allowlist": false,
+    "source": "current execution environment context"
+  },
+  "conclusion": "再試行の403は実行環境のURLアクセス制限。新規URL発行は成功し、有効期限内の最初のGETがForbidden. Calls to this URL are not allowed.で拒否された。",
+  "limits": [
+    "初回は応答本文を記録しておらず、初回403の発生元を個別に確定できない。",
+    "ネットワーク制限を越えた先のDropbox本体応答は未確認。Dropbox側に別問題がないことまで保証しない。",
+    "証拠ZIPのGETは未実行。ブラウザー経由の可否も未確認。"
+  ],
+  "decision": "同条件の追加リトライは停止。代替経路は原因と影響を提示して相談し、合意後にのみ試す。ブラウザーは未使用、共有設定変更なし。",
+  "next_proposal": "ブラウザーの通常ダウンロード機能が使えるか確認し、同じ保存済み2ZIPだけを取得してhash照合する。成功は未保証。代案は利用者によるDropboxダウンロードとSHA-256結果の返却。いずれも採用前の相談段階。"
+}

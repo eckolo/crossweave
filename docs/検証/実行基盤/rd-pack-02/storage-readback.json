@@ -15,7 +15,8 @@
       "server_content_hash_matches": true,
       "full_byte_readback": "http403",
       "downloaded_bytes": 0,
-      "blocker": "HTTP 403 from Dropbox temporary download URL in this execution environment"
+      "blocker": "Execution environment URL access restriction; fresh-link retry returned HTTP403: Forbidden. Calls to this URL are not allowed.",
+      "attempt_count": 2
     },
     {
       "path": "/久乃銑泉/gist/crossweave/docs/検証/crossweave-m1-20260930-0765f1588e63-evidence.zip",
@@ -33,5 +34,6 @@
   ],
   "distinction": "Dropboxの保存完了・metadata・content_hash一致は確認済み。全ZIPを取得した読戻しではない。",
   "remaining": "両ZIPをDropboxから全バイト取得し、SHA-256・内容を照合。CI成果の取得と内容照合は別途成功済み。",
-  "next": "ユーザー許可後のブラウザー取得、またはユーザー側のダウンロードとSHA-256結果受領。Windows実機試遊は開始しない。"
+  "next": "原因確認済み。同条件の追加リトライは停止。代替経路を使うか利用者と相談してから再開。ブラウザー取得は未承認・未実行。",
+  "diagnosis": "docs/検証/実行基盤/rd-pack-02/download-diagnosis.json"
 }
