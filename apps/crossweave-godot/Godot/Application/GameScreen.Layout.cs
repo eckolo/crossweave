@@ -71,8 +71,10 @@ public partial class GameScreen
         foreach (var child in GetChildren()) { RemoveChild(child); child.QueueFree(); }
         Controls.Clear(); dropZones.Clear(); cardRows.Clear(); visibleParagraphs.Clear();
         content = new Control { MouseFilter = MouseFilterEnum.Ignore }; content.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect); AddChild(content);
-        var background = new TextureRect { Texture = GD.Load<Texture2D>(Screen is "exploring" or "return" ? "res://Assets/Application/night-tide.webp" : "res://Assets/Application/antique-shop.webp"),
-            Size = new(1920, 1080), ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize, StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
+        // ExpandModeをSizeより先に指定する。逆順だと元画像の最小サイズにSizeが拡大され、後のIgnoreSizeでは戻らない。
+        var background = new TextureRect { ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            Texture = GD.Load<Texture2D>(Screen is "exploring" or "return" ? "res://Assets/Application/night-tide.webp" : "res://Assets/Application/antique-shop.webp"),
+            Size = new(1920, 1080), StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
             MouseFilter = MouseFilterEnum.Ignore, Modulate = new Color(.55f, .63f, .62f) };
         content.AddChild(background);
         if (Screen == "start") StartScreen();

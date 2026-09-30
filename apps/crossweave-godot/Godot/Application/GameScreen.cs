@@ -54,7 +54,8 @@ public partial class GameScreen : Control
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         GetTree().AutoAcceptQuit = false;
-        font = GD.Load<Font>("res://Assets/NotoSansJP.ttf");
+        // 同梱の可変フォントは既定wght=100。素材を変えず、Godot標準FontVariationで本文用400を選ぶ。
+        font = new FontVariation { BaseFont = GD.Load<Font>("res://Assets/NotoSansJP.ttf"), VariationOpentype = new Godot.Collections.Dictionary { ["wght"] = 400 } };
         BuildTheme();
         // 通常パスを解決するのはGodot側だけ。検査引数は専用領域との組合せが必須。
         SavePath = ProjectSettings.GlobalizePath("user://saves/local/m1.json");

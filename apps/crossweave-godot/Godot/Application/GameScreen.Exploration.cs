@@ -34,8 +34,8 @@ public partial class GameScreen
             }, !Blocked);
             if (row.Text("display_name") == "漂着した潜水服")
             {
-                var art = new TextureRect { Texture = GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"), Position = new(30, -8), Size = new(260, 176),
-                    ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize, StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered, MouseFilter = MouseFilterEnum.Ignore, Modulate = new Color(1, 1, 1, .85f) }; b.AddChild(art);
+                var art = new TextureRect { ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize, Texture = GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"), Position = new(30, -8), Size = new(260, 176),
+                    StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered, MouseFilter = MouseFilterEnum.Ignore, Modulate = new Color(1, 1, 1, .85f) }; b.AddChild(art);
             }
             Text(b, row.Text("display_name"), new(12, 12, 296, 48), 24, Gold);
             Text(b, row.Text("role") == "V" ? "◇" : row.Text("role") == "P" ? "◈" : "", new(30, 72, 260, 65), 42, Muted);

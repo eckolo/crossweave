@@ -281,6 +281,8 @@ internal sealed class UiAutomation
         await Click("item-reserve-" + extra); Check("initial-grant-not-convertible", screen.Controls["convert"] is Button { Disabled: true }); await CloseDetail();
         await Click("home"); await Click("depart"); await ReadAll("scene-reader"); await Click("continue"); Check("continue-unpauses", !screen.View.Obj("story").Obj("scene").Flag("paused"), new {screen.Modal,screen.LastStatus,screen.Message, point=screen.Controls.GetValueOrDefault("continue")?.GetGlobalRect().ToString()});
         var hand = screen.View.Obj("exploration").Arr("hand").Rows().First().Text("id");
+        var actorImages = screen.Controls.Where(p => p.Key.StartsWith("actor-")).SelectMany(p => p.Value.GetChildren().OfType<TextureRect>()).ToArray();
+        Check("actor-art-contained", actorImages.Length > 0 && actorImages.All(t => t.Size.X <= ((Control)t.GetParent()).Size.X && t.Size.Y <= ((Control)t.GetParent()).Size.Y && t.GetGlobalRect().End.X <= ((Control)t.GetParent()).GetGlobalRect().End.X));
         await Click("card-hand-" + hand); Check("tap-details", screen.Modal == "detail"); await CloseDetail();
         await Click("preview"); Check("prediction-readonly", screen.Modal == "prediction"); await Capture("prediction"); await CloseDetail();
         var revision = screen.View.Number("revision"); from = await Point("card-hand-" + hand);
@@ -348,6 +350,7 @@ internal sealed class UiAutomation
     {
         var report = new { status, mode, process_id = System.Environment.ProcessId, process_instance = Guid.NewGuid().ToString("N"), engine = Engine.GetVersionInfo()["string"].ToString(), display = DisplayServer.GetName(), runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription,
             os = System.Runtime.InteropServices.RuntimeInformation.OSDescription, normal_scene = "res://Main.tscn", save_path = SavePath, controls = screen.Controls.Count,
+            logical_viewport = screen.GetViewportRect().Size.ToString(), actual_window = DisplayServer.WindowGetSize().ToString(),
             execution = "real Godot nodes; viewport-local synthetic InputEvent; actual FileGameSession files", physical_input = false, windows11_physical = false, human_playtest = false,
             checks, commands, error = error?.ToString(), final_revision = screen.View.Number("revision"), final_phase = screen.View.Text("phase") };
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + ".json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
