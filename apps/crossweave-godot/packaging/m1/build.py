@@ -19,12 +19,18 @@ def git(*args):
 
 
 def clean():
-    # 全リポジトリの追跡変更・未追跡入力を拒否する。ignoredな生成物は入力にしない。
+    # Windows checkoutのCRLFをGodot importerがLFへ戻すと、statusだけは一時的にMになる。
+    # Gitの正規化後のHEAD内容差分（stagedも含む）と未追跡入力を直接判定する。
     status = git('status', '--porcelain', '--untracked-files=all')
-    if status:
-        # 何が変わったかを失敗時にも残す。許可範囲を広げて黙認しない。
-        EVIDENCE.mkdir(parents=True, exist_ok=True)
-        (EVIDENCE/'source-changes.txt').write_text(status+'\n'+git('diff','--no-ext-diff'), encoding='utf-8')
+    difference = git('diff', 'HEAD', '--no-ext-diff')
+    untracked = git('ls-files', '--others', '--exclude-standard')
+    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    record = dict(status=status, head_content_diff=difference, untracked=untracked,
+                  normalization='Git clean filters; Windows CRLF/LF alone is not a source-content change')
+    name = 'source-before.json' if not (EVIDENCE/'source-before.json').exists() else 'source-after.json'
+    write_json(EVIDENCE/name, record)
+    if difference or untracked:
+        (EVIDENCE/'source-changes.txt').write_text(status+'\n'+difference, encoding='utf-8')
         raise RuntimeError('生成入力が変化しました: '+ascii(status)+'; source-changes.txtを参照')
 
 
