@@ -1,0 +1,174 @@
+{
+  "task": "D04B-UI-01 + RD-SAVE-02B",
+  "commit": "1ae0d56342ef24c5dc72beb18c16b9f58c29fd3a",
+  "host": "linux",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": false,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/dotnet/dotnet",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/dotnet/dotnet",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/godot/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "interaction": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/godot/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=interaction",
+        "--ui-slot=ui-96c54ca7888e415c-interaction",
+        "--ui-output=/tmp/cw-ui-visual-fix"
+      ],
+      "exit": 0
+    },
+    "resume": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/godot/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=resume",
+        "--ui-slot=ui-96c54ca7888e415c-interaction",
+        "--ui-output=/tmp/cw-ui-visual-fix"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "/workspace/scratch/0715b934e783/crossweave/apps/crossweave-godot/.tools/godot/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-96c54ca7888e415c"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "interaction": {
+      "status": "passed",
+      "process_id": 364,
+      "checks": 20,
+      "commands": 0,
+      "final_revision": 4
+    },
+    "resume": {
+      "status": "passed",
+      "process_id": 387,
+      "checks": 6,
+      "commands": 1,
+      "final_revision": 5
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "55f61fc3c396f4ed1367701d1e2edd340a9f0f06684cce576c1b2149bb926a74",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "afa67629b8c9a0a4b1f60ac6f2ddbea8d608105ada3e4b5b76eaf19a253d5397",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "1549de6c9be2bc23a5e835642adf495ceb18923912e039eaf4ca85b94e2b6818",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "788a0d6d9a54612fbe6c8b9291350ad27b0012c4998c637e3161b6b5ce6558e6",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "72dc08cd7a93568052045af00c1a1ddd047df1db381417f454bc47e1764dcb33",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "2c7fdacfe9e43ac631824b8d019b9a2f3f120c7b8ad1cfa011ec06babf650a7f",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "4fee8d839e46545633e87cdad63878efc9f1df20d2c81c65467839710ed09609",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "e1ca12c78067d77a6d3fb0b80c99ce15ab0ddece8b019b9bf64ee9487be4795d",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "7dcef05433f44ccf7228c4e5ffed6e38480c8dea0331dc6b7cb171269d1a0148",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3c45ab9c6d2188b5cf321fa20f97194a0a5c66db87383d0bdffe774837c9de93",
+    "apps/crossweave-godot/UiProbe/verify.py": "b4befd3da2e2050ebe1e00a8db99d8b4f4305159815d5bb7dca46d4bef9e426e",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 505,
+      "sha256": "4fe2c276bd3868d8c39e8d6268372d226bbd4ae8644ca9bab588ac24d3221db5"
+    },
+    "import-ui.log": {
+      "bytes": 1415,
+      "sha256": "a55fe35e965eb6c52dfa6410b42c0c8976a9ed102e50367c35d198f1151a56d7"
+    },
+    "interaction.json": {
+      "bytes": 3219,
+      "sha256": "85b68fd7e73c1fd97a57a96632031298f9aa0389cca2771eb7ae82b44e1ea810"
+    },
+    "interaction.log": {
+      "bytes": 723,
+      "sha256": "b20ac90d4b8f1691b00cb9e95570380ccf4ef80671a924f7c75caec5cf860710"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 369,
+      "sha256": "1585fb241f58e9992de09ec89858af736040723bc8d2334805e0f2441b061e3c"
+    },
+    "restore-ui.log": {
+      "bytes": 80,
+      "sha256": "40d104602671164ab3958225da3e1c8cabd55f0251d6df6bc911d9d5a24f44ce"
+    },
+    "resume-expected.json": {
+      "bytes": 271029,
+      "sha256": "4b258b55d6c86c982ccedf5e66ab745163ed71719d8113b214ea31dcdb9ea899"
+    },
+    "resume.json": {
+      "bytes": 2133,
+      "sha256": "62add7612689f69a9d927e959ff603bac5d715199ef872862c2d0d932bec4040"
+    },
+    "resume.log": {
+      "bytes": 223,
+      "sha256": "32282458991b26ac22d8fa6260b037934c2a5db82dff84596634f444dfabcd42"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "code_commit": "dad99fbc820cc4a49164faac3260c0a1d5d95d0b",
+  "source": "Windows CI actual viewport screenshots, inspected by assistant",
+  "logical_viewport": [
+    1920,
+    1080
+  ],
+  "reported_os_window": [
+    1028,
+    720
+  ],
+  "renderer": "Compatibility -> automatic ANGLE / Microsoft Basic Render Driver",
+  "images": [
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/interaction-home.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "cb8755b8e9f303138e73caa94e9c4aef1219e6788ef2e6193b05064f763e34dc",
+      "review": "inspected",
+      "observation": "拠点、出発・編成・記録、本文の内部スクロール。全体スクロールなし。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/interaction-preparation.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "89907f7079053a434cb32a4d482d49dd3ade5cfc060ee02c32083eef9ac858ab",
+      "review": "inspected",
+      "observation": "三領域、所持の×枚数、2列の札と操作ボタン。領域内に収まる。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/interaction-exploration.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "3a5eb81b7e0430b9e36ff7816c9adf3405c95f7ba3f62777b50b7aba3cd6d09a",
+      "review": "inspected",
+      "observation": "主体・場・手札・行動順・関係線。潜水服が主体枠の幅・高さへ収まる。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/natural-exploration.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "46f705a39cfedc5354d846ad223be189f0fdff16f5b3298c45d9f925954b48bb",
+      "review": "inspected",
+      "observation": "自然初回の実所持・主体・手札・場。元画像サイズによるはみ出しを解消。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/interaction-prediction.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "d395512443b05dcb39888d2ad24f2ffcd811d17140b83daa2cbb3deff496e3f0",
+      "review": "inspected",
+      "observation": "端の予測窓と内部スクロール、主体変化・関係線、実行ボタン。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/natural-preparation-review.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "e10ea95ed485c3d25ca7c4e2c152b88bbcaad902099213029acd46d220e128fb",
+      "review": "inspected",
+      "observation": "取得・支払い・編成後一覧・確定。長い一覧は確認窓内のスクロール。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/natural-return-clear.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "4b9f80e04dd8308ce35d7751aaf9b8b55526571e7942e26e44843a6b0ee08f69",
+      "review": "inspected",
+      "observation": "踏破・本文・成果／喪失・拠点／再訪を同じ画面内に表示。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/failure-save-failure.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "cbfa85d29af2dea55aef77a7da414d550d91636fe5efea5714bd80b9476325e3",
+      "review": "inspected",
+      "observation": "未確定案の背景、保存失敗説明、同一操作再試行。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/unknown-save-unknown.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "4dae3ad488f68ac4426248c378180ff51edaa65270a30701a9a183db730eaa90",
+      "review": "inspected",
+      "observation": "成否不明説明、閉じると再試行は無効、読み直しを表示。"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-save-01/results/windows/rendered/corrupt-recovery.png",
+      "width": 1028,
+      "height": 578,
+      "sha256": "d7065608fcbd01d8f197061bf3b1d2db8c9f62cc270530ef2d51db14ecea1050",
+      "review": "inspected",
+      "observation": "巻戻しと原本保全を説明した明示復旧窓。"
+    }
+  ],
+  "findings": {
+    "texture_sizing": "fixed; node constraint and image reviewed",
+    "font": "FontVariation wght=400 explicitly selected; real Label diagnostic confirmed. Small screenshot readability is not physical acceptance."
+  },
+  "limitations": [
+    "Windows 11 real monitor / physical input / DPI / GPU performance unverified",
+    "WASAPI failed; dummy audio used, no sound acceptance",
+    "Only viewport image, not OS window chrome or monitor capture",
+    "Detail prose intentionally uses internal scroll; offscreen paragraphs are not asserted read"
+  ]
+}
