@@ -1,0 +1,69 @@
+"""本編通常sceneの実ノード・実ファイル確認。正式配布物の生成はしない。"""
+from pathlib import Path
+import argparse, hashlib, importlib.util, json, os, platform, shutil, subprocess, sys, tarfile, uuid, zipfile
+ROOT = Path(__file__).resolve().parents[1]
+REPO = ROOT.parents[1]
+MODES = ['interaction', 'resume', 'natural', 'withdraw-before', 'withdraw-protected', 'defeat', 'withdraw-unprotected', 'legal-acquisition', 'failure', 'unknown', 'in-use', 'corrupt', 'future', 'busy-close']
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--evidence', type=Path)
+    parser.add_argument('--no-acquire', action='store_true')
+    parser.add_argument('--skip-build', action='store_true')
+    parser.add_argument('--skip-regression', action='store_true')
+    parser.add_argument('--modes', default=','.join(MODES))
+    parser.add_argument('--rendered', action='store_true', help='実描画を試す。取得画像も自動確認であり物理入力合格とは別')
+    args = parser.parse_args()
+    host = 'windows' if os.name == 'nt' else 'linux'
+    evidence = (args.evidence or ROOT / ('artifacts/d04b-ui-save-01-' + host)).resolve()
+    evidence.mkdir(parents=True, exist_ok=True)
+    from runtime import prepare
+    dotnet, godot, env, lock = prepare(not args.no_acquire)
+    manifest = dict(task='D04B-UI-01 + RD-SAVE-02B', commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
+        host=host, platform=platform.platform(), sdk=lock['sdk'], engine=lock['godot'], rendered=args.rendered,
+        physical_input=False, windows11_physical=False, formal_distribution=False, commands={}, cases={}, source_sha256={})
+    def run(name, command, timeout=600):
+        print(name, flush=True)
+        with (evidence / (name+'.log')).open('w',encoding='utf-8') as log:
+            result = subprocess.run([str(x) for x in command],cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=timeout)
+        manifest['commands'][name] = dict(arguments=[str(x) for x in command],exit=result.returncode)
+        if result.returncode: raise RuntimeError(name + ' failed; see '+ str(evidence / (name+'.log')))
+    result = 0
+    try:
+        if not args.skip_regression:
+            run('regression-72',[sys.executable,ROOT/'SaveProbe/verify.py','--no-acquire','--evidence',evidence/'regression'])
+        if not args.skip_build:
+            run('restore-ui',[dotnet,'restore','Godot/Crossweave.Proof.csproj','--locked-mode','--disable-parallel','-m:1'])
+            run('build-ui',[dotnet,'build','Godot/Crossweave.Proof.csproj','--no-restore','-m:1'])
+            run('import-ui',[godot,'--headless','--path','Godot','--editor','--import','--quit'])
+        slot_prefix='ui-'+uuid.uuid4().hex[:16]
+        interaction_slot=slot_prefix+'-interaction'
+        for mode in args.modes.split(','):
+            slot=interaction_slot if mode in ('interaction','resume') else slot_prefix+'-'+mode
+            run(mode,[godot,*([] if args.rendered else ['--headless']),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence)],timeout=240)
+            report=json.loads((evidence/(mode+'.json')).read_text(encoding='utf-8'))
+            assert report['status']=='passed', mode
+            manifest['cases'][mode]=dict(status=report['status'],process_id=report['process_id'],checks=len(report['checks']),commands=len(report['commands']),final_revision=report['final_revision'])
+            if mode=='busy-close':
+                # Godot終了後、別の.NETプロセスから確定完了とロック解放を確認する。
+                probe=ROOT/'SaveProbe/bin/Debug/net10.0/Crossweave.SaveProbe.dll'
+                run('busy-close-read',[dotnet,probe,'snapshot',report['save_path'],evidence/'busy-close-read.json'])
+                read=json.loads((evidence/'busy-close-read.json').read_text(encoding='utf-8'))
+                assert read['view']['revision']==1 and read['view']['phase']=='exploring'
+                assert read['pid'] != report['process_id']
+        if 'interaction' in manifest['cases'] and 'resume' in manifest['cases']:
+            assert manifest['cases']['interaction']['process_id'] != manifest['cases']['resume']['process_id']
+        run('proof-entry-regression',[godot,'--headless','--path','Godot','--','--proof-smoke','--probe-slot='+slot_prefix],timeout=120)
+    except Exception as e:
+        manifest['error']=str(e); print(str(e),file=sys.stderr); result=1
+    finally:
+        for folder in ['Godot/Application','Core/Application','Infrastructure/Application','UiProbe']:
+            for path in sorted((ROOT/folder).glob('*')):
+                if path.is_file(): manifest['source_sha256'][path.relative_to(REPO).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in [ROOT/'Godot/Main.tscn',ROOT/'Godot/Proof.tscn',ROOT/'Godot/project.godot',ROOT/'Infrastructure/Assembly.cs']:
+            manifest['source_sha256'][path.relative_to(REPO).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
+        manifest['status']='passed' if result==0 else 'failed'
+        manifest['artifacts']={p.relative_to(evidence).as_posix():dict(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(evidence.rglob('*')) if p.is_file() and p!=evidence/'manifest.json'}
+        (evidence/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    return result
+if __name__=='__main__':raise SystemExit(main())

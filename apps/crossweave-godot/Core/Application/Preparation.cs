@@ -262,7 +262,16 @@ internal static class Preparation
             _ => "heal_bonus"
         };
         int value = config.I(key) + modifiers.Sum(x => x.I("strength")) * Content.Economy.O("affixes").O("passive_strength_units").I(basis);
-        return J.Obj(("base", basis), ("trigger", basis switch
+        // Godot側で心得の効果を再計算させない。既存JSの公開詳細と同じ仮表示名・条件をCoreで合成する。
+        // 追加するのは公開説明だけで、DTO・価格・演算規則・保存形式は変更しない。
+        int extra = modifiers.Sum(x => x.I("discount"));
+        string name = basis switch { "PS01" => "守りからの設置", "PS02" => "属性連携", "PS03" => "借り札の守り", _ => "回復の工夫" };
+        string effect = basis switch { "PS01" => $"行動間隔を{value + extra}短縮（最小1）", "PS02" => $"探査を{value}加算", "PS03" => $"今回の身構の基礎値を{value}加算", _ => $"回復量を{value}加算（最大余力まで）" };
+        if (basis != "PS01" && extra != 0) effect += $"。行動間隔を{Math.Abs(extra)}" + (extra > 0 ? "短縮（最小1）" : "延長");
+        string trigger = basis switch { "PS01" => "直前の本人行動が防御一致で、今回が設置", "PS02" => "直前の本人の一致と異なる属性で攻撃一致", "PS03" => "他主体由来の札で本人が一致し、その後に防御一致", _ => "消耗する回復札で本人が回復一致" };
+        var gates = modifiers.Where(x => x["gate"] is not null).Select(x => x.S("gate") == "borrowed" ? "今回の札が他主体由来" : "今回の札がB属性");
+        return J.Obj(("name", string.Join("・", modifiers.Select(x => x.S("label")).Append(name))),
+        ("trigger_text", string.Join("。", new[] { trigger }.Concat(gates))), ("effect_text", effect), ("base", basis), ("trigger", basis switch
         {
             "PS01" => "防御一致後の不一致設置",
             "PS02" => "直前の一致と異なる属性の攻撃一致",

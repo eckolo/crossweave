@@ -1,0 +1,37 @@
+name: D04B UI 01 and RD SAVE 02B Godot application
+on:
+  push:
+    branches: [impl/m1-godot-application-20260927]
+    paths:
+      - 'apps/crossweave-godot/Core/**'
+      - 'apps/crossweave-godot/Infrastructure/**'
+      - 'apps/crossweave-godot/Godot/**'
+      - 'apps/crossweave-godot/UiProbe/**'
+      - '.github/workflows/d04b-ui-save-01.yml'
+permissions:
+  contents: read
+concurrency:
+  group: d04b-ui-save-01-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-application:
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Real Godot nodes, files, restart and regression
+        run: python apps/crossweave-godot/UiProbe/verify.py
+      - name: Attempt rendered screenshots through the same application
+        # runner上の描画は試みるが、Windows 11実機表示・物理入力の代用にはしない。
+        continue-on-error: true
+        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --modes interaction,natural,failure,unknown,corrupt --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered
+      - name: Retain exact-code evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: d04b-ui-save-01-windows-${{ github.sha }}
+          path: apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/
+          retention-days: 14
+          if-no-files-found: error
