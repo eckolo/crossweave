@@ -1,0 +1,72 @@
+{
+  "version": "0.14.8",
+  "checked_at_utc": "2026-09-25T17:15:33.175Z",
+  "passed": 9,
+  "checks": [
+    {
+      "name": "予測の場札を通常のbuttonと場札詳細の入口として表示する",
+      "passed": true
+    },
+    {
+      "name": "クリックで元札の詳細を場の位置から開き、手札・対象・予測と未確定状態を保つ",
+      "passed": true
+    },
+    {
+      "name": "再クリックの開閉とbutton起動が働き、ホールドしても出札やドラッグを開始しない",
+      "passed": true
+    },
+    {
+      "name": "行動予測と予測札の詳細を往復でき、応答後も札の詳細が保たれる",
+      "passed": true
+    },
+    {
+      "name": "予測札の詳細も全体・原寸・736px幅で場を基準に同じ位置へ開く",
+      "passed": true
+    },
+    {
+      "name": "既存の実場札は従来の詳細を開き、予測として誤表示しない",
+      "passed": true
+    },
+    {
+      "name": "別の手札で予測が消えたら古い詳細を閉じる（自動詳細OFFでも残さない）",
+      "passed": true
+    },
+    {
+      "name": "明示した「場に置く」で初めて実行し、予測とその詳細を片付ける",
+      "passed": true
+    },
+    {
+      "name": "新しい確認経路に外部通信・実行例外がない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "ae1e9c0d2e323648248fd4b97dc46363e8938d41ffee4b30d304af1b34f9b7c5",
+  "fixture_card": {
+    "id": "P_initial_0011",
+    "name": "打ち払い",
+    "attr": "D"
+  },
+  "field_detail_rect": {
+    "left": 16,
+    "top": 412,
+    "width": 520,
+    "height": 480
+  },
+  "read_only_until_explicit_play": true,
+  "injected": [
+    "矩形・client寸法・capture・hit test",
+    "ResizeObserver・可視通知",
+    "MouseEventによるpointerとclick通知",
+    "button.click()と設定change通知"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント",
+    "実マウス・物理タッチ・実キーボード",
+    "IndexedDB・複数タブ"
+  ]
+}

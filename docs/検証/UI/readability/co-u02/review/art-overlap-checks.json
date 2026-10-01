@@ -1,0 +1,100 @@
+{
+  "version": "0.14.3",
+  "acquisition_version": "two-stage-ui-5.3",
+  "checked_at_utc": "2026-09-25T13:33:37.917Z",
+  "passed": 17,
+  "checks": [
+    {
+      "name": "120ms未満で離すと表示せず、遅れたフレームも残らない",
+      "passed": true
+    },
+    {
+      "name": "120msから表示し、進行率は最初に押した時刻から算出する",
+      "passed": true
+    },
+    {
+      "name": "押し直しで待ち時間をリセットし、表示後の取消も残像を残さない",
+      "passed": true
+    },
+    {
+      "name": "短い150ms設定でも進行率を引き延ばさない",
+      "passed": true
+    },
+    {
+      "name": "破棄後は遅れて表示せず再開もしない",
+      "passed": true
+    },
+    {
+      "name": "敵の絵を176pxへ拡大し枠の上へ8px出す指定を持つ",
+      "passed": true
+    },
+    {
+      "name": "スクロール行に上のはみ出し分を確保し、本文を絵より手前に置く",
+      "passed": true
+    },
+    {
+      "name": "FHD全体の収まりと札の寸法を維持し、絵の下側を本文に重ねる",
+      "passed": true
+    },
+    {
+      "name": "画像の原本・配布画素を変更していない",
+      "passed": true
+    },
+    {
+      "name": "探索の短い押下後にホールド表示や敵詳細が遅れて出ない",
+      "passed": true
+    },
+    {
+      "name": "敵は表示を遅らせても既存350msの保持で詳細を開く",
+      "passed": true
+    },
+    {
+      "name": "手札の短い押下をドラッグへ変えず表示も残さない",
+      "passed": true
+    },
+    {
+      "name": "手札は既存220msでつかみ、成立時に進行表示を消す",
+      "passed": true
+    },
+    {
+      "name": "調整後の場へ出札でき、予測と実札の共通区画を保つ",
+      "passed": true
+    },
+    {
+      "name": "取得編成にも同じ遅延を適用し短い押下で状態を変えない",
+      "passed": true
+    },
+    {
+      "name": "取得編成も220msでドラッグへ移り、取消で支払い・編成を変えない",
+      "passed": true
+    },
+    {
+      "name": "変更経路に外部通信・実行例外がない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "a934202899a013e45c1589deb87734cc820f24774440b1b46fb711115067b615",
+  "acquisition_inline_sha256": "0085fda6db7bf25928cc4bbc88f8e47e0951046d3e25cf532f1fe92bc87bc842",
+  "feedback_reveal_ms": 120,
+  "existing_action_ms": {
+    "card": 220,
+    "actor": 350,
+    "acquisition": 220
+  },
+  "injected": [
+    "矩形・client寸法・capture・hit test",
+    "ResizeObserver・可視通知",
+    "表示単体のperformance.nowとrequestAnimationFrame"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント・画像の実重なり",
+    "実マウス・物理タッチ",
+    "IndexedDB・複数タブ",
+    "札の実画像（現在は未導入）"
+  ]
+}

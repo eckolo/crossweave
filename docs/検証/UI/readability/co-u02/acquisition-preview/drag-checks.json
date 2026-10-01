@@ -1,0 +1,171 @@
+{
+  "checked_at_utc": "2026-09-24T17:05:18.746Z",
+  "version": "two-stage-ui-3",
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0",
+    "pointer": "MouseEventへpointerId等を付与し、矩形・hit test・captureをテスト入力として注入"
+  },
+  "scope": "今回のドラッグ・スクロール・短い操作名と共通寸法の設計値を確認。実描画・タッチの評価ではない。",
+  "inline_sha256": "d66699d47763516a8674f3aeb299d578a8f01b1337b2d1128e25ae1fef69d1b4",
+  "passed": 36,
+  "checks": [
+    {
+      "name": "実データ370組合せの最長25文字を、3行・27全角文字分の共通枠へ割り当てる",
+      "passed": true
+    },
+    {
+      "name": "一覧を間引かず全個体を並べ、ページ操作を置かない",
+      "passed": true
+    },
+    {
+      "name": "取得・編成・外すが対象の直下にあり、選ぶ・入れるを使わない",
+      "passed": true
+    },
+    {
+      "name": "候補から手元へのドラッグで未払い取得、正式残高は不変",
+      "passed": true
+    },
+    {
+      "name": "手元から編成へ同じ個体が移り、手元には重複しない",
+      "passed": true
+    },
+    {
+      "name": "編成から手元へ外しても未払いの取得と費用は保持する",
+      "passed": true
+    },
+    {
+      "name": "未払い個体だけ候補へ戻して取得取消にできる",
+      "passed": true
+    },
+    {
+      "name": "候補から編成への直接ドロップは取得と編成を一緒に予測へ反映する",
+      "passed": true
+    },
+    {
+      "name": "ドラッグ経由でも札13枚では確定・支払いができない",
+      "passed": true
+    },
+    {
+      "name": "正確な個体を外し、同種の別個体と初期所持を維持する",
+      "passed": true
+    },
+    {
+      "name": "正式所持を候補へ落としても返還・売却・削除しない",
+      "passed": true
+    },
+    {
+      "name": "有効な編成を確定すると支払いと正式取得が一括反映される",
+      "passed": true
+    },
+    {
+      "name": "取得枠を使った後はドラッグでも追加取得できない",
+      "passed": true
+    },
+    {
+      "name": "実データの最長25文字の心得を提示し、名前を省略しない",
+      "passed": true
+    },
+    {
+      "name": "心得も同じドラッグ経路で未払い編成できる",
+      "passed": true
+    },
+    {
+      "name": "心得の予定取消が同種の既存所持と編成を消さない",
+      "passed": true
+    },
+    {
+      "name": "領域外へのドロップで取得や編成が変わらない",
+      "passed": true
+    },
+    {
+      "name": "pointercancelで移動を中断し、後続pointerupで確定しない",
+      "passed": true
+    },
+    {
+      "name": "lostpointercaptureで移動を中断し、後続pointerupで確定しない",
+      "passed": true
+    },
+    {
+      "name": "Escapeで移動を中断し、後続pointerupで確定しない",
+      "passed": true
+    },
+    {
+      "name": "blurで移動を中断し、後続pointerupで確定しない",
+      "passed": true
+    },
+    {
+      "name": "second-pointerで移動を中断し、後続pointerupで確定しない",
+      "passed": true
+    },
+    {
+      "name": "余白ドラッグは一覧を連続スクロールし、物を移動しない",
+      "passed": true
+    },
+    {
+      "name": "保持前のスワイプはスクロールとなり、長押し移動に切り替わらない",
+      "passed": true
+    },
+    {
+      "name": "ドラッグ・スワイプ後の余分なクリックで詳細が開かない",
+      "passed": true
+    },
+    {
+      "name": "短いクリックとキーボード操作では詳細・取得ボタンを使える",
+      "passed": true
+    },
+    {
+      "name": "分類を切り替えて戻っても一覧のスクロール位置を保持する",
+      "passed": true
+    },
+    {
+      "name": "横に続く一覧ではホイールも連続スクロールへつながる",
+      "passed": true
+    },
+    {
+      "name": "一覧内の左右キーでも連続スクロールできる",
+      "passed": true
+    },
+    {
+      "name": "やり直すで編成とスクロール位置を初期状態へ戻す",
+      "passed": true
+    },
+    {
+      "name": "保持中に一覧の端へ寄せると連続してスクロールする",
+      "passed": true
+    },
+    {
+      "name": "320px入力でも同じ札寸法と全一覧を維持し、ボタン経路を使える（DOM）",
+      "passed": true
+    },
+    {
+      "name": "440px入力でも同じ札寸法と全一覧を維持し、ボタン経路を使える（DOM）",
+      "passed": true
+    },
+    {
+      "name": "736px入力でも同じ札寸法と全一覧を維持し、ボタン経路を使える（DOM）",
+      "passed": true
+    },
+    {
+      "name": "1024px入力でも同じ札寸法と全一覧を維持し、ボタン経路を使える（DOM）",
+      "passed": true
+    },
+    {
+      "name": "今回のDOM・Pointer Event経路に実行例外なし",
+      "passed": true
+    }
+  ],
+  "old_suites_rerun": false,
+  "retained_results": [
+    "checks.json: v1, 24 checks",
+    "structure-checks.json: v2, 21 checks"
+  ],
+  "unverified": [
+    "実ブラウザー描画・最長名称の実測",
+    "実ポインター・タッチの操作感",
+    "IndexedDB",
+    "本編保存",
+    "戦闘試用",
+    "ユーザー受入"
+  ]
+}
