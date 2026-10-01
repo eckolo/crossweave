@@ -2,7 +2,7 @@
 
 2026-10-01／既存UI改善Work `20260910-ui-readability`／`ui/readability-20260910`。
 
-**Godot成果は要修正。現提出から配布へは進めない。** 項目別の適合確認と具体的な返却条件を保存した。通常保存・GitHub読戻しの状態は[review.json](review.json)のpublicationと[自Work](../../../../作業資料/Work/20260910-ui-readability.md)冒頭に記録する。
+**Godot成果は要修正。現提出から配布へは進めない。** 今回のレビュー依頼全体は完了。成果コミット [`b4340b1309b281093d440d94524e27baf15c9341`](https://github.com/eckolo/crossweave/commit/b4340b1309b281093d440d94524e27baf15c9341) を通常Pushし、全変更blobと6文書全文をGitHubから読戻した。[読戻し記録](review.json)のpublicationと[自Work](../../../../作業資料/Work/20260910-ui-readability.md)冒頭を参照。完了記録の追記SHAは最終応答で提示する。
 
 | 読む順 | 内容 |
 |---|---|
