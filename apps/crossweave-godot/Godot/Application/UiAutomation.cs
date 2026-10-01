@@ -19,6 +19,7 @@ internal sealed class UiAutomation
 {
     private readonly GameScreen screen;
     private readonly string mode, output;
+    private readonly bool packageEvidence;
     internal readonly string SavePath, CampaignId;
     internal ISaveFaults? Faults;
     private bool running;
@@ -29,15 +30,17 @@ internal sealed class UiAutomation
     private readonly UiFault fault = new();
     private ApplicationDto? checkpoint;
 
-    private UiAutomation(GameScreen screen, string mode, string slot, string output)
+    private UiAutomation(GameScreen screen, string mode, string slot, string output, string? fixture, bool packageEvidence)
     {
-        this.screen = screen; this.mode = mode; this.output = output;
+        this.screen = screen; this.mode = mode; this.output = output; this.packageEvidence = packageEvidence;
         SavePath = ProjectSettings.GlobalizePath("user://proofs/d04b-ui-save-01/" + slot + "/m1.json");
         CampaignId = "D04B-" + mode;
         Directory.CreateDirectory(output);
         if (mode is "natural" or "withdraw-before" or "withdraw-protected" or "defeat" or "withdraw-unprotected" or "legal-acquisition")
         {
-            using var file = System.IO.File.OpenRead(System.IO.Path.GetFullPath(System.IO.Path.Combine(ProjectSettings.GlobalizePath("res://"), "../Tests/Fixtures/application-oracle.json.br")));
+            // 配布exeには試験原本を混ぜない。隔離検査だけが明示した絶対パスを読む。
+            // 既存のエディター検査は従来の固定fixtureをそのまま使う。
+            using var file = System.IO.File.OpenRead(fixture ?? System.IO.Path.GetFullPath(System.IO.Path.Combine(ProjectSettings.GlobalizePath("res://"), "../Tests/Fixtures/application-oracle.json.br")));
             using var stream = new BrotliStream(file, CompressionMode.Decompress);
             record = ((JsonObject)JsonNode.Parse(stream)!).Arr("records").Rows().Single(r => r.Text("name") == mode).Copy();
             if (mode is "legal-acquisition" or "withdraw-unprotected")
@@ -73,9 +76,12 @@ internal sealed class UiAutomation
         string slot = Value("--ui-slot=") ?? "", output = Value("--ui-output=") ?? "";
         if (!Regex.IsMatch(slot, "^[a-z0-9][a-z0-9-]{7,95}$") || !System.IO.Path.IsPathFullyQualified(output))
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
-        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future" }.Contains(mode))
+        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode))
             throw new ArgumentException("Unknown isolated UI check");
-        return new(screen, mode, slot, output);
+        string? fixture = Value("--ui-fixture=");
+        if (fixture is not null && !System.IO.Path.IsPathFullyQualified(fixture))
+            throw new ArgumentException("Isolated fixture requires an absolute path");
+        return new(screen, mode, slot, output, fixture, args.Contains("--package-evidence"));
     }
     internal void Opened() { }
     internal void Tick()
@@ -299,6 +305,7 @@ internal sealed class UiAutomation
     }
     private async Task Resume()
     {
+        int initialCommandCount = commands.Count;
         checkpoint = JsonSerializer.Deserialize<ApplicationDto>(System.IO.File.ReadAllText(System.IO.Path.Combine(output, "resume-expected.json")))!;
         Check("separate-process-exact-resume", JsonNode.DeepEquals(checkpoint.State, screen.Session!.ExportDto().State));
         var choice = screen.View.Obj("exploration").Arr("legal_actions").Rows().First();
@@ -308,7 +315,27 @@ internal sealed class UiAutomation
         await Mouse(from, true); await screen.ToSignal(screen.GetTree().CreateTimer(.25), SceneTreeTimer.SignalName.Timeout);
         await Move(from, new(960, 540)); await Mouse(new(960, 540), false); await Idle();
         VerifyCommand(checkpoint, "play", new() { ["choice"] = choice.Copy() });
-        Check("rng-next-result-equal", commands.Count == 1);
+        Check("rng-next-result-equal", commands.Count == initialCommandCount + 1);
+    }
+    // 差替え直前の読み取り専用スナップショット。通常保存は変更しない。
+    private void PackageCheckpoint()
+    {
+        checkpoint = screen.Session!.ExportDto();
+        System.IO.File.WriteAllText(System.IO.Path.Combine(output, "resume-expected.json"), JsonSerializer.Serialize(checkpoint));
+        Check("package-checkpoint-full-dto", JsonNode.DeepEquals(checkpoint.State, SaveFileCodec.Read(SavePath).Dto.State));
+    }
+    private async Task PackageResume()
+    {
+        checkpoint = JsonSerializer.Deserialize<ApplicationDto>(System.IO.File.ReadAllText(System.IO.Path.Combine(output, "resume-expected.json")))!;
+        // nonceも含む全DTOで所持・編成・進行・乱数・精算済み状態を比較する。
+        Check("replacement-full-dto-unchanged", JsonNode.DeepEquals(checkpoint.State, screen.Session!.ExportDto().State));
+        // 再出発直後は物語が停止中。通常の本文読了操作で再開してから次結果を比較する。
+        for (int i = 0; i < 8 && screen.Can("continue_scene"); i++)
+        {
+            var before = screen.Session.ExportDto();
+            await ReadAll("scene-reader"); await Click("continue"); VerifyCommand(before, "continue_scene");
+        }
+        PackageCheckpoint(); await Resume();
     }
     private async Task Failures()
     {
@@ -352,6 +379,7 @@ internal sealed class UiAutomation
             os = System.Runtime.InteropServices.RuntimeInformation.OSDescription, normal_scene = "res://Main.tscn", save_path = SavePath, controls = screen.Controls.Count,
             logical_viewport = screen.GetViewportRect().Size.ToString(), actual_window = DisplayServer.WindowGetSize().ToString(),
             execution = "real Godot nodes; viewport-local synthetic InputEvent; actual FileGameSession files", physical_input = false, windows11_physical = false, human_playtest = false,
+            package = packageEvidence ? PackageEvidence.Read() : null,
             checks, commands, error = error?.ToString(), final_revision = screen.View.Number("revision"), final_phase = screen.View.Text("phase") };
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + ".json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
     }
@@ -379,6 +407,8 @@ internal sealed class UiAutomation
                 if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if (mode is "natural" or "defeat") await RepeatCheck(); }
                 else if (mode == "interaction") await Interaction();
                 else if (mode == "resume") await Resume();
+                else if (mode == "package-checkpoint") PackageCheckpoint();
+                else if (mode == "package-resume") await PackageResume();
                 else if (mode is "failure" or "unknown") await Failures();
                 else if (mode == "busy-close")
                 {
