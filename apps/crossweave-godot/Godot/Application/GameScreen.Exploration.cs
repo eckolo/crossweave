@@ -65,7 +65,7 @@ public partial class GameScreen
         if(selectedCard!="" && Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control hand)
         {
             float actionX=Mathf.Clamp(hand.GetGlobalRect().Position.X,24,1440);
-            Button(content,"preview","予測",new(actionX,920,132,56),()=>{Modal=Modal=="prediction"?"":"prediction";},actionPreview.Flag("ok"));
+            Button(content,"preview","予測",new(actionX,920,132,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
             Button(content,"play",ActionLabel(),new(actionX+140,920,250,56),()=>{if(Choice() is {} c)Send("play",new(){["choice"]=c.Copy()});},Choice() is not null&&Can("play"));
         }
         var footer=Panel(content,new(24,984,1872,72),"fcfcf5");var self=e.Obj("self");
@@ -181,6 +181,8 @@ public partial class GameScreen
 
     public override void _Input(InputEvent input)
     {
+        if(input is InputEventMouseMotion hover)hoverPoint=hover.Position;
+        if(input is InputEventMouseButton wheel&&wheel.Pressed&&wheel.ButtonIndex is MouseButton.WheelUp or MouseButton.WheelDown or MouseButton.WheelLeft or MouseButton.WheelRight)CancelGesture();
         if(input is InputEventScreenTouch touch)
         {
             if(touch.Pressed)touchPointers.Add(touch.Index);else touchPointers.Remove(touch.Index);
@@ -248,7 +250,7 @@ public partial class GameScreen
             if (Choice() is { } choice && actionPreview.Flag("ok"))
             {
                 if(quickPlace&&actionPreview.Text("mode")=="place"&&!loses)Send("play",new(){["choice"]=choice.Copy()});
-                else {detailOrigin=Controls["card-hand-"+selectedCard].GetGlobalRect().GetCenter();Modal="prediction";}
+                else OpenPrediction(true,false);
             }
             else Message = "対象を選び、予測を確認して「行動する」を押してください。";
         }

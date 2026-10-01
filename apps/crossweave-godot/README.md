@@ -2,11 +2,13 @@
 
 通常起動は本編の `Main.tscn` です。D04B-CORE-01の純C#本編とRD-SAVE-02Aの実ファイル保存を、D04B-UI-01／RD-SAVE-02BでGodotの画面・入力・終了へ接続しています。準備→夜潮の排水路→3種の帰還→取得・編成→再出発と、終了後の再開が今回の範囲です。正式配布・Windows 11実機受入・人の試遊・M1完成は別判定です。
 
+**現在のUI実装はD04B-UI-02。** [対応表・修正前後の実描画・検証入口](../../docs/検証/本編実装/d04b-ui-02/README.md)と[コード解説・読む順](../../docs/検証/本編実装/d04b-ui-02/コード解説.md)を最初に参照してください。取得編成・探索・詳細予測・共通操作・本文帰還をUI原本72d0eb58の後継説明へ合わせています。旧UI-01の画像を現行画面として扱わないでください。
+
 以下のコード表記はすべて**リポジトリルートからの相対パス**。読み物はこのREADMEへ集約します。
 
-## 最初の起動
+## 開発担当の起動
 
-Python 3.12以上を用意し、リポジトリルートで実行します。
+以下は開発担当向けです。遊ぶ利用者へSDK・Godot・Pythonの導入やソースビルドを求める手順ではありません。利用者の起動入口は配布担当が受け渡す実行物です。D04B-UI-02では修正版配布を作らず、後続RD-PACK-03へ渡します。開発担当はPython 3.12以上で、リポジトリルートから実行します。
 
 ```sh
 python apps/crossweave-godot/UiProbe/launch.py
@@ -41,16 +43,16 @@ python apps/crossweave-godot/UiProbe/launch.py
 ## 自動確認の入口
 
 ```sh
-# 実Godotノード・合成入力・実ファイル・別プロセス再開＋既存72試験
-python apps/crossweave-godot/UiProbe/verify.py
+# 実Godot描画・合成入力・実ファイル・別プロセス再開＋73件の.NET回帰
+python apps/crossweave-godot/UiProbe/verify.py --rendered --full-hd
 
 # 保存部とCoreだけ（画面は起動しない）
 python apps/crossweave-godot/SaveProbe/verify.py
 ```
 
-本編検査は `user://proofs/d04b-ui-save-01/<一意slot>/m1.json` のみ。通常保存とは別です。自然初回と合法fixtureを分け、通常起動へ検査残高を入れません。証拠は `apps/crossweave-godot/artifacts/d04b-ui-save-01-<OS>/`、Windows経路は `.github/workflows/d04b-ui-save-01.yml`。既存の72試験も利用し、新しい検査は画面と保存の境界へ集中します。
+本編検査は `user://proofs/d04b-ui-save-01/<一意slot>/m1.json` のみ。通常保存とは別です。自然初回と合法fixtureを分け、通常起動へ検査残高を入れません。証拠は `apps/crossweave-godot/artifacts/d04b-ui-save-01-<OS>/`、Windows経路は `.github/workflows/d04b-ui-save-01.yml`。既存72件と公開表示境界の追加1件を使います。`--modes inheritance`で継承操作だけ、`--modes interaction,resume`で別プロセス再開を対で確認できます。結果を別の新規ディレクトリへ保存するには`--evidence <path>`を指定します。
 
-Godotの実ノードと合成入力、CI上の実描画、Windows 11実機・物理入力・DPI・GPU性能・人の受入は別です。現行の実測状況は上記「確認結果」を参照してください。正式配布の仕上げはRD-PACK-02です。
+Godotの実ノードと合成入力、実描画、Windows 11実機・物理入力・DPI・GPU性能・人の受入は別です。現行の実測状況はD04B-UI-02の「確認結果」を参照してください。UI適合確認・修正版配布・実機受入は後続の別工程です。
 
 ## 固定環境
 

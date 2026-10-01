@@ -59,7 +59,7 @@ public partial class GameScreen
             button.AddThemeColorOverride("font_focus_color",new Color("fcfcf5"));
         }
         // PressedはGodot標準のsignal。ラムダはUIの意図を本作の操作へ渡すだけで、ゲーム計算を行わない。
-        button.Pressed += () => { if (Automation is not null) GD.Print("UI PRESS " + id + " busy=" + Busy); if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
+        button.Pressed += () => { if (Automation is not null) {Automation.ButtonPressed(id);GD.Print("UI PRESS " + id + " busy=" + Busy);} if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
         return button;
     }
     private ScrollContainer Scroll(Control parent, string id, Rect2 rect, bool horizontal)
@@ -160,7 +160,7 @@ public partial class GameScreen
         var r=View.Obj("return");
         string outcome=r.Text("outcome") switch {"clear"=>"踏破","withdrawal"=>"撤退",_=>"緊急脱出"};
         Text(content,outcome,new(24,4,900,56),24,Gold);
-        Text(content,$"着想 +{ViewData.Money(r.Number("gained_units"))}　計 {ViewData.Money(r.Number("unspent_after_units"))}\n余力 {r.Number("expedition_end_hp")} → {r.Number("home_hp")}\n記録 +{r.Arr("new_unlocks").Count}",new(24,812,890,132),24);
+        Text(content,$"着想 +{ViewData.Money(r.Number("gained_units"))}　計 {ViewData.Money(r.Number("unspent_after_units"))}\n余力 {r.Number("expedition_end_hp")} → {r.Number("home_hp")}\n観測 +{r.Obj("knowledge_changes").Number("observations")}　基本構成 +{r.Obj("knowledge_changes").Arr("catalogues").Count}　札の解放 +{r.Arr("new_unlocks").Count}",new(24,812,890,132),24);
         Button(content,"receipt","詳細",new(24,946,112,50),()=>OpenModal("receipt"));
         var reading=Panel(content,new(1056,636,840,360),"f1f1e860");StoryReader(reading,"return-prose",new(24,20,792,320),false);
         Button(content,"story-detail","本文の詳細",new(24,1018,164,56),()=>OpenModal("story-detail"));
@@ -195,7 +195,7 @@ public partial class GameScreen
         {
             var forecast = Panel(popup, new(detailOrigin.X < 960 ? 1384 : 16, Mathf.Clamp(detailOrigin.Y-104,16,488), 520, 480), "142b32ed");
             forecast.MouseFilter = MouseFilterEnum.Stop; Controls["detail-panel"] = forecast;
-            Text(forecast, "行動予測", new(20, 12, 380, 58), 27, Gold);
+            Text(forecast, "行動予測", new(20, 12, 350, 58), 27, Gold);PinButton(forecast,520);
             Button(forecast, "modal-close", "×", new(454, 12, 48, 48), () => Modal = "");
             LongText(forecast, "prediction-body", PredictionText(), new(20, 82, 480, 370), 22);
             return;

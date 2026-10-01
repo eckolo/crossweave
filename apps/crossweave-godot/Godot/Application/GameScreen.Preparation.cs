@@ -128,7 +128,7 @@ public partial class GameScreen
     {
         string key = kind + row.Text("id");
         if (Modal == "detail" && detailKey == key) { Modal = ""; detailKey = ""; return; }
-        detail = row.Copy(); detailKey = key; detailKind = kind; detailId = row.Text("id"); detailOrigin = origin; Modal = "detail";
+        detail = row.Copy(); detailKey = key; detailKind = kind; detailId = row.Text("id"); detailOrigin = origin; Modal = "detail";windowPinned=true;
     }
 
     private void DetailWindow()
@@ -140,7 +140,8 @@ public partial class GameScreen
         if(preparation)popup.AddChild(new ColorRect{Color=new(0,0,0,.3f),Size=new(1920,1080),MouseFilter=MouseFilterEnum.Stop});
         var p = Panel(popup, new(x, y, width, height), "142b32ed"); p.MouseFilter = MouseFilterEnum.Stop;
         Controls["detail-panel"] = p;
-        Text(p, actor ? detail.Text("display_name") : (detailKind == "forecast" ? "予測 · " : "") + CardName(detail), new(20, 12, width - 95, 65), 25, Gold);
+        Text(p, actor ? detail.Text("display_name") : (detailKind == "forecast" ? "予測 · " : "") + CardName(detail), new(20, 12, width - (preparation?95:162), 65), 22, Gold);
+        if(!preparation)PinButton(p,width);
         Button(p, "detail-close", "×", new(width - 66, 12, 48, 48), () => Modal = "");
         string value = actor ? ActorText(detail) : ItemText(detail);
         LongText(p, "detail-body", value, new(20, 82, width - 40, height - 170), 22);

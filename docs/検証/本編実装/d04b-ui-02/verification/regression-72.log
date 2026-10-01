@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "C:\Users\eckol\eckolo Dropbox\ãvîTëLêÚ\gist\crossweave\apps\crossweave-godot\SaveProbe\verify.py", line 68, in <module>
+    if __name__ == '__main__': raise SystemExit(main())
+                                                ^^^^^^
+  File "C:\Users\eckol\eckolo Dropbox\ãvîTëLêÚ\gist\crossweave\apps\crossweave-godot\SaveProbe\verify.py", line 35, in main
+    runtimes = subprocess.check_output([str(dotnet), '--list-runtimes'], cwd=ROOT, env=env, text=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\eckol\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\eckol\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\eckol\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 1196, in communicate
+    stdout = self.stdout.read()
+             ^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'cp932' codec can't decode byte 0x85 in position 66: illegal multibyte sequence

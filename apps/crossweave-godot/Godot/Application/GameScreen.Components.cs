@@ -16,7 +16,7 @@ public partial class GameScreen
     }
 
     private void OpenModal(string name, string parent = "")
-    { CancelGesture(); modalParent = parent; Modal = name; }
+    { CancelGesture(); windowPinned=true;modalParent = parent; Modal = name; }
     private void CloseModal()
     { CancelGesture(); Modal = modalParent; modalParent = ""; }
 
@@ -41,7 +41,8 @@ public partial class GameScreen
     { "guard" => "◇", "heal" => "＋", "defense_support" => "≋", _ => "↗" };
     private string PublicEventText(JsonObject row)
     {
-        if(row.Text("type")=="boundary")return "時刻 "+row.Number("time")+"：場を回収";
+        if(row.Text("type")=="boundary")return "時刻 "+row.Number("time")+"："+(row.Text("event") switch
+        {"traversed"=>"道を進んだ","defeated"=>"相手を退けた","player_defeated"=>"余力を失い、緊急脱出",_=>"状況が変わった"});
         string actor=View.Obj("exploration").Obj("actors").Obj(row.Text("actor")).Text("display_name");
         if(actor=="")actor=row.Text("actor")=="P"?"辿り屋":"相手";
         return $"時刻 {row.Number("time")}　{actor}：{row.Text("card_name")}\n余力の減少 {row.Number("actual_hp_loss")}　探査 {row.Number("hit_gain")}　回復 {row.Number("hp_restored")}";
@@ -76,6 +77,33 @@ public partial class GameScreen
     }
     // 判定器の220msを画面設定に合わせて時計だけ換算する。Coreの規則・保存へ設定を混ぜない。
     private double GestureClock()=>(allowDrag?Time.GetTicksMsec():gestureStarted)*220.0/holdMilliseconds;
+    private void OpenPrediction(bool pinned=true, bool toggle=true)
+    {
+        if(Modal=="prediction"&&pinned&&windowPinned&&toggle){Modal="";return;}
+        if(Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control source)detailOrigin=source.GetGlobalRect().GetCenter();
+        Modal="prediction";windowPinned=pinned;hoverOpenAt=hoverCloseAt=0;renderNeeded=true;
+    }
+    private void PinButton(Control parent,float width)
+    {
+        var pin=Button(parent,"window-pin",windowPinned?"固定":"一時",new(width-132,12,60,48),()=>{windowPinned=!windowPinned;hoverCloseAt=0;});
+        pin.AddThemeFontSizeOverride("font_size",16); // 60pxの操作枠に日本語2文字と内側余白を収める。
+    }
+    private void TrackPreviewHover()
+    {
+        // 原本の180msで一時予測、離れて160msで閉じる。クリックで固定された窓は置き換えない。
+        bool overAction=new[]{"preview","play"}.Any(id=>Controls.TryGetValue(id,out var c)&&IsInstanceValid(c)&&c.GetGlobalRect().HasPoint(hoverPoint));
+        ulong now=Time.GetTicksMsec();
+        if(!Busy&&gesture.Mode==Crossweave.Core.GestureMode.Idle&&Modal==""&&overAction&&actionPreview.Flag("ok"))
+        {if(hoverOpenAt==0)hoverOpenAt=now+180;else if(now>=hoverOpenAt)OpenPrediction(false,false);}
+        else hoverOpenAt=0;
+        if(!windowPinned&&Modal is "detail" or "prediction")
+        {
+            bool overWindow=Controls.TryGetValue("detail-panel",out var p)&&p.GetGlobalRect().HasPoint(hoverPoint);
+            if(overWindow||overAction)hoverCloseAt=0;
+            else if(hoverCloseAt==0)hoverCloseAt=now+160;
+            else if(now>=hoverCloseAt){Modal="";hoverCloseAt=0;renderNeeded=true;}
+        }
+    }
     internal void ActivateTile(CardTile tile)
     { if(!Busy&&!Blocked){TapCard(tile.Row,tile.Zone,tile.GetGlobalRect().GetCenter());renderNeeded=true;} }
     private void UpdateDragGhost()

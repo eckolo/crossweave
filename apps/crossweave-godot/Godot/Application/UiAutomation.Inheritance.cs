@@ -45,7 +45,13 @@ internal sealed partial class UiAutomation
         Check("forecast-detail-readonly",screen.Modal=="detail"&&JsonNode.DeepEquals(save,screen.Session.ExportDto().State));await Capture("forecast-detail");
         await Click(forecast);Check("same-forecast-closes",screen.Modal=="");
         await Click("order-0");Check("order-opens-actor-detail",screen.Controls["detail-panel"].Size==new Vector2(416,384)&&screen.Controls["detail-panel"].Position.Y==16);await Capture("order-detail");
-        await CloseDetail();await Click("preview");await Capture("prediction");await CloseDetail();
+        await CloseDetail();await Click("preview");
+        Check("prediction-uses-hand-origin-after-order",screen.Controls["detail-panel"].Position.Y==488);
+        await Capture("prediction");await CloseDetail();
+        var hover=await Point("preview");await Move(new(960,360),hover);await screen.ToSignal(screen.GetTree().CreateTimer(.24),SceneTreeTimer.SignalName.Timeout);await Frame(3);
+        Check("hover-opens-transient-prediction",screen.Modal=="prediction"&&((Button)screen.Controls["window-pin"]).Text=="一時");
+        await Click("window-pin");await Move(hover,new(960,360));await screen.ToSignal(screen.GetTree().CreateTimer(.22),SceneTreeTimer.SignalName.Timeout);await Frame(2);
+        Check("pinned-prediction-survives-pointer-leave",screen.Modal=="prediction");await CloseDetail();
         await Point(cardId);start=screen.Controls[cardId].GlobalPosition+new Vector2(31,45);
         await Mouse(start,true);await screen.ToSignal(screen.GetTree().CreateTimer(.26),SceneTreeTimer.SignalName.Timeout);
         end=new Vector2(1000,570);await Move(start,end);await Frame(4);
@@ -60,11 +66,28 @@ internal sealed partial class UiAutomation
         await Click(cardId);Check("auto-details-off",screen.Modal=="");await Click(forecast);Check("explicit-forecast-opens-with-auto-off",screen.Modal=="detail");await CloseDetail();
         var other=screen.Controls.Keys.First(k=>k.StartsWith("card-hand-")&&k!=cardId);await Click(other);Check("obsolete-forecast-detail-cleared",screen.Modal=="");
         await Click("deck");await Capture("deck");await Click("deck-card-0");await Click("modal-back");Check("deck-parent-restored",screen.Modal=="deck");await Click("modal-close");
+        await Click("menu");await Click("action-history");await Capture("action-history");await Click("modal-close");
         await Click("knowledge");await Click("knowledge-group-0");Check("record-child-gap",screen.Controls["knowledge-child"].Position.X-screen.Controls["dialog-panel"].GetGlobalRect().End.X==16);await Capture("knowledge");
         await Click("knowledge-back");Check("record-parent-retained",screen.Modal=="knowledge"&&!screen.Controls.ContainsKey("knowledge-child"));await Click("modal-close");
         Check("all-display-inputs-preserve-dto",JsonNode.DeepEquals(save,screen.Session.ExportDto().State));
+        start=await Point(cardId);await Mouse(start,true);await screen.ToSignal(screen.GetTree().CreateTimer(.26),SceneTreeTimer.SignalName.Timeout);
+        await Mouse(start,true,MouseButton.WheelDown);await Mouse(new(960,540),false);await Idle();
+        Check("wheel-cancels-held-card",JsonNode.DeepEquals(save,screen.Session.ExportDto().State));
         await Click("withdraw");await Click("withdraw-confirm");while(screen.Can("continue_scene")){await ReadAll("return-prose");await Click("continue");}
         CommonPosition("return");await Capture("return");await Click("ack");await Click("prepare");await Capture("return-preparation");
         Check("return-to-same-preparation",screen.Screen=="preparation"&&screen.View.Text("phase")=="home");
+    }
+
+    private async Task KnownCatalogue()
+    {
+        var knowledge=screen.View.Text("phase")=="exploring"?screen.View.Obj("exploration").Obj("knowledge"):screen.View.Obj("knowledge");
+        var catalogue=knowledge.Arr("evidence").Rows().First(r=>r.Text("kind")=="initial_catalogue_grant");
+        var group=knowledge.Arr("encounters").Rows().Select((r,i)=>(r,i)).First(x=>x.r.Text("profile")==catalogue.Text("profile"));
+        var before=screen.Session!.ExportDto().State.Copy();
+        await Click("knowledge");await Click("knowledge-group-"+group.i);await Capture("known-catalogue");
+        Check("catalogue-has-public-card-entries",screen.Controls.ContainsKey("knowledge-card-0"));
+        await Click("knowledge-card-0");await Capture("known-card");await Click("modal-back");
+        Check("catalogue-parent-and-selection-retained",screen.Modal=="knowledge"&&screen.Controls.ContainsKey("knowledge-child"));
+        await Click("modal-close");Check("catalogue-browsing-no-save-change",JsonNode.DeepEquals(before,screen.Session.ExportDto().State));
     }
 }

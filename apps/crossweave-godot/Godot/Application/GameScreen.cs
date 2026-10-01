@@ -48,6 +48,9 @@ public partial class GameScreen : Control
     private bool verticalSwipe, autoDetails = true;
     private bool showRelations = true, quickPlace = true, allowDrag = true;
     private int holdMilliseconds = 220;
+    private bool windowPinned = true;
+    private Vector2 hoverPoint;
+    private ulong hoverOpenAt, hoverCloseAt;
     private readonly HashSet<int> touchPointers = [];
     private string modalParent = "", knowledgeSelection = "";
     private bool prepareAfterReturn;
@@ -242,6 +245,7 @@ public partial class GameScreen : Control
             if (closeRequested) { closeRequested = false; AskClose(); }
         }
         gesture.Tick(GestureClock());
+        TrackPreviewHover();
         if (gesture.Mode != GestureMode.Idle) AutoScroll();
         RecordVisibleParagraphs();
         if (renderNeeded) { renderNeeded = false; Render(); }

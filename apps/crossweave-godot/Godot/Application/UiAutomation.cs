@@ -29,6 +29,9 @@ internal sealed partial class UiAutomation
     private FileGameSession? otherOwner;
     private readonly UiFault fault = new();
     private ApplicationDto? checkpoint;
+    private readonly Dictionary<string,int> receivedPresses = new();
+    // 再描画でButtonインスタンスが替わっても、実signal受信の記録を同じ検査所有者へ集約する。
+    internal void ButtonPressed(string id)=>receivedPresses[id]=receivedPresses.GetValueOrDefault(id)+1;
 
     private UiAutomation(GameScreen screen, string mode, string slot, string output, string? fixture, bool packageEvidence)
     {
@@ -103,7 +106,7 @@ internal sealed partial class UiAutomation
     }
     private async Task Mouse(Vector2 point, bool down, MouseButton button = MouseButton.Left)
     {
-        if(down){screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);await Frame(2);}
+        if(down)screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);
         screen.GetViewport().PushInput(new InputEventMouseButton { Position = point, GlobalPosition = point, ButtonIndex = button, Pressed = down }, true); await Frame();
     }
     private async Task Move(Vector2 from, Vector2 to)
@@ -125,16 +128,14 @@ internal sealed partial class UiAutomation
         if (control is Button { Disabled: true }) throw new InvalidDataException("Disabled control " + id + " " + screen.Message);
         return control.GetGlobalRect().GetCenter();
     }
-    private async Task Click(string id)
+    private async Task Click(string id, bool waitForIdle = true)
     {
         if(!screen.Controls.ContainsKey(id) && id is "exit" or "history" or "deck" or "repeat" or "return-prepare") await Click("menu");
         var point = await Point(id);
         // GodotのGUIは直前のmouse motionでホバー先を更新する。実マウスと同じ順で
         // 移動→押下→解放を送る。最初の入力だけOSポインター位置へ依存させない。
         screen.GetViewport().PushInput(new InputEventMouseMotion { Position = point, GlobalPosition = point }, true);
-        bool pressed=false; var button=screen.Controls[id] as Button;
-        void Observed()=>pressed=true;
-        if(button is not null)button.Pressed+=Observed;
+        var button=screen.Controls[id] as Button;int previous=receivedPresses.GetValueOrDefault(id);
         // OSの実マウス移動と同フレームになった場合だけ再送する。Pressed受信後は再送せず二重確定を防ぐ。
         for(int attempt=0;attempt<3;attempt++)
         {
@@ -143,11 +144,10 @@ internal sealed partial class UiAutomation
             // 短クリックの押下・解放を同じフレームへ入れ、初回フォント生成時間をホールドと誤認させない。
             screen.GetViewport().PushInput(new InputEventMouseButton{Position=point,GlobalPosition=point,ButtonIndex=MouseButton.Left,Pressed=true},true);
             screen.GetViewport().PushInput(new InputEventMouseButton{Position=point,GlobalPosition=point,ButtonIndex=MouseButton.Left,Pressed=false},true);
-            await Idle();
-            if(button is null||pressed)break;
+            if(waitForIdle)await Idle();else await Frame(3);
+            if(button is null||receivedPresses.GetValueOrDefault(id)>previous)break;
         }
-        if(button is not null&&GodotObject.IsInstanceValid(button))button.Pressed-=Observed;
-        if(button is not null&&!pressed)throw new InvalidDataException("Button received no Pressed signal: "+id);
+        if(button is not null&&receivedPresses.GetValueOrDefault(id)==previous)throw new InvalidDataException("Button received no Pressed signal: "+id);
     }
     private async Task CloseDetail()
     {
@@ -430,7 +430,7 @@ internal sealed partial class UiAutomation
             {
                 await Click(screen.Controls["open"] is Button { Disabled: false } ? "open" : "new");
                 Check("opened-one-session", screen.Session is not null && screen.Screen != "start");
-                if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if (mode is "natural" or "defeat") await RepeatCheck(); }
+                if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if(mode=="natural")await KnownCatalogue(); if (mode is "natural" or "defeat") await RepeatCheck(); }
                 else if (mode == "interaction") await Interaction();
                 else if (mode == "inheritance") await Inheritance();
                 else if (mode == "resume") await Resume();
@@ -440,7 +440,7 @@ internal sealed partial class UiAutomation
                 else if (mode == "busy-close")
                 {
                     fault.Mode = "busy-close";
-                    var point = await Point("depart"); await Mouse(point, true); await Mouse(point, false);
+                    var point = await Point("depart"); await Click("depart",false);
                     for (int i = 0; i < 1000 && !fault.Entered.IsSet; i++) await Frame();
                     Check("save-pending-ui-alive", screen.Busy && fault.Entered.IsSet);
                     await Mouse(point, true); await Mouse(point, false);

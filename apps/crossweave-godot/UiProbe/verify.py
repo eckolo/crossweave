@@ -25,6 +25,10 @@ def main():
     manifest = dict(task='D04B-UI-02', commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
         host=host, platform=platform.platform(), sdk=lock['sdk'], engine=lock['godot'], rendered=args.rendered,
         physical_input=False, windows11_physical=False, formal_distribution=False, commands={}, cases={}, source_sha256={})
+    # ビルド開始前に入力を固定する。検査中に編集があった場合も、終了時の新ソースへ読み替えない。
+    source_paths=[p for folder in ['Godot/Application','Core/Application','Infrastructure/Application','UiProbe'] for p in sorted((ROOT/folder).glob('*')) if p.is_file()]
+    source_paths += [ROOT/p for p in ['Godot/Main.tscn','Godot/Proof.tscn','Godot/project.godot','Infrastructure/Assembly.cs']]
+    manifest['source_sha256']={p.relative_to(REPO).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths}
     def run(name, command, timeout=600):
         print(name, flush=True)
         with (evidence / (name+'.log')).open('w',encoding='utf-8') as log:
@@ -34,7 +38,7 @@ def main():
     result = 0
     try:
         if not args.skip_regression:
-            run('regression-72',[sys.executable,ROOT/'SaveProbe/verify.py','--no-acquire','--evidence',evidence/'regression'])
+            run('regression',[sys.executable,ROOT/'SaveProbe/verify.py','--no-acquire','--evidence',evidence/'regression'])
         if not args.skip_build:
             run('restore-ui',[dotnet,'restore','Godot/Crossweave.Proof.csproj','--locked-mode','--disable-parallel','-m:1'])
             run('build-ui',[dotnet,'build','Godot/Crossweave.Proof.csproj','--no-restore','-m:1'])
@@ -60,11 +64,8 @@ def main():
     except Exception as e:
         manifest['error']=str(e); print(str(e),file=sys.stderr); result=1
     finally:
-        for folder in ['Godot/Application','Core/Application','Infrastructure/Application','UiProbe']:
-            for path in sorted((ROOT/folder).glob('*')):
-                if path.is_file(): manifest['source_sha256'][path.relative_to(REPO).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
-        for path in [ROOT/'Godot/Main.tscn',ROOT/'Godot/Proof.tscn',ROOT/'Godot/project.godot',ROOT/'Infrastructure/Assembly.cs']:
-            manifest['source_sha256'][path.relative_to(REPO).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
+        manifest['source_changed_during_run']=[p.relative_to(REPO).as_posix() for p in source_paths if hashlib.sha256(p.read_bytes()).hexdigest()!=manifest['source_sha256'][p.relative_to(REPO).as_posix()]]
+        if manifest['source_changed_during_run']: result=1;manifest['error']='Source changed during execution; rerun required'
         manifest['status']='passed' if result==0 else 'failed'
         manifest['artifacts']={p.relative_to(evidence).as_posix():dict(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(evidence.rglob('*')) if p.is_file() and p!=evidence/'manifest.json'}
         (evidence/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

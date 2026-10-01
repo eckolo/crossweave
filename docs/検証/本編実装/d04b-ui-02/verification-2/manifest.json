@@ -1,0 +1,208 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "566dd510dc14cc936cf9df4e8bc9d74a9f27c7ac",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "commands": {
+    "regression-72": {
+      "arguments": [
+        "C:\\Users\\eckol\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\SaveProbe\\verify.py",
+        "--no-acquire",
+        "--evidence",
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\verification-2\\regression"
+      ],
+      "exit": 0
+    },
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "interaction": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=interaction",
+        "--ui-slot=ui-f5d83115ba724d67-interaction",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\verification-2"
+      ],
+      "exit": 1
+    }
+  },
+  "cases": {},
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "c5eee113ea02c2bd88d4e558aafd863e6c9f9acfa342a5f0b7fa9811ef1bf2b2",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "1ce1c1c3b1ae63359064b8c7c9cd7f65b455f4ea08244ef3bf3c2a483f477799",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "2cecbaa4876c59baed2c184fafab89914cf3fb8a1126cdd8adf64e7c65dc3e5e",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "095889569a265c44a4c559d16123d3f378c941d32701e6ffb5fe93ff61c9e621",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "a09bfc62eb800c412c69cfe54d037a218eecba8531f05deb549979e79fba6cfc",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "921e0783485503c3013cfcc0ff4b0eeb467ab9e6aacae81c7cbd9240f89b0d9b",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "5aea2a3f9a6c0bd4ce2f54509b9e02626c8033a428f00746707e1ad283ed871d",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "2c7fdacfe9e43ac631824b8d019b9a2f3f120c7b8ad1cfa011ec06babf650a7f",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "4e4aac39cf2e8168386b8b3fca6ab3a7b54a3bbfd261dee8f70d899f14715788",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "5a3035e36f6289e69fe62319821f92cf95db52a5f30ee1ec3391d04bb4619aa9",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "7dcef05433f44ccf7228c4e5ffed6e38480c8dea0331dc6b7cb171269d1a0148",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3c45ab9c6d2188b5cf321fa20f97194a0a5c66db87383d0bdffe774837c9de93",
+    "apps/crossweave-godot/UiProbe/verify.py": "3515d8abd12e27475ed5f8189bcda9aa484583ac3733e7a83f1674a3a8b8a905",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "error": "interaction failed; see C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\verification-2\\interaction.log",
+  "status": "failed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "8349f799ce4007c04ffae270759980ba847c7869c3f2b32a51758e42f33705cb"
+    },
+    "import-ui.log": {
+      "bytes": 1591,
+      "sha256": "5344b7d4bf37aa9f54241292631b301bb38503c848308a1f17c620d27bec4258"
+    },
+    "interaction-home.png": {
+      "bytes": 1040529,
+      "sha256": "68f080762d2349b14bfe2534bee9212f456f89bf125fc0f9365e97e2ebe12616"
+    },
+    "interaction-preparation.png": {
+      "bytes": 101711,
+      "sha256": "b85e77104565563fc382ef0c2f2769fc09e81351880330fd32d48e245fed9b34"
+    },
+    "interaction.json": {
+      "bytes": 1802,
+      "sha256": "1a46c65996f223fe77e0131aae710d566913ee456bdd99f5c46d33c67a4af45b"
+    },
+    "interaction.log": {
+      "bytes": 5306,
+      "sha256": "72503d7215f02807780df13c7488f3a7bc21d101bc105986c9611c5bc943a705"
+    },
+    "regression/build.log": {
+      "bytes": 734,
+      "sha256": "a12e320809726e07c5e9e48675b9368adedc5e197d6fd73737133d6fc7d85e76"
+    },
+    "regression/checks/campaign-defeat.json": {
+      "bytes": 23546,
+      "sha256": "8e3510658659f4c6f621a505c9d9b97d4ea3a66f3df392d37936baf741c6c30b"
+    },
+    "regression/checks/campaign-legal-acquisition.json": {
+      "bytes": 2067,
+      "sha256": "9caa82661136eb3d59327f0d55a4f08c9240a8de3a86fa7fd6c461db3c6bbac7"
+    },
+    "regression/checks/campaign-natural.json": {
+      "bytes": 37295,
+      "sha256": "3f156b2df4d18bbf5cba11e61c2095c1e1eec57dad3eaa54ea6d3b2db8efda7e"
+    },
+    "regression/checks/campaign-withdraw-before.json": {
+      "bytes": 2516,
+      "sha256": "7e1dc014f0f89ad2196fd32666726c001842e3108e5848d0c95fcae22854b48b"
+    },
+    "regression/checks/campaign-withdraw-protected.json": {
+      "bytes": 9734,
+      "sha256": "2f54df43017d1ef5f08fddd210c87dc8cb4baf53015e8af8543cfd4aff59b12d"
+    },
+    "regression/checks/campaign-withdraw-unprotected.json": {
+      "bytes": 1097,
+      "sha256": "9cc669ab7c7d0a7edeb281204830b3517fa480816f3734768f29126c89311417"
+    },
+    "regression/checks/crash-AfterFlush.json": {
+      "bytes": 324,
+      "sha256": "2fc65791f93fb1f6f78e40b62dafd17e7e9bbe5aa42abba018ede89c32112983"
+    },
+    "regression/checks/crash-AfterReplace.json": {
+      "bytes": 325,
+      "sha256": "695feeceeaeee409b90df7c2f31fca77c14b17ac02cc34be05ca40c0259a8be1"
+    },
+    "regression/checks/crash-BeforeReplace.json": {
+      "bytes": 326,
+      "sha256": "6826290ac47b5c7694e4f719ffa4177d7a4513892596b9cfc706cb06886dc42c"
+    },
+    "regression/checks/crash-DuringWrite.json": {
+      "bytes": 323,
+      "sha256": "8db34f133120713a4131b7583742d73c0e87ce1121abdd50d08b1ec5d1250e26"
+    },
+    "regression/manifest.json": {
+      "bytes": 5846,
+      "sha256": "b1e65746c421bb9bb5256b4f4d3e1c5f7c4268bd7e8d8a1f130250f182b6a312"
+    },
+    "regression/restore.log": {
+      "bytes": 708,
+      "sha256": "39e42a351820eed145f9e7a7328eafda36711fc9fd61b998283b8643adafa1f9"
+    },
+    "regression/save.trx": {
+      "bytes": 105798,
+      "sha256": "e344619e6fc63b11c25894c6d6e82b1ecf68172efb01197f33f0f8e1d3633c3f"
+    },
+    "regression/test.log": {
+      "bytes": 552,
+      "sha256": "78f735706e8bc7ee4ff2e45412ed3b91d5b46ad3b775b4ffdc7db2ff42e97edb"
+    },
+    "regression-72.log": {
+      "bytes": 22,
+      "sha256": "307a2cd40ec8fd4d0c459cd2027a857e29a3c14d1c13ec2ebe7ab0e32a9ed469"
+    },
+    "restore-ui.log": {
+      "bytes": 461,
+      "sha256": "a0a286a731216dda02d4aec11b6a49dbd51246cf6464165750d6482547b0a6ce"
+    }
+  }
+}
