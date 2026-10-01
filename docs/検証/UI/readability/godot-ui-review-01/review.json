@@ -1,0 +1,2304 @@
+{
+  "schema": "crossweave-ui-godot-review-1",
+  "task": "UI-GODOT-REVIEW-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "reviewed_at_utc": "2026-10-01T16:10:41Z",
+  "request_status": "review-complete-awaiting-publication",
+  "current_state": "判定完了・通常保存とGitHub読戻し中",
+  "inputs": {
+    "ui_original_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "ui_original_tree": "890e1972aa47e422616eec4ec4bcb155c3a971be",
+    "implementation_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+    "implementation_tree": "57eb71e183942c2d4568eae92c3b78156a2e0896",
+    "submission_commit": "2102aca1144ce6dfcdf393528cf66b3bea5133e1",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "instruction": "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md",
+    "instruction_version": "0.2",
+    "receipt": "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261001_受領と次工程.md",
+    "version_precedence": [
+      "UI0.16.0の接続（了承済み構造の実データ接続）",
+      "UI0.15.1の空状態とunified-navigation",
+      "UI0.14.0 FHD→0.14.2共通札面→0.14.3画像重なり／遅延→0.14.4クリック→0.14.7反対端詳細→0.14.8予測札詳細"
+    ],
+    "target_auto_updated": false
+  },
+  "sync": {
+    "source_commit": "02a8cf7b5df70320c798f92b2c60d977cea8931c",
+    "scope": "docs/作業資料/とりまとめ/",
+    "file_count": 57,
+    "files": {
+      "docs/作業資料/とりまとめ/CO-01_実装基準.md": "271acfe1e1b097dd6ebd21afe22f13f73e67bf65",
+      "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md": "490fe6e4c597e01ad2bc3ef86a3ca60e9463a61c",
+      "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md": "656b33b71218e930acb8e88b17ebdfc39b66df8b",
+      "docs/作業資料/とりまとめ/Codex導入/運用検討.md": "1814ce3b385a4d1e2dfe6dff90570fce4ab20543",
+      "docs/作業資料/とりまとめ/Work別実施計画.md": "e2ff8ad1155671ab57947328bb8a46adb2aff4a6",
+      "docs/作業資料/とりまとめ/人の担当タスク.md": "05c41ac94bd964530a7c793f5a793c89dc684e32",
+      "docs/作業資料/とりまとめ/仮置き・未決事項.md": "0a43748162cf5c6189df4430b475d9541aa9e231",
+      "docs/作業資料/とりまとめ/全体計画.md": "d0dc2b81ba678aaffef0fb525693541079aa68e2",
+      "docs/作業資料/とりまとめ/完了報告と引継ぎ規則.md": "a27769bbf73542d3b5e938838dc0c07c22795c58",
+      "docs/作業資料/とりまとめ/引継ぎ/20261001_UI修正とCodex実行の再割当.md": "9deb53c6c7c66c10e20594670f95d62c56dfa671",
+      "docs/作業資料/とりまとめ/引継ぎ/20261001_再割当の参照記録.json": "7ca3cc3ad53de4e6cb1cbdcad8cb4584b872bbf6",
+      "docs/作業資料/とりまとめ/引継ぎ/20261001_起動報告_UI継承とCodex分担.md": "0ba59d67afb34e2b1a94bc21b629d2db1ed2e3cd",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/README.md": "844e17238ef7d6fbd72084bc387d9740c88273bd",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/manifest.json": "4af6d0da095fa8bb4cf5e4a7f20600f009562ce7",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D02R_20260918/staged.patch": "78eb86db0945705e69e64fb6469c976e5285bfc9",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/README.md": "0c2e7d3c3aa12ac0beed8a9d0efd17f86be09027",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/manifest.json": "d13653e507d66730e0dafeb9631e64a6ec95e36b",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920/unstaged.patch": "80ed37397ef48e982b5cf72714bf7581ddfa8dca",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920_成果受領/README.md": "00eb49d23490a376fa580b64fd9252f7a0f43c8d",
+      "docs/作業資料/とりまとめ/引継ぎ/CO-D03_20260920_成果受領/verification.json": "4e17c56c7704b5ee9553abf1e9cd8e5232609af8",
+      "docs/作業資料/とりまとめ/引継ぎ/D04B-CORE-01_20260928_受領.md": "04b43068a57c4c6fc6b364a2df301756f6c2e5a4",
+      "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261001_受領と次工程.md": "055b896c8aa9ea26366ced52e07a8bee6e6e58a9",
+      "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261001_受領確認.json": "51f61b05ce3d48739092fe28057a7815df895870",
+      "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-SAVE_20260930_受領.md": "4cd6a7787ab0dad81d402b52ed6313c23368691f",
+      "docs/作業資料/とりまとめ/引継ぎ/RD-ENV-PROOF-02_20260927_受領.md": "c4ffbb5a282efe7869c964289c107640d671cc36",
+      "docs/作業資料/とりまとめ/引継ぎ/RD-PACK-02_20260930_部分受領.md": "6ecb708493c020c51864dceddd7ff1b49ea993c0",
+      "docs/作業資料/とりまとめ/引継ぎ/RD-PACK-02_20261001_受領確認.json": "b8bc7f5a0c777aa37132a5d4bb6e1acde9996771",
+      "docs/作業資料/とりまとめ/引継ぎ/RD-PACK-02_20261001_完了受領.md": "7e1a957f3449ae6bb3133649403e39792c19c4a8",
+      "docs/作業資料/とりまとめ/引継ぎ/RD-SAVE-02A_20260929_受領.md": "e4a36020d2a8bacf7044e2f5f4564632fe86794f",
+      "docs/作業資料/とりまとめ/引継ぎ/とりまとめ再開_20261001_保存確認.json": "d7e41f020cf0dc42452b776e5fff26676fda4c5b",
+      "docs/作業資料/とりまとめ/現状棚卸し.md": "d020ffae012d212453e8cf06e0694dcba0e18bcd",
+      "docs/作業資料/とりまとめ/着手指示/CO-01A_接続データ照合.md": "81f3a0d81bb84dbfa7b20ba9fc3714817b902bab",
+      "docs/作業資料/とりまとめ/着手指示/CO-D01_設計集約.md": "868efcc390fc41dfe4f1a4b473d5f662a62eee16",
+      "docs/作業資料/とりまとめ/着手指示/CO-D02R_UI受領と公開情報追補.md": "37ebb6df0a4948315cd6c503eed9b15bdbe22649",
+      "docs/作業資料/とりまとめ/着手指示/CO-D02_継続本体.md": "1f692a919733a1fd55038c849dfee6695132b287",
+      "docs/作業資料/とりまとめ/着手指示/CO-D03R_統一取得と保存移行.md": "394463f37b81da46ce2dc16b6fdbbd4276427596",
+      "docs/作業資料/とりまとめ/着手指示/CO-D03_取得と個体経済.md": "9b1011c41223e9dcf68922cabe8063a72bccdfbd",
+      "docs/作業資料/とりまとめ/着手指示/CO-D04A_実保存確認.md": "c498bb9667979ec2f819739ae272bdaa62ee52cd",
+      "docs/作業資料/とりまとめ/着手指示/CO-D04B_UI統合と実行版固定.md": "db9e70c2621608f085acc82d5b3ac53ef6987f39",
+      "docs/作業資料/とりまとめ/着手指示/CO-D04C_Windows本編の実機確認.md": "a11f46c370201f540bb7290284efbfe85b28185f",
+      "docs/作業資料/とりまとめ/着手指示/CO-D04E_実保存環境の確立.md": "3374cc4525030a420311f6ae73751c8206fd2034",
+      "docs/作業資料/とりまとめ/着手指示/CO-M1R_遊べる版の実現方式.md": "6f98835340aaa91f1f8d4adfe567e6c66e313749",
+      "docs/作業資料/とりまとめ/着手指示/CO-S01_シナリオ.md": "053a500da2f3257b344069542c007b23e7b41953",
+      "docs/作業資料/とりまとめ/着手指示/CO-U01_UI.md": "a9095146a4c353e233fd6b3e0eb05c78f1008cc7",
+      "docs/作業資料/とりまとめ/着手指示/CO-U02B_公開情報と取得経済の接続.md": "3029c58706cd2c831e07d7cb05b662aa30091c5e",
+      "docs/作業資料/とりまとめ/着手指示/CO-U02_実データ接続.md": "07ff8b53b1cfbe8afe5482c46c7fcd126b213213",
+      "docs/作業資料/とりまとめ/着手指示/CO-V01_用途確定と初回素材.md": "7d20a8888b8ca06eb8907a1a80657bb97d67bfd4",
+      "docs/作業資料/とりまとめ/着手指示/CO-V02A_現行UIと代表素材.md": "10b28f7fae882d582e2f61a601d5953c2fc95991",
+      "docs/作業資料/とりまとめ/着手指示/D04B-CORE-01_CSharp本編と一巡.md": "2a982b004835e7b58d2705ebdcc9112ec52b4ceb",
+      "docs/作業資料/とりまとめ/着手指示/D04B-UI-01_RD-SAVE-02B_Godot本編画面と保存接続.md": "ca34e254782e7c459aa2e7ca147dfe0893d8baab",
+      "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md": "d855c3d0c46465e989b4e28c97174d7e14b9af53",
+      "docs/作業資料/とりまとめ/着手指示/RD-ENV-PROOF-02_Godot基盤と代表試作.md": "8a6c085e510b8397f412b3403065b1ed7456198a",
+      "docs/作業資料/とりまとめ/着手指示/RD-PACK-02_Windows本編配布.md": "6eaff3993ca8e1a374a38630261272104978ab82",
+      "docs/作業資料/とりまとめ/着手指示/RD-PACK-03_UI修正版の配布と再開確認.md": "e2bd92bfc200c8909383169d0c2e4ae4ff5c3eb9",
+      "docs/作業資料/とりまとめ/着手指示/RD-SAVE-02A_本編ファイル保存と再開.md": "fc8ec210dfa9897ffa036e2baf459cdd5ca97e54",
+      "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md": "56e3862e4271e1989b761fc08779b934393a2123",
+      "docs/作業資料/とりまとめ/計画同期手順.md": "d9bd697eb21ce4633e35a69cf7cb1d152d89a2ed"
+    },
+    "method": "scoped-file-sync",
+    "plan_version": "0.30",
+    "completion_rule_version": "1.4",
+    "technical_branch": "dev_design_tmp_assembly",
+    "technical_commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "technical_merge_base": "4ad410b3d5406c3bd8e9ef2d1f6c67e72eb3de4a",
+    "technical_changed_paths": [
+      {
+        "path": "docs/作業資料/Work分担.md",
+        "before": "04e799fc0ebdc231107d6b03a98c8df8d3361fa7",
+        "after": "5632a604cd299a326c2be9cb3f682149b9016037"
+      }
+    ],
+    "technical_effect": "本編／配布のWork登録のみ。共通runtime/API変更なし。既定の三方同期で登録差分を取込み、技術元を親に含む通常マージ。",
+    "plan_matched_after_technical": true,
+    "latest_refs_rechecked": [
+      {
+        "ref": "heads/ui/readability-20260910",
+        "sha": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "ref": "heads/ops/project-coordination-20260913",
+        "sha": "02a8cf7b5df70320c798f92b2c60d977cea8931c"
+      },
+      {
+        "ref": "heads/dev_design_tmp_assembly",
+        "sha": "21ddd349b6bec69ecac6d9db288c537553dab860"
+      },
+      {
+        "ref": "heads/impl/m1-godot-application-20260927",
+        "sha": "2102aca1144ce6dfcdf393528cf66b3bea5133e1"
+      }
+    ]
+  },
+  "preservation": {
+    "old_ui_git_checkout_accessible": false,
+    "unsaved_ui_changes_found_in_accessible_checkouts": 0,
+    "limitation": "失われた旧UI作業環境の未保存差分が存在しないとは断定しない。公開UI原本を基点として復元。現存する他Workコピーを編集しない。",
+    "surviving_html_count": 74,
+    "surviving_html_treatment": "全74提示物を元のまま残した。生成・上書き・再提示のための再実装なし。",
+    "latest_connected_html": {
+      "path": "/workspace/crossweave-connected-acquisition.html",
+      "sha256": "f26c4167e1aa3eeadc79530225dd7b1ca1f6cd5e52d1c1e90051d93f2709670f"
+    }
+  },
+  "methods": {
+    "this_review": [
+      "固定tree／path／blobの機械照合",
+      "現行原本とGodot実コード・入力検査コードの読解",
+      "提出済み27PNGの視覚比較",
+      "既存結果JSON・source_sha256と最新CI artifactの照合"
+    ],
+    "runtime_runs_this_review": 0,
+    "tests_reexecuted": 0,
+    "old_browser_suites_reexecuted": false,
+    "browser_localhost_retried": false,
+    "supplement": "不足していた最終ソースと描画・入力の結び付きをsource_sha256／CI artifactで補い、条件式・描画関数・検査の対象入力を限定追跡。実行環境のない余白入力はU01として残す。",
+    "environment": "今回はクラウドで資料・画像・ソース照合。固定Godot/.NET未導入。提出者のWindows11／FHD実描画・合成InputEvent、CI Windows実行を保存証拠として使用。"
+  },
+  "evidence_audit": {
+    "implementation_publication_paths": 418,
+    "implementation_publication_mismatches": [],
+    "submission_record_only_diff": {
+      "status": "ahead",
+      "ahead": 1,
+      "files": [
+        {
+          "path": "docs/作業資料/Work/20260927-game-application.md",
+          "sha": "536e22cc522bf377acc1d78bc661e40666ae3ee0",
+          "status": "modified"
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/README.md",
+          "sha": "804b532292550b7bc30fdf34706a15f13d4a7f53",
+          "status": "modified"
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/publication.json",
+          "sha": "4131260ca87de451c8743ca86abcc98e714d17b1",
+          "status": "added"
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/results.json",
+          "sha": "a472f1df0cf13df07dfb9ddaf271c617fb192d6b",
+          "status": "modified"
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/とりまとめ引継ぎ.md",
+          "sha": "a36c2dbb1a03bc78aa8462acf49fa76883ea0a93",
+          "status": "modified"
+        }
+      ]
+    },
+    "downloaded_files": [
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/publication.json",
+        "blob": "4131260ca87de451c8743ca86abcc98e714d17b1",
+        "sha256": "154610960f7231485e9100e8b02365a7c05e6325f2c8337f78792db88022f0ec",
+        "bytes": 90407,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/UI対応表.md",
+        "blob": "56b1c8bae935a6f34ad1943b75935663ee285be3",
+        "sha256": "51a40783cc65cc602de389888015a7f1dbba1d1becc1823110f9ad3582e5f7bb",
+        "bytes": 9306,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/README.md",
+        "blob": "804b532292550b7bc30fdf34706a15f13d4a7f53",
+        "sha256": "77338d2955c60323c28d992098640df76dff789aef038ddf136c457853adfe01",
+        "bytes": 2366,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-source-audit.json",
+        "blob": "b7db6bc59f8b98175a4e12af8f2ea878ea9b4964",
+        "sha256": "3ce1a1c3e22b6abb080aa50950e2e34d72469ba76e8896ee1eb58bba94fe5796",
+        "bytes": 794,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/results.json",
+        "blob": "a472f1df0cf13df07dfb9ddaf271c617fb192d6b",
+        "sha256": "359fa02ef96a1e7b40296f3c00df84e3de1bece915104781e96b0ec7d5567977",
+        "bytes": 11271,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/確認入口.md",
+        "blob": "82bb8cf8a496b5285f3f830a2938518e3d63a494",
+        "sha256": "bad988cd191cacee5f614420cbded2c0b6bb3a2572dac457afd9de5d2e36132e",
+        "bytes": 3646,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/確認結果.md",
+        "blob": "4057f6b8b2dba5f47a60f27e03af5f5a319b3583",
+        "sha256": "603034c2fb59a111c58a91a4c6489889c1e34052b62548d5b8adb2ab8dcc8965",
+        "bytes": 7229,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/resume.json",
+        "blob": "bb8dddd46524fd82835aeab47b06bbe583a24a69",
+        "sha256": "7c4631d807bacc3a3d90ed5afa11e0765f1373b7dd0f97ef0fc4397a402356ac",
+        "bytes": 2403,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "blob": "fb512f651d0bc7dd32779553f59eede7fbc97322",
+        "sha256": "5c1babce516c507cdeaab41f39aa8c7bddee2fdc981f0a21a134f0c57107578f",
+        "bytes": 3422,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/failure.json",
+        "blob": "9c474a9b610835b328d0a7c327a4313bffc5199d",
+        "sha256": "3365b12e567c70f81758f9cb1f41abf667225176707bd6cf96995046132bf5e8",
+        "bytes": 1229,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/manifest.json",
+        "blob": "84874c409485f55d89c601d70ef4794e8385f3b8",
+        "sha256": "e324070e098635ed57a481de23a3f330170aa892e47e4edf620629903ad1dceb",
+        "bytes": 30178,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json",
+        "blob": "55584548c2f9035297c17002c877703af1636b7b",
+        "sha256": "15d8788f9008769ec088284127a66e84b3dfd80d7cfadd0bb1b1c7d6e3696862",
+        "bytes": 7995,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/unknown.json",
+        "blob": "e31e764a1738170767f2abdf4d5b945f3cfcc14f",
+        "sha256": "5e3e2ac9a7bd011e43de51b2672a756b5995bd29729e581efd74757d7bf3883c",
+        "bytes": 1360,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition-preparation-review.png",
+        "blob": "957ea99611394b410891021ba2855a9d85ea731b",
+        "sha256": "3ce3936d0a1df77620617b3b8b3d9bfc24a8c4f9e54ce8e79e058ba6cdc476b1",
+        "bytes": 146518,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "blob": "51cf4c596ba1c2c0ed4204add4038c3d6221671b",
+        "sha256": "160f17c06b6f5776807d052377fe864fef62107f45749a48c9269c66e2e3186e",
+        "bytes": 853316,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-home.png",
+        "blob": "9f997916c780af398b23f8c826995f2b860c7a68",
+        "sha256": "68f080762d2349b14bfe2534bee9212f456f89bf125fc0f9365e97e2ebe12616",
+        "bytes": 1040529,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return-preparation.png",
+        "blob": "87fa25f10f190486a4fd670fbdd7af9051181b2d",
+        "sha256": "b85e77104565563fc382ef0c2f2769fc09e81351880330fd32d48e245fed9b34",
+        "bytes": 101711,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png",
+        "blob": "47a8f421acea4cf4e74f2efd8a105865f85f2643",
+        "sha256": "09922115ecd41769d6790562a471f10afa73d8126640b5451a5977e2c0883565",
+        "bytes": 866173,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "blob": "b7b055a4a49df67bac8c6e3832c45beaeae07c3d",
+        "sha256": "eaf00f33e1032a7c6e33c753da2f4a5e752fa216883119e3b7f373c8cfa4ef97",
+        "bytes": 867921,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-menu.png",
+        "blob": "3d869e07921b7a7dc1b28e8aa11e19ea76e10d26",
+        "sha256": "a15927a9eb9dce0064b6b7a1e7bbcbcb645c0e37ed34898c08705872fd8de464",
+        "bytes": 703403,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "blob": "fd107507c30e6d58b4da437fee2af045e4c5bafd",
+        "sha256": "8df1bb4aa2bf9590c77389d7b926aff4d96e8f06bea1b81a468018ce4510f05c",
+        "bytes": 5427,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation-drag.png",
+        "blob": "437bb322bc81b732a82e748bcb5268c310399f1b",
+        "sha256": "4d700936d09a10840422f0736de80ef3b823989b416b32bb310b520a68ebdaf2",
+        "bytes": 105492,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "blob": "cc2b687047a63696990e79ea2e6c074fa556bdca",
+        "sha256": "00ee8bc9df2f4d92f45b6ee570e4813c0ea099dd28f5ca2187ccb02001bffd76",
+        "bytes": 852755,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/manifest.json",
+        "blob": "16d592e227afce72cc0746c21e9cde9cb99d98aa",
+        "sha256": "f08db1498901f4725ea2847f5de04f7642066b91b1c0fa22782b4ec2f28e787a",
+        "bytes": 11500,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-pending-unpaid.png",
+        "blob": "eb23a9f9dec2f6a69675c128d74730b7229b5d3e",
+        "sha256": "515d5d57f09199b91cc24f8e45cd87197c884df34ae0bd9c2fd28278f069675f",
+        "bytes": 85648,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "blob": "7ec0857c4dbd816790dfd612345746be99c483f8",
+        "sha256": "86d88ad0f8a285ebb865c4f3306892237a6b614a1fb52684350f812da3830315",
+        "bytes": 805168,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-deck.png",
+        "blob": "8ad85cfe7d72580da6985304d32a9c6fac582e7b",
+        "sha256": "0279fceb34b0beb8bda149bd503c812c3439e1c497f33f956f3e5f36ee5a3855",
+        "bytes": 854151,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-passive-details.png",
+        "blob": "90b7dd4e973980293c1372c08ac7155b903a110d",
+        "sha256": "1ed45da525db47ad46223fe704f45c6955fe5b67c8065fc1eedfaad68d81b581",
+        "bytes": 116486,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "blob": "87fa25f10f190486a4fd670fbdd7af9051181b2d",
+        "sha256": "b85e77104565563fc382ef0c2f2769fc09e81351880330fd32d48e245fed9b34",
+        "bytes": 101711,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png",
+        "blob": "95cc103088cd0c332b0f5ddc37acf55aa478d462",
+        "sha256": "2adce1f30ec32744f409ba186f10097ca5f9301dfce092eb67e87677804e6dc6",
+        "bytes": 993200,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-story.png",
+        "blob": "d6a8fa543a2f1cb0d70a6bfccec9a18365a221cd",
+        "sha256": "cd839b389aae1d15d95d1cf4b00b28c3b03f410d79603f9f31bfc196ab6d8f14",
+        "bytes": 897835,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "blob": "f35f7a3273b70b00734f69a4de7a2115ae1c98be",
+        "sha256": "e25e62ec436c5fd23ca62d7d0ac363930f1b2c3426555f528bb37bf6f6893874",
+        "bytes": 840961,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-knowledge.png",
+        "blob": "c058ef9802f4fabc2807457586457188610a7616",
+        "sha256": "8f68f75433eabf670d540f85e2ebff2a6c70ecd9c50699826e5ab14ede12e40e",
+        "bytes": 738239,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-action-history.png",
+        "blob": "b9073965695e0087367affc069c9ad52e10911b7",
+        "sha256": "bfb80a6db81d13d9825c1d935868a602b243eab8d26ce6930d5d4ba7751ea830",
+        "bytes": 640869,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "blob": "530c146b6484401124d814ba403add729f57c144",
+        "sha256": "66942d79bece7395ab8b6b3e6fbf7e997d8c043410044532538de59b07222bb6",
+        "bytes": 829729,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural.json",
+        "blob": "2204d634bcc4007a67a3cac28542743cfc690ae7",
+        "sha256": "438b973a8a56e6403b12ab137894627c19576663fcd330f0ae4031b955e86fe2",
+        "bytes": 95061,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-return-clear.png",
+        "blob": "c730519f3f372ac640fac959dcd1d432068f08ae",
+        "sha256": "b2be28c4dec91f24f4ffcbaccc6a835286b2392ec500e214b3448df0fffae3a8",
+        "bytes": 999451,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png",
+        "blob": "d525fd50668d1585007d3e2b67ffad59412a22b9",
+        "sha256": "9ba10d260c605cf71a8a1976cf026382ec957635bbbd82fe9782461ff170b8e1",
+        "bytes": 903696,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-catalogue.png",
+        "blob": "143aa9c3297a0b727d5f979c5a1bbe59b0bdf888",
+        "sha256": "4bf02ffd0f4ae0742507930183c8a69ffce4bc0f4bcb7be5d7e58dd60ed415ee",
+        "bytes": 771416,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/before-fhd/interaction-preparation.png",
+        "blob": "167e76a099f819b3a7fa43010d461f38554a15ef",
+        "sha256": "d9bb1e8116e7fa399d0479cd59e8c04e6fb7ee8ac0261aaf05b2dd4bd6628510",
+        "bytes": 461139,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/before-fhd/interaction-exploration.png",
+        "blob": "562f32ccac9ecd88c5af7ca87b7139a6ef1f0a3a",
+        "sha256": "4566bdf5256d198e2b62cf500bfe9e8b70ae4aa73209701557bc1101f507444d",
+        "bytes": 871554,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/capture.cjs",
+        "blob": "70f7f0bbcf5a091500a73e15545298e42d53ec7a",
+        "sha256": "fe379a124a5c377e84d6e299762d81b26e695afac5ece1c5c9c19f2d85d74204",
+        "bytes": 1930,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/capture.json",
+        "blob": "b3d4280a37d6321558eef5ea9efb3ad1e457fd46",
+        "sha256": "f5bc3e2c3ac4cafef45206bae1a71d6c66c0c75ba3eee58c9be22c5bbcd21342",
+        "bytes": 307,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "blob": "3e4ed5b5c9c89b2a551b53bed0b241ba76500af5",
+        "sha256": "23c9402f2e0a49a24864851d9d34bcb7c8ad4df015e3c127bba84414bb9dfa9e",
+        "bytes": 1010271,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "blob": "a830824ea1beeb6ff0746cd26413f85db7127f40",
+        "sha256": "f986e3adb7563dc4d544923ebc1a5f48291adf5ad0a3b34934e76ab83eb797e2",
+        "bytes": 75175,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/project.godot",
+        "blob": "909d391270948fb9238aeb057fb41f2ff7941241",
+        "sha256": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+        "bytes": 694,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Main.tscn",
+        "blob": "1cb5b178c6bf5bf8c000c808d6af5bd7f596d247",
+        "sha256": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+        "bytes": 286,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+        "blob": "8a56d45b8d143f0f09565e33e17bbb1b8329ded0",
+        "sha256": "7dcef05433f44ccf7228c4e5ffed6e38480c8dea0331dc6b7cb171269d1a0148",
+        "bytes": 24011,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+        "blob": "fb4bfceb04b436c47d1654f3398c5a543702e792",
+        "sha256": "5a3035e36f6289e69fe62319821f92cf95db52a5f30ee1ec3391d04bb4619aa9",
+        "bytes": 29427,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+        "blob": "a412fbaa6af847beaf8a2bc0bb52c72a70168957",
+        "sha256": "4e4aac39cf2e8168386b8b3fca6ab3a7b54a3bbfd261dee8f70d899f14715788",
+        "bytes": 38743,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/AppEntry.cs",
+        "blob": "847e198f0295fa85a52cc5c1bcf2cd4d75d17f61",
+        "sha256": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+        "bytes": 740,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "blob": "ac6e94673a3ea65021e6f4c52a961ce1fdbc1d32",
+        "sha256": "2ab5b1e5391a7bb353cdde6c8382368a7049ba3376c15da49f4443677d80fa42",
+        "bytes": 14419,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "blob": "52b63ff3817742c542b63c855cd325d8798c31b3",
+        "sha256": "5d124f0f87d1d460080c936aa14f94779012f4082feb081cf2bdcb3dd3a486e1",
+        "bytes": 26573,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+        "blob": "f8c7ecb0e0ff0aadc55e320d6fafe682afe1f3ed",
+        "sha256": "b1040b474b6f21b0e586ba81db0bc58e888b14d98eda8a389e3af280549751c2",
+        "bytes": 15251,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/ViewData.cs",
+        "blob": "5f672ce60850e92a78ba4cec2dc9c7245da4f1bf",
+        "sha256": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+        "bytes": 4234,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "blob": "963e2ab1a78fd9301d5b279ac69129b303a88aa6",
+        "sha256": "e8b2d30749f0737be0f308edc33ac37142236539f73dc1d35ac79604544eb3e3",
+        "bytes": 23542,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/PackageEvidence.cs",
+        "blob": "74024ae276265f0ec8bca40a8908513093d305f5",
+        "sha256": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+        "bytes": 2391,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.cs",
+        "blob": "618b061eaa88c5778906b716c9b149659f0a029a",
+        "sha256": "4e03fcb119011879fca88dcac8b5d33adc4d55a1f9965c28bf64f13eea24c953",
+        "bytes": 12390,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs",
+        "blob": "5b94e3e4dceea98a393624c96d023c31263fe0bc",
+        "sha256": "c2ad9eea839224648e6663062fba49a0a293dd561e45a023256e5f7aa2f2a726",
+        "bytes": 9006,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+        "blob": "609e3d81e0ee81619f40a1cfcc04e3993f912928",
+        "sha256": "c09f5fedf23751b7ff2235588fc2906f4bd3309863b8dc2bf8b362ddce53b714",
+        "bytes": 34343,
+        "matches_submitted_tree": true
+      },
+      {
+        "path": "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs",
+        "blob": "49b2e3f32c64d05fc7a91ec8a56e1b466b7ad03a",
+        "sha256": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+        "bytes": 5799,
+        "matches_submitted_tree": true
+      }
+    ],
+    "source_binding": [
+      {
+        "path": "apps/crossweave-godot/Godot/Application/AppEntry.cs",
+        "blob": "847e198f0295fa85a52cc5c1bcf2cd4d75d17f61",
+        "local_sha256": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+        "presentation_sha256": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+        "presentation_match": true,
+        "ci_sha256": "2dadd768e72f874958f7aeafe582fce692e0ae8d6fde81a8fa10f43d9f7bcff8",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+        "blob": "f8c7ecb0e0ff0aadc55e320d6fafe682afe1f3ed",
+        "local_sha256": "b1040b474b6f21b0e586ba81db0bc58e888b14d98eda8a389e3af280549751c2",
+        "presentation_sha256": "b1040b474b6f21b0e586ba81db0bc58e888b14d98eda8a389e3af280549751c2",
+        "presentation_match": true,
+        "ci_sha256": "c663c347fd8fd0966a81c8165510ffd11731d00ccb46965c959d40d1b8d444c7",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.cs",
+        "blob": "618b061eaa88c5778906b716c9b149659f0a029a",
+        "local_sha256": "4e03fcb119011879fca88dcac8b5d33adc4d55a1f9965c28bf64f13eea24c953",
+        "presentation_sha256": "4e03fcb119011879fca88dcac8b5d33adc4d55a1f9965c28bf64f13eea24c953",
+        "presentation_match": true,
+        "ci_sha256": "456ef84c8d03ed77311f2e8c30724e2dd91acdd9564ea2c91465fec3bf5f89c7",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "blob": "52b63ff3817742c542b63c855cd325d8798c31b3",
+        "local_sha256": "5d124f0f87d1d460080c936aa14f94779012f4082feb081cf2bdcb3dd3a486e1",
+        "presentation_sha256": "5d124f0f87d1d460080c936aa14f94779012f4082feb081cf2bdcb3dd3a486e1",
+        "presentation_match": true,
+        "ci_sha256": "5d124f0f87d1d460080c936aa14f94779012f4082feb081cf2bdcb3dd3a486e1",
+        "ci_match": "exact"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "blob": "963e2ab1a78fd9301d5b279ac69129b303a88aa6",
+        "local_sha256": "e8b2d30749f0737be0f308edc33ac37142236539f73dc1d35ac79604544eb3e3",
+        "presentation_sha256": "e8b2d30749f0737be0f308edc33ac37142236539f73dc1d35ac79604544eb3e3",
+        "presentation_match": true,
+        "ci_sha256": "e8b2d30749f0737be0f308edc33ac37142236539f73dc1d35ac79604544eb3e3",
+        "ci_match": "exact"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "blob": "ac6e94673a3ea65021e6f4c52a961ce1fdbc1d32",
+        "local_sha256": "2ab5b1e5391a7bb353cdde6c8382368a7049ba3376c15da49f4443677d80fa42",
+        "presentation_sha256": "2ab5b1e5391a7bb353cdde6c8382368a7049ba3376c15da49f4443677d80fa42",
+        "presentation_match": true,
+        "ci_sha256": "1b0361d17bafac889f29d4a730f197406ec5b29cbe03968010bb073b418d5724",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/PackageEvidence.cs",
+        "blob": "74024ae276265f0ec8bca40a8908513093d305f5",
+        "local_sha256": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+        "presentation_sha256": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+        "presentation_match": true,
+        "ci_sha256": "5b35bb0653e6dca1aa5a645cece76a995c18a66fd7528d66f96f7a002fd24950",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+        "blob": "609e3d81e0ee81619f40a1cfcc04e3993f912928",
+        "local_sha256": "c09f5fedf23751b7ff2235588fc2906f4bd3309863b8dc2bf8b362ddce53b714",
+        "presentation_sha256": "c09f5fedf23751b7ff2235588fc2906f4bd3309863b8dc2bf8b362ddce53b714",
+        "presentation_match": true,
+        "ci_sha256": "5005ffc76e963c5307ec5811fc7490cdbdcdedc095a948350cc7bdbfa93b87c7",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs",
+        "blob": "5b94e3e4dceea98a393624c96d023c31263fe0bc",
+        "local_sha256": "c2ad9eea839224648e6663062fba49a0a293dd561e45a023256e5f7aa2f2a726",
+        "presentation_sha256": "c2ad9eea839224648e6663062fba49a0a293dd561e45a023256e5f7aa2f2a726",
+        "presentation_match": true,
+        "ci_sha256": "e7feb37bae732ac94f179c172530c8a9590a4ec9f02231e6680f4ccfa971cf46",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Application/ViewData.cs",
+        "blob": "5f672ce60850e92a78ba4cec2dc9c7245da4f1bf",
+        "local_sha256": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+        "presentation_sha256": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+        "presentation_match": true,
+        "ci_sha256": "0863976827592ca3de6a03cfc6eee8e073ccd1b1747a8e3443b80ccf5ed4b39e",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+        "blob": "a412fbaa6af847beaf8a2bc0bb52c72a70168957",
+        "local_sha256": "4e4aac39cf2e8168386b8b3fca6ab3a7b54a3bbfd261dee8f70d899f14715788",
+        "presentation_sha256": "4e4aac39cf2e8168386b8b3fca6ab3a7b54a3bbfd261dee8f70d899f14715788",
+        "presentation_match": true,
+        "ci_sha256": "493cdec11d0097af0d77920714754d58c5dd8f22762c8b44c5c34e8b2feb8199",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+        "blob": "fb4bfceb04b436c47d1654f3398c5a543702e792",
+        "local_sha256": "5a3035e36f6289e69fe62319821f92cf95db52a5f30ee1ec3391d04bb4619aa9",
+        "presentation_sha256": "5a3035e36f6289e69fe62319821f92cf95db52a5f30ee1ec3391d04bb4619aa9",
+        "presentation_match": true,
+        "ci_sha256": "a6d13b1c996d09ed74d1bce729b663048e4bca302ad013700335123fdd710879",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+        "blob": "8a56d45b8d143f0f09565e33e17bbb1b8329ded0",
+        "local_sha256": "7dcef05433f44ccf7228c4e5ffed6e38480c8dea0331dc6b7cb171269d1a0148",
+        "presentation_sha256": "7dcef05433f44ccf7228c4e5ffed6e38480c8dea0331dc6b7cb171269d1a0148",
+        "presentation_match": true,
+        "ci_sha256": "328eb3e8ffec4f21815b01d69b883179391c5a31c4fbba37fa461cb6203b56ee",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs",
+        "blob": "49b2e3f32c64d05fc7a91ec8a56e1b466b7ad03a",
+        "local_sha256": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+        "presentation_sha256": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+        "presentation_match": true,
+        "ci_sha256": "ddfec0a0a677c83f08ed60bc99123f52a843bdd9dfe1876b6f68ab3447899f4b",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/Main.tscn",
+        "blob": "1cb5b178c6bf5bf8c000c808d6af5bd7f596d247",
+        "local_sha256": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+        "presentation_sha256": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+        "presentation_match": true,
+        "ci_sha256": "9a01df338e88a840fe99d9eceadf8fa6337e2259d59cc5c406bf6dc0ec9a0e25",
+        "ci_match": "LF-to-CRLF"
+      },
+      {
+        "path": "apps/crossweave-godot/Godot/project.godot",
+        "blob": "909d391270948fb9238aeb057fb41f2ff7941241",
+        "local_sha256": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+        "presentation_sha256": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+        "presentation_match": true,
+        "ci_sha256": "3a048dfe0ebdec786d499d170032be1280494d6776055e232fa028bdc4913a42",
+        "ci_match": "LF-to-CRLF"
+      }
+    ],
+    "rendered_manifest": "docs/検証/本編実装/d04b-ui-02/final-presentation/manifest.json",
+    "rendered_manifest_note": "manifestのcommit欄42a8029は作業基点。取得した同manifest対象16ソースは固定8cccのblob内容とSHA256完全一致。最終描画のコードを中間commitと誤認しない。",
+    "ci": {
+      "url": "https://github.com/eckolo/crossweave/actions/runs/36879194514",
+      "run_id": 36879194514,
+      "head_sha": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "artifact_id": 11170956649,
+      "artifact_sha256": "ccf44b9d9026913d917f2f6985765ccb5483a0a8b29dd7e49db19eb23e98dcdf",
+      "artifact_inspected": true,
+      "source_comparison": "同16ソースのうち2完全一致、14はWindows checkoutのLF→CRLF正規化後に一致。コード差分ではない。",
+      "new_run_requested": false
+    },
+    "reported_counts": {
+      "regression_passed": 73,
+      "regression_skipped": 0,
+      "godot_modes": 15,
+      "godot_checks": 748,
+      "commands": 162,
+      "final_presentation_checks": 36,
+      "note": "本編保存記録の集計。今回の新規実行件数ではない。合格記録が画面情報の完全継承を保証するとは判定しない。"
+    },
+    "images_inspected": [
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition-preparation-review.png",
+        "blob": "957ea99611394b410891021ba2855a9d85ea731b",
+        "sha256": "3ce3936d0a1df77620617b3b8b3d9bfc24a8c4f9e54ce8e79e058ba6cdc476b1",
+        "bytes": 146518,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "blob": "51cf4c596ba1c2c0ed4204add4038c3d6221671b",
+        "sha256": "160f17c06b6f5776807d052377fe864fef62107f45749a48c9269c66e2e3186e",
+        "bytes": 853316,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-home.png",
+        "blob": "9f997916c780af398b23f8c826995f2b860c7a68",
+        "sha256": "68f080762d2349b14bfe2534bee9212f456f89bf125fc0f9365e97e2ebe12616",
+        "bytes": 1040529,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return-preparation.png",
+        "blob": "87fa25f10f190486a4fd670fbdd7af9051181b2d",
+        "sha256": "b85e77104565563fc382ef0c2f2769fc09e81351880330fd32d48e245fed9b34",
+        "bytes": 101711,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png",
+        "blob": "47a8f421acea4cf4e74f2efd8a105865f85f2643",
+        "sha256": "09922115ecd41769d6790562a471f10afa73d8126640b5451a5977e2c0883565",
+        "bytes": 866173,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "blob": "b7b055a4a49df67bac8c6e3832c45beaeae07c3d",
+        "sha256": "eaf00f33e1032a7c6e33c753da2f4a5e752fa216883119e3b7f373c8cfa4ef97",
+        "bytes": 867921,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-menu.png",
+        "blob": "3d869e07921b7a7dc1b28e8aa11e19ea76e10d26",
+        "sha256": "a15927a9eb9dce0064b6b7a1e7bbcbcb645c0e37ed34898c08705872fd8de464",
+        "bytes": 703403,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation-drag.png",
+        "blob": "437bb322bc81b732a82e748bcb5268c310399f1b",
+        "sha256": "4d700936d09a10840422f0736de80ef3b823989b416b32bb310b520a68ebdaf2",
+        "bytes": 105492,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "blob": "cc2b687047a63696990e79ea2e6c074fa556bdca",
+        "sha256": "00ee8bc9df2f4d92f45b6ee570e4813c0ea099dd28f5ca2187ccb02001bffd76",
+        "bytes": 852755,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-pending-unpaid.png",
+        "blob": "eb23a9f9dec2f6a69675c128d74730b7229b5d3e",
+        "sha256": "515d5d57f09199b91cc24f8e45cd87197c884df34ae0bd9c2fd28278f069675f",
+        "bytes": 85648,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "blob": "7ec0857c4dbd816790dfd612345746be99c483f8",
+        "sha256": "86d88ad0f8a285ebb865c4f3306892237a6b614a1fb52684350f812da3830315",
+        "bytes": 805168,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-deck.png",
+        "blob": "8ad85cfe7d72580da6985304d32a9c6fac582e7b",
+        "sha256": "0279fceb34b0beb8bda149bd503c812c3439e1c497f33f956f3e5f36ee5a3855",
+        "bytes": 854151,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-passive-details.png",
+        "blob": "90b7dd4e973980293c1372c08ac7155b903a110d",
+        "sha256": "1ed45da525db47ad46223fe704f45c6955fe5b67c8065fc1eedfaad68d81b581",
+        "bytes": 116486,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "blob": "87fa25f10f190486a4fd670fbdd7af9051181b2d",
+        "sha256": "b85e77104565563fc382ef0c2f2769fc09e81351880330fd32d48e245fed9b34",
+        "bytes": 101711,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png",
+        "blob": "95cc103088cd0c332b0f5ddc37acf55aa478d462",
+        "sha256": "2adce1f30ec32744f409ba186f10097ca5f9301dfce092eb67e87677804e6dc6",
+        "bytes": 993200,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-story.png",
+        "blob": "d6a8fa543a2f1cb0d70a6bfccec9a18365a221cd",
+        "sha256": "cd839b389aae1d15d95d1cf4b00b28c3b03f410d79603f9f31bfc196ab6d8f14",
+        "bytes": 897835,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "blob": "f35f7a3273b70b00734f69a4de7a2115ae1c98be",
+        "sha256": "e25e62ec436c5fd23ca62d7d0ac363930f1b2c3426555f528bb37bf6f6893874",
+        "bytes": 840961,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-knowledge.png",
+        "blob": "c058ef9802f4fabc2807457586457188610a7616",
+        "sha256": "8f68f75433eabf670d540f85e2ebff2a6c70ecd9c50699826e5ab14ede12e40e",
+        "bytes": 738239,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-action-history.png",
+        "blob": "b9073965695e0087367affc069c9ad52e10911b7",
+        "sha256": "bfb80a6db81d13d9825c1d935868a602b243eab8d26ce6930d5d4ba7751ea830",
+        "bytes": 640869,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "blob": "530c146b6484401124d814ba403add729f57c144",
+        "sha256": "66942d79bece7395ab8b6b3e6fbf7e997d8c043410044532538de59b07222bb6",
+        "bytes": 829729,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-return-clear.png",
+        "blob": "c730519f3f372ac640fac959dcd1d432068f08ae",
+        "sha256": "b2be28c4dec91f24f4ffcbaccc6a835286b2392ec500e214b3448df0fffae3a8",
+        "bytes": 999451,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png",
+        "blob": "d525fd50668d1585007d3e2b67ffad59412a22b9",
+        "sha256": "9ba10d260c605cf71a8a1976cf026382ec957635bbbd82fe9782461ff170b8e1",
+        "bytes": 903696,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-catalogue.png",
+        "blob": "143aa9c3297a0b727d5f979c5a1bbe59b0bdf888",
+        "sha256": "4bf02ffd0f4ae0742507930183c8a69ffce4bc0f4bcb7be5d7e58dd60ed415ee",
+        "bytes": 771416,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/before-fhd/interaction-preparation.png",
+        "blob": "167e76a099f819b3a7fa43010d461f38554a15ef",
+        "sha256": "d9bb1e8116e7fa399d0479cd59e8c04e6fb7ee8ac0261aaf05b2dd4bd6628510",
+        "bytes": 461139,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/before-fhd/interaction-exploration.png",
+        "blob": "562f32ccac9ecd88c5af7ca87b7139a6ef1f0a3a",
+        "sha256": "4566bdf5256d198e2b62cf500bfe9e8b70ae4aa73209701557bc1101f507444d",
+        "bytes": 871554,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "blob": "3e4ed5b5c9c89b2a551b53bed0b241ba76500af5",
+        "sha256": "23c9402f2e0a49a24864851d9d34bcb7c8ad4df015e3c127bba84414bb9dfa9e",
+        "bytes": 1010271,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "blob": "a830824ea1beeb6ff0746cd26413f85db7127f40",
+        "sha256": "f986e3adb7563dc4d544923ebc1a5f48291adf5ad0a3b34934e76ab83eb797e2",
+        "bytes": 75175,
+        "matches_submitted_tree": true,
+        "visually_inspected": true
+      }
+    ],
+    "reference_images_unavailable": [
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/home.png",
+        "blob": "8dd3e54395fc9fbd42b6f447495114573c1a843d",
+        "bytes": 1114167,
+        "visually_inspected": false,
+        "reason": "GitHubファイル取得口が1MiB超画像のcontentを返さない。原本コード／後継文書を代替比較入力とした。"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/return.png",
+        "blob": "fb4a02002c830c813ca6bd70e440772fa684657d",
+        "bytes": 1135030,
+        "visually_inspected": false,
+        "reason": "GitHubファイル取得口が1MiB超画像のcontentを返さない。原本コード／後継文書を代替比較入力とした。"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/reference/story.png",
+        "blob": "d4a5e3cb290326afa0ac930c4b9a260d54afbf8c",
+        "bytes": 1112764,
+        "visually_inspected": false,
+        "reason": "GitHubファイル取得口が1MiB超画像のcontentを返さない。原本コード／後継文書を代替比較入力とした。"
+      }
+    ]
+  },
+  "summary": {
+    "total_items": 38,
+    "by_status": {
+      "適合": 23,
+      "要修正": 8,
+      "未確認": 3,
+      "根拠付き対象外": 4
+    },
+    "original_table_items": 29,
+    "findings": 7,
+    "required_unknowns": [
+      "U01"
+    ],
+    "distribution_decision": "進めない",
+    "overall": "要修正",
+    "distribution_resume_condition": "同じD04B-UI-02でR01〜R07を修正しU01の証拠を追加。修正SHAを固定して当UI Workが関係箇所だけ再確認後、とりまとめがRD-PACK-03へ渡す。"
+  },
+  "items": [
+    {
+      "id": "P01",
+      "title": "三領域・共通取得枠",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png"
+      ],
+      "result": "取得可能／所持／編成を横に並べ、札／心得を同じ352×80の部品で操作する。内部スクロール。ドラッグ送りの不足はI03。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "P02",
+      "title": "所持の同性能集約",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png"
+      ],
+      "result": "blueprint・未払い・ロック・変換可否の同じ個体だけ数量へ集約。移動は代表の公開ID1個体。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "P03",
+      "title": "未払いと取得上限",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-pending-unpaid.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "result": "破線・時計・元位置の取得予定印、取消と確定前の保存不変は継承。帰還群上限後の追加取得を止める制御が欠ける。",
+      "findings": [
+        "R07"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "P04",
+      "title": "空状態と編成枠",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "候補の有無と購入済みの公開状態を分け、取得完了／候補なし、札組空枠、心得の枠消費を表示。両方の空状態の全画素比較ではなく分岐コードと取得経路を照合。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "P05",
+      "title": "一括確認・取消",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition-preparation-review.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "960×820と閉じる／確定位置、無効案の保持と確定遮断は継承。確認内容の差分・取得先などが省略。",
+      "findings": [
+        "R02"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "P06",
+      "title": "正式所持・ロック・変換",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "同一公開個体IDのquote、ロック禁止・解除・変換・再出発の保存済み入力記録をコードと照合。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "P07",
+      "title": "編集中の往復と出発遮断",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "Plan・分類・内部スクロールを保持。back-and-return-preserve-tab-planとDraftDirtyによる出発遮断を確認。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "L01",
+      "title": "1920×1080の基本配置",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/full-hd.md",
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "論理FHDと実1920×1080の既存描画を確認。4行・行間20・外周24、全体縦送りなし。通常初期窓は1280×720 overrideで同じ論理面を縮小。DPI受入はH01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "L02",
+      "title": "共通ナビの位置",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js",
+        "docs/検証/UI/readability/co-u02/common-navigation.css"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-home.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png"
+      ],
+      "result": "記録1680,4・メニュー1840,4を探索先／編成／本文／探索／帰還で共通化。各sceneの座標assertと画像が対応する。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "L03",
+      "title": "窓の閉じる・戻る・共通メニュー",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-menu.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "閉じる右上・親へ戻る左上。520×480内の送りと固定／一時、取得確認の主操作位置を継承。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "E01",
+      "title": "手札・場・予測・ドラッグの共通札面",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png"
+      ],
+      "result": "同じMakeTileの248×208、絵88／本文120、名称・効果・属性・期限の区画を使用。詳細の情報欠落はC01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "E02",
+      "title": "場の値と予測の区別",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png"
+      ],
+      "result": "field_power／field_hit、選択する札に応じた身構／攪乱、予測の破線・札名外の印を継承。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "E03",
+      "title": "主体と本人の状態表示",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png"
+      ],
+      "result": "地形△、潜水服の282×176・上8px・字幕との重なり、本人下帯は継承。本人バーと本人／相手の予測差分が不足。",
+      "findings": [
+        "R03"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "E04",
+      "title": "相手クリック選択・詳細",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/select-details.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png"
+      ],
+      "result": "SelectActorで対象と詳細を更新し、選択手札を維持。相手に旧ホールド入口はない。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "E05",
+      "title": "行動順と本人次回予約",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/action-forecast.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "既知の詳細入口欠落は修正済み。本人・今、同時刻のまとまり、本人の位置予測は未継承。",
+      "findings": [
+        "R05"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "E06",
+      "title": "対象・場との関係線",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png"
+      ],
+      "result": "矩形の端から結び、文字領域を通る旧中心線を使わない。公開選択だけを用い、設定で非表示にできる。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "D01",
+      "title": "選択元と反対端の詳細",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/edge-details.md",
+        "docs/検証/UI/readability/co-u02/window-placement.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "中央960の左右で反対端16へ。主体416×384 y16、札520×480。再クリック／外クリック閉じと隣接選択をコード・入力記録で照合。縦位置の微調整はX01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "D02",
+      "title": "予測の場札から詳細",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "予測札は明示クリックで詳細。DTO不変、自動詳細OFFでも表示、古い予測消失時の閉鎖を既存assertとコードで照合。手札・対象を変更しない。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "D03",
+      "title": "一時予測と固定",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "180msで一時予測、離れて160msで閉じるコード。クリック固定・固定後の保持に保存済み入力証拠あり。固定詳細をホバーで置換しない点は原本preview(false)も同じで指摘しない。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "I01",
+      "title": "掴んだ点を保つドラッグ像",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "compact／hand両方のoffsetと同寸法assert、画像が対応。既知の中心へ飛ぶ差は修正済み。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "I02",
+      "title": "ホールド表示・操作名",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/journey/select-details.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "result": "120ms前にリングを描かず、設定150/220/320ms。手札の表示はActionLabelを行動ボタンと共有。合成短クリックと260ms保持の記録あり。120ms境界を実物理マウスで計測した意味ではない。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "I03",
+      "title": "送り・ドロップ可否・取消",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "札上の送り・Esc／右クリック／focus喪失／多重touch／ホイール取消の証拠はある。端送り先と受入可否表示は後退。余白起点のマウス送りはU01へ分離。",
+      "findings": [
+        "R06"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "I04",
+      "title": "ドロップ後の安全な確定条件",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "一致・quick OFFを確認待ちにする分岐はあるが、doomed／fillerの期限切れ消滅が即実行抑止から漏れる。",
+      "findings": [
+        "R01"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "T01",
+      "title": "独立した本文画面",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/journey/view.js",
+        "docs/検証/UI/readability/co-u02/journey/full-hd.css"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-story.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural.json"
+      ],
+      "result": "独立読み画面、左下840×360・明色背景、右下進む、任意詳細の読了を継承。原本story.pngは今回取得できず、原本コード／後継文書とGodot実描画を照合。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "T02",
+      "title": "帰還から同じ編成へ",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/journey/view.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-return-clear.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "拠点背景・精算と本文・右下進むから探索先の同じ編成へ。再挑戦はメニュー内。原本return/home.png未取得の限界は別記。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "T03",
+      "title": "心得の条件・効果・枠",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+        "docs/検証/UI/readability/co-u02/journey/interaction-review.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-passive-details.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "心得の詳細ではtrigger_text／effect_text／equipment_costを日本語表示。確認窓への継承不足はP05。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "T04",
+      "title": "調査記録の親子と札詳細",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/interaction-review.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-knowledge.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-catalogue.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "公開された記録だけ、親子間16、観測札／基本構成から札詳細へ入り親へ戻る。札の条件表示不足はC01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "T05",
+      "title": "本人の札内訳・履歴",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-deck.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-action-history.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "持込・山札・手札の公開集計と詳細、action_history・本文履歴へ接続。閲覧DTO不変。詳細の条件不足はC01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "S01",
+      "title": "保存・一巡・別プロセス再開",
+      "status": "適合",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/AppEntry.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/resume.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/failure.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/unknown.json",
+        "docs/検証/本編実装/d04b-ui-02/results.json"
+      ],
+      "result": "同じMain.tscn→FileGameSession。既存一巡・再開のDTO／次結果一致、二重精算防止・保存失敗／成否不明の記録を固定ソースと照合。今回の新規実行0。配布版と通常セーブの実機受入はH01。",
+      "findings": [],
+      "blocks_distribution": false,
+      "scope": "M1・了承UI",
+      "owner": "UI-GODOT-REVIEW-01（本判定）"
+    },
+    {
+      "id": "C01",
+      "title": "札詳細の判断材料（対応表の補完）",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/card-properties.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png"
+      ],
+      "result": "E01の枠一致だけで札の全情報継承とはしない。場寄与・持続・付与条件・消滅性質が不足。",
+      "findings": [
+        "R04"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "C02",
+      "title": "行動予測の判断材料（対応表の補完）",
+      "status": "要修正",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/action-forecast.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png"
+      ],
+      "result": "D03の開閉一致だけで予測内容を合格にしない。期限切れ・間隔・防御等の変化が不足。",
+      "findings": [
+        "R03"
+      ],
+      "blocks_distribution": true,
+      "scope": "M1・了承UI",
+      "owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "U01",
+      "title": "余白を押して始める一覧送り",
+      "status": "未確認",
+      "scope": "M1・了承UIの入力",
+      "blocks_distribution": true,
+      "owner": "20260927-game-application / D04B-UI-02",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+        "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "原本は空白からのpanを明示実装。Godotの固有gesture開始はCardTileのみで、保存済みswipe-no-commitも札起点。ScrollContainer任せの余白入力にスクロール位置が動く実証はない。標準Controlの挙動を推測して適合／故障にしない。",
+      "findings": [],
+      "supplement": "取得列と探索の手札／場の余白から左マウスの合成press→move→release。スクロール位置の前後値、非実行、取消、画像を保存。",
+      "reason_unconfirmed": "本確認環境に固定Godot/.NETの実行環境がなく、提出済み入力列・CI artifactにも当該列なし。元UI／実コードと入力検査コードの限定照合まで補った。通常保存・拒否済みlocalhost・全旧スイートには触れない。"
+    },
+    {
+      "id": "H01",
+      "title": "物理入力・DPI・複数画面・音・GPU・配布版の実機再開",
+      "status": "未確認",
+      "scope": "後続CO-D04C / CO-H02・CO-H03",
+      "blocks_distribution": false,
+      "owner": "20260926-runtime-delivery（案内・結果受領）／人（実機操作）",
+      "original": [],
+      "implementation": [],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/確認結果.md",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "findings": [],
+      "result": "合成InputEventの合格と区別する。修正版RD-PACK-03の版・案内を受領後に既存票で確認。今回のレビュー未実装残件ではない。"
+    },
+    {
+      "id": "H02",
+      "title": "理解しやすさ・操作感・面白さの人の試遊",
+      "status": "未確認",
+      "scope": "後続CO-P02 / CO-H04",
+      "blocks_distribution": false,
+      "owner": "既存試遊Work（案内・受領）／人（試遊）",
+      "original": [],
+      "implementation": [],
+      "evidence": [],
+      "findings": [],
+      "result": "D04と必要修正の受領後。機械件数・静止画・今回の項目適合を人の受入へ転記しない。"
+    },
+    {
+      "id": "X01",
+      "title": "画風・新規札絵・演出・場詳細の縦微調整",
+      "status": "根拠付き対象外",
+      "scope": "今回範囲外",
+      "blocks_distribution": false,
+      "owner": "既存の後続担当。今回自動起動なし",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "仮潜水服の姿勢了承／描き方不適合、未納品の札画像、演出仕上げ、場詳細の微調整は既存後続。新しい好みをM1阻害にしない。",
+      "findings": []
+    },
+    {
+      "id": "X02",
+      "title": "クリック／ホールドの未採用統一案",
+      "status": "根拠付き対象外",
+      "scope": "今回範囲外",
+      "blocks_distribution": false,
+      "owner": "既存の後続担当。今回自動起動なし",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/interaction-proposal.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "未採用提案。現行のクリック選択・詳細とホールド出札を照合し、全操作を再設計しない。",
+      "findings": []
+    },
+    {
+      "id": "X03",
+      "title": "複数探索先の本編化・全画面30単位",
+      "status": "根拠付き対象外",
+      "scope": "今回範囲外",
+      "blocks_distribution": false,
+      "owner": "既存の後続担当。今回自動起動なし",
+      "original": [
+        "docs/検証/UI/readability/co-u02/README.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "UI-DEST-INT-01／M2と別割当。今回のM1単一探索先を不適合にしない。",
+      "findings": []
+    },
+    {
+      "id": "X04",
+      "title": "HTML原本の再受入・IndexedDB検査の再実施",
+      "status": "根拠付き対象外",
+      "scope": "今回範囲外",
+      "blocks_distribution": false,
+      "owner": "既存の後続担当。今回自動起動なし",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "今回は固定原本を比較入力として読む。HTML原本の実マウス／タッチ・IndexedDB等の旧未確認をGodot証拠で合格にせず、全再実行も要求しない。",
+      "findings": []
+    }
+  ],
+  "findings": [
+    {
+      "id": "R01",
+      "title": "消滅予定を伴う通常設置がドラッグだけで確定する",
+      "items": [
+        "I04"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "高",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "lines": "303-305",
+          "symbol": "unused_hand_expiry / quick"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "lines": "242-253",
+          "symbol": "DropCard"
+        },
+        {
+          "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+          "lines": "238-246,538-546,674-695",
+          "symbol": "Recover / Predict / CardView"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "expected": "通常設置でも、未使用手札が期限切れで消滅する一手は予測を開き、行動ボタンで確定する。",
+      "observed": "DropCardのlosesはconsume_on_recoverだけを見る。Coreの消滅条件はconsume_on_recover、doomed、birth=filler。後二者が期限切れとなるとき、前者がfalseならquickPlaceの実行条件を通る。",
+      "reproduction_steps": [
+        "通常Main.tscnの隔離slotで、離脱主体由来のdoomed札または補充札が期限切れになる合法状態を用意する。",
+        "別の通常札を、同属性の場札がない状態で場へドロップする。quick ONとする。",
+        "消耗フラグを持つ他の期限切れ札がない場合を確認し、release前後のrevision／送信play件数を記録する。"
+      ],
+      "impact": "予告した安全条件に反して、取り消せない一手と札の消滅をドロップだけで確定し得る。保存処理自体の破損を確認したという意味ではない。",
+      "required_fix": "公開予測の消滅先を含め、全ての期限切れ消滅を確定待ちへ統一する。UI独自の戦闘計算は増やさない。",
+      "acceptance_evidence": [
+        "消耗／doomed／fillerそれぞれでドロップ後は予測表示・revision不変。",
+        "消滅のない通常設置だけquick実行。一致・quick OFFも既存どおり確認待ち。",
+        "行動ボタン後の一回だけplay／保存。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R02",
+      "title": "一括確定前の差分と取得先が確認窓から失われている",
+      "items": [
+        "P05"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "中",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "lines": "88-96",
+          "symbol": "runtimeReviewBody"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "lines": "110-118",
+          "symbol": "ReviewText"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition-preparation-review.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "expected": "支払前に、個々の取得品・価格・取得後の所持／編成、変更した札／心得の数量before→after、札枚数／心得枠、変更心得の条件・効果を確認できる。",
+      "observed": "残高と合計支払額は表示されるが、取得名の列挙と確定後の札組・心得の全件名だけ。変更前後、個別価格、取得先、確認窓内の枠使用量・心得説明が省略される。実画像でも未変更の札12枚が長く列挙される。",
+      "reproduction_steps": [
+        "合法取得入口で複数群の取得案を作る。取得品の一つは所持、別の一つは編成へ移す。",
+        "札の入替と心得の変更を含めて「確認する」を開く。",
+        "確定前に各変更と支払額をその窓だけで照合する。"
+      ],
+      "impact": "プレイヤーが変更前の構成を覚え、元画面へ戻って比較する必要がある。二段階方式の確認段階で判断材料が減っている。",
+      "required_fix": "了承済み確認部品の情報と差分構造をGodotへ継承する。全件羅列を唯一の確認手段にせず、公開Comparison／Planを使う。",
+      "acceptance_evidence": [
+        "混合取得・編成だけ変更・心得変更・取消の確認窓を描画する。",
+        "表示された差分・取得先・価格・枠数を公開予測と照合し、未確定中の所持／残高／保存不変を確認。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R03",
+      "title": "探索予測の情報と本人の状態表示が欠けている",
+      "items": [
+        "E03",
+        "C02"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "高",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "lines": "43-48,86-97,159,174",
+          "symbol": "stat / vitals / prediction"
+        },
+        {
+          "path": "docs/検証/UI/readability/co-u02/action-forecast.js",
+          "lines": "14-38",
+          "symbol": "projectActionForecast"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "lines": "41-47,71-74,106-113",
+          "symbol": "ExplorationScreen / PredictionText"
+        },
+        {
+          "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+          "lines": "556,674-690",
+          "symbol": "公開行動予測"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png"
+      ],
+      "expected": "本人と相手の状態・予測差分を同じ構造で読み、予測では行動間隔、機転／攪乱等の変化、攻撃の隠蔽減少、期限切れ／消滅を判断できる。本人にも余力・隠蔽バーがある。",
+      "observed": "予測窓は全主体の残量・体勢・身構のbefore→afterと場・順序のみ。action_cost、機転／攪乱、期限切れ・消滅、隠蔽リセット前の打撃量を表示しない。本人帯は現在値だけでバーと差分がなく、相手側の予測もhp／postureのみ。用語も原本・詳細の「隠蔽」から「体勢」に変わる。",
+      "reproduction_steps": [
+        "期限切れ、機転変化、攪乱付与がある一手をそれぞれ選択する。",
+        "予測窓と本人／相手帯を、公開PreviewActionの値と照合する。",
+        "隠蔽突破でリセットが起きる攻撃も確認する。"
+      ],
+      "impact": "札の消滅や防御・次行動までの変化を比較できず、差のない主体行が重要な変化を埋める。R01の確認待ちでも危険が伝わりにくい。",
+      "required_fix": "原本の公開情報の選別・差分・期限切れ警告・用語・本人バーを継承する。公開されていない値は未公開とし、ゼロやUI側推計で埋めない。",
+      "acceptance_evidence": [
+        "通常設置／攻撃／防御／付与／回復のうち変化する項目だけ限定して描画・値照合。",
+        "期限切れ札名と消滅先、行動間隔、機転／攪乱、隠蔽打撃量が確認できる。",
+        "予測・詳細の開閉でDTO／乱数不変。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R04",
+      "title": "札詳細で場の加算と防御の持続・対象・消滅条件を読めない",
+      "items": [
+        "C01"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "中",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "lines": "79-84",
+          "symbol": "cardDetails"
+        },
+        {
+          "path": "docs/検証/UI/readability/co-u02/card-properties.js",
+          "lines": "10-20",
+          "symbol": "effectRows"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "lines": "163-170",
+          "symbol": "ItemText"
+        },
+        {
+          "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+          "lines": "183,243,691-695",
+          "symbol": "PublicCard / Recover / CardView"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png"
+      ],
+      "expected": "手札の同属性の場による加算、防御の回数制限、付与の「使用者以外」「同じ発生源は張り直し」、離脱元／補充由来の消滅性質を公開情報から読める。",
+      "observed": "ItemTextは静的基礎値・場に置いた値を列挙する。現在の場の寄与を表示せず、公開されたdefense_uses／defense_grant.usesを使わない。付与は「全員へ」のみ、消滅説明はconsume_on_recoverのみ。",
+      "reproduction_steps": [
+        "同属性の場がある手札、防御回数が有限／無制限の札、付与札、離脱元／補充由来の札の詳細を開く。",
+        "手札・場・予測札・記録から、各公開範囲に応じた条件と数値を確認する。"
+      ],
+      "impact": "同じ名前・基礎値でも働きや持続が違う札を判断できない。「全員へ」は使用者も含むように読める。",
+      "required_fix": "原本の札説明の条件行を同じ詳細入口へ継承する。記録から見られない現在の場や敵の私有情報は加えない。",
+      "acceptance_evidence": [
+        "場の寄与を基礎値と分けて表示。",
+        "有限／無制限の防御回数と付与対象・張り直しを確認。",
+        "消滅性質を公開範囲内で表示し、詳細閲覧で保存不変。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R05",
+      "title": "行動順の同時刻グループと本人の位置予測が欠けている",
+      "items": [
+        "E05"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "中",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "lines": "164-173",
+          "symbol": "行動順・本人次回位置"
+        },
+        {
+          "path": "docs/検証/UI/readability/co-u02/action-forecast.js",
+          "lines": "4-12",
+          "symbol": "projectReservations"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "lines": "68,87-113",
+          "symbol": "OrderStrip / PredictionText"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png"
+      ],
+      "expected": "予測時は「本人・今」と次回予約を区別し、同時刻を一群にまとめる。本人の次回位置を、同時刻なら範囲で示す。",
+      "observed": "主体アイコンの詳細入口と「次」は継承されたが、各予約は一個ずつ独立表示で、本人・今、同時刻グループ、予測ボタンの本人→位置がない。予測本文も矢印の一列になる。",
+      "reproduction_steps": [
+        "本人の次回予約と他主体の予約が同じ時刻になる札を選ぶ。",
+        "上段の予約と予測窓を開き、同時刻と前後関係を確認する。"
+      ],
+      "impact": "同時刻のまとまりが見えず、固定された順序の列として読みやすい。札による次回位置の比較に時刻の読み直しが必要になる。",
+      "required_fix": "原本の公開予約グループと本人位置の表示を戻す。将来の乱数や非公開の行動順を推測しない。",
+      "acceptance_evidence": [
+        "異時刻と同時刻の2場面を描画し、グループ・本人・今／次・位置範囲を公開予約と照合。",
+        "既存の行動順クリック詳細と非実行を保持。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R06",
+      "title": "ドラッグの端送りが移動先を追わず、受入可否の表示がない",
+      "items": [
+        "I03"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "中",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "lines": "18-40",
+          "symbol": "paintDrop / scrollAtEdge / dragFrame"
+        },
+        {
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "lines": "269-277",
+          "symbol": "scrollWhileHeld"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "lines": "209-225,242-265",
+          "symbol": "GestureScroll / AutoScroll / DropCard"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "lines": "109-130",
+          "symbol": "UpdateDragGhost"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "expected": "ポインターが入った移動先の一覧だけを端で送り、取得／編成／外す／取消できる領域を離す前に識別できる。",
+      "observed": "AutoScrollは押し始めのgestureZoneから一覧を選ぶ。領域内にポインターがあるかも確認しないため、別列・場へ移しても元列／手札を送る。dropZonesは解放時にしか参照されず、原本の受入可能／不可の領域表示がない。",
+      "reproduction_steps": [
+        "スクロールの必要な所持列へ、別列から札を保持して移動し上下端へ寄せる。",
+        "手札から場の左右端へ移動する。元列外へ離れた状態も確認する。",
+        "未払い札と正式所持札を取得可能へ戻す際の、取消可能／不可の表示を確認する。"
+      ],
+      "impact": "移動先の見えていない位置へ運びにくく、離す前に操作成立を判断できない。これはスクロールバーの見た目の違いではない。",
+      "required_fix": "元列を選ぶスワイプと、移動先の領域内で行う端送りを分け、既存のdropPlan相当の可否表示を継承する。",
+      "acceptance_evidence": [
+        "移動先のみスクロールし、領域外では送らない合成入力と画像。",
+        "許可／不許可の目印と、取消・範囲外解放のPlan／DTO不変。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    },
+    {
+      "id": "R07",
+      "title": "取得上限に達した群でも追加の取得操作が有効",
+      "items": [
+        "P03"
+      ],
+      "status": "要修正",
+      "category": "表示・操作の欠落／後退",
+      "severity": "中",
+      "blocks_distribution": true,
+      "owner": {
+        "work_id": "20260927-game-application",
+        "branch": "impl/m1-godot-application-20260927",
+        "task": "D04B-UI-02"
+      },
+      "original": [
+        {
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "lines": "18-20",
+          "symbol": "canStage"
+        },
+        {
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "lines": "1-9",
+          "symbol": "dropPlan"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "lines": "33-35,84-88,150",
+          "symbol": "Stage / 取得ボタン"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "lines": "257-260",
+          "symbol": "取得ドロップ"
+        },
+        {
+          "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+          "lines": "89-113",
+          "symbol": "group_limit / Preview"
+        }
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-pending-unpaid.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "expected": "帰還群1/1を選択したら、同群の他候補の取得を止める。別群の取得は継続できる。",
+      "observed": "Stageは同一idの重複しか止めず、取得ボタン・詳細・ドラッグも群の上限を見ない。2つ目を案に加えた後でCoreがacquisition_group_limitを返し、残高予測が「—」になる。確定拒否は維持され、過剰取得や支払いを確認したものではない。",
+      "reproduction_steps": [
+        "取得可能な同じ帰還群の候補を一つ取得予定にする。",
+        "同群の別候補をボタン・詳細・ドラッグの各入口から取得しようとする。",
+        "別の独立した心得群が引き続き取得可能かも確認する。"
+      ],
+      "impact": "操作できる表示に従うだけで無効案となり、プレイヤーが取り消して直す必要がある。原本の制約提示が後退する。",
+      "required_fix": "公開group_id／group_limitを使い、群の上限で全取得入口を揃える。Coreの最終検証は維持する。",
+      "acceptance_evidence": [
+        "同群の追加で案・残高・保存が変わらない。",
+        "別群同時取得、取消後の再選択、一括確定が継続できる。"
+      ],
+      "review_method": "固定ソースと保存証拠の照合。今回のGodot再実行ではない。",
+      "runtime_reproduced_this_review": false
+    }
+  ],
+  "differences_not_promoted_to_defects": [
+    {
+      "topic": "FHDの外側縮小",
+      "basis": "journey/full-hd.mdの利用可能幅への縮小を継承。Godotの論理FHDと実初期窓1280×720を区別する。"
+    },
+    {
+      "topic": "HTMLとGodotの文字組・標準スクロールバー",
+      "basis": "描画部品の違いとして記録。情報・導線・札枠の配置が保持された箇所を適合とし、R01〜R07の欠落を許容差へ振り替えない。"
+    },
+    {
+      "topic": "ホバーで固定詳細を置換しない",
+      "basis": "原本exploration.js preview(false)も固定窓では戻るため同じ。指摘候補を除外。"
+    }
+  ],
+  "human_tasks": {
+    "CO_H05": "今回のユーザー開始文をUI担当が受領しレビューした。人の送付作業完了としてとりまとめへ記録更新を依頼。",
+    "current_judgment_required": false,
+    "current_playtest_required": false,
+    "later": [
+      "CO-H02／CO-H03は新版配布・案内後。",
+      "CO-H04はD04受入と試遊条件固定後。"
+    ],
+    "handoff_received_by_coordination": false
+  },
+  "boundaries": {
+    "ui_redesign": false,
+    "application_code_changed": false,
+    "distribution_performed": false,
+    "other_work_started": false,
+    "messages_sent_to_other_work": false,
+    "ordinary_save_touched": false
+  },
+  "publication": {
+    "status": "pending",
+    "method": "normal-fast-forward via authorized GitHub connector; no force; coordination branch not merged"
+  }
+}
