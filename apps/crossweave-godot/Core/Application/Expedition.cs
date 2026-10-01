@@ -706,11 +706,22 @@ internal sealed class Expedition
         foreach (var(id, node)in view.O("actors"))
         {
             var row = (JsonObject)node!;
+            // 表示側が名前やroleから素材・地形を推測しないための公開接続情報。
+            // 規則やセーブは変えず、現在出現している主体の既存定義だけを渡す。
+            row.Put("id", id);
+            row.Put("purpose", id == "P" ? "self" : Target(id).S("purpose"));
+            row.Put("knowledge_profile_id", id == "P" ? "" : Target(id).S("knowledge_profile_id"));
             row.Put("display_name", id == "P" ? "辿り屋" : Target(id).S("display_name"));
             row.Put("action_label", id == "P" ? "行動" : Target(id).S("action_label"));
             row.Put("remaining_label", id == "P" ? "余力" : Target(id).S("remaining_label"));
         }
 
+        // 本人が持ち込んだ札の公開内訳。相手の手札や山札の順序は含めない。
+        var own = Actors.O("P");
+        view.Put("deck_catalogue", J.Array(Cards.Values().Where(c=>c.S("origin")=="P").GroupBy(c=>c.S("type")).OrderBy(g=>g.Key,StringComparer.Ordinal).Select(g=>J.Obj(
+            ("card",PublicCard(g.First())),("initial_count",g.Count()),
+            ("deck_count",g.Count(c=>own.A("deck").Strings().Contains(c.S("id")))),
+            ("hand_count",g.Count(c=>own.A("hand").Strings().Contains(c.S("id"))))))));
         return view;
     }
 

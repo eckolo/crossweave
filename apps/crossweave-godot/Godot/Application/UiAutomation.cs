@@ -15,7 +15,7 @@ namespace Crossweave.Application;
 /// 通常起動では生成されない。DTO・故障注入に触るのはこの検査クラスだけ。
 /// ViewModelのメソッドを直接呼んで「画面が通った」と見なさず、実Controlの位置へ入力する。
 /// </summary>
-internal sealed class UiAutomation
+internal sealed partial class UiAutomation
 {
     private readonly GameScreen screen;
     private readonly string mode, output;
@@ -76,7 +76,7 @@ internal sealed class UiAutomation
         string slot = Value("--ui-slot=") ?? "", output = Value("--ui-output=") ?? "";
         if (!Regex.IsMatch(slot, "^[a-z0-9][a-z0-9-]{7,95}$") || !System.IO.Path.IsPathFullyQualified(output))
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
-        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode))
+        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode))
             throw new ArgumentException("Unknown isolated UI check");
         string? fixture = Value("--ui-fixture=");
         if (fixture is not null && !System.IO.Path.IsPathFullyQualified(fixture))
@@ -103,6 +103,7 @@ internal sealed class UiAutomation
     }
     private async Task Mouse(Vector2 point, bool down, MouseButton button = MouseButton.Left)
     {
+        if(down){screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);await Frame(2);}
         screen.GetViewport().PushInput(new InputEventMouseButton { Position = point, GlobalPosition = point, ButtonIndex = button, Pressed = down }, true); await Frame();
     }
     private async Task Move(Vector2 from, Vector2 to)
@@ -126,7 +127,27 @@ internal sealed class UiAutomation
     }
     private async Task Click(string id)
     {
-        var point = await Point(id); await Mouse(point, true); await Mouse(point, false); await Idle();
+        if(!screen.Controls.ContainsKey(id) && id is "exit" or "history" or "deck" or "repeat" or "return-prepare") await Click("menu");
+        var point = await Point(id);
+        // GodotのGUIは直前のmouse motionでホバー先を更新する。実マウスと同じ順で
+        // 移動→押下→解放を送る。最初の入力だけOSポインター位置へ依存させない。
+        screen.GetViewport().PushInput(new InputEventMouseMotion { Position = point, GlobalPosition = point }, true);
+        bool pressed=false; var button=screen.Controls[id] as Button;
+        void Observed()=>pressed=true;
+        if(button is not null)button.Pressed+=Observed;
+        // OSの実マウス移動と同フレームになった場合だけ再送する。Pressed受信後は再送せず二重確定を防ぐ。
+        for(int attempt=0;attempt<3;attempt++)
+        {
+            await Frame(2);
+            screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);
+            // 短クリックの押下・解放を同じフレームへ入れ、初回フォント生成時間をホールドと誤認させない。
+            screen.GetViewport().PushInput(new InputEventMouseButton{Position=point,GlobalPosition=point,ButtonIndex=MouseButton.Left,Pressed=true},true);
+            screen.GetViewport().PushInput(new InputEventMouseButton{Position=point,GlobalPosition=point,ButtonIndex=MouseButton.Left,Pressed=false},true);
+            await Idle();
+            if(button is null||pressed)break;
+        }
+        if(button is not null&&GodotObject.IsInstanceValid(button))button.Pressed-=Observed;
+        if(button is not null&&!pressed)throw new InvalidDataException("Button received no Pressed signal: "+id);
     }
     private async Task CloseDetail()
     {
@@ -267,7 +288,7 @@ internal sealed class UiAutomation
         var before = screen.Session!.ExportDto().State.Copy();
         var owned = screen.View.Obj("home").Arr("owned").Rows().First(r => r.Flag("selected")); string id = owned.Text("id");
         await Click("item-build-" + id);
-        Check("detail-opposite-edge", screen.Controls["detail-panel"].Position.X == 16); await CloseDetail();
+        Check("preparation-detail-960x820", screen.Controls["detail-panel"].GetGlobalRect() == new Rect2(480,130,960,820)); await CloseDetail();
         // 実ノードの長押しドラッグで編成から外す。未確定なのでファイルは不変。
         var from = await Point("item-build-" + id); await Mouse(from, true);
         await screen.ToSignal(screen.GetTree().CreateTimer(.25), SceneTreeTimer.SignalName.Timeout);
@@ -314,6 +335,11 @@ internal sealed class UiAutomation
         var from = await Point("card-hand-" + choice.Text("card_id"));
         await Mouse(from, true); await screen.ToSignal(screen.GetTree().CreateTimer(.25), SceneTreeTimer.SignalName.Timeout);
         await Move(from, new(960, 540)); await Mouse(new(960, 540), false); await Idle();
+        if(screen.Modal=="prediction")
+        {
+            Check("matched-drag-waits-for-confirmation",JsonNode.DeepEquals(checkpoint.State,screen.Session!.ExportDto().State));
+            await CloseDetail();await Click("play");
+        }
         VerifyCommand(checkpoint, "play", new() { ["choice"] = choice.Copy() });
         Check("rng-next-result-equal", commands.Count == initialCommandCount + 1);
     }
@@ -406,6 +432,7 @@ internal sealed class UiAutomation
                 Check("opened-one-session", screen.Session is not null && screen.Screen != "start");
                 if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if (mode is "natural" or "defeat") await RepeatCheck(); }
                 else if (mode == "interaction") await Interaction();
+                else if (mode == "inheritance") await Inheritance();
                 else if (mode == "resume") await Resume();
                 else if (mode == "package-checkpoint") PackageCheckpoint();
                 else if (mode == "package-resume") await PackageResume();

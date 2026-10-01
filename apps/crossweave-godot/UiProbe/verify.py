@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse, hashlib, importlib.util, json, os, platform, shutil, subprocess, sys, tarfile, uuid, zipfile
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-MODES = ['interaction', 'resume', 'natural', 'withdraw-before', 'withdraw-protected', 'defeat', 'withdraw-unprotected', 'legal-acquisition', 'failure', 'unknown', 'in-use', 'corrupt', 'future', 'busy-close']
+MODES = ['interaction', 'resume', 'inheritance', 'natural', 'withdraw-before', 'withdraw-protected', 'defeat', 'withdraw-unprotected', 'legal-acquisition', 'failure', 'unknown', 'in-use', 'corrupt', 'future', 'busy-close']
 
 def main():
     parser = argparse.ArgumentParser()
@@ -13,13 +13,16 @@ def main():
     parser.add_argument('--skip-regression', action='store_true')
     parser.add_argument('--modes', default=','.join(MODES))
     parser.add_argument('--rendered', action='store_true', help='実描画を試す。取得画像も自動確認であり物理入力合格とは別')
+    parser.add_argument('--full-hd', action='store_true', help='1920×1080の実描画を保存する。通常起動の窓サイズは変更しない')
     args = parser.parse_args()
     host = 'windows' if os.name == 'nt' else 'linux'
     evidence = (args.evidence or ROOT / ('artifacts/d04b-ui-save-01-' + host)).resolve()
     evidence.mkdir(parents=True, exist_ok=True)
     from runtime import prepare
     dotnet, godot, env, lock = prepare(not args.no_acquire)
-    manifest = dict(task='D04B-UI-01 + RD-SAVE-02B', commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
+    # .NETのUTF-8出力に含まれる日本語パスを、子PythonがWindows既定CP932で誤読しない。
+    env['PYTHONUTF8']='1'
+    manifest = dict(task='D04B-UI-02', commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
         host=host, platform=platform.platform(), sdk=lock['sdk'], engine=lock['godot'], rendered=args.rendered,
         physical_input=False, windows11_physical=False, formal_distribution=False, commands={}, cases={}, source_sha256={})
     def run(name, command, timeout=600):
@@ -40,7 +43,7 @@ def main():
         interaction_slot=slot_prefix+'-interaction'
         for mode in args.modes.split(','):
             slot=interaction_slot if mode in ('interaction','resume') else slot_prefix+'-'+mode
-            run(mode,[godot,*([] if args.rendered else ['--headless']),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence)],timeout=240)
+            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence)],timeout=240)
             report=json.loads((evidence/(mode+'.json')).read_text(encoding='utf-8'))
             assert report['status']=='passed', mode
             manifest['cases'][mode]=dict(status=report['status'],process_id=report['process_id'],checks=len(report['checks']),commands=len(report['commands']),final_revision=report['final_revision'])

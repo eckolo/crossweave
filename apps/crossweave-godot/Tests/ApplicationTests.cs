@@ -8,6 +8,31 @@ namespace Crossweave.Tests;
 public sealed class ApplicationTests
 {
     [Fact]
+    public void UiPublicLabelsAndOwnCatalogueDoNotChangeSaveOrRevealNpcCards()
+    {
+        // UI継承で追加したのは公開ラベルと本人の集計だけ。読取を繰り返してもDTOを変えない。
+        var app=GameApplication.Create("D04B-UI-02-public-view");
+        Assert.Empty(app.Inspect().O("knowledge").A("encounters"));
+        Execute(app,"depart",J.Obj(("case_id","SCN-001")));Unpause(app);
+        var before=J.Canonical(app.ExportDto().State);var view=app.Inspect().O("exploration");
+        foreach(var (id,node) in view.O("actors"))
+        {
+            var actor=(JsonObject)node!;Assert.Equal(id,actor.S("id"));
+            Assert.NotEmpty(actor.S("purpose"));
+            Assert.False(actor.ContainsKey("hand"));Assert.False(actor.ContainsKey("deck"));
+        }
+        Assert.Equal(12,view.A("deck_catalogue").Rows().Sum(r=>r.I("initial_count")));
+        Assert.Equal(view.O("self").I("deck_count"),view.A("deck_catalogue").Rows().Sum(r=>r.I("deck_count")));
+        foreach(var row in view.O("knowledge").A("encounters").Rows())
+        {
+            Assert.NotEmpty(row.S("display_name"));
+            Assert.Contains(row.S("profile"),view.O("actors").Values().Select(a=>a.S("knowledge_profile_id")));
+        }
+        _=app.Inspect();Assert.Equal(before,J.Canonical(app.ExportDto().State));
+        Assert.DoesNotContain("deck_catalogue",before);
+    }
+
+    [Fact]
     public void AcquiredCardUsesExactIndividualAndVariantAtDeparture()
     {
         var app = Rich();

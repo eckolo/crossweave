@@ -48,25 +48,26 @@ public partial class GameScreen
 
     private void PreparationScreen()
     {
-        Button(content, "home", "戻る", new(24, 18, 190, 54), () => Screen = "home");
-        Button(content, "tab-card", "札", new(240, 18, 164, 54), () => { preparationTab = "card"; Modal = ""; });
-        Button(content, "tab-passive", "心得", new(420, 18, 164, 54), () => { preparationTab = "passive"; Modal = ""; });
+        Panel(content,new(0,0,1920,1080),"f1f1e8");
+        Button(content, "home", "← 戻る", new(24, 4, 102, 56), () => Screen = "home");
+        var cardTab=Button(content, "tab-card", "札", new(144, 0, 64, 64), () => { preparationTab = "card"; Modal = ""; });
+        var passiveTab=Button(content, "tab-passive", "心得", new(216, 0, 88, 64), () => { preparationTab = "passive"; Modal = ""; });
+        (preparationTab=="card"?cardTab:passiveTab).AddThemeStyleboxOverride("normal",Box("cfdec8","315849",2));
         string money = "着想  " + ViewData.Money(View.Obj("home").Obj("economy").Number("unspent_units"));
         if (DraftDirty) money += "  →  " + (Comparison.Flag("ok") ? ViewData.Money(Comparison.Obj("payment").Number("unspent_after_units")) : "—");
-        Text(content, money, new(820, 20, 630, 55), 27, Gold);
+        Text(content, money, new(1210, 4, 450, 56), 20, Gold).HorizontalAlignment=HorizontalAlignment.Right;
         // 了承済み三領域と共通352×80の札枠。列ごとの内部スクロールだけを許可する。
         string[] zones = ["offer", "reserve", "build"], labels = ["取得可能", "所持", "編成"];
         float[] xs = [25, 413, 1160], widths = [376, 735, 735];
         var projected = ProjectedOwned();
         for (int i = 0; i < zones.Length; i++)
         {
-            var zone = zones[i]; var panel = Panel(content, new(xs[i], 92, widths[i], 878));
-            Text(panel, labels[i], new(14, 12, widths[i] - 28, 48), 28, Gold);
-            var scroll = Scroll(panel, "prep-" + zone, new(4, 72, widths[i] - 8, 792), false);
-            dropZones.Add((new(xs[i], 92, widths[i], 878), zone));
+            var zone = zones[i]; var panel = Panel(content, new(xs[i], 76, widths[i], 922),i==0?"f1f1e8":i==1?"e8edde":"dce6d1");
+            var scroll = Scroll(panel, "prep-" + preparationTab + "-"+zone, new(2, 48, widths[i] - 4, 872), false);
+            dropZones.Add((new(xs[i], 76, widths[i], 922), zone));
             var grid = new GridContainer { Columns = i == 0 ? 1 : 2, SizeFlagsHorizontal = SizeFlags.ExpandFill };
             grid.AddThemeConstantOverride("h_separation", 8); grid.AddThemeConstantOverride("v_separation", 8); scroll.AddChild(grid);
-            IEnumerable<JsonObject> rows = zone == "offer" ? View.Obj("home").Arr("acquisition").Rows().Where(r => !Plan.Arr("acquire").Strings().Contains(r.Text("id")))
+            IEnumerable<JsonObject> rows = zone == "offer" ? View.Obj("home").Arr("acquisition").Rows()
                 : zone == "build" ? Plan.Obj("composition").Arr(preparationTab == "card" ? "deck" : "equipment").Strings().Select(id => projected.FirstOrDefault(r => r.Text("id") == id)).OfType<JsonObject>()
                 : projected.Where(r => !Composed(r));
             rows = rows.Where(r => r.Obj("blueprint").Text("kind") == preparationTab);
@@ -75,28 +76,35 @@ public partial class GameScreen
                     .Select(g => { var representative = g.First().Copy(); representative["display_quantity"] = g.Count(); return representative; });
             // 同性能の所持をまとめても送信するのは代表一個体の公開ID。移動すると次の個体が代表になる。
             // 未払い／ロック／変換可否が違うものは、操作の意味が隠れないよう別行にする。
-            int count = 0;
+            int count = 0, rowCount = 0;
             foreach (var row in rows)
             {
-                var unit = row.Copy(); var tile = new Control { CustomMinimumSize = new(352, 80), MouseFilter = MouseFilterEnum.Ignore }; grid.AddChild(tile);
-                MakeTile(tile, "item-" + zone + "-" + row.Text("id"), unit, new(0, 0, 272, 80), zone);
+                rowCount++; var unit = row.Copy(); var tile = new Control { CustomMinimumSize = new(352, 80), MouseFilter = MouseFilterEnum.Ignore }; grid.AddChild(tile);
+                // 支払前は移動元の位置を空けたまま印を残す。戻した札で後続候補をずらさない。
+                if(zone=="offer"&&Plan.Arr("acquire").Strings().Contains(row.Text("id")))
+                { Text(tile,"→ 取得予定",new(12,12,328,56),20,Muted); continue; }
+                MakeTile(tile, "item-" + zone + "-" + row.Text("id"), unit, new(0, 0, 352, 80), zone);
                 var verb = zone == "offer" ? "取得" : zone == "build" ? "外す" : "編成";
-                Button(tile, verb + "-" + row.Text("id"), verb, new(277, 10, 74, 58), () => { if (zone == "offer") Stage(unit); else Compose(unit, zone == "reserve"); }, Can("commit_preparation")); count++;
+                Button(tile, verb + "-" + row.Text("id"), verb, new(278, 0, 74, 80), () => { if (zone == "offer") Stage(unit); else Compose(unit, zone == "reserve"); }, Can("commit_preparation")); count+=(int)Math.Max(1,row.Number("display_quantity"));
             }
-            if (count == 0)
+            string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
+            Text(panel,labels[i]+"  "+amount,new(16,0,widths[i]-32,46),22,Gold);
+            if(zone=="build"&&preparationTab=="card")for(int n=Plan.Obj("composition").Arr("deck").Count;n<12;n++)
+            {var empty=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(empty);Text(empty,"＋",new(8,10,336,60),28,Muted).HorizontalAlignment=HorizontalAlignment.Center;}
+            if (rowCount == 0 && zone != "build")
             {
-                var message = new Label { Text = zone == "offer" ? (View.Obj("home").Obj("offers").Text("status") == "purchased" ? "今回の取得は完了" : "取得できる候補はありません") : "ここにはありません", CustomMinimumSize = new(300, 100), AutowrapMode = TextServer.AutowrapMode.WordSmart };
+                var message = new Label { Text = zone == "offer" ? (View.Obj("home").Obj("offers").Text("status") == "purchased" ? "✓ 今回の取得は完了" : "取得できる"+(preparationTab=="card"?"札":"心得")+"はありません") : "ここにはありません", CustomMinimumSize = new(300, 100), AutowrapMode = TextServer.AutowrapMode.WordSmart };
                 grid.AddChild(message);
             }
         }
         string capacity = Comparison.Flag("ok") ? $"札組 {Comparison.Obj("deck").Number("size")}枚　心得 {Comparison.Obj("equipment").Number("used")} / {Comparison.Obj("equipment").Number("capacity")} 枠" : ViewData.Explain(Comparison.Text("error"));
-        Text(content, capacity, new(32, 972, 1200, 44), 22, Comparison.Flag("ok") ? Muted : Gold);
-        Button(content, "discard", "戻す", new(1270, 988, 190, 62), () =>
+        Text(content, PurchaseTrack()+"   "+capacity, new(32, 1018, 1550, 56), 20, Comparison.Flag("ok") ? Muted : Gold);
+        Button(content, "discard", "戻す", new(1640, 1016, 120, 64), () =>
         {
             if (View.Obj("draft").Flag("dirty")) Send("discard_draft");
             else { Plan = View.Obj("draft").Obj("plan").Copy(); RefreshComparison(); LastCommand = null; }
         }, DraftDirty && !Blocked);
-        Button(content, "review", "確認する", new(1484, 988, 408, 62), () => { RefreshComparison(); Modal = "review"; }, DraftDirty && Can("commit_preparation"));
+        Button(content, "review", "確認する", new(1768, 1016, 128, 64), () => { RefreshComparison(); Modal = "review"; }, DraftDirty && Can("commit_preparation"));
     }
 
     private string ReviewText()
@@ -125,14 +133,19 @@ public partial class GameScreen
 
     private void DetailWindow()
     {
-        bool actor = detailKind == "actor"; float width = actor ? 416 : 520, height = actor ? 384 : 480;
-        float x = detailOrigin.X < 960 ? 1920 - width - 16 : 16, y = actor ? 84 : 380;
+        bool actor = detailKind == "actor", preparation = detailKind is "offer" or "reserve" or "build";
+        float width = preparation ? 960 : actor ? 416 : 520, height = preparation ? 820 : actor ? 384 : 480;
+        float x = preparation ? 480 : detailOrigin.X < 960 ? 1920 - width - 16 : 16;
+        float y = preparation ? 130 : actor ? 16 : Mathf.Clamp(detailOrigin.Y - 104,16,984-16-height);
+        if(preparation)popup.AddChild(new ColorRect{Color=new(0,0,0,.3f),Size=new(1920,1080),MouseFilter=MouseFilterEnum.Stop});
         var p = Panel(popup, new(x, y, width, height), "142b32ed"); p.MouseFilter = MouseFilterEnum.Stop;
         Controls["detail-panel"] = p;
         Text(p, actor ? detail.Text("display_name") : (detailKind == "forecast" ? "予測 · " : "") + CardName(detail), new(20, 12, width - 95, 65), 25, Gold);
         Button(p, "detail-close", "×", new(width - 66, 12, 48, 48), () => Modal = "");
         string value = actor ? ActorText(detail) : ItemText(detail);
         LongText(p, "detail-body", value, new(20, 82, width - 40, height - 170), 22);
+        if(actor&&detail.Text("knowledge_profile_id") is {Length:>0} profile)
+            Button(p,"actor-record","調査記録",new(20,height-72,width-40,52),()=>{knowledgeSelection=profile;OpenModal("knowledge");});
         if (detailKind is "offer") Button(p, "detail-stage", "取得", new(22, height - 72, 190, 52), () => { Stage(detail); Modal = ""; }, Can("commit_preparation"));
         else if (detailKind is "reserve" or "build")
         {

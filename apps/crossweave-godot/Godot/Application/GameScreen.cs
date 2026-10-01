@@ -43,6 +43,14 @@ public partial class GameScreen : Control
     private string gestureZone = "";
     private double gestureStarted;
     private Vector2 pointer;
+    private Vector2 grabOffset, grabbedSize;
+    private CardTile? dragGhost;
+    private bool verticalSwipe, autoDetails = true;
+    private bool showRelations = true, quickPlace = true, allowDrag = true;
+    private int holdMilliseconds = 220;
+    private readonly HashSet<int> touchPointers = [];
+    private string modalParent = "", knowledgeSelection = "";
+    private bool prepareAfterReturn;
     private readonly List<(Rect2 rect, string zone)> dropZones = [];
     internal UiAutomation? Automation;
 
@@ -55,8 +63,9 @@ public partial class GameScreen : Control
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         GetTree().AutoAcceptQuit = false;
         // 同梱の可変フォントは既定wght=100。素材を変えず、Godot標準FontVariationで本文用400を選ぶ。
-        font = new FontVariation { BaseFont = GD.Load<Font>("res://Assets/NotoSansJP.ttf"), VariationOpentype = new Godot.Collections.Dictionary { ["wght"] = 400 } };
+        font = new FontVariation { BaseFont = GD.Load<Font>("res://Assets/NotoSansJP.ttf"), VariationOpentype = new Godot.Collections.Dictionary { [TextServerManager.GetPrimaryInterface().NameToTag("wght")] = 400 } };
         BuildTheme();
+        GetViewport().SizeChanged += CancelGesture;
         // 通常パスを解決するのはGodot側だけ。検査引数は専用領域との組合せが必須。
         SavePath = ProjectSettings.GlobalizePath("user://saves/local/m1.json");
         Automation = UiAutomation.FromArguments(this, OS.GetCmdlineUserArgs());
@@ -78,7 +87,7 @@ public partial class GameScreen : Control
     private void Begin(Func<UiResult> work, Action<UiResult> after)
     {
         if (Busy) return;
-        gesture.Cancel(); completion = after;
+        CancelGesture(); completion = after;
         operation = Task.Run(() =>
         {
             try { return work(); }
@@ -117,7 +126,9 @@ public partial class GameScreen : Control
     {
         View = view.Copy(); Plan = View.Obj("draft").Obj("plan").Copy();
         displayedTexts.Clear();
-        Comparison = new(); selectedCard = selectedTarget = ""; actionPreview = new(); detailKey = ""; Modal = "";
+        Comparison = new(); selectedCard = ""; actionPreview = new(); detailKey = ""; Modal = ""; modalParent = "";
+        // 対象だけは公開された活動中の相手なら次の手番へ保持する。札IDは毎回選び直す。
+        if (!View.Obj("exploration").Obj("actors").Obj(selectedTarget).Flag("active")) selectedTarget = "";
         Screen = View.Text("phase") == "home" ? "home" : View.Text("phase");
         if (Screen == "home") RefreshComparison();
     }
@@ -153,6 +164,8 @@ public partial class GameScreen : Control
             {
                 var previousScreen = Screen; Adopt(result.View); Message = "";
                 if (previousScreen == "preparation" && View.Text("phase") == "home") Screen = previousScreen;
+                if (command.Type == "ack_return" && prepareAfterReturn)
+                { prepareAfterReturn = false; Screen = "preparation"; }
                 if (command.Type == "ack_return" && departAfterReturn)
                 {
                     departAfterReturn = false;
@@ -194,7 +207,7 @@ public partial class GameScreen : Control
 
     private void AskClose()
     {
-        gesture.Cancel();
+        CancelGesture();
         if (Busy) { closeRequested = true; Message = "保存の終了を待ってから閉じます。"; renderNeeded = true; return; }
         if (DraftDirty || Blocked) { Modal = "quit"; renderNeeded = true; return; }
         Close();
@@ -210,7 +223,7 @@ public partial class GameScreen : Control
     public override void _Notification(int what)
     {
         if (what == NotificationWMCloseRequest) AskClose();
-        if (what == NotificationWMWindowFocusOut) { gesture.Cancel(); QueueRedraw(); }
+        if (what == NotificationWMWindowFocusOut) { CancelGesture(); QueueRedraw(); }
     }
 
     public override void _ExitTree()
@@ -228,10 +241,11 @@ public partial class GameScreen : Control
             var after = completion; completion = null; after?.Invoke(result); renderNeeded = true;
             if (closeRequested) { closeRequested = false; AskClose(); }
         }
-        gesture.Tick(Time.GetTicksMsec());
+        gesture.Tick(GestureClock());
         if (gesture.Mode != GestureMode.Idle) AutoScroll();
         RecordVisibleParagraphs();
         if (renderNeeded) { renderNeeded = false; Render(); }
+        UpdateDragGhost();
         canvas?.QueueRedraw();
         Automation?.Tick();
     }

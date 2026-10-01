@@ -407,7 +407,13 @@ public sealed class GameApplication
         return new Handles(d).Encode(result);
     }
 
-    private static JsonObject PublicKnowledge(JsonObject k) => J.Obj(("encounters", J.Array(k.A("encounters").Rows().Select(x => J.Select(x, "profile", "version")).DistinctBy(J.Canonical))), ("evidence", J.Array(k.A("events").Rows().Select(x => J.Select(x, "profile", "version", "kind").WithOptional(x, "card", "cards", "reward_key", "label")))));
+    // 遭遇済みの公開見出しをUIへ渡す。未遭遇の対象・未観測札・私有山札を追加しない。
+    // 元セーブのknowledgeは変更せず、表示境界だけ既存targetの名前と用途で補う。
+    private static JsonObject PublicKnowledge(JsonObject k) => J.Obj(("encounters", J.Array(k.A("encounters").Rows().Select(x =>
+    {
+        var target = Content.M1.O("targets").Values().FirstOrDefault(t => t.S("knowledge_profile_id") == x.S("profile"));
+        return J.Select(x, "profile", "version").With(("display_name", target?.S("display_name") ?? "観測した相手・環境"), ("purpose", target?.S("purpose") ?? ""));
+    }).DistinctBy(J.Canonical))), ("evidence", J.Array(k.A("events").Rows().Select(x => J.Select(x, "profile", "version", "kind").WithOptional(x, "card", "cards", "reward_key", "label")))));
     private static void Validate(JsonObject d)
     {
         J.Check(d.S("schema") == "CW-CSharp-application-1" && d.S("rule_set_id") == Content.M1.S("rule_set_id") && d.S("content_set_id") == Content.M1.S("content_set_id"), "unsupported_application_state");
