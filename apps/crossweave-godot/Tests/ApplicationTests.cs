@@ -8,6 +8,32 @@ namespace Crossweave.Tests;
 public sealed class ApplicationTests
 {
     [Fact]
+    public void PreviewExpiryDestinationsUseResolvedRecoveryAndPreserveOwner()
+    {
+        // 公開された回収先を実Step直後と比較。UI側で消滅規則を複製しない契約を確認する。
+        var record=Oracle().A("records").Rows().Single(r=>r.S("name")=="natural");var state=record.O("initial").Copy();int checkedRows=0;
+        foreach(var step in record.A("steps").Rows())
+        {
+            ApplyDelta(state,step.A("expected_delta"));var app=FromLegacy(state);var view=app.Inspect();
+            if(view.S("phase")!="exploring"||view.O("story").O("scene").B("paused"))continue;
+            var unchanged=J.Canonical(app.ExportDto().State);var session=app.ExportDto().State.O("session");
+            foreach(var choice in view.O("exploration").A("legal_actions").Rows())
+            {
+                var preview=app.PreviewAction(view.L("revision"),view.S("view_token"),choice);Assert.True(preview.B("ok"));
+                var resolved=new Expedition(session.O("game").Copy(),session.O("active").S("target_set_id"));resolved.Step(choice);var cards=resolved.Save().O("state").O("cards");
+                foreach(var row in preview.A("unused_hand_expiry").Rows())
+                {
+                    Assert.Contains(row.S("id"),view.O("exploration").A("hand").Rows().Select(c=>c.S("id")));
+                    Assert.NotEqual(choice.S("card_id"),row.S("id"));
+                    if(row.B("expires")){Assert.Equal(cards.O(row.S("id")).B("destroyed")?"destroyed":"shared_recovery",row.S("destination"));checkedRows++;}
+                }
+                Assert.Equal(unchanged,J.Canonical(app.ExportDto().State));
+            }
+        }
+        Assert.True(checkedRows>5);
+    }
+
+    [Fact]
     public void UiPublicLabelsAndOwnCatalogueDoNotChangeSaveOrRevealNpcCards()
     {
         // UI継承で追加したのは公開ラベルと本人の集計だけ。読取を繰り返してもDTOを変えない。

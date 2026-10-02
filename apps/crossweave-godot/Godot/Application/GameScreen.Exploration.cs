@@ -38,13 +38,7 @@ public partial class GameScreen
             else Text(b,ActorSymbol(row),new(30,14,260,110),64,Ink).HorizontalAlignment=HorizontalAlignment.Center;
             var band=Panel(b,new(0,128,320,120),id==selectedTarget?"e9eee2":"fcfcf5");
             Text(band,row.Text("display_name"),new(10,2,300,30),20);
-            Text(band,$"♡ {row.Number("hp")}   ◒ {row.Number("posture_remaining")}",new(10,32,300,28),18);
-            VitalBar(band,new(10,63,300,4),row.Number("hp"),row.Number("max_hp"));
-            VitalBar(band,new(10,69,300,4),row.Number("posture_remaining"),row.Number("max_posture"));
-            Text(band,$"◇ {row.Obj("defense").Number("guard")}   ϟ {row.Number("crit")}   ≋ {row.Obj("defense").Number("evasion")}",new(10,78,300,28),18);
-            var change=actionPreview.Arr("actor_changes").Rows().FirstOrDefault(c=>c.Text("actor_id")==id);
-            if(change is not null && !JsonNode.DeepEquals(change["before"],change["after"]))
-                Text(band,$"予測 ♡ {change.Obj("after").Number("hp")}  ◒ {change.Obj("after").Number("posture_remaining")}",new(10,106,300,22),16,Gold);
+            ActorVitals(band,id,row,10,32,300);
         }
         OrderStrip(e);
         Panel(content,new(24,380,1872,248),"e9eed833");
@@ -65,11 +59,12 @@ public partial class GameScreen
         if(selectedCard!="" && Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control hand)
         {
             float actionX=Mathf.Clamp(hand.GetGlobalRect().Position.X,24,1440);
-            Button(content,"preview","予測",new(actionX,920,132,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
+            var previewButton=Button(content,"preview","予測"+(SelfPosition()==""?"":"\n本人→"+SelfPosition()),new(actionX,920,132,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
+            previewButton.AddThemeFontSizeOverride("font_size",16);
             Button(content,"play",ActionLabel(),new(actionX+140,920,250,56),()=>{if(Choice() is {} c)Send("play",new(){["choice"]=c.Copy()});},Choice() is not null&&Can("play"));
         }
         var footer=Panel(content,new(24,984,1872,72),"fcfcf5");var self=e.Obj("self");
-        Text(footer,$"♡ {self.Number("hp")}    ◒ {self.Number("posture_remaining")}\n◇ {self.Obj("defense").Number("guard")}    ϟ {self.Number("crit")}    ≋ {self.Obj("defense").Number("evasion")}",new(16,0,410,70),18);
+        ActorVitals(footer,"P",self,16,0,410);
         Text(footer,$"手札 {e.Arr("hand").Count}枚　山札 {self.Number("deck_count")}枚　共通回収 {e.Number("pool_count")}枚",new(450,15,1120,42),20);
         Button(footer,"withdraw","撤退",new(1738,8,110,56),()=>OpenModal("withdraw"),Can("withdraw"));
     }
@@ -89,28 +84,29 @@ public partial class GameScreen
         var scroll=Scroll(content,"turn-order",new(24,24,1570,56),true);
         var line=new HBoxContainer {CustomMinimumSize=new(0,48)};line.AddThemeConstantOverride("separation",12);scroll.AddChild(line);
         var predicted=actionPreview.Flag("ok");
-        var reservations=predicted?actionPreview.Arr("current_reservations_after"):e.Arr("reservations");int index=0;
-        foreach(var r in reservations.Rows())
+        int index=0;if(predicted){var now=new Control{CustomMinimumSize=new(88,48)};line.AddChild(now);Text(now,"本人・今",new(0,0,88,44),18,new Color("fcfcf5"));}
+        foreach(var group in ReservationGroups())
         {
+            var groupCell=new Control{CustomMinimumSize=new(group.Count()*54+110,48)};line.AddChild(groupCell);int within=0;
+            foreach(var r in group)
+            {
             var id=r.Text("actor_id");var row=e.Obj("actors").Obj(id).Copy();row["id"]=id;
-            var cell=new Control{CustomMinimumSize=new(126,48)};line.AddChild(cell);
+            var cell=new Control{Position=new(within++*54,0),Size=new(50,48)};groupCell.AddChild(cell);
             var key="order-"+index++;
             var b=Button(cell,key,ActorSymbol(row),new(0,0,44,44),()=>ShowDetail(row,"actor",Controls[key].GetGlobalRect().GetCenter()));
             b.TooltipText=row.Text("display_name")+"の詳細";
             if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
             {b.Text="";b.AddChild(new TextureRect{ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"),Position=new(4,4),Size=new(36,36),StretchMode=TextureRect.StretchModeEnum.KeepAspectCentered,MouseFilter=MouseFilterEnum.Ignore});}
-            Text(cell,(predicted&&id=="P"?"次 ":"")+"+"+(r.Number("at")-e.Number("now")),new(48,0,76,44),18,new Color("fcfcf5"));
+            if(id=="P")Text(cell,predicted?"次":"今",new(30,23,28,24),14,new Color("fcfcf5"));
+            }
+            Text(groupCell,(group.Count()>1?"同時刻\n":"")+"+"+(group.Key-e.Number("now")),new(within*54,0,106,48),16,new Color("fcfcf5"));
         }
     }
 
     private string PredictionText()
     {
         if (!actionPreview.Flag("ok")) return "行動を選ぶと予測が表示されます。";
-        var actors = View.Obj("exploration").Obj("actors");
-        return "行動：" + ActionLabel() + "\n選択した一手の直後まで。続く相手の行動は含みません。"
-            + "\n\n対象の変化\n" + string.Join("\n", actionPreview.Arr("actor_changes").Rows().Select(r => actors.Obj(r.Text("actor_id")).Text("display_name") + "　" + "残量 " + r.Obj("before").Number("hp") + " → " + r.Obj("after").Number("hp") + "　体勢 " + r.Obj("before").Number("posture_remaining") + " → " + r.Obj("after").Number("posture_remaining") + "　身構 " + r.Obj("before").Obj("defense").Number("guard") + " → " + r.Obj("after").Obj("defense").Number("guard")))
-            + "\n\n行動後の場\n" + string.Join("、", actionPreview.Obj("field_after").Select(p => CardName((System.Text.Json.Nodes.JsonObject)p.Value!)))
-            + "\n\n行動後の順序\n" + string.Join(" → ", actionPreview.Arr("current_reservations_after").Rows().Select(r => actors.Obj(r.Text("actor_id")).Text("display_name") + " " + r.Number("at")));
+        return PredictionSummary();
     }
 
     private static string ActorText(JsonObject row) => $"{row.Text("remaining_label")} {row.Number("hp")} / {row.Number("max_hp")}\n隠蔽 {row.Number("posture_remaining")} / {row.Number("max_posture")}\n身構 {row.Obj("defense").Number("guard")}　攪乱 {row.Obj("defense").Number("evasion")}\n機転 {row.Number("crit")}\n次の行動時刻 {row.Number("next_at")}\n公開された手札枚数 {row.Number("hand_count")}\n山札枚数 {row.Number("deck_count")}\n\n防御の内訳\n" + string.Join("\n", row.Obj("defense").Arr("effects").Rows().Select(e=>$"身構 {e.Number("guard")}・攪乱 {e.Number("evasion")} / 残り {(e["uses"] is null?"制限なし":e.Text("uses"))}"));
@@ -197,6 +193,19 @@ public partial class GameScreen
         if (input is InputEventMouseButton outside && outside.Pressed && Modal is "detail" or "prediction" && Controls.TryGetValue("detail-panel", out var panel) && !panel.GetGlobalRect().HasPoint(outside.Position)
             && !Controls.Any(c=>(c.Value is CardTile||c.Key.StartsWith("actor-")||c.Key.StartsWith("order-")||c.Key=="preview")&&c.Value.GetGlobalRect().HasPoint(outside.Position)))
         { Modal = ""; renderNeeded = true; } // 外クリックは窓を閉じ、隣の札の入力はそのまま通す。
+        if(blankScroll is not null)
+        {
+            if(!IsInstanceValid(blankScroll)){blankScroll=null;return;}
+            if(input is InputEventMouseMotion pan)
+            {
+                var delta=pan.Position-blankLast;blankLast=pan.Position;
+                if(blankScroll.VerticalScrollMode!=ScrollContainer.ScrollMode.Disabled)blankScroll.ScrollVertical-=(int)delta.Y;
+                else blankScroll.ScrollHorizontal-=(int)delta.X;
+                GetViewport().SetInputAsHandled();return;
+            }
+            if(input is InputEventMouseButton {Pressed:false,ButtonIndex:MouseButton.Left})
+            {blankScroll=null;GetViewport().SetInputAsHandled();return;}
+        }
         if (gesture.Mode == GestureMode.Idle) return;
         if (input is InputEventMouseMotion move)
         {
@@ -219,8 +228,9 @@ public partial class GameScreen
     private ScrollContainer? GestureScroll() => Controls.GetValueOrDefault(Screen == "preparation" ? "prep-" + preparationTab + "-" + gestureZone : "strip-" + gestureZone) as ScrollContainer;
     private void AutoScroll()
     {
-        if (gesture.Mode != GestureMode.Dragging || GestureScroll() is not { } scroll) return;
+        if (gesture.Mode != GestureMode.Dragging || DestinationScroll() is not { } scroll) return;
         var r = scroll.GetGlobalRect();
+        if(!r.HasPoint(pointer))return; // 元列外で送り続けず、移動先の領域内だけを送る。
         if (Screen == "preparation") { if (pointer.Y > r.End.Y - 24) scroll.ScrollVertical += 9; if (pointer.Y < r.Position.Y + 24) scroll.ScrollVertical -= 9; }
         else { if (pointer.X > r.End.X - 50) scroll.ScrollHorizontal += 10; if (pointer.X < r.Position.X + 50) scroll.ScrollHorizontal -= 10; }
     }
@@ -241,12 +251,13 @@ public partial class GameScreen
     }
     private void DropCard(JsonObject row, string from, string to)
     {
+        if(!DropPlan(row,from,to).allowed)return; // 可否表示と実解放で同じ判定を使う。
         Modal = "";
         if (from == "hand" && to == "field")
         {
             SelectHand(row);
             // 原本のquick条件を継承。設置以外・消滅する未使用札がある一手は、公開予測を見てから確定する。
-            bool loses=View.Obj("exploration").Arr("hand").Rows().Any(c=>c.Flag("consume_on_recover")&&actionPreview.Arr("expired").Strings().Contains(c.Text("id")));
+            bool loses=actionPreview["unused_hand_expiry"] is not JsonArray||actionPreview.Arr("unused_hand_expiry").Rows().Any(c=>c.Flag("expires")&&c.Text("destination")=="destroyed");
             if (Choice() is { } choice && actionPreview.Flag("ok"))
             {
                 if(quickPlace&&actionPreview.Text("mode")=="place"&&!loses)Send("play",new(){["choice"]=choice.Copy()});
@@ -295,6 +306,7 @@ public partial class GameScreen
 
     internal void PaintInteraction(Control surface)
     {
+        PaintDropTargets(surface);
         void Arrow(Rect2 start, Rect2 end)
         {
             var direction = (end.GetCenter()-start.GetCenter()).Normalized();

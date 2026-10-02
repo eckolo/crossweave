@@ -1,0 +1,557 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "2102aca1144ce6dfcdf393528cf66b3bea5133e1",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "review-safety-consume": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-consume",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-consume",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-safety-consume.json"
+      ],
+      "exit": 0
+    },
+    "review-safety-doomed": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-doomed",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-doomed",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-safety-doomed.json"
+      ],
+      "exit": 0
+    },
+    "review-safety-quick": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-quick",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-quick",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-safety-quick.json"
+      ],
+      "exit": 0
+    },
+    "review-resume": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-resume",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-quick",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first"
+      ],
+      "exit": 0
+    },
+    "review-safety-off": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-off",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-off",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-safety-off.json"
+      ],
+      "exit": 0
+    },
+    "review-safety-matched": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-matched",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-safety-matched",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-safety-matched.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-place": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-place",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-prediction-place",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-prediction-place.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-attack": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-attack",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-prediction-attack",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-prediction-attack.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-guard": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-guard",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-prediction-guard",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-prediction-guard.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-heal": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-heal",
+        "--ui-slot=ui-1d5a2a6d4ef044c7-review-prediction-heal",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\targeted-first",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-prediction-heal.json"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "review-safety-consume": {
+      "status": "passed",
+      "process_id": 32428,
+      "checks": 9,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-safety-doomed": {
+      "status": "passed",
+      "process_id": 41552,
+      "checks": 9,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-safety-quick": {
+      "status": "passed",
+      "process_id": 2996,
+      "checks": 6,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-resume": {
+      "status": "passed",
+      "process_id": 17636,
+      "checks": 6,
+      "commands": 1,
+      "final_revision": 2
+    },
+    "review-safety-off": {
+      "status": "passed",
+      "process_id": 42360,
+      "checks": 8,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-safety-matched": {
+      "status": "passed",
+      "process_id": 12356,
+      "checks": 8,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-prediction-place": {
+      "status": "passed",
+      "process_id": 38240,
+      "checks": 5,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-prediction-attack": {
+      "status": "passed",
+      "process_id": 17320,
+      "checks": 8,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-prediction-guard": {
+      "status": "passed",
+      "process_id": 1908,
+      "checks": 10,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-prediction-heal": {
+      "status": "passed",
+      "process_id": 40068,
+      "checks": 9,
+      "commands": 0,
+      "final_revision": 0
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "5048919c2c09a4cfc8670517ba43da23cce7a28919b80d3a2888a1f371e27ab3",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "4e03fcb119011879fca88dcac8b5d33adc4d55a1f9965c28bf64f13eea24c953",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "f0ccdb135f610dfa2984614e15bc0c2530335f9a7a1e03de03045cf5fd646ccc",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "37994eba1ee5ae1be395926f72679b486b2f0015fb99614b60276753d91f00f8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "d306720e80c1c923b23f23f174e726539a54677c8f9d500cff6dfa29191b744d",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "d55cc36bc3fe235a7d3a8d0e95d7191762e3fc4a500de361ac213a3cf9a41447",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "b0e44f319de21263e08981d6cbfa639ecaf1c4dc4585cd2a6d53dd16e60a22ac",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "c2ad9eea839224648e6663062fba49a0a293dd561e45a023256e5f7aa2f2a726",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "ba19f96af5f6160ec85e063ebbcb0ff526961e6ee8f2bfc6fd7e2900fdcfbf77",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "5a3035e36f6289e69fe62319821f92cf95db52a5f30ee1ec3391d04bb4619aa9",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3c45ab9c6d2188b5cf321fa20f97194a0a5c66db87383d0bdffe774837c9de93",
+    "apps/crossweave-godot/UiProbe/verify.py": "416d3788109db8b11567bf58435c17a754cdef73ac93e48b5d97e408e7ffe945",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "review-safety-consume": "adfb206e44dee9deb74ad81c742efdf2adea0f49c0be1cbe553d57dcadfaf7dd",
+    "review-safety-doomed": "bbe245640d3b72d0245c24bf217d5d6c3cc7855b7ffbf4e50344f8c3cb719ab6",
+    "review-safety-quick": "77d14b0401453087d6a985af6dab10a74abb0a3964d61eb96697370ea6bc2a49",
+    "review-safety-off": "77d14b0401453087d6a985af6dab10a74abb0a3964d61eb96697370ea6bc2a49",
+    "review-safety-matched": "c66c379a4ca948c84b33e57689680c7a7e607e35f095f755cc060a84e65e700a",
+    "review-prediction-place": "ee43258d672e0f9ba4b80d1d58a21126f19ddce0dfffa6b9e75be5318651c1c3",
+    "review-prediction-attack": "8bce08b642e26c9bba18bbd09eeba2453694f83abfa04ab2d6e457da14a9e940",
+    "review-prediction-guard": "4f489fa7408949f6e389893f0f31430328832c3056d73c74069133f5c095de68",
+    "review-prediction-heal": "48468d386d806d69bc82f1d6e792a4c5bdafeaaf419f5ede400cdd2c9bb60a72",
+    "review-prediction-defense_support": "b354e1e949b01f2f00016e2981354df852fd206ff50f11dacfec97b1e393059f"
+  },
+  "error": "Command '['C:\\\\Users\\\\eckol\\\\eckolo Dropbox\\\\久乃銑泉\\\\gist\\\\crossweave\\\\apps\\\\crossweave-godot\\\\.tools\\\\godot\\\\Godot_v4.7.2-stable_mono_win64\\\\Godot_v4.7.2-stable_mono_win64.exe', '--resolution', '1920x1080', '--path', 'Godot', '--', '--ui-check=review-prediction-defense_support', '--ui-slot=ui-1d5a2a6d4ef044c7-review-prediction-defense_support', '--ui-output=C:\\\\Users\\\\eckol\\\\eckolo Dropbox\\\\久乃銑泉\\\\gist\\\\crossweave\\\\docs\\\\検証\\\\本編実装\\\\d04b-ui-02\\\\review-20261002\\\\targeted-first', '--ui-fixture=C:\\\\Users\\\\eckol\\\\eckolo Dropbox\\\\久乃銑泉\\\\gist\\\\crossweave\\\\docs\\\\検証\\\\本編実装\\\\d04b-ui-02\\\\review-20261002\\\\fixtures-fixed\\\\fixtures\\\\review-prediction-defense_support.json']' timed out after 240.0 seconds",
+  "source_changed_during_run": [],
+  "status": "failed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "d38c2026699b336571e480a1f6cd26568d20b49bbbdd00e6b3c94b08ec73930b"
+    },
+    "import-ui.log": {
+      "bytes": 1181,
+      "sha256": "180c10d9059e2b6fd7005f8700a6f627e375625f6c8ad6bd7d9dd09784a773f8"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    },
+    "resume-expected.json": {
+      "bytes": 272608,
+      "sha256": "04fb6b2370def53ede5838bf3117005d0d0a93b67307a2bde2d385e1957034c1"
+    },
+    "review-prediction-attack-R03-prediction-bottom.png": {
+      "bytes": 810704,
+      "sha256": "1b8ff362f2c374b69b78dac1a1e475bc8188478afa7316711756a9bceef1ba7e"
+    },
+    "review-prediction-attack-R03-prediction-top.png": {
+      "bytes": 832515,
+      "sha256": "6a24c0dd08d9cf90f78b5295d6af585a7d2a10dd273de94af136318843a99ba8"
+    },
+    "review-prediction-attack-R03-self-and-actors.png": {
+      "bytes": 816988,
+      "sha256": "7a79701f119880fd46ead96f219c05b26a8f36a970393061817b07d8512b4211"
+    },
+    "review-prediction-attack-R04-hand-detail.png": {
+      "bytes": 806415,
+      "sha256": "4bae7c86a9b91125e9236a22e3e87b6709b3b07e1ff87841b09e0ab7407b1b02"
+    },
+    "review-prediction-attack.json": {
+      "bytes": 11664,
+      "sha256": "50e1cadcda8698f38f43d2a623fefc30794f6446636abb14f26dacb317d01714"
+    },
+    "review-prediction-attack.log": {
+      "bytes": 460,
+      "sha256": "cd75aecec8d710c17978a8c777c78b52d8157c58fbded632e6c81d1105d4a0ff"
+    },
+    "review-prediction-defense_support.log": {
+      "bytes": 5308,
+      "sha256": "5575d1f22daebcc6dd47072133e33b69df2b79238d382ef6c9895d661e555d88"
+    },
+    "review-prediction-guard-R03-prediction-bottom.png": {
+      "bytes": 816148,
+      "sha256": "5d6be42d50bd167f40f89de29db4fa0a1551f38f430020b35f729ebde0c35256"
+    },
+    "review-prediction-guard-R03-prediction-top.png": {
+      "bytes": 828728,
+      "sha256": "40c9e2d5deee1a6f715fd4b6e5e436da63c5d3d9701fa4bed6303faa68e37934"
+    },
+    "review-prediction-guard-R03-self-and-actors.png": {
+      "bytes": 815661,
+      "sha256": "cdc12f6588c3eccc004fae8c22ed832217c9d2ee6555586ce16d15ea501ab7ae"
+    },
+    "review-prediction-guard-R04-hand-detail.png": {
+      "bytes": 805341,
+      "sha256": "1d340cc0593f203977d659e203292312d26e516c719dbf1fae42086d31536a29"
+    },
+    "review-prediction-guard.json": {
+      "bytes": 12865,
+      "sha256": "ad83ea5def78afac1380dfb0e491ad9a3b10c2d6e40eab32cae2bd55343c83cc"
+    },
+    "review-prediction-guard.log": {
+      "bytes": 396,
+      "sha256": "3aab436c9b15cc5b46acf3b14371983394fbeb8915c7e6dca2bfa80dac268617"
+    },
+    "review-prediction-heal-R03-prediction-bottom.png": {
+      "bytes": 740690,
+      "sha256": "2d91ffe57b19e5a9ff30da0e178ce49bc80162e2129dc00e56159fdb7510bdda"
+    },
+    "review-prediction-heal-R03-prediction-top.png": {
+      "bytes": 760468,
+      "sha256": "6ca70bba550662d3035f8412f1e94dfe059229c782679de32c99fa96c11513b8"
+    },
+    "review-prediction-heal-R03-self-and-actors.png": {
+      "bytes": 860148,
+      "sha256": "fdd14e44733403cbfa7ea2753055a34e244915e45ced94248466fd0ee15d48e2"
+    },
+    "review-prediction-heal-R04-hand-detail.png": {
+      "bytes": 738326,
+      "sha256": "2f59404762e8d7f5f17ef90bbdf14efe114a3ea1110cd0efc2a75329a4514043"
+    },
+    "review-prediction-heal.json": {
+      "bytes": 9394,
+      "sha256": "1066935d833351d2ff7e11882a93926d84383b472e753f9ea6b4bee9a97bf768"
+    },
+    "review-prediction-heal.log": {
+      "bytes": 396,
+      "sha256": "3aab436c9b15cc5b46acf3b14371983394fbeb8915c7e6dca2bfa80dac268617"
+    },
+    "review-prediction-place-R03-prediction-bottom.png": {
+      "bytes": 697015,
+      "sha256": "6333fa354c72ddd9119081b93e051b06242cbf057e626816a6e9a0d51e03ad38"
+    },
+    "review-prediction-place-R03-prediction-top.png": {
+      "bytes": 698136,
+      "sha256": "a724455197142d9a3e5b1f9ee82ab0833eaba848eebd493897b6eea1e6e4a75e"
+    },
+    "review-prediction-place-R03-self-and-actors.png": {
+      "bytes": 800061,
+      "sha256": "a5d250cc05ce6b4d6996fa4ea18289a8358b1d94aa3909f386a30b108e0780e7"
+    },
+    "review-prediction-place-R04-hand-detail.png": {
+      "bytes": 684270,
+      "sha256": "1c2d262cf8c3048613f16c754b231d9749a62ea50a36d01cfaa58de3c2594ffb"
+    },
+    "review-prediction-place.json": {
+      "bytes": 10496,
+      "sha256": "41d121af7eb2385cdd8a82d99efd3292fe6714729c87fbacda794b740f66956e"
+    },
+    "review-prediction-place.log": {
+      "bytes": 396,
+      "sha256": "3aab436c9b15cc5b46acf3b14371983394fbeb8915c7e6dca2bfa80dac268617"
+    },
+    "review-resume.json": {
+      "bytes": 2280,
+      "sha256": "0ded198860ba1ce9e905f96f1cd4188ce9f34620f84a4b46aeee543050e3859f"
+    },
+    "review-resume.log": {
+      "bytes": 300,
+      "sha256": "b3a79463f4631348812f3c61181bfb7f941208a7bc30cc3e5e70c7be7e099bf7"
+    },
+    "review-safety-consume-R01-after-drop.png": {
+      "bytes": 763997,
+      "sha256": "d72470d5c8dccaf7a5be45fe27011424cc1190825109540e9a2e30e4a7718d58"
+    },
+    "review-safety-consume-R01-before-drop.png": {
+      "bytes": 754961,
+      "sha256": "3a94fae36b9204d33fca3026d49a5d3ab3b946673bc547d41a33c98fa05b5cf2"
+    },
+    "review-safety-consume-R01-confirmed.png": {
+      "bytes": 733194,
+      "sha256": "c39605825b833a19a4ccd4c6503557431d4039b89cbba2078ca168cb6a3f0b9d"
+    },
+    "review-safety-consume-R04-destruction-detail.png": {
+      "bytes": 638385,
+      "sha256": "2634aa7f472a5faa74e1730939ee67fa0aa4eb95a63649a0cfb5908d8723deee"
+    },
+    "review-safety-consume.json": {
+      "bytes": 13907,
+      "sha256": "dc5f8c4017a294b43031f485a22a92e6275018e6aa0211d3168b294381d1b2a1"
+    },
+    "review-safety-consume.log": {
+      "bytes": 394,
+      "sha256": "c44f517879b13de99c9a75eb23528e001b32110ff1c6f5ca1b791dc1cd26b4e7"
+    },
+    "review-safety-doomed-R01-after-drop.png": {
+      "bytes": 649796,
+      "sha256": "c9a84a690e9f7c53e7d0c38415937086cb5860e6b3c7aed2e6713af1cd0788f8"
+    },
+    "review-safety-doomed-R01-before-drop.png": {
+      "bytes": 752104,
+      "sha256": "fc3f3912cad20825171aece7b1cb0e8513622090d4f882f3121500b626da5539"
+    },
+    "review-safety-doomed-R01-confirmed.png": {
+      "bytes": 779115,
+      "sha256": "63626685ac54e36267808c7f54a972f1efcf280d2d528ce48172f685f5756548"
+    },
+    "review-safety-doomed-R04-destruction-detail.png": {
+      "bytes": 739390,
+      "sha256": "4e999649d191452bf885461b4b2ad9de162caa81530839eb6e13fb58b6d3488d"
+    },
+    "review-safety-doomed.json": {
+      "bytes": 13989,
+      "sha256": "466d3b4a1d07cf9972bd7f705683973e4d8fd2f135ee796d7dc79c8721adb397"
+    },
+    "review-safety-doomed.log": {
+      "bytes": 394,
+      "sha256": "c44f517879b13de99c9a75eb23528e001b32110ff1c6f5ca1b791dc1cd26b4e7"
+    },
+    "review-safety-matched-R01-after-drop.png": {
+      "bytes": 765030,
+      "sha256": "66e7446771f4c01818cfe65f326fada33fc546b601c5691402c6c2b8cee29502"
+    },
+    "review-safety-matched-R01-before-drop.png": {
+      "bytes": 862382,
+      "sha256": "3b191a92662189281dab743a41a45cd720370c6bd7f60823ef94ca7def764a0c"
+    },
+    "review-safety-matched-R01-confirmed.png": {
+      "bytes": 855139,
+      "sha256": "54da3e7e3faeb8cdca5d9bef66f44153e0688380e3320ce62b5db34d3787d1e7"
+    },
+    "review-safety-matched.json": {
+      "bytes": 10735,
+      "sha256": "f86bf69849e7371a431ae0084d7e17b477d1f4d5ea9a8c2bcbdbb21d6ea65c1d"
+    },
+    "review-safety-matched.log": {
+      "bytes": 488,
+      "sha256": "cc190ca29e02e8a68980d0fd5e046c2aa3cac8fe3fe121faeceef69374b0a24d"
+    },
+    "review-safety-off-R01-after-drop.png": {
+      "bytes": 859857,
+      "sha256": "fcd0d0139fcdfaa587524202fd40ff851a0e4bc67d0bf728a3265e276fbcab9e"
+    },
+    "review-safety-off-R01-before-drop.png": {
+      "bytes": 854611,
+      "sha256": "7a54c0f67dcafaa852e528142137daae36749a8ad8a39ed5d615ad234f4e796d"
+    },
+    "review-safety-off-R01-confirmed.png": {
+      "bytes": 856017,
+      "sha256": "655b3e242f485d66fba324e7eda012f8d36309bea70a73fa86b8a9096201c879"
+    },
+    "review-safety-off.json": {
+      "bytes": 12128,
+      "sha256": "da677b9740bb99b8efa5fa6ac470a18bcbe7be4d7368c9e3d0411856896d02af"
+    },
+    "review-safety-off.log": {
+      "bytes": 482,
+      "sha256": "19006e39bd289fa99f6a98e05ea7f5031f9191b3de24525be99c198920302b65"
+    },
+    "review-safety-quick-R01-before-drop.png": {
+      "bytes": 854611,
+      "sha256": "7a54c0f67dcafaa852e528142137daae36749a8ad8a39ed5d615ad234f4e796d"
+    },
+    "review-safety-quick-R01-confirmed.png": {
+      "bytes": 856017,
+      "sha256": "655b3e242f485d66fba324e7eda012f8d36309bea70a73fa86b8a9096201c879"
+    },
+    "review-safety-quick.json": {
+      "bytes": 2289,
+      "sha256": "2151c49663e712ee17024595be8cdf6a7ce9f4a87baa7772213c3b2ce7d259bd"
+    },
+    "review-safety-quick.log": {
+      "bytes": 334,
+      "sha256": "0bdb4ebefed3e701feedd5a3d9cc9d8356c2493e474e743b99db5321dc45f12a"
+    }
+  }
+}

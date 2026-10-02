@@ -1,0 +1,34 @@
+"""初回提出の実本編を隔離コピーで描画。作業コピーの製品コードは巻き戻さない。"""
+from pathlib import Path
+import subprocess, json, hashlib, shutil, os
+root=Path(__file__).resolve().parents[3]
+app=root/'apps/crossweave-godot'
+base=app/'.tools/review-baseline/apps/crossweave-godot'
+evidence=root/'docs/検証/本編実装/d04b-ui-02/review-20261002/before-U01-corrected'
+sha='2102aca1144ce6dfcdf393528cf66b3bea5133e1'
+paths={}
+for row in subprocess.check_output(['git','ls-tree','-rz',sha,'--','apps/crossweave-godot'],cwd=root).decode().split('\0'):
+    if not row:continue
+    meta,path=row.split('\t',1);blob=meta.split()[2]
+    target=base/Path(path).relative_to('apps/crossweave-godot')
+    target.parent.mkdir(parents=True,exist_ok=True)
+    target.write_bytes(subprocess.check_output(['git','cat-file','blob',blob],cwd=root));paths[path]=blob
+for p in ['Godot/Application/UiAutomation.cs','Godot/Application/UiAutomation.Review.cs']:
+    shutil.copyfile(app/p,base/p)
+shutil.copyfile(app/'Godot/Assets/NotoSansJP.ttf',base/'Godot/Assets/NotoSansJP.ttf')
+evidence.mkdir(parents=True,exist_ok=True)
+env=os.environ.copy();sdk=app/'.tools/dotnet';env.update(DOTNET_ROOT=str(sdk),DOTNET_CLI_TELEMETRY_OPTOUT='1',PYTHONUTF8='1');env['PATH']=str(sdk)+os.pathsep+env.get('PATH','')
+dotnet=sdk/'dotnet.exe';godot=next((app/'.tools/godot').glob('**/*_mono_win64.exe'))
+commands={}
+def run(name,args):
+    with (evidence/(name+'.log')).open('w',encoding='utf-8') as log:r=subprocess.run([str(x) for x in args],cwd=base,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=240)
+    commands[name]={'arguments':[str(x) for x in args],'exit':r.returncode};print(name,r.returncode,flush=True)
+    return r.returncode
+for name,args in [('restore',[dotnet,'restore','Godot/Crossweave.Proof.csproj','--locked-mode','-m:1']),('build',[dotnet,'build','Godot/Crossweave.Proof.csproj','--no-restore','-m:1']),('import',[godot,'--headless','--path','Godot','--editor','--import','--quit'])]:
+    if run(name,args):raise RuntimeError(name)
+for mode in ['review-scroll-prep','review-scroll-hand','review-scroll-field']:
+    import uuid
+    fixture=root/'docs/検証/本編実装/d04b-ui-02/review-20261002/fixture-source-2/fixtures'/ (mode+'.json')
+    run(mode,[godot,'--resolution','1920x1080','--path','Godot','--','--ui-check='+mode,'--ui-slot=ui-baseline-'+uuid.uuid4().hex[:12],'--ui-output='+str(evidence),'--ui-fixture='+str(fixture)])
+sources={p.relative_to(base).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in (base/'Godot/Application').glob('*') if p.is_file()}
+(evidence/'manifest.json').write_text(json.dumps({'source_commit':sha,'product_paths':paths,'test_only_overlays':['UiAutomation.cs','UiAutomation.Review.cs'],'source_sha256':sources,'commands':commands,'ordinary_save_touched':False,'separate_work_or_branch':False},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

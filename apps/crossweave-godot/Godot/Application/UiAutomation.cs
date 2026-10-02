@@ -39,6 +39,8 @@ internal sealed partial class UiAutomation
         SavePath = ProjectSettings.GlobalizePath("user://proofs/d04b-ui-save-01/" + slot + "/m1.json");
         CampaignId = "D04B-" + mode;
         Directory.CreateDirectory(output);
+        if (mode.StartsWith("review-", StringComparison.Ordinal) && mode is not "review-fixtures" and not "review-resume")
+            LoadReviewFixture(fixture ?? throw new ArgumentException("Review check requires a fixed fixture"));
         if (mode is "natural" or "withdraw-before" or "withdraw-protected" or "defeat" or "withdraw-unprotected" or "legal-acquisition")
         {
             // 配布exeには試験原本を混ぜない。隔離検査だけが明示した絶対パスを読む。
@@ -79,7 +81,7 @@ internal sealed partial class UiAutomation
         string slot = Value("--ui-slot=") ?? "", output = Value("--ui-output=") ?? "";
         if (!Regex.IsMatch(slot, "^[a-z0-9][a-z0-9-]{7,95}$") || !System.IO.Path.IsPathFullyQualified(output))
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
-        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode))
+        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode)&&!ReviewModes.Contains(mode))
             throw new ArgumentException("Unknown isolated UI check");
         string? fixture = Value("--ui-fixture=");
         if (fixture is not null && !System.IO.Path.IsPathFullyQualified(fixture))
@@ -430,7 +432,16 @@ internal sealed partial class UiAutomation
             {
                 await Click(screen.Controls["open"] is Button { Disabled: false } ? "open" : "new");
                 Check("opened-one-session", screen.Session is not null && screen.Screen != "start");
-                if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if(mode=="natural")await KnownCatalogue(); if (mode is "natural" or "defeat") await RepeatCheck(); }
+                if (mode == "review-fixtures") await GenerateReviewFixtures();
+                else if (mode.StartsWith("review-scroll-",StringComparison.Ordinal)) await ReviewScroll();
+                else if (mode.StartsWith("review-safety-",StringComparison.Ordinal)) await ReviewSafety();
+                else if (mode.StartsWith("review-prediction-",StringComparison.Ordinal)) await ReviewPrediction();
+                else if (mode.StartsWith("review-order-",StringComparison.Ordinal)) await ReviewOrder();
+                else if (mode=="review-details-unlimited") await ReviewUnlimited();
+                else if (mode=="review-preparation") await ReviewPreparation();
+                else if (mode.StartsWith("review-destination",StringComparison.Ordinal)) await ReviewDestination();
+                else if (mode=="review-resume") await Resume();
+                else if (record is not null) { await Campaign(); if (mode == "legal-acquisition") await ConversionChecks(); if(mode=="natural")await KnownCatalogue(); if (mode is "natural" or "defeat") await RepeatCheck(); }
                 else if (mode == "interaction") await Interaction();
                 else if (mode == "inheritance") await Inheritance();
                 else if (mode == "resume") await Resume();

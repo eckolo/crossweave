@@ -1,5 +1,10 @@
 # D04B-UI-02 Godot UI継承差分修正
 
+**2026-10-02 UIレビュー追補：R01〜R07・U01の実装と関連確認を完了。UI再判定待ち。** [追補結果・比較画像](review-20261002/README.md)、[全8項目対応表](review-20261002/UI対応表.md)、[結果JSON](results.json)、[公開SHA・変更path/blob](review-20261002/publication.json)、[引継ぎ](とりまとめ引継ぎ.md)。補充由来消滅／無制限guardの実描画未確認を含む残件と再開条件も追補へ記録した。
+
+## 初回提出履歴
+
+
 2026-10-01／WorkID `20260927-game-application`／作業枝 `impl/m1-godot-application-20260927`。
 
 **D04B-UI-02のR1〜R6完了。通常Push・GitHub読戻し済み。** クラウドからの確認入口。実装提出と後続のUI適合受入は別判定。

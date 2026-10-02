@@ -1,0 +1,141 @@
+using Godot;
+using System.IO.Compression;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Crossweave.Core.Application;
+using Crossweave.Infrastructure.Application;
+
+namespace Crossweave.Application;
+
+/// <summary>
+/// R01〜R07／U01の限定入力。固定oracleの合法状態を復元し、通常sceneと隔離保存で確認する。
+/// 数値や規則は書き換えない。fixtureのschema表記だけ既存C#接続と同じ形式へ置き換える。
+/// </summary>
+internal sealed partial class UiAutomation
+{
+    private JsonObject? reviewFixture;
+    private void LoadReviewFixture(string path)
+    {
+        reviewFixture=(JsonObject)JsonNode.Parse(System.IO.File.ReadAllText(path))!;
+        var dto=JsonSerializer.Deserialize<ApplicationDto>(reviewFixture["dto"]!.ToJsonString())!;
+        using var created=FileGameSession.CreateFromDto(SavePath,dto);
+    }
+    private async Task GenerateReviewFixtures()
+    {
+        using var file=System.IO.File.OpenRead(System.IO.Path.GetFullPath(System.IO.Path.Combine(ProjectSettings.GlobalizePath("res://"),"../Tests/Fixtures/application-oracle.json.br")));
+        using var stream=new BrotliStream(file,CompressionMode.Decompress);
+        var oracle=(JsonObject)JsonNode.Parse(stream)!;
+        var found=new Dictionary<string,JsonObject>();
+        var counts=new Dictionary<string,int>();
+        var branchSeeds=new List<(ApplicationDto dto,string record,int step)>();
+        void Save(string name,GameApplication app,JsonObject? choice,string source,int index,int score=0)
+        {
+            if(found.ContainsKey(name)&&counts.GetValueOrDefault(name)>=score)return;
+            counts[name]=score;
+            var view=app.Inspect();
+            found[name]=new JsonObject{["source_record"]=source,["source_step"]=index,["dto"]=JsonSerializer.SerializeToNode(app.ExportDto()),["choice"]=choice?.Copy(),["public_view"]=view.Copy(),["preview"]=choice is null?null:app.PreviewAction(view.Number("revision"),view.Text("view_token"),choice)};
+        }
+        foreach(var record in oracle.Arr("records").Rows())
+        {
+            var state=record.Obj("initial").Copy();int index=-1;
+            foreach(var step in new JsonObject?[]{null}.Concat(record.Arr("steps").Rows()))
+            {
+                if(step is not null)Delta(state,step.Arr("expected_delta"));index++;
+                var adapted=state.Copy();adapted["schema"]="CW-CSharp-application-1";adapted["engine_version"]="CW-CSharp-core-1";
+                var app=GameApplication.Restore(new(1,adapted.Text("rule_set_id"),adapted.Text("content_set_id"),adapted));var view=app.Inspect();
+                if(view.Text("phase")=="home")
+                {
+                    var home=view.Obj("home");int score=home.Arr("owned").Count+home.Arr("acquisition").Count;
+                    Save("review-scroll-prep",app,null,record.Text("name"),index,score);
+                    if(home.Arr("acquisition").Rows().Count(r=>r.Text("group_id")=="return-offer")>1)Save("review-preparation",app,null,record.Text("name"),index,score+(int)home.Obj("economy").Number("unspent_units"));
+                }
+                var e=view.Obj("exploration");
+                if(view.Text("phase")!="exploring"||view.Obj("story").Obj("scene").Flag("paused"))continue;
+                if(record.Text("name")=="natural")branchSeeds.Add((app.ExportDto(),record.Text("name"),index));
+                Save("review-scroll-hand",app,null,record.Text("name"),index,e.Arr("hand").Count);
+                Save("review-scroll-field",app,null,record.Text("name"),index,e.Obj("field").Count);
+                foreach(var choice in e.Arr("legal_actions").Rows())
+                {
+                    var p=app.PreviewAction(view.Number("revision"),view.Text("view_token"),choice);if(!p.Flag("ok"))continue;
+                    Save("review-prediction-"+p.Text("mode"),app,choice,record.Text("name"),index,p.Arr("expired").Count+(int)p.Number("hit_gain"));
+                    bool tie=p.Arr("current_reservations_after").Rows().Any(r=>r.Text("actor_id")!="P"&&r.Number("at")==p.Number("next_self_reservation"));
+                    Save(tie?"review-order-tie":"review-order-different",app,choice,record.Text("name"),index);
+                    if(p.Text("mode")=="place")
+                    {
+                        var expired=e.Arr("hand").Rows().Where(c=>p.Arr("expired").Strings().Contains(c.Text("id"))).ToArray();
+                        if(expired.Any(c=>c.Flag("consume_on_recover")))Save("review-safety-consume",app,choice,record.Text("name"),index);
+                        if(expired.Any(c=>c.Flag("doomed"))&&!expired.Any(c=>c.Flag("consume_on_recover")))Save("review-safety-doomed",app,choice,record.Text("name"),index);
+                        if(expired.Any(c=>c.Text("birth")=="filler")&&!expired.Any(c=>c.Flag("consume_on_recover")))Save("review-safety-filler",app,choice,record.Text("name"),index);
+                        if(!expired.Any(c=>c.Flag("consume_on_recover")||c.Flag("doomed")||c.Text("birth")=="filler"))Save("review-safety-quick",app,choice,record.Text("name"),index);
+                    }
+                }
+            }
+        }
+        // oracleに含まれない補充札の設置分岐だけ、固定状態から合法commandを分岐する。
+        // Coreへ通常のExecuteを送るため、生成・配札・期限の数値を検査側で改変しない。
+        int searched=0;
+        for(int trial=0;trial<32&&!found.ContainsKey("review-safety-filler");trial++)
+        {
+            var seed=branchSeeds[(trial*7)%branchSeeds.Count];var app=GameApplication.Restore(seed.dto);var path=new JsonArray();var random=new Random(trial);
+            for(int turn=0;turn<70&&!found.ContainsKey("review-safety-filler");turn++)
+            {
+                var v=app.Inspect();if(v.Text("phase")!="exploring")break;
+                string type;JsonObject payload;
+                if(v.Obj("story").Obj("scene").Flag("paused"))
+                {type="continue_scene";payload=new(){["scene_id"]=v.Obj("story").Obj("scene").Text("id"),["advance"]=true,["displayed_text_ids"]=v.Obj("story").Obj("scene").Arr("text_ids").DeepClone()};}
+                else
+                {
+                    var choices=v.Obj("exploration").Arr("legal_actions").Rows().ToArray();
+                    foreach(var c in choices)
+                    {
+                        var p=app.PreviewAction(v.Number("revision"),v.Text("view_token"),c);
+                        var expired=v.Obj("exploration").Arr("hand").Rows().Where(r=>p.Arr("expired").Strings().Contains(r.Text("id"))).ToArray();
+                        if(p.Text("mode")=="place"&&expired.Any(r=>r.Text("birth")=="filler")&&!expired.Any(r=>r.Flag("consume_on_recover")))
+                        {Save("review-safety-filler",app,c,"legal-branch:"+seed.record+":"+seed.step,turn);found["review-safety-filler"]["branch_commands"]=path.DeepClone();break;}
+                    }
+                    if(found.ContainsKey("review-safety-filler"))break;
+                    if(choices.Length==0)break;
+                    var defensive=choices.Where(c=>app.PreviewAction(v.Number("revision"),v.Text("view_token"),c).Text("mode") is "guard" or "heal").ToArray();
+                    var pool=trial%2==0&&defensive.Length>0?defensive:choices;
+                    type="play";payload=new(){["choice"]=pool[random.Next(pool.Length)].Copy()};
+                }
+                var request=new GameCommand("review-branch-"+trial+"-"+turn,v.Number("revision"),v.Text("view_token"),type,payload);
+                var result=app.Execute(request);if(result.Status!="committed")throw new InvalidDataException("Fixture branch refused: "+result.Error);
+                path.Add(JsonSerializer.SerializeToNode(request));searched++;
+            }
+        }
+        var directory=System.IO.Path.Combine(output,"fixtures");Directory.CreateDirectory(directory);
+        foreach(var (name,value) in found)System.IO.File.WriteAllText(System.IO.Path.Combine(directory,name+".json"),value.ToJsonString(new(){WriteIndented=true}));
+        System.IO.File.WriteAllText(System.IO.Path.Combine(output,"fixture-index.json"),JsonSerializer.Serialize(found.Select(x=>new{name=x.Key,record=x.Value.Text("source_record"),step=x.Value.Number("source_step"),hand=x.Value.Obj("public_view").Obj("exploration").Arr("hand").Count,field=x.Value.Obj("public_view").Obj("exploration").Obj("field").Count,score=counts[x.Key]}),new JsonSerializerOptions{WriteIndented=true}));
+        Check("fixed-oracle-snapshots-validated",found.Count>5,new{fixtures=found.Keys,legal_branch_commands=searched});await Frame();
+    }
+    private async Task ReviewScroll()
+    {
+        if(mode=="review-scroll-prep"){await Click("prepare");await Click("tab-passive");}
+        var id=mode=="review-scroll-prep"?"prep-passive-offer":mode=="review-scroll-hand"?"strip-hand":"strip-field";
+        var scroll=(ScrollContainer)screen.Controls[id];bool vertical=mode=="review-scroll-prep";
+        if(vertical)scroll.ScrollVertical=0;else scroll.ScrollHorizontal=0;await Frame(3);
+        var r=scroll.GetGlobalRect();ScrollBar bar=vertical?scroll.GetVScrollBar():scroll.GetHScrollBar();
+        var originalRect=r;var naturalMaximum=Math.Max(0,bar.MaxValue-bar.Page);
+        // M1の手札3枚・場4属性はFHD内に収まる。実ノードのサイズだけを狭めて
+        // overflow分岐も測る。札・Core状態は増やさず、通常描画と限定サイズを記録する。
+        await Capture("U01-natural");
+        if(naturalMaximum<1)
+        {
+            if(vertical)scroll.Size=new(scroll.Size.X,220);
+            else{scroll.Size=new(540,scroll.Size.Y);((Control)scroll.GetChild(0)).CustomMinimumSize=new(540,208);}
+            await Frame(3);r=scroll.GetGlobalRect();
+        }
+        var maximum=Math.Max(0,bar.MaxValue-bar.Page);var before=screen.Session!.ExportDto();var plan=screen.Plan.Copy();
+        // 札ではなく8pxの列間／札下の余白から押す。スクロールバーのthumbも避ける。
+        var start=vertical?new Vector2(r.Position.X+356,r.Position.Y+140):new Vector2(r.Position.X+256,r.Position.Y+100);
+        var end=start+(vertical?new Vector2(0,-140):new Vector2(-180,0));
+        await Capture("U01-before");await Mouse(start,true);await Move(start,end);await Mouse(end,false);await Idle();
+        int value=vertical?scroll.ScrollVertical:scroll.ScrollHorizontal;
+        await Capture("U01-after");
+        Check("U01-no-execution",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&JsonNode.DeepEquals(plan,screen.Plan));
+        Check("U01-blank-start-scroll",maximum<1||value>0,new{control=id,from=start.ToString(),to=end.ToString(),before=0,after=value,maximum,overflow=maximum>=1,natural_maximum=naturalMaximum,original_rect=originalRect.ToString(),probe_rect=r.ToString()});
+        await Mouse(start,true);await Move(start,end);await KeyInput(Key.Escape);await Mouse(end,false);await Idle();
+        Check("U01-cancel-no-execution",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State));
+    }
+}

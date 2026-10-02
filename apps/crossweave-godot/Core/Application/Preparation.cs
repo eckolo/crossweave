@@ -244,6 +244,10 @@ internal static class Preparation
             var b = option.O("blueprint");
             option.Put("details", b.S("kind") == "card" ? Content.Compile(b) : PassiveDetails(b));
         }
+        // 防御札の省略時2回は既存Playの既定値。nullの無制限と欠落を区別して公開する。
+        // 説明用のコピーだけを補い、所持個体・blueprint・価格・保存形式は変更しない。
+        foreach(var row in owned.Rows().Concat(options.Rows()))
+            if(row.O("details").S("kind")=="guard"&&!row.O("details").ContainsKey("defense_uses"))row.O("details").Put("defense_uses",2);
 
         return J.Obj(("owned", owned), ("groups", J.Array(groups)), ("acquisition", options), ("equipment", J.Obj(("entries", e.O("aq")["equipped"]), ("used", used), ("capacity", 8), ("remaining", 8 - used))), ("deck", J.Obj(("composition", s.O("au")["deck"]), ("size", 12), ("per_base_cap", 2), ("order_semantics", "unordered_composition"))), ("economy", J.Obj(("unspent_units", Funds(e)), ("historical_learning_units", e.O("profile").O("learned").Sum(x => x.Value.L()) * 100), ("refundable_units", 0))), ("offers", J.Obj(("status", batch?["purchased"] is not null ? "purchased" : batch?.A("candidates").Count > 0 ? "available" : "none"), ("carried_from_previous_return", batch is not null && latest is not null && batch.O("context").S("run") != latest.S("run")))));
     }

@@ -1,0 +1,60 @@
+"""計画の全path/blob、保全対象、指摘別の入力版を提出前に照合する。"""
+from pathlib import Path
+import subprocess,json,hashlib
+repo=Path(__file__).resolve().parents[3]
+out=repo/'docs/検証/本編実装/d04b-ui-02/review-20261002'
+base='2102aca1144ce6dfcdf393528cf66b3bea5133e1'
+def git(*args):return subprocess.check_output(['git',*args],cwd=repo)
+def blob(b):return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+def sha(path):return hashlib.sha256((repo/path).read_bytes()).hexdigest()
+sources=json.loads((out/'sources.json').read_text(encoding='utf8'))
+plan=sources['plan'];technical=sources['technical']
+assert git('rev-parse','origin/ops/project-coordination-20260913').decode().strip()==plan['source_commit']
+assert git('rev-parse','origin/dev_design_tmp_assembly').decode().strip()==technical['source_commit']
+assert git('branch','--show-current').decode().strip()=='impl/m1-godot-application-20260927'
+plan_bad=[p for p,h in plan['files'].items() if blob((repo/p).read_bytes())!=h]
+tech_bad=[p for p,h in technical['files'].items() if blob((repo/p).read_bytes())!=h]
+scope={}
+for row in git('ls-tree','-rz',plan['source_commit'],'--','docs/作業資料/とりまとめ').decode().split('\0'):
+    if row:
+        meta,p=row.split('\t',1);scope[p]=meta.split()[2]
+assert scope==plan['files'] and not plan_bad and not tech_bad
+protected={};bad=[]
+for row in git('ls-tree','-rz',base).decode().split('\0'):
+    if not row:continue
+    meta,p=row.split('\t',1);h=meta.split()[2]
+    protect=p.startswith(('src/','apps/crossweave-godot/Core/','apps/crossweave-godot/Infrastructure/','apps/crossweave-godot/Proof/','apps/crossweave-godot/Tests/Fixtures/','apps/crossweave-godot/packaging/','apps/crossweave-godot/Godot/Assets/')) or p in ['apps/crossweave-godot/Godot/Main.tscn','apps/crossweave-godot/Godot/Proof.tscn','apps/crossweave-godot/Godot/project.godot','apps/crossweave-godot/UiProbe/runtime.py']
+    if p in ['apps/crossweave-godot/Core/Application/Expedition.cs','apps/crossweave-godot/Core/Application/Preparation.cs']:protect=False
+    evidence='docs/検証/本編実装/d04b-ui-02/'
+    if p.startswith(evidence) and '/' in p[len(evidence):]:protect=True
+    if protect:
+        protected[p]=h
+        if not (repo/p).is_file() or blob((repo/p).read_bytes())!=h:bad.append(p)
+assert not bad,bad
+audit={'base_commit':base,'branch':git('branch','--show-current').decode().strip(),'plan_source':plan['source_commit'],'plan_paths':len(scope),'plan_actual_raw_blob_mismatches':plan_bad,'technical_source':technical['source_commit'],'technical_raw_blob_mismatches':tech_bad,'review_source':sources['review']['source_commit'],'protected_paths':protected,'protected_mismatches':bad,'old_evidence_unchanged':True,'ordinary_save_access':'all UI records use unique user://proofs/d04b-ui-save-01/slot; no normal save read/write','delivery_reimported':False,'merged_branches':False,'new_work_or_branch':False,'git_diff_check_command':['git','-c','core.whitespace=cr-at-eol','diff','--check']}
+subprocess.run(audit['git_diff_check_command'],cwd=repo,check=True)
+(out/'final-source-audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+reports={}
+caption='apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs'
+previous_caption=hashlib.sha256((out/'source-history/GameScreen.ReviewFixes.before-caption.cs.txt').read_bytes()).hexdigest()
+for folder in ['targeted-first','targeted-second','targeted-third','final-caption','final-details','final-records']:
+    manifest=json.loads((out/folder/'manifest.json').read_text(encoding='utf8'))
+    assert not manifest['source_changed_during_run']
+    product_differences=[]
+    for p,h in manifest['source_sha256'].items():
+        if '/Godot/Application/' in p and '/UiAutomation' not in p or '/Core/Application/' in p or '/Infrastructure/' in p:
+            if sha(p)!=h:
+                assert p==caption and h==previous_caption,(folder,p)
+                product_differences.append({'path':p,'tested_sha256':h,'current_sha256':sha(p),'change':'PaintDropTargetsの可否ラベルに札色背景だけを追加。関係3モードをfinal-captionで再確認。'})
+    for mode,case in manifest['cases'].items():
+        report=json.loads((out/folder/(mode+'.json')).read_text(encoding='utf8'))
+        assert report['status']=='passed'
+        reports[mode]={'directory':folder,**case,'evidence':folder+'/'+mode+'.json','later_product_changes':product_differences}
+assert len(reports)==20,len(reports)
+assert reports['review-safety-quick']['process_id']!=reports['review-resume']['process_id']
+regression=json.loads((out/'selected-regression/manifest.json').read_text(encoding='utf8'))
+assert regression['status']=='passed' and regression['counts']['passed']=='15'
+for p,h in regression['source_sha256'].items():assert sha(p)==h,p
+result={'task':'D04B-UI-02','work_id':'20260927-game-application','branch':audit['branch'],'kind':'UI-GODOT-REVIEW-01追補','date_jst':'2026-10-02','base_commit':base,'status':'implementation_verified_publication_pending','review_source':sources['review'],'sources':'sources.json','audit':'final-source-audit.json','regression':{'passed':15,'failed':0,'evidence':'selected-regression/manifest.json','scope':regression['selected']},'ui':{'modes':list(reports.values()),'mode_count':len(reports),'checks':sum(r['checks'] for r in reports.values()),'commands':sum(r['commands'] for r in reports.values())},'findings':{k:{'implementation':'addressed','related_validation':'passed','ui_conformity':'pending separate UI review'} for k in ['R01','R02','R03','R04','R05','R06','R07','U01']},'unverified':[{'id':'R01-filler','reason':'固定oracleと32分岐889合法commandで消滅を伴う通常設置用の補充由来札を再現できなかった。解決済み回収先を使う共通判定は実装済み。','resume_condition':'規則・数値を変えずに得た合法なP手札補充札の期限切れ状態を用意し、review-safety-fillerを再実行。'},{'id':'R04-unlimited','reason':'固定仮データとoracleに明示nullのguard札の公開手札を得られなかった。nullを制限なしとする表示は実装済み。','resume_condition':'既存規則に従う明示nullの公開guard札の状態が得られたらreview-details-unlimitedを実行。'}],'downstream':{'ui_conformity':'pending','corrected_distribution':'pending separate step','windows11_physical_acceptance':'pending separate step','other_work_started_or_messaged':False},'publication':{'implementation_evidence_sha':'pending commit','github_readback':'pending'}}
+(out/'results.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+print(json.dumps({'plan_paths':len(scope),'protected_paths':len(protected),'modes':len(reports),'checks':result['ui']['checks'],'commands':result['ui']['commands']},ensure_ascii=False))

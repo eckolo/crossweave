@@ -1,0 +1,29 @@
+using Godot;
+using System.Text.Json.Nodes;
+namespace Crossweave.Application;
+internal sealed partial class UiAutomation
+{
+    private async Task ReviewBefore()
+    {
+        if(mode=="review-before-preparation")
+        {
+            await Click("prepare");await Click("tab-card");await Click("取得-choice-0");
+            var id=screen.View.Obj("home").Arr("owned").Rows().First(r=>r.Flag("selected")&&r.Obj("blueprint").Text("base")=="g").Text("id");
+            await Click("外す-"+id);await Click("編成-pending:choice-0");await Click("tab-passive");
+            await Click("item-offer-choice-1");await Capture("R07-before-detail-stage");await CloseDetail();
+            await Click("取得-basic:PS01");await Click("取得-basic:PS02");await Click("編成-pending:basic:PS01");
+            await Click("review");await Capture("R02-before-review-top");await ReadAll("dialog-body");await Capture("R02-before-review-bottom");await CloseDetail();await Click("discard");return;
+        }
+        var c=reviewFixture!.Obj("choice");await Click("card-hand-"+c.Text("card_id"));await CloseDetail();
+        if(c.Text("target")!=""){await Click("actor-"+c.Text("target"));await CloseDetail();}
+        await Capture("R03-before-actors");await Click("card-hand-"+c.Text("card_id"));await Capture("R04-before-detail");await ReadAll("detail-body");await Capture("R04-before-detail-bottom");await CloseDetail();
+        await Click("preview");await Capture("R03-before-prediction-top");await ReadAll("prediction-body");await Capture("R03-before-prediction-bottom");await CloseDetail();
+        await Click("order-0");await Capture("R05-before-order-detail");await CloseDetail();
+        if(mode=="review-before-consume")
+        {
+            var before=screen.Session!.ExportDto();var start=await Point("card-hand-"+c.Text("card_id"));await Mouse(start,true);
+            await screen.ToSignal(screen.GetTree().CreateTimer(.27),SceneTreeTimer.SignalName.Timeout);await Move(start,new(960,540));await Mouse(new(960,540),false);await Idle();
+            Check("R01-baseline-drop-observed",true,new{modal=screen.Modal,revision_before=before.State.Number("revision"),revision_after=screen.View.Number("revision"),dto_changed=!JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)});await Capture("R01-before-after-drop");
+        }
+    }
+}

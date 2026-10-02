@@ -682,6 +682,11 @@ internal sealed class Expedition
         var visible = fork.View();
         row.Put("field_after", visible["field"]);
         row.Put("unused_hand_after", visible["hand"]);
+        // 本人の未使用札だけを、実際に解決したforkの回収先で公開する。
+        // UIがconsume/doomed/fillerの規則を再実装せず、保存・乱数も進めない境界。
+        row.Put("unused_hand_expiry", J.Array(Actors.O("P").A("hand").Strings().Where(id=>id!=choice.S("card_id")).Select(id=>J.Obj(
+            ("id",id),("expires",row.A("expired").Strings().Contains(id)),
+            ("destination",row.A("expired").Strings().Contains(id)?fork.Cards.O(id).B("destroyed")?"destroyed":"shared_recovery":"hand")))));
         row.Put("current_reservations_after", visible["reservations"]);
         row.Put("next_self_reservation", fork.Actors.O("P")["next_at"]);
         return row;
@@ -692,6 +697,8 @@ internal sealed class Expedition
     {
         var copy = card.Copy();
         copy.Remove("selection_id");
+        // 既存Playの既定回数を表示境界で明示する。nullの無制限はそのまま保持する。
+        if(copy.S("kind")=="guard"&&!copy.ContainsKey("defense_uses"))copy.Put("defense_uses",2);
         return copy;
     }
 

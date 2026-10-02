@@ -64,9 +64,11 @@ public partial class GameScreen
     }
     private ScrollContainer Scroll(Control parent, string id, Rect2 rect, bool horizontal)
     {
-        var s = new ScrollContainer { Position = rect.Position, Size = rect.Size,
-            HorizontalScrollMode = horizontal ? ScrollContainer.ScrollMode.Auto : ScrollContainer.ScrollMode.Disabled,
-            VerticalScrollMode = horizontal ? ScrollContainer.ScrollMode.Disabled : ScrollContainer.ScrollMode.Auto };
+        bool list=id.StartsWith("prep-")||id is "strip-hand" or "strip-field";
+        var s = list?new ListViewport{Screen=this}:new ScrollContainer();
+        s.Position=rect.Position;s.Size=rect.Size;
+        s.HorizontalScrollMode=horizontal?ScrollContainer.ScrollMode.Auto:ScrollContainer.ScrollMode.Disabled;
+        s.VerticalScrollMode=horizontal?ScrollContainer.ScrollMode.Disabled:ScrollContainer.ScrollMode.Auto;
         parent.AddChild(s); Controls[id] = s;
         if (scrollPositions.TryGetValue(id, out var position)) { if (horizontal) s.SetDeferred("scroll_horizontal", position); else s.SetDeferred("scroll_vertical", position); }
         return s;
@@ -224,7 +226,7 @@ public partial class GameScreen
             case "settings": title="表示・操作"; body="札・対象を選んだときの詳細の自動表示を切り替えます。この起動中の画面設定です。\n\nEnter / Space：選んだ札の詳細\nEsc / 右クリック：取消・閉じる\nF11：全画面／ウィンドウ"; break;
             case "objective": title="目的"; body=StoryText(false); break;
             case "status": title="状況"; body=ActorText(View.Obj("exploration").Obj("self")); break;
-            case "order": title="行動順"; body=string.Join("\n",View.Obj("exploration").Arr("reservations").Rows().Select(r=>View.Obj("exploration").Obj("actors").Obj(r.Text("actor_id")).Text("display_name")+"　+"+(r.Number("at")-View.Obj("exploration").Number("now")))); break;
+            case "order": title="行動順"; body=(actionPreview.Flag("ok")?"本人・今\n":"")+OrderText(); break;
             case "action-history": title="履歴"; body=string.Join("\n\n",View.Arr("action_history").Rows().Reverse().Select(PublicEventText)); if(body=="")body="まだ履歴はありません。"; break;
             case "receipt": title="帰還の精算"; body="持ち帰ったもの\n"+RewardText(View.Obj("return").Arr("kept_items"))+"\n\n失ったもの\n"+RewardText(View.Obj("return").Arr("lost_items"))+"\n\n新しい記録 "+View.Obj("return").Arr("new_unlocks").Count; break;
             case "deck": title = "札組の残り"; body = "並びは見やすく整理したもので、引く順序ではありません。\n\n" + string.Join("\n\n", View.Obj("exploration").Arr("own_deck").Rows().Select(r => CardName(r) + "\n" + ItemText(r))); break;

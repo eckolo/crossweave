@@ -71,7 +71,7 @@ public partial class GameScreen
 
     private void CancelGesture()
     {
-        gesture.Cancel(); verticalSwipe = false;
+        gesture.Cancel(); verticalSwipe = false;blankScroll=null;
         if (IsInstanceValid(dragGhost)) dragGhost!.QueueFree();
         dragGhost = null;
     }

@@ -30,10 +30,12 @@ public partial class GameScreen
     private string CompositionKey(JsonObject row) => row.Obj("blueprint").Text("kind") == "passive" ? "equipment" : "deck";
     private bool Composed(JsonObject row) => Plan.Obj("composition").Arr(CompositionKey(row)).Strings().Contains(row.Text("id"));
 
-    private void Stage(JsonObject offer) => EditPlan(p =>
+    private void Stage(JsonObject offer)
     {
-        if (!p.Arr("acquire").Strings().Contains(offer.Text("id"))) p.Arr("acquire").Add(offer.Text("id"));
-    });
+        // 公開group_limitを全入口で共有する。上限超過ではPlanもComparisonも変えない。
+        if(!CanStage(offer))return;
+        EditPlan(p=>p.Arr("acquire").Add(offer.Text("id")));
+    }
     private void Unstage(JsonObject row) => EditPlan(p =>
     {
         p["acquire"] = ViewData.Array(p.Arr("acquire").Strings().Where(s => s != row.Text("offer_id")));
@@ -85,7 +87,7 @@ public partial class GameScreen
                 { Text(tile,"→ 取得予定",new(12,12,328,56),20,Muted); continue; }
                 MakeTile(tile, "item-" + zone + "-" + row.Text("id"), unit, new(0, 0, 352, 80), zone);
                 var verb = zone == "offer" ? "取得" : zone == "build" ? "外す" : "編成";
-                Button(tile, verb + "-" + row.Text("id"), verb, new(278, 0, 74, 80), () => { if (zone == "offer") Stage(unit); else Compose(unit, zone == "reserve"); }, Can("commit_preparation")); count+=(int)Math.Max(1,row.Number("display_quantity"));
+                Button(tile, verb + "-" + row.Text("id"), verb, new(278, 0, 74, 80), () => { if (zone == "offer") Stage(unit); else Compose(unit, zone == "reserve"); }, zone=="offer"?CanStage(unit):Can("commit_preparation")); count+=(int)Math.Max(1,row.Number("display_quantity"));
             }
             string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
             Text(panel,labels[i]+"  "+amount,new(16,0,widths[i]-32,46),22,Gold);
@@ -109,13 +111,7 @@ public partial class GameScreen
 
     private string ReviewText()
     {
-        string warning = Comparison.Flag("ok") ? "" : ViewData.Explain(Comparison.Text("error")) + "\n\n";
-        var pay = Comparison.Obj("payment");
-        string balance = Comparison.Flag("ok") ? $"着想 {ViewData.Money(pay.Number("unspent_before_units"))} → {ViewData.Money(pay.Number("unspent_after_units"))}　支払い {ViewData.Money(pay.Number("cost_units"))}\n\n" : "金額は現在の案では確定できません。\n\n";
-        var projected = ProjectedOwned();
-        return warning + balance + "取得するもの\n" + string.Join("、", projected.Where(r => r.Flag("pending")).Select(CardName).DefaultIfEmpty("なし"))
-            + "\n\n確定後の札組\n" + string.Join("、", Plan.Obj("composition").Arr("deck").Strings().Select(id => CardName(projected.FirstOrDefault(r => r.Text("id") == id) ?? new())))
-            + "\n\n確定後の心得\n" + string.Join("、", Plan.Obj("composition").Arr("equipment").Strings().Select(id => CardName(projected.FirstOrDefault(r => r.Text("id") == id) ?? new())).DefaultIfEmpty("なし"));
+        return PreparationSummary();
     }
 
     private string ConversionText()
@@ -143,11 +139,11 @@ public partial class GameScreen
         Text(p, actor ? detail.Text("display_name") : (detailKind == "forecast" ? "予測 · " : "") + CardName(detail), new(20, 12, width - (preparation?95:162), 65), 22, Gold);
         if(!preparation)PinButton(p,width);
         Button(p, "detail-close", "×", new(width - 66, 12, 48, 48), () => Modal = "");
-        string value = actor ? ActorText(detail) : ItemText(detail);
+        string value = actor ? ActorText(detail) : ItemText(detail,detailKind=="hand");
         LongText(p, "detail-body", value, new(20, 82, width - 40, height - 170), 22);
         if(actor&&detail.Text("knowledge_profile_id") is {Length:>0} profile)
             Button(p,"actor-record","調査記録",new(20,height-72,width-40,52),()=>{knowledgeSelection=profile;OpenModal("knowledge");});
-        if (detailKind is "offer") Button(p, "detail-stage", "取得", new(22, height - 72, 190, 52), () => { Stage(detail); Modal = ""; }, Can("commit_preparation"));
+        if (detailKind is "offer") Button(p, "detail-stage", "取得", new(22, height - 72, 190, 52), () => { Stage(detail); Modal = ""; }, CanStage(detail));
         else if (detailKind is "reserve" or "build")
         {
             Button(p, "detail-compose", detailKind == "build" ? "外す" : "編成", new(22, height - 72, 134, 52), () => { Compose(detail, detailKind != "build"); Modal = ""; }, Can("commit_preparation"));
@@ -160,13 +156,17 @@ public partial class GameScreen
         }
     }
 
-    private static string ItemText(JsonObject row)
+    private string ItemText(JsonObject row,bool contextual=false)
     {
         var d = row["details"] as JsonObject ?? row;
         if (d["trigger"] is not null) return $"発動条件\n{d.Text("trigger_text")}\n\n効果\n{d.Text("effect_text")}\n\n枠消費 {d.Number("equipment_cost")}";
         string power = d.Text("kind") switch { "guard" => "身構", "heal" => "回復", _ => "突破" };
-        string extra = d["defense_grant"] is JsonObject grant ? $"\n全員へ 身構 {grant.Number("guard")}・攪乱 {grant.Number("evasion")}" : "";
-        return $"属性 {d.Text("attr")}\n{power} {d.Number("power")}　探査 {d.Number("hit")}\n攪乱 {d.Number("evasion")}　機転 {d.Number("crit_gain")}\n使用期限 {d.Number("life")}\n行動間隔　設置 {d.Number("place_cost")} / 一致 {d.Number("match_cost")}\n\n場の効果\n突破／身構 {d.Number("field_power")}\n探査／攪乱 {d.Number("field_hit")}" + extra + (d.Flag("consume_on_recover") ? "\n回収時、この探索では消滅します。" : "")
+        string extra = d["defense_grant"] is JsonObject grant ? $"\n使用者以外の活動中の全主体へ 身構 {grant.Number("guard")}・攪乱 {grant.Number("evasion")}\n同じ発生源の付与は張り直し\n防御の回数：{(grant.ContainsKey("uses")?grant["uses"] is null?"制限なし":grant.Text("uses")+"回":"未公開")}" : "";
+        if(d.Text("kind")=="guard")extra+="\n防御の回数："+(d.ContainsKey("defense_uses")?d["defense_uses"] is null?"制限なし":d.Text("defense_uses")+"回":"未公開");
+        if(contextual&&View.Obj("exploration").Obj("field")[d.Text("attr")] is JsonObject field&&d.Text("kind")!="heal")
+            extra+="\n\n現在の場の加算（"+CardName(field)+"）\n"+(d.Text("kind") is "guard" or "defense_support"?"身構 ":"突破 ")+Signed(field.Number("field_power"))+" ／ "+(d.Text("kind") is "guard" or "defense_support"?"攪乱 ":"探査 ")+Signed(field.Number("field_hit"))+"\n上記の基礎値と分けた場の寄与です。";
+        string recovery=row.Flag("doomed")?"\n回収時、この探索では消滅します（元の主体が離脱）。":row.Text("birth")=="filler"?"\n補充由来：回収時、この探索では消滅します。":d.Flag("consume_on_recover")?"\n回収時、この探索では消滅します。":"";
+        return $"属性 {d.Text("attr")}\n基礎値：{power} {d.Number("power")}　探査 {d.Number("hit")}\n攪乱 {d.Number("evasion")}　機転 {d.Number("crit_gain")}\n使用期限 {d.Number("life")}\n行動間隔　設置 {d.Number("place_cost")} / 一致 {d.Number("match_cost")}\n\n場に置くと\n突破／身構 {d.Number("field_power")}\n探査／攪乱 {d.Number("field_hit")}" + extra + recovery
             + (row.Flag("pending") ? "\n\n取得予定・未払い" : "") + (row["conversion_reasons"] is JsonArray reasons && reasons.Count > 0 ? "\n\n" + string.Join("\n", reasons.Strings().Select(ViewData.Explain)) : "");
     }
 }

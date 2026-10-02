@@ -1,0 +1,24 @@
+import sys, os, json, hashlib, subprocess, platform
+from pathlib import Path
+import xml.etree.ElementTree as ET
+root=Path(__file__).resolve().parents[1]
+repo=root.parents[1]
+sys.path.insert(0,str(root/'UiProbe'))
+from runtime import prepare
+dotnet, _, env, lock=prepare(False)
+out=repo/'docs/検証/本編実装/d04b-ui-02/review-20261002/selected-regression'
+out.mkdir(parents=True,exist_ok=True)
+names=['PreviewExpiryDestinationsUseResolvedRecoveryAndPreserveOwner','ActionPredictionDoesNotDrawOrChangeState','UiPublicLabelsAndOwnCatalogueDoNotChangeSaveOrRevealNpcCards','VersionedDtoRoundTripPreservesNextResult','ReturnResendAndTextReadsCannotSettleTwice','OneOfferLimitAndIndividualAndBaseCapsAreAtomic','PreviewCancelAndCompositionDoNotSpendOrCreateUnits','AuthoredDefenseBoundariesMatchOldResolver']
+command=[str(dotnet),'test','Tests/Crossweave.Tests.csproj','--no-restore','-m:1','--filter','|'.join('FullyQualifiedName~'+n for n in names),'--logger','trx;LogFileName=selected.trx','--results-directory',str(out)]
+paths=[p for folder in ['Core/Application','Infrastructure/Application','Tests'] for p in sorted((root/folder).glob('*.cs'))]
+hashes={p.relative_to(repo).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+with (out/'run.log').open('w',encoding='utf8') as log:
+    result=subprocess.run(command,cwd=root,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=240)
+trx=ET.parse(out/'selected.trx').getroot() if (out/'selected.trx').is_file() else None
+ns={'t':'http://microsoft.com/schemas/VisualStudio/TeamTest/2010'}
+counter=trx.find('t:ResultSummary/t:Counters',ns).attrib if trx is not None else {}
+changed=[p.relative_to(repo).as_posix() for p in paths if hashlib.sha256(p.read_bytes()).hexdigest()!=hashes[p.relative_to(repo).as_posix()]]
+manifest={'task':'D04B-UI-02-review-addendum','status':'passed' if result.returncode==0 and not changed else 'failed','commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'command':command,'selected':names,'sdk':lock['sdk'],'platform':platform.platform(),'counts':counter,'source_sha256':hashes,'source_changed_during_run':changed}
+(out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+print(json.dumps({'status':manifest['status'],'counts':counter},ensure_ascii=False))
+sys.exit(result.returncode or bool(changed))

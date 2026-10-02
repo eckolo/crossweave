@@ -1,0 +1,60 @@
+"""初回提出2102acaの製品コードを同じ固定状態で撮影。作業本編は変更しない。"""
+from pathlib import Path
+import subprocess,json,hashlib,uuid,os,sys
+repo=Path(__file__).resolve().parents[3]
+app=repo/'apps/crossweave-godot'
+base=app/'.tools/review-baseline/apps/crossweave-godot'
+out=repo/'docs/検証/本編実装/d04b-ui-02/review-20261002'/('before-doomed' if '--doomed' in sys.argv else 'before-review')
+out.mkdir(parents=True,exist_ok=True)
+file=base/'Godot/Application/UiAutomation.cs'
+s=file.read_text(encoding='utf8')
+s=s.replace('"review-scroll-field" }.Contains(mode)','"review-scroll-field", "review-before-consume", "review-before-guard", "review-before-attack", "review-before-preparation", "review-before-tie" }.Contains(mode)')
+s=s.replace('else if (mode.StartsWith("review-scroll-",StringComparison.Ordinal)) await ReviewScroll();','else if (mode.StartsWith("review-scroll-",StringComparison.Ordinal)) await ReviewScroll();\n                else if (mode.StartsWith("review-before-",StringComparison.Ordinal)) await ReviewBefore();')
+file.write_text(s,encoding='utf8')
+partial=base/'Godot/Application/UiAutomation.Before.cs'
+partial.write_text('''using Godot;
+using System.Text.Json.Nodes;
+namespace Crossweave.Application;
+internal sealed partial class UiAutomation
+{
+    private async Task ReviewBefore()
+    {
+        if(mode=="review-before-preparation")
+        {
+            await Click("prepare");await Click("tab-card");await Click("取得-choice-0");
+            var id=screen.View.Obj("home").Arr("owned").Rows().First(r=>r.Flag("selected")&&r.Obj("blueprint").Text("base")=="g").Text("id");
+            await Click("外す-"+id);await Click("編成-pending:choice-0");await Click("tab-passive");
+            await Click("item-offer-choice-1");await Capture("R07-before-detail-stage");await CloseDetail();
+            await Click("取得-basic:PS01");await Click("取得-basic:PS02");await Click("編成-pending:basic:PS01");
+            await Click("review");await Capture("R02-before-review-top");await ReadAll("dialog-body");await Capture("R02-before-review-bottom");await CloseDetail();await Click("discard");return;
+        }
+        var c=reviewFixture!.Obj("choice");await Click("card-hand-"+c.Text("card_id"));await CloseDetail();
+        if(c.Text("target")!=""){await Click("actor-"+c.Text("target"));await CloseDetail();}
+        await Capture("R03-before-actors");await Click("card-hand-"+c.Text("card_id"));await Capture("R04-before-detail");await ReadAll("detail-body");await Capture("R04-before-detail-bottom");await CloseDetail();
+        await Click("preview");await Capture("R03-before-prediction-top");await ReadAll("prediction-body");await Capture("R03-before-prediction-bottom");await CloseDetail();
+        await Click("order-0");await Capture("R05-before-order-detail");await CloseDetail();
+        if(mode=="review-before-consume")
+        {
+            var before=screen.Session!.ExportDto();var start=await Point("card-hand-"+c.Text("card_id"));await Mouse(start,true);
+            await screen.ToSignal(screen.GetTree().CreateTimer(.27),SceneTreeTimer.SignalName.Timeout);await Move(start,new(960,540));await Mouse(new(960,540),false);await Idle();
+            Check("R01-baseline-drop-observed",true,new{modal=screen.Modal,revision_before=before.State.Number("revision"),revision_after=screen.View.Number("revision"),dto_changed=!JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)});await Capture("R01-before-after-drop");
+        }
+    }
+}
+''',encoding='utf8')
+env=os.environ.copy();sdk=app/'.tools/dotnet';env.update(DOTNET_ROOT=str(sdk),DOTNET_CLI_TELEMETRY_OPTOUT='1',PYTHONUTF8='1');env['PATH']=str(sdk)+os.pathsep+env.get('PATH','')
+dotnet=sdk/'dotnet.exe';godot=next((app/'.tools/godot').glob('**/*_mono_win64.exe'));commands={}
+def run(name,args):
+    with (out/(name+'.log')).open('w',encoding='utf8') as log:r=subprocess.run([str(a) for a in args],cwd=base,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=240)
+    commands[name]={'arguments':[str(a) for a in args],'exit':r.returncode};print(name,r.returncode,flush=True)
+    if r.returncode:raise RuntimeError(name)
+run('build',[dotnet,'build','Godot/Crossweave.Proof.csproj','--no-restore','-m:1'])
+run('import',[godot,'--headless','--path','Godot','--editor','--import','--quit'])
+fixtures=repo/'docs/検証/本編実装/d04b-ui-02/review-20261002/fixtures-fixed/fixtures'
+cases=[('consume','review-safety-doomed')] if '--doomed' in sys.argv else [('consume','review-safety-consume'),('guard','review-prediction-guard'),('attack','review-prediction-attack'),('preparation','review-preparation'),('tie','review-order-tie')]
+for name,fixture in cases:
+    mode='review-before-'+name
+    run(mode,[godot,'--resolution','1920x1080','--path','Godot','--','--ui-check='+mode,'--ui-slot=ui-before-'+uuid.uuid4().hex[:12],'--ui-output='+str(out),'--ui-fixture='+str(fixtures/(fixture+'.json'))])
+prior=json.loads((out.parent/'before-U01-corrected/manifest.json').read_text(encoding='utf8'))
+sources={p.relative_to(base).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in (base/'Godot/Application').glob('*') if p.is_file()}
+(out/'manifest.json').write_text(json.dumps({'source_commit':prior['source_commit'],'product_paths':prior['product_paths'],'test_only_overlays':['UiAutomation.cs','UiAutomation.Review.cs','UiAutomation.Before.cs'],'source_sha256':sources,'commands':commands,'ordinary_save_touched':False,'separate_work_or_branch':False},ensure_ascii=False,indent=2)+'\n',encoding='utf8')

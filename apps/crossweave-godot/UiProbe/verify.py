@@ -12,6 +12,7 @@ def main():
     parser.add_argument('--skip-build', action='store_true')
     parser.add_argument('--skip-regression', action='store_true')
     parser.add_argument('--modes', default=','.join(MODES))
+    parser.add_argument('--review-fixtures', type=Path, help='レビュー限定検査に使う固定合法状態のディレクトリ')
     parser.add_argument('--rendered', action='store_true', help='実描画を試す。取得画像も自動確認であり物理入力合格とは別')
     parser.add_argument('--full-hd', action='store_true', help='1920×1080の実描画を保存する。通常起動の窓サイズは変更しない')
     args = parser.parse_args()
@@ -46,8 +47,16 @@ def main():
         slot_prefix='ui-'+uuid.uuid4().hex[:16]
         interaction_slot=slot_prefix+'-interaction'
         for mode in args.modes.split(','):
-            slot=interaction_slot if mode in ('interaction','resume') else slot_prefix+'-'+mode
-            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence)],timeout=240)
+            # 公開mode名のdefense_supportは識別子。保存slotは従来の英数・hyphen契約へ写す。
+            slot=interaction_slot if mode in ('interaction','resume') else slot_prefix+'-'+mode.replace('_','-')
+            if mode=='review-resume':slot=slot_prefix+'-review-safety-quick'
+            fixture_args=[]
+            if args.review_fixtures and mode.startswith('review-') and mode not in ('review-fixtures','review-resume'):
+                fixture=(args.review_fixtures/(mode+'.json')).resolve()
+                assert fixture.is_file(), fixture
+                manifest.setdefault('fixture_sha256',{})[mode]=hashlib.sha256(fixture.read_bytes()).hexdigest()
+                fixture_args=['--ui-fixture='+str(fixture)]
+            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence),*fixture_args],timeout=240)
             report=json.loads((evidence/(mode+'.json')).read_text(encoding='utf-8'))
             assert report['status']=='passed', mode
             manifest['cases'][mode]=dict(status=report['status'],process_id=report['process_id'],checks=len(report['checks']),commands=len(report['commands']),final_revision=report['final_revision'])
@@ -60,6 +69,8 @@ def main():
                 assert read['pid'] != report['process_id']
         if 'interaction' in manifest['cases'] and 'resume' in manifest['cases']:
             assert manifest['cases']['interaction']['process_id'] != manifest['cases']['resume']['process_id']
+        if 'review-safety-quick' in manifest['cases'] and 'review-resume' in manifest['cases']:
+            assert manifest['cases']['review-safety-quick']['process_id'] != manifest['cases']['review-resume']['process_id']
         run('proof-entry-regression',[godot,'--headless','--path','Godot','--','--proof-smoke','--probe-slot='+slot_prefix],timeout=120)
     except Exception as e:
         manifest['error']=str(e); print(str(e),file=sys.stderr); result=1

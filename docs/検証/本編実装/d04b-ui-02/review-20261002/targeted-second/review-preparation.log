@@ -1,0 +1,74 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 573.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5050 Laptop GPU
+
+UI PRESS open busy=False
+UI PRESS prepare busy=False
+UI PRESS tab-card busy=False
+UI PRESS 取得-choice-0 busy=False
+UI PRESS tab-passive busy=False
+UI PRESS detail-close busy=False
+UI PRESS tab-card busy=False
+UI PRESS detail-unstage busy=False
+UI PRESS tab-passive busy=False
+UI PRESS 取得-choice-1 busy=False
+UI PRESS discard busy=False
+UI PRESS tab-card busy=False
+UI PRESS 取得-choice-0 busy=False
+UI PRESS tab-passive busy=False
+UI PRESS 取得-basic:PS01 busy=False
+UI PRESS tab-passive busy=False
+UI PRESS 取得-basic:PS02 busy=False
+UI PRESS tab-card busy=False
+UI PRESS 外す-owned-5 busy=False
+UI PRESS 編成-pending:choice-0 busy=False
+UI PRESS tab-passive busy=False
+UI PRESS 編成-pending:basic:PS01 busy=False
+UI PRESS review busy=False
+UI PRESS modal-close busy=False
+UI PRESS review busy=False
+UI PRESS commit busy=False
+UI PRESS tab-card busy=False
+UI PRESS tab-card busy=False
+UI PRESS 外す-owned-1 busy=False
+UI PRESS tab-passive busy=False
+ERROR: System.IO.InvalidDataException: edited-plan-content: null
+   at Crossweave.Application.UiAutomation.Check(String id, Boolean ok, Object details) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:line 106
+   at Crossweave.Application.UiAutomation.EditTo(JsonObject plan) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:line 197
+   at Crossweave.Application.UiAutomation.ReviewPreparation() in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.Review.cs:line 269
+   at Crossweave.Application.UiAutomation.Run() in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:line 441
+   at: void Crossweave.Application.UiAutomation+<Run>d__44.MoveNext() (res://Application/UiAutomation.cs:441)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void Crossweave.Application.UiAutomation+<Run>d__44.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:441)
+       [2] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [3] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [4] void System.Threading.Tasks.Task.RunContinuations(object)
+       [5] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [6] bool System.Threading.Tasks.Task.TrySetException(object)
+       [7] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [8] void Crossweave.Application.UiAutomation+<ReviewPreparation>d__63.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.Review.cs:269)
+       [9] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [10] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [11] void System.Threading.Tasks.Task.RunContinuations(object)
+       [12] void System.Threading.Tasks.Task.FinishSlow(bool)
+       [13] bool System.Threading.Tasks.Task.TrySetException(object)
+       [14] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.SetException(System.Exception, System.Threading.Tasks.Task`1[TResult]&)
+       [15] void Crossweave.Application.UiAutomation+<EditTo>d__32.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:197)
+       [16] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [17] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [18] void System.Threading.Tasks.Task.RunContinuations(object)
+       [19] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [20] void Crossweave.Application.UiAutomation+<Click>d__26.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:153)
+       [21] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [22] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [23] void System.Threading.Tasks.Task.RunContinuations(object)
+       [24] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [25] void Crossweave.Application.UiAutomation+<Idle>d__21.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:103)
+       [26] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [27] void System.Threading.Tasks.AwaitTaskContinuation.RunCallback(System.Threading.ContextCallback, object, System.Threading.Tasks.Task&)
+       [28] void System.Threading.Tasks.Task.RunContinuations(object)
+       [29] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder.SetResult()
+       [30] void Crossweave.Application.UiAutomation+<Frame>d__20.MoveNext() (C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Godot\Application\UiAutomation.cs:98)
+       [31] void System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, object)
+       [32] void System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1.MoveNext()
+       [33] void Godot.SignalAwaiter.SignalCallback(nint, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_bool*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/SignalAwaiter.cs:65)
