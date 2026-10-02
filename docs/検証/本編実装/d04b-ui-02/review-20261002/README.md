@@ -1,6 +1,6 @@
 # D04B-UI-02 UIレビュー追補（2026-10-02）
 
-WorkID `20260927-game-application`、枝 `impl/m1-godot-application-20260927`。初回提出 `2102aca1144ce6dfcdf393528cf66b3bea5133e1` の同じ本編を継承した。**R01〜R07とU01を実装し、関連確認を完了。公開保存・読戻しはpublication.jsonへ記録する。UI適合再判定は別工程として待つ。**
+WorkID `20260927-game-application`、枝 `impl/m1-godot-application-20260927`。初回提出 `2102aca1144ce6dfcdf393528cf66b3bea5133e1` の同じ本編を継承した。**R01〜R07とU01を実装し、関連確認を完了。実装／証拠SHA `6168d2ac7ad66d8e707c51f2f3d7bf14fa123531` を通常Pushし、全462変更path/blobと主要10文書／コードのUTF-8内容をGitHubから読み戻して一致を確認した。UI適合再判定は別工程として待つ。**
 
 原本：[適合確認](received/適合確認.md)、[review.json](received/review.json)、[レビュー引継ぎ](received/とりまとめ引継ぎ.md)。固定UIレビュー `4b8dae9bff7bf0293ced6996b93e85d9f21139df`、指示書0.3。UI枝全体はマージせず、初回実装と配布3ファイル受領を再実施していない。
 
