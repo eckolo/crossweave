@@ -48,8 +48,8 @@
       "id": "CP02",
       "title": "Exploration layout",
       "path": "evidence/comparisons/CP02.png",
-      "blob": "dfd8f5c8b2ccae40058c542244e4274ef6001d16",
-      "sha256": "7a616c34697b2334bec1333307a7fa39d2a1df835443b144ed796eb1ebb3ab0c",
+      "blob": "859841e206041f0832605e31c266d49bea78815d",
+      "sha256": "1ebb729744d42a603798ae70cb038d2fab9b80dc97599fa4cda2732173b6bce1",
       "scale": 0.5,
       "size": [
         1968,
@@ -85,7 +85,23 @@
         }
       ],
       "equivalent_state": false,
-      "method": "切出し・表示用縮小／整数拡大のみ。全原寸PNGは別保存。異なるfixtureの値・文言の差を外観不具合へ加算しない。"
+      "method": "切出し・表示用縮小／整数拡大のみ。全原寸PNGは別保存。異なるfixtureの値・文言の差を外観不具合へ加算しない。",
+      "recorded_blob_before_readback": "dfd8f5c8b2ccae40058c542244e4274ef6001d16",
+      "recorded_sha256_before_readback": "7a616c34697b2334bec1333307a7fa39d2a1df835443b144ed796eb1ebb3ab0c",
+      "file_size_bytes": 721057,
+      "usable_as_comparison_board": false,
+      "publication_integrity": {
+        "checked_on_jst": "2026-10-05",
+        "status": "保存実体のPNG終端欠損。補助比較図として利用不可、元実体を保全。",
+        "missing_IEND": true,
+        "incomplete_last_IDAT_chunk": true,
+        "previously_recorded_blob_get": "404 Not Found",
+        "strict_view": "invalid or unsupported image data",
+        "supporting_raw_pair_complete": true,
+        "findings_changed": false,
+        "image_recreated_or_edited": false,
+        "record": "resumption-20261005.json#artifact_integrity/CP02"
+      }
     },
     {
       "id": "CP03",
@@ -681,7 +697,8 @@
   "limitations": [
     "同一fixtureの完全対照ではない。枠・部品・固定位置の比較として用い、文字列やゲーム値の差を不具合としない。",
     "PNGで測れない状態はunknowns.jsonへ。文字AAの閾値や見た目の許容率による合格は設けない。",
-    "CP04等は対象部品へ切出し位置を合わせた拡大。画面上の位置差はCP01とgeometryで別に残す。"
+    "CP04等は対象部品へ切出し位置を合わせた拡大。画面上の位置差はCP01とgeometryで別に残す。",
+    "2026-10-05読戻しでCP02の記載blob不一致・PNG終端不備を確認。保存実体のblob/hashへ訂正し利用不可を明示。対応5差異が参照する原寸2枚は正常。補助図を再制作せず判定を維持。"
   ],
   "environment": {
     "reference": {

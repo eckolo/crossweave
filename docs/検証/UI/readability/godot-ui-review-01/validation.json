@@ -1,7 +1,7 @@
 {
   "kind": "review-document-consistency-only",
   "date": "2026-10-04",
-  "status": "passed",
+  "status": "passed_with_recorded_supplemental_image_defect",
   "checks": {
     "unique_visual_ids": 57,
     "component_count": 19,
@@ -13,7 +13,11 @@
     "comparison_images_blob_matched": 8,
     "plan_paths_blob_matched": 62,
     "top_level_markdown_missing_relative_links": [],
-    "R01_filler_and_R04_null_not_passed": true
+    "R01_filler_and_R04_null_not_passed": true,
+    "comparison_images_usable_as_boards": 7,
+    "unusable_supplemental_comparison_ids": [
+      "CP02"
+    ]
   },
   "new_game_test_executions": 0,
   "physical_input_tested": false,
@@ -23,5 +27,21 @@
     "ops": "d93d0b482c13da4aa91df0d2173b87f46999a3a9",
     "design": "21ddd349b6bec69ecac6d9db288c537553dab860",
     "main": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6"
+  },
+  "readback_correction_20261005": {
+    "comparison_blob_matches_before_correction": 7,
+    "previous_claim": "comparison_images_blob_matched=8はCP02について訂正",
+    "CP02": "元台帳blobを保存実体へ訂正。PNG終端不備のため補助図として利用不可。原寸証拠は正常。",
+    "record": "resumption-20261005.json"
+  },
+  "resumption_checks": {
+    "checked_at_utc": "2026-10-04T16:01:02.726Z",
+    "artifact_commit": "8f5cb467471fd460f802c7ee5a497c6b50186c10",
+    "full_text_git_blobs_match": 44,
+    "changed_paths_matched": 107,
+    "relative_links_checked": 177,
+    "missing_relative_links": [],
+    "counts_and_id_references_match": true,
+    "new_game_test_executions": 0
   }
 }
