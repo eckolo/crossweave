@@ -1,6 +1,6 @@
-# 現在：UI-GODOT-REVIEW-01 完了記録の公開確認
+# 現在：UI-GODOT-REVIEW-01 完了 — UI要修正・配布不可
 
-2026-10-05（日本時間）。今回の依頼全体：**未完了（完了記録の公開・GitHub読戻し中）**。保存済みの調査・判定を引き継ぎ、UI適合は未達、配布不可を維持する。今回の対象はこの既存1Workのみ。
+2026-10-05（日本時間）。今回の依頼全体：**完了**。現在の状態：**完了・とりまとめへ引継ぎ（作成済み・受領未確認）**。保存済みの調査・判定と完了記録の通常公開・GitHub読戻しを確認し、UI適合は未達、配布不可を維持する。今回の対象はこの既存1Workのみ。
 
 成果入口：[README](../../検証/UI/readability/godot-ui-review-01/README.md)／[とりまとめ引継ぎ](../../検証/UI/readability/godot-ui-review-01/とりまとめ引継ぎ.md)／[項目別判定](../../検証/UI/readability/godot-ui-review-01/適合確認.md)／[外観基準](../../検証/UI/readability/godot-ui-review-01/visual-baseline.md)／[全差異台帳](../../検証/UI/readability/godot-ui-review-01/visual-diff.md)／[公開読戻し](../../検証/UI/readability/godot-ui-review-01/publication.json)。初回4b8dae9bの判定はhistory/20261001へ保全。
 
@@ -37,7 +37,7 @@
 - 同期：最新ops `d93d0b482c13da4aa91df0d2173b87f46999a3a9` の全62path/blobと自枝・受領JSONが一致。追加コピー不要。次に設計 `21ddd349b6bec69ecac6d9db288c537553dab860` をb4340b13の親と祖先列で取込済みと確認し、計画を再照合。優先度・固定入力・担当・受渡し変更なし。計画原本・コピーを独立編集していない。
 - 保存成果の確認：4b8dae9b→8f5cb467の全107変更path/blob・削除0をGitHub treeで確認。全文44件は再計算したGit blobも一致。共通部品19・状態群37・差異57・必要未確認17・再判定8件と相対リンク177件を照合。固定原寸55PNGは台帳blob一致。新規ゲーム検査・描画・素材制作なし。
 - CP02の記録訂正：保存済み補助比較図は8点だがCP02は台帳blobと不一致でPNG終端欠損、旧記載blobは取得不能。現実体を保全し利用不可と明示。対応する5差異の根拠である原寸の原本／Godot探索画像はblob・SHA-256・PNG終端が正常。差異台帳の原寸参照と判定を維持し、補助図を作り直さず、外観差57・必要未確認17を増減していない。詳細は[比較証拠](../../検証/UI/readability/godot-ui-review-01/比較証拠.md)と[再開記録](../../検証/UI/readability/godot-ui-review-01/resumption-20261005.json)。
-- 保存・公開確認：既存成果8f5cb467の読戻し実績と今回の通常保存は[publication.json](../../検証/UI/readability/godot-ui-review-01/publication.json)へ。完了記録の公開・読戻しは進行中。
+- 保存・公開確認：既存成果8f5cb467の読戻し実績と今回の通常保存は[publication.json](../../検証/UI/readability/godot-ui-review-01/publication.json)へ。完了記録コミット [e664e266](https://github.com/eckolo/crossweave/commit/e664e26659dbcef10ada55f7c227459bf791c6e6) を単親・非forceでPushし、全10変更path/blob・全文、親・tree・refをGitHubから読戻し一致。最新計画62path/blobも一致。今回の依頼内残件なし。完了状態の追記を含む最終SHAは最終応答で提示する。
 - 判定と後続：レビューの指摘・基準提出とUI適合を分ける。UI要修正・配布不可を維持。本編D04B-UI-02の修正・必要証拠→UI再判定→適合受領後RD-PACK-03。今回、本編コード変更・他Work起動・送信・受領代行なし。
 - ユーザー判断事項：なし。とりまとめ引継ぎ作成済み・受領未確認。CO-H07の担当受領・実施記録を継承し、CO-H02/H03は新版配布後、CO-H04はD04受入後。
 
