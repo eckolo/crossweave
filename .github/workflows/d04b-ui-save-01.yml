@@ -21,12 +21,27 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - name: Real Godot nodes, files, restart and regression
-        run: python apps/crossweave-godot/UiProbe/verify.py
+      - name: Prepare the existing pinned development environment
+        # 依存準備は担当・CI側で行う。遊ぶ利用者へのSDK導入要求ではない。
+        run: python -c "import sys; sys.path.insert(0, 'apps/crossweave-godot/UiProbe'); from runtime import prepare; prepare()"
+      - name: Related public projection and prediction regression
+        working-directory: apps/crossweave-godot
+        shell: pwsh
+        run: |
+          & .tools/dotnet/dotnet.exe restore Tests/Crossweave.Tests.csproj --locked-mode -m:1 -p:NuGetAudit=false
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & .tools/dotnet/dotnet.exe test Tests/Crossweave.Tests.csproj --no-restore -m:1 --filter "FullyQualifiedName~UiPublicProjectionTests|FullyQualifiedName~PreviewExpiry|FullyQualifiedName~UiPublicLabels|FullyQualifiedName~RecordedJavaScriptOperationsMatchCombatAndPersistentResults|FullyQualifiedName~AuthoredDefenseBoundariesMatchOldResolver" --logger "trx;LogFileName=related.trx" --results-directory artifacts/d04b-ui-save-01-windows/related-core
+          exit $LASTEXITCODE
+      - name: Real Godot nodes, files and restart
+        # 表示共通部品の変更影響へ絞る。無関係なCore全旧suiteは反復しない。
+        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-regression
       - name: Attempt rendered screenshots through the same application
         # runner上の描画は試みるが、Windows 11実機表示・物理入力の代用にはしない。
         continue-on-error: true
-        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --modes interaction,natural,failure,unknown,corrupt --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered
+        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --full-hd --theme light --modes repro-home,repro-story,repro-explore,repro-prediction,repro-return-clear,repro-return-withdrawal,repro-return-defeat,repro-motion-home,repro-motion-explore,repro-shared-preparation,repro-shared-story,repro-shared-return-clear,repro-shared-return-withdrawal,repro-shared-return-defeat --review-fixtures docs/検証/本編実装/d04b-ui-02/reproduction-20261005/fixtures --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered-light
+      - name: Attempt dark screenshots through the same application
+        continue-on-error: true
+        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --full-hd --theme dark --modes repro-home,repro-story,repro-explore,repro-prediction,repro-return-clear,repro-return-withdrawal,repro-return-defeat,repro-motion-home,repro-motion-explore,repro-shared-preparation,repro-shared-story,repro-shared-return-clear,repro-shared-return-withdrawal,repro-shared-return-defeat --review-fixtures docs/検証/本編実装/d04b-ui-02/reproduction-20261005/fixtures --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered-dark
       - name: Retain exact-code evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

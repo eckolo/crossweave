@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--review-fixtures', type=Path, help='レビュー限定検査に使う固定合法状態のディレクトリ')
     parser.add_argument('--rendered', action='store_true', help='実描画を試す。取得画像も自動確認であり物理入力合格とは別')
     parser.add_argument('--full-hd', action='store_true', help='1920×1080の実描画を保存する。通常起動の窓サイズは変更しない')
+    parser.add_argument('--theme', choices=['light','dark'], help='同状態比較の撮影テーマ。通常起動ではOS判定')
     args = parser.parse_args()
     host = 'windows' if os.name == 'nt' else 'linux'
     evidence = (args.evidence or ROOT / ('artifacts/d04b-ui-save-01-' + host)).resolve()
@@ -25,7 +26,7 @@ def main():
     env['PYTHONUTF8']='1'
     manifest = dict(task='D04B-UI-02', commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip(),
         host=host, platform=platform.platform(), sdk=lock['sdk'], engine=lock['godot'], rendered=args.rendered,
-        physical_input=False, windows11_physical=False, formal_distribution=False, commands={}, cases={}, source_sha256={})
+        physical_input=False, windows11_physical=False, formal_distribution=False, theme=args.theme or 'os', commands={}, cases={}, source_sha256={})
     # ビルド開始前に入力を固定する。検査中に編集があった場合も、終了時の新ソースへ読み替えない。
     source_paths=[p for folder in ['Godot/Application','Core/Application','Infrastructure/Application','UiProbe'] for p in sorted((ROOT/folder).glob('*')) if p.is_file()]
     source_paths += [ROOT/p for p in ['Godot/Main.tscn','Godot/Proof.tscn','Godot/project.godot','Infrastructure/Assembly.cs']]
@@ -36,6 +37,8 @@ def main():
             result = subprocess.run([str(x) for x in command],cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=timeout)
         manifest['commands'][name] = dict(arguments=[str(x) for x in command],exit=result.returncode)
         if result.returncode: raise RuntimeError(name + ' failed; see '+ str(evidence / (name+'.log')))
+        if 'ERROR:' in (evidence/(name+'.log')).read_text(encoding='utf-8'):
+            raise RuntimeError(name+' emitted an engine error; see '+str(evidence/(name+'.log')))
     result = 0
     try:
         if not args.skip_regression:
@@ -51,12 +54,12 @@ def main():
             slot=interaction_slot if mode in ('interaction','resume') else slot_prefix+'-'+mode.replace('_','-')
             if mode=='review-resume':slot=slot_prefix+'-review-safety-quick'
             fixture_args=[]
-            if args.review_fixtures and mode.startswith('review-') and mode not in ('review-fixtures','review-resume'):
+            if args.review_fixtures and (mode.startswith('review-') and mode not in ('review-fixtures','review-resume') or mode.startswith('repro-')):
                 fixture=(args.review_fixtures/(mode+'.json')).resolve()
                 assert fixture.is_file(), fixture
                 manifest.setdefault('fixture_sha256',{})[mode]=hashlib.sha256(fixture.read_bytes()).hexdigest()
                 fixture_args=['--ui-fixture='+str(fixture)]
-            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence),*fixture_args],timeout=240)
+            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence),*(['--ui-theme='+args.theme] if args.theme else []),*fixture_args],timeout=240)
             report=json.loads((evidence/(mode+'.json')).read_text(encoding='utf-8'))
             assert report['status']=='passed', mode
             manifest['cases'][mode]=dict(status=report['status'],process_id=report['process_id'],checks=len(report['checks']),commands=len(report['commands']),final_revision=report['final_revision'])

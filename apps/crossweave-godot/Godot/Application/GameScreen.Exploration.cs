@@ -18,60 +18,58 @@ public partial class GameScreen
 
     private void ExplorationScreen()
     {
-        var e = View.Obj("exploration");
-        // UI0.14.3の336/248/314/72行、20間隔。本人は下帯、相手は上段に置く。
-        var actors=e.Obj("actors").Where(x=>x.Key!="P"&&x.Value.Flag("active")).ToArray();
-        float total=actors.Length*344-24, startX=Math.Max(24,(1920-total)/2);
-        var actorScroll=Scroll(content,"actors",new(24,88,1872,272),true);
-        var actorLine=new HBoxContainer { CustomMinimumSize=new(Math.Max(1872,total),256),Alignment=BoxContainer.AlignmentMode.Center };
-        actorLine.AddThemeConstantOverride("separation",24); actorScroll.AddChild(actorLine);
+        var e=View.Obj("exploration");var actors=e.Obj("actors").Where(x=>x.Key!="P"&&x.Value.Flag("active")).ToArray();
+        float total=actors.Length*344-24;
+        var actorScroll=Scroll(content,"actors",new(24,88,1870,272),true);
+        var actorLine=new HBoxContainer{CustomMinimumSize=new(Math.Max(1870,total),256),Alignment=BoxContainer.AlignmentMode.Center};actorLine.AddThemeConstantOverride("separation",24);actorScroll.AddChild(actorLine);
         foreach(var (id,node) in actors)
         {
-            var row=((JsonObject)node!).Copy(); row["id"]=id;
-            var cell=new Control {CustomMinimumSize=new(320,256),MouseFilter=MouseFilterEnum.Ignore};actorLine.AddChild(cell);
+            var row=((JsonObject)node!).Copy();row["id"]=id;
+            var cell=new Control{CustomMinimumSize=new(320,256),MouseFilter=MouseFilterEnum.Ignore};actorLine.AddChild(cell);
             var b=Button(cell,"actor-"+id,"",new(0,8,320,248),()=>SelectActor(row,"actor-"+id),!Blocked);
-            b.AddThemeStyleboxOverride("normal",Box("ffffff00",id==selectedTarget?"315849":"bac9ba",id==selectedTarget?3:1));
+            ButtonStyle(b,"ffffff00",id==selectedTarget?"345747":"ffffff00","263c32",id==selectedTarget?2:0,6,hover:"ffffff00");
             if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
-            {
-                b.AddChild(new TextureRect {ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"),Position=new(19,-8),Size=new(282,176),StretchMode=TextureRect.StretchModeEnum.KeepAspectCentered,MouseFilter=MouseFilterEnum.Ignore});
-            }
-            else Text(b,ActorSymbol(row),new(30,14,260,110),64,Ink).HorizontalAlignment=HorizontalAlignment.Center;
-            var band=Panel(b,new(0,128,320,120),id==selectedTarget?"e9eee2":"fcfcf5");
-            Text(band,row.Text("display_name"),new(10,2,300,30),20);
-            ActorVitals(band,id,row,10,32,300);
+                b.AddChild(new TextureRect{ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"),Position=new(19,-8),Size=new(282,176),StretchMode=TextureRect.StretchModeEnum.KeepAspectCentered,MouseFilter=MouseFilterEnum.Ignore});
+            else Icon(b,row.Text("purpose")=="passage"?"Triangle":"Flag",new(128,22,64,64),stroke:1.5f);
+            var band=Surface(b,new(1,128,318,119),id==selectedTarget?"e9eee4":"f7f8f4");
+            float nameX=id==selectedTarget?32:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,15,16,16));
+            var name=Text(band,row.Text("display_name"),new(nameX,10,308-nameX,28),20);Strong(name);LineHeight(name,20,28);
+            ActorVitals(band,id,row,10,42,298);
         }
         OrderStrip(e);
-        Panel(content,new(24,380,1872,248),"e9eed833");
-        var actual=e.Obj("field"); var after=actionPreview.Obj("field_after");
-        var field=new List<JsonObject>();
-        // 公開された場→手札の属性順を保ち、同じ属性を重複させない（原本のSet順）。
+        Surface(content,new(24,380,1870,248),"e9eed81a",radius:8);
+        if(selectedCard!=""&&e.Arr("hand").Rows().FirstOrDefault(c=>c.Text("id")==selectedCard) is {} linked)
+        {
+            string state=linked.Text("attr")+(e.Obj("field").ContainsKey(linked.Text("attr"))?" · 一致":" · 設置");
+            float w=font.GetStringSize(state,fontSize:16).X+12;var label=Surface(content,new(24,380,w,24),"f7f8f4");Text(label,state,new(6,0,w-12,24),16);
+        }
+        var actual=e.Obj("field");var after=actionPreview.Obj("field_after");var field=new List<JsonObject>();
         foreach(var attr in actual.Select(p=>p.Key).Concat(e.Arr("hand").Rows().Select(c=>c.Text("attr"))).Distinct())
         {
-            if(actual[attr] is JsonObject placed)
-            { var row=placed.Copy();row["consumed"]=actionPreview.Flag("ok")&&!after.Any(x=>x.Value.Text("id")==row.Text("id"));field.Add(row); }
-            else if(after[attr] is JsonObject next)
-            {var row=next.Copy();row["forecast"]=true;field.Add(row);}
-            else field.Add(new JsonObject {["attr"]=attr,["empty"]=true,["id"]="empty-"+attr});
+            if(actual[attr] is JsonObject placed){var row=placed.Copy();row["consumed"]=actionPreview.Flag("ok")&&!after.Any(x=>x.Value.Text("id")==row.Text("id"));field.Add(row);}
+            else if(after[attr] is JsonObject next){var row=next.Copy();row["forecast"]=true;field.Add(row);}
+            else field.Add(new(){["attr"]=attr,["empty"]=true,["id"]="empty-"+attr});
         }
-        CardStrip("field",field,new(24,412,1872,216));
-        CardStrip("hand",e.Arr("hand").Rows(),new(24,676,1872,228));
-        dropZones.Add((new(24,380,1872,248),"field"));
-        if(selectedCard!="" && Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control hand)
+        CardStrip("field",field,new(24,412,1870,216));
+        CardStrip("hand",e.Arr("hand").Rows(),new(24,687,1870,208));
+        dropZones.Add((new(25,381,1870,248),"field"));
+        if(selectedCard!=""&&Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control hand)
         {
-            float actionX=Mathf.Clamp(hand.GetGlobalRect().Position.X,24,1440);
-            var previewButton=Button(content,"preview","予測"+(SelfPosition()==""?"":"\n本人→"+SelfPosition()),new(actionX,920,132,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
-            previewButton.AddThemeFontSizeOverride("font_size",16);
-            Button(content,"play",ActionLabel(),new(actionX+140,920,250,56),()=>{if(Choice() is {} c)Send("play",new(){["choice"]=c.Copy()});},Choice() is not null&&Can("play"));
+            string label=ActionLabel();float playWidth=Math.Max(80,font.GetStringSize(label,fontSize:18).X+32);
+            float x=Mathf.Clamp(hand.GetGlobalRect().GetCenter().X-1-(88+playWidth)/2,24,InnerWidth-24-88-playWidth);
+            Button(content,"preview","予測",new(x,906,80,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
+            Button(content,"play",label,new(x+88,906,playWidth,56),()=>{if(Choice() is {} c)Send("play",new(){["choice"]=c.Copy()});},Choice() is not null&&Can("play"));
         }
-        var footer=Panel(content,new(24,984,1872,72),"fcfcf5");var self=e.Obj("self");
-        ActorVitals(footer,"P",self,16,0,410);
-        Text(footer,$"手札 {e.Arr("hand").Count}枚　山札 {self.Number("deck_count")}枚　共通回収 {e.Number("pool_count")}枚",new(450,15,1120,42),20);
-        Button(footer,"withdraw","撤退",new(1738,8,110,56),()=>OpenModal("withdraw"),Can("withdraw"));
+        var footer=Surface(content,new(24,982,1870,72),"f7f8f4",radius:5);
+        ActorVitals(footer,"P",e.Obj("self"),16,7,400);
+        Text(footer,$"手札 {e.Arr("hand").Count}枚",new(448,15,250,42),18);
+        Button(footer,"withdraw","撤退",new(1784,8,70,56),()=>OpenModal("withdraw"),Can("withdraw"));
+        LiveEvents();
     }
 
     private void VitalBar(Control parent,Rect2 rect,long value,long maximum)
     {
-        parent.AddChild(new ColorRect {Position=rect.Position,Size=rect.Size,Color=new("bac9ba"),MouseFilter=MouseFilterEnum.Ignore});
+        parent.AddChild(new ColorRect {Position=rect.Position,Size=rect.Size,Color=UiColor(Line),MouseFilter=MouseFilterEnum.Ignore});
         parent.AddChild(new ColorRect {Position=rect.Position,Size=new(rect.Size.X*Mathf.Clamp((float)value/Math.Max(1,maximum),0,1),rect.Size.Y),Color=Gold,MouseFilter=MouseFilterEnum.Ignore});
     }
     private void SelectActor(JsonObject row,string controlId)
@@ -81,25 +79,33 @@ public partial class GameScreen
     }
     private void OrderStrip(JsonObject e)
     {
-        var scroll=Scroll(content,"turn-order",new(24,24,1570,56),true);
-        var line=new HBoxContainer {CustomMinimumSize=new(0,48)};line.AddThemeConstantOverride("separation",12);scroll.AddChild(line);
-        var predicted=actionPreview.Flag("ok");
-        int index=0;if(predicted){var now=new Control{CustomMinimumSize=new(88,48)};line.AddChild(now);Text(now,"本人・今",new(0,0,88,44),18,new Color("fcfcf5"));}
+        var scroll=Scroll(content,"turn-order",new(24,24,1610,56),true);
+        var line=new HBoxContainer{CustomMinimumSize=new(0,56)};line.AddThemeConstantOverride("separation",16);scroll.AddChild(line);
+        bool predicted=actionPreview.Flag("ok");int index=0;
+        if(predicted){var now=new Control{CustomMinimumSize=new(56,56)};line.AddChild(now);Text(now,"本人・今",new(0,8,56,40),16);}
         foreach(var group in ReservationGroups())
         {
-            var groupCell=new Control{CustomMinimumSize=new(group.Count()*54+110,48)};line.AddChild(groupCell);int within=0;
+            string time="+"+(group.Key-e.Number("now"));float timeWidth=font.GetStringSize(time,fontSize:18).X;
+            float faces=group.Count()*40+(group.Count()-1)*2;
+            float prefix=line.GetChildCount()>0?font.GetStringSize("›",fontSize:18).X+4:0;
+            var cell=new Control{CustomMinimumSize=new(prefix+faces+8+timeWidth,56)};line.AddChild(cell);int within=0;
+            if(prefix>0){Surface(cell,new(0,15,prefix,26),"f7f8f4",radius:3);Text(cell,"›",new(2,15,prefix-4,26),18);}
             foreach(var r in group)
             {
-            var id=r.Text("actor_id");var row=e.Obj("actors").Obj(id).Copy();row["id"]=id;
-            var cell=new Control{Position=new(within++*54,0),Size=new(50,48)};groupCell.AddChild(cell);
-            var key="order-"+index++;
-            var b=Button(cell,key,ActorSymbol(row),new(0,0,44,44),()=>ShowDetail(row,"actor",Controls[key].GetGlobalRect().GetCenter()));
-            b.TooltipText=row.Text("display_name")+"の詳細";
-            if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
-            {b.Text="";b.AddChild(new TextureRect{ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"),Position=new(4,4),Size=new(36,36),StretchMode=TextureRect.StretchModeEnum.KeepAspectCentered,MouseFilter=MouseFilterEnum.Ignore});}
-            if(id=="P")Text(cell,predicted?"次":"今",new(30,23,28,24),14,new Color("fcfcf5"));
+                string id=r.Text("actor_id"),key="order-"+index++;var row=e.Obj("actors").Obj(id).Copy();row["id"]=id;
+                var b=Button(cell,key,"",new(prefix+within++*42,8,40,40),()=>ShowDetail(row,"actor",Controls[key].GetGlobalRect().GetCenter()));b.TooltipText=row.Text("display_name")+"の詳細";
+                bool next=id=="P"&&predicted;ButtonStyle(b,next?"dfe8d8":"f7f8f4","acbdad","263c32",1,5);
+                Surface(b,new(8,8,24,24),"ffffff00","263c32",1,12);
+                if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
+                {
+                    var texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp");float side=Math.Min(texture.GetWidth(),texture.GetHeight());
+                    var crop=new AtlasTexture{Atlas=texture,Region=new((texture.GetWidth()-side)/2,(texture.GetHeight()-side)*.2f,side,side)};
+                    var face=new TextureRect{Texture=crop,ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Position=new(9,9),Size=new(22,22),StretchMode=TextureRect.StretchModeEnum.KeepAspectCovered,MouseFilter=MouseFilterEnum.Ignore};RoundTexture(face,11,true);b.AddChild(face);
+                }
+                else {var symbol=Text(b,id=="P"?"●":row.Text("purpose") switch{"passage"=>"△","terminal"=>"▥","optional_enemy"=>"◈",_=>"◇"},new(9,9,22,22),12);symbol.HorizontalAlignment=HorizontalAlignment.Center;}
+                if(next){Surface(b,new(0,38,40,2),"263c32");Text(b,"次",new(22,20,18,20),16);b.TooltipText+="・次回位置 "+SelfPosition();}
             }
-            Text(groupCell,(group.Count()>1?"同時刻\n":"")+"+"+(group.Key-e.Number("now")),new(within*54,0,106,48),16,new Color("fcfcf5"));
+            Text(cell,time,new(prefix+faces+8,8,timeWidth+1,40),18).TooltipText=group.Count()>1?"同時刻（内部の順序は未公開）":"公開予約";
         }
     }
 
@@ -139,28 +145,49 @@ public partial class GameScreen
         var selected=View.Obj("exploration").Arr("hand").Rows().FirstOrDefault(c=>c.Text("id")==selectedCard);
         var tile=new CardTile{Position=rect.Position,Size=rect.Size,Screen=this,Row=row.Copy(),Zone=zone,Selected=zone=="hand"&&row.Text("id")==selectedCard,Linked=zone is "field" or "forecast"&&selected?.Text("attr")==row.Text("attr"),FocusMode=row.Flag("empty")?FocusModeEnum.None:FocusModeEnum.All,MouseFilter=row.Flag("empty")?MouseFilterEnum.Ignore:MouseFilterEnum.Stop};
         parent.AddChild(tile);Controls[id]=tile;cardRows[id]=row;
-        bool compact=rect.Size.Y<100;var d=row["details"] as JsonObject??row;
-        if(compact)
+        tile.MouseEntered+=()=>{tile.Hovered=true;tile.QueueRedraw();};tile.MouseExited+=()=>{tile.Hovered=false;tile.QueueRedraw();};
+        var d=row["details"] as JsonObject??row;
+        if(rect.Size.Y<100)
         {
-            Text(tile,CardName(row),new(8,2,rect.Size.X-88,46),20);
-            string info=zone=="offer"||row.Flag("pending")?"着想 "+ViewData.Money(row.Number("price_units")):d["trigger"] is not null?"枠消費 "+d.Number("equipment_cost"):d.Text("attr");
-            if(row.Number("display_quantity")>1)info+="　×"+row.Number("display_quantity");
-            if(row.Flag("pending"))info+="　◷ 未払い";
-            if(row.Flag("locked"))info+="　ロック";
-            Text(tile,info,new(8,50,rect.Size.X-88,28),16,Muted);
+            var title=Text(tile,CardName(row),new(10,6,260,48),20);Strong(title);LineHeight(title,20,24);title.MaxLinesVisible=2;title.VerticalAlignment=VerticalAlignment.Top;
+            Icon(tile,zone=="build"?"Check":d["trigger"] is not null?"ScrollText":"Layers",new(10,55,18,18),zone=="build"?Gold:Muted);
+            float x=34;
+            if(zone=="offer"||row.Flag("pending")){Icon(tile,"Lightbulb",new(x,55,18,18),Muted);Text(tile,ViewData.Money(row.Number("price_units")),new(x+24,54,130,20),18,Muted);}
+            else if(d["trigger"] is not null){Icon(tile,"Grid2X2",new(x,55,18,18),Muted);Text(tile,d.Number("equipment_cost").ToString(),new(x+24,54,96,20),18,Muted);}
+            else Text(tile,d.Text("attr"),new(x,54,96,20),18,Muted);
+            if(row.Number("display_quantity")>1)Text(tile,"×"+row.Number("display_quantity"),new(190,54,80,20),18,Muted).HorizontalAlignment=HorizontalAlignment.Right;
+            if(row.Flag("locked")){Icon(tile,"Pin",new(228,55,18,18),Muted);tile.TooltipText="ロック済み";}
+            if(row.Flag("pending")){Surface(tile,new(250,54,20,20),Paper,radius:10);Icon(tile,"Clock3",new(251,55,18,18),UiColor("846838"));}
+        }
+        else if(row.Flag("empty"))
+        {
+            // 空の場は短いcaptionのみ。通常札の名称48px・効果24pxを架空に確保しない。
+            Surface(tile,new(1,147,246,60),"f7f8f4");Strong(Text(tile,d.Text("attr"),new(7,153,234,48),18));
         }
         else
         {
-            // 原本と同じ上88／名称48／効果24／属性28。札名は最大2行、効果は記号＋値。
-            Panel(tile,new(0,88,248,120),"fcfcf5");
-            if(row.Flag("empty")){Text(tile,d.Text("attr"),new(8,152,232,48),18);return tile;}
-            Text(tile,CardSymbol(d),new(0,0,248,88),64).HorizontalAlignment=HorizontalAlignment.Center;
-            Text(tile,CardName(row),new(6,94,236,48),18);
-            Text(tile,EffectLine(d,zone is "field" or "forecast",selected?.Text("kind") is "guard" or "defense_support"&&selected.Text("attr")==d.Text("attr")),new(6,146,236,24),18);
-            Text(tile,d.Text("attr"),new(6,174,50,28),16);
-            if(zone=="hand")Text(tile,d.Number("remaining")==1?"今回まで":"あと"+d.Number("remaining")+"行動",new(64,174,178,28),16,d.Number("remaining")==1?new Color("a43827"):Muted).HorizontalAlignment=HorizontalAlignment.Right;
+            CardGradient(tile,new(1,1,246,87),zone=="hand"?6:5);
+            // exploration.jsのart('cards')は64pxの既存glyph。stat欄のLucide SVGとは役割が違う。
+            // 原本のillustrationは上padding8px、spanは64px/1.4のline box。
+            // Labelはfontの自然高未満に縮まないため、半行余白を外側で配分する。
+            // 字形の位置を画像から手で動かさず、同じfont metricsとCSS値から決める。
+            float glyphHeight = MathF.Ceiling(font.GetHeight(64)), glyphLineHeight = 64 * 1.4f;
+            var symbol=Text(tile,d.Text("kind") switch{"guard" or "defense_support"=>"◇","heal"=>"✚",_=>"↗"},new(1,9+(glyphLineHeight-glyphHeight)/2,246,glyphHeight),64);symbol.HorizontalAlignment=HorizontalAlignment.Center;LineHeight(symbol,64,glyphLineHeight);
+            var name=Text(tile,CardName(row),new(7,94,234,48),18);Strong(name);LineHeight(name,18,24);name.MaxLinesVisible=2;name.VerticalAlignment=VerticalAlignment.Top;
+            bool field=zone is "field" or "forecast",defensive=selected?.Text("kind") is "guard" or "defense_support"&&selected.Text("attr")==d.Text("attr");
+            float effectX=7;
+            void Effect(string icon,long value)
+            {Icon(tile,icon,new(effectX,148,20,20));var text=value.ToString();float width=strongFont.GetStringSize(text,fontSize:18).X;Strong(Text(tile,text,new(effectX+24,146,width+1,24),18));effectX+=28+width;}
+            if(field){Effect(defensive?"Shield":"ArrowUpRight",d.Number("field_power"));Effect(defensive?"Wind":"ScanSearch",d.Number("field_hit"));}
+            else if(d.Text("kind")=="guard"){Effect("Shield",d.Number("power"));Effect("Wind",d.Number("evasion"));}
+            else if(d.Text("kind")=="heal"){Effect("HeartPlus",d.Number("power"));Effect("ScanSearch",d.Number("hit"));}
+            else if(d.Text("kind")=="defense_support"){Effect("Shield",d.Obj("defense_grant").Number("guard"));Effect("Wind",d.Obj("defense_grant").Number("evasion"));}
+            else{Effect("ArrowUpRight",d.Number("power"));Effect("ScanSearch",d.Number("hit"));}
+            float badgeWidth=font.GetStringSize(d.Text("attr"),fontSize:16).X+10;
+            var badge=Surface(tile,new(7,175,badgeWidth,26),"ffffff00",Exploring?"263c32":"243d35",1,4);Text(badge,d.Text("attr"),new(5,0,badgeWidth-10,26),16);
+            if(zone=="hand")Text(tile,d.Number("remaining")==1?"今回まで":"あと"+d.Number("remaining")+"行動",new(badgeWidth+15,176,226-badgeWidth,24),16,d.Number("remaining")==1?UiColor("943c25"):Ink).HorizontalAlignment=HorizontalAlignment.Right;
             if(row.Flag("forecast")||row.Flag("consumed"))
-                Text(tile,row.Flag("forecast")?"＋ 予測":"使用後に場から離れる",new(4,2,240,24),16,Gold);
+            {string caption=row.Flag("forecast")?"＋ 予測":"使用後に場から離れる";float w=Math.Min(240,font.GetStringSize(caption,fontSize:16).X+12);var state=Surface(tile,new(244-w,4,w,24),Paper,radius:3);Text(state,caption,new(6,0,w-12,24),16,row.Flag("consumed")?UiColor("943c25"):Ink);}
         }
         return tile;
     }
@@ -177,6 +204,7 @@ public partial class GameScreen
 
     public override void _Input(InputEvent input)
     {
+        FocusInput(input);
         if(input is InputEventMouseMotion hover)hoverPoint=hover.Position;
         if(input is InputEventMouseButton wheel&&wheel.Pressed&&wheel.ButtonIndex is MouseButton.WheelUp or MouseButton.WheelDown or MouseButton.WheelLeft or MouseButton.WheelRight)CancelGesture();
         if(input is InputEventScreenTouch touch)
@@ -219,7 +247,7 @@ public partial class GameScreen
         {
             pointer = release.Position; var zone = dropZones.LastOrDefault(z => z.rect.HasPoint(pointer)).zone ?? "";
             var end = gesture.End(zone.Length > 0, GestureClock());
-            if (!verticalSwipe && end == GestureEnd.Tap) TapCard(gestureRow, gestureZone, pointer-grabOffset+grabbedSize/2);
+            if (!verticalSwipe && end == GestureEnd.Tap) TapCard(gestureRow, gestureZone, pointer-grabOffset);
             if (!verticalSwipe && end == GestureEnd.Drop) DropCard(gestureRow, gestureZone, zone);
             CancelGesture();
             renderNeeded = true; GetViewport().SetInputAsHandled();
@@ -231,8 +259,8 @@ public partial class GameScreen
         if (gesture.Mode != GestureMode.Dragging || DestinationScroll() is not { } scroll) return;
         var r = scroll.GetGlobalRect();
         if(!r.HasPoint(pointer))return; // 元列外で送り続けず、移動先の領域内だけを送る。
-        if (Screen == "preparation") { if (pointer.Y > r.End.Y - 24) scroll.ScrollVertical += 9; if (pointer.Y < r.Position.Y + 24) scroll.ScrollVertical -= 9; }
-        else { if (pointer.X > r.End.X - 50) scroll.ScrollHorizontal += 10; if (pointer.X < r.Position.X + 50) scroll.ScrollHorizontal -= 10; }
+        if (Screen == "preparation") { if (pointer.Y > r.End.Y - 22) scroll.ScrollVertical += 7; if (pointer.Y < r.Position.Y + 22) scroll.ScrollVertical -= 7; }
+        else { if (pointer.X > r.End.X - 64) scroll.ScrollHorizontal += 16; if (pointer.X < r.Position.X + 64) scroll.ScrollHorizontal -= 16; }
     }
     private void TapCard(JsonObject row, string zone, Vector2 point)
     {
@@ -276,10 +304,9 @@ public partial class GameScreen
 
     private void SceneReader()
     {
-        ReadingBackdrop();
         Text(content,"夜潮の排水路",new(24,4,1100,56),24);
-        var p=Panel(content,new(24,636,840,360),"f1f1e870");
-        StoryReader(p,"scene-reader",new(24,20,792,320),false);
+        var p=ReadingWindow(content,new(24,636,840,360));
+        StoryReader(p,"scene-reader",new(24,24,792,312),false);
         Button(content,"story-detail","詳細",new(24,1018,112,56),()=>OpenModal("story-detail"));
         Button(content,"withdraw","撤退",new(1520,1018,120,56),()=>OpenModal("withdraw"),Can("withdraw"));
         Button(content,"continue","進む",new(1740,1018,156,56),()=>ContinueStory(true),Can("continue_scene"));
@@ -287,11 +314,15 @@ public partial class GameScreen
 
     private void StoryReader(Control parent, string id, Rect2 rect, bool optional)
     {
-        var scroll = Scroll(parent, id, rect, false); var list = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; list.AddThemeConstantOverride("separation", 22); scroll.AddChild(list);
-        foreach (var row in View.Obj("story").Arr("texts").Rows().Where(t => optional ? t.Text("kind") == "detail" : t.Text("kind") != "detail"))
+        var scroll = Scroll(parent, id, rect, false); var list = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; list.AddThemeConstantOverride("separation", 14); scroll.AddChild(list);
+        foreach (var row in StoryRows(optional))
         {
-            var label = new Label { Text = row.Text("short_text"), CustomMinimumSize = new(rect.Size.X - 30, 0), AutowrapMode = TextServer.AutowrapMode.WordSmart, MouseFilter = MouseFilterEnum.Ignore };
-            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeConstantOverride("line_spacing",10); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
+            string lines = ProseLines(row.Text("short_text"), rect.Size.X - 12);
+            // CSSのline-heightは末行にも一行分の領域を持つ。GodotのLabel既定高は
+            // 末行のfont heightで終わるため、段落数に応じて後続の位置がずれる。
+            // 行送りと外形高を別に固定し、上下の半行余白は中央寄せで再現する。
+            var label = new Label { Text = lines, CustomMinimumSize = new(rect.Size.X - 12, lines.Split('\n').Length * 34), VerticalAlignment = VerticalAlignment.Center, AutowrapMode = TextServer.AutowrapMode.Off, MouseFilter = MouseFilterEnum.Ignore };
+            label.AddThemeFontSizeOverride("font_size", 20); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
         }
     }
     private void RecordVisibleParagraphs()
@@ -307,28 +338,25 @@ public partial class GameScreen
     internal void PaintInteraction(Control surface)
     {
         PaintDropTargets(surface);
-        void Arrow(Rect2 start, Rect2 end)
+        Vector2? Point(Control? node,Control? track,bool top)
         {
-            var direction = (end.GetCenter()-start.GetCenter()).Normalized();
-            float Edge(Rect2 r)=>Math.Min(Math.Abs(direction.X)<.001f?float.MaxValue:r.Size.X/2/Math.Abs(direction.X),Math.Abs(direction.Y)<.001f?float.MaxValue:r.Size.Y/2/Math.Abs(direction.Y));
-            var from=start.GetCenter()+direction*(Edge(start)+8);var to=end.GetCenter()-direction*(Edge(end)+8);
-            surface.DrawLine(from, to, Gold, 4, true); surface.DrawLine(to, to - direction.Rotated(.5f) * 20, Gold, 4, true); surface.DrawLine(to, to - direction.Rotated(-.5f) * 20, Gold, 4, true);
+            if(node is null||track is null)return null;var a=node.GetGlobalRect();var b=track.GetGlobalRect();
+            float left=Math.Max(a.Position.X,Math.Max(b.Position.X,1)),right=Math.Min(a.End.X,Math.Min(b.End.X,1919));
+            return right-left<4?null:new Vector2((left+right)/2,top?a.Position.Y:a.End.Y);
         }
-        if (showRelations && selectedCard != "" && Controls.TryGetValue("card-hand-" + selectedCard, out var hand) && Choice() is { } choice)
+        void Relation(Vector2? from,Vector2? to)
         {
-            var target = Controls.GetValueOrDefault("actor-" + choice.Text("target"));
-            var matching = View.Obj("exploration").Obj("field").FirstOrDefault(p => p.Key == View.Obj("exploration").Arr("hand").Rows().FirstOrDefault(c => c.Text("id") == selectedCard)?.Text("attr")).Value;
-            var fieldControl = matching is null ? Controls.Values.OfType<CardTile>().FirstOrDefault(c=>c.Zone=="forecast") : Controls.GetValueOrDefault("card-field-" + matching.Text("id"));
-            var fieldRect=fieldControl?.GetGlobalRect()??new Rect2(940,500,40,40);
-            Arrow(hand.GetGlobalRect(),fieldRect);
-            if (target is not null) Arrow(fieldRect,target.GetGlobalRect());
+            if(from is not {} a||to is not {} b)return;float mid=(a.Y+b.Y)/2;
+            var curve=new Curve2D();curve.AddPoint(a,Vector2.Zero,new(0,mid-a.Y));curve.AddPoint(b,new(0,mid-b.Y),Vector2.Zero);
+            var color=Ink;color.A=.5f;surface.DrawPolyline(curve.Tessellate(6,2),color,2,true);
         }
-        if (allowDrag && gesture.Mode == GestureMode.Pending && !verticalSwipe && Time.GetTicksMsec() - gestureStarted >= 120)
+        if(showRelations&&selectedCard!=""&&Controls.TryGetValue("card-hand-"+selectedCard,out var hand)&&Choice() is {} choice)
         {
-            var cue=new Vector2(Mathf.Clamp(pointer.X+36,36,1630),Mathf.Clamp(pointer.Y,36,1030));
-            surface.DrawArc(cue,16,-.5f*Mathf.Pi,(float)((Time.GetTicksMsec()-gestureStarted)/holdMilliseconds*2*Math.PI)-.5f*Mathf.Pi,32,Gold,3,true);
-            var legal=View.Obj("exploration").Arr("legal_actions").Rows().Where(r=>r.Text("card_id")==gestureRow.Text("id"));
-            surface.DrawString(font,cue+new Vector2(24,6),gestureZone=="hand"?ActionLabel(gestureRow,legal.FirstOrDefault(r=>r.Text("target")==selectedTarget)??legal.FirstOrDefault()):"移動",fontSize:18,modulate:Gold);
+            var selected=View.Obj("exploration").Arr("hand").Rows().FirstOrDefault(c=>c.Text("id")==selectedCard);
+            var field=Controls.Values.OfType<CardTile>().FirstOrDefault(c=>c.Zone is "field" or "forecast"&&c.Row.Text("attr")==selected?.Text("attr"));
+            var fieldTrack=Controls.GetValueOrDefault("strip-field");
+            Relation(Point(hand,Controls.GetValueOrDefault("strip-hand"),true),Point(field,fieldTrack,false));
+            Relation(Point(field,fieldTrack,true),Point(Controls.GetValueOrDefault("actor-"+choice.Text("target")),Controls.GetValueOrDefault("actors"),false));
         }
     }
 }
@@ -340,18 +368,8 @@ internal partial class CardTile : Control
     internal JsonObject Row = new();
     internal string Zone = "";
     internal bool Selected,Linked;
-    public override void _Draw()
-    {
-        DrawRect(new(Vector2.Zero, Size), new Color(Row.Flag("empty")?"dce6d122":Size.Y<100?"fcfcf5":"c9d8c5"));
-        var border=new Color(Selected||Linked||Row.Flag("pending")||Row.Flag("forecast")?"315849":"bac9ba");
-        if(Row.Flag("pending")||Row.Flag("forecast"))
-        {
-            // 破線は状態の違い。予測札も未払い札も通常の確定個体と混同しない。
-            for(float x=0;x<Size.X;x+=14){DrawLine(new(x,1),new(Math.Min(x+8,Size.X),1),border,2);DrawLine(new(x,Size.Y-1),new(Math.Min(x+8,Size.X),Size.Y-1),border,2);}
-            for(float y=0;y<Size.Y;y+=14){DrawLine(new(1,y),new(1,Math.Min(y+8,Size.Y)),border,2);DrawLine(new(Size.X-1,y),new(Size.X-1,Math.Min(y+8,Size.Y)),border,2);}
-        }
-        else DrawRect(new(Vector2.Zero,Size),border,false,Selected||Linked?4:2);
-    }
+    internal bool Hovered,Ghost;
+    public override void _Draw()=>Screen.PaintTile(this);
     public override void _GuiInput(InputEvent input)
     {
         if (input is InputEventMouseButton mouse && mouse.Pressed && mouse.ButtonIndex == MouseButton.Left)

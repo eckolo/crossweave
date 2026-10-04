@@ -147,10 +147,20 @@ internal sealed partial class UiAutomation
         Check("U01-cancel-no-execution",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&JsonNode.DeepEquals(plan,screen.Plan));
     }
 
-    private string NodeText(string id)
+    private string NodeText(string id)=>NodeText(screen.Controls[id]);
+    private static IEnumerable<Node> Descendants(Node root)
     {
-        var texts=new List<string>();void Read(Node node){if(node is Label label)texts.Add(label.Text);foreach(var child in node.GetChildren())Read(child);}
-        Read(screen.Controls[id]);return string.Join("\n",texts);
+        yield return root;
+        foreach(var child in root.GetChildren())foreach(var node in Descendants(child))yield return node;
+    }
+    private string NodeText(Node root)
+    {
+        var texts=new List<string>();
+        void Read(Node node){
+            if(node.HasMeta("fact_columns")){var columns=new List<string>();void Column(Node n){if(n is Label l)columns.Add(l.Text);foreach(var child in n.GetChildren())Column(child);}Column(node);texts.Add(string.Join(" ",columns));return;}
+            if(node is Label label)texts.Add(label.Text);foreach(var child in node.GetChildren())Read(child);
+        }
+        Read(root);return string.Join("\n",texts);
     }
     private async Task ReviewChoice()
     {
@@ -165,7 +175,7 @@ internal sealed partial class UiAutomation
     }
     private async Task ReviewSafety()
     {
-        if(mode=="review-safety-off"){await Click("menu");await Click("settings");await Click("quick-place");await Click("modal-close");}
+        if(mode=="review-safety-off"){await Click("menu");await Click("operation");await Click("quick-place");await Click("modal-close");}
         var before=screen.Session!.ExportDto();var file=System.IO.File.ReadAllBytes(SavePath);
         await ReviewChoice();var choice=reviewFixture!.Obj("choice").Copy();var v=screen.View;
         var preview=screen.Session.PreviewAction(v.Number("revision"),v.Text("view_token"),choice);
@@ -195,7 +205,12 @@ internal sealed partial class UiAutomation
         var before=screen.Session!.ExportDto();var file=System.IO.File.ReadAllBytes(SavePath);await ReviewChoice();
         var c=reviewFixture!.Obj("choice");var v=screen.View;var p=screen.Session.PreviewAction(v.Number("revision"),v.Text("view_token"),c);
         await Click("card-hand-"+c.Text("card_id"));var details=NodeText("detail-body");var card=v.Obj("exploration").Arr("hand").Rows().Single(r=>r.Text("id")==c.Text("card_id"));
-        if(v.Obj("exploration").Obj("field").ContainsKey(card.Text("attr"))&&card.Text("kind")!="heal")Check("R04-field-contribution-separated",details.Contains("現在の場の加算")&&details.Contains("基礎値"),new{details});
+        if(v.Obj("exploration").Obj("field").ContainsKey(card.Text("attr"))&&card.Text("kind")!="heal")
+        {
+            var field=v.Obj("exploration").Obj("field").Obj(card.Text("attr"));
+            var contributions=Descendants(screen.Controls["detail-body"]).OfType<Label>().Where(n=>n.HasMeta("field_contribution")).ToArray();
+            Check("R04-field-contribution-separated",contributions.Length==2&&contributions[0].Text=="+ "+field.Number("field_power")+"（場）"&&contributions[1].Text=="+ "+field.Number("field_hit")+"（場）"&&details.Contains(card.Number("power").ToString()),new{details,field});
+        }
         if(card.Text("kind")=="guard")Check("R04-defense-uses-visible",details.Contains("防御の回数"),new{details,card});
         if(card.Text("kind")=="defense_support")Check("R04-grant-target-restack-visible",details.Contains("使用者以外")&&details.Contains("張り直し")&&details.Contains("防御の回数"),new{details,card});
         await Capture("R04-hand-detail");await ReadAll("detail-body");await Capture("R04-hand-detail-bottom");await CloseDetail();await Click("preview");var text=NodeText("prediction-body");
@@ -203,17 +218,27 @@ internal sealed partial class UiAutomation
         foreach(var change in p.Arr("actor_changes").Rows())
         {
             foreach(var (key,label) in new[]{("hp","余力"),("posture_remaining","隠蔽"),("crit","機転")})
-                if(!JsonNode.DeepEquals(change.Obj("before")[key],change.Obj("after")[key]))Check("R03-visible-"+change.Text("actor_id")+"-"+key,text.Contains(label+" "+change.Obj("before").Number(key)+" → "+change.Obj("after").Number(key)));
+                if(!JsonNode.DeepEquals(change.Obj("before")[key],change.Obj("after")[key]))
+                {
+                    // 余力・隠蔽は原本どおり主体札の数値とdeltaで読む。検査のためだけに
+                    // 予測窓へ同じ情報の段落を増やさず、実Labelを検査する。
+                    var node=screen.Controls["vitals-"+change.Text("actor_id")];
+                    long delta=change.Obj("after").Number(key)-change.Obj("before").Number(key);
+                    if(key=="posture_remaining"&&p.Text("mode")=="attack"&&p.Text("target")==change.Text("actor_id"))delta=-p.Number("hit_gain");
+                    string expected=delta==0?"±0":delta>0?"+"+delta:delta.ToString();
+                    bool visible=key=="crit"?text.Contains(label+" "+change.Obj("before").Number(key)+" → "+change.Obj("after").Number(key)):Descendants(node).OfType<Label>().Any(n=>n.HasMeta("forecast_delta")&&n.GetMeta("forecast_delta").AsString()==key&&n.Text==expected);
+                    Check("R03-visible-"+change.Text("actor_id")+"-"+key,visible,new{expected,text=NodeText(node)});
+                }
             foreach(var (key,label) in new[]{("guard","身構"),("evasion","攪乱")})
                 if(!JsonNode.DeepEquals(change.Obj("before").Obj("defense")[key],change.Obj("after").Obj("defense")[key]))Check("R03-visible-"+change.Text("actor_id")+"-"+key,text.Contains(label+" "+change.Obj("before").Obj("defense").Number(key)+" → "+change.Obj("after").Obj("defense").Number(key)));
         }
-        if(p.Text("mode")=="attack")Check("R03-pre-reset-strike-visible",text.Contains("隠蔽への打撃 "+p.Number("posture_before")+" → "+(p.Number("posture_before")-p.Number("hit_gain"))));
+        if(p.Text("mode")=="attack")Check("R03-pre-reset-strike-visible",text.Contains("隠蔽 "+p.Number("posture_before")+" → "+(p.Number("posture_before")-p.Number("hit_gain"))));
         foreach(var expiry in p.Arr("unused_hand_expiry").Rows().Where(r=>r.Flag("expires")))Check("R03-expiry-destination-visible-"+expiry.Text("id"),text.Contains(expiry.Text("destination")=="destroyed"?"消滅":"共通回収"));
         await Capture("R03-prediction-top");await ReadAll("prediction-body");await Capture("R03-prediction-bottom");await CloseDetail();
         if(card.Text("kind") is "guard" or "defense_support")
         {
             await Click("knowledge");await Click("knowledge-group-0");await Click("knowledge-card-0");
-            Check("R04-record-has-no-current-field-addition",!NodeText("knowledge-detail").Contains("現在の場の加算"));
+            Check("R04-record-has-no-current-field-addition",!Descendants(screen.Controls["knowledge-detail"]).Any(n=>n.HasMeta("field_contribution")));
             await Capture("R04-record-top");await ReadAll("knowledge-detail");await Capture("R04-record-bottom");await Click("modal-back");await CloseDetail();
         }
         Check("R03-R04-reading-preserves-dto-rng-file",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&file.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
@@ -224,9 +249,9 @@ internal sealed partial class UiAutomation
         var before=screen.Session!.ExportDto();await ReviewChoice();var c=reviewFixture!.Obj("choice");var v=screen.View;var p=screen.Session.PreviewAction(v.Number("revision"),v.Text("view_token"),c);
         var reservations=p.Arr("current_reservations_after").Rows().ToArray();var group=reservations.Where(r=>r.Number("at")==p.Number("next_self_reservation")).ToArray();int preceding=reservations.Count(r=>r.Number("at")<p.Number("next_self_reservation"));
         string position=group.Length>1?(preceding+1)+"〜"+(preceding+group.Length):(preceding+1).ToString();
-        Check("R05-public-position-range",((Button)screen.Controls["preview"]).Text.Contains("本人→"+position),new{position,reservations});
+        Check("R05-public-position-range",NodeText("turn-order").Contains("次")&&screen.Controls.Where(p=>p.Key.StartsWith("order-")).Any(p=>p.Value.TooltipText.Contains("次回位置 "+position)),new{position,reservations});
         await Capture("R05-order-strip");await Click("order-0");Check("R05-existing-detail-readonly",screen.Modal=="detail"&&JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State));await CloseDetail();
-        await Click("preview");var text=NodeText("prediction-body");Check("R05-now-next-grouping",text.Contains("本人・今")&&text.Contains("・次")&&(mode!="review-order-tie"||text.Contains("同時刻［")),new{text,position});
+        await Click("preview");var text=NodeText("prediction-body");Check("R05-now-next-grouping",text.Contains("本人・今")&&text.Contains("本人の次回位置："+position)&&text.Contains("・次")&&(mode!="review-order-tie"||text.Contains("同時刻［")),new{text,position});
         await ReadAll("prediction-body");await Capture("R05-reservations");await CloseDetail();Check("R05-no-execution",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State));
     }
     private async Task ReviewUnlimited()
@@ -262,9 +287,14 @@ internal sealed partial class UiAutomation
         plan.Obj("composition")["deck"]=ViewData.Array(plan.Obj("composition").Arr("deck").Strings().Where(id=>id!=oldGuard).Append("pending:choice-0"));
         plan.Obj("composition")["equipment"]=new JsonArray("pending:basic:PS01");await EditTo(plan);
         await Click("review");var text=NodeText("dialog-body");
-        Check("R02-mixed-individual-price-destination",text.Contains("着想 4 → 編成")&&text.Contains("着想 2 → 編成")&&text.Contains("着想 2 → 所持"),new{text,comparison=screen.Comparison.Copy(),plan=screen.Plan.Copy()});
-        Check("R02-mixed-quantity-capacity-passive",text.Contains("0 → 1")&&text.Contains("1 → 0")&&text.Contains("札枚数 12 → 12 / 12")&&text.Contains("心得枠 0 → 2 / "+screen.View.Obj("home").Obj("equipment").Number("capacity"))&&text.Contains("発動条件")&&text.Contains("効果"));
-        await Capture("R02-mixed-top");await ReadAll("dialog-body");await Capture("R02-mixed-bottom");await CloseDetail();
+        foreach(var (id,destination,price) in new[]{("choice-0","build",400L),("basic:PS01","build",200L),("basic:PS02","reserve",200L)})
+        {
+            var row=screen.Controls["review-purchase-"+id];string symbol=destination=="build"?"LayoutGrid":"Layers";
+            Check("R02-individual-price-destination-"+id,row.GetMeta("destination").AsString()==destination&&row.GetMeta("price_units").AsInt64()==price&&row.GetChildren().OfType<TextureRect>().Any(t=>t.HasMeta("accepted_icon")&&t.GetMeta("accepted_icon").AsString()==symbol)&&row.GetChildren().OfType<Label>().Any(t=>t.Text==ViewData.Money(price)),new{destination,price,text=NodeText(row)});
+        }
+        await Capture("R02-mixed-top");await ExpandReviewEffects();text=NodeText("dialog-body");
+        Check("R02-mixed-quantity-capacity-passive",text.Contains("0 → 1")&&text.Contains("1 → 0")&&NodeText("review-capacity").Contains("12 / 12")&&NodeText("review-capacity").Contains("2 / "+screen.View.Obj("home").Obj("equipment").Number("capacity"))&&text.Contains("発動条件")&&text.Contains("効果"));
+        await Capture("R02-mixed-expanded-top");await ReadAll("dialog-body");await Capture("R02-mixed-bottom");await CloseDetail();
         Check("R02-cancel-is-readonly",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&file.SequenceEqual(System.IO.File.ReadAllBytes(SavePath))&&JsonNode.DeepEquals(plan,screen.Plan));
         var committedPlan=screen.Plan.Copy();await Click("review");await Click("commit");VerifyCommand(before,"commit_preparation",new(){["plan"]=committedPlan});
         var committed=screen.Session.ExportDto();var replay=screen.Session.Execute(screen.LastCommand!);
@@ -276,11 +306,16 @@ internal sealed partial class UiAutomation
         oldGuard=owned.First(r=>!r.Flag("selected")&&r.Obj("blueprint").Text("base")=="g"&&r.Obj("blueprint").Arr("affixes").Count==0).Text("id");
         var variant=owned.First(r=>r.Flag("selected")&&r.Obj("blueprint").Text("base")=="g"&&r.Obj("blueprint").Arr("affixes").Count>0).Text("id");
         plan=screen.Plan.Copy();plan.Obj("composition")["deck"]=ViewData.Array(plan.Obj("composition").Arr("deck").Strings().Where(id=>id!=variant).Append(oldGuard));await EditTo(plan);await Click("review");text=NodeText("dialog-body");
-        Check("R02-composition-only-difference",text.Contains("取得\nなし")&&text.Contains("1 → 0")&&text.Contains("0 → 1")&&text.Contains("札枚数 12 → 12 / 12"),new{text});await Capture("R02-composition-only");await CloseDetail();await Click("discard");
+        Check("R02-composition-only-difference",!screen.Controls.Keys.Any(k=>k.StartsWith("review-purchase-"))&&text.Contains("1 → 0")&&text.Contains("0 → 1")&&NodeText("review-capacity").Contains("12 / 12"),new{text});await Capture("R02-composition-only");await CloseDetail();await Click("discard");
         owned=screen.View.Obj("home").Arr("owned").Rows().ToArray();var passive=owned.Single(r=>r.Obj("blueprint").Text("base")=="PS02").Text("id");
         plan=screen.Plan.Copy();plan.Obj("composition")["equipment"]=new JsonArray(passive);await EditTo(plan);await Click("review");text=NodeText("dialog-body");
-        Check("R02-passive-only-trigger-effect-capacity",text.Contains("心得枠 2 → 3 / "+screen.View.Obj("home").Obj("equipment").Number("capacity"))&&text.Contains("発動条件")&&text.Contains("効果")&&text.Contains("1 → 0")&&text.Contains("0 → 1"),new{text});await Capture("R02-passive-only-top");await ReadAll("dialog-body");await Capture("R02-passive-only-bottom");await CloseDetail();await Click("discard");
+        await Capture("R02-passive-only-top");await ExpandReviewEffects();text=NodeText("dialog-body");
+        Check("R02-passive-only-trigger-effect-capacity",NodeText("review-capacity").Contains("3 / "+screen.View.Obj("home").Obj("equipment").Number("capacity"))&&text.Contains("発動条件")&&text.Contains("効果")&&text.Contains("1 → 0")&&text.Contains("0 → 1"),new{text});await ReadAll("dialog-body");await Capture("R02-passive-only-bottom");await CloseDetail();await Click("discard");
         Check("R02-only-edits-cancel-no-save",JsonNode.DeepEquals(committed.State,screen.Session.ExportDto().State)&&file.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
+    }
+    private async Task ExpandReviewEffects()
+    {
+        foreach(string id in screen.Controls.Keys.Where(k=>k.StartsWith("fold-review-",StringComparison.Ordinal)).ToArray())await Click(id);
     }
     private async Task ReviewDestination()
     {

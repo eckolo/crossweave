@@ -21,7 +21,13 @@ def prepare(acquire=True):
         archive = bootstrap.acquire(bootstrap.LOCK['assets']['godot_' + host], cache)
         if not list((base / 'godot').glob('**/*' + suffix)):
             with zipfile.ZipFile(archive) as z: z.extractall(base / 'godot')
-        shutil.copy2(bootstrap.acquire(bootstrap.LOCK['assets']['font'], cache), ROOT / 'Godot/Assets/NotoSansJP.ttf')
+    # 既存の固定書体をGitにも保存し、CIが外部font URLで停止する経路をなくす。
+    # hashは従来lockのまま。別の書体で検査を通したり、既存素材を上書きしない。
+    font = ROOT / 'Godot/Assets/NotoSansJP.ttf'
+    if not font.exists() and acquire:
+        shutil.copy2(bootstrap.acquire(bootstrap.LOCK['assets']['font'], cache), font)
+    if not font.exists() or bootstrap.digest(font, 'sha256') != bootstrap.LOCK['assets']['font']['hash']:
+        raise RuntimeError('既存の固定フォントがないかhash不一致です。素材を保全して確認してください。')
     godot = next((base / 'godot').glob('**/*' + suffix))
     if os.name != 'nt': godot.chmod(godot.stat().st_mode | 0o111)
     env = os.environ.copy(); env.update(DOTNET_ROOT=str(sdk), DOTNET_CLI_TELEMETRY_OPTOUT='1', GODOT_SILENCE_ROOT_WARNING='1')

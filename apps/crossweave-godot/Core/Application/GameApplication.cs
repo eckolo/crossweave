@@ -93,7 +93,10 @@ public sealed class GameApplication
                     pending["owned:" + acquired[i].Key] = "pending:" + map.EncodeString(refs[i]);
                 var prepared = map.Encode(Preparation.View(d), pending);
                 foreach (var row in prepared.A("owned").Rows())
+                {
                     row.Put("pending", row.S("id").StartsWith("pending:", StringComparison.Ordinal));
+                    UiPublicProjection.AddAffixes(row);
+                }
                 return prepared.With(("current", map.Encode(Preparation.View(document))), ("ok", true), ("read_only", true), ("payment", J.Obj(("cost_units", Preparation.Funds(s.O("economy")) - Preparation.Funds(next.O("economy"))), ("refund_units", 0), ("unspent_before_units", Preparation.Funds(s.O("economy"))), ("unspent_after_units", Preparation.Funds(next.O("economy"))))));
             }
             catch (Exception e)when (IsRefusal(e))
@@ -384,12 +387,16 @@ public sealed class GameApplication
     {
         var s = d.O("session");
         var home = s.S("phase")is "home" or "return" ? Preparation.View(d) : null;
+        // J.Objは渡したJsonNodeを複製する。公開説明は複製の前に付け、
+        // 後で元のlocal homeだけを書き換えて画面へ届かなくなるのを防ぐ。
+        // このhomeは表示用コピーであり、所持品・保存・効果計算を変更しない。
+        if(home is not null)foreach(var row in home.A("owned").Rows().Concat(home.A("acquisition").Rows()))UiPublicProjection.AddAffixes(row);
         var scene = Story.View(d);
         var result = J.Obj(("revision", d.L("revision")), ("view_token", d.S("view_nonce")), ("phase", s.S("phase")), ("home", home), ("draft", d["draft"] ?? Preparation.Draft(s, Preparation.Plan(s), d.L("revision"))), ("story", scene), ("case", J.Select(d.O("casebook").O("SCN-001"), "status", "attempts", "visible_clue_ids", "read_text_ids")), ("profile", J.Select(s.O("economy").O("profile"), "materials", "unlocked", "clears")), ("capabilities", J.Obj(new[] { "save_draft", "discard_draft", "commit_preparation", "depart", "play", "withdraw", "continue_scene", "ack_return", "convert_items", "set_item_lock", "preview_action", "preview_preparation", "quote_conversion" }.Select(op => (op, (object? )J.Obj(("available", Refusal(d, op)is null), ("reason", Refusal(d, op))))).ToArray())));
         if (s["game"] is JsonObject)
         {
             var exp = Game(s).View();
-            exp.Put("knowledge", PublicKnowledge(exp.O("knowledge")));
+            exp.Put("knowledge", PublicKnowledge(exp.O("knowledge"),s.O("active").S("run"),s.O("active")));
             foreach (var card in exp.A("hand").Rows())
                 card.Remove("selection_id");
             foreach (var card in exp.A("own_deck").Rows())
@@ -401,7 +408,8 @@ public sealed class GameApplication
         else
             result.Put("exploration", null);
         result.Put("action_history", s["action_history"]);
-        result.Put("knowledge", PublicKnowledge(s.O("economy").O("profile").O("knowledge")));
+        result.Put("knowledge", PublicKnowledge(s.O("economy").O("profile").O("knowledge"),s.O("active").S("run"),s["active"] as JsonObject));
+        result.Put("known_cards",J.Array(s.O("economy").O("profile").A("unlocked").Strings().Select(id=>Expedition.PublicCard(Content.Card(id)))));
         if (s["active"] is JsonObject a && s.O("receipts")[a.S("run")] is JsonObject receipt)
             result.Put("return", J.Select(receipt, "outcome", "mode", "gained_units", "unspent_after_units", "kept_items", "lost_items", "new_unlocks", "knowledge_changes", "case_changes", "expedition_end_hp", "home_hp", "end_id"));
         return new Handles(d).Encode(result);
@@ -409,7 +417,7 @@ public sealed class GameApplication
 
     // 遭遇済みの公開見出しをUIへ渡す。未遭遇の対象・未観測札・私有山札を追加しない。
     // 元セーブのknowledgeは変更せず、表示境界だけ既存targetの名前と用途で補う。
-    private static JsonObject PublicKnowledge(JsonObject k) => J.Obj(("encounters", J.Array(k.A("encounters").Rows().Select(x =>
+    private static JsonObject PublicKnowledge(JsonObject k,string run,JsonObject? active) => J.Obj(("views",UiPublicProjection.Knowledge(k,run,active)),("encounters", J.Array(k.A("encounters").Rows().Select(x =>
     {
         var target = Content.M1.O("targets").Values().FirstOrDefault(t => t.S("knowledge_profile_id") == x.S("profile"));
         return J.Select(x, "profile", "version").With(("display_name", target?.S("display_name") ?? "観測した相手・環境"), ("purpose", target?.S("purpose") ?? ""));

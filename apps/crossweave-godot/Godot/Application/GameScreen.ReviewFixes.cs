@@ -24,22 +24,24 @@ public partial class GameScreen
         if(key=="posture_remaining"&&actionPreview.Text("mode")=="attack"&&actionPreview.Text("target")==id)
         {before=actionPreview["posture_before"];after=long.TryParse(before?.ToString(),out var b)&&long.TryParse(actionPreview.Text("hit_gain"),out var h)?JsonValue.Create(b-h):null;}
         if(!long.TryParse(before?.ToString(),out var x)||!long.TryParse(after?.ToString(),out var y))return " (?)";
-        return x==y?"":" ("+Signed(y-x)+")";
+        return x==y?" (±0)":" ("+Signed(y-x)+")";
     }
     private void ActorVitals(Control parent,string id,JsonObject row,float x,float y,float width)
     {
-        var hp=Text(parent,"♡ "+Known(row["hp"])+StatDelta(id,"hp"),new(x,y,width/2-8,24),18);
-        hp.TooltipText=(row.Text("remaining_label")==""?"余力":row.Text("remaining_label"))+" / "+Known(row["max_hp"]);
-        var posture=Text(parent,"◒ "+Known(row["posture_remaining"])+StatDelta(id,"posture_remaining"),new(x+width/2,y,width/2-8,24),18);
-        posture.TooltipText="隠蔽 / "+Known(row["max_posture"]);
-        VitalBar(parent,new(x,y+27,width/2-8,4),row.Number("hp"),row.Number("max_hp"));
-        VitalBar(parent,new(x+width/2,y+27,width/2-8,4),row.Number("posture_remaining"),row.Number("max_posture"));
-        string[] keys=["guard","crit","evasion"],symbols=["◇","ϟ","≋"],terms=["身構","機転","攪乱"];
-        for(int i=0;i<keys.Length;i++)
+        Controls["vitals-"+id]=parent;
+        void Stat(string key,string icon,Rect2 rect,bool right=false)
         {
-            var label=Text(parent,symbols[i]+" "+Known(StatValue(row,keys[i]))+StatDelta(id,keys[i]),new(x+i*width/3,y+36,width/3-4,26),16);
-            label.TooltipText=terms[i]+"（括弧内は選択中の一手の公開差分）";
+            string value=Known(StatValue(row,key)),delta=StatDelta(id,key).Trim(' ','(',')');
+            float w=24+font.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X);
+            float left=right?rect.End.X-w:rect.Position.X;
+            Icon(parent,icon,new(left,rect.Position.Y+2,20,20));
+            var number=Strong(Text(parent,value,new(left+24,rect.Position.Y,w-24,24),18));number.TooltipText=key+" / "+Known(row[key=="hp"?"max_hp":"max_posture"]);number.SetMeta("public_stat",key);
+            if(delta!=""){var deltaLabel=Text(parent,delta,new(left+28+font.GetStringSize(value,fontSize:18).X,rect.Position.Y,Math.Max(1,w-28-font.GetStringSize(value,fontSize:18).X),22),16);deltaLabel.SetMeta("forecast_delta",key);}
         }
+        Stat("hp","Heart",new(x,y,width/2,24));Stat("posture_remaining","VenetianMask",new(x+width/2,y,width/2,24),true);
+        VitalBar(parent,new(x,y+24,width,4),row.Number("hp"),row.Number("max_hp"));
+        var bars=new Control{Position=new(x,y+30),Size=new(width,4),Modulate=new(1,1,1,.6f),MouseFilter=MouseFilterEnum.Ignore};parent.AddChild(bars);VitalBar(bars,new(0,0,width,4),row.Number("posture_remaining"),row.Number("max_posture"));
+        Stat("guard","Shield",new(x,y+38,width/3,24));Stat("crit","Zap",new(x+width/3,y+38,width/3,24));Stat("evasion","Wind",new(x+2*width/3,y+38,width/3,24),true);
     }
     private string PredictionSummary()
     {
@@ -138,19 +140,16 @@ public partial class GameScreen
     private void PaintDropTargets(Control surface)
     {
         if(gesture.Mode!=Crossweave.Core.GestureMode.Dragging)return;
-        foreach(var (rect,zone) in dropZones)
-        {
-            var status=DropPlan(gestureRow,gestureZone,zone);bool over=rect.HasPoint(pointer);var color=new Color(status.allowed?"315849":"a43827");
-            surface.DrawRect(rect,color,false,over?4:2);
-            if(over)
-            {
-                // 操作中の可否が列見出しと重ならないよう、同じ位置へ不透明な札色を敷く。
-                string caption=(status.allowed?"✓ ":"× ")+status.text;
-                float width=Math.Min(rect.Size.X-20,font.GetStringSize(caption,fontSize:20).X+16);
-                surface.DrawRect(new(rect.Position+new Vector2(8,6),new(width,36)),new Color("fcfcf5"));
-                surface.DrawString(font,rect.Position+new Vector2(14,30),caption,fontSize:20,modulate:color);
-            }
-        }
+        // 元の可否判定はDragAcceptance/DropCardと共用。見えている移動先だけを強調する。
+        var destination=dropZones.LastOrDefault(z=>z.rect.HasPoint(pointer));if(destination.zone is null)return;
+        var (rect,zone)=destination;var status=DropPlan(gestureRow,gestureZone,zone);
+        var color=status.allowed?Gold:Muted;
+        if(status.allowed)surface.DrawRect(rect.Grow(-2),color,false,2);else DashedRect(surface,rect.Grow(-2),color,1);
+        if(Screen!="preparation")return;
+        string caption=gestureZone=="offer"?zone=="build"?"取得・編成":"取得":zone=="offer"?"取消":zone=="build"?"編成":"外す";
+        var heading=new Rect2(rect.Position.X,81,rect.Size.X,32);
+        surface.DrawRect(heading,UiColor("f1f1e8"));float textWidth=strongFont.GetStringSize(caption,fontSize:24).X;
+        surface.DrawString(strongFont,new(heading.Position.X+(heading.Size.X-textWidth)/2,105),caption,fontSize:24,modulate:color);
     }
     internal void BlankPointerDown(ScrollContainer scroll,Vector2 point)
     {

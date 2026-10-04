@@ -65,8 +65,8 @@ public partial class GameScreen : Control
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         GetTree().AutoAcceptQuit = false;
-        // 同梱の可変フォントは既定wght=100。素材を変えず、Godot標準FontVariationで本文用400を選ぶ。
-        font = new FontVariation { BaseFont = GD.Load<Font>("res://Assets/NotoSansJP.ttf"), VariationOpentype = new Godot.Collections.Dictionary { [TextServerManager.GetPrimaryInterface().NameToTag("wght")] = 400 } };
+        // 現在の原本と同じOS書体を選ぶ。同梱NotoはOSに書体がない環境のfallback。
+        PrepareAcceptedStyle();
         BuildTheme();
         GetViewport().SizeChanged += CancelGesture;
         // 通常パスを解決するのはGodot側だけ。検査引数は専用領域との組合せが必須。
@@ -127,6 +127,9 @@ public partial class GameScreen : Control
 
     private void Adopt(JsonObject view)
     {
+        // 新しく公開された解決履歴だけを表示する。保存読込み時に過去履歴を再演しない。
+        if(View.Text("phase")=="exploring"&&view.Text("phase")=="exploring")
+            foreach(var row in view.Arr("action_history").Rows().Skip(View.Arr("action_history").Count))eventQueue.Enqueue(row.Copy());
         View = view.Copy(); Plan = View.Obj("draft").Obj("plan").Copy();
         displayedTexts.Clear();
         Comparison = new(); selectedCard = ""; actionPreview = new(); detailKey = ""; Modal = ""; modalParent = "";
@@ -250,6 +253,9 @@ public partial class GameScreen : Control
         RecordVisibleParagraphs();
         if (renderNeeded) { renderNeeded = false; Render(); }
         UpdateDragGhost();
+        UpdateLiveEvents();
+        UpdateHoldCue();
+        UpdateCheckboxFocus();
         canvas?.QueueRedraw();
         Automation?.Tick();
     }

@@ -13,8 +13,8 @@ internal sealed partial class UiAutomation
     }
     private void CommonPosition(string scene)
     {
-        Check(scene+"-common-menu",screen.Controls["menu"].GetGlobalRect()==new Rect2(1840,4,56,56));
-        Check(scene+"-common-records",screen.Controls["knowledge"].GetGlobalRect()==new Rect2(1680,4,152,56));
+        Check(scene+"-common-menu",screen.Controls["menu"].GetGlobalRect()==new Rect2(1839,5,56,56),screen.Controls["menu"].GetGlobalRect().ToString());
+        Check(scene+"-common-records",screen.Controls["knowledge"].GetGlobalRect()==new Rect2(1679,5,152,56),screen.Controls["knowledge"].GetGlobalRect().ToString());
     }
     private async Task Inheritance()
     {
@@ -39,17 +39,17 @@ internal sealed partial class UiAutomation
         CommonPosition("exploration");await Capture("exploration");save=screen.Session.ExportDto().State.Copy();
         var choice=screen.View.Obj("exploration").Arr("legal_actions").Rows().First(c=>screen.Session.PreviewAction(screen.View.Number("revision"),screen.View.Text("view_token"),c.Copy()).Text("mode")=="place");
         var cardId="card-hand-"+choice.Text("card_id");await Click(cardId);
-        Check("hand-detail-edge-and-ratio",screen.Controls["detail-panel"].Size==new Vector2(520,480)&&screen.Controls["detail-panel"].Position.Y==488);
+        Check("hand-detail-edge-and-ratio",screen.Controls["detail-panel"].Size==new Vector2(520,480)&&screen.Controls["detail-panel"].Position.Y==486);
         await Capture("hand-detail");await Click(cardId);Check("same-card-closes",screen.Modal=="");
         var forecast=screen.Controls.Keys.Single(k=>k.StartsWith("card-forecast-"));await Click(forecast);
         Check("forecast-detail-readonly",screen.Modal=="detail"&&JsonNode.DeepEquals(save,screen.Session.ExportDto().State));await Capture("forecast-detail");
         await Click(forecast);Check("same-forecast-closes",screen.Modal=="");
         await Click("order-0");Check("order-opens-actor-detail",screen.Controls["detail-panel"].Size==new Vector2(416,384)&&screen.Controls["detail-panel"].Position.Y==16);await Capture("order-detail");
         await CloseDetail();await Click("preview");
-        Check("prediction-uses-hand-origin-after-order",screen.Controls["detail-panel"].Position.Y==488);
+        Check("prediction-uses-hand-origin-after-order",screen.Controls["detail-panel"].Position.Y==486);
         await Capture("prediction");await CloseDetail();
         var hover=await Point("preview");await Move(new(960,360),hover);await screen.ToSignal(screen.GetTree().CreateTimer(.24),SceneTreeTimer.SignalName.Timeout);await Frame(3);
-        Check("hover-opens-transient-prediction",screen.Modal=="prediction"&&((Button)screen.Controls["window-pin"]).Text=="一時");
+        Check("hover-opens-transient-prediction",screen.Modal=="prediction"&&((Button)screen.Controls["window-pin"]).TooltipText=="固定する");
         await Click("window-pin");await Move(hover,new(960,360));await screen.ToSignal(screen.GetTree().CreateTimer(.22),SceneTreeTimer.SignalName.Timeout);await Frame(2);
         Check("pinned-prediction-survives-pointer-leave",screen.Modal=="prediction");await CloseDetail();
         await Point(cardId);start=screen.Controls[cardId].GlobalPosition+new Vector2(31,45);
@@ -62,13 +62,13 @@ internal sealed partial class UiAutomation
         await Frame(2);await Mouse(end,false);
         foreach(int index in new[]{0,1})screen.GetViewport().PushInput(new InputEventScreenTouch{Index=index,Pressed=false,Position=end},true);
         await Idle();Check("multiple-pointer-no-commit",JsonNode.DeepEquals(save,screen.Session.ExportDto().State));
-        await Click("menu");await Capture("menu");await Click("settings");await Click("auto-details");await Capture("settings");await Click("modal-close");
+        await Click("menu");await Capture("menu");await Click("operation");await Click("auto-details");await Capture("settings");await Click("modal-close");
         await Click(cardId);Check("auto-details-off",screen.Modal=="");await Click(forecast);Check("explicit-forecast-opens-with-auto-off",screen.Modal=="detail");await CloseDetail();
         var other=screen.Controls.Keys.First(k=>k.StartsWith("card-hand-")&&k!=cardId);await Click(other);Check("obsolete-forecast-detail-cleared",screen.Modal=="");
         await Click("deck");await Capture("deck");await Click("deck-card-0");await Click("modal-back");Check("deck-parent-restored",screen.Modal=="deck");await Click("modal-close");
         await Click("menu");await Click("action-history");await Capture("action-history");await Click("modal-close");
-        await Click("knowledge");await Click("knowledge-group-0");Check("record-child-gap",screen.Controls["knowledge-child"].Position.X-screen.Controls["dialog-panel"].GetGlobalRect().End.X==16);await Capture("knowledge");
-        await Click("knowledge-back");Check("record-parent-retained",screen.Modal=="knowledge"&&!screen.Controls.ContainsKey("knowledge-child"));await Click("modal-close");
+        await Click("knowledge");await Click("knowledge-group-0");Check("record-child-gap",Math.Abs(screen.Controls["knowledge-child"].GetGlobalRect().Position.X-screen.Controls["dialog-panel"].GetGlobalRect().End.X-16)<.1);await Capture("knowledge");
+        await Click("modal-back");Check("record-parent-retained",screen.Modal=="knowledge"&&!screen.Controls.ContainsKey("knowledge-child"));await Click("modal-close");
         Check("all-display-inputs-preserve-dto",JsonNode.DeepEquals(save,screen.Session.ExportDto().State));
         start=await Point(cardId);await Mouse(start,true);await screen.ToSignal(screen.GetTree().CreateTimer(.26),SceneTreeTimer.SignalName.Timeout);
         await Mouse(start,true,MouseButton.WheelDown);await Mouse(new(960,540),false);await Idle();

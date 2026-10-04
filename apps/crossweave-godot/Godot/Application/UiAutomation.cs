@@ -39,7 +39,7 @@ internal sealed partial class UiAutomation
         SavePath = ProjectSettings.GlobalizePath("user://proofs/d04b-ui-save-01/" + slot + "/m1.json");
         CampaignId = "D04B-" + mode;
         Directory.CreateDirectory(output);
-        if (mode.StartsWith("review-", StringComparison.Ordinal) && mode is not "review-fixtures" and not "review-resume")
+        if ((mode.StartsWith("review-", StringComparison.Ordinal) && mode is not "review-fixtures" and not "review-resume")||mode.StartsWith("repro-",StringComparison.Ordinal))
             LoadReviewFixture(fixture ?? throw new ArgumentException("Review check requires a fixed fixture"));
         if (mode is "natural" or "withdraw-before" or "withdraw-protected" or "defeat" or "withdraw-unprotected" or "legal-acquisition")
         {
@@ -78,10 +78,12 @@ internal sealed partial class UiAutomation
     {
         string? Value(string prefix) => args.FirstOrDefault(a => a.StartsWith(prefix, StringComparison.Ordinal))?[prefix.Length..];
         if (Value("--ui-check=") is not { } mode) return null;
+        // 同状態比較では撮影テーマを明示する。通常起動のOS判定と保存DTOには影響しない。
+        screen.ThemeDarkOverride=Value("--ui-theme=") switch {"light"=>false,"dark"=>true,null=>null,_=>throw new ArgumentException("Unknown UI theme")};
         string slot = Value("--ui-slot=") ?? "", output = Value("--ui-output=") ?? "";
         if (!Regex.IsMatch(slot, "^[a-z0-9][a-z0-9-]{7,95}$") || !System.IO.Path.IsPathFullyQualified(output))
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
-        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume" }.Contains(mode)&&!ReviewModes.Contains(mode))
+        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume", "repro-home", "repro-story", "repro-explore", "repro-prediction", "repro-motion-home", "repro-motion-explore", "repro-return-clear", "repro-return-withdrawal", "repro-return-defeat", "repro-shared-preparation", "repro-shared-story", "repro-shared-return-clear", "repro-shared-return-withdrawal", "repro-shared-return-defeat", "repro-acquisition-affix", "repro-acquisition-funded", "repro-acquisition-complete", "repro-revisit-home", "repro-component-extra" }.Contains(mode)&&!ReviewModes.Contains(mode))
             throw new ArgumentException("Unknown isolated UI check");
         string? fixture = Value("--ui-fixture=");
         if (fixture is not null && !System.IO.Path.IsPathFullyQualified(fixture))
@@ -118,6 +120,8 @@ internal sealed partial class UiAutomation
     private async Task<Vector2> Point(string id)
     {
         await Frame(2);
+        // 移動中フレームの検査以外は、原本の200ms移動が着地した実ノードへ入力する。
+        while(Time.GetTicksMsec()<screen.MotionEndsAt)await Frame();
         if (!screen.Controls.TryGetValue(id, out var control)) throw new InvalidDataException("Missing control " + id + " at " + screen.Screen + "/" + screen.Modal);
         for (Node? n = control.GetParent(); n is not null; n = n.GetParent())
             if (n is ScrollContainer s)
@@ -398,8 +402,10 @@ internal sealed partial class UiAutomation
     {
         if (DisplayServer.GetName() == "headless") return;
         await screen.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        ulong capturedAt=Time.GetTicksMsec();
         var image = screen.GetViewport().GetTexture().GetImage();
         if (image.SavePng(System.IO.Path.Combine(output, mode + "-" + name + ".png")) != Error.Ok) throw new IOException("Screenshot failed");
+        System.IO.File.WriteAllText(System.IO.Path.Combine(output,mode+"-"+name+".nodes.json"),JsonSerializer.Serialize(new{at_ms=capturedAt,viewport=screen.GetViewportRect().Size.ToString(),theme=screen.ThemeDarkOverride?.ToString()??"OS",revision=screen.View.Number("revision"),phase=screen.View.Text("phase"),screen=screen.Screen,modal=screen.Modal,nodes=Geometry()},new JsonSerializerOptions{WriteIndented=true}));
     }
     private void Report(string status, Exception? error = null)
     {
@@ -407,7 +413,7 @@ internal sealed partial class UiAutomation
             os = System.Runtime.InteropServices.RuntimeInformation.OSDescription, normal_scene = "res://Main.tscn", save_path = SavePath, controls = screen.Controls.Count,
             logical_viewport = screen.GetViewportRect().Size.ToString(), actual_window = DisplayServer.WindowGetSize().ToString(),
             execution = "real Godot nodes; viewport-local synthetic InputEvent; actual FileGameSession files", physical_input = false, windows11_physical = false, human_playtest = false,
-            package = packageEvidence ? PackageEvidence.Read() : null,
+            package = packageEvidence ? PackageEvidence.Read() : null,font_environment=FontEnvironment(),resolved_fonts=screen.AcceptedFontEvidence(),
             checks, commands, error = error?.ToString(), final_revision = screen.View.Number("revision"), final_phase = screen.View.Text("phase") };
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + ".json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
     }
@@ -416,6 +422,7 @@ internal sealed partial class UiAutomation
         try
         {
             await Frame(3);
+            await Capture("start");
             if (mode == "in-use")
             {
                 await Click("open"); Check("second-owner-visible-no-reset", screen.LastStatus == "save_in_use" && screen.Session is null && screen.Controls["new"] is Button { Disabled: true });
@@ -432,7 +439,8 @@ internal sealed partial class UiAutomation
             {
                 await Click(screen.Controls["open"] is Button { Disabled: false } ? "open" : "new");
                 Check("opened-one-session", screen.Session is not null && screen.Screen != "start");
-                if (mode == "review-fixtures") await GenerateReviewFixtures();
+                if (mode.StartsWith("repro-",StringComparison.Ordinal))await Reproduction();
+                else if (mode == "review-fixtures") await GenerateReviewFixtures();
                 else if (mode.StartsWith("review-scroll-",StringComparison.Ordinal)) await ReviewScroll();
                 else if (mode.StartsWith("review-safety-",StringComparison.Ordinal)) await ReviewSafety();
                 else if (mode.StartsWith("review-prediction-",StringComparison.Ordinal)) await ReviewPrediction();

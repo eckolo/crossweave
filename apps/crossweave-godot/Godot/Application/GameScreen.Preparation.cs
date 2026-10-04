@@ -50,63 +50,105 @@ public partial class GameScreen
 
     private void PreparationScreen()
     {
-        Panel(content,new(0,0,1920,1080),"f1f1e8");
-        Button(content, "home", "← 戻る", new(24, 4, 102, 56), () => Screen = "home");
-        var cardTab=Button(content, "tab-card", "札", new(144, 0, 64, 64), () => { preparationTab = "card"; Modal = ""; });
-        var passiveTab=Button(content, "tab-passive", "心得", new(216, 0, 88, 64), () => { preparationTab = "passive"; Modal = ""; });
-        (preparationTab=="card"?cardTab:passiveTab).AddThemeStyleboxOverride("normal",Box("cfdec8","315849",2));
-        string money = "着想  " + ViewData.Money(View.Obj("home").Obj("economy").Number("unspent_units"));
-        if (DraftDirty) money += "  →  " + (Comparison.Flag("ok") ? ViewData.Money(Comparison.Obj("payment").Number("unspent_after_units")) : "—");
-        Text(content, money, new(1210, 4, 450, 56), 20, Gold).HorizontalAlignment=HorizontalAlignment.Right;
-        // 了承済み三領域と共通352×80の札枠。列ごとの内部スクロールだけを許可する。
-        string[] zones = ["offer", "reserve", "build"], labels = ["取得可能", "所持", "編成"];
-        float[] xs = [25, 413, 1160], widths = [376, 735, 735];
-        var projected = ProjectedOwned();
-        for (int i = 0; i < zones.Length; i++)
+        Surface(content,new(0,0,InnerWidth,InnerHeight),"f1f1e8");
+        Surface(content,new(0,63,InnerWidth,1),Line);
+        IconButton(content,"home","ArrowLeft","戻る",new(24,4,102,56),()=>Screen="home");
+        foreach(var (key,label,x,width) in new[]{("card","札",142f,64f),("passive","心得",214f,88f)})
         {
-            var zone = zones[i]; var panel = Panel(content, new(xs[i], 76, widths[i], 922),i==0?"f1f1e8":i==1?"e8edde":"dce6d1");
-            var scroll = Scroll(panel, "prep-" + preparationTab + "-"+zone, new(2, 48, widths[i] - 4, 872), false);
-            dropZones.Add((new(xs[i], 76, widths[i], 922), zone));
-            var grid = new GridContainer { Columns = i == 0 ? 1 : 2, SizeFlagsHorizontal = SizeFlags.ExpandFill };
-            grid.AddThemeConstantOverride("h_separation", 8); grid.AddThemeConstantOverride("v_separation", 8); scroll.AddChild(grid);
-            IEnumerable<JsonObject> rows = zone == "offer" ? View.Obj("home").Arr("acquisition").Rows()
-                : zone == "build" ? Plan.Obj("composition").Arr(preparationTab == "card" ? "deck" : "equipment").Strings().Select(id => projected.FirstOrDefault(r => r.Text("id") == id)).OfType<JsonObject>()
-                : projected.Where(r => !Composed(r));
-            rows = rows.Where(r => r.Obj("blueprint").Text("kind") == preparationTab);
-            if (zone == "reserve")
-                rows = rows.GroupBy(r => r.Obj("blueprint").Text("key") + "|" + r.Flag("pending") + "|" + r.Flag("locked") + "|" + r.Flag("conversion_available"))
-                    .Select(g => { var representative = g.First().Copy(); representative["display_quantity"] = g.Count(); return representative; });
-            // 同性能の所持をまとめても送信するのは代表一個体の公開ID。移動すると次の個体が代表になる。
-            // 未払い／ロック／変換可否が違うものは、操作の意味が隠れないよう別行にする。
-            int count = 0, rowCount = 0;
-            foreach (var row in rows)
+            var tab=Button(content,"tab-"+key,label,new(x,0,width,64),()=>{preparationTab=key;Modal="";});
+            bool selected=preparationTab==key;
+            ButtonStyle(tab,selected?"315849":"fcfcf5","bac9ba",selected?"fffef5":"243d35",0,0);
+            tab.AddThemeFontSizeOverride("font_size",24);
+        }
+        PreparationWallet();
+        string[] zones=["offer","reserve","build"],labels=["取得可能","所持","編成"];
+        float[] xs=[16,412,1167],widths=[376,735,735];
+        var projected=ProjectedOwned();
+        for(int i=0;i<3;i++)
+        {
+            string zone=zones[i];float x=xs[i],width=widths[i];
+            // 見出し32pxは囲いの外。main padding16→gap8→grid padding2の順に積む。
+            var area=new Rect2(x,120,width,878);
+            if(zone=="reserve")
             {
-                rowCount++; var unit = row.Copy(); var tile = new Control { CustomMinimumSize = new(352, 80), MouseFilter = MouseFilterEnum.Ignore }; grid.AddChild(tile);
-                // 支払前は移動元の位置を空けたまま印を残す。戻した札で後続候補をずらさない。
+                var panel=Surface(content,area,"e8eddf","bac9ba",0,8);
+                var style=Box("e8eddf","bac9ba",0,8);style.CornerRadiusTopLeft=style.CornerRadiusTopRight=0;
+                style.BorderWidthLeft=style.BorderWidthRight=1;style.BorderWidthBottom=4;panel.AddThemeStyleboxOverride("panel",style);
+            }
+            else if(zone=="build")Surface(content,area,"dce6d2","b3c4a4",1,6);
+            else Surface(content,new(x,996,width,2),"bdb69a");
+            var scroll=Scroll(content,"prep-"+preparationTab+"-"+zone,new(x+2,122,width-4,874),false);
+            dropZones.Add((new(x+1,121,width,878),zone));
+            var grid=new GridContainer{Columns=i==0?1:2,SizeFlagsHorizontal=SizeFlags.ExpandFill};
+            grid.AddThemeConstantOverride("h_separation",8);grid.AddThemeConstantOverride("v_separation",8);scroll.AddChild(grid);
+            IEnumerable<JsonObject> rows=zone=="offer"?View.Obj("home").Arr("acquisition").Rows():zone=="build"?Plan.Obj("composition").Arr(preparationTab=="card"?"deck":"equipment").Strings().Select(id=>projected.FirstOrDefault(r=>r.Text("id")==id)).OfType<JsonObject>():projected.Where(r=>!Composed(r));
+            rows=rows.Where(r=>r.Obj("blueprint").Text("kind")==preparationTab);
+            if(zone=="reserve")rows=rows.GroupBy(r=>r.Obj("blueprint").Text("key")+"|"+r.Flag("pending")+"|"+r.Flag("locked")+"|"+r.Flag("conversion_available")).Select(g=>{var row=g.First().Copy();row["display_quantity"]=g.Count();return row;});
+            int count=0,rowCount=0;
+            foreach(var row in rows)
+            {
+                rowCount++;var unit=row.Copy();var cell=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(cell);
                 if(zone=="offer"&&Plan.Arr("acquire").Strings().Contains(row.Text("id")))
-                { Text(tile,"→ 取得予定",new(12,12,328,56),20,Muted); continue; }
-                MakeTile(tile, "item-" + zone + "-" + row.Text("id"), unit, new(0, 0, 352, 80), zone);
-                var verb = zone == "offer" ? "取得" : zone == "build" ? "外す" : "編成";
-                Button(tile, verb + "-" + row.Text("id"), verb, new(278, 0, 74, 80), () => { if (zone == "offer") Stage(unit); else Compose(unit, zone == "reserve"); }, zone=="offer"?CanStage(unit):Can("commit_preparation")); count+=(int)Math.Max(1,row.Number("display_quantity"));
+                {Surface(cell,new(0,77,352,3),"c4c2ac");Icon(cell,"ArrowRight",new(164,28,24,24),Muted);continue;}
+                var tile=MakeTile(cell,"item-"+zone+"-"+row.Text("id"),unit,new(0,0,352,80),zone);
+                var verb=zone=="offer"?"取得":zone=="build"?"外す":"編成";
+                var action=Button(tile,verb+"-"+row.Text("id"),verb,new(278,2,72,76),()=>{if(zone=="offer")Stage(unit);else Compose(unit,zone=="reserve");},zone=="offer"?CanStage(unit):Can("commit_preparation"));
+                ButtonStyle(action,zone=="build"?"f5f7ee":"315849","bac9ba",zone=="build"?"243d35":"fffef5",0,0);
+                Surface(tile,new(277,2,1,76),"bac9ba");
+                count+=(int)Math.Max(1,row.Number("display_quantity"));
             }
             string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
-            Text(panel,labels[i]+"  "+amount,new(16,0,widths[i]-32,46),22,Gold);
-            if(zone=="build"&&preparationTab=="card")for(int n=Plan.Obj("composition").Arr("deck").Count;n<12;n++)
-            {var empty=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(empty);Text(empty,"＋",new(8,10,336,60),28,Muted).HorizontalAlignment=HorizontalAlignment.Center;}
-            if (rowCount == 0 && zone != "build")
+            float titleX=x+36;
+            if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24));
+            var title=Text(content,labels[i],new(titleX,80,96,32),24);Strong(title);
+            Text(content,amount,new(titleX+108,80,160,32),20,Muted);
+            if(zone=="build"&&preparationTab=="card")for(int n=Plan.Obj("composition").Arr("deck").Count;n<12;n++)EmptyAcquisition(grid,"Plus");
+            if(rowCount==0&&zone!="build")
             {
-                var message = new Label { Text = zone == "offer" ? (View.Obj("home").Obj("offers").Text("status") == "purchased" ? "✓ 今回の取得は完了" : "取得できる"+(preparationTab=="card"?"札":"心得")+"はありません") : "ここにはありません", CustomMinimumSize = new(300, 100), AutowrapMode = TextServer.AutowrapMode.WordSmart };
-                grid.AddChild(message);
+                if(zone=="offer")
+                {
+                    var cell=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(cell);
+                    bool done=View.Obj("home").Obj("offers").Text("status")=="purchased";
+                    Icon(cell,done?"CircleCheck":"Inbox",new(12,28,24,24),Muted);
+                    var label=Text(cell,done?"今回の取得は完了":"取得できる"+(preparationTab=="card"?"札":"心得")+"はありません",new(48,12,292,56),20,Muted);LineHeight(label,20,28);
+                }
+                else EmptyAcquisition(grid,"Layers");
             }
         }
-        string capacity = Comparison.Flag("ok") ? $"札組 {Comparison.Obj("deck").Number("size")}枚　心得 {Comparison.Obj("equipment").Number("used")} / {Comparison.Obj("equipment").Number("capacity")} 枠" : ViewData.Explain(Comparison.Text("error"));
-        Text(content, PurchaseTrack()+"   "+capacity, new(32, 1018, 1550, 56), 20, Comparison.Flag("ok") ? Muted : Gold);
-        Button(content, "discard", "戻す", new(1640, 1016, 120, 64), () =>
+        Surface(content,new(0,1014,InnerWidth,64),"e9eee0");Surface(content,new(0,1014,InnerWidth,1),Line);
+        Icon(content,View.Obj("home").Obj("offers").Text("status")=="purchased"?"CircleCheck":"Store",new(24,1034,24,24),Muted);
+        Text(content,PurchaseTrack(),new(60,1014,380,64),22);
+        if(DraftDirty){var token=Surface(content,new(450,1027,70,36),"f5eedb","846838",1,4);Icon(token,"Clock3",new(6,9,18,18),UiColor("846838"));Text(token,Plan.Arr("acquire").Count.ToString(),new(28,0,36,36),22);}
+        // 枠は編成見出しと確認表へ置く。原本footerの取得群・未払い・取消・確認の密度を保つ。
+        if(!Comparison.Flag("ok"))Text(content,ViewData.Explain(Comparison.Text("error")),new(560,1014,800,64),22,UiColor("883e20"));
+        var discard=IconButton(content,"discard","Undo2","戻す",new(1640,1014,120,64),()=>{if(View.Obj("draft").Flag("dirty"))Send("discard_draft");else{Plan=View.Obj("draft").Obj("plan").Copy();RefreshComparison();LastCommand=null;}},DraftDirty&&!Blocked);
+        var review=Button(content,"review","確認する",new(1768,1014,128,64),()=>{RefreshComparison();Modal="review";},DraftDirty&&Can("commit_preparation"));
+        ButtonStyle(discard,"fcfcf5","bac9ba","243d35",0,0);ButtonStyle(review,"315849","315849","fffef5",0,0);
+        discard.AddThemeFontSizeOverride("font_size",22);review.AddThemeFontSizeOverride("font_size",22);
+    }
+    private void EmptyAcquisition(Control grid,string icon)
+    {
+        if(icon is "CircleCheck" or "Inbox")
         {
-            if (View.Obj("draft").Flag("dirty")) Send("discard_draft");
-            else { Plan = View.Obj("draft").Obj("plan").Copy(); RefreshComparison(); LastCommand = null; }
-        }, DraftDirty && !Blocked);
-        Button(content, "review", "確認する", new(1768, 1016, 128, 64), () => { RefreshComparison(); Modal = "review"; }, DraftDirty && Can("commit_preparation"));
+            var message=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(message);
+            Icon(message,icon,new(12,28,24,24),Muted);
+            Text(message,icon=="CircleCheck"?"今回の取得は完了":"取得できる"+(preparationTab=="card"?"札":"心得")+"はありません",new(48,12,292,56),20,Muted);
+        }
+        else
+        {
+            var cell=new CardTile{Screen=this,Row=new(){["empty"]=true},CustomMinimumSize=new(352,80),Size=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(cell);
+            Icon(cell,icon,new(164,28,24,24),Muted).Modulate=new(Muted.R,Muted.G,Muted.B,.6f);
+        }
+    }
+    private void PreparationWallet()
+    {
+        var home=View.Obj("home");string current=ViewData.Money(home.Obj("economy").Number("unspent_units"));
+        string after=Comparison.Flag("ok")?ViewData.Money(Comparison.Obj("payment").Number("unspent_after_units")):"—";
+        float extra=DraftDirty?font.GetStringSize(after,fontSize:24).X+88:0;
+        float currentWidth=font.GetStringSize(current,fontSize:24).X;float x=1662-currentWidth-extra-92;
+        Icon(content,"Lightbulb",new(x,20,24,24));Text(content,"着想",new(x+32,0,52,64),24);Strong(Text(content,current,new(x+92,0,currentWidth,64),24));
+        if(DraftDirty)
+        {Icon(content,"ArrowRight",new(x+100+currentWidth,20,24,24));var next=Surface(content,new(x+132+currentWidth,14,extra-40,36),"ffffff00","bac9ba",0,5);next.AddChild(new AcceptedDashedBorder{Size=next.Size,Border=UiColor("bac9ba"),MouseFilter=MouseFilterEnum.Ignore});Icon(next,"Clock3",new(8,9,18,18));Strong(Text(next,after,new(31,0,extra-73,36),24));}
     }
 
     private string ReviewText()
@@ -127,34 +169,7 @@ public partial class GameScreen
         detail = row.Copy(); detailKey = key; detailKind = kind; detailId = row.Text("id"); detailOrigin = origin; Modal = "detail";windowPinned=true;
     }
 
-    private void DetailWindow()
-    {
-        bool actor = detailKind == "actor", preparation = detailKind is "offer" or "reserve" or "build";
-        float width = preparation ? 960 : actor ? 416 : 520, height = preparation ? 820 : actor ? 384 : 480;
-        float x = preparation ? 480 : detailOrigin.X < 960 ? 1920 - width - 16 : 16;
-        float y = preparation ? 130 : actor ? 16 : Mathf.Clamp(detailOrigin.Y - 104,16,984-16-height);
-        if(preparation)popup.AddChild(new ColorRect{Color=new(0,0,0,.3f),Size=new(1920,1080),MouseFilter=MouseFilterEnum.Stop});
-        var p = Panel(popup, new(x, y, width, height), "142b32ed"); p.MouseFilter = MouseFilterEnum.Stop;
-        Controls["detail-panel"] = p;
-        Text(p, actor ? detail.Text("display_name") : (detailKind == "forecast" ? "予測 · " : "") + CardName(detail), new(20, 12, width - (preparation?95:162), 65), 22, Gold);
-        if(!preparation)PinButton(p,width);
-        Button(p, "detail-close", "×", new(width - 66, 12, 48, 48), () => Modal = "");
-        string value = actor ? ActorText(detail) : ItemText(detail,detailKind=="hand");
-        LongText(p, "detail-body", value, new(20, 82, width - 40, height - 170), 22);
-        if(actor&&detail.Text("knowledge_profile_id") is {Length:>0} profile)
-            Button(p,"actor-record","調査記録",new(20,height-72,width-40,52),()=>{knowledgeSelection=profile;OpenModal("knowledge");});
-        if (detailKind is "offer") Button(p, "detail-stage", "取得", new(22, height - 72, 190, 52), () => { Stage(detail); Modal = ""; }, CanStage(detail));
-        else if (detailKind is "reserve" or "build")
-        {
-            Button(p, "detail-compose", detailKind == "build" ? "外す" : "編成", new(22, height - 72, 134, 52), () => { Compose(detail, detailKind != "build"); Modal = ""; }, Can("commit_preparation"));
-            if (detail.Flag("pending")) Button(p, "detail-unstage", "取消", new(176, height - 72, 140, 52), () => { Unstage(detail); Modal = ""; }, Can("commit_preparation"));
-            else
-            {
-                Button(p, "lock", detail.Flag("locked") ? "解除" : "ロック", new(168, height - 72, 140, 52), () => Send("set_item_lock", new() { ["item_id"] = detailId, ["locked"] = !detail.Flag("locked") }), Can("set_item_lock") && !DraftDirty);
-                Button(p, "convert", "変換", new(320, height - 72, 172, 52), () => Modal = "convert", Can("convert_items") && detail.Flag("conversion_available") && !DraftDirty);
-            }
-        }
-    }
+    private void DetailWindow()=>AcceptedDetailWindow();
 
     private string ItemText(JsonObject row,bool contextual=false)
     {
