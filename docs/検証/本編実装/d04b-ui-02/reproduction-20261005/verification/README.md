@@ -6,6 +6,6 @@
 
 原本採取は合法Campaign・MemoryStore・公開commandを使う。fixture接続は二つの識別タグだけを既存C#形式へ合わせ、登録数値を変えない。`build_reproduction_report.py`→`coverage_receipt.py`→`id_crops.py`→`preservation_receipt.py`の順に台帳・部品状態・等倍画素・保全を照合する。CIは`cloud_receipt.py`でZIP digestと実内部3manifestを確認する。
 
-最終実装I10の資料生成は`finish_submission_reports.py`、Actionsの内部結果は`cloud_receipt.py`→`ci_summary.py`、全変更path/blobと原文読戻しは`publication_tools.py`を用いた。`final_documents.py`など前段の補助は旧実行の保全で、最終版の再生成入口ではない。
+最終実装I12（c761cbf4950a750b5b337e1bc9926528b87be54a）の資料生成は`finish_submission_reports.py`、Actionsの内部結果は`cloud_receipt.py`→`ci_summary.py I12`、全変更path/blobと原文読戻しは`publication_tools.py`を用いた。`same_fixture_audit.py`で同状態比較474組と観測済み6入力、`record_fix_receipt.py`で記録修正の前・後・原本12対を照合する。`final_documents.py`など前段の補助は旧実行の保全で、最終版の再生成入口ではない。
 
 ユーザーの作業画面への割込みを止めるため、後続のWindows実描画は`background_desktop.py`から起動した。切り替えない検査用desktopを作り、子PythonとGodotの描画窓だけをそこへ置く。通常画面へフォールバックしない。起動窓を隠すだけの方法やheadlessへ置換せず、同じ実Main／GPU／Viewportと合成InputEventを確認した。入力desktopの前後と実プロセスは各`background-desktop.json`へ記録した。基礎APIはMicrosoftの[STARTUPINFOW](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow)と[CreateDesktopW](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createdesktopw)を参照。

@@ -1,4 +1,4 @@
-"""固定I10のActions artifact内部から結果を受領する。緑色だけでは完了にしない。"""
+"""固定実装SHAのActions artifact内部から結果を受領する。緑色だけでは完了にしない。"""
 from pathlib import Path
 import report_io
 import hashlib,json,sys,xml.etree.ElementTree as ET

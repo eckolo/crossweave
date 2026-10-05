@@ -1,0 +1,152 @@
+{
+  "task": "D04B-UI-02",
+  "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+  "status": "R01-filler / R04-unlimited 依頼内未完了",
+  "existing_sources": [
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+      "blob": "d630a642801340d39688bf80317780960c449d43",
+      "sha256": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+      "locator": "Live / Rebuild / NewCard / Recover / Draw / PreviewAction",
+      "observation": "Liveは未消滅札。Pool不足のminimumとLive32境界からfillerが生成され得る。birth=fillerのRecoverはdestroyedへ、未使用期限予測も同じ実処理。生成の存在を実描画済みに読み替えない。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/game.mjs",
+      "blob": "3e723213a0d91103eca6a434632ef2c2dcf32967",
+      "sha256": "04b82331d1dc5bc2d8c2da2c9b7d1ff705190aa589a18456f223e5147b7b713b",
+      "locator": "Rebuild / Recover / Draw / restoreGame",
+      "observation": "元のゲーム・再構築・回収。公開playだけの限定探索では未取得。"
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+      "blob": "d630a642801340d39688bf80317780960c449d43",
+      "sha256": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+      "locator": "PublicCard.WithOptional / Grant / guard / CompileCard",
+      "observation": "defense_usesの欠落と存在nullを区別。Grantは欠落時だけ2。nullの効果回数はspendで減らさない。"
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+      "blob": "2218254bb49ceb7aa4fc70225361c2e606131c47",
+      "sha256": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+      "locator": "BaseDetails / ValidateEquipment / owned public details",
+      "observation": "guardの既定2はキー欠落時だけ。明示nullを狭める変更はしていない。"
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/Content/m1.json",
+      "blob": "befd0a4e0e617346f822c9749f7be8c5adaca0be",
+      "sha256": "33d090e76c4159e70e679bcdc1f922fd5b3ff31dfb7c8473f7937db460c9076e",
+      "locator": "cards g/r / rules / target sets",
+      "observation": "既存M1登録札。明示null guardの登録を確認できないことは、保存・移行を含む全入口の除外証明ではない。内容blobは基点から不変。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/defense.mjs",
+      "blob": "4cb9c5fd368eb72c5b0b10c48b97183fa2286639",
+      "sha256": "fe6fe9557a424c353037e3b848b05066ef03f47872ecc049b2e0772645492598",
+      "locator": "validateEffect / validateDefense / spendDefense / duration / migrateLegacyDefense",
+      "observation": "uses:nullは合法な防御効果の型で、消費されない。旧guard移行は有限1/2から移す。これだけで合法なnull札を新規生成できたとはしない。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/validate.mjs",
+      "blob": "a506204bc77dc111ff50590aaa015ffd41ba3177",
+      "sha256": "95a180460c546996b18899e7d0b673a70c601dd0c8467de283673f6d95837b02",
+      "locator": "validateDocument / validateEconomy / restoreGame / draftFor",
+      "observation": "保存provenance、旧版移行、ゲームと公開境界を検査する。保存値を任意編集した状態を合法commandの証拠にしない。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/migration-acquisition.mjs",
+      "blob": "683612c087a1fa4764440184c143160be3f28126",
+      "sha256": "638f3ce33639f0e80b08493869837e7d2083a46f8c83c4b66a05bdd0189eeade",
+      "locator": "migrateAcquisition",
+      "observation": "取得統合の旧保存移行。null公開の全入口除外根拠は未取得。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/affixes.mjs",
+      "blob": "2cf70ec2e7a8b5f51384469d4c6e8cdffb1c5968",
+      "sha256": "24f6e68896e7eaf2442fb7d88b085cd62e6921f7c59c4c64d54882ad49e5dfad",
+      "locator": "variants / compileCard / passiveSpec",
+      "observation": "修飾compile入口。登録修飾と能力を編集せず、修飾展開は既存return offerで採取。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/possessions.mjs",
+      "blob": "ebdcdecf995f50cad04fd24bd595c42058f6d4e2",
+      "sha256": "8c34e7bba51b32c923b46a5cb95d22731c3b4da690bad207f6469b434be0f37f",
+      "locator": "initializePossessions / mapLegacySelections / acquireBasic",
+      "observation": "初期・基礎取得・旧所持移行の入口。購入は公開取得契約を通す。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/action-public.mjs",
+      "blob": "c6ec9e0fb14f0e0779f0d68c203c3632d52548f8",
+      "sha256": "d1d64cba0ae513435fc1bc4e8170be206c66340c5514217a491b9d45140419ee",
+      "locator": "publicContract / actionPreview",
+      "observation": "予測応答と未公開境界。未公開から独自の倍率や他人の私有構成を推計しない。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/campaign.mjs",
+      "blob": "e98bd047168e1a175f1c2485885e57e7e31b8b74",
+      "sha256": "28c9bad95d9826ad9c285e978148acd53c4e65fa95a889c9c1ed3c455e29dd16",
+      "locator": "Campaign.create / open / importSave / execute / previewAction",
+      "observation": "合法な新規・再開・旧保存入力と公開command。nullの保存型受入と、null札を得る合法command列は区別する。"
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+      "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+      "sha256": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+      "locator": "KnowledgeCategories / Copy / Grants",
+      "observation": "旧公開観測記録profile/run/actorとgrantに基づく最小の表示応答。乱数・保存DTO・私有山札を変更しない。"
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+      "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+      "sha256": "3066cad76a9cad1f3f325adfa327bc592192fc68a7c5f0ba0dcac5bee25e3c37",
+      "locator": "recordsView / recordTargetBody / recordsPanelView",
+      "observation": "原本の現在／同探索別主体／過去・獲得と二タブ・親子。"
+    }
+  ],
+  "searches": [
+    {
+      "file": "legal-common/search.json",
+      "scope": "192分岐×75上限。初期fixture生成側のcommand列に記録制限があるため、完全な全入口証明として使わない。",
+      "exhaustive": false,
+      "found": false
+    },
+    {
+      "file": "legal-boundaries/search.json",
+      "scope": "公開編成4種類×実seed0〜5の24実run。全commandを記録。filler/null公開は0。",
+      "exhaustive": false,
+      "found": false
+    }
+  ],
+  "unit_boundary_evidence": "core-final/related.trx",
+  "unit_state_is_not_legal_render_fixture": true,
+  "game_rules_changed": false,
+  "return_to_existing_owner": [
+    {
+      "id": "R01-filler",
+      "owner": "ゲームバランス検討 → 本Work → UI改善",
+      "question": "Rebuild/Drawに到達するM1合法command列・seed・旧保存入口、または全入口を禁止する不変条件を固定する。生成があるため未取得だけで適用外にはできない。",
+      "resumption": "受領した同じ公開状態をreview-safety-fillerへ供給してquick ON drop待機・一回確定・再送・保存を採取。"
+    },
+    {
+      "id": "R04-unlimited",
+      "owner": "ゲームバランス検討 → 本Work → UI改善",
+      "question": "content・修飾compile・新規・旧保存移行・import/restore・projectionのどの合法入口からnull札を供給できるか。validateDefenseがnullを受けるため固定M1contentだけで全入口除外としない。",
+      "resumption": "合法入口の札detail/field/knowledge payloadをreview-details-unlimitedへ供給。欠落/有限/明示nullを区別して描画・閲覧非破壊・使用結果を採取。"
+    }
+  ],
+  "other_work_messages_sent": false,
+  "not_an_exception": true
+}

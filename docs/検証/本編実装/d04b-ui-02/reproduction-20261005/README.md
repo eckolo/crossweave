@@ -15,7 +15,7 @@ WorkIDは `20260927-game-application`、枝は `impl/m1-godot-application-202609
 
 ## 固定入力と保全
 
-計画 `23b006047a0c35233fcca48c923a32501dbd878d` のとりまとめ62ファイルを実同期 → 技術 `21ddd349b6bec69ecac6d9db288c537553dab860` の既定索引同期・差分確認 → 計画全path/blob一致の順で開始した。[受領](sources.json)、[開始差分](start-state.json)、[計画同期JSON](../../../../作業資料/計画同期/20260927-game-application.json)を参照。
+計画 `23b006047a0c35233fcca48c923a32501dbd878d` のとりまとめ64ファイルを実同期 → 技術 `21ddd349b6bec69ecac6d9db288c537553dab860` の既定索引同期・差分確認 → 計画全path/blob一致の順で開始した。[受領](sources.json)、[開始差分](start-state.json)、[計画同期JSON](../../../../作業資料/計画同期/20260927-game-application.json)を参照。
 
 UI入力は `8b535c2f17d3bd6f83030e98527cf97ab281e557`、原本は `72d0eb58c7e3d04759f1ab56a939d1dff20a46b2`、基準は `2026-10-04.1`。破損CP02は利用しない。別保存の探索原寸対を受領し、今回の同状態撮影と併記する。
 
@@ -26,3 +26,5 @@ Coreの規則、保存形式、登録値、乱数、旧証拠、配布基点0765
 UI適合は本Workが自己判定しない。独立UI再判定で未承認差異0・必要未確認0をとりまとめが受領するまでRD-PACK-03へ進めない。実機入力・DPI・GPU・試遊はH02/H03/H04の後続である。他Workを起動・送信せず、この枝の固定成果を通常の読取り入口として渡す。
 
 検査に使うGodot／SDK／Pythonは担当・CI側で準備する。遊ぶ利用者に導入・ビルド・保存初期化を要求しない。
+
+最終実装は `c761cbf4950a750b5b337e1bc9926528b87be54a`。記録の孫窓・値列・空記録の最後の修正は[修正前・後・原本12対](record-fix-comparisons.json)、同状態入力の一致は[same-fixture-audit.json](same-fixture-audit.json)から確認できる。後続の実描画は利用者の画面へ切り替えない専用のWindows desktopで採取し、各`background-desktop.json`に前後の入力画面が変わらなかったことを残した。[確認入口](確認入口.md)に対象ごとの最終証拠と旧証拠の再利用範囲を記載する。

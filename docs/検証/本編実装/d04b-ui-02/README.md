@@ -1,3 +1,6 @@
+<!-- reproduction-20261005 -->
+**最新：D04B-UI-02 合意UI再現修正0.5。依頼全体は未完了。** 同じWork・枝の[今回版](reproduction-20261005/README.md)、[固定実装／証拠](reproduction-20261005/publication.json)、[具体残件と再開条件](reproduction-20261005/必要証拠と残件.md)を先に読む。実装SHA `c761cbf4950a750b5b337e1bc9926528b87be54a`。以下は過去提出の記録として保全。
+
 # D04B-UI-02 Godot UI継承差分修正
 
 **2026-10-02 UIレビュー追補提出：R01〜R07・U01を実装・関連確認し、成果 `6168d2ac` を通常Push・GitHub読戻し済み。UI再判定待ち。** [追補結果・比較画像](review-20261002/README.md)、[全8項目対応表](review-20261002/UI対応表.md)、[結果JSON](results.json)、[公開SHA・変更path/blob](review-20261002/publication.json)、[引継ぎ](とりまとめ引継ぎ.md)。補充由来消滅／無制限guardの実描画未確認を含む残件と再開条件も追補へ記録した。

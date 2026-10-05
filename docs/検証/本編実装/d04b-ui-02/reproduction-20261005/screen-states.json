@@ -1,0 +1,1541 @@
+{
+  "baseline": "2026-10-04.1",
+  "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+  "items": [
+    {
+      "id": "ST-P01",
+      "screen": "札取得編成",
+      "required_states": "通常／所持集約／編成12枠／長い名称",
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06",
+        "V-P01",
+        "V-P02",
+        "V-P03",
+        "V-P04",
+        "V-P05",
+        "V-P06",
+        "V-P07",
+        "V-P11",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-V01",
+        "U-V06",
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "review-preparation"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "登録可能な長い札名は最大17字まで322variantを記録したが、その長名をM1合法command・取得済み／旧保存で表示する入口は未取得。登録だけのcompile結果を合法描画fixtureにしない。ゲームバランス検討の入口受領後、本Workで取得／探索の同状態対を追加。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P02",
+      "screen": "心得取得編成",
+      "required_states": "通常／枠を使う／同じ三領域",
+      "difference_ids": [
+        "V-P01",
+        "V-P02",
+        "V-P03",
+        "V-P04",
+        "V-P05",
+        "V-P06",
+        "V-P07",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V06"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "review-preparation"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P03",
+      "screen": "取得予定",
+      "required_states": "札・心得／所持予定・編成予定／元位置跡／取消",
+      "difference_ids": [
+        "V-P08",
+        "V-P09",
+        "V-P11",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "review-destination"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "related-final/review-destination.json",
+          "status": "passed",
+          "sha256": "58ffdfaf58557b48b5ee7f64351dbf63c9ae0045944be8050043cd89a8bfab92"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P04",
+      "screen": "取得無効",
+      "required_states": "同群上限／別群可／残高不足／容量不足／無効案保持",
+      "difference_ids": [
+        "V-C04",
+        "V-P05",
+        "V-P08",
+        "V-P11"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V06"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-preparation",
+        "repro-home",
+        "repro-preparation-boundaries"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        },
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "boundary-light/repro-preparation-boundaries.json",
+          "status": "passed",
+          "sha256": "71394926e7364d738d2f1461a2d5a13d8d71dd7dfd7762ca8974f8fcafc21db9"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P05",
+      "screen": "取得空状態",
+      "required_states": "全群取得完了／候補なし／空編成／正式所持は残る",
+      "difference_ids": [
+        "V-P02",
+        "V-P10",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-acquisition-funded",
+        "repro-acquisition-complete"
+      ],
+      "reports": [
+        {
+          "path": "preparation-light-final/repro-acquisition-funded.json",
+          "status": "passed",
+          "sha256": "f5f7087f03fdfc875760ea6bc5557c5172b1019f283f4ec7c71aa436141af921"
+        },
+        {
+          "path": "preparation-light-final/repro-acquisition-complete.json",
+          "status": "passed",
+          "sha256": "4b8c215fd9c7d1ad98b21efc5ede0aeaea56eb56a074d3b0cc55ce77c6ac9dd2"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P06",
+      "screen": "取得詳細",
+      "required_states": "offer／owned／pending／札・心得／修飾展開",
+      "difference_ids": [
+        "V-P13",
+        "V-P15",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "repro-acquisition-affix",
+        "review-preparation"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "common-light-submitted/repro-acquisition-affix.json",
+          "status": "passed",
+          "sha256": "dfe5f51c7d9c1699d78211cd04eec9607ec3be023bdeebcd15fc8b5b764e943d"
+        },
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P07",
+      "screen": "一括確認",
+      "required_states": "札＋心得混合／編成のみ／心得のみ／上端下端／取消／確定",
+      "difference_ids": [
+        "V-P13",
+        "V-P14",
+        "V-C01",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-preparation"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P08",
+      "screen": "ロック・変換",
+      "required_states": "正式所持ロック／解除／見積／変換確認／失敗",
+      "difference_ids": [
+        "V-P13",
+        "V-P15",
+        "V-S01"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V04"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "interaction",
+        "legal-acquisition"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/interaction.json",
+          "status": "passed",
+          "sha256": "5a282f3df4356be11894825c6b9f0f2ed7ff9b452bc29875f033d3e38f981d65"
+        },
+        {
+          "path": "fixed-light-second/legal-acquisition.json",
+          "status": "passed",
+          "sha256": "60e31787b575d9a9bee97debff3fc21e64508c89c8cbb9712fe47f57341a1d4f"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "固定原本のCW-M1-public-0.6ではowned入口をcollectionへ送るが、A06部品のlocalAction/renderDialogにロック・解除・変換見積の入口がない。本編の既確認ロック/見積/変換と失敗時の保存保全は維持。原本対応の窓・入口をDEC-UI-05としてUIへ具体化して返し、ST-P08の同状態原本対は未取得のまま残す。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-P09",
+      "screen": "編成往復",
+      "required_states": "分類と案保持／戻る・帰還直後／未確定出発禁止",
+      "difference_ids": [
+        "V-C03",
+        "V-P03",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "inheritance",
+        "natural"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        },
+        {
+          "path": "fixed-light-second/natural.json",
+          "status": "passed",
+          "sha256": "5c1208012784db8fe094183b91f55833463211ccdfca3535fc0447b445bd614c"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E01",
+      "screen": "探索通常",
+      "required_states": "場4属性／手札／本人／敵・地形／自然FHD",
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06",
+        "V-E01",
+        "V-E02",
+        "V-E03",
+        "V-E04",
+        "V-E05",
+        "V-E06",
+        "V-E07",
+        "V-E10",
+        "V-E11",
+        "V-E12",
+        "V-E15"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E02",
+      "screen": "主体選択",
+      "required_states": "敵／地形／左・右／同じ対象で閉じる／選択手札保持",
+      "difference_ids": [
+        "V-E10",
+        "V-E11",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V06"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-prediction",
+        "inheritance"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-prediction.json",
+          "status": "passed",
+          "sha256": "3d5d0c68e6517644c312029a6463d7f834d889ccc8ded4b53627be415177a45f"
+        },
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E03",
+      "screen": "手札選択",
+      "required_states": "左右端・中央／title2行／通常効果と場値／下操作",
+      "difference_ids": [
+        "V-E04",
+        "V-E05",
+        "V-E06",
+        "V-E13",
+        "V-E14",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore",
+        "repro-prediction"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-prediction.json",
+          "status": "passed",
+          "sha256": "3d5d0c68e6517644c312029a6463d7f834d889ccc8ded4b53627be415177a45f"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "左右端と中央の実操作は確認。2行に折り返す長名の合法表示入口は未取得。registered-label-boundary.jsonの17字variant等を実保存として任意生成せず、既存担当の合法入口を受領して再採取。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E04",
+      "screen": "場と予測札",
+      "required_states": "通常／空／場へ設置予測／一致で離れる／予測札クリック",
+      "difference_ids": [
+        "V-E04",
+        "V-E07",
+        "V-E08",
+        "V-E09",
+        "V-E14",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-prediction-place",
+        "review-safety-matched"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-prediction-place.json",
+          "status": "passed",
+          "sha256": "3ea13f41b3e1a443f41bb2257699ec5158e2f9f284e99188d5cb0bbf1011d259"
+        },
+        {
+          "path": "related-final/review-safety-matched.json",
+          "status": "passed",
+          "sha256": "438ef381f6be34b61327872d7d4a31fa1cb324006c426165184582c2f626a723"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E05",
+      "screen": "本人と相手予測",
+      "required_states": "設置／攻撃／guard／回復／defense_support／5能力の前後",
+      "difference_ids": [
+        "V-E10",
+        "V-E11",
+        "V-E12",
+        "V-W01",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-prediction-place",
+        "review-prediction-attack",
+        "review-prediction-guard",
+        "review-prediction-heal",
+        "review-prediction-defense_support"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-prediction-place.json",
+          "status": "passed",
+          "sha256": "3ea13f41b3e1a443f41bb2257699ec5158e2f9f284e99188d5cb0bbf1011d259"
+        },
+        {
+          "path": "related-final/review-prediction-attack.json",
+          "status": "passed",
+          "sha256": "9fa2f827d804a342e6122386851eeec2848698d18974ba6cc8e97a6fb163a37f"
+        },
+        {
+          "path": "related-common-final/review-prediction-guard.json",
+          "status": "passed",
+          "sha256": "3a7b734655b941a70418232a96c574229c86ac025301f321a18dd039455df33c"
+        },
+        {
+          "path": "related-final/review-prediction-heal.json",
+          "status": "passed",
+          "sha256": "b260e26016e588b36dbde78f3aee8d3b87ca1495f8e5f31cd07cea713268ce78"
+        },
+        {
+          "path": "related-common-final/review-prediction-defense_support.json",
+          "status": "passed",
+          "sha256": "3254441e19df10d877cdbd4044c2fb69b170eb36e2d9f9b7c6506eededffa7bc"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E06",
+      "screen": "期限と消滅",
+      "required_states": "consume／doomed／通常回収／補充期限／quick待機",
+      "difference_ids": [
+        "V-E08",
+        "V-E09",
+        "V-W01"
+      ],
+      "unknown_ids": [
+        "R01-filler",
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-safety-consume",
+        "review-safety-doomed",
+        "review-safety-quick"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-safety-consume.json",
+          "status": "passed",
+          "sha256": "aa87ed074acbaa8e764e7430cff35132ba89ffea1e7707d280e09c848562bdf3"
+        },
+        {
+          "path": "related-final/review-safety-doomed.json",
+          "status": "passed",
+          "sha256": "7ebb5095b6fc17d0fc81cd0e4a1519f1bfa16cd23942a4a194595625fee15503"
+        },
+        {
+          "path": "related-final/review-safety-quick.json",
+          "status": "passed",
+          "sha256": "53900ffd463e0f9ac48bfcfb22e1c16f91da2bfb1c6aec72288ab4175c6d2ede"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "R01-filler未取得。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E07",
+      "screen": "札詳細防御",
+      "required_states": "既定2／付与／使用者除外／重ね付け／場加算／null無制限",
+      "difference_ids": [
+        "V-W01",
+        "V-W02",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "R04-unlimited",
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-prediction-guard",
+        "review-prediction-defense_support"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/review-prediction-guard.json",
+          "status": "passed",
+          "sha256": "3a7b734655b941a70418232a96c574229c86ac025301f321a18dd039455df33c"
+        },
+        {
+          "path": "related-common-final/review-prediction-defense_support.json",
+          "status": "passed",
+          "sha256": "3254441e19df10d877cdbd4044c2fb69b170eb36e2d9f9b7c6506eededffa7bc"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "R04-unlimited未取得。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E08",
+      "screen": "順序と予約",
+      "required_states": "通常／同時刻／異時刻／本人今・次／予約詳細",
+      "difference_ids": [
+        "V-E15",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-order-tie",
+        "review-order-different"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/review-order-tie.json",
+          "status": "passed",
+          "sha256": "217183775fb3b12393ec73d2d9502595f914784f6723a820462915d6accdd866"
+        },
+        {
+          "path": "related-common-final/review-order-different.json",
+          "status": "passed",
+          "sha256": "6675bfd39811c415563c3d8c534a61288b482bca21c83cf24e56f2f779aabe6a"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-E09",
+      "screen": "詳細固定",
+      "required_states": "hover180ms／離れる160ms／pin／明示クリック／再クリック／外クリック",
+      "difference_ids": [
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V06",
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "inheritance",
+        "repro-prediction",
+        "repro-hover"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        },
+        {
+          "path": "common-light-submitted/repro-prediction.json",
+          "status": "passed",
+          "sha256": "3d5d0c68e6517644c312029a6463d7f834d889ccc8ded4b53627be415177a45f"
+        },
+        {
+          "path": "hover-use-light/repro-hover.json",
+          "status": "passed",
+          "sha256": "644305cd0fd3b78091a4c3eadc2f398ae74e35510d1d63e81434de8ebbe1d391"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "原本の場に出すhoverは180msで開き、root外で160ms閉じる。一方root内の空白移動ではpointeroverがleaveTimerを取消し、閉じない実挙動。Godotの空白離脱160msと、160ms基準／現行原本のどちらへ合わせるかUI判断待ち。予測hoverの既存追加入口も別記。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I01",
+      "screen": "取得ドラッグ",
+      "required_states": "取得→所持／取得→編成／所持↔編成／pending取消／正式所持取消不可",
+      "difference_ids": [
+        "V-D01",
+        "V-D02",
+        "V-D03"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-destination",
+        "review-preparation",
+        "inheritance"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-destination.json",
+          "status": "passed",
+          "sha256": "58ffdfaf58557b48b5ee7f64351dbf63c9ae0045944be8050043cd89a8bfab92"
+        },
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        },
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I02",
+      "screen": "探索ドラッグ",
+      "required_states": "掴み位置／手札→場／一致／成立／取消",
+      "difference_ids": [
+        "V-D02",
+        "V-D03",
+        "V-E04",
+        "V-E14"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "interaction",
+        "inheritance",
+        "repro-motion-explore"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/interaction.json",
+          "status": "passed",
+          "sha256": "5a282f3df4356be11894825c6b9f0f2ed7ff9b452bc29875f033d3e38f981d65"
+        },
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        },
+        {
+          "path": "settled-light/repro-motion-explore.json",
+          "status": "passed",
+          "sha256": "04858625fe3a4e8010460c7e6123f7096225e56a1568b841bf7505d3fdaf99d7"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I03",
+      "screen": "端送り",
+      "required_states": "取得移動先／場移動先／領域外停止",
+      "difference_ids": [
+        "V-D01",
+        "V-D04",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V07",
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "review-destination",
+        "review-destination-field",
+        "repro-edges-prep",
+        "repro-edges-hand",
+        "repro-edges-field"
+      ],
+      "reports": [
+        {
+          "path": "related-final/review-destination.json",
+          "status": "passed",
+          "sha256": "58ffdfaf58557b48b5ee7f64351dbf63c9ae0045944be8050043cd89a8bfab92"
+        },
+        {
+          "path": "related-final/review-destination-field.json",
+          "status": "passed",
+          "sha256": "7619e2975980a6a7ba6f86a8fcb4220070b6f738a766ab89de08aee96ad6b174"
+        },
+        {
+          "path": "preparation-light-final/repro-edges-prep.json",
+          "status": "passed",
+          "sha256": "f6f87222c8b8290c4bcefaf4eb49f06bae531c7336a933fb2cfad13fa7577272"
+        },
+        {
+          "path": "fixed-light-final/repro-edges-hand.json",
+          "status": "passed",
+          "sha256": "60930314fedb223241abd6b144f88dcee49734905afba3d784eeaaa4ba9d2112"
+        },
+        {
+          "path": "fixed-light-final/repro-edges-field.json",
+          "status": "passed",
+          "sha256": "6cc23e7ed7c2b4270a999785a4031a7ef140bd4320306f9fd766fe3e06e2ddcc"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I04",
+      "screen": "余白送り",
+      "required_states": "取得列・手札・場／自然overflow0／同ノード限定寸法",
+      "difference_ids": [
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-bars-prep",
+        "repro-bars-hand",
+        "repro-bars-field",
+        "review-scroll-prep",
+        "review-scroll-hand",
+        "review-scroll-field"
+      ],
+      "reports": [
+        {
+          "path": "preparation-light-final/repro-bars-prep.json",
+          "status": "passed",
+          "sha256": "7f5dbe5d99fbd76f604b2c8e378e74e28dcdba44eaa504026b419a61e5dad431"
+        },
+        {
+          "path": "fixed-light-final/repro-bars-hand.json",
+          "status": "passed",
+          "sha256": "a9ff091d2bfee09f2bff248bfac284e4bd4b1a4ec0d0bbe3e8c752cf811db73a"
+        },
+        {
+          "path": "fixed-light-final/repro-bars-field.json",
+          "status": "passed",
+          "sha256": "128941d22c1d32358aea61d1905e6ecf92db81fa823ce6445730244a36cceebf"
+        },
+        {
+          "path": "related-final/review-scroll-prep.json",
+          "status": "passed",
+          "sha256": "d381e61a30f829f0e82ecf2d4075283df0cdaffab79acfe6f10b22ff7377dfb3"
+        },
+        {
+          "path": "related-final/review-scroll-hand.json",
+          "status": "passed",
+          "sha256": "eac8ac8a03136a576bdb6918936877024bda738b64ff82703b4b8afe1672e6d5"
+        },
+        {
+          "path": "related-final/review-scroll-field.json",
+          "status": "passed",
+          "sha256": "81951b7fab75133f65d475d40e5dd5d88d4e2dd206fe0e9dc63db61313eb268d"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I05",
+      "screen": "ホールドcue",
+      "required_states": "短クリックなし／120ms開始／220ms成立／取消",
+      "difference_ids": [
+        "V-D03"
+      ],
+      "unknown_ids": [
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-motion-explore"
+      ],
+      "reports": [
+        {
+          "path": "settled-light/repro-motion-explore.json",
+          "status": "passed",
+          "sha256": "04858625fe3a4e8010460c7e6123f7096225e56a1568b841bf7505d3fdaf99d7"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-I06",
+      "screen": "移動とevent",
+      "required_states": "200ms移動／通常・減動／操作後event",
+      "difference_ids": [
+        "V-D05",
+        "V-W09"
+      ],
+      "unknown_ids": [
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-motion-home",
+        "repro-motion-explore"
+      ],
+      "reports": [
+        {
+          "path": "preparation-light-final/repro-motion-home.json",
+          "status": "passed",
+          "sha256": "91ff15b6ed0ec5ff935eeb040f388a476f0854a51d85c3a2f3fe85528ba7b4e5"
+        },
+        {
+          "path": "settled-light/repro-motion-explore.json",
+          "status": "passed",
+          "sha256": "04858625fe3a4e8010460c7e6123f7096225e56a1568b841bf7505d3fdaf99d7"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W01",
+      "screen": "共通ナビ",
+      "required_states": "探索先／取得／本文／探索／帰還から記録・menu／戻る",
+      "difference_ids": [
+        "V-C03",
+        "V-C04"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V06"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "repro-explore",
+        "repro-shared-preparation",
+        "repro-shared-story",
+        "repro-shared-return-clear",
+        "repro-shared-return-withdrawal",
+        "repro-shared-return-defeat"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-preparation.json",
+          "status": "passed",
+          "sha256": "fc31162f48d5b462995a951da9083e0cf0a776743e1fef136ccbba2a05049cc6"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-story.json",
+          "status": "passed",
+          "sha256": "edf12d7f453f5ca50fe261a63e7f0bd7425278971088fcfc5746012bc4315a5e"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-return-clear.json",
+          "status": "passed",
+          "sha256": "53a49c78f9e424603de8c35eb5661f77570c0dbc7eb4378b0306771c511f35c0"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-return-withdrawal.json",
+          "status": "passed",
+          "sha256": "5d151eac15690ecc766df34757982e7846d43bff08bc1e0f908484d1d9c5db68"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-return-defeat.json",
+          "status": "passed",
+          "sha256": "7d87bb17ee6b842535e3bc905966138aa8c280e865de142bec482463accbc39e"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W02",
+      "screen": "共通メニュー",
+      "required_states": "2列／閉じる／戻る／各機能への入口",
+      "difference_ids": [
+        "V-W03",
+        "V-W05",
+        "V-W08"
+      ],
+      "unknown_ids": [
+        "U-V03"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore",
+        "repro-shared-preparation"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-preparation.json",
+          "status": "passed",
+          "sha256": "fc31162f48d5b462995a951da9083e0cf0a776743e1fef136ccbba2a05049cc6"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W03",
+      "screen": "設定",
+      "required_states": "表示／操作／減動／選択／disabled",
+      "difference_ids": [
+        "V-W03",
+        "V-W05",
+        "V-W09",
+        "V-C04"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V06",
+        "U-V08"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore",
+        "repro-component-extra",
+        "repro-shared-preparation"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-component-extra.json",
+          "status": "passed",
+          "sha256": "1ee8be94cbb76631f95ff273384a268ce6f29dd92b54ae2e6c201390ce8c01ea"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-preparation.json",
+          "status": "passed",
+          "sha256": "fc31162f48d5b462995a951da9083e0cf0a776743e1fef136ccbba2a05049cc6"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W04",
+      "screen": "調査記録",
+      "required_states": "相手・環境／札タブ／未判明／判明／観測区分／獲得",
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-RC04"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore",
+        "repro-shared-return-clear"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-return-clear.json",
+          "status": "passed",
+          "sha256": "53a49c78f9e424603de8c35eb5661f77570c0dbc7eb4378b0306771c511f35c0"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W05",
+      "screen": "記録詳細",
+      "required_states": "対象→基本構成→札詳細／親維持／戻る・scroll保持",
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W07"
+      ],
+      "unknown_ids": [
+        "U-V03"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "natural",
+        "repro-explore",
+        "repro-shared-return-clear",
+        "repro-record-memory"
+      ],
+      "reports": [
+        {
+          "path": "fixed-light-second/natural.json",
+          "status": "passed",
+          "sha256": "5c1208012784db8fe094183b91f55833463211ccdfca3535fc0447b445bd614c"
+        },
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-return-clear.json",
+          "status": "passed",
+          "sha256": "53a49c78f9e424603de8c35eb5661f77570c0dbc7eb4378b0306771c511f35c0"
+        },
+        {
+          "path": "common-light-submitted/repro-record-memory.json",
+          "status": "passed",
+          "sha256": "36c74e4fb162609330639fdab1bdf947561522bb324965810798b5f5366803b6"
+        }
+      ],
+      "coverage": "部分取得／原本判断待ち・依頼内未完了",
+      "remaining": "合法な踏破済み保存の自然overflowで、Godotは親送り位置を保持。原本は597pxから子詳細/戻るで0pxへ戻る実挙動。全scroll量の未取得という追加条件を作らず、保持基準/現原本のどちらを正とするかDEC-UI-06のUI判断へ固定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W06",
+      "screen": "本人の札内訳と山札",
+      "required_states": "通常／基本・現在の区分／一覧送り／詳細",
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W10",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "inheritance",
+        "repro-explore"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        },
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-W07",
+      "screen": "案内と履歴",
+      "required_states": "目的／状況／遊び方／行動履歴／本文履歴／親子",
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W10",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-explore",
+        "repro-shared-story"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-story.json",
+          "status": "passed",
+          "sha256": "edf12d7f453f5ca50fe261a63e7f0bd7425278971088fcfc5746012bc4315a5e"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-T01",
+      "screen": "探索先",
+      "required_states": "初回／再訪／構成詳細／編成から戻る",
+      "difference_ids": [
+        "V-H01",
+        "V-H02",
+        "V-C03"
+      ],
+      "unknown_ids": [
+        "U-B01",
+        "U-V05"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "repro-revisit-home"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "preparation-light-final/repro-revisit-home.json",
+          "status": "passed",
+          "sha256": "72bcf894b14617d6e09a492916412bd7f6bdef69d2619a6ccab7b4d407324230"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-T02",
+      "screen": "本文",
+      "required_states": "進行本文／任意本文／履歴／末尾／既読",
+      "difference_ids": [
+        "V-H02",
+        "V-H04",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-B02",
+        "U-V05"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-story",
+        "inheritance"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-story.json",
+          "status": "passed",
+          "sha256": "0b5298ff34e617fb31ac993ad6d118378da5f4f99d9ab511850f27729459e71a"
+        },
+        {
+          "path": "related-common-final/inheritance.json",
+          "status": "passed",
+          "sha256": "1a9bd861ccd3e06bbbf92928551b2457c3f3b9a75f595cf5380578349ae5360b"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-T03",
+      "screen": "帰還",
+      "required_states": "踏破／撤退／緊急脱出／着想内訳／取得群へ進む",
+      "difference_ids": [
+        "V-H02",
+        "V-H03",
+        "V-H04",
+        "V-C03"
+      ],
+      "unknown_ids": [
+        "U-B03",
+        "U-V05"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-return-clear",
+        "repro-return-withdrawal",
+        "repro-return-defeat",
+        "natural"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-return-clear.json",
+          "status": "passed",
+          "sha256": "74e97f87778c57206c23b4d642ac5a24af14f9b7d75764e9b564ae32976af9b0"
+        },
+        {
+          "path": "common-light-submitted/repro-return-withdrawal.json",
+          "status": "passed",
+          "sha256": "8235921f03c414d48f9c2572c8f9c5f65d0e2f5eb1d7485284340fcc48890695"
+        },
+        {
+          "path": "common-light-submitted/repro-return-defeat.json",
+          "status": "passed",
+          "sha256": "3f21fd33f893376e4d9140a12b4455581545fb5e1e9a1375c4d06363be5eec7c"
+        },
+        {
+          "path": "fixed-light-second/natural.json",
+          "status": "passed",
+          "sha256": "5c1208012784db8fe094183b91f55833463211ccdfca3535fc0447b445bd614c"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-S01",
+      "screen": "開始と再開",
+      "required_states": "新規／続き／読込み前／保存無し／復旧入口",
+      "difference_ids": [
+        "V-H05",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "U-V04"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "interaction",
+        "resume",
+        "corrupt",
+        "future",
+        "in-use"
+      ],
+      "reports": [
+        {
+          "path": "related-common-final/interaction.json",
+          "status": "passed",
+          "sha256": "5a282f3df4356be11894825c6b9f0f2ed7ff9b452bc29875f033d3e38f981d65"
+        },
+        {
+          "path": "related-common-final/resume.json",
+          "status": "passed",
+          "sha256": "c726fd9f2e6dd4534ed72cac58aed1c73a0bfc311ea7952c871cc88268713f84"
+        },
+        {
+          "path": "related-final/corrupt.json",
+          "status": "passed",
+          "sha256": "cb83e65c9007525df5fafce1f5b1eda18edf5ea5b951879130235ab5941531ba"
+        },
+        {
+          "path": "related-final/future.json",
+          "status": "passed",
+          "sha256": "b9e78495ee060af475638e01e32ed34d1a97c243f5a023e340ea8c3576ead773"
+        },
+        {
+          "path": "related-final/in-use.json",
+          "status": "passed",
+          "sha256": "a683b9ebc06a1cfef9790e2186a2a97adb08c06b5ac01ff68f79bdcc00cac333"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-S02",
+      "screen": "保存通知",
+      "required_states": "処理中／成功／失敗／再試行／古い応答／二重送信",
+      "difference_ids": [
+        "V-S01",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-V04"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "failure",
+        "unknown",
+        "busy-close",
+        "interaction",
+        "resume"
+      ],
+      "reports": [
+        {
+          "path": "related-final/failure.json",
+          "status": "passed",
+          "sha256": "cae715dcd9f7c0e7e8d1932209f6d9791e929963d1bdb7be7421ffc3ced0d104"
+        },
+        {
+          "path": "related-final/unknown.json",
+          "status": "passed",
+          "sha256": "86a356515d526523c6d8cf5a97e2f8f5b3d3a1a56aea379b981c1b5aa4812d37"
+        },
+        {
+          "path": "related-final/busy-close.json",
+          "status": "passed",
+          "sha256": "65af305954f06789a056c4fd06de8526880343f508bfc5abb1aaa0b542d63936"
+        },
+        {
+          "path": "related-common-final/interaction.json",
+          "status": "passed",
+          "sha256": "5a282f3df4356be11894825c6b9f0f2ed7ff9b452bc29875f033d3e38f981d65"
+        },
+        {
+          "path": "related-common-final/resume.json",
+          "status": "passed",
+          "sha256": "c726fd9f2e6dd4534ed72cac58aed1c73a0bfc311ea7952c871cc88268713f84"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    },
+    {
+      "id": "ST-C01",
+      "screen": "部品状態共通",
+      "required_states": "通常／hover／pressed／selected／focus／disabled",
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-C02",
+        "U-V06",
+        "U-V07"
+      ],
+      "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "modes": [
+        "repro-home",
+        "repro-explore",
+        "repro-shared-preparation",
+        "review-preparation",
+        "repro-checkbox-states",
+        "repro-component-extra"
+      ],
+      "reports": [
+        {
+          "path": "common-light-submitted/repro-home.json",
+          "status": "passed",
+          "sha256": "039cf32a040261870d67766f0bab5a98d86be7747955e2fdfcb40f53d90e0f20"
+        },
+        {
+          "path": "common-light-submitted/repro-explore.json",
+          "status": "passed",
+          "sha256": "0067fa039a984938943344492d759aead35fc75be4d0255502f39073dc050a12"
+        },
+        {
+          "path": "common-light-submitted/repro-shared-preparation.json",
+          "status": "passed",
+          "sha256": "fc31162f48d5b462995a951da9083e0cf0a776743e1fef136ccbba2a05049cc6"
+        },
+        {
+          "path": "related-final/review-preparation.json",
+          "status": "passed",
+          "sha256": "ce37f3529e695387df80ffbb39680d4ec6341d9e4015f22a99afb30ee5e68b0f"
+        },
+        {
+          "path": "common-light-submitted/repro-checkbox-states.json",
+          "status": "passed",
+          "sha256": "133f04b988fe577ed4b695ffa88dc9770ec3a7c6aa380a89df381a910ea2c2a7"
+        },
+        {
+          "path": "common-light-submitted/repro-component-extra.json",
+          "status": "passed",
+          "sha256": "1ee8be94cbb76631f95ff273384a268ce6f29dd92b54ae2e6c201390ce8c01ea"
+        }
+      ],
+      "coverage": "関連実入力と画像を提出・独立UI適合未判定",
+      "remaining": "独立UI適合・物理入力・実機受入は別判定。",
+      "physical_input": false,
+      "not_an_exception": true
+    }
+  ]
+}
