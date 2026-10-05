@@ -15,7 +15,7 @@ for source,mode in [('repro-home','repro-shared-preparation'),('repro-story','re
     'before':frame(E/('records-use-'+theme)/(mode+'-'+shot+'.png')),'before_code':'072de5e5c8eee9536b361503b2d847b21f181cd0',
     'after':frame(E/('records-use-final-'+theme)/(mode+'-'+shot+'.png')),'after_code':I,
     'original':frame(E/'source-record-contexts'/(theme+'-'+source+'-'+shot+'.png')),
-    'expected':'札の直前の対象窓を親にする553/1089の配置、戻ると一覧位置を復元、cj値は右端・18px/1.6・行間9・記号16。',
+    'expected':'札の直前の対象窓を親にして同じWindowPairで配置し、戻ると一覧位置を復元する。取得FHDでの親553/子1089の入力checkも参照。cj値は右端・18px/1.6・行間9・記号16。',
     'actual':'record-grandchild-source-panel / record-back-restores-list-originと全DTO・実保存byte不変を、同じMainの実入力と原寸PNGで確認。','visual_approval':False})
 receipt={'implementation_sha':I,'items':rows,'same_fixture':'same-fixture-audit.json','incorrect_source_trial_preserved':'source-record-contexts-fixture-mismatch/fixture-mismatch.json','formal_ui_approval':False}
 (E/'record-fix-comparison.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

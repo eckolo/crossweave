@@ -44,7 +44,7 @@ def inventory():
  save(E/'missing-comparison-states.json',{'items':missing,'all_missing_preserved':True,'not_used_as_pass':True})
  print('inventory',len(rows),'bytes',sum(r['bytes'] for r in rows),'missing_pairs',len(missing))
 def prepare_readback(target):
- major=['apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs','apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs','apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs','apps/crossweave-godot/Godot/Application/UiAutomation.cs','docs/作業資料/Work/20260927-game-application.md',*[str((E/n).relative_to(R).as_posix()) for n in ['README.md','UI対応表.json','comparisons.json','results.json','必要証拠と残件.json','screen-states.json','コード解説.md','とりまとめ引継ぎ.md','same-fixture-audit.json','record-fix-comparisons.json']]]
+ major=['apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs','apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs','apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs','apps/crossweave-godot/Godot/Application/UiAutomation.cs','docs/作業資料/Work/20260927-game-application.md',*[str((E/n).relative_to(R).as_posix()) for n in ['README.md','UI対応表.json','comparisons.json','results.json','必要証拠と残件.json','screen-states.json','コード解説.md','とりまとめ引継ぎ.md','same-fixture-audit.json','record-fix-comparison.json']]]
  dest=D/'remote-content';dest.mkdir(exist_ok=True)
  save(D/'readback-list.json',{'commit':target,'files':[{'path':p,'destination':str(dest/(str(i)+Path(p).suffix))} for i,p in enumerate(major)]})
  print('readback list',len(major),target)
@@ -77,7 +77,7 @@ def handoff():
 
 共通窓の親menu、同じ公開対象の記録表、cj/cw/cp配色と文字の使い分け、原本headerの非表示条件、既存X/戻るSVG18px、現在予約の主体ごとの間隔を最後に修正した。観測済み記録では孫窓を直近の親から配置し、値列を原本に合わせ、空記録の追加文言を除いた。記録の自然送りは原本597px・Godot598px。親の保持と元の一覧位置への復帰は実入力で確認したが、現固定原本は子詳細／戻るでscrollが0へ戻り、保持基準との判断は未解消。
 
-I10の共通16mode明暗を保全し、記録変更後は共通7mode明暗（明色I11・暗色I12）、空記録の明色1mode（I12）、観測済み3mode明暗（I12）を追加した。[記録修正の前・後・原本12対](record-fix-comparisons.json)と[same-fixture-audit.json](same-fixture-audit.json)に同じ保存からの比較を固定する。原本補助採取の入力取り違えは失敗記録のまま保全し、修正後の6ケースは元保存とGodot入力のbyte一致を確認した。
+I10の共通16mode明暗を保全し、記録変更後は共通7mode明暗（明色I11・暗色I12）、空記録の明色1mode（I12）、観測済み3mode明暗（I12）を追加した。[記録修正の前・後・原本12対](record-fix-comparison.json)と[same-fixture-audit.json](same-fixture-audit.json)に同じ保存からの比較を固定する。原本補助採取の入力取り違えは失敗記録のまま保全し、修正後の6ケースは元保存とGodot入力のbyte一致を確認した。
 
 関係する予測・予約・一巡・別プロセス再開と保存回帰を限定検証。Core関連17件と既存oracleを確認し、全旧73件は一律に反復していない。各検査のsource hashと変更外の再利用範囲は[結果](results.json)。専用slotの実ファイルを使い、通常セーブ・旧証拠・未保存差分の保全境界は[preservation.json](preservation.json)。実描画は同じMainでの合成InputEventであり、物理入力・実機受入の合格ではない。
 

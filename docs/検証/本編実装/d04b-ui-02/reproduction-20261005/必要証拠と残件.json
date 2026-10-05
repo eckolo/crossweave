@@ -657,8 +657,8 @@
         "次回D04B固定修正版で既存同等画面検証を成立させ、source SHA・環境・結果・artifactを結ぶ。font取得を含む依存hashを記録。",
         "今回の調査中に全旧スイートを再実行する必要はない。再発時は通信／取得段階とゲーム試験失敗を分離し、成立した同等経路をとりまとめへ返す。"
       ],
-      "status": "修復版IのCI/内部manifest読戻し待ち",
-      "actual": "初期I1では音声端点なしのWASAPI ERRORで描画caseを失敗扱い。実画像/入力は出ていた。検査だけaudio-driver Dummyを明示し、continue-on-errorを除去した。project/audioや素材は変更しない。jobだけで成功にせずZIP digestと3manifestを照合。",
+      "status": "最終実装のCI内部証拠読戻し済み",
+      "actual": "固定最終実装のCore17件・Skip0、保存/再開15mode、実描画の明暗16modeずつ。実ZIP digestと3manifest、source hashの完全一致またはcheckout改行だけを照合。初期I1の失敗を成功へ読み替えない。",
       "implementation_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
       "code": [
         {
@@ -680,10 +680,10 @@
       ],
       "evidence": [
         "ci-readback.json",
-        ".github/workflows/d04b-ui-save-01.yml"
+        "cloud/I12/receipt.json"
       ],
-      "owner": "本Work、環境問題が残れば実行基盤・配布",
-      "resumption_conditions": "最終Iの保存/再開15mode・明暗16mode/各source hash・Core17件とartifactを読戻す。",
+      "owner": "UI改善（固定証拠の受領）、本Work（追加差異時）",
+      "resumption_conditions": "同じ固定SHAのCIとローカル原寸対を受領し、独立UI再判定。CIの成功をUI適合／配布／物理入力へ読み替えない。",
       "independently_accepted": false,
       "not_an_exception": true
     }

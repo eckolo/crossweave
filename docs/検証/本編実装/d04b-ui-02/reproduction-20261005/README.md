@@ -27,4 +27,4 @@ UI適合は本Workが自己判定しない。独立UI再判定で未承認差異
 
 検査に使うGodot／SDK／Pythonは担当・CI側で準備する。遊ぶ利用者に導入・ビルド・保存初期化を要求しない。
 
-最終実装は `c761cbf4950a750b5b337e1bc9926528b87be54a`。記録の孫窓・値列・空記録の最後の修正は[修正前・後・原本12対](record-fix-comparisons.json)、同状態入力の一致は[same-fixture-audit.json](same-fixture-audit.json)から確認できる。後続の実描画は利用者の画面へ切り替えない専用のWindows desktopで採取し、各`background-desktop.json`に前後の入力画面が変わらなかったことを残した。[確認入口](確認入口.md)に対象ごとの最終証拠と旧証拠の再利用範囲を記載する。
+最終実装は `c761cbf4950a750b5b337e1bc9926528b87be54a`。記録の孫窓・値列・空記録の最後の修正は[修正前・後・原本12対](record-fix-comparison.json)、同状態入力の一致は[same-fixture-audit.json](same-fixture-audit.json)から確認できる。後続の実描画は利用者の画面へ切り替えない専用のWindows desktopで採取し、各`background-desktop.json`に前後の入力画面が変わらなかったことを残した。[確認入口](確認入口.md)に対象ごとの最終証拠と旧証拠の再利用範囲を記載する。
