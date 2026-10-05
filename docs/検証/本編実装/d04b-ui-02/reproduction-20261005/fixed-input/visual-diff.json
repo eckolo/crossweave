@@ -1,0 +1,3386 @@
+{
+  "schema": "crossweave-visual-diff-1",
+  "baseline_version": "2026-10-04.1",
+  "implementation": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+  "submission": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+  "items": [
+    {
+      "id": "V-C01",
+      "title": "文字のfont・weight・行組",
+      "status": "不一致・修正必要",
+      "baseline_id": "B02",
+      "scope": "全画面",
+      "expected": "B02の用途別font/size/line-height、strong500。実解決fontは別採取",
+      "actual": "NotoSansJP wght400を全域に使用。共通ボタン20、詳細本文22、札titleも400。原本と字形・太さ・折返しが異なる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "font / strong / cp-piece"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "font-size / line-height"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-money"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.cs",
+          "blob": "618b061eaa88c5778906b716c9b149659f0a029a",
+          "locator": "_Ready / font"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "読める量と余白、文字の強弱が変わる",
+      "fix_conditions": [
+        "Noto固定を暗黙の代替承認にせず、原本の実解決fontと用途別weight/line-heightを採取・再現する。各文字役割を別themeに定義。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-C02",
+      "title": "配色の名前空間を一本化",
+      "status": "不一致・修正必要",
+      "baseline_id": "B03",
+      "scope": "全画面",
+      "expected": "取得・探索・共通ナビの別tokenを保持",
+      "actual": "Ink243d35/Paperfcfcf5/Gold315849を探索にも使用。探索原本263c32/f7f8f4/345747とは異なる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "#cw-acquisition-review"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": "#cw-playtable → .cw-explore"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav>button"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Ink / PaperColor / Box"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "全面に細かな色差が拡がる",
+      "fix_conditions": [
+        "B03のnamespace単位で色を適用。RGB差1も未承認のまま自動許容しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-C03",
+      "title": "共通ナビの図記号・色・字寸法",
+      "status": "不一致・修正必要",
+      "baseline_id": "B04",
+      "scope": "全ゲーム画面",
+      "expected": "book-open20＋調査記録18、背景f2f5e9・線a8b9a5・角5",
+      "actual": "book-openを省略し「調査記録」の文字だけ。標準Button20・背景fcfcf5・線bac9ba・角6",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav / embedded .cp-header"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.js",
+          "blob": "af0835bc652851bca5507415b61a3ace8e3eac16",
+          "locator": "commonNavigationHTML"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer>header / .cj-inspect-top"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "CommonNavigation"
+        }
+      ],
+      "approval_ids": [
+        "A03"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ機能の目印と見た目が変わる",
+      "fix_conditions": [
+        "位置152×56/56×56は維持し、原本SVGとB04の色・font・角へ一致させる。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-C04",
+      "title": "ボタンのhover・pressed・focus・disabled",
+      "status": "不一致・修正必要",
+      "baseline_id": "B19",
+      "scope": "全共通ボタン",
+      "expected": "元部品のhover色、取得disabled opacity.42／探索.5、focus原本の見え方",
+      "actual": "BuildThemeは通常/hover/pressed/focusを独自Boxで置換。disabledは不透明e5e9de＋89988bで、元のprimary背景を含む透過とは異なる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-scroll/.cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-runtime-notice/.cp-button:disabled"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+          "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+          "locator": ".cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-scroll/button:disabled"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "BuildTheme / Button"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "無効・選択・フォーカスの視覚上の区別が変わる",
+      "fix_conditions": [
+        "通常・hover・押下・focus・disabledを各部品で採取して一致。Godotデフォルト状態を残さない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-C05",
+      "title": "外枠と1px内側座標",
+      "status": "不一致・修正必要",
+      "baseline_id": "B01",
+      "scope": "全画面",
+      "expected": "原本shellの1px枠と内側1918×1078、用途別角丸",
+      "actual": "Godot画面全1920×1080へ直置き。準備Panelの角6と背景線、探索は共通外枠なし。原本の内側座標に対し1px単位の差が残る",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-shell / .cw-explore"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": "embedded .cp-shell"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "uiSpace/uiRect"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Render / Panel"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "端・基準線・詳細の半画面判定の位置が微妙にずれる",
+      "fix_conditions": [
+        "B01の外枠と内側originを共通化し、全固定位置を同じ座標系へ変換する。単に各所へ±1補正を散布しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-C06",
+      "title": "標準スクロールバーの残存",
+      "status": "不一致・修正必要",
+      "baseline_id": "B19",
+      "scope": "取得列・手札・場・長文・詳細",
+      "expected": "thin、探索横6px、原本thumb/track色とgutter",
+      "actual": "ScrollContainerのバーthemeを指定していない。U01画像・詳細下端に太い灰色のGodotバーが出る",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-scroll/.cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-runtime-notice/.cp-button:disabled"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+          "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+          "locator": ".cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-scroll/button:disabled"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Scroll"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail-bottom.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail-bottom.png",
+        "evidence/implementation/targeted-third/review-scroll-hand-U01-after.png",
+        "evidence/implementation/targeted-third/review-scroll-prep-U01-after.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ一覧でも余白・見える幅・視線誘導が変わる",
+      "fix_conditions": [
+        "元の実バー寸法とthumb/track/hoverを採取しthemeを明示。原本6px指定の横バーは6pxへ。標準部品差として免除しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P01",
+      "title": "三領域の開始位置と行高",
+      "status": "不一致・修正必要",
+      "baseline_id": "B05",
+      "scope": "取得札・心得全状態",
+      "expected": "原本main padding16、lane gap20、grid padding2。原画先頭tile x19/415/1170,y123",
+      "actual": "Godotpanel x25/413/1160,y76、tile x27/415/1162,y124。見出しを含むpanel高922、grid872",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "dimensions/lane"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-main/.cp-lane/.cp-lane-grid"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "PreparationScreen xs/widths/scroll"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "移動先の整列・外側余白が一致しない",
+      "fix_conditions": [
+        "lane全体ではなく見出し32＋gap8＋gridの分離でB05を再現。352×80と8px gapは維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P02",
+      "title": "取得欄・所持欄の囲い範囲",
+      "status": "不一致・修正必要",
+      "baseline_id": "B05",
+      "scope": "取得三領域",
+      "expected": "取得可能は底線だけ、所持・編成の地色はgridから下",
+      "actual": "Godotは見出しを含めた全3列を角丸panelで囲み、原本にない取得欄の側線・上線を表示",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "dimensions/lane"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-main/.cp-lane/.cp-lane-grid"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "PreparationScreen Panel"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "領域の意味を示す構造が別物になる",
+      "fix_conditions": [
+        "見出しを地色の外へ出す。取得底2px、所持左右1/底4px、編成inset1pxをB05どおりにする。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P03",
+      "title": "タブの選択表現",
+      "status": "不一致・修正必要",
+      "baseline_id": "B08",
+      "scope": "札／心得切替",
+      "expected": "64高の連続した角なし帯、active315849＋on-activefffef5",
+      "actual": "独立した角6枠付きbutton。選択はcfdec8背景と2px枠、文字inkのまま",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-header/.cp-footer/.cp-wallet/.cp-purchase-track"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "wallet/purchaseTrack/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeTrack"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "tab-card/tab-passive"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "選択中の分類の強さと一体感が変わる",
+      "fix_conditions": [
+        "選択/非選択のtabをB08の元部品で再現。位置・64px高を維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P04",
+      "title": "共通取得札の枠・角",
+      "status": "不一致・修正必要",
+      "baseline_id": "B06",
+      "scope": "取得可能／所持／編成／ドラッグ",
+      "expected": "2px枠を含む352×80、角5、内側76",
+      "actual": "CardTile.DrawRectは角なし、strokeを中心に描画。右buttonだけ角6が付く",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-piece/.cp-build/.cp-item-actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/localAction"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "CardTile._Draw / MakeTile compact"
+        }
+      ],
+      "approval_ids": [
+        "A01"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "枠線の内外位置と右端の接続が合意案からずれる",
+      "fix_conditions": [
+        "枠内描画とclipをB06へ揃え、移動しても同じ部品・外形のままにする。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P05",
+      "title": "札の操作側が外枠に食い込む",
+      "status": "不一致・修正必要",
+      "baseline_id": "B06",
+      "scope": "取得・編成・外す",
+      "expected": "右72×76、外枠の内側2px、区切りinset1px",
+      "actual": "x278,y0,w74,h80のButtonで外枠を覆う。丸い左角も付く",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-piece/.cp-build/.cp-item-actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/localAction"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "Button(tile,verb...)"
+        }
+      ],
+      "approval_ids": [
+        "A01"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "内側線と外側枠の位置が揃わない",
+      "fix_conditions": [
+        "右操作領域をx278,y2,w72,h76相当の枠内へ置き、原本の区切りと右角だけを再現する。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P06",
+      "title": "編成済みの外すまで主操作色",
+      "status": "不一致・修正必要",
+      "baseline_id": "B06",
+      "scope": "編成欄",
+      "expected": "build外枠58754a、「外す」はf5f7eeとink",
+      "actual": "build札は通常bac9ba枠。「外す」も取得と同じ315849主操作色",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-piece/.cp-build/.cp-item-actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/localAction"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Button prefix 外す-"
+        }
+      ],
+      "approval_ids": [
+        "A01"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "取得／編成済みの視覚差が失われる",
+      "fix_conditions": [
+        "外すをsecondaryへ、編成済み枠をbuild色へ。取得・編成のprimaryと分ける。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P07",
+      "title": "メタ行の記号・文字・数量",
+      "status": "不一致・修正必要",
+      "baseline_id": "B06",
+      "scope": "札／心得所持・取得",
+      "expected": "layers/scroll-text/check、lightbulb、grid-2x2、18px。数量は右端",
+      "actual": "16pxの属性／「着想」「枠消費」「ロック」文章中心。数量を途中へ連結",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-piece/.cp-build/.cp-item-actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/localAction"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "MakeTile compact info"
+        }
+      ],
+      "approval_ids": [
+        "A01"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "取得済み・編成中・種類を文字なしで識別しにくい",
+      "fix_conditions": [
+        "元18px記号・gap6・右寄せquantityを再現。公開数量・ロック意味は保ちながら配置を戻す。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P08",
+      "title": "未払いの斜線・色・時計",
+      "status": "不一致・修正必要",
+      "baseline_id": "B07",
+      "scope": "未払い所持／未払い編成",
+      "expected": "金茶破線、135deg斜線、右下独立clock",
+      "actual": "緑破線・通常白背景・「◷ 未払い」の文字連結",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-pending/.cp-clock/.cp-empty/.cp-offer-message/.cp-button"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/lane/offerPhase"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "CardTile._Draw / MakeTile compact"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "未払いが正式所持と似た見た目になる",
+      "fix_conditions": [
+        "B07のpending専用色・斜線・clockを実装し、価格などをclockへ重ねない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P09",
+      "title": "取得元の跡を文章化",
+      "status": "不一致・修正必要",
+      "baseline_id": "B07",
+      "scope": "未払い取得後の左欄",
+      "expected": "同寸法placeholder、中央arrow-rightと底線",
+      "actual": "「→ 取得予定」を左寄せLabelで表示",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-pending/.cp-clock/.cp-empty/.cp-offer-message/.cp-button"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/lane/offerPhase"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "pending offer placeholder"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "元の空間的手掛かりが説明文へ戻る",
+      "fix_conditions": [
+        "cp-offer-emptyの中央SVGと底3pxをそのまま再現。候補件数・正式取得後の消去規則は維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P10",
+      "title": "空き枠・候補なしの形",
+      "status": "不一致・修正必要",
+      "baseline_id": "B07",
+      "scope": "空所持／空編成／取得完了／候補なし",
+      "expected": "共通352×80の破線枠・状態icon・20/28の文言",
+      "actual": "空編成は枠なし＋だけ、空所持は「ここにはありません」。空候補は汎用Label300×100",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-pending/.cp-clock/.cp-empty/.cp-offer-message/.cp-button"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/lane/offerPhase"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "rowCount==0 / empty slots"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png",
+        "evidence/implementation/targeted-third/review-scroll-prep-U01-before.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "空状態でも置き場と操作単位が維持されない",
+      "fix_conditions": [
+        "B07の空部品を両分類に共用。公開群が残るケースを完了と誤表示しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P11",
+      "title": "財布の現在・未払い予測",
+      "status": "不一致・修正必要",
+      "baseline_id": "B08",
+      "scope": "取得未払い／不足／確定後",
+      "expected": "lightbulb、現在値、変更後clock点線token",
+      "actual": "「着想 現在 → 後」を一つのLabelに連結",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-header/.cp-footer/.cp-wallet/.cp-purchase-track"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "wallet/purchaseTrack/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeTrack"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "money Text"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
+        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "確定前後の区別が文字依存になる",
+      "fix_conditions": [
+        "cp-wallet/cp-wallet-nextの記号と点線枠を再現。未公開の残高は—を維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P12",
+      "title": "取得フッターと固定操作",
+      "status": "不一致・修正必要",
+      "baseline_id": "B08",
+      "scope": "取得全状態",
+      "expected": "64高の帯e9eee0、上線、undo-2、角なし戻す／確認する、22px",
+      "actual": "背景はmainと同じ。丸い独立buttonと20pxの長い容量文。undo記号なし",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-header/.cp-footer/.cp-wallet/.cp-purchase-track"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "wallet/purchaseTrack/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeTrack"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "PurchaseTrack/capacity/discard/review"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "images": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "確定前の操作帯と作業面の分離が弱まる",
+      "fix_conditions": [
+        "B08の帯・枠・font・iconへ戻し、公開群上限と容量の追加情報は既存表示構造に収める。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P13",
+      "title": "取得窓の面・余白・境界",
+      "status": "不一致・修正必要",
+      "baseline_id": "B09",
+      "scope": "取得詳細／確認",
+      "expected": "960×820、角8、paperf4f6ec、header64/body padding24/footer72、区切り線とshadow",
+      "actual": "外形960×820は同じ。角6・fcfcf5fa、shadow/区切りなし、body x20,y76。確認overlay黒.6と詳細黒.3が不統一",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-overlay/.cp-dialog/.cp-facts/.cp-review-wallet/.cp-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "reviewBody/renderDialog"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeReviewBody/runtimeItemFacts"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "RenderModal review / DetailWindow"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png",
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ窓でも見た目と密度が違う",
+      "fix_conditions": [
+        "B09の一つのframeへ詳細・確認・変換を揃える。暗幕も283d3555へ。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P14",
+      "title": "一括確認が改行Labelへ平坦化",
+      "status": "不一致・修正必要",
+      "baseline_id": "B09",
+      "scope": "混合／編成のみ／心得のみ確認",
+      "expected": "中央36px残高、取得行の価格・移動先、数量差分の右列、容量2列、変更心得の折畳み",
+      "actual": "情報はR02で追加済みだが全て20pxの連続文章。残高が小さく左端、区切り・整列・折畳みがない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-overlay/.cp-dialog/.cp-facts/.cp-review-wallet/.cp-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "reviewBody/renderDialog"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeReviewBody/runtimeItemFacts"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "PreparationSummary"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-bottom.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png",
+        "evidence/implementation/final-caption/review-preparation-R02-passive-only-top.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "支払いと変更を視覚的に走査できない",
+      "fix_conditions": [
+        "R02の公開値を保ちcp-review-wallet/cp-change/cp-capacity/details構造を再現。データを削らず原本の行と列へ投影する。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-P15",
+      "title": "取得詳細の位置・価格・修飾構造不足",
+      "status": "不一致・修正必要",
+      "baseline_id": "B09",
+      "scope": "取得可能／所持／編成の札・心得詳細",
+      "expected": "三領域location、pendingclock、取得価格、112px label/value、修飾summary",
+      "actual": "DetailWindowはItemTextだけ。offerの価格・現在の置き場が本文にない。修飾別説明の折畳みもない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-overlay/.cp-dialog/.cp-facts/.cp-review-wallet/.cp-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "reviewBody/renderDialog"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeReviewBody/runtimeItemFacts"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "DetailWindow / ItemText"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A05"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "詳細を見て取得費と所在を判断できない",
+      "fix_conditions": [
+        "公開offer.price_units等を元の価格行へ、所在を既存locationへ。修飾の公開説明を元のsummaryへ。必要情報がpublic viewに無ければ境界不足を具体化し、私的DTOから補完しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "要修正（追加N01：元詳細の判断材料の欠落）",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E01",
+      "title": "探索の手札・場・本人帯の縦位置",
+      "status": "不一致・修正必要",
+      "baseline_id": "B01",
+      "scope": "探索全状態",
+      "expected": "原画field上413、hand上688、本人帯983。内側の336/248/314/72＋gap20",
+      "actual": "field上412、hand上676、本人帯984。手札だけ12px上。原本の行内alignを固定座標で置換",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-shell / .cw-explore"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": "embedded .cp-shell"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "uiSpace/uiRect"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "ExplorationScreen CardStrip/footer"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "縦の間隔と札の下の操作位置が不揃いになる",
+      "fix_conditions": [
+        "B01の行＋B10のalignを再現。コードコメントの行寸法だけで一致にしない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E02",
+      "title": "探索背景の前景色かぶせ",
+      "status": "不一致・修正必要",
+      "baseline_id": "B12",
+      "scope": "探索全状態",
+      "expected": "night-tide cover＋下方e8edd933 wash",
+      "actual": "TextureRectのみ。原本の45%以降の前景washがない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": "#cw-scene-base::after"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-board"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": "#cw-scene"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Render background"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ素材でも明るさ・背景と札の馴染みが変わる",
+      "fix_conditions": [
+        "元asset/positionを維持し、B12の既存overlayを再現。新しい画像加工・新素材に置換しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E03",
+      "title": "場の帯の線・透明度",
+      "status": "不一致・修正必要",
+      "baseline_id": "B12",
+      "scope": "場通常／予測／ドラッグ",
+      "expected": "border0、e9eed81a、radius8",
+      "actual": "Panelで1px線、e9eed833、radius6",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": "#cw-scene-base::after"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-board"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": "#cw-scene"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "Panel(24,380,1872,248)"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "場を示す面が濃く、囲いが増える",
+      "fix_conditions": [
+        "元の0px線・alpha1a・角8に一致させる。ドラッグ可否枠とは別層。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E04",
+      "title": "札面の角・線と絵面gradient",
+      "status": "不一致・修正必要",
+      "baseline_id": "B10",
+      "scope": "手札／場／ドラッグ",
+      "expected": "1px線と角6/7、150deg gradient",
+      "actual": "角なし2px線＋c9d8c5単色。下captionPanelだけ角6",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-hand-card/.cw-slot/.cw-illustration/.cw-attr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-card-face/.cw-face-caption"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "MakeTile / CardTile._Draw"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "札の内側線・上下の結合・面が異なる",
+      "fix_conditions": [
+        "B10の同じ描画部品で上下をclipし、外形・gradient・線を復元。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E05",
+      "title": "札・主体の図記号をUnicode置換",
+      "status": "不一致・修正必要",
+      "baseline_id": "B10",
+      "scope": "札効果／地形／能力／予約",
+      "expected": "原本Lucide/既存svg。strokeと各20px等を固定",
+      "actual": "↗、◇、⌖、♡、◒、ϟ、≋、△をfont文字として描く",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-hand-card/.cw-slot/.cw-illustration/.cw-attr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-card-face/.cw-face-caption"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "ActorSymbol/CardSymbol/EffectLine"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-self-and-actors.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "記号の形・太さ・baseline・欠字時の意味が変わる",
+      "fix_conditions": [
+        "新規iconを制作せず既存SVGを資源として再利用し、B10/B11の寸法へ。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E06",
+      "title": "属性badgeの枠を欠く",
+      "status": "不一致・修正必要",
+      "baseline_id": "B10",
+      "scope": "手札／場／予測",
+      "expected": "16/24、1px枠、角4、左右4px",
+      "actual": "属性英字だけのLabel",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-hand-card/.cw-slot/.cw-illustration/.cw-attr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-card-face/.cw-face-caption"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "MakeTile attr"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "属性と数値や本文の区切りが薄れる",
+      "fix_conditions": [
+        "B10のbadgeを共用し、札の下段の行高を保つ。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E07",
+      "title": "空の場札のcaption高さ",
+      "status": "不一致・修正必要",
+      "baseline_id": "B10",
+      "scope": "場の未配置属性",
+      "expected": "原本empty cw-slotは下端に属性の短いcaption、通常札のtitle空白を作らない",
+      "actual": "emptyでも88pxから120pxの白Panelを作る",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-hand-card/.cw-slot/.cw-illustration/.cw-attr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-card-face/.cw-face-caption"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "MakeTile empty"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "空の場所に札本文の白い余白が大きく現れる",
+      "fix_conditions": [
+        "空slotを元のempty構造へ。実札の共通面は変更しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E08",
+      "title": "予測／消費ラベルの位置と背景",
+      "status": "不一致・修正必要",
+      "baseline_id": "B13",
+      "scope": "予測札／使用後に場から離れる札",
+      "expected": "右上4px、paper背景、padding6、radius3",
+      "actual": "左上4px、背景なしのLabel240×24",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-field-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/layout/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": "#cw-relations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-action-anchor"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "MakeTile forecast/consumed"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-details/review-safety-consume-R01-after-drop.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "絵の記号と状態文が重なりやすい",
+      "fix_conditions": [
+        "B13の右上badgeへ移す。captionの48/24/28行を動かさない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E09",
+      "title": "離れる場札の警告色",
+      "status": "不一致・修正必要",
+      "baseline_id": "B13",
+      "scope": "消費・回収される場札",
+      "expected": "data-changedはdanger943c25枠、予測と区別",
+      "actual": "consumedをCardTile._Drawが見ない。linked315849緑枠だけになる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-field-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/layout/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": "#cw-relations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-action-anchor"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "CardTile._Draw / consumed"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "残る札と離れる札の視覚差が弱い",
+      "fix_conditions": [
+        "元data-changedとlinkedの重なり順を再現し、消滅/共通回収の意味はR03の公開値で保持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E10",
+      "title": "主体と本人のバーを横2本へ変更",
+      "status": "不一致・修正必要",
+      "baseline_id": "B11",
+      "scope": "敵／地形／本人／予測差分",
+      "expected": "余力・隠蔽の全幅バーを上下4px＋2pxgap＋4px、後者.6",
+      "actual": "左右半幅に各4pxバーを1段で配置。後者のopacityなし",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-actor/.cw-illustration"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-actor/.cw-vital-bars/.cw-self"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": ".cw-actor[aria-pressed]/.cw-vital-bars"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "ActorVitals"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "能力表示の行構造そのものが違う",
+      "fix_conditions": [
+        "R03で追加した差分値を保ち、B11の上下バーと18px能力行へ戻す。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E11",
+      "title": "主体の通常枠・選択枠・hover",
+      "status": "不一致・修正必要",
+      "baseline_id": "B11",
+      "scope": "未選択／選択／hover主体",
+      "expected": "通常枠transparent、選択2px内側＋target記号＋softcaption",
+      "actual": "通常bac9ba1px枠、選択3px、targetmarkなし。hoverはButton共通の紙面色",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-actor/.cw-illustration"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-actor/.cw-vital-bars/.cw-self"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": ".cw-actor[aria-pressed]/.cw-vital-bars"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "ExplorationScreen actor Button"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "選択対象と絵の抜けが原本と違う",
+      "fix_conditions": [
+        "主体固有の通常/hover/selected themeを作りB11へ。既存diverの282×176/上8は維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E12",
+      "title": "本人帯の幅・内容密度",
+      "status": "不一致・修正必要",
+      "baseline_id": "B11",
+      "scope": "探索本人帯",
+      "expected": "self400px、手札18px、既存の公開補助情報の位置",
+      "actual": "self410px、手札20pxに山札枚数と共通回収枚数を連結。右撤退も固定110",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-actor/.cw-illustration"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-actor/.cw-vital-bars/.cw-self"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": ".cw-actor[aria-pressed]/.cw-vital-bars"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "footer / ActorVitals"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "最下帯の余白と情報階層が変わる",
+      "fix_conditions": [
+        "B11のself400と原本footer-state構造を再現。追加公開情報は原本の山札／状況入口で扱い、未承認の帯拡張を残さない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E13",
+      "title": "札の下の操作枠を固定拡張",
+      "status": "不一致・修正必要",
+      "baseline_id": "B13",
+      "scope": "手札選択",
+      "expected": "56高、18px、padding16、内容幅、gap8、選択札に追従するtrack",
+      "actual": "予測132px/16pxと実行250px/20px、y920固定",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-field-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/layout/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": "#cw-relations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-action-anchor"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "preview/play / UpdateDragGhost"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "短い述語にも過大な枠が付き、元札の真下との対応が変わる",
+      "fix_conditions": [
+        "原本layoutのanchor/trackを再現し、表示文言ごとの実幅を算出。最右札でも画面内に収める。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E14",
+      "title": "関係線が直線矢印へ変わる",
+      "status": "不一致・修正必要",
+      "baseline_id": "B13",
+      "scope": "選択／一致／設置予測",
+      "expected": "縦端点同士をcubicBezier、stroke2、opacity.5、原本は線のみ",
+      "actual": "中心方向の直線と20px矢頭、stroke4、不透明Gold",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-field-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/layout/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": "#cw-relations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-action-anchor"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "PaintInteraction Arrow"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "線の太さと流れが変わり他の札にかかる",
+      "fix_conditions": [
+        "drawRelationsの可視範囲clip・端点・curve・stroke・alphaを共用描画へ移す。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-E15",
+      "title": "行動順の顔・余白・次のbadge",
+      "status": "不一致・修正必要",
+      "baseline_id": "B14",
+      "scope": "通常／同時刻／本人次回",
+      "expected": "40pxボタン、16gap、同群2gap、次はsoft背景と底2px",
+      "actual": "44pxボタン、群ごとcount×54+110、gap12、次は14px白文字のみ。diverは36px contain",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-turn-order"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+          "blob": "263e8808358db4abd57999f8351a738a734ba388",
+          "locator": ".cw-turn-group/[data-self-next]"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-turn-face"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "turnFace/render"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "OrderStrip"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-second/review-order-different-R05-order-strip.png",
+        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同時刻や本人次回の空間的なまとまりが異なる",
+      "fix_conditions": [
+        "R05のgroup/順位計算は維持しB14の原本部品へ表示。白地に白い次ラベルを残さない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W01",
+      "title": "探索詳細の文字・表組・余白",
+      "status": "不一致・修正必要",
+      "baseline_id": "B15",
+      "scope": "札／主体／予測／予約詳細",
+      "expected": "64header、16padding、20見出し、18/1.6本文、ledgerでラベル値整列",
+      "actual": "headerの見出し22/27、本文22、x20/y82、内容をLongTextに連結",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeEdgeWindow/placeActorWindow"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "layout/renderDrawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-drawer"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "DetailWindow / ItemText"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ情報でも一画面に入る量と探しやすさが違う",
+      "fix_conditions": [
+        "ItemText/PredictionSummaryは公開値の供給に留め、原本ledger/見出し/別段落を実部品で再現する。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W02",
+      "title": "pinと閉じるの形",
+      "status": "不一致・修正必要",
+      "baseline_id": "B15",
+      "scope": "一時／固定詳細",
+      "expected": "pin SVG、56×56、固定はactive背景。close56×56",
+      "actual": "60×48の「固定／一時」文字ボタンと48×48の×",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeEdgeWindow/placeActorWindow"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "layout/renderDrawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-drawer"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "PinButton"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "固定状態と閉じるの共通操作部品が変わる",
+      "fix_conditions": [
+        "B15のicon状態表現と同じ高さへ。機能のtoggle・180/160msは維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W03",
+      "title": "窓の面と影・区切り",
+      "status": "不一致・修正必要",
+      "baseline_id": "B15",
+      "scope": "探索詳細／予測",
+      "expected": "cw-paper、元の1px線、角8、shadow、header境界",
+      "actual": "fcfcf5faのPanel、角6、shadowとheader境界なし",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeEdgeWindow/placeActorWindow"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "layout/renderDrawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-drawer"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Panel/Box / RenderModal prediction"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "背景への抜け・窓の輪郭が一致しない",
+      "fix_conditions": [
+        "B15とstyle-sourceの最終drawer指定をテーマで再現。本文だけ別白面を重ねない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W04",
+      "title": "反対端窓の座標系・縦基準",
+      "status": "不一致・修正必要",
+      "baseline_id": "B15",
+      "scope": "左／右／中央の札・主体・予測",
+      "expected": "原本uiSpaceの内側寸法とanchor.y、bottom本人帯上端を用いたplaceEdgeWindow",
+      "actual": "root1920へ直置きし中心Y−104、bottom984固定。主体はroot座標16",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeEdgeWindow/placeActorWindow"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "layout/renderDrawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-drawer"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "DetailWindow x/y"
+        }
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-details/review-safety-consume-R01-after-drop.png",
+        "evidence/implementation/final-details/review-safety-doomed-R01-after-drop.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "方角は継承しても1pxの端や行位置がずれる",
+      "fix_conditions": [
+        "アルゴリズムをB15そのまま移植し、手札/場/主体の左右・中央・端clampを同じ座標表で確認。新しい縦配置案は作らない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W05",
+      "title": "共通窓・親子窓が固定座標",
+      "status": "不一致・修正必要",
+      "baseline_id": "B16",
+      "scope": "メニュー／記録／設定／本文履歴",
+      "expected": "triggerと上下帯からplaceWindow、親位置を保ったpair520×480/gap16",
+      "actual": "menu1384,80、settings700,300、knowledge424,300と960,300等を固定",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "MenuWindow/SettingsWindow/KnowledgeWindow"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-known-catalogue.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "開く元による一貫した配置規則を失う",
+      "fix_conditions": [
+        "B16の元anchor/avoid/parent計算を共用化。各窓別の思いつき座標にしない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W06",
+      "title": "記録タブ・列・区分を省略",
+      "status": "不一致・修正必要",
+      "baseline_id": "B16",
+      "scope": "調査記録一覧／判明／未判明",
+      "expected": "相手・環境／札タブ、対象の判明状態、札/属性/初期枚数table、観測区分・獲得記録",
+      "actual": "タブなし。対象ボタン一覧→札名×枚数のボタン列。公開reward_key/labelも描画しない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "KnowledgeWindow"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-known-catalogue.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "判明済みの札や記録の分類を辿る構造が後退",
+      "fix_conditions": [
+        "元records.jsの構造を復元。public viewにあるencounters/evidence/profileを使う。run/actor別区分が不足する場合は必要な公開項目と旧契約を特定して同D04Bで処置し、推定分類を作らない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "要修正＋公開境界の区分根拠はU-RC04（追加N02）",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W07",
+      "title": "記録札詳細で直前の親が消える",
+      "status": "不一致・修正必要",
+      "baseline_id": "B16",
+      "scope": "基本構成→札詳細",
+      "expected": "直前の対象構成を左、札詳細を右。元の選択・scroll保持",
+      "actual": "Modal=knowledge-cardで中央520×480の一窓のみ描き、構成paneを消す",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "RenderModal knowledge-card"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-record-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-record-top.png",
+        "evidence/implementation/targeted-third/natural-known-card.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "元の札の並びと詳細を見比べられない",
+      "fix_conditions": [
+        "元recordsPanelViewのsource＋childを同時表示。戻るで元のscroll・選択を保ち、親を覆わない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "要修正（追加N02の親子表示）",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W08",
+      "title": "メニューが2列から縦1列へ",
+      "status": "不一致・修正必要",
+      "baseline_id": "B16",
+      "scope": "各画面メニュー",
+      "expected": "2列×56px、必要時だけ既存pager",
+      "actual": "全幅456×54の縦列＋内部scroll＋下の終了。探索メニューは長くスクロールする",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "MenuWindow"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ項目でも到達操作と密度が変わる",
+      "fix_conditions": [
+        "B16の2列と共通操作位置を復元。Windowsの終了は同じ共通部品へ割当し、既存項目を重複させない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W09",
+      "title": "表示・操作設定の元UIを省略",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "表示設定／探索操作設定",
+      "expected": "表示は「動きを抑える」checkbox、探索設定は元操作項目と選択部品",
+      "actual": "同じSettingsWindowに長文トグルButton5個。動きを抑えるがない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "SettingsWindow"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "機能の入口が重複し、元の設定が辿れない",
+      "fix_conditions": [
+        "共通表示と探索操作の元項目・部品を対応づけて復元。既存Godot操作設定は必要性と元の対応を明記する。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "要修正（追加N03：動きを抑えるの欠落）",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-W10",
+      "title": "山札・履歴・案内を単一本文へ",
+      "status": "不一致・修正必要",
+      "baseline_id": "B16",
+      "scope": "山札／履歴／目的／状況／遊び方",
+      "expected": "原本の表・記号・見出し、18/1.6と親子導線",
+      "actual": "DeckWindow以外はLongText、履歴も改行文。汎用窓に黒.6暗幕、原本非modal窓と異なる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "RenderModal generic"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-known-card.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "情報の比較・閲覧中の周辺確認が変わる",
+      "fix_conditions": [
+        "各元panelView/renderDrawerの既存表組と非遮断窓を再現。確認が必要な破壊操作だけ元契約に従う。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-H01",
+      "title": "探索先の詳細が題名から離れる",
+      "status": "不一致・修正必要",
+      "baseline_id": "B17",
+      "scope": "探索先通常／再訪",
+      "expected": "左40幅840のsummary内、h2と詳細がflex隣接gap8",
+      "actual": "題名x40,w760、詳細x824固定。短い題名でも大きく離れる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "HomeScreen"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-known-catalogue.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "ボタンの対象を位置で伝える構造が崩れる",
+      "fix_conditions": [
+        "原本summary/headingの内容幅とgapを再現。全文言違いは比較条件で分離。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-H02",
+      "title": "本文・帰還背景のgradientを近似",
+      "status": "不一致・修正必要",
+      "baseline_id": "B17",
+      "scope": "本文／探索先／帰還",
+      "expected": "原本の0deg/90deg多stopと本文自身の90deg gradient",
+      "actual": "ReadingBackdropの単純2本fadeと固定上下64Panel。SceneReaderでも再度ReadingBackdropを重ねる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "ReadingBackdrop / SceneReader"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-return-clear.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "背景の濃さと本文背後の面が場面ごとに変わる",
+      "fix_conditions": [
+        "B17のstop/color/適用範囲をそのまま再現。二重適用をなくし、既存画像は変更しない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-H03",
+      "title": "帰還要約の文字階層",
+      "status": "不一致・修正必要",
+      "baseline_id": "B17",
+      "scope": "踏破／撤退／緊急脱出",
+      "expected": "金額32px Georgia/serif、labelと総額を分離、結果items18px、gap8",
+      "actual": "全要約を24pxの改行Label(x24,y812,w890,h132)へ。記号・金額の強弱がない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "ReturnScreen"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-return-clear.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "獲得と回復と記録が同じ強さになり要約しにくい",
+      "fix_conditions": [
+        "B17のresult-values/money/itemsを部品化。新しい結果情報も元の役割へ対応づける。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-H04",
+      "title": "本文窓の内面・余白・行間",
+      "status": "不一致・修正必要",
+      "baseline_id": "B17",
+      "scope": "進行本文／任意本文／帰還本文",
+      "expected": "reading padding24、20px/1.7、原本の最大幅と高さ、境界なしのgradient",
+      "actual": "Panelの一様alpha紙面、内側x24,y20、幅792高さ320、line_spacing10で代用",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "SceneReader/StoryReader"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "images": [
+        "evidence/implementation/targeted-third/natural-return-clear.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "文字の改行と読み終わり位置が変わる",
+      "fix_conditions": [
+        "原本prose-layoutとCSS最終値を同じ文言で実測し、幅/line-height/段落gapを一致。可視段落記録の境界は壊さない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-H05",
+      "title": "開始画面の配置と書体",
+      "status": "不一致・修正必要",
+      "baseline_id": "B17",
+      "scope": "新規／続き／読込み前",
+      "expected": "中心28px serifのcrossweave、操作は下64px帯",
+      "actual": "左上72pxタイトル、y630/y730へ開始・再開・診断を固定",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "StartScreen"
+        }
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "本編だけ別の画面構造になる",
+      "fix_conditions": [
+        "共通shellと元launcherの位置・文字を再現。Windows固有の復旧操作は元共通窓の部品へ割当し、見た目の例外扱いにしない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-S01",
+      "title": "通知・保存中表示の位置",
+      "status": "不一致・修正必要",
+      "baseline_id": "B19",
+      "scope": "保存中／失敗／古い応答／再試行",
+      "expected": "共通通知はtop72中央、18px、警告面と影。取得通知top76左右24",
+      "actual": "Message x24,y66,w1540,h50 font19、Busyはx1230のヘッダー文字",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-scroll/.cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-runtime-notice/.cp-button:disabled"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+          "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+          "locator": ".cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-scroll/button:disabled"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Render Message/Busy"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A05",
+        "A06"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "失敗・処理中の案内位置と余白が画面ごとに変わる",
+      "fix_conditions": [
+        "B19の通常通知と取得noticeへ統一。保存の成否・retry/reloadの契約は維持し、通常セーブでは試さない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-D01",
+      "title": "受入先枠・ラベルを全列へ広げる",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "ドラッグ可／不可",
+      "expected": "pointer下の1列にallowed実線2／blocked破線1、ヘッダー全幅の短い述語",
+      "actual": "全dropZonesを可否色で囲む、hover4/非hover2、不可は赤実線。labelは白い短い箱で見出し左上に重なる",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "PaintDropTargets"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png",
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
+        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "どの領域が現在の移動先なのかと操作名が原本と異なる",
+      "fix_conditions": [
+        "R06の判定共用は保ちB18の見た目に置換。labelを取得／取得・編成／編成／外す／取消へ戻す。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-D02",
+      "title": "ドラッグ元と像の透明度・影",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "取得ドラッグ／探索ドラッグ",
+      "expected": "取得元opacity.3、ghost原寸＋影、不可.75。探索は元部品の指定を保持",
+      "actual": "ghostを一律.88、元はfadeせず、影なし。元と像が同じ強さで残る",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "e00e51d508e0ef1d1c86e4a41604bcf73458ae9c",
+          "locator": "UpdateDragGhost"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
+        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "掴んだ個体と残る個体の区別が弱くなる",
+      "fix_conditions": [
+        "B18の元/ghost/不可を独立した状態として再現。grabOffsetと原寸を維持。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-D03",
+      "title": "ホールドcueの形と位置",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "120〜220ms保持中",
+      "expected": "pointer(+20,-20)の32px進捗環、下34pxの12/18ラベル、背景・影・mask",
+      "actual": "pointer(+36,0)へ半径16の3px線arc、右24pxへ18px文字、ラベル背景なし",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "PaintInteraction hold cue"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "通常クリック後の見え方・指示の位置・読める背景が変わる",
+      "fix_conditions": [
+        "delay120/hold220は保ち、元のcue形/位置/labelを再現。短クリック非表示・途中・成立・取消の連続証拠を付ける。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-D04",
+      "title": "端送り速度と閾値",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "保持中の取得列／手札→場",
+      "expected": "取得edge22/step7、探索edge64/step16（原本の論理倍率補正）",
+      "actual": "取得24/9、探索50/10で毎frame送り",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "AutoScroll"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [
+        "evidence/implementation/final-caption/review-destination-R06-destination-scroll.png",
+        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
+      ],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ入力でも送り開始位置と移動量が変わる",
+      "fix_conditions": [
+        "R06の移動先・領域外停止を保ち、原本の閾値/速度単位を移植。frame時間と倍率を記録して限定確認する。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    },
+    {
+      "id": "V-D05",
+      "title": "移動・イベントの表示タイミング",
+      "status": "不一致・修正必要",
+      "baseline_id": "B18",
+      "scope": "取得移動／操作後履歴／動きを抑える",
+      "expected": "取得移動200ms ease-out、探索の元live-eventと減衰、抑制設定",
+      "actual": "Renderは全childを再生成。取得移動アニメーションと同じlive-event層がない",
+      "original": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "6fdf977b80348c818b44d709b8252f6e0b304345",
+          "locator": "Render remove/rebuild"
+        }
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "images": [],
+      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
+      "impact": "同じ状態遷移の追いやすさが変わる",
+      "fix_conditions": [
+        "元の表示タイミングを共通部品へ移植。減動時分岐と通常分岐の短い動画／連続フレームを保存し、実行・保存回数は変えない。",
+        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "functional_assessment": "既存機能の適合と別判定",
+      "resolution_evidence": [],
+      "individually_approved": false
+    }
+  ],
+  "individual_exceptions": [],
+  "policy": "この台帳の不一致を未確認や試作免除へ移して閉じない。描画不足は別のU項目で追跡する。"
+}

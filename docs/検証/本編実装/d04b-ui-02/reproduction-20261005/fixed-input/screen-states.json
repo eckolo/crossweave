@@ -1,0 +1,1097 @@
+{
+  "schema": "crossweave-m1-ui-state-inventory-1",
+  "baseline": "2026-10-04.1",
+  "implementation": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+  "items": [
+    {
+      "id": "ST-P01",
+      "screen": "札取得編成",
+      "states": "通常／所持集約／編成12枠／長い名称",
+      "baseline_ids": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06",
+        "V-P01",
+        "V-P02",
+        "V-P03",
+        "V-P04",
+        "V-P05",
+        "V-P06",
+        "V-P07",
+        "V-P11",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-V01",
+        "U-V06",
+        "U-V07"
+      ],
+      "evidence": [
+        "evidence/reference/preparation.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P02",
+      "screen": "心得取得編成",
+      "states": "通常／枠を使う／同じ三領域",
+      "baseline_ids": [
+        "B05",
+        "B06",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-P01",
+        "V-P02",
+        "V-P03",
+        "V-P04",
+        "V-P05",
+        "V-P06",
+        "V-P07",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V06"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P03",
+      "screen": "取得予定",
+      "states": "札・心得／所持予定・編成予定／元位置跡／取消",
+      "baseline_ids": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-P08",
+        "V-P09",
+        "V-P11",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png"
+      ],
+      "functional": "R02／R07／R06の非支払い・取消を確認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P04",
+      "screen": "取得無効",
+      "states": "同群上限／別群可／残高不足／容量不足／無効案保持",
+      "baseline_ids": [
+        "B06",
+        "B07",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-C04",
+        "V-P05",
+        "V-P08",
+        "V-P11"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V06"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png",
+        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
+      ],
+      "functional": "R07の全入口上限制御は適合",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P05",
+      "screen": "取得空状態",
+      "states": "全群取得完了／候補なし／空編成／正式所持は残る",
+      "baseline_ids": [
+        "B05",
+        "B07",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-P02",
+        "V-P10",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P06",
+      "screen": "取得詳細",
+      "states": "offer／owned／pending／札・心得／修飾展開",
+      "baseline_ids": [
+        "B09"
+      ],
+      "difference_ids": [
+        "V-P13",
+        "V-P15",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
+      ],
+      "functional": "追加N01：価格・所在など不足、要修正",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P07",
+      "screen": "一括確認",
+      "states": "札＋心得混合／編成のみ／心得のみ／上端下端／取消／確定",
+      "baseline_ids": [
+        "B09"
+      ],
+      "difference_ids": [
+        "V-P13",
+        "V-P14",
+        "V-C01",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V07"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R02-composition-only.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-bottom.png",
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png",
+        "evidence/implementation/final-caption/review-preparation-R02-passive-only-bottom.png",
+        "evidence/implementation/final-caption/review-preparation-R02-passive-only-top.png"
+      ],
+      "functional": "R02情報と原子確定は適合。構造化表示は要修正",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P08",
+      "screen": "ロック・変換",
+      "states": "正式所持ロック／解除／見積／変換確認／失敗",
+      "baseline_ids": [
+        "B07",
+        "B09",
+        "B19"
+      ],
+      "difference_ids": [
+        "V-P13",
+        "V-P15",
+        "V-S01"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V04"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-P09",
+      "screen": "編成往復",
+      "states": "分類と案保持／戻る・帰還直後／未確定出発禁止",
+      "baseline_ids": [
+        "B04",
+        "B08"
+      ],
+      "difference_ids": [
+        "V-C03",
+        "V-P03",
+        "V-P12"
+      ],
+      "unknown_ids": [
+        "U-V01"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E01",
+      "screen": "探索通常",
+      "states": "場4属性／手札／本人／敵・地形／自然FHD",
+      "baseline_ids": [
+        "B01",
+        "B02",
+        "B03",
+        "B10",
+        "B11",
+        "B12",
+        "B14"
+      ],
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06",
+        "V-E01",
+        "V-E02",
+        "V-E03",
+        "V-E04",
+        "V-E05",
+        "V-E06",
+        "V-E07",
+        "V-E10",
+        "V-E11",
+        "V-E12",
+        "V-E15"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/reference/exploration.png",
+        "evidence/implementation/targeted-third/natural-exploration.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E02",
+      "screen": "主体選択",
+      "states": "敵／地形／左・右／同じ対象で閉じる／選択手札保持",
+      "baseline_ids": [
+        "B11",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E10",
+        "V-E11",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V06"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-self-and-actors.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
+      ],
+      "functional": "クリック選択＋詳細の機能を維持。敵ホールドなし",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E03",
+      "screen": "手札選択",
+      "states": "左右端・中央／title2行／通常効果と場値／下操作",
+      "baseline_ids": [
+        "B10",
+        "B13",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E04",
+        "V-E05",
+        "V-E06",
+        "V-E13",
+        "V-E14",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
+        "evidence/implementation/targeted-second/review-order-different-R05-order-strip.png",
+        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E04",
+      "screen": "場と予測札",
+      "states": "通常／空／場へ設置予測／一致で離れる／予測札クリック",
+      "baseline_ids": [
+        "B10",
+        "B13",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E04",
+        "V-E07",
+        "V-E08",
+        "V-E09",
+        "V-E14",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E05",
+      "screen": "本人と相手予測",
+      "states": "設置／攻撃／guard／回復／defense_support／5能力の前後",
+      "baseline_ids": [
+        "B11",
+        "B13",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E10",
+        "V-E11",
+        "V-E12",
+        "V-W01",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-bottom.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-self-and-actors.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-bottom.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-self-and-actors.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
+      ],
+      "functional": "R03公開値の追加は適合",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E06",
+      "screen": "期限と消滅",
+      "states": "consume／doomed／通常回収／補充期限／quick待機",
+      "baseline_ids": [
+        "B13",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E08",
+        "V-E09",
+        "V-W01"
+      ],
+      "unknown_ids": [
+        "R01-filler",
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/final-details/review-safety-consume-R01-after-drop.png",
+        "evidence/implementation/final-details/review-safety-consume-R01-expiry-and-order.png",
+        "evidence/implementation/final-details/review-safety-doomed-R01-after-drop.png",
+        "evidence/implementation/final-details/review-safety-doomed-R01-expiry-and-order.png"
+      ],
+      "functional": "consume/doomedは適合。fillerは必要未確認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E07",
+      "screen": "札詳細防御",
+      "states": "既定2／付与／使用者除外／重ね付け／場加算／null無制限",
+      "baseline_ids": [
+        "B15"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W02",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "R04-unlimited",
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail-bottom.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail-bottom.png"
+      ],
+      "functional": "R04の描画済み部分は適合、明示nullは必要未確認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E08",
+      "screen": "順序と予約",
+      "states": "通常／同時刻／異時刻／本人今・次／予約詳細",
+      "baseline_ids": [
+        "B14",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-E15",
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02"
+      ],
+      "evidence": [
+        "evidence/implementation/targeted-second/review-order-different-R05-order-strip.png",
+        "evidence/implementation/targeted-second/review-order-different-R05-reservations.png",
+        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png",
+        "evidence/implementation/targeted-second/review-order-tie-R05-reservations.png"
+      ],
+      "functional": "R05公開at/順位は適合",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-E09",
+      "screen": "詳細固定",
+      "states": "hover180ms／離れる160ms／pin／明示クリック／再クリック／外クリック",
+      "baseline_ids": [
+        "B15",
+        "B18"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W02",
+        "V-W03",
+        "V-W04"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V06",
+        "U-V08"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
+        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
+        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
+        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I01",
+      "screen": "取得ドラッグ",
+      "states": "取得→所持／取得→編成／所持↔編成／pending取消／正式所持取消不可",
+      "baseline_ids": [
+        "B06",
+        "B07",
+        "B18"
+      ],
+      "difference_ids": [
+        "V-D01",
+        "V-D02",
+        "V-D03"
+      ],
+      "unknown_ids": [
+        "U-V01",
+        "U-V08"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png",
+        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
+        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
+      ],
+      "functional": "R06/R07移動先判定は適合",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I02",
+      "screen": "探索ドラッグ",
+      "states": "掴み位置／手札→場／一致／成立／取消",
+      "baseline_ids": [
+        "B10",
+        "B18"
+      ],
+      "difference_ids": [
+        "V-D02",
+        "V-D03",
+        "V-E04",
+        "V-E14"
+      ],
+      "unknown_ids": [
+        "U-V02",
+        "U-V08"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-destination-field-R06-field-cancelled.png",
+        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I03",
+      "screen": "端送り",
+      "states": "取得移動先／場移動先／領域外停止",
+      "baseline_ids": [
+        "B18",
+        "B19"
+      ],
+      "difference_ids": [
+        "V-D01",
+        "V-D04",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V07",
+        "U-V08"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-destination-R06-destination-scroll.png",
+        "evidence/implementation/final-caption/review-destination-R06-outside.png",
+        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
+      ],
+      "functional": "R06送り先と停止は適合。速度外観の差あり",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I04",
+      "screen": "余白送り",
+      "states": "取得列・手札・場／自然overflow0／同ノード限定寸法",
+      "baseline_ids": [
+        "B19"
+      ],
+      "difference_ids": [
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V07"
+      ],
+      "evidence": [
+        "evidence/implementation/targeted-third/review-scroll-field-U01-after.png",
+        "evidence/implementation/targeted-third/review-scroll-field-U01-before.png",
+        "evidence/implementation/targeted-third/review-scroll-hand-U01-after.png",
+        "evidence/implementation/targeted-third/review-scroll-hand-U01-before.png",
+        "evidence/implementation/targeted-third/review-scroll-prep-U01-after.png",
+        "evidence/implementation/targeted-third/review-scroll-prep-U01-before.png"
+      ],
+      "functional": "U01限定合成入力で適合、物理未確認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I05",
+      "screen": "ホールドcue",
+      "states": "短クリックなし／120ms開始／220ms成立／取消",
+      "baseline_ids": [
+        "B18"
+      ],
+      "difference_ids": [
+        "V-D03"
+      ],
+      "unknown_ids": [
+        "U-V08"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-I06",
+      "screen": "移動とevent",
+      "states": "200ms移動／通常・減動／操作後event",
+      "baseline_ids": [
+        "B18"
+      ],
+      "difference_ids": [
+        "V-D05",
+        "V-W09"
+      ],
+      "unknown_ids": [
+        "U-V08"
+      ],
+      "evidence": [],
+      "functional": "追加N03の減動設定欠落は要修正",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W01",
+      "screen": "共通ナビ",
+      "states": "探索先／取得／本文／探索／帰還から記録・menu／戻る",
+      "baseline_ids": [
+        "B04"
+      ],
+      "difference_ids": [
+        "V-C03",
+        "V-C04"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V06"
+      ],
+      "evidence": [
+        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png",
+        "evidence/implementation/targeted-third/natural-return-clear.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W02",
+      "screen": "共通メニュー",
+      "states": "2列／閉じる／戻る／各機能への入口",
+      "baseline_ids": [
+        "B16"
+      ],
+      "difference_ids": [
+        "V-W03",
+        "V-W05",
+        "V-W08"
+      ],
+      "unknown_ids": [
+        "U-V03"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W03",
+      "screen": "設定",
+      "states": "表示／操作／減動／選択／disabled",
+      "baseline_ids": [
+        "B16",
+        "B18"
+      ],
+      "difference_ids": [
+        "V-W03",
+        "V-W05",
+        "V-W09",
+        "V-C04"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V06",
+        "U-V08"
+      ],
+      "evidence": [],
+      "functional": "追加N03：元表示設定の不足",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W04",
+      "screen": "調査記録",
+      "states": "相手・環境／札タブ／未判明／判明／観測区分／獲得",
+      "baseline_ids": [
+        "B16"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-RC04"
+      ],
+      "evidence": [
+        "evidence/implementation/targeted-third/natural-known-catalogue.png"
+      ],
+      "functional": "追加N02：分類・構造不足",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W05",
+      "screen": "記録詳細",
+      "states": "対象→基本構成→札詳細／親維持／戻る・scroll保持",
+      "baseline_ids": [
+        "B16",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W07"
+      ],
+      "unknown_ids": [
+        "U-V03"
+      ],
+      "evidence": [
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-record-bottom.png",
+        "evidence/implementation/final-records/review-prediction-defense_support-R04-record-top.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-record-bottom.png",
+        "evidence/implementation/final-records/review-prediction-guard-R04-record-top.png",
+        "evidence/implementation/targeted-third/natural-known-card.png"
+      ],
+      "functional": "R04記録の値は適合、親表示はN02要修正",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W06",
+      "screen": "本人の札内訳と山札",
+      "states": "通常／基本・現在の区分／一覧送り／詳細",
+      "baseline_ids": [
+        "B16"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W10",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V07"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-W07",
+      "screen": "案内と履歴",
+      "states": "目的／状況／遊び方／行動履歴／本文履歴／親子",
+      "baseline_ids": [
+        "B16"
+      ],
+      "difference_ids": [
+        "V-W01",
+        "V-W05",
+        "V-W10",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-V03",
+        "U-V07"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-T01",
+      "screen": "探索先",
+      "states": "初回／再訪／構成詳細／編成から戻る",
+      "baseline_ids": [
+        "B17",
+        "B04"
+      ],
+      "difference_ids": [
+        "V-H01",
+        "V-H02",
+        "V-C03"
+      ],
+      "unknown_ids": [
+        "U-B01",
+        "U-V05"
+      ],
+      "evidence": [
+        "evidence/implementation/targeted-third/natural-known-catalogue.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-T02",
+      "screen": "本文",
+      "states": "進行本文／任意本文／履歴／末尾／既読",
+      "baseline_ids": [
+        "B17"
+      ],
+      "difference_ids": [
+        "V-H02",
+        "V-H04",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-B02",
+        "U-V05"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-T03",
+      "screen": "帰還",
+      "states": "踏破／撤退／緊急脱出／着想内訳／取得群へ進む",
+      "baseline_ids": [
+        "B17"
+      ],
+      "difference_ids": [
+        "V-H02",
+        "V-H03",
+        "V-H04",
+        "V-C03"
+      ],
+      "unknown_ids": [
+        "U-B03",
+        "U-V05"
+      ],
+      "evidence": [
+        "evidence/implementation/targeted-third/natural-return-clear.png"
+      ],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-S01",
+      "screen": "開始と再開",
+      "states": "新規／続き／読込み前／保存無し／復旧入口",
+      "baseline_ids": [
+        "B17",
+        "B16"
+      ],
+      "difference_ids": [
+        "V-H05",
+        "V-W03"
+      ],
+      "unknown_ids": [
+        "U-V04"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-S02",
+      "screen": "保存通知",
+      "states": "処理中／成功／失敗／再試行／古い応答／二重送信",
+      "baseline_ids": [
+        "B19"
+      ],
+      "difference_ids": [
+        "V-S01",
+        "V-C01"
+      ],
+      "unknown_ids": [
+        "U-V04"
+      ],
+      "evidence": [],
+      "functional": "既存保存機能証拠を保持。新CIはUI-CI01",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    },
+    {
+      "id": "ST-C01",
+      "screen": "部品状態共通",
+      "states": "通常／hover／pressed／selected／focus／disabled",
+      "baseline_ids": [
+        "B02",
+        "B03",
+        "B04",
+        "B06",
+        "B07",
+        "B10",
+        "B11",
+        "B15"
+      ],
+      "difference_ids": [
+        "V-C01",
+        "V-C02",
+        "V-C03",
+        "V-C04",
+        "V-C05",
+        "V-C06"
+      ],
+      "unknown_ids": [
+        "U-C01",
+        "U-C02",
+        "U-V06",
+        "U-V07"
+      ],
+      "evidence": [],
+      "functional": "既存機能証拠を再利用。外観一致は未承認",
+      "visual": "不一致・修正必要",
+      "hardware": "未確認／後続H01",
+      "playtest": "未確認／後続H02",
+      "owner": "D04B-UI-02",
+      "scope": "M1採用済み／固有入口は既存共通部品へ対応"
+    }
+  ],
+  "state_policy": "各statesは全て検査対象。対象行の画像が一枚あっても全状態の一致を意味しない。未知の状態をN/Aで埋めずUへ結ぶ。",
+  "not_in_M1": [
+    "X01 新規画風制作・新演出／新しい縦配置の再設計のみ",
+    "X02 未採用の全対象ホールド統一",
+    "X03 複数探索先の本編化・30画面への拡張",
+    "X04 HTML原本の受入／IndexedDB再試験"
+  ]
+}
