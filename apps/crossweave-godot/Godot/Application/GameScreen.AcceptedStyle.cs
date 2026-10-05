@@ -15,6 +15,7 @@ public partial class GameScreen
     private const float InnerWidth = 1918, InnerHeight = 1078;
     private Font strongFont = null!, serifFont = null!;
     private bool darkTheme, reducedMotion;
+    private bool journeyWindowStyle;
     private JsonObject acceptedIcons = new();
     private readonly Dictionary<string, Texture2D> iconTextures = new();
     private readonly Dictionary<string, Vector2> motionOrigins = new();
@@ -37,11 +38,12 @@ public partial class GameScreen
     internal bool? ThemeDarkOverride { get; set; }
     private bool Exploring => Screen == "exploring" && !View.Obj("story").Obj("scene").Flag("paused");
     private bool ExplorerUtilityWindow => Exploring && (Modal is "objective" or "status" or "order" or "deck" or "deck-card" or "action-history" || Modal == "settings" && operationSettings);
-    internal Color Ink => UiColor(Exploring ? "263c32" : "243d35");
+    private bool CommonMenuChild => modalParent == "menu" && !ExplorerUtilityWindow && Modal is "settings" or "help" or "history" or "save-data" or "knowledge";
+    internal Color Ink => UiColor(Exploring && !journeyWindowStyle ? "263c32" : "243d35");
     private Color Muted => UiColor("586e63");
     private Color Gold => UiColor(Exploring ? "345747" : "315849");
-    private string Paper => Exploring ? "f7f8f4" : "fcfcf5";
-    private string Line => Exploring ? "acbdad" : "bac9ba";
+    private string Paper => Exploring && !journeyWindowStyle ? "f7f8f4" : "fcfcf5";
+    private string Line => Exploring && !journeyWindowStyle ? "acbdad" : "bac9ba";
     // light-dark()の宣言値から転記。明色の画像しかないことをdark無効の根拠にしない。
     private static readonly Dictionary<string, string> DarkColors = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -94,6 +96,7 @@ public partial class GameScreen
         ["bbc7bb"] = "52665b",
         ["d3dbcf"] = "40524a",
         ["42684a"] = "d9dfa6"
+        ,["f3f5eb"] = "24362c", ["9aae98"] = "708968", ["c0ceb8"] = "4b6448", ["d1dbc8"] = "415b3e", ["586e50"] = "afc59f"
     };
     private Color UiColor(string value)
     {
@@ -313,6 +316,10 @@ public partial class GameScreen
     // Rectは内側1918×1078座標。トリガーが窓の大きさを変えることはない。
     private Rect2 PlaceWindow(Rect2? anchor, float width = 520, float height = 480)
     {
+        // 原本では探索／取得中のjourney headerがhiddenになり、共通窓の
+        // source検索がその非表示headerへ当たるためanchorはnullになる。
+        // 取得・探索の実共通navの位置を、原本にない窓anchorへ読み替えない。
+        if ((Exploring || Screen == "preparation") && (Modal is "menu" or "knowledge" or "knowledge-card" or "help" or "history" or "save-data" || Modal == "settings" && !operationSettings)) anchor = null;
         const float margin = 16;
         var bounds = new Rect2(margin, margin, InnerWidth - 2 * margin, InnerHeight - 2 * margin);
         var avoids = new List<Rect2> { new(0, 0, InnerWidth, 64), new(0, 1014, InnerWidth, 64) };

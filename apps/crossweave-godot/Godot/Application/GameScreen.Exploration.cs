@@ -84,17 +84,22 @@ public partial class GameScreen
         var line=new HBoxContainer{CustomMinimumSize=new(0,56)};line.AddThemeConstantOverride("separation",16);scroll.AddChild(line);
         bool predicted=actionPreview.Flag("ok");int index=0;
         if(predicted){var now=new Control{CustomMinimumSize=new(56,56)};line.AddChild(now);Text(now,"本人・今",new(0,8,56,40),16);}
-        foreach(var group in ReservationGroups())
+        // 現在予約は原本どおり一主体ずつ並べる。予測後だけ同時刻を一群にし、
+        // 公開されていない同時刻内の未来順を表示しない。規則の予約は変更しない。
+        var groups = predicted
+            ? ReservationGroups().Select(g => (at: g.Key, rows: g.ToArray()))
+            : e.Arr("reservations").Rows().Select(r => (at: r.Number("at"), rows: new[] { r }));
+        foreach(var group in groups)
         {
-            string time="+"+(group.Key-e.Number("now"));float timeWidth=font.GetStringSize(time,fontSize:18).X;
-            float faces=group.Count()*40+(group.Count()-1)*2;
-            float prefix=line.GetChildCount()>0?font.GetStringSize("›",fontSize:18).X+4:0;
-            var cell=new Control{CustomMinimumSize=new(prefix+faces+8+timeWidth,56)};line.AddChild(cell);int within=0;
-            if(prefix>0){Surface(cell,new(0,15,prefix,26),"f7f8f4",radius:3);Text(cell,"›",new(2,15,prefix-4,26),18);}
-            foreach(var r in group)
+            string time="+"+(group.at-e.Number("now"));float timeWidth=font.GetStringSize(time,fontSize:18).X+1;
+            float gap=predicted?2:5, faces=group.rows.Length*40+(group.rows.Length-1)*gap;
+            float prefix=line.GetChildCount()>0?font.GetStringSize("›",fontSize:18).X+4+gap:0;
+            var cell=new Control{CustomMinimumSize=new(prefix+faces+gap+timeWidth,56)};line.AddChild(cell);int within=0;
+            if(prefix>0){Surface(cell,new(0,15,prefix-gap,26),"f7f8f4",radius:3);Text(cell,"›",new(2,15,prefix-gap-4,26),18);}
+            foreach(var r in group.rows)
             {
                 string id=r.Text("actor_id"),key="order-"+index++;var row=e.Obj("actors").Obj(id).Copy();row["id"]=id;
-                var b=Button(cell,key,"",new(prefix+within++*42,8,40,40),()=>ShowDetail(row,"actor",Controls[key].GetGlobalRect().GetCenter()));b.TooltipText=row.Text("display_name")+"の詳細";
+                var b=Button(cell,key,"",new(prefix+within++*(40+gap),8,40,40),()=>ShowDetail(row,"actor",Controls[key].GetGlobalRect().GetCenter()));b.TooltipText=row.Text("display_name")+"の詳細";
                 bool next=id=="P"&&predicted;ButtonStyle(b,next?"dfe8d8":"f7f8f4","acbdad","263c32",1,5);
                 Surface(b,new(8,8,24,24),"ffffff00","263c32",1,12);
                 if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
@@ -106,7 +111,7 @@ public partial class GameScreen
                 else {var symbol=Text(b,id=="P"?"●":row.Text("purpose") switch{"passage"=>"△","terminal"=>"▥","optional_enemy"=>"◈",_=>"◇"},new(9,9,22,22),12);symbol.HorizontalAlignment=HorizontalAlignment.Center;}
                 if(next){Surface(b,new(0,38,40,2),"263c32");Text(b,"次",new(22,20,18,20),16);b.TooltipText+="・次回位置 "+SelfPosition();}
             }
-            Text(cell,time,new(prefix+faces+8,8,timeWidth+1,40),18).TooltipText=group.Count()>1?"同時刻（内部の順序は未公開）":"公開予約";
+            Text(cell,time,new(prefix+faces+gap,8,timeWidth,40),18).TooltipText=group.rows.Length>1?"同時刻（内部の順序は未公開）":"公開予約";
         }
     }
 

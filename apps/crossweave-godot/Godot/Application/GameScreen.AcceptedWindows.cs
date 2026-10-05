@@ -43,11 +43,12 @@ public partial class GameScreen
     { var label = Paragraph(parent, value, 20, 1.4f); Strong(label); label.CustomMinimumSize = new(0, 28); }
     private void Fact(VBoxContainer body, string term, string value, string? symbol = null, float labelWidth = 164)
     {
+        bool preparationFacts = Screen == "preparation" && !journeyWindowStyle;
         var row = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; row.SetMeta("fact_columns", true); row.AddThemeConstantOverride("separation", 16); body.AddChild(row);
-        var name = new Control { CustomMinimumSize = new(labelWidth, Screen == "preparation" ? 33 : 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; row.AddChild(name);
+        var name = new Control { CustomMinimumSize = new(labelWidth, preparationFacts ? 33 : 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; row.AddChild(name);
         if (symbol is not null) Icon(name, symbol, new(0, 4, 20, 20));
-        var title = Text(name, term, new(symbol is null ? 0 : 28, 0, labelWidth - (symbol is null ? 0 : 28), Screen == "preparation" ? 33 : 29), Screen == "preparation" ? 20 : 18, Screen == "preparation" ? Muted : Ink); title.VerticalAlignment = VerticalAlignment.Top; LineHeight(title, Screen == "preparation" ? 20 : 18, Screen == "preparation" ? 30 : 28.8f);
-        var label = Paragraph(row, value, Screen == "preparation" ? 22 : 18, Screen == "preparation" ? 1.5f : 1.6f); label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        var title = Text(name, term, new(symbol is null ? 0 : 28, 0, labelWidth - (symbol is null ? 0 : 28), preparationFacts ? 33 : 29), preparationFacts ? 20 : 18, preparationFacts ? Muted : Ink); title.VerticalAlignment = VerticalAlignment.Top; LineHeight(title, preparationFacts ? 20 : 18, preparationFacts ? 30 : 28.8f);
+        var label = Paragraph(row, value, preparationFacts ? 22 : 18, preparationFacts ? 1.5f : 1.6f); label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
     }
     private void Divider(VBoxContainer body)
     { var line = new ColorRect { Color = UiColor(Line), CustomMinimumSize = new(0, 1), MouseFilter = MouseFilterEnum.Ignore }; body.AddChild(line); }
@@ -85,7 +86,7 @@ public partial class GameScreen
     }
     private void Fold(VBoxContainer body, string key, string title, Action<VBoxContainer> fill)
     {
-        float height = Screen == "preparation" ? 64 : 40; var cell = new Control { CustomMinimumSize = new(0, height) }; body.AddChild(cell);
+        float height = Screen == "preparation" && !journeyWindowStyle ? 64 : 40; var cell = new Control { CustomMinimumSize = new(0, height) }; body.AddChild(cell);
         var b = IconButton(cell, "fold-" + key, expandedFacts.Contains(key) ? "ChevronLeft" : "ChevronRight", title, new(0, 0, body.CustomMinimumSize.X, height), () => { if (!expandedFacts.Add(key)) expandedFacts.Remove(key); });
         ButtonStyle(b, "ffffff00", Line, Exploring ? "263c32" : "243d35", 0, 0);
         // 原本summaryは左寄せ。通常の中央寄せIconButtonと配置だけを分ける。
@@ -95,17 +96,22 @@ public partial class GameScreen
     }
     private Panel WindowFrame(string title, Rect2 rect, string panelId = "dialog-panel", bool back = false, Action? backAction = null, bool pinned = false, bool preparation = false)
     {
-        var p = Surface(popup, rect, preparation ? "f4f6ec" : "f7f8f4", preparation ? "bac9ba" : "acbdad", 1, 8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
+        // 同じ探索画面でも、記録・menu・表示はcj、札詳細・操作はcwの原本。
+        // 画面phaseだけでpaper/枠/文字を選ぶと、共通窓に探索の値が混ざる。
+        journeyWindowStyle=!preparation&&panelId!="detail-panel"&&!ExplorerUtilityWindow;
+        var p = Surface(popup, rect, preparation ? "f4f6ec" : journeyWindowStyle?"f3f5eb":"f7f8f4", preparation ? "bac9ba" : journeyWindowStyle?"9aae98":"acbdad", 1, 8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
+        if(journeyWindowStyle){var shadow=(StyleBoxFlat)p.GetThemeStylebox("panel");shadow.ShadowSize=12;shadow.ShadowOffset=new(0,3);shadow.ShadowColor=new(darkTheme?"00000066":"243a2b30");}
         if (!preparation && (panelId == "detail-panel" || ExplorerUtilityWindow)) { var shadow = (StyleBoxFlat)p.GetThemeStylebox("panel"); shadow.ShadowSize = 14; shadow.ShadowOffset = new(0, 4); shadow.ShadowColor = new(darkTheme ? "00000055" : "00000022"); }
-        Surface(p, new(1, 63, rect.Size.X - 2, 1), preparation ? "bac9ba" : "acbdad");
+        Surface(p, new(1, 64, rect.Size.X - 2, 1), preparation ? "bac9ba" : journeyWindowStyle?"c0ceb8":"acbdad");
         if (back) IconButton(p, "modal-back", "ArrowLeft", "", new(8, 4, 56, 56), backAction ?? CloseModal);
         int titleSize = preparation ? 24 : 20;
-        var label = Text(p, title, new(back ? 73 : preparation ? 13 : 9, 4.5f, rect.Size.X - (back ? 144 : pinned ? 160 : 96), 56), titleSize); Strong(label); LineHeight(label, titleSize, preparation ? 36 : 28);
+        var label = Text(p, title, new(back ? journeyWindowStyle?65:73 : preparation ? 13 : 9, 4.5f, rect.Size.X - (back ? 144 : pinned ? 160 : 96), 56), titleSize); Strong(label); LineHeight(label, titleSize, preparation ? 36 : journeyWindowStyle?26:28);
         if (pinned) PinButton(p, rect.Size.X);
         string closeId = panelId == "detail-panel" && Modal == "detail" ? "detail-close" : "modal-close";
         if (preparation) IconButton(p, closeId, "X", "", new(rect.Size.X - 65, 4.5f, 56, 56), () => { Modal = ""; modalParent = ""; });
-        else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), () => { Modal = ""; modalParent = ""; });
-        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : Paper, Line, Exploring ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
+        else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), () => { if (panelId == "dialog-panel" && CommonMenuChild) CloseModal(); else { Modal = ""; modalParent = ""; } });
+        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
+        if(journeyWindowStyle){close.AddThemeFontSizeOverride("font_size",20);if(back)foreach(var icon in Controls["modal-back"].GetChildren().OfType<TextureRect>()){icon.Position=new(20,20);icon.Size=new(16,16);}}
         return p;
     }
     private void CardFacts(VBoxContainer body, JsonObject row, bool contextual = false)
@@ -286,38 +292,49 @@ public partial class GameScreen
             else { Button(p, "lock", detail.Flag("locked") ? "解除" : "ロック", new(200, y + 4, 160, 64), () => Send("set_item_lock", new() { ["item_id"] = detailId, ["locked"] = !detail.Flag("locked") }), Can("set_item_lock") && !DraftDirty); Button(p, "convert", "変換", new(376, y + 4, 160, 64), () => Modal = "convert", Can("convert_items") && detail.Flag("conversion_available") && !DraftDirty); }
         }
     }
-    private void AcceptedMenuWindow()
+    private Rect2 CommonWindowRect()
     {
-        var p = WindowFrame("メニュー", PlaceWindow(modalAnchor));
+        var rect = PlaceWindow(modalAnchor);
+        if (!CommonMenuChild) return rect;
+        // journey.panelTrailの直前の窓を同じ実ノードで残す。子の操作・戻ると
+        // 親の操作を別IDにし、背景へ同じメニューを描くだけの代用は作らない。
+        var pair = WindowPair(sourceWindow ?? rect);
+        AcceptedMenuWindow(pair.left, parent: true);
+        return pair.right;
+    }
+    private void AcceptedMenuWindow(Rect2? fixedRect = null, bool parent = false)
+    {
+        var p = WindowFrame("メニュー", fixedRect ?? PlaceWindow(modalAnchor), parent ? "menu-parent" : "dialog-panel");
         var choices = new List<(string id, string label, string modal)> { ("menu-knowledge", "調査記録", "knowledge"), ("settings", "表示", "settings"), ("help", "遊び方", "help"), ("save-data", "保存データ", "save-data"), ("history", "文章の記録", "history") };
         if (Screen == "exploring") choices.AddRange([("objective", "目的", "objective"), ("status", "状況", "status"), ("order", "行動順", "order"), ("deck", "山札", "deck"), ("action-history", "履歴", "action-history"), ("operation", "操作", "settings")]);
         choices.Add(("exit", Screen == "exploring" ? "中断して終了" : "終了", "quit"));
         if (Screen == "return" && Can("ack_return")) { choices.Add(("repeat", View.Obj("case").Text("status") == "resolved" ? "再訪する" : "再挑戦", "")); choices.Add(("return-prepare", "取得・編成へ", "")); }
         const int pageSize = 12; int pages = (choices.Count + pageSize - 1) / pageSize; menuPage = Math.Clamp(menuPage, 0, pages - 1);
         int index = 0; foreach (var (id, label, modal) in choices.Skip(menuPage * pageSize).Take(pageSize))
-        { int n = index++; Button(p, id, label, new(16 + n % 2 * 248, 72 + n / 2 * 56, 240, 56), () => { if (id == "exit") AskClose(); else if (id == "repeat") { departAfterReturn = true; Send("ack_return"); } else if (id == "return-prepare") { prepareAfterReturn = true; Send("ack_return"); } else { operationSettings = id == "operation"; OpenModal(modal, "menu"); } }); }
+        { int n = index++; Button(p, id, label, new(17 + n % 2 * 243, 81 + n / 2 * 56, 243, 56), () => { if (id == "exit") AskClose(); else if (id == "repeat") { departAfterReturn = true; Send("ack_return"); } else if (id == "return-prepare") { prepareAfterReturn = true; Send("ack_return"); } else { operationSettings = id == "operation"; OpenModal(modal, "menu"); sourceWindow = new(p.Position, p.Size); } }); }
         if (pages > 1) { IconButton(p, "menu-prev", "ChevronLeft", "", new(16, 416, 56, 56), () => menuPage--, menuPage > 0); Text(p, (menuPage + 1) + " / " + pages, new(80, 416, 360, 56), 18).HorizontalAlignment = HorizontalAlignment.Center; IconButton(p, "menu-next", "ChevronRight", "", new(448, 416, 56, 56), () => menuPage++, menuPage + 1 < pages); }
     }
-    private CheckBox Setting(Control parent, string id, string value, Rect2 rect, bool enabled, Action<bool> changed, bool browserInput = false)
+    private CheckBox Setting(Control parent, string id, string value, Rect2 rect, bool enabled, Action<bool> changed, bool browserInput = false, bool journeyInput = false)
     {
-        var box = new CheckBox { Text = browserInput ? "" : value, AccessibilityName=value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box;
+        var box = new CheckBox { Text = browserInput || journeyInput ? "" : value, AccessibilityName=value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box;
         box.AddThemeFontSizeOverride("font_size", 18); box.AddThemeConstantOverride("h_separation", 10);
         // 原本の20px inputとaccent-colorを実CheckBoxへ与える。標準テーマの
         // 大きいチェック絵を残さず、既存Check SVGと同じ四角面で構成する。
         var blank = new GradientTexture2D { Width = 20, Height = 20, Gradient = new Gradient { Colors = [new Color(0, 0, 0, 0), new Color(0, 0, 0, 0)] } };
         foreach (string key in new[] { "checked", "unchecked", "checked_disabled", "unchecked_disabled" }) box.AddThemeIconOverride(key, blank);
-        foreach (string state in new[] { "normal", "hover", "pressed", "hover_pressed", "disabled", "focus" }) { var style = Box("ffffff00", width: 0); if (browserInput) style.ContentMarginLeft = 4; box.AddThemeStyleboxOverride(state, style); }
+        foreach (string state in new[] { "normal", "hover", "pressed", "hover_pressed", "disabled", "focus" }) { var style = Box("ffffff00", width: 0); if (browserInput || journeyInput) style.ContentMarginLeft = 4; box.AddThemeStyleboxOverride(state, style); }
         if(browserInput){var caption=Text(box,value,new(34,0,rect.Size.X-34,rect.Size.Y),18);LineHeight(caption,18,25.2f);}
+        if(journeyInput){var caption=Text(box,value,new(37,0,rect.Size.X-37,rect.Size.Y),18);LineHeight(caption,18,27);}
         string accent = browserInput ? (darkTheme ? "99c8ff" : "0075ff") : "315849";
-        var check = Surface(box, new(browserInput ? 4 : 0, browserInput ? 4.094f : (rect.Size.Y - 20) / 2, 20, 20), enabled ? accent : Paper, enabled ? accent : Line, 1, 2);
-        if (enabled) Icon(check, "Check", new(2, 2, 16, 16), new Color(browserInput ? (darkTheme ? "3b3b3b" : "ffffff") : "fffef5"), 3);
-        var focus = Surface(box, new(browserInput ? 4 : 0, browserInput ? 4.094f : (rect.Size.Y - 20) / 2, 20, 20), "ffffff00"); focus.Name = "InputFocus"; focus.Visible = false;
+        var check = Surface(box, new(browserInput || journeyInput ? 4 : 0, browserInput ? 4.094f : (rect.Size.Y - 20) / 2, 20, 20), enabled ? accent : Paper, enabled ? accent : Line, 1, 2);
+        if (enabled) Icon(check, "Check", new(2, 2, 16, 16), new Color(browserInput || journeyInput ? (darkTheme ? "3b3b3b" : "ffffff") : "fffef5"), 3);
+        var focus = Surface(box, new(browserInput || journeyInput ? 4 : 0, browserInput ? 4.094f : (rect.Size.Y - 20) / 2, 20, 20), "ffffff00"); focus.Name = "InputFocus"; focus.Visible = false;
         box.Toggled += on => { Automation?.ButtonPressed(id); CancelGesture(); changed(on); renderNeeded = true; }; return box;
     }
     private void AcceptedSettingsWindow()
     {
-        var rect = PlaceWindow(modalAnchor); var p = WindowFrame(operationSettings ? "操作" : "表示", rect, back: modalParent != "" && !operationSettings, pinned: operationSettings);
-        if (!operationSettings) { Setting(p, "reduced-motion", "動きを抑える", new(16, 80, 488, 48), reducedMotion, on => reducedMotion = on); return; }
+        var rect = CommonWindowRect(); var p = WindowFrame(operationSettings ? "操作" : "表示", rect, back: modalParent != "" && !operationSettings, pinned: operationSettings);
+        if (!operationSettings) { Setting(p, "reduced-motion", "動きを抑える", new(17, 81, 486, 44), reducedMotion, on => reducedMotion = on, journeyInput: true); return; }
         var body = FactsBody(p, "settings-body", new(16, 80, 488, 384), 10); Paragraph(body, "札も相手もクリックで選択・詳細。相手を選ぶと行動の対象も切り替わります。札を短く押し続けて場へ運ぶと出札できます。押してすぐ横へ動かすと手札を送ります。");
         // VBoxの行ごとの整数丸めを累積させない。原本の27.09375px行を
         // 一つの内容Control内へ小数座標で置き、同じ実CheckBoxへ入力を渡す。
@@ -385,50 +402,83 @@ public partial class GameScreen
     }
     private void RecordedTable(VBoxContainer body, JsonArray rows, bool counts, string scope)
     {
-        var header = new HBoxContainer(); header.SetMeta("fact_columns", true); body.AddChild(header);
-        foreach (var (title, width) in counts ? new[] { ("札", 276f), ("属性", 80f), ("初期枚数", 108f) } : new[] { ("札", 340f), ("属性", 124f) })
-        { var cell = new Control { CustomMinimumSize = new(width, 32) }; header.AddChild(cell); Strong(Text(cell, title, new(0, 0, width, 32), 18)); }
-        int index = 0; foreach (var row in rows.Rows())
+        // 原本はborder-collapseの一つのtable。各行をVBox+Dividerへ分けると
+        // separationが二重に入り、長い記録だけ数百px高くなってしまう。
+        // CSSの55%列、td上下7px、button上下5px、半分の共有枠をそのまま使う。
+        const float headerHeight=43.296875f,rowHeight=55.796875f,buttonHeight=40.796875f;
+        var table=new Control{CustomMinimumSize=new(0,headerHeight+rows.Count*rowHeight),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};body.AddChild(table);
+        string[] titles=counts?["札","属性","初期枚数"]:["札","属性"];
+        var headers=titles.Select(t=>Strong(Text(table,t,new(0,7,1,28.8f),18,UiColor("586e50")))).ToArray();
+        var values=new List<(Button button,Label name,TextureRect icon,Label attr,Label? count,ColorRect line)>();
+        var headLine=new ColorRect{Color=UiColor("d1dbc8"),MouseFilter=MouseFilterEnum.Ignore};table.AddChild(headLine);
+        int index=0;foreach(var row in rows.Rows())
         {
-            var card = row.Obj("card"); var line = new Control { CustomMinimumSize = new(0, 56) }; body.AddChild(line); float w = counts ? 276 : 340;
+            var card=row.Obj("card");
             // 入口の識別子とPressed signalの識別子を一致させる。別名参照では受信検証ができない。
             string id = Controls.ContainsKey("knowledge-card-0") ? "knowledge-card-" + scope + index : "knowledge-card-0";
-            Button(line, id, CardName(card), new(0, 0, w, 56), () => { detail = card.Copy(); detailKind = "knowledge"; detailId = card.Text("type"); Modal = "knowledge-card"; });
-            index++; Text(line, card.Text("attr"), new(w, 0, 80, 56), 18); if (counts) Text(line, Known(row["initial_count"]), new(w + 80, 0, 108, 56), 18).HorizontalAlignment = HorizontalAlignment.Center; Divider(body);
+            var button=Button(table,id,"",new(4,0,1,buttonHeight),()=>{detail=card.Copy();detailKind="knowledge";detailId=card.Text("type");Modal="knowledge-card";});
+            var name=Text(button,CardName(card),new(8,6,1,28.8f),18);var icon=Icon(button,"ChevronRight",new(0,0,16,16));
+            var attr=Text(table,card.Text("attr"),new(0,0,1,28.8f),18);
+            Label? amount=counts?Text(table,Known(row["initial_count"]),new(0,0,1,28.8f),18):null;
+            var line=new ColorRect{Color=UiColor("d1dbc8"),MouseFilter=MouseFilterEnum.Ignore};table.AddChild(line);values.Add((button,name,icon,attr,amount,line));index++;
         }
+        void PositionCells()
+        {
+            float width=table.Size.X,first=width*.55f,rest=(width-first)/(counts?2:1);
+            for(int i=0;i<headers.Length;i++){float x=i==0?0:first+(i-1)*rest,w=i==0?first:rest;headers[i].Position=new(x+4,7);headers[i].Size=new(w-8,28.8f);}
+            headLine.Position=new(0,headerHeight-1);headLine.Size=new(width,1);
+            for(int i=0;i<values.Count;i++)
+            {var v=values[i];float y=headerHeight+i*rowHeight;v.button.Position=new(4,y+7.5f);v.button.Size=new(first-8,buttonHeight);v.name.Size=new(first-48,28.8f);v.icon.Position=new(first-32,(buttonHeight-16)/2);v.attr.Position=new(first+4,y+13.5f);v.attr.Size=new(rest-8,28.8f);if(v.count is {} n){n.Position=new(first+rest+4,y+13.5f);n.Size=new(rest-8,28.8f);}v.line.Position=new(0,y+rowHeight-1);v.line.Size=new(width,1);}
+        }
+        table.Resized+=PositionCells;PositionCells();
+    }
+    private VBoxContainer KnowledgeBody(Control parent,string id)
+    {
+        // ScrollContainerはpaddingの外側まで。Marginを内側へ入れないと、
+        // thumbの位置とpage高が原本の414pxから32px小さくなる。
+        var scroll=Scroll(parent,id,new(1,65,parent.Size.X-2,parent.Size.Y-66),false);
+        var margin=new MarginContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};foreach(string side in new[]{"left","top","right","bottom"})margin.AddThemeConstantOverride("margin_"+side,16);scroll.AddChild(margin);
+        var body=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};body.AddThemeConstantOverride("separation",16);margin.AddChild(body);return body;
     }
     private void TargetKnowledge(VBoxContainer body, JsonObject target)
     {
-        Heading(body, "基本構成"); if (target["initial_catalogue"] is JsonObject catalogue) RecordedTable(body, catalogue.Arr("cards"), true, "initial-"); else Paragraph(body, "まだ判明していない", 18, 1.6f, Muted);
+        void RecordHeading(string value){var label=Paragraph(body,value,20,1.5f);Strong(label);label.CustomMinimumSize=new(0,30);}
+        RecordHeading("基本構成"); if (target["initial_catalogue"] is JsonObject catalogue) RecordedTable(body, catalogue.Arr("cards"), true, "initial-"); else Paragraph(body, "まだ判明していない", 18, 1.6f, Muted);
         foreach (var (key, title) in new[] { ("observed_by_current_actor", "この相手の札"), ("observed_elsewhere_this_run", "今回の探索で観測"), ("observed_earlier", "過去の探索で観測") })
-        { var rows = target.Arr(key); if (rows.Count > 0) { Heading(body, title); RecordedTable(body, rows, false, key + "-"); } }
-        Heading(body, "獲得記録"); var rewards = target.Arr("confirmed_reward_candidates"); if (rewards.Count == 0) Paragraph(body, "記録なし", 18, 1.6f, Muted); else foreach (var reward in rewards.Rows()) Paragraph(body, reward.Text("label"));
-        Paragraph(body, "現在の手札・次に出す札は未公開。", 16, 1.6f, Muted);
+        { var rows = target.Arr(key); if (rows.Count > 0) { RecordHeading(title); RecordedTable(body, rows, false, key + "-"); } }
+        RecordHeading("獲得記録");var rewards=target.Arr("confirmed_reward_candidates");
+        if(rewards.Count==0)Paragraph(body,"記録なし",18,1.6f,Muted);
+        else
+        {var group=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};group.AddThemeConstantOverride("separation",0);body.AddChild(group);group.AddChild(new Control{CustomMinimumSize=new(0,18)});foreach(var reward in rewards.Rows()){var line=new HBoxContainer();line.AddThemeConstantOverride("separation",0);group.AddChild(line);var bullet=new Control{CustomMinimumSize=new(40,27)};line.AddChild(bullet);Text(bullet,"•",new(20,0,16,27),18);Paragraph(line,reward.Text("label"),18,1.5f);}group.AddChild(new Control{CustomMinimumSize=new(0,18)});}
+        Paragraph(body, "現在の手札・次に出す札は未公開。", 18, 1.6f, Muted);
     }
     private void AcceptedKnowledgeWindow(bool cardDetail = false)
     {
         var targets = Knowledge.Arr("views").Rows().ToArray();
         var target = targets.FirstOrDefault(r => r.Text("key") == knowledgeSelection || r.Text("profile") == knowledgeSelection);
-        bool hasChild = cardDetail || target is not null; var rect = PlaceWindow(modalAnchor); var pair = WindowPair(sourceWindow ?? rect);
+        bool hasChild = cardDetail || target is not null; var rect = hasChild ? PlaceWindow(modalAnchor) : CommonWindowRect(); var pair = WindowPair(sourceWindow ?? rect);
         var parent = WindowFrame(cardDetail && target is not null ? target.Text("display_name") : "調査記録", hasChild ? pair.left : rect, back: cardDetail && target is not null || modalParent != "", backAction: () => { knowledgeSelection = ""; Modal = "knowledge"; });
         sourceWindow = new(parent.Position, parent.Size);
-        if (cardDetail && target is not null) TargetKnowledge(FactsBody(parent, "knowledge-cards", new(16, 80, 488, 384)), target);
+        if (cardDetail && target is not null) TargetKnowledge(KnowledgeBody(parent,"knowledge-cards"), target);
         else
         {
-            Button(parent, "knowledge-tab-targets", "相手・環境", new(16, 80, 236, 40), () => { knowledgeTab = "targets"; knowledgeSelection = ""; }); Button(parent, "knowledge-tab-cards", "札", new(260, 80, 244, 40), () => { knowledgeTab = "cards"; knowledgeSelection = ""; });
-            foreach (var (id, tab) in new[] { ("knowledge-tab-targets", "targets"), ("knowledge-tab-cards", "cards") }) if (Controls[id] is Button b) ButtonStyle(b, knowledgeTab == tab ? "345747" : "ffffff00", "acbdad", knowledgeTab == tab ? "ffffff" : "263c32", 1, 5);
-            var body = FactsBody(parent, "knowledge-list", new(16, 132, 488, 332)); Paragraph(body, knowledgeTab == "targets" ? "探索で判明した構成と札" : "判明した札の性能", 16, 1.6f, Muted);
+            var body=KnowledgeBody(parent,"knowledge-list");var tabs=new Control{CustomMinimumSize=new(0,43)};body.AddChild(tabs);
+            float firstWidth=font.GetStringSize("相手・環境",fontSize:18).X+28,secondWidth=font.GetStringSize("札",fontSize:18).X+28;
+            Button(tabs,"knowledge-tab-targets","相手・環境",new(0,0,firstWidth,43),()=>{knowledgeTab="targets";knowledgeSelection="";});Button(tabs,"knowledge-tab-cards","札",new(firstWidth+6,0,secondWidth,43),()=>{knowledgeTab="cards";knowledgeSelection="";});
+            foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6);
+            Paragraph(body,knowledgeTab=="targets"?"探索で判明した構成と札":"判明した札の性能",16,1.6f,UiColor("586e50"));
+            var list=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};list.AddThemeConstantOverride("separation",knowledgeTab=="targets"?10:0);body.AddChild(list);
             if (knowledgeTab == "cards")
-            { int i = 0; foreach (var card in View.Arr("known_cards").Rows()) { var line = new Control { CustomMinimumSize = new(0, 56) }; body.AddChild(line); Button(line, "knowledge-known-" + i++, CardName(card), new(0, 0, 476, 56), () => { detail = card.Copy(); detailKind = "knowledge"; knowledgeSelection = ""; Modal = "knowledge-card"; }); } }
+            {int i=0;foreach(var card in View.Arr("known_cards").Rows()){var line=new Control{CustomMinimumSize=new(0,39)};list.AddChild(line);var b=Button(line,"knowledge-known-"+i++,"",new(0,0,1,39),()=>{detail=card.Copy();detailKind="knowledge";knowledgeSelection="";Modal="knowledge-card";});var label=Text(b,CardName(card),new(8,6,1,27),18);var icon=Icon(b,"ChevronRight",new(0,0,16,16));line.Resized+=()=>{b.Size=new(line.Size.X,39);label.Size=new(line.Size.X-48,27);icon.Position=new(line.Size.X-24,11.5f);};}}
             else
             {
                 int i = 0; foreach (var row in targets)
                 {
-                    var line = new Control { CustomMinimumSize = new(0, 76) }; body.AddChild(line);
-                    var b = Button(line, "knowledge-group-" + i++, "", new(0, 0, 476, 76), () => { knowledgeSelection = row.Text("key"); });
-                    Strong(Text(b, row.Text("display_name"), new(12, 8, 424, 28), 18));
+                    var line = new Control { CustomMinimumSize = new(0,70) }; list.AddChild(line);
+                    var b = Button(line, "knowledge-group-" + i++, "", new(0,0,1,70), () => { knowledgeSelection = row.Text("key"); });
+                    var title=Strong(Text(b,row.Text("display_name"),new(14,8,1,27),18));
                     int versions = targets.Count(t => t.Text("profile") == row.Text("profile")); int version = Array.IndexOf(targets.Where(t => t.Text("profile") == row.Text("profile")).ToArray(), row) + 1;
-                    string status = "基本構成 " + (row["initial_catalogue"] is JsonObject ? "判明" : "未判明") + (versions > 1 ? "・記録 " + version : "") + (row.Flag("current") ? "・今回の相手" : ""); Text(b, status, new(12, 40, 424, 26), 16, Muted); Icon(b, "ChevronRight", new(444, 28, 20, 20));
+                    string status="基本構成 "+(row["initial_catalogue"] is JsonObject?"判明":"未判明")+(versions>1?"・記録 "+version:"")+(View.Text("phase")=="exploring"&&row.Flag("current")?"・今回の相手":"");var caption=Text(b,status,new(14,38,1,24),16,Muted);var icon=Icon(b,"ChevronRight",new(0,27,16,16));line.Resized+=()=>{b.Size=new(line.Size.X,70);title.Size=new(line.Size.X-60,27);caption.Size=new(line.Size.X-60,24);icon.Position=new(line.Size.X-30,27);};
                 }
                 if (i == 0) Paragraph(body, "まだ調査記録はありません。", 18);
             }
@@ -436,7 +486,7 @@ public partial class GameScreen
         if (!hasChild) return;
         var child = WindowFrame(cardDetail ? CardName(detail) : target!.Text("display_name"), pair.right, "knowledge-child", back: true, backAction: () => { if (cardDetail) Modal = "knowledge"; else knowledgeSelection = ""; });
         var close = Controls["modal-close"]; Controls["knowledge-child-close"] = close;
-        if (cardDetail) CardFacts(FactsBody(child, "knowledge-detail", new(16, 80, 488, 384)), detail);
-        else TargetKnowledge(FactsBody(child, "knowledge-cards", new(16, 80, 488, 384)), target!);
+        if (cardDetail) CardFacts(KnowledgeBody(child,"knowledge-detail"), detail);
+        else TargetKnowledge(KnowledgeBody(child,"knowledge-cards"), target!);
     }
 }

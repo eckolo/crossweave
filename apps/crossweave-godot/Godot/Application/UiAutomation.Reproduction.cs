@@ -101,8 +101,10 @@ internal sealed partial class UiAutomation
         if(mode=="repro-checkbox-states")
         {
             await Click("menu");await Click("settings");await ButtonStates("reduced-motion");
+            Check("common-menu-parent-real-node", screen.Controls.ContainsKey("menu-parent") && screen.Controls["menu-parent"].GetGlobalRect().End.X < screen.Controls["dialog-panel"].GlobalPosition.X);
             await Click("reduced-motion");Check("actual-checkbox-selected",((CheckBox)screen.Controls["reduced-motion"]).ButtonPressed);
             await Capture("reduced-motion-selected");await Click("reduced-motion");await Click("modal-close");
+            Check("common-child-close-restores-menu", screen.Modal == "menu");await Click("modal-close");
         }
         else
         {
@@ -113,13 +115,15 @@ internal sealed partial class UiAutomation
             string card=screen.Controls.Keys.Last(k=>k.StartsWith("knowledge-card-",StringComparison.Ordinal));
             await Point(card);await Frame(3);int before=parent.ScrollVertical;
             Check("record-parent-natural-overflow",parent.GetVScrollBar().MaxValue>parent.GetVScrollBar().Page&&before>0);
+            screen.GetViewport().PushInput(new InputEventMouseMotion{Position=new(950,600),GlobalPosition=new(950,600)},true);await Frame(2);
             await Capture("parent-scrolled");await Click(card);
             var beside=(ScrollContainer)screen.Controls["knowledge-cards"];
             int besidePosition=beside.ScrollVertical;
-            Check("record-parent-scroll-beside-child",besidePosition==before);await Capture("child-beside-scrolled-parent");
+            Check("record-parent-scroll-beside-child",besidePosition==before);
+            screen.GetViewport().PushInput(new InputEventMouseMotion{Position=new(950,600),GlobalPosition=new(950,600)},true);await Frame(2);await Capture("child-beside-scrolled-parent");
             await Click("modal-back");var returned=(ScrollContainer)screen.Controls["knowledge-cards"];
             Check("record-parent-scroll-on-back",returned.ScrollVertical==before&&screen.Modal=="knowledge"&&screen.Controls.ContainsKey("knowledge-child"));
-            await Capture("parent-restored");checks.Add(new{id="record-scroll-values",before,beside=besidePosition,returned=returned.ScrollVertical,natural_overflow=true});
+            screen.GetViewport().PushInput(new InputEventMouseMotion{Position=new(950,600),GlobalPosition=new(950,600)},true);await Frame(2);await Capture("parent-restored");checks.Add(new{id="record-scroll-values",before,beside=besidePosition,returned=returned.ScrollVertical,natural_overflow=true});
             await Click("modal-close");
         }
         Check("state-boundary-full-dto-file-invariant",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
@@ -148,7 +152,7 @@ internal sealed partial class UiAutomation
             var point=await Point("play");var frames=new List<(Image image,string label,string nodes)>();var timeline=new List<object>();
             async Task Sample(string label,ulong start)
             {
-                await screen.ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);ulong at=Time.GetTicksMsec();
+                await DrawnFrame();ulong at=Time.GetTicksMsec();
                 frames.Add((screen.GetViewport().GetTexture().GetImage(),label,JsonSerializer.Serialize(new{at_ms=at,nodes=Geometry()})));
                 timeline.Add(new{frame=mode+"-"+label+".png",input_at_ms=start,at_ms=at,elapsed_ms=at-start,modal=screen.Modal,pin=screen.Controls.GetValueOrDefault("window-pin")?.TooltipText});
             }
@@ -309,7 +313,7 @@ internal sealed partial class UiAutomation
         {
             // PNG圧縮中はmain threadが進まない。保持の120〜220msを圧縮時間で
             // 延ばさないよう、実FramePostDrawの画像を先に保持し、操作後に保存する。
-            await screen.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+            await DrawnFrame();
             ulong at = Time.GetTicksMsec(); var state = screen.MotionEvidence();
             string filename = mode + "-" + label;
             var image = screen.GetViewport().GetTexture().GetImage();

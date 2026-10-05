@@ -61,9 +61,10 @@ public partial class GameScreen
         // 行動順などの追加公開説明は使用先が明示的にTooltipTextを与える。
         parent.AddChild(button); Controls[id] = button;
         bool primary=id.StartsWith("取得-")||id.StartsWith("編成-")||id is "depart" or "continue" or "ack" or "review" or "commit" or "play";
-        ButtonStyle(button,primary?(Exploring?"345747":"315849"):Paper,primary?(Exploring?"345747":"315849"):Line,primary?(Exploring?"ffffff":"fffef5"):(Exploring?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
-        button.AddThemeFontSizeOverride("font_size",Screen=="preparation"?20:18);
-        if(button.Disabled)button.Modulate=new Color(1,1,1,Screen=="preparation"?.42f:.5f);
+        bool explorationButton=Exploring&&!journeyWindowStyle;
+        ButtonStyle(button,primary?(explorationButton?"345747":"315849"):Paper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
+        button.AddThemeFontSizeOverride("font_size",Screen=="preparation"&&!journeyWindowStyle?20:18);
+        if(button.Disabled)button.Modulate=new Color(1,1,1,Screen=="preparation"&&!journeyWindowStyle?.42f:.5f);
         // PressedはGodot標準のsignal。ラムダはUIの意図を本作の操作へ渡すだけで、ゲーム計算を行わない。
         button.Pressed += () => { if (Automation is not null) {Automation.ButtonPressed(id);GD.Print("UI PRESS " + id + " busy=" + Busy);} if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
         return button;
@@ -89,6 +90,7 @@ public partial class GameScreen
 
     private void Render()
     {
+        journeyWindowStyle=false;
         RememberAcquisition();
         // Renderは本作の通常メソッド（Godot標準の描画callbackは_Draw）。
         // 一つの公開viewから表示を一括再生成し、古いButtonに新しいtokenだけを渡さない。
@@ -126,7 +128,7 @@ public partial class GameScreen
         canvas = new InteractionCanvas { Screen = this, MouseFilter = MouseFilterEnum.Ignore, Size = new(1920, 1080) }; shell.AddChild(canvas);
         popup = new Control { MouseFilter = MouseFilterEnum.Ignore,Position=new(1,1),Size=new(InnerWidth,InnerHeight) }; shell.AddChild(popup);
         CreateHoldCue();
-        AnimateAcquisition();RenderModal(); QueueRedraw();
+        AnimateAcquisition();RenderModal();journeyWindowStyle=false;QueueRedraw();
     }
 
     private void StartScreen()=>AcceptedStartScreen();
@@ -178,7 +180,7 @@ public partial class GameScreen
         if(blocking)popup.AddChild(new ColorRect{Color=UiColor("283d3555"),Size=new(InnerWidth,InnerHeight),MouseFilter=MouseFilterEnum.Stop});
         bool preparation=Modal is "review" or "convert";
         float width=preparation?960:520,height=preparation?820:480,footer=height-72;
-        var rect=preparation?new Rect2(479,129,width,height):PlaceWindow(modalAnchor);
+        var rect=preparation?new Rect2(479,129,width,height):CommonWindowRect();
         string title = "確認", body = "";
         switch (Modal)
         {

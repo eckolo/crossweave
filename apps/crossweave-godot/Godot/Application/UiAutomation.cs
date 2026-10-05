@@ -99,6 +99,15 @@ internal sealed partial class UiAutomation
         _ = Run();
     }
     private async Task Frame(int count = 1) { for (int i = 0; i < count; i++) await screen.ToSignal(screen.GetTree(), SceneTree.SignalName.ProcessFrame); }
+    private async Task DrawnFrame()
+    {
+        // 静止した窓で次の自然FramePostDrawが来ず、待機検査が停止した。
+        // 検査時は標準ForceDrawで全Viewportを実描画し、
+        // 接続済みの完了signalから撮る。PNGの再構成・補間や製品側の変更はしない。
+        var drawn = screen.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        RenderingServer.ForceDraw();
+        await drawn;
+    }
     private async Task Idle()
     {
         for (int i = 0; i < 2000; i++) { await Frame(); if (!screen.Busy) { await Frame(2); return; } }
@@ -158,8 +167,10 @@ internal sealed partial class UiAutomation
     }
     private async Task CloseDetail()
     {
-        if (screen.Modal == "detail") await Click("detail-close");
-        else if (screen.Modal != "") await Click("modal-close");
+        // この検査補助は全窓を閉じる意図。製品の子closeは親menuへ戻るので、
+        // 一度の入力で親も消えたと仮定せず、残った実closeへ改めて入力する。
+        for (int depth = 0; depth < 3 && screen.Modal != ""; depth++)
+            await Click(screen.Modal == "detail" ? "detail-close" : "modal-close");
     }
     private async Task ReadAll(string id)
     {
@@ -406,7 +417,7 @@ internal sealed partial class UiAutomation
         // 遷移中の実フレームはReproductionMotionのSampleへ分け、途中を
         // 静止状態と読み替えない。保存・入力の製品処理には待機を足さない。
         while (Time.GetTicksMsec() < screen.MotionEndsAt) await Frame();
-        await screen.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        await DrawnFrame();
         ulong capturedAt=Time.GetTicksMsec();
         var image = screen.GetViewport().GetTexture().GetImage();
         if (image.SavePng(System.IO.Path.Combine(output, mode + "-" + name + ".png")) != Error.Ok) throw new IOException("Screenshot failed");
