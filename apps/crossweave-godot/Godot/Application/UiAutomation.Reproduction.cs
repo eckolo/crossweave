@@ -13,6 +13,7 @@ internal sealed partial class UiAutomation
 {
     private async Task Reproduction()
     {
+        if (mode is "repro-record-memory" or "repro-checkbox-states") { await ReproductionStateBoundaries(); return; }
         if (mode is "repro-hover" or "repro-preparation-boundaries") { await ReproductionBoundaries(); return; }
         if(mode.StartsWith("repro-bars-",StringComparison.Ordinal)){await ReproductionBars();return;}
         if(mode.StartsWith("repro-edges-",StringComparison.Ordinal)){await ReproductionEdges();return;}
@@ -89,6 +90,39 @@ internal sealed partial class UiAutomation
         }
         Check("all-reading-inputs-preserve-full-dto-file", JsonNode.DeepEquals(dto.State, screen.Session.ExportDto().State) && bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + "-public.json"), screen.View.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+    }
+
+    // 公開された踏破済み保存の自然overflowで、親の送り位置と選択を検査する。
+    // 記録や札を水増しせず、CSS比較のための擬似windowも作らない。
+    private async Task ReproductionStateBoundaries()
+    {
+        var dto=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);
+        await Capture("entry");
+        if(mode=="repro-checkbox-states")
+        {
+            await Click("menu");await Click("settings");await ButtonStates("reduced-motion");
+            await Click("reduced-motion");Check("actual-checkbox-selected",((CheckBox)screen.Controls["reduced-motion"]).ButtonPressed);
+            await Capture("reduced-motion-selected");await Click("reduced-motion");await Click("modal-close");
+        }
+        else
+        {
+            await Click("knowledge");await Click("knowledge-group-0");await ReadAll("knowledge-cards");
+            var parent=(ScrollContainer)screen.Controls["knowledge-cards"];
+            // 最後の札を実入力で見える位置へ寄せる。Pointは既存のノード送り補助。
+            // 撮影前に寄せた後の値を基準とし、Clickのauto-scrollと混同しない。
+            string card=screen.Controls.Keys.Last(k=>k.StartsWith("knowledge-card-",StringComparison.Ordinal));
+            await Point(card);await Frame(3);int before=parent.ScrollVertical;
+            Check("record-parent-natural-overflow",parent.GetVScrollBar().MaxValue>parent.GetVScrollBar().Page&&before>0);
+            await Capture("parent-scrolled");await Click(card);
+            var beside=(ScrollContainer)screen.Controls["knowledge-cards"];
+            int besidePosition=beside.ScrollVertical;
+            Check("record-parent-scroll-beside-child",besidePosition==before);await Capture("child-beside-scrolled-parent");
+            await Click("modal-back");var returned=(ScrollContainer)screen.Controls["knowledge-cards"];
+            Check("record-parent-scroll-on-back",returned.ScrollVertical==before&&screen.Modal=="knowledge"&&screen.Controls.ContainsKey("knowledge-child"));
+            await Capture("parent-restored");checks.Add(new{id="record-scroll-values",before,beside=besidePosition,returned=returned.ScrollVertical,natural_overflow=true});
+            await Click("modal-close");
+        }
+        Check("state-boundary-full-dto-file-invariant",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
     }
     private async Task ReproductionBoundaries()
     {

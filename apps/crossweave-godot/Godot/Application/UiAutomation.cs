@@ -85,7 +85,7 @@ internal sealed partial class UiAutomation
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
         if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume", "repro-home", "repro-story", "repro-explore", "repro-prediction", "repro-motion-home", "repro-motion-explore", "repro-return-clear", "repro-return-withdrawal", "repro-return-defeat", "repro-shared-preparation", "repro-shared-story", "repro-shared-return-clear", "repro-shared-return-withdrawal", "repro-shared-return-defeat", "repro-acquisition-affix", "repro-acquisition-funded", "repro-acquisition-complete", "repro-revisit-home", "repro-component-extra", "repro-bars-prep", "repro-bars-hand", "repro-bars-field", "repro-edges-prep", "repro-edges-hand", "repro-edges-field" }.Contains(mode)&&!ReviewModes.Contains(mode))
             // 追加の合法状態境界も同じ検査窓口へ限定する。
-            if (mode is not "repro-hover" and not "repro-preparation-boundaries") throw new ArgumentException("Unknown isolated UI check");
+            if (mode is not "repro-hover" and not "repro-preparation-boundaries" and not "repro-record-memory" and not "repro-checkbox-states") throw new ArgumentException("Unknown isolated UI check");
         string? fixture = Value("--ui-fixture=");
         if (fixture is not null && !System.IO.Path.IsPathFullyQualified(fixture))
             throw new ArgumentException("Isolated fixture requires an absolute path");
