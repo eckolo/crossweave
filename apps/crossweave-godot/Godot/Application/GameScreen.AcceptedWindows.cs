@@ -103,15 +103,25 @@ public partial class GameScreen
         if(journeyWindowStyle){var shadow=(StyleBoxFlat)p.GetThemeStylebox("panel");shadow.ShadowSize=12;shadow.ShadowOffset=new(0,3);shadow.ShadowColor=new(darkTheme?"00000066":"243a2b30");}
         if (!preparation && (panelId == "detail-panel" || ExplorerUtilityWindow)) { var shadow = (StyleBoxFlat)p.GetThemeStylebox("panel"); shadow.ShadowSize = 14; shadow.ShadowOffset = new(0, 4); shadow.ShadowColor = new(darkTheme ? "00000055" : "00000022"); }
         Surface(p, new(1, 64, rect.Size.X - 2, 1), preparation ? "bac9ba" : journeyWindowStyle?"c0ceb8":"acbdad");
-        if (back) IconButton(p, "modal-back", "ArrowLeft", "", new(8, 4, 56, 56), backAction ?? CloseModal);
+        if (back) IconButton(p, "modal-back", "ArrowLeft", "", new(8, journeyWindowStyle ? 4.5f : 4, 56, 56), backAction ?? CloseModal);
         int titleSize = preparation ? 24 : 20;
         var label = Text(p, title, new(back ? journeyWindowStyle?65:73 : preparation ? 13 : 9, 4.5f, rect.Size.X - (back ? 144 : pinned ? 160 : 96), 56), titleSize); Strong(label); LineHeight(label, titleSize, preparation ? 36 : journeyWindowStyle?26:28);
         if (pinned) PinButton(p, rect.Size.X);
         string closeId = panelId == "detail-panel" && Modal == "detail" ? "detail-close" : "modal-close";
         if (preparation) IconButton(p, closeId, "X", "", new(rect.Size.X - 65, 4.5f, 56, 56), () => { Modal = ""; modalParent = ""; });
-        else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), () => { if (panelId == "dialog-panel" && CommonMenuChild) CloseModal(); else { Modal = ""; modalParent = ""; } });
+        else
+        {
+            Action closeWindow = () => { if (panelId == "dialog-panel" && CommonMenuChild) CloseModal(); else { Modal = ""; modalParent = ""; } };
+            // cjの閉じるは原本DOMの既存Lucide X(18px)。cwの×文字と共用しない。
+            if (journeyWindowStyle) IconButton(p, closeId, "X", "", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
+            else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
+        }
         var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
-        if(journeyWindowStyle){close.AddThemeFontSizeOverride("font_size",20);if(back)foreach(var icon in Controls["modal-back"].GetChildren().OfType<TextureRect>()){icon.Position=new(20,20);icon.Size=new(16,16);}}
+        if(journeyWindowStyle)
+        {
+            foreach(var icon in close.GetChildren().OfType<TextureRect>()){icon.Position=new(19,19);icon.Size=new(18,18);}
+            if(back)foreach(var icon in Controls["modal-back"].GetChildren().OfType<TextureRect>()){icon.Position=new(20,19);icon.Size=new(18,18);}
+        }
         return p;
     }
     private void CardFacts(VBoxContainer body, JsonObject row, bool contextual = false)
