@@ -522,7 +522,7 @@ public partial class GameScreen
                     int versions = targets.Count(t => t.Text("profile") == row.Text("profile")); int version = Array.IndexOf(targets.Where(t => t.Text("profile") == row.Text("profile")).ToArray(), row) + 1;
                     string status="基本構成 "+(row["initial_catalogue"] is JsonObject?"判明":"未判明")+(versions>1?"・記録 "+version:"")+(View.Text("phase")=="exploring"&&row.Flag("current")?"・今回の相手":"");var caption=Text(b,status,new(14,38,1,24),16,Muted);var icon=Icon(b,"ChevronRight",new(0,27,16,16));line.Resized+=()=>{b.Size=new(line.Size.X,70);title.Size=new(line.Size.X-60,27);caption.Size=new(line.Size.X-60,24);icon.Position=new(line.Size.X-30,27);};
                 }
-                if (i == 0) Paragraph(body, "まだ調査記録はありません。", 18);
+                // 原本の空対象一覧は目的行と空の一覧だけ。追加の案内文を作らない。
             }
         }
         if (!hasChild) return;
