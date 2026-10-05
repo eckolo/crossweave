@@ -144,7 +144,9 @@ public partial class GameScreen
         var home=View.Obj("home");var options=home.Arr("acquisition").Rows();
         int pending=options.Count(r=>r.Text("group_id")=="return-offer"&&Plan.Arr("acquire").Strings().Contains(r.Text("id")));
         return home.Obj("offers").Text("status") switch
-        { "purchased"=>"✓ 帰還分 取得済み 1 / 1", "available"=>$"帰還分 {pending} / 1", _=>"取得候補なし" };
+        // 同じ公開状態の原本runtime.purchaseTrackに文言を合わせる。
+        // 取得済み記号は隣の実SVG一個へ集約し、文中へ重複させない。
+        { "purchased"=>"帰還分 取得済み", "available"=>$"帰還分 {pending} / 1", _=>"帰還分 候補なし" };
     }
     private void KnowledgeWindow()=>AcceptedKnowledgeWindow();
 }

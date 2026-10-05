@@ -106,8 +106,12 @@ public partial class GameScreen
             string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
             float titleX=x+36;
             if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24));
-            var title=Text(content,labels[i],new(titleX,80,96,32),24);Strong(title);
-            Text(content,amount,new(titleX+108,80,160,32),20,Muted);
+            // 原本cp-lane-titleのspanは通常24px、数量strongだけ20px。
+            // 一律108pxを空けると「所持」「編成」の数量が48px遠ざかる。
+            // 実書体の見出し幅＋原本gap12で三領域に同じ契約を使う。
+            float titleWidth=font.GetStringSize(labels[i],fontSize:24).X;
+            Text(content,labels[i],new(titleX,80,titleWidth,32),24);
+            Strong(Text(content,amount,new(titleX+titleWidth+12,80,160,32),20,Muted));
             if(zone=="build"&&preparationTab=="card")for(int n=Plan.Obj("composition").Arr("deck").Count;n<12;n++)EmptyAcquisition(grid,"Plus");
             if(rowCount==0&&zone!="build")
             {
