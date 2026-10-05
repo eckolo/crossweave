@@ -1,0 +1,75 @@
+{
+  "initial": "legal-return/repro-return-clear.json",
+  "initial_sha256": "fc2b6bdd513d6cafe9e8218d97241316b1df2633465e30b13106f9f748436009",
+  "commands": [
+    {
+      "type": "continue_scene",
+      "payload": {
+        "scene_id": "SCN-001-S05",
+        "advance": true,
+        "displayed_text_ids": []
+      },
+      "request_id": "record-context-0",
+      "expected_revision": 48,
+      "view_token": "28631975-50c0-412b-bec4-d16aa3b2b4eb"
+    },
+    {
+      "type": "ack_return",
+      "payload": {},
+      "request_id": "record-context-1",
+      "expected_revision": 49,
+      "view_token": "2dd7d6e5-a5a0-4146-9b06-69a2e4713f14"
+    },
+    {
+      "type": "depart",
+      "payload": {
+        "case_id": "SCN-001"
+      },
+      "request_id": "record-context-2",
+      "expected_revision": 50,
+      "view_token": "fb6229a1-c5b7-4931-b17d-fbea548ec9f9"
+    },
+    {
+      "type": "continue_scene",
+      "payload": {
+        "scene_id": "SCN-001-S02R",
+        "advance": true,
+        "displayed_text_ids": []
+      },
+      "request_id": "record-context-3",
+      "expected_revision": 51,
+      "view_token": "94c68fce-21fd-4875-9029-ee59fec40172"
+    },
+    {
+      "type": "withdraw",
+      "payload": {},
+      "request_id": "record-context-4",
+      "expected_revision": 52,
+      "view_token": "89c613db-1d9b-4335-b862-d97ab53b7a01"
+    }
+  ],
+  "receipts": [
+    {
+      "source": "repro-home",
+      "mode": "repro-shared-preparation",
+      "phase": "home",
+      "sha256": "cb341606aaa113d60446d64e6c425750ba3a0a919e67cab8940bcde794fa33dc",
+      "no_value_edits": true
+    },
+    {
+      "source": "repro-story",
+      "mode": "repro-shared-story",
+      "phase": "exploring",
+      "sha256": "f61ac8d0258c0dc2fb8e92d22bd744114c01473de4ffb014145790390ffc62ab",
+      "no_value_edits": true
+    },
+    {
+      "source": "repro-return-withdrawal",
+      "mode": "repro-shared-return-withdrawal",
+      "phase": "return",
+      "sha256": "fd63f99fc0c99532567748fba66c94a672ff26fd1ef8c23f4b4882c72fd53c91",
+      "no_value_edits": true
+    }
+  ],
+  "no_value_edits": true
+}

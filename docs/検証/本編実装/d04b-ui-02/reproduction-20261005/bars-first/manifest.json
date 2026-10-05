@@ -1,0 +1,869 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "2ac825aec8e5deb1d639447361004334af916649",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "theme": "light",
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "repro-bars-prep": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-bars-prep",
+        "--ui-slot=ui-68fd66f6a08345cc-repro-bars-prep",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-bars-prep.json"
+      ],
+      "exit": 0
+    },
+    "repro-bars-hand": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-bars-hand",
+        "--ui-slot=ui-68fd66f6a08345cc-repro-bars-hand",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-bars-hand.json"
+      ],
+      "exit": 0
+    },
+    "repro-bars-field": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-bars-field",
+        "--ui-slot=ui-68fd66f6a08345cc-repro-bars-field",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-bars-field.json"
+      ],
+      "exit": 0
+    },
+    "repro-component-extra": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-component-extra",
+        "--ui-slot=ui-68fd66f6a08345cc-repro-component-extra",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-component-extra.json"
+      ],
+      "exit": 0
+    },
+    "review-scroll-prep": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-scroll-prep",
+        "--ui-slot=ui-68fd66f6a08345cc-review-scroll-prep",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-scroll-prep.json"
+      ],
+      "exit": 0
+    },
+    "review-preparation": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-preparation",
+        "--ui-slot=ui-68fd66f6a08345cc-review-preparation",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-preparation.json"
+      ],
+      "exit": 0
+    },
+    "review-destination": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-destination",
+        "--ui-slot=ui-68fd66f6a08345cc-review-destination",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\bars-first",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-destination.json"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-68fd66f6a08345cc"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "repro-bars-prep": {
+      "status": "passed",
+      "process_id": 41704,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "repro-bars-hand": {
+      "status": "passed",
+      "process_id": 45412,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 2
+    },
+    "repro-bars-field": {
+      "status": "passed",
+      "process_id": 26472,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 2
+    },
+    "repro-component-extra": {
+      "status": "passed",
+      "process_id": 36648,
+      "checks": 5,
+      "commands": 0,
+      "final_revision": 2
+    },
+    "review-scroll-prep": {
+      "status": "passed",
+      "process_id": 40052,
+      "checks": 4,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-preparation": {
+      "status": "passed",
+      "process_id": 34324,
+      "checks": 24,
+      "commands": 1,
+      "final_revision": 158
+    },
+    "review-destination": {
+      "status": "passed",
+      "process_id": 47568,
+      "checks": 8,
+      "commands": 0,
+      "final_revision": 157
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs": "ddd0a875239cb51e15adaf72c12d48f8dbc4c7508981dcaa51e65c6cdf2e7ddc",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs.uid": "cf10866f7c1347bd72be74d270f44de5c0bdf16171493701229c350b783c1f16",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "7d9614fedf4e4db1b417e29f8ff81121ca010e148af3889e271e8c11f48b1117",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs.uid": "fe2dbb3780846a23e9c0fd3b41309b0f03555fd1cc2f8cd038fa305a6ffbeb14",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "d1bc262ba38e587045dfbb0227c6e19fcfed939fdbae238792c01fc31c53b4d5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs.uid": "495e007ffd25c2375fde5385505458c146ebcd78f443e80f720e10c8d14fd0ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "00dc16bf5f90ee3f36cfbbe20bc062384de2919abf3d6dcad625acaace47e8ee",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs.uid": "c90628908ad0cb4493320e0f258393cb615ae4be0544920633f366c01990e5b8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "0c9f63be2df2dd47f400b929bcabb3408e6b909b1119ee3129d191525f8ea5ac",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "55d96ee5dd93b9c402bd336620c7b2f5f5d027463d6e913d61dc092aa4ddc769",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "63ace83ad71870b7f901eea33accb006a97fdd143603ab60dd152c52f6ba1e57",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "382d2de430a56d913148de9d8795000fb692e5f09d28aa241ba900911629e23e",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "9ff6c6d8d2788d8e251912b37a25dc885d93bdb8011360d37bdd7f8cdd1033a7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "dc41b99724062d1b4d137b3d3c5da4053400c2827d864c7bca8dbaba1a7dde2e",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "eacc0bcb75d4b566c26a1f06503d887fbfe3a96bb409c702594f624128e34988",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "4445fe78eaef92efb73c4046797ab146969d35e85b11c9f723e0c4b3e9e5d153",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs.uid": "d0577a58913ccad7dae4029bfc534036ac5993e1439353c48ae4d3ca2bb43eb5",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "fc1f68eb56d3052aac9badaa671b894b6cb792f5500813263c0a93c9c188c219",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "fa4c428fea0d2f5ac39b4b8007cd055a5ae160bfad77e56937d6a5b8733fa88e",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Core/Application/UiPublicProjection.cs": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3ae9a7eea0c0105476ec00d05146b8464d155757ae47fb6e4c96bcc78fb685c7",
+    "apps/crossweave-godot/UiProbe/verify.py": "56798881d7443082664c6a51382b1bafb6eb793c7ea5b353e134ad06b69d8d0b",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "repro-bars-prep": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+    "repro-bars-hand": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+    "repro-bars-field": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+    "repro-component-extra": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+    "review-scroll-prep": "9af03d97079137f68e8d7dc7250bc9b2257bfd02247d316f0f93a9d105fba4fa",
+    "review-preparation": "b2d405487c01fa03f5347df9d1db8ae82754740efedf62dbeb3a87e1f50bd5f5",
+    "review-destination": "b2d405487c01fa03f5347df9d1db8ae82754740efedf62dbeb3a87e1f50bd5f5"
+  },
+  "source_changed_during_run": [],
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "bf91ba4942c759aed7fffdad370d3161e4689e1b5dd0dbeb1497a5f7ea94e4a4"
+    },
+    "import-ui.log": {
+      "bytes": 1650,
+      "sha256": "1833e7b2b2a0eaf1a99527a1c6ae73642347335d8ba56920b5ac426769cf9e7f"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 410,
+      "sha256": "2b66c3ef5b485522a86112a7f28ead1824357b78e9a156a55777f98f9bcc2491"
+    },
+    "repro-bars-field-bar-drag.nodes.json": {
+      "bytes": 93512,
+      "sha256": "0cb9c6cfc7343e7c8f7c760f627139f86206ab65fc533787e2df99f8320a723c"
+    },
+    "repro-bars-field-bar-drag.png": {
+      "bytes": 1010351,
+      "sha256": "3c9227440f95c19b8d28a7e4eab4ae6c7e24b07ace50ed3def676654c8a68d5d"
+    },
+    "repro-bars-field-bar-end.nodes.json": {
+      "bytes": 93512,
+      "sha256": "f3d447b91f63041310c9556487be7021cd578b7499fdb471c0357e414c405de4"
+    },
+    "repro-bars-field-bar-end.png": {
+      "bytes": 1010351,
+      "sha256": "3c9227440f95c19b8d28a7e4eab4ae6c7e24b07ace50ed3def676654c8a68d5d"
+    },
+    "repro-bars-field-bar-hover.nodes.json": {
+      "bytes": 93498,
+      "sha256": "a56010c96b7d7e19b8e8f2c6ce5f9cdd860e775f8529437f80707f1aae9532b8"
+    },
+    "repro-bars-field-bar-hover.png": {
+      "bytes": 1010239,
+      "sha256": "5ba0f97ea2a0a05a011f1600c8b3b3bf9191303308c1196b0c4855237370b507"
+    },
+    "repro-bars-field-bar-pressed.nodes.json": {
+      "bytes": 93498,
+      "sha256": "2475aa3ec752410274717c64c57131bc204cf9238ccc1723e8ac17d28a8fe41e"
+    },
+    "repro-bars-field-bar-pressed.png": {
+      "bytes": 1010239,
+      "sha256": "5ba0f97ea2a0a05a011f1600c8b3b3bf9191303308c1196b0c4855237370b507"
+    },
+    "repro-bars-field-bar-released.nodes.json": {
+      "bytes": 93512,
+      "sha256": "16adf3e78b352bdeef295b3a6747671d38f278fedd95a2151af0fe7d1b281d0f"
+    },
+    "repro-bars-field-bar-released.png": {
+      "bytes": 1010351,
+      "sha256": "3c9227440f95c19b8d28a7e4eab4ae6c7e24b07ace50ed3def676654c8a68d5d"
+    },
+    "repro-bars-field-bar-restored.nodes.json": {
+      "bytes": 93498,
+      "sha256": "bd493c6146ec8489dffbfe00f1b9bc997d717b9224b8fa8ba2153e31b706c16b"
+    },
+    "repro-bars-field-bar-restored.png": {
+      "bytes": 1010239,
+      "sha256": "5ba0f97ea2a0a05a011f1600c8b3b3bf9191303308c1196b0c4855237370b507"
+    },
+    "repro-bars-field-bar-start.nodes.json": {
+      "bytes": 93498,
+      "sha256": "deec54e2d0d76cb6a57a48981dd58d70b6e53a0d110262d76941d15eab05bd2f"
+    },
+    "repro-bars-field-bar-start.png": {
+      "bytes": 1010239,
+      "sha256": "5ba0f97ea2a0a05a011f1600c8b3b3bf9191303308c1196b0c4855237370b507"
+    },
+    "repro-bars-field-natural.nodes.json": {
+      "bytes": 93513,
+      "sha256": "74d300fbbe95e13676f094ba708594113e0ef4af915689f5e2706cd62f7f21e2"
+    },
+    "repro-bars-field-natural.png": {
+      "bytes": 1013133,
+      "sha256": "c7e96cb05515e7abda93207c2c5025c0e5eb0e793390ec29310b5dc3caad51af"
+    },
+    "repro-bars-field-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "65d4f5d0078cbe1fe5d6f419fad0fc714469445f1d87925f24929ea5dbef8deb"
+    },
+    "repro-bars-field-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-bars-field.json": {
+      "bytes": 6508,
+      "sha256": "70ab1e3281e25e8ec1266fc10c7a3c88ec83ecb7d6f695cd8dfc8b06030fa324"
+    },
+    "repro-bars-field.log": {
+      "bytes": 266,
+      "sha256": "985c41c4c38c1c05faf285c9c0e967608cdc97e18881457a88f3e7073d77d70b"
+    },
+    "repro-bars-hand-bar-drag.nodes.json": {
+      "bytes": 93508,
+      "sha256": "765a470b4e21913ac7939c44afb153b625e56edad9f1073f3048114c3e22fd88"
+    },
+    "repro-bars-hand-bar-drag.png": {
+      "bytes": 1071189,
+      "sha256": "7f6aba31221d64df00a2e804119a43ed9884c1cba590f727c72cefb327d1c88b"
+    },
+    "repro-bars-hand-bar-end.nodes.json": {
+      "bytes": 93502,
+      "sha256": "c276cc386a04803053dc3ba101c880265802b7a1fc9a40ad51a924c1654d1e77"
+    },
+    "repro-bars-hand-bar-end.png": {
+      "bytes": 1072453,
+      "sha256": "ab5c3a93dcce944c432f065b9c63d5da0765df39a7c906fd7412b729ae7f1a1a"
+    },
+    "repro-bars-hand-bar-hover.nodes.json": {
+      "bytes": 93485,
+      "sha256": "28155757afe9a86cbb9ed5d52c4353fd7d3fd4b962f44a0a7b82dba62d7ae80c"
+    },
+    "repro-bars-hand-bar-hover.png": {
+      "bytes": 1070467,
+      "sha256": "72c14ed163d3a9b7f9bd0d4edf7cc835c1ea42d1e7e0cd8af727f9c334e18084"
+    },
+    "repro-bars-hand-bar-pressed.nodes.json": {
+      "bytes": 93485,
+      "sha256": "96e963589e347ac78559fa4a310d1f2ef0b73e008214fc7bf2d018684f4d7545"
+    },
+    "repro-bars-hand-bar-pressed.png": {
+      "bytes": 1070467,
+      "sha256": "72c14ed163d3a9b7f9bd0d4edf7cc835c1ea42d1e7e0cd8af727f9c334e18084"
+    },
+    "repro-bars-hand-bar-released.nodes.json": {
+      "bytes": 93508,
+      "sha256": "5b99a5b9b931048e3494411ce7c703e9d00abde1594261b4c073fd03f377160d"
+    },
+    "repro-bars-hand-bar-released.png": {
+      "bytes": 1071189,
+      "sha256": "7f6aba31221d64df00a2e804119a43ed9884c1cba590f727c72cefb327d1c88b"
+    },
+    "repro-bars-hand-bar-restored.nodes.json": {
+      "bytes": 93485,
+      "sha256": "cbfac3081b59310fbc34a6e48f3e1f57fc97f112f15412d9159421ca83b0c815"
+    },
+    "repro-bars-hand-bar-restored.png": {
+      "bytes": 1070467,
+      "sha256": "72c14ed163d3a9b7f9bd0d4edf7cc835c1ea42d1e7e0cd8af727f9c334e18084"
+    },
+    "repro-bars-hand-bar-start.nodes.json": {
+      "bytes": 93485,
+      "sha256": "d109db642a4b235790bd9dd569af5f974903dfc252daccca7b5572e552e91965"
+    },
+    "repro-bars-hand-bar-start.png": {
+      "bytes": 1070467,
+      "sha256": "72c14ed163d3a9b7f9bd0d4edf7cc835c1ea42d1e7e0cd8af727f9c334e18084"
+    },
+    "repro-bars-hand-natural.nodes.json": {
+      "bytes": 93513,
+      "sha256": "9d203ce828bc35e03a302a48eb3458e4e43804b2e4ed9ffcdf1b44881974dfee"
+    },
+    "repro-bars-hand-natural.png": {
+      "bytes": 1013133,
+      "sha256": "c7e96cb05515e7abda93207c2c5025c0e5eb0e793390ec29310b5dc3caad51af"
+    },
+    "repro-bars-hand-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "473d1e717547738ee5703245c62c8ad0d35d5ffd0e23a5d1fe22763066ceed58"
+    },
+    "repro-bars-hand-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-bars-hand.json": {
+      "bytes": 6521,
+      "sha256": "87fd475329917f5e1384beefadf8ec18b8b9f837051053468bb97e5ea0389078"
+    },
+    "repro-bars-hand.log": {
+      "bytes": 266,
+      "sha256": "985c41c4c38c1c05faf285c9c0e967608cdc97e18881457a88f3e7073d77d70b"
+    },
+    "repro-bars-prep-bar-drag.nodes.json": {
+      "bytes": 58124,
+      "sha256": "664d2c8b72d615da31c090a959994780a6337edbf4763d4430e81800d61a6652"
+    },
+    "repro-bars-prep-bar-drag.png": {
+      "bytes": 57730,
+      "sha256": "c7f2bfea69e9a0e9f48811ad3245e6ce67cff4ef8c1cbedb0e914f8e74923af4"
+    },
+    "repro-bars-prep-bar-end.nodes.json": {
+      "bytes": 58130,
+      "sha256": "50967b46d9c7b7bacd306ca1ec41e46656ccccaecf85c63daf24e08773f5cdc2"
+    },
+    "repro-bars-prep-bar-end.png": {
+      "bytes": 57417,
+      "sha256": "6fd4921e4af022999c6c90ebf383ee8ca1ecdb1b99a36de16bddec5c8ab37cb8"
+    },
+    "repro-bars-prep-bar-hover.nodes.json": {
+      "bytes": 58146,
+      "sha256": "12f9448c7ea754048f27de35f0dd7b0bce094a20891d8f3b50c1c600ce5ca283"
+    },
+    "repro-bars-prep-bar-hover.png": {
+      "bytes": 61439,
+      "sha256": "d0ce2c1a40cdaf4df0077c90431f0c81c861c47fa16703b57bda8879f2a79d4a"
+    },
+    "repro-bars-prep-bar-pressed.nodes.json": {
+      "bytes": 58146,
+      "sha256": "5ca837bd7f1d5f1c4f4c68d9ca79da3b0f13aa178e138a5176fd3826419ffb26"
+    },
+    "repro-bars-prep-bar-pressed.png": {
+      "bytes": 61439,
+      "sha256": "d0ce2c1a40cdaf4df0077c90431f0c81c861c47fa16703b57bda8879f2a79d4a"
+    },
+    "repro-bars-prep-bar-released.nodes.json": {
+      "bytes": 58124,
+      "sha256": "7f0b59d2fd39967a98627c22c30e74eb0697e3be33553640e1c713d4e262c872"
+    },
+    "repro-bars-prep-bar-released.png": {
+      "bytes": 57730,
+      "sha256": "c7f2bfea69e9a0e9f48811ad3245e6ce67cff4ef8c1cbedb0e914f8e74923af4"
+    },
+    "repro-bars-prep-bar-restored.nodes.json": {
+      "bytes": 58146,
+      "sha256": "a5b7af8c2415994d837256eeba0ebb537f5086ac9d36c8d27ddfd57d9f13de20"
+    },
+    "repro-bars-prep-bar-restored.png": {
+      "bytes": 61439,
+      "sha256": "d0ce2c1a40cdaf4df0077c90431f0c81c861c47fa16703b57bda8879f2a79d4a"
+    },
+    "repro-bars-prep-bar-start.nodes.json": {
+      "bytes": 58146,
+      "sha256": "94ecdc09fe0701688670c8f1eb3a83ab26e2f69d57a8c25dd9fc7bd3cd5a29f2"
+    },
+    "repro-bars-prep-bar-start.png": {
+      "bytes": 61439,
+      "sha256": "d0ce2c1a40cdaf4df0077c90431f0c81c861c47fa16703b57bda8879f2a79d4a"
+    },
+    "repro-bars-prep-natural.nodes.json": {
+      "bytes": 58146,
+      "sha256": "55ac87bc03ffd5522b3d274ccf4b1180c5eb8b24d7636568c7f0a5459fb1752f"
+    },
+    "repro-bars-prep-natural.png": {
+      "bytes": 69108,
+      "sha256": "7a8aded170527074d059ce50fb8132e704e975eda8a830f46819ddc2a3603aa8"
+    },
+    "repro-bars-prep-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "711786b4f5edf44eb607ba56e98d893aa5ee19e594c73f9f0f2872ec99878685"
+    },
+    "repro-bars-prep-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-bars-prep.json": {
+      "bytes": 6520,
+      "sha256": "bc2a18b5213b7ae412b29284e3cd63b220e7b062dbed19d504cb33f3a0ab8dfa"
+    },
+    "repro-bars-prep.log": {
+      "bytes": 328,
+      "sha256": "352ae5f08146c43337e6655111eb630e4de3d1a888cadf32593e0d113201c80f"
+    },
+    "repro-component-extra-entry.nodes.json": {
+      "bytes": 93513,
+      "sha256": "ba71a04780193168f858b543a9e60096d10eec69313d0eb195b398401055be6c"
+    },
+    "repro-component-extra-entry.png": {
+      "bytes": 1013133,
+      "sha256": "c7e96cb05515e7abda93207c2c5025c0e5eb0e793390ec29310b5dc3caad51af"
+    },
+    "repro-component-extra-hold-select-keyboard.nodes.json": {
+      "bytes": 115482,
+      "sha256": "1e91a7e71ca1eab0c0f858df8c8d78d8c8381b842156a5afb8229d74517b927c"
+    },
+    "repro-component-extra-hold-select-keyboard.png": {
+      "bytes": 984054,
+      "sha256": "e531656e5f03c9e4fa04ca4c656bef474a4083e746023606c171fde6845c85ba"
+    },
+    "repro-component-extra-hold-select-open.nodes.json": {
+      "bytes": 115488,
+      "sha256": "76521d5b9600bf3227421cc13e55530e359e3c005f15a3d09c958459ac98a570"
+    },
+    "repro-component-extra-hold-select-open.png": {
+      "bytes": 980964,
+      "sha256": "492df05fd0fbf2a8737046a512d9b9bbf7b86818c6f7e43d9f498a7a1335d3dd"
+    },
+    "repro-component-extra-knowledge-focus.nodes.json": {
+      "bytes": 93510,
+      "sha256": "e24178a5115d4addd5cf32e33d68f9de20b3c32a8cb9376055f9f36507c7aee8"
+    },
+    "repro-component-extra-knowledge-focus.png": {
+      "bytes": 1013583,
+      "sha256": "823f0157e78aa6480b06eb4c661aea8ea3ff0dbcaaf4ff457b9b54962d459001"
+    },
+    "repro-component-extra-knowledge-hover.nodes.json": {
+      "bytes": 93512,
+      "sha256": "93a2a45fd80df9915d814ae73e643af0cb757372703e5b68f243bdae39c40710"
+    },
+    "repro-component-extra-knowledge-hover.png": {
+      "bytes": 1013190,
+      "sha256": "1c8f1fc4673ce00c29e0713a989c7c6264a497b090dc449b480f834676b6dd86"
+    },
+    "repro-component-extra-knowledge-normal.nodes.json": {
+      "bytes": 93513,
+      "sha256": "fd7da12a763a4fa507a6d4e40d421d779a7cad6f11f57ef215dc0fecb5c11173"
+    },
+    "repro-component-extra-knowledge-normal.png": {
+      "bytes": 1013102,
+      "sha256": "bec7ac42dd50bfa71661a1f7e318aad8b405006c05f3084878f04201d56748fc"
+    },
+    "repro-component-extra-knowledge-pressed.nodes.json": {
+      "bytes": 93511,
+      "sha256": "5279fc96955f0b2cdcc529bd37de9fdf21405f43446f5bb3c4a8e4a6c35e493e"
+    },
+    "repro-component-extra-knowledge-pressed.png": {
+      "bytes": 1013656,
+      "sha256": "53b062909a5ce3e96156c980b73a62f896412a8310c30d6fe391acdbf51c34f3"
+    },
+    "repro-component-extra-knowledge-tab-cards-focus.nodes.json": {
+      "bytes": 108063,
+      "sha256": "c601565c344ed48a7e78a6365c59bbc871e3dc94a74ace6b8c90b4a948195849"
+    },
+    "repro-component-extra-knowledge-tab-cards-focus.png": {
+      "bytes": 857200,
+      "sha256": "1d060233e7a1e209a3c4ab56864868790b1a639d4c97fbc823a338196cc3d822"
+    },
+    "repro-component-extra-knowledge-tab-cards-hover.nodes.json": {
+      "bytes": 108065,
+      "sha256": "05ee4d594850c1c4aa8dfb7756db899ffeeace5c4cca4c7fc516c034069bea1a"
+    },
+    "repro-component-extra-knowledge-tab-cards-hover.png": {
+      "bytes": 856837,
+      "sha256": "a36c82212a5eb77e6ca8eaf342c2b67486fb898efa1dd1681c38df24247aba64"
+    },
+    "repro-component-extra-knowledge-tab-cards-normal.nodes.json": {
+      "bytes": 108066,
+      "sha256": "18a517629100b30dbd353c30ca7d2de0c4c837ac0289056964138ba42cc963bb"
+    },
+    "repro-component-extra-knowledge-tab-cards-normal.png": {
+      "bytes": 856821,
+      "sha256": "707a390aa8a0aa776eb37a0b73ffa8aa6dbcc614b0ab8c0e57ee75f9e141333f"
+    },
+    "repro-component-extra-knowledge-tab-cards-pressed.nodes.json": {
+      "bytes": 108064,
+      "sha256": "ae3e8f6d0758c1f77400e0c7226f1d9dbfc20184c09e12411e792e9470611802"
+    },
+    "repro-component-extra-knowledge-tab-cards-pressed.png": {
+      "bytes": 857090,
+      "sha256": "3d8383bd40ed231461d1fc906a04e01cceb63d990bc893c0ab51d65ba7774152"
+    },
+    "repro-component-extra-knowledge-tab-targets-focus.nodes.json": {
+      "bytes": 108063,
+      "sha256": "a1ba6d560a7f9a0bb88ea3e26a5bed4b6063d427b7b63b4a5cdeb313e0cee715"
+    },
+    "repro-component-extra-knowledge-tab-targets-focus.png": {
+      "bytes": 856434,
+      "sha256": "e675ec0a109f3dbb9785435a9e625a92ba0b56c170738792708442b975eced0f"
+    },
+    "repro-component-extra-knowledge-tab-targets-hover.nodes.json": {
+      "bytes": 108065,
+      "sha256": "0f7ba6c50da93fe93eca2ef442069fbb2052d4b40ab28d8ca12c6136fe9f2ce9"
+    },
+    "repro-component-extra-knowledge-tab-targets-hover.png": {
+      "bytes": 856029,
+      "sha256": "ea2ec60e963c7fac39efcf63d51c21548b1db2ca012b03f5796471219d4f4522"
+    },
+    "repro-component-extra-knowledge-tab-targets-normal.nodes.json": {
+      "bytes": 108066,
+      "sha256": "217b44494cf80ba940f4499c24055be8456bd77ae9543a38cad6c414cbc5088a"
+    },
+    "repro-component-extra-knowledge-tab-targets-normal.png": {
+      "bytes": 856821,
+      "sha256": "707a390aa8a0aa776eb37a0b73ffa8aa6dbcc614b0ab8c0e57ee75f9e141333f"
+    },
+    "repro-component-extra-knowledge-tab-targets-pressed.nodes.json": {
+      "bytes": 108064,
+      "sha256": "1712d39fd4076ccdaf4ecedb164c40edb55eedd7182443ced82e86ea780d2def"
+    },
+    "repro-component-extra-knowledge-tab-targets-pressed.png": {
+      "bytes": 856301,
+      "sha256": "2ff5334aedfb82358fe2e5986d56e3d7bd1016b7fb63471dd29265cb9f621205"
+    },
+    "repro-component-extra-operation.nodes.json": {
+      "bytes": 115484,
+      "sha256": "d8fa014db4d4b83df2a9a03f8254e46d909fc6bbbbfcf84f225596911018390d"
+    },
+    "repro-component-extra-operation.png": {
+      "bytes": 984054,
+      "sha256": "e531656e5f03c9e4fa04ca4c656bef474a4083e746023606c171fde6845c85ba"
+    },
+    "repro-component-extra-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "370c7ac27f4bfa8a4d1eaf33f9519336b5e76d82f0a0685d090083765c8a20c5"
+    },
+    "repro-component-extra-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-component-extra.json": {
+      "bytes": 3746,
+      "sha256": "e858f7a9f2e4dc85044ed3fafe1e5178f943e560ccd9bc77d2823feb37e23ccf"
+    },
+    "repro-component-extra.log": {
+      "bytes": 420,
+      "sha256": "192a4b21ceb83981a369cd90a32eb11d3f40a93d5ebc58f435cb448ecf09424e"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    },
+    "review-destination-R06-destination-scroll.nodes.json": {
+      "bytes": 128678,
+      "sha256": "71c7930d9ed3f65b40cc771ab42eb6af60d38a2958e24f97bc26f8c96757e956"
+    },
+    "review-destination-R06-destination-scroll.png": {
+      "bytes": 97252,
+      "sha256": "e2e5f2aa3c235780dcbb1630b1972133d73c96bd4aedc6c392c39af643f2d69a"
+    },
+    "review-destination-R06-outside.nodes.json": {
+      "bytes": 128686,
+      "sha256": "d45374a4181260f1469fe489c783e5ef250c8e2a71190cd4b0e73e0b88a28f29"
+    },
+    "review-destination-R06-outside.png": {
+      "bytes": 91704,
+      "sha256": "eaeee200237e23f4f2ad2e4d77330a915eebbc037839d243d52bf95cd418f865"
+    },
+    "review-destination-R06-owned-cancel-denied.nodes.json": {
+      "bytes": 142335,
+      "sha256": "e727e88fc0c15b98c0bdefe46d6b63c862008c175efd951d8cf7b9b4fbdfaa2f"
+    },
+    "review-destination-R06-owned-cancel-denied.png": {
+      "bytes": 126245,
+      "sha256": "a8673c023dc61049a7f016620dae4c7cfa1305f4f24ef4d5a18e3540e8cd2855"
+    },
+    "review-destination-R06-pending-cancel-allowed.nodes.json": {
+      "bytes": 144053,
+      "sha256": "e4246ea16e1c7afe175aaaea545bb6c38a218bb7a6498a6439503dcbf4703c45"
+    },
+    "review-destination-R06-pending-cancel-allowed.png": {
+      "bytes": 125932,
+      "sha256": "727bea24f27a8a090c5b8b0b9edc07a2f0fe6d5b56f730f0d276ac2717a8a872"
+    },
+    "review-destination-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "f28ff962961d1be9590d798bc20b00983c75c94b4ba29a83a96e9359dce0e78c"
+    },
+    "review-destination-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-destination.json": {
+      "bytes": 4737,
+      "sha256": "0f74bfea7dcc79044e0bb95a9e534ff64e14dd48d169b4881585ba1163143950"
+    },
+    "review-destination.log": {
+      "bytes": 710,
+      "sha256": "3bb2c4709f6d0e15cdc5dc9eb2b93e69bf881ccf8a2b1fa1c2a2f87c6b2a086c"
+    },
+    "review-preparation-R02-composition-only.nodes.json": {
+      "bytes": 83356,
+      "sha256": "b22ae9550703d13b16799d30315b8cbc88ba3e2f4285f0296cde4d4caabb8ebf"
+    },
+    "review-preparation-R02-composition-only.png": {
+      "bytes": 87222,
+      "sha256": "adc5665e19efcc526c78eb3f2d12047fd31f448e3175a54ea4df088576290291"
+    },
+    "review-preparation-R02-mixed-bottom.nodes.json": {
+      "bytes": 136694,
+      "sha256": "09d591519520f9d8173f38e59be27fcd0c80519bacab2eff95d7c8364c1b35e8"
+    },
+    "review-preparation-R02-mixed-bottom.png": {
+      "bytes": 157395,
+      "sha256": "b43cc368b8fc49855852817f577a56bba35388af66e63caa1d243578e3a1f65d"
+    },
+    "review-preparation-R02-mixed-committed.nodes.json": {
+      "bytes": 57130,
+      "sha256": "09e2400d3c38d0b524bbe246ea1fb8ee49c13f13f859236227a144053b4c0c3e"
+    },
+    "review-preparation-R02-mixed-committed.png": {
+      "bytes": 67245,
+      "sha256": "2bb6b5d2cb65323eb53c9a8ed6a7ea7cd4821b8523e73af3d97778aa2d51e090"
+    },
+    "review-preparation-R02-mixed-expanded-top.nodes.json": {
+      "bytes": 136700,
+      "sha256": "bac860cae518f004527bf98182d23acfe5a53864b224c57dec64e8044e60c14e"
+    },
+    "review-preparation-R02-mixed-expanded-top.png": {
+      "bytes": 140950,
+      "sha256": "9e657a3b9ac5ceb7bade66a8133312a44564ff86826e146524a7a24db756ab87"
+    },
+    "review-preparation-R02-mixed-top.nodes.json": {
+      "bytes": 128971,
+      "sha256": "2b7e0262db4724bf2374c0b0cef4d7736b73300aa46f4b85bc53f3ab25cea895"
+    },
+    "review-preparation-R02-mixed-top.png": {
+      "bytes": 139570,
+      "sha256": "641ab7ce54c27c1622b603a19792af9e80292304da90eed777932054a94812dd"
+    },
+    "review-preparation-R02-passive-only-bottom.nodes.json": {
+      "bytes": 97058,
+      "sha256": "17d510947e924d34052e6b5049b22e0240dd1d2c463dca0bd800f40a254f29d9"
+    },
+    "review-preparation-R02-passive-only-bottom.png": {
+      "bytes": 119510,
+      "sha256": "18382c69d288a1dff87d57f0d50f1a175261618077dcb1033cea4dd16f59a620"
+    },
+    "review-preparation-R02-passive-only-top.nodes.json": {
+      "bytes": 97094,
+      "sha256": "fb5cc0c7b7206456676df0e07c17080c2e0f1e687f914b5ad5bd0d4a4862a3b5"
+    },
+    "review-preparation-R02-passive-only-top.png": {
+      "bytes": 123157,
+      "sha256": "c0a80c61abf6176ed6e8da7ca0df9cc361da74a5552e6f614fe7974122b0d40d"
+    },
+    "review-preparation-R07-detail-disabled.nodes.json": {
+      "bytes": 103461,
+      "sha256": "642a457d8ca2be7a788fbaf8a922f95ed815196924c2218d901bf8ca5a584dc8"
+    },
+    "review-preparation-R07-detail-disabled.png": {
+      "bytes": 132157,
+      "sha256": "db96344a3240551be11cddaa129eece7752579a73685d34ea0d33f5b9dfdfac3"
+    },
+    "review-preparation-R07-drag-denied.nodes.json": {
+      "bytes": 82807,
+      "sha256": "900c049860bf27e344e26b79cadc3a118724448f25f49cf1afa8bfb5c36afb7b"
+    },
+    "review-preparation-R07-drag-denied.png": {
+      "bytes": 106735,
+      "sha256": "cff059a3680f84e934dbf56965ff9bc41ecbbd6c57acbfa5e9e90f11fa6c0df2"
+    },
+    "review-preparation-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "78abb93ef70c0f136b82a3ed367c7f28c17c622ff6d18221d296d8316f7fecc6"
+    },
+    "review-preparation-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-preparation.json": {
+      "bytes": 8655,
+      "sha256": "30f2870b3684393925feab09d36bdab51f7967fbe16b20d59931656d43c512fb"
+    },
+    "review-preparation.log": {
+      "bytes": 1743,
+      "sha256": "824225a17cc134fdf5d93d2fdeae3c1d991467022ad826334f73066f1688bafc"
+    },
+    "review-scroll-prep-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "69341d142b4c5f086e7ecec76621d1f3885eb4ecb19d2155df020d2d6ee20eb5"
+    },
+    "review-scroll-prep-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-scroll-prep-U01-after.nodes.json": {
+      "bytes": 68763,
+      "sha256": "2a4c1afe5d5fdb53ccc5a60760a34341e199740af0899f2e92991acca40b24b8"
+    },
+    "review-scroll-prep-U01-after.png": {
+      "bytes": 55964,
+      "sha256": "802e4583f970293bd6e4654a6c2de45f54c09bfa2a9fe4b786b42c314c23b6a6"
+    },
+    "review-scroll-prep-U01-before.nodes.json": {
+      "bytes": 68770,
+      "sha256": "f189efdb3d127c82e46d40ac8d64a0c79a1a6f3695e1b3e17df88b1148b8857b"
+    },
+    "review-scroll-prep-U01-before.png": {
+      "bytes": 60582,
+      "sha256": "2a89211282cc003b02141cacde780fdaf8f7c94ac86ce3f98fd047dbee5cf3bc"
+    },
+    "review-scroll-prep-U01-natural.nodes.json": {
+      "bytes": 68770,
+      "sha256": "e96842894370106f73f6f36f54b16b03090a65974d6f92a62b0e227755ccc9f8"
+    },
+    "review-scroll-prep-U01-natural.png": {
+      "bytes": 81431,
+      "sha256": "e176fc86e28a23a7d7fc3a25e49746aef5d58e47876976be796aa7c263b2893f"
+    },
+    "review-scroll-prep.json": {
+      "bytes": 3859,
+      "sha256": "d321fa6159faf3846cfdc5d6d11c74ad7607355acaa234e97c089bc80724bccc"
+    },
+    "review-scroll-prep.log": {
+      "bytes": 328,
+      "sha256": "352ae5f08146c43337e6655111eb630e4de3d1a888cadf32593e0d113201c80f"
+    }
+  }
+}

@@ -72,12 +72,12 @@ CHANGES={
 'V-E14':([EX],'可視範囲へclipした縦端点をcubicBezier2px／alpha.5で結ぶ。新しい矢印を付けない。'),
 'V-E15':([EX],'40px顔22px／群間16px・群内2px、先行›と現在／次のsoftlabel、底2px。R05の公開群と本人位置を保持。'),
 'V-W01':([WIN],'header64/body16/見出し20/本文18×1.6、max-content ledger列と別段落。R03/R04の公開値を残す。'),
-'V-W02':([WIN,COMP],'56×56のPin SVG・active背景、generic closeは原本×文字。機能の180/160ms・pinを維持。'),
+'V-W02':([WIN,COMP],'56×56のPin SVG・active背景、cj close/backは既存18px SVG、cw closeは原本×文字。機能の180/160ms・pinを維持。'),
 'V-W03':([WIN,STYLE],'paper、1px線、角8、header境界、detailの14px影。本文へ白い別面を足さない。'),
 'V-W04':([STYLE,WIN],'原本placeEdgeWindowのanchor.y、内側寸法、本人帯上端、左右反対端・clampを共用。'),
 'V-W05':([STYLE,WIN,COMP],'trigger/avoid/placeWindowを共用し、親を維持したpair520×480／gap16。探索utilityは原本のhidden anchorと避ける帯に従う。'),
 'V-W06':([WIN,RULE+'UiPublicProjection.cs',RULE+'GameApplication.cs'],'相手・環境／札の二タブ、初期構成の表、観測区分・獲得記録。最小公開投影で分類し、私有構成を推定しない。'),
-'V-W07':([WIN,COMP],'対象構成を左、札詳細を右へ同時表示。sourceWindowと記憶したscroll・選択を戻る操作で保持。'),
+'V-W07':([WIN,COMP],'対象構成を札詳細の直前の親として配置し、一覧の原位置は戻るまで維持する。553/1089の孫窓と戻りを実入力で確認。cjの値列は右端・18px/1.6・行間9へ分離し、空一覧へ追加文言を作らない。親scrollの基準／原本差は具体残件へ。'),
 'V-W08':([WIN],'2列×56pxのmenu、既存追加操作がある場合だけ12件pager。中断・再訪など前版の機能を保持。'),
 'V-W09':([WIN,STYLE],'表示の実CheckBoxと減動、探索の既存操作項目・20px checkbox・90×38選択部品。DTOへ設定を足さない。'),
 'V-W10':([WIN],'山札表・親子詳細、履歴の実行別行、案内の見出し・18×1.6段落、本文履歴。元データを単一の長いLabelへ平坦化しない。'),
@@ -101,12 +101,12 @@ def frame(folder,file):
     # 全反復せず、実在する後続画像へ個々の参照を結ぶ。
     if folder in [LIGHT,DARK]:
         theme='light' if folder==LIGHT else 'dark'
-        for special in ['boundary-'+theme,'hover-use-'+theme,'memory-'+theme+'-final','common-'+theme+'-complete','common-'+theme+'-followup']:
+        for special in ['boundary-'+theme,'hover-use-'+theme,'memory-'+theme+'-final','common-'+theme+'-complete','common-'+theme+'-followup',('common-light-submitted' if theme=='light' else 'common-dark-background-final'),'common-'+theme+'-records-final','common-'+theme+'-empty-final']:
             if (ED/special/file).exists():folder=special
         if file.startswith('interaction-') and (ED/(RELATED if theme=='light' else 'startup-dark-final')/file).exists():folder=RELATED if theme=='light' else 'startup-dark-final'
         for later in ['preparation-'+theme+'-final','settled-'+theme]:
             if (ED/later/file).exists():folder=later;break
-        for later in ['common-'+theme+'-complete','common-'+theme+'-followup']:
+        for later in ['common-'+theme+'-complete','common-'+theme+'-followup',('common-light-submitted' if theme=='light' else 'common-dark-background-final'),'common-'+theme+'-records-final','common-'+theme+'-empty-final']:
             if (ED/later/file).exists():folder=later
     p=ED/folder/file
     if not p.exists():return {'path':p.relative_to(ED).as_posix(),'status':'未取得'}
@@ -176,15 +176,22 @@ def main():
         pair('repro-record-memory-'+shot,'source-required-states-neutral','repro-record-memory','repro-record-memory',shot)
     for shot in ['normal','hover','focus','pressed','selected']:
         pair('repro-checkbox-states-reduced-motion-'+shot,'source-required-states-neutral','repro-checkbox-states','repro-checkbox-states','reduced-motion-'+shot)
+    for source,target in [('repro-home','repro-shared-preparation'),('repro-story','repro-shared-story'),('repro-return-withdrawal','repro-shared-return-withdrawal')]:
+        for shot in ['records-targets','records-observations','records-card-child','records-cards','known-card-child']:
+            for theme in ['light','dark']:
+                f=theme+'-'+source+'-'+shot+'.png';g=target+'-'+shot+'.png'
+                examples.append({'id':'observed-'+target+'-'+shot+'-'+theme,'theme':theme,'initial_fixture':'fixtures-record-contexts/'+target+'.json','viewport':[1920,1080],'dpr':1,'zoom':1,'reference':frame('source-record-contexts',f),'godot':frame('records-use-final-'+theme,g),'reference_nodes':frame('source-record-contexts',f.replace('.png','.nodes.json')),'godot_nodes':frame('records-use-final-'+theme,g.replace('.png','.nodes.json')),'comparison_status':'原寸対を提出・UI再判定待ち' if (ED/'source-record-contexts'/f).exists() and (ED/('records-use-final-'+theme)/g).exists() else '片側未取得・依頼内未完了','claim':'同じ合法踏破後のcommandで観測済みの使用先を得た別の比較状態。初期空記録の未取得shotへ読み替えない。'})
     # 元fixtureの数値保全。二つのタグ以外に値差があれば同状態の根拠にしない。
     fixture_audit=[]
-    for p in sorted((ED/'fixtures').glob('*.json')):
+    for p in [*sorted((ED/'fixtures').glob('*.json')),*sorted((ED/'fixtures-record-contexts').glob('*.json'))]:
         if p.name=='receipt.json':continue
         d=read(p)
         if 'original_document' in d:
             src=d['original_document'];adapted=d['dto']['State'];expected=json.loads(json.dumps(src));expected['schema']='CW-CSharp-application-1';expected['engine_version']='CW-CSharp-core-1'
             fixture_audit.append({'path':p.relative_to(ED).as_posix(),'sha256':sha(p),'format_version':d['dto'].get('FormatVersion'),'original_body_preserved_except_two_tags':expected==adapted,'original_document_sha256':hashlib.sha256(json.dumps(src,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest(),'commands':len(d.get('commands',[]))})
             assert expected==adapted
+    for p in examples:
+        p['comparison_status']='原寸対を提出・UI再判定待ち' if all((ED/p[k]['path']).exists() for k in ['reference','godot','reference_nodes','godot_nodes']) else '片側未取得・依頼内未完了'
     write('comparisons.json',{'baseline':'2026-10-04.1','ui_source':'8b535c2f17d3bd6f83030e98527cf97ab281e557','original':'72d0eb58c7e3d04759f1ab56a939d1dff20a46b2','implementation_sha':implementation,'not_used':['破損CP02'],'fixture_audit':fixture_audit,'pairs':examples,'limits':['未取得shotを成功としない。','現在のfont環境を過去撮影の環境へ読み替えない。','合成InputEventと物理入力を区別する。']})
     idpairs={}
     for i in fixed:
@@ -197,6 +204,8 @@ def main():
         elif scope=='S':keys=['repro-home-pending','repro-home-confirmation','repro-acquisition-funded-all-groups-committed']
         else:keys=['repro-home-card','repro-explore-entry','repro-return-clear-entry','repro-home-prepare-focus','repro-explore-window-pin-pressed']
         idpairs[i['id']]=[p['id'] for p in examples if any(p['id'].startswith(k+'-') for k in keys)]
+        if i['id'] in ['V-W05','V-W06','V-W07','V-W10']:
+            idpairs[i['id']].extend(p['id'] for p in examples if p['id'].startswith('observed-'))
         if i['id']=='V-H05':idpairs[i['id']]=['startup-entry-light','startup-entry-dark']
     rows=[]
     decisions=read(ED/'原本判断への返却.json')['items']
@@ -210,12 +219,12 @@ def main():
         row={'id':i['id'],'title':i['title'],'baseline_id':i['baseline_id'],'baseline_version':'2026-10-04.1','original':i['original'],'expected':i['expected'],'before':i['actual'],'actual_change':actual,
             'implementation_sha':implementation,'code':[{'path':p,'blob':blob(p,implementation)} for p in paths],'same_state_pairs':idpairs[i['id']],
             'status':'修正提出・独立適合未判定' if not remaining else '修正提出・依頼内未解消あり','remaining':remaining,
-            'functional_evidence':['common-light-complete/manifest.json','common-dark-complete/manifest.json','common-light-followup/manifest.json','related-common-final/manifest.json',RELATED+'/manifest.json','preparation-light-final/manifest.json','preparation-dark-final/manifest.json','core-final/related.trx'],'visual_approval':False,'owner':'20260927-game-application','recheck_owner':'UI改善 / UI-GODOT-REVIEW-01'}
+            'functional_evidence':['common-light-records-final/manifest.json','common-dark-records-final/manifest.json','common-light-empty-final/manifest.json','common-light-submitted/manifest.json','common-dark-background-final/manifest.json','records-use-final-light/manifest.json','records-use-final-dark/manifest.json','common-light-records-final/manifest.json','common-dark-records-final/manifest.json','common-light-empty-final/manifest.json','common-light-followup/manifest.json','related-common-final/manifest.json',RELATED+'/manifest.json','preparation-light-final/manifest.json','preparation-dark-final/manifest.json','core-final/related.trx'],'visual_approval':False,'owner':'20260927-game-application','recheck_owner':'UI改善 / UI-GODOT-REVIEW-01'}
         rows.append(row)
     supplement=[]
     for id,title,v in [('N01','取得詳細の所在・価格・修飾','V-P15'),('N02','調査記録の分類・親子・公開区分','V-W06'),('N03','減動設定','V-W09')]:
         base=next(r for r in rows if r['id']==v)
-        supplement.append({'id':id,'title':title,'difference_ids':[v],'implementation_sha':implementation,'code':base['code'],'same_state_pairs':base['same_state_pairs'],'status':base['status'],'remaining':base['remaining'],'evidence':['common-light-complete/manifest.json','common-dark-complete/manifest.json','core-final/related.trx']})
+        supplement.append({'id':id,'title':title,'difference_ids':[v],'implementation_sha':implementation,'code':base['code'],'same_state_pairs':base['same_state_pairs'],'status':base['status'],'remaining':base['remaining'],'evidence':['common-light-submitted/manifest.json','common-dark-background-final/manifest.json','core-final/related.trx']})
     preservation=[]
     for id,title in [('R01','消滅前の実行待機'),('R02','変更差分と取得先'),('R03','探索予測と本人状態'),('R04','場加算・防御・消滅条件'),('R05','同時刻と本人位置'),('R06','端送り・受入可否'),('R07','全入口取得群上限'),('U01','余白起点の同じ実ノード送り')]:
         paths=[EX,WIN] if id in ['R01','R03','R04','R05'] else [PREP,WIN] if id in ['R02','R07'] else [EX,PREFIX+'GameScreen.ReviewFixes.cs']
@@ -232,11 +241,11 @@ def main():
     (ED/'比較証拠.md').write_text('\n'.join(comparison_md)+'\n',encoding='utf-8')
     # 現検査の成功だけを集計する。過去に失敗したmanifestも別の試行として残す。
     suites=[]
-    for name in [LIGHT,DARK,'settled-light','settled-dark','preparation-light-final','preparation-dark-final',RELATED,'startup-dark-final','boundary-light','boundary-dark','hover-use-light','hover-use-dark','memory-light-final','memory-dark-final','common-light-complete','common-dark-complete','common-light-followup','related-common-final','fixed-light-second']:
+    for name in [LIGHT,DARK,'settled-light','settled-dark','preparation-light-final','preparation-dark-final',RELATED,'startup-dark-final','boundary-light','boundary-dark','hover-use-light','hover-use-dark','memory-light-final','memory-dark-final','common-light-complete','common-dark-complete','common-light-followup','common-light-submitted','common-dark-background-final','records-use-light','records-use-dark','common-light-records-final','common-dark-records-final','common-light-empty-final','records-use-final-light','records-use-final-dark','related-common-final','fixed-light-second']:
         path=ED/name/'manifest.json'
         if not path.exists():suites.append({'directory':name,'status':'実行中または未取得'});continue
         m=read(path);binding={p:{'actual':h,'implementation':source_hash(implementation,p),'equal':h==source_hash(implementation,p)} for p,h in m['source_sha256'].items()} if implementation else {}
-        suites.append({'directory':name,'status':m['status'],'manifest':name+'/manifest.json','sha256':sha(path),'cases':m.get('cases',{}),'source_sha256':m['source_sha256'],'implementation_binding':binding,'source_changed_during_run':m.get('source_changed_during_run',[]),'error':m.get('error'),'reuse_scope':'固定source hashで照合。I2の25mode明暗後、採取側のみI3・取得の見出し/帰還文言のみI4で追補。各path/hash差を保持し、取得は9mode明暗、動きはsettled系列へ差替え。I8の記録表・共通palette・親menu・現在予約は共通16mode明暗と取得共通5modeの追補へ結ぶ。全suiteを最終source一致と見なさず、旧suiteの画像は変更外の部品・既確認Core/保存に限定して参照する。途中48modeは不変Core/保存の範囲だけ再利用。'})
+        suites.append({'directory':name,'status':m['status'],'manifest':name+'/manifest.json','sha256':sha(path),'cases':m.get('cases',{}),'source_sha256':m['source_sha256'],'implementation_binding':binding,'source_changed_during_run':m.get('source_changed_during_run',[]),'error':m.get('error'),'reuse_scope':'固定source hashで照合。I2の25mode明暗後、採取側のみI3・取得の見出し/帰還文言のみI4で追補。各path/hash差を保持し、取得は9mode明暗、動きはsettled系列へ差替え。I8の記録表・共通palette・親menu・現在予約を確認し、I10の共通18px SVG・header実幅はsubmittedの16mode明暗へ結ぶ。I11の記録孫窓・cj値列はrecords-finalの7mode明暗、I12の空対象一覧は明色empty-final/暗色records-finalへ差替える。観測済みの取得／本文／撤退はrecords-use-finalの3mode明暗へ。全suiteを最終source一致と見なさず、旧suiteの画像は変更外の部品・既確認Core/保存に限定して参照する。途中48modeは不変Core/保存の範囲だけ再利用。'})
     namespace={'t':'http://microsoft.com/schemas/VisualStudio/TeamTest/2010'}
     trx=ED/'core-final/related.trx';tree=ET.parse(trx);counter=tree.find('t:ResultSummary/t:Counters',namespace)
     core={'result':'passed' if counter.get('failed')=='0' and counter.get('passed')=='17' else 'failed','counters':dict(counter.attrib),'trx':'core-final/related.trx','sha256':sha(trx),
@@ -248,7 +257,8 @@ def main():
     for p in sorted(ED.glob('*/manifest.json')):
         if p.parent.name in [LIGHT,DARK]:continue
         d=read(p)
-        if d.get('task')=='D04B-UI-02':prior.append({'manifest':p.relative_to(ED).as_posix(),'status':d.get('status'),'error':d.get('error'),'source_changed':d.get('source_changed_during_run',[]),'successful_modes':list(d.get('cases',{})),'use':'途中試行・失敗記録。最終版成功へ読み替えない。'})
+        interrupted=p.parent/'interruption.json'
+        if d.get('task')=='D04B-UI-02':prior.append({'manifest':p.relative_to(ED).as_posix(),'status':'interrupted' if interrupted.exists() else d.get('status'),'raw_manifest_status':d.get('status'),'interruption':read(interrupted) if interrupted.exists() else None,'error':d.get('error'),'source_changed':d.get('source_changed_during_run',[]),'successful_modes':list(d.get('cases',{})),'use':'途中試行・失敗記録。最終版成功へ読み替えない。'})
     ci=read(ED/'ci-readback.json') if (ED/'ci-readback.json').exists() else {'status':'未取得・固定IのPush後に実step/artifactを確認する'}
     result={'work_id':'20260927-game-application','task':'D04B-UI-02','instruction':'0.5','status':'依頼全体未完了','implementation_sha':implementation,'base_sha':'0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6','verification':suites,'related_core':core,'ci':ci,'intermediate_trials':prior,
         'formal_ui_approval':False,'formal_distribution':False,'windows11_physical':False,'physical_input':False,'other_work_started':False,'player_sdk_required':False,
@@ -264,7 +274,7 @@ def main():
       'U-C02':('明暗の証拠提出・採否再判定待ち','原本CSSのlight-darkをnamespace単位で移植し、同じ合法状態・使用先をlight/darkで採取。旧明色だけからdark無効としない。','UI改善','固定Iの両テーマの実画像・値を受領し、light/darkの採否と差異を独立判定。',[LIGHT+'/manifest.json',DARK+'/manifest.json','environment/css-dark-pairs.json']),
       'U-V01':('証拠部分取得・依頼内未完了','札／心得、価格・所在、未払い、空編成取消、混合確認、上限全入口、ロック・変換を実入力。全群取得完了、長い名称・修飾展開等は37状態表で未取得範囲を残す。','本Work、合法公開入口の不足はゲームバランス検討','ST-P01〜09の不足状態を同じ合法公開fixtureで原本とGodotへ供給して比較。別状態を全群完了へ読み替えない。',[LIGHT+'/repro-home.json',LIGHT+'/review-preparation.json',LIGHT+'/interaction.json',LIGHT+'/legal-acquisition.json']),
       'U-V02':('既確認範囲の証拠提出・二境界未取得','探索・本人・5予測・場加算・guard付与・同時刻を実ノードで確認。filler/nullの不足は残す。','本Work、ゲームバランス検討、UI改善','R01-filler／R04-unlimitedの合法入口を受領し同状態対と一回確定・保存を確認。',[LIGHT+'/manifest.json','core-final/related.trx']),
-      'U-V03':('共通使用先・記録の証拠提出','探索先／編成／本文／探索／三帰還の共通窓、二タブ・親子・公開観測区分と戻る。原本autoReadとC#readonlyを区別。','UI改善、境界不足の具体判断はゲームバランス検討','固定payloadと全使用先の画像を独立判定。原本に対応のないWindows保存案内・追加導線の置き場所を確定。',['source-shared-final/manifest.json',LIGHT+'/manifest.json','core-final/related.trx']),
+      'U-V03':('共通使用先・記録の証拠提出','探索先／編成／本文／探索／三帰還の共通窓、二タブ・親子・公開観測区分と戻る。原本autoReadとC#readonlyを区別。初期記録なしの未取得8対は残し、通常commandで踏破記録を得た編成・本文・撤退の別保存3状態を原本とGodot明暗の30対で補完。','UI改善、境界不足の具体判断はゲームバランス検討','固定payloadと全使用先の画像を独立判定。原本に対応のないWindows保存案内・追加導線の置き場所を確定。',['source-shared-final/manifest.json','source-record-contexts/manifest.json','records-use-final-light/manifest.json','records-use-final-dark/manifest.json','common-light-records-final/manifest.json','common-dark-records-final/manifest.json','common-light-empty-final/manifest.json','common-light-submitted/manifest.json','common-dark-background-final/manifest.json','core-final/related.trx']),
       'U-V04':('隔離故障・保存再開の証拠提出','新規／再開／破損／将来版／他所有／拒否／不明／worker待機／復旧を同じ本編の実ファイルで確認。通常セーブには触れない。','UI改善（表示再判定）、本Work（追加影響時）','固定Iの保存通知と入力入口を再判定。実機DPI等は後続H02/H03で確認。',[RELATED+'/failure.json',RELATED+'/unknown.json',RELATED+'/corrupt.json',RELATED+'/future.json',RELATED+'/in-use.json',RELATED+'/busy-close-read.json']),
       'U-V05':('本文・三帰還・再開の証拠提出','合法command列でclear/withdrawal/defeatを得て、本文末尾、精算、原寸集計、次の編成入口、一巡を確認。前版の任意本文操作は保全し、配置判断を残す。','UI改善（原本対応）、本Work（再現）','本文の詳細・読了して閉じるの原本対応と、予測の追加公開補足の配置を実画像で判断する。',['legal-return/generation.json',LIGHT+'/manifest.json','source-remaining-final/manifest.json']),
       'U-V06':('部品状態の証拠部分取得・依頼内未完了','原本実DOMと実Godotで通常・hover・押下・keyboard focus・selected・disabledを採取。全ての部品／無効入口の状態をこれだけで合格とはしない。select展開等の残りは状態表へ明記。','本Work（追加採取）、原本状態の曖昧さはUI改善','ST-C01/W03の未採取部品を合法入口で確認し、原本のnative select popup等の描画基準を固定する。',['source-components-final/manifest.json',LIGHT+'/manifest.json']),
@@ -275,10 +285,12 @@ def main():
     }
     # 古い未取得記述を、今回実採取した証拠で更新する。独立適合は別判定。
     group_details['U-V01']=('同状態取得・確認の証拠提出','元の合法command保存を共有し、札/心得・空編成・候補なし・全5群一括取得・全群完了・公開修飾fold・N01所在と価格を実描画/入力。同じ元保存のbodyを2tag以外変更しない。','UI改善、本Work（差異の再修正）','原寸対とID別拡大対を独立判定。未承認差異を具体IDへ返却。',['source-representative-final/manifest.json','source-extra-final/manifest.json',LIGHT+'/manifest.json',DARK+'/manifest.json'])
-    group_details['U-V06']=('各実画面の部品状態・popupの証拠提出','ナビ・取得tab・操作側・close/pin・確認・空slot・記録tab・checkbox・実OptionButtonの通常/hover/pressed/focus/selected/disabledを役割別に採取。checkboxの五状態も追加採取。到達条件は元CSS/DOM/実Controlで区別。未採取を対象外へ変えない。','UI改善、本Work（追加差異）','原寸部品対とinteraction-state-coverage.jsonの到達条件を照合。独立適合を本Workで宣言しない。',['source-components-final/manifest.json','source-extra-final/manifest.json','source-required-states-neutral/manifest.json','common-light-complete/repro-checkbox-states.json','common-dark-complete/repro-checkbox-states.json',LIGHT+'/repro-component-extra.json','interaction-state-coverage.json'])
+    group_details['U-V06']=('各実画面の部品状態・popupの証拠提出','ナビ・取得tab・操作側・close/pin・確認・空slot・記録tab・checkbox・実OptionButtonの通常/hover/pressed/focus/selected/disabledを役割別に採取。checkboxの五状態も追加採取。到達条件は元CSS/DOM/実Controlで区別。未採取を対象外へ変えない。','UI改善、本Work（追加差異）','原寸部品対とinteraction-state-coverage.jsonの到達条件を照合。独立適合を本Workで宣言しない。',['source-components-final/manifest.json','source-extra-final/manifest.json','source-required-states-neutral/manifest.json','common-light-submitted/repro-checkbox-states.json','common-dark-background-final/repro-checkbox-states.json',LIGHT+'/repro-component-extra.json','interaction-state-coverage.json'])
     group_details['U-V07']=('自然非overflow・限定overflowと実thumb入力の証拠提出','同じ実一覧を取得220px/手札540px/場400pxへ制限。縦横10px・track/通常/hover/押下/drag・両端・復帰を原本とGodotで採取。headlessのhide-scrollbarsを解除した原本実測に合わせ、取得gutterと横paddingも修正。通常DTO/ファイル/Plan不変。','UI改善、本Work（判定で差異が残れば修正）','自然FHD overflow0と限定実ノードoverflow>0の二系列を独立照合。自然overflowの合法fixtureを必須条件へ付加しない。',['source-boundary-states-final/manifest.json',LIGHT+'/repro-bars-prep.json',LIGHT+'/repro-bars-hand.json',LIGHT+'/repro-bars-field.json',DARK+'/manifest.json'])
     group_details['U-V08']=('連続実描画・端閾値・1論理秒の証拠提出','原本CDP screencastとGodot FramePostDrawの無補間PNG/時刻。短クリック、120ms前後、220ms成立、移動、可否領域、取消、200ms移動、減動と新規event。端22/64pxと1論理秒のframe traceを同じ合法状態で記録。最初の8枚は着地前までだったため採取を500ms/着地後まで延長し、入力時計とTween開始時計も分けた。追加の180/160ms原本ではroot内空白の離脱は保持、root外で閉鎖する。基準との解釈差を未解消として返す。','UI改善、本Work（差異の再修正）','sequence/epoch/壁時計とPNG保存時間を分けて照合。ST-E09の基準か現行原本挙動かを固定して同じWorkで再現する。物理入力・性能・実機は後続。',['source-boundary-states-final/manifest.json','source-edge-states/manifest.json','source-required-boundaries-complete/manifest.json','hover-use-light/repro-hover-sequence.json','hover-use-dark/repro-hover-sequence.json','preparation-light-final/repro-motion-home-sequence.json','settled-light/repro-motion-explore-sequence.json','settled-dark/repro-motion-explore-sequence.json',LIGHT+'/repro-edges-hand.json',LIGHT+'/repro-edges-field.json'])
     group_details['UI-CI01']=('固定IのCI/内部manifest確認済み' if ci.get('status')=='passed' and ci.get('implementation_sha')==implementation else '修復版IのCI/内部manifest読戻し待ち','初期I1では音声端点なしのWASAPI ERRORで描画caseを失敗扱い。実画像/入力は出ていた。検査だけaudio-driver Dummyを明示し、continue-on-errorを除去した。project/audioや素材は変更しない。jobだけで成功にせずZIP digestと3manifestを照合。','本Work、環境問題が残れば実行基盤・配布','最終Iの保存/再開15mode・明暗16mode/各source hash・Core17件とartifactを読戻す。',['ci-readback.json','.github/workflows/d04b-ui-save-01.yml'])
+    if ci.get('status')=='passed' and ci.get('implementation_sha')==implementation:
+        group_details['UI-CI01']=('最終実装のCI内部証拠読戻し済み','固定最終実装のCore17件・Skip0、保存/再開15mode、実描画の明暗16modeずつ。実ZIP digestと3manifest、source hashの完全一致またはcheckout改行だけを照合。初期I1の失敗を成功へ読み替えない。','UI改善（固定証拠の受領）、本Work（追加差異時）','同じ固定SHAのCIとローカル原寸対を受領し、独立UI再判定。CIの成功をUI適合／配布／物理入力へ読み替えない。',['ci-readback.json','cloud/I12/receipt.json'])
     required=[]
     for original in read(UI/'unknowns.json')['items']:
         id=original['id'];status,actual,owner,resume,evidence=group_details[id]
@@ -312,7 +324,7 @@ def main():
         id=r['id'];modes=state_modes[id];reports=[]
         for mode in modes:
             p=ED/(LIGHT if (ED/LIGHT/(mode+'.json')).exists() else RELATED)/(mode+'.json')
-            for later in ['common-light-followup','common-light-complete','related-common-final','hover-use-light','memory-light-final','boundary-light','preparation-light-final','settled-light',RELATED,'fixed-light-second']:
+            for later in ['common-light-submitted','records-use-light','common-light-followup','common-light-complete','related-common-final','hover-use-light','memory-light-final','boundary-light','preparation-light-final','settled-light',RELATED,'fixed-light-second']:
                 if (ED/later/(mode+'.json')).exists():p=ED/later/(mode+'.json');break
             reports.append({'path':p.relative_to(ED).as_posix(),'status':read(p).get('status') if p.exists() else '未取得','sha256':sha(p) if p.exists() else None})
         states.append({'id':id,'screen':r['screen'],'required_states':r['states'],'difference_ids':r['difference_ids'],'unknown_ids':r['unknown_ids'],'implementation_sha':implementation,'modes':modes,'reports':reports,'coverage':'部分取得／原本判断待ち・依頼内未完了' if id in missing else '関連実入力と画像を提出・独立UI適合未判定','remaining':missing.get(id,'独立UI適合・物理入力・実機受入は別判定。'),'physical_input':False,'not_an_exception':True})

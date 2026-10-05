@@ -1,0 +1,995 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "theme": "light",
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "repro-home": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-home",
+        "--ui-slot=ui-2e561c66e1274622-repro-home",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\common-second",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\legal-common-fixed\\repro-home.json"
+      ],
+      "exit": 0
+    },
+    "repro-story": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-story",
+        "--ui-slot=ui-2e561c66e1274622-repro-story",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\common-second",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\legal-common-fixed\\repro-story.json"
+      ],
+      "exit": 0
+    },
+    "repro-explore": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-explore",
+        "--ui-slot=ui-2e561c66e1274622-repro-explore",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\common-second",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\legal-common-fixed\\repro-explore.json"
+      ],
+      "exit": 0
+    },
+    "repro-prediction": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-prediction",
+        "--ui-slot=ui-2e561c66e1274622-repro-prediction",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\common-second",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\legal-common-fixed\\repro-prediction.json"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-2e561c66e1274622"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "repro-home": {
+      "status": "passed",
+      "process_id": 35448,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "repro-story": {
+      "status": "passed",
+      "process_id": 39472,
+      "checks": 4,
+      "commands": 0,
+      "final_revision": 1
+    },
+    "repro-explore": {
+      "status": "passed",
+      "process_id": 7152,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 2
+    },
+    "repro-prediction": {
+      "status": "passed",
+      "process_id": 36664,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 2
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "8416120256f8a63cf8ce6da6a1730494f17ccf297e260b33d543746635d7d107",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs.uid": "fe2dbb3780846a23e9c0fd3b41309b0f03555fd1cc2f8cd038fa305a6ffbeb14",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "695741deed8130076713bcf94efe8507efc5b1d106cdc4646b91403b4dd3b2c6",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs.uid": "495e007ffd25c2375fde5385505458c146ebcd78f443e80f720e10c8d14fd0ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "c189ffc2b67ae6eb21322f5f5305b238d2681b7b263817adf5cc66491bccc4fa",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs.uid": "c90628908ad0cb4493320e0f258393cb615ae4be0544920633f366c01990e5b8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "8f4fe664206ec90c2982907637890b9ecdaf7b81c3ba110b3c4e5796e4f246e5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "36b612628c95d9d2709f7c89164a83472270d310eb316ec9a1caa3b4cb73b084",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "ec9a34a03aa9979aebf10bfb1a80c41cafd7c7871bff26cb63c258358c7367e1",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "97672a17519f53a1e27e74c94b39f3b9427614fe1b3f228a12652a35757e5d55",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "1ea4d3b08339a14312670a254afa4eb09bc69049e69ae534d54d0dab2f43c651",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "390c5711cc391146ff39b1271ff48e3971d7f418a00f30c5a8c7a34506a8de37",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "1b037df5bb14d2fa0f51bf88a81b84a7679f84b6c0e974f2b4e3a1259215eef7",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "ec28dab956483da177fb163a4a4b947a8f9a6f50ba9cbc1192a878e116a75966",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs.uid": "d0577a58913ccad7dae4029bfc534036ac5993e1439353c48ae4d3ca2bb43eb5",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "5bcd8d427eb95fe0fd1646c21615c73d44c0928dea27fb1917653ee84cbbdd1a",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "fbacbb11ce7cddf01fb1c8ac664a01a205cf81806cd2a9d1f92524a1c1f5f9fd",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Core/Application/UiPublicProjection.cs": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3c45ab9c6d2188b5cf321fa20f97194a0a5c66db87383d0bdffe774837c9de93",
+    "apps/crossweave-godot/UiProbe/verify.py": "56798881d7443082664c6a51382b1bafb6eb793c7ea5b353e134ad06b69d8d0b",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "repro-home": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+    "repro-story": "fd307eec73b1c065609f591e79ca3f3d7d6aa4189743e43ee4940625d054c797",
+    "repro-explore": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+    "repro-prediction": "79d3b5fb8c2d9e6c4efc98b4995bde684216e15e52a6bef33adc04dd2050460b"
+  },
+  "source_changed_during_run": [],
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "72d2379ff0515c6af3774feae8a77b6907ed590bc2e100bdbbda16cd533881a1"
+    },
+    "import-ui.log": {
+      "bytes": 1181,
+      "sha256": "180c10d9059e2b6fd7005f8700a6f627e375625f6c8ad6bd7d9dd09784a773f8"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 410,
+      "sha256": "0260e78495e4f7693aba9ca4a6fe30743b2b33d77ad009d38b9797fbc1b459ab"
+    },
+    "repro-explore-action-history.nodes.json": {
+      "bytes": 92675,
+      "sha256": "59c7ef99addad8cd4edc35ae0dde6bfc079727a1135d7d0f4436efa3b24e3c62"
+    },
+    "repro-explore-action-history.png": {
+      "bytes": 853821,
+      "sha256": "f08a2279636377fd3e9691a0ead5b3915910a201b23949db2eb1409632b8284c"
+    },
+    "repro-explore-deck-child.nodes.json": {
+      "bytes": 157326,
+      "sha256": "76c371e931590d0712f14142ec82812273de5d946ada90de64da4e9d49f42662"
+    },
+    "repro-explore-deck-child.png": {
+      "bytes": 809752,
+      "sha256": "121d3e0f58c1a3122e348420b243af62a480d1b2f72e429b9fe5bae07272a829"
+    },
+    "repro-explore-deck.nodes.json": {
+      "bytes": 127891,
+      "sha256": "efbfda43180c439d034d49c7e398a8c58a6ea90e94ac4669e774e9821c41b212"
+    },
+    "repro-explore-deck.png": {
+      "bytes": 859820,
+      "sha256": "2961595c4494bab5bca4863227161c5ec86bdff560ba8c271dbe1c59861a7692"
+    },
+    "repro-explore-drag-field.nodes.json": {
+      "bytes": 92363,
+      "sha256": "839c24c671bf9c5bba08f03ca36c28b1f0222fcf4ea60a02ed782d7bbef39229"
+    },
+    "repro-explore-drag-field.png": {
+      "bytes": 1055326,
+      "sha256": "38ed7def19925ee28212cabca6ea970b11fd3d7edab9332206a75e126e962372"
+    },
+    "repro-explore-entry.nodes.json": {
+      "bytes": 78477,
+      "sha256": "f59de83b7efa47ed92051e627db58cfc5d29bdcfb8dbcaf357ed0014fbb75c26"
+    },
+    "repro-explore-entry.png": {
+      "bytes": 1022889,
+      "sha256": "cbd9d5b9fb98a5bd546655164c4584dccdd6176f941b683906cdceea29a36878"
+    },
+    "repro-explore-hand-detail-end.nodes.json": {
+      "bytes": 120956,
+      "sha256": "e725f612dfa77d7faf7f6967604b69c26863f80ebb4e2fee3ded004556358c10"
+    },
+    "repro-explore-hand-detail-end.png": {
+      "bytes": 878126,
+      "sha256": "377fb3cd23462412136cde46c2284099ddc5b18a97a5d908aac71eaacbe136c6"
+    },
+    "repro-explore-hand-detail.nodes.json": {
+      "bytes": 120968,
+      "sha256": "8f1db481d3051f6786a0795915cc58619b8190f7cdc9876ef3f38bbf1684de22"
+    },
+    "repro-explore-hand-detail.png": {
+      "bytes": 874112,
+      "sha256": "d8902bba2ce2a6df9e7424fae8ec3b5fecfb2c4be944678af5325f50f4777fae"
+    },
+    "repro-explore-help.nodes.json": {
+      "bytes": 96227,
+      "sha256": "fb9a90fa04555cb167e229c96636136b3ee8ebc777f7c768cba458ed2ed94749"
+    },
+    "repro-explore-help.png": {
+      "bytes": 916213,
+      "sha256": "d625a4626776c9bd152eb9de729d419d4fe62c40e168422bfd645619f5c2dd39"
+    },
+    "repro-explore-history.nodes.json": {
+      "bytes": 96963,
+      "sha256": "fa5d8bb09c276c7e4d2acc911c8a51999a0add7252100ef822a9440d2fc6a917"
+    },
+    "repro-explore-history.png": {
+      "bytes": 895965,
+      "sha256": "9ee371c72c8ce6ee0bf2ec7f1628ea46bcc7565f7e0491202148c2ee404ba026"
+    },
+    "repro-explore-hold-cue.nodes.json": {
+      "bytes": 86293,
+      "sha256": "c67a808b3563899ae9301d56a844d340d149f3ddeb8948fe43fca78bc1aedd88"
+    },
+    "repro-explore-hold-cue.png": {
+      "bytes": 1040127,
+      "sha256": "562f847ba9c9e3576a05f5a8602f1aa1ee0040d740cf7507688c5fba88166d3d"
+    },
+    "repro-explore-known-card-child.nodes.json": {
+      "bytes": 133181,
+      "sha256": "b7307c17e42c800c116fb0f1f447bbbd1f9521a5f691a0a91aa7202966005025"
+    },
+    "repro-explore-known-card-child.png": {
+      "bytes": 775673,
+      "sha256": "83400fa5d062df06923962916dd3fd61d4a6387b873a4f222a0614932ec32c06"
+    },
+    "repro-explore-menu-action-history.nodes.json": {
+      "bytes": 96266,
+      "sha256": "2f962def9108b9647939163364e1ccb578fcf250d75aa6251760a8daa6a135f3"
+    },
+    "repro-explore-menu-action-history.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-deck.nodes.json": {
+      "bytes": 96266,
+      "sha256": "6b55357a3722e9afac1d217f890036ad938a9c16cce90ade7f433dc021ee0183"
+    },
+    "repro-explore-menu-deck.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-help.nodes.json": {
+      "bytes": 96266,
+      "sha256": "74aecdfabd37c807312f9e50e4e9c5afa9250501cf9e5417513a531dcd102f15"
+    },
+    "repro-explore-menu-help.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-history.nodes.json": {
+      "bytes": 96266,
+      "sha256": "548970d13831522b1f7c2572224476347b866711553aa449a6bdce18777a77d0"
+    },
+    "repro-explore-menu-history.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-objective.nodes.json": {
+      "bytes": 96266,
+      "sha256": "aad8e577a9a560ead2f90171723644c639659288fb971c6fba5550b26c36fb88"
+    },
+    "repro-explore-menu-objective.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-operation.nodes.json": {
+      "bytes": 96266,
+      "sha256": "ec98c794d8eebcaa8291c8766c0864c9d9a77d4ddeeee34f42eee2e2e381b514"
+    },
+    "repro-explore-menu-operation.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-order.nodes.json": {
+      "bytes": 96266,
+      "sha256": "5de2e432966716c93d15ad82daceeeee11d81b3b2e8b5399555c6a9df59a236b"
+    },
+    "repro-explore-menu-order.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-save-data.nodes.json": {
+      "bytes": 96266,
+      "sha256": "c96f3d066317fbffc0da3d6ad659075f29927a833b2877446b4d532c39f53c02"
+    },
+    "repro-explore-menu-save-data.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-settings.nodes.json": {
+      "bytes": 96265,
+      "sha256": "fac0955e8c82b383829e277ebbed19dbf0ef6105fe70e7867c08146705b16464"
+    },
+    "repro-explore-menu-settings.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-menu-status.nodes.json": {
+      "bytes": 96266,
+      "sha256": "c0bf41b1e4ac333d2b54f721b37e96441ab24717dfdfa13f4c9a63ea4af960ed"
+    },
+    "repro-explore-menu-status.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-explore-objective.nodes.json": {
+      "bytes": 93621,
+      "sha256": "02f9ad629d5a361c0bf5c130f7a214c20ad13af6ec5d23f0e4e369eb5f4c247e"
+    },
+    "repro-explore-objective.png": {
+      "bytes": 876787,
+      "sha256": "8e833dc2cc493af4681a94ded6e3fb5b6bcb00acbadc6890f2f96f8d6881b6cb"
+    },
+    "repro-explore-operation.nodes.json": {
+      "bytes": 98768,
+      "sha256": "68a2a514b07eb402a181e0686f8b70d40616fe9d33a82ee73f28d26ca26bc015"
+    },
+    "repro-explore-operation.png": {
+      "bytes": 895726,
+      "sha256": "5b4da0cb50d639496fa4e5834d55c058f13e78da1e62ef2e774447100fae80c5"
+    },
+    "repro-explore-order.nodes.json": {
+      "bytes": 94846,
+      "sha256": "70ff0334765a038273de09875943b17cc671f4604c462513416c33339f814de7"
+    },
+    "repro-explore-order.png": {
+      "bytes": 851022,
+      "sha256": "7cd5d0bf8570a30c7afb8b1ba62ea485b76005345027c48e759ee3729253f64d"
+    },
+    "repro-explore-prediction-end.nodes.json": {
+      "bytes": 104013,
+      "sha256": "14ecec08f8e4e2b2a90c80c87fd16dd388f4117976cfd422b55e250483baac7e"
+    },
+    "repro-explore-prediction-end.png": {
+      "bytes": 889431,
+      "sha256": "1bb397341f5d943e08cfa9ce9882c912d11d32c85f39a8333b77a6689b25b898"
+    },
+    "repro-explore-prediction.nodes.json": {
+      "bytes": 104018,
+      "sha256": "e69a50af0aafaf0b8d4106b9f634e311b99add6c0cb5758f513246d7862571aa"
+    },
+    "repro-explore-prediction.png": {
+      "bytes": 906079,
+      "sha256": "5dc79be6527310ae6551c47723998f23b11f15dfaa975155a6b16c69856229f7"
+    },
+    "repro-explore-public.json": {
+      "bytes": 29189,
+      "sha256": "78d409c4f8af4b2dfbd665bbc1d5063534882ee51eebc47245697ca0822ef1e5"
+    },
+    "repro-explore-records-card-child.nodes.json": {
+      "bytes": 130890,
+      "sha256": "54263c7a87d1fbbc79da27acdfb2525f22c820c2f9a41c9055a52e62c86ba15f"
+    },
+    "repro-explore-records-card-child.png": {
+      "bytes": 790117,
+      "sha256": "8179eec9381f314fe9a7e5c1b5b03f001a306b352af60cca52378af3c83cdf76"
+    },
+    "repro-explore-records-cards.nodes.json": {
+      "bytes": 103636,
+      "sha256": "19a3f914fccb2f28819f96b09928fbfd4b107de9822b2c37434fc75ed15eee45"
+    },
+    "repro-explore-records-cards.png": {
+      "bytes": 863053,
+      "sha256": "d4999c9b43bf99ea1ac2abb47ee5a29ec8ae7a1fb931af4fd73e88a15f418b05"
+    },
+    "repro-explore-records-current.nodes.json": {
+      "bytes": 111639,
+      "sha256": "3672d24ec13c6411449db18b058a13c6c9338410374ea1dfde38e673c06d9e5a"
+    },
+    "repro-explore-records-current.png": {
+      "bytes": 792817,
+      "sha256": "3b7ff303e9ea081c6e4a22fc54af96af1db97fe058a67de2c4b8a66850875767"
+    },
+    "repro-explore-records-targets.nodes.json": {
+      "bytes": 97954,
+      "sha256": "b581d7a2b1bc811374feb4108928a36d8dd80b256ee1d5bd1c75566c22b4aa2f"
+    },
+    "repro-explore-records-targets.png": {
+      "bytes": 879009,
+      "sha256": "67851ce50c0a49d17d52474fd818c682c0b41b114d88b85715a2d693c0e5449c"
+    },
+    "repro-explore-reduced-motion.nodes.json": {
+      "bytes": 90777,
+      "sha256": "f0923b2fe8dc1afb70f2bbad11aaefd7a89ba66bf270a820a6bd60bebdf9446a"
+    },
+    "repro-explore-reduced-motion.png": {
+      "bytes": 841457,
+      "sha256": "1239da834f5532c230ed546ec77d293032d3b8282ef67cc0fa37c07fc9c905fd"
+    },
+    "repro-explore-save-data.nodes.json": {
+      "bytes": 92967,
+      "sha256": "846c43d8ecced2fea6e5bd9741f5dd816bf233cd446d73cd665d170bd67e8567"
+    },
+    "repro-explore-save-data.png": {
+      "bytes": 871211,
+      "sha256": "8b06c429c25dfc199541330e8587b844a3b452826f19760c0711c376e69e8e69"
+    },
+    "repro-explore-selected.nodes.json": {
+      "bytes": 86294,
+      "sha256": "d07d5c6632296ed73f7e978d288415698a23b881786faca842005f6ea913d66b"
+    },
+    "repro-explore-selected.png": {
+      "bytes": 1035209,
+      "sha256": "e31b3dcca86eac7c0c128d30905b1b35f8bc6deb7c71dd6e1907b5fecd8d0cc7"
+    },
+    "repro-explore-settings.nodes.json": {
+      "bytes": 90778,
+      "sha256": "3ca9e9b99cf4fbadb7e4dda73932ab69bc01b4c2790fe07f4dbaeceadd41322e"
+    },
+    "repro-explore-settings.png": {
+      "bytes": 841333,
+      "sha256": "17ce567e537cb7ba14caf1928c9ebc6e86451d61ceaf27464be468a29b1df3dd"
+    },
+    "repro-explore-start.nodes.json": {
+      "bytes": 9159,
+      "sha256": "325f6352ecc38b9be091dd52ff2f09cd0550a4e03098ca18d7d7357861b4c427"
+    },
+    "repro-explore-start.png": {
+      "bytes": 1370256,
+      "sha256": "f3ca27b18e4282d5be941ef8bcab092f3787b1535dea3ec0aa6c71e158436b66"
+    },
+    "repro-explore-status.nodes.json": {
+      "bytes": 98844,
+      "sha256": "81ee9da69649e3ead649920533f8dc873428a88f7f356691cf8edeb0ed2b0c0c"
+    },
+    "repro-explore-status.png": {
+      "bytes": 864913,
+      "sha256": "5dc84439ab50c85a408879aa2c1ee51e313b3d60213e435d14755378f1872dd8"
+    },
+    "repro-explore-unpinned.nodes.json": {
+      "bytes": 104007,
+      "sha256": "1e978bfb71ea02afc377beeb95fd6f545c824d14c523c4fb258ebc76d12e5b44"
+    },
+    "repro-explore-unpinned.png": {
+      "bytes": 889121,
+      "sha256": "8f18f3f7e5c8250b67192bdcaca63666db8ecf5c0644e0c8193b3931559d9454"
+    },
+    "repro-explore.json": {
+      "bytes": 1673,
+      "sha256": "d3f076741e3c53a84699c5fffc71a3928d50e1cd46d8d36d68ddf48ce3a59c7e"
+    },
+    "repro-explore.log": {
+      "bytes": 1661,
+      "sha256": "da604d6205b8e646b291cff84395597631c8b9d7fb39055bc3612155ff5255c1"
+    },
+    "repro-home-card.nodes.json": {
+      "bytes": 102345,
+      "sha256": "5d84c395b9d6b8d08a01a7a3772878c5701b2eeabfe5ab084686eaa508f3643c"
+    },
+    "repro-home-card.png": {
+      "bytes": 110886,
+      "sha256": "5b09e3e8b7d3610b59c1266fe5567e47e33f913561570eacb1ebc0e172dc316b"
+    },
+    "repro-home-confirmation.nodes.json": {
+      "bytes": 57118,
+      "sha256": "f9d6d29b8a41767708990ec7b7f40db0eb39a2cac536becb51e0d59a8a94a720"
+    },
+    "repro-home-confirmation.png": {
+      "bytes": 112079,
+      "sha256": "ac982fa31ab847f5572f6d3946869ec12b73a52c11119d2363a98bc5ba3a78e0"
+    },
+    "repro-home-entry.nodes.json": {
+      "bytes": 17015,
+      "sha256": "64a54c6adb5d29d428c4b22559c13fbdf83ce6a94e9aeddf6124b7163c809f6d"
+    },
+    "repro-home-entry.png": {
+      "bytes": 889919,
+      "sha256": "a1a4c943d161ad2102278852a17eb904a3055b0ffabe1389fca64403ba6b3903"
+    },
+    "repro-home-home-detail.nodes.json": {
+      "bytes": 22476,
+      "sha256": "04a71fb297259c828a9aaeb6192e9e68b4e90858b8161ec1e9925f9e4b7e8ab9"
+    },
+    "repro-home-home-detail.png": {
+      "bytes": 855811,
+      "sha256": "4a078c479c5f5a6eec4a74e0e90b79f657aede11af1555419e905de34e2967fc"
+    },
+    "repro-home-owned-detail.nodes.json": {
+      "bytes": 127807,
+      "sha256": "4c492a769ef62089fa108dec6c7b8678eedd68b16326ad7c75ff9a7a5a01cc0c"
+    },
+    "repro-home-owned-detail.png": {
+      "bytes": 150022,
+      "sha256": "22d24fd65a9cb66de5111b6a533d382c5974c238212627363792d6d13b0fe7a8"
+    },
+    "repro-home-passive-detail.nodes.json": {
+      "bytes": 64085,
+      "sha256": "88f5d37def847fef9a16e1e7a7c2ec850358a191d0fbfc5ff67a1c37849925da"
+    },
+    "repro-home-passive-detail.png": {
+      "bytes": 104555,
+      "sha256": "7afb7ac9e4204acb1f08b4afb856c367f6d29f22cffe94c356798ea86aeb2b9e"
+    },
+    "repro-home-passive.nodes.json": {
+      "bytes": 44421,
+      "sha256": "8a4acd77da28cde18ad03b2c354b6471fa81f85f0324b7926a8f0054a8caf578"
+    },
+    "repro-home-passive.png": {
+      "bytes": 69113,
+      "sha256": "e042229081bcbcf9a2ff4bda404d1fc3d51b5560b94a4b6220ac300b3c1c08ef"
+    },
+    "repro-home-pending-detail.nodes.json": {
+      "bytes": 72035,
+      "sha256": "de23f71460f9cecdb4dbc2a5f68b9aa58bf6b4ad1c594a953d3d2b6f53a80094"
+    },
+    "repro-home-pending-detail.png": {
+      "bytes": 125961,
+      "sha256": "57d055668a68a6c92dea015e73d6f756cbdf12bc21560fd58c5f451ca2e97380"
+    },
+    "repro-home-pending.nodes.json": {
+      "bytes": 50684,
+      "sha256": "b24956236334c4d82b1c764f6514d806cf7794c2c8b1b9a9d479fc1ef14828b5"
+    },
+    "repro-home-pending.png": {
+      "bytes": 90712,
+      "sha256": "2a2ede763f634867f8c629007a503712305303aed2be0f911021ee0575667a1e"
+    },
+    "repro-home-public.json": {
+      "bytes": 40116,
+      "sha256": "111bc6f67e2eb2e04cc35c77a31d7d973dd4b4746918731622761136020baa53"
+    },
+    "repro-home-start.nodes.json": {
+      "bytes": 9159,
+      "sha256": "0c4e15c0c70e5afb83514f99ffb2c50c4682aa37c6a5c7caf9dc2c3fb74d5162"
+    },
+    "repro-home-start.png": {
+      "bytes": 1370256,
+      "sha256": "f3ca27b18e4282d5be941ef8bcab092f3787b1535dea3ec0aa6c71e158436b66"
+    },
+    "repro-home.json": {
+      "bytes": 1656,
+      "sha256": "6b016234f856d044b0b345b5652ed3d1213784b2eaeb1e5f967bb0595c031a9e"
+    },
+    "repro-home.log": {
+      "bytes": 587,
+      "sha256": "8dbf5c897d432d0d2897e801ae88b4205d2be0065737d1d4b96f638ceb03b012"
+    },
+    "repro-prediction-action-history.nodes.json": {
+      "bytes": 92675,
+      "sha256": "f3119d1232f5b5e27823261f1af632de581282b4ad9fa3c92e0195b349e70f8a"
+    },
+    "repro-prediction-action-history.png": {
+      "bytes": 853821,
+      "sha256": "f08a2279636377fd3e9691a0ead5b3915910a201b23949db2eb1409632b8284c"
+    },
+    "repro-prediction-actor-detail.nodes.json": {
+      "bytes": 100950,
+      "sha256": "43f4ea02730b8545e8bf25ada20fe599fa58e13e8f4eeabf84f4e19cc703449d"
+    },
+    "repro-prediction-actor-detail.png": {
+      "bytes": 954596,
+      "sha256": "7a2d03149af7ac3731379231420911ea0c90bec1e0fe7accba97d0b3d267fe47"
+    },
+    "repro-prediction-deck-child.nodes.json": {
+      "bytes": 157326,
+      "sha256": "a5840202f01ccbc61a6c6e8e670e0200ccaeed5686c1def39ba5db79772aaed3"
+    },
+    "repro-prediction-deck-child.png": {
+      "bytes": 809752,
+      "sha256": "121d3e0f58c1a3122e348420b243af62a480d1b2f72e429b9fe5bae07272a829"
+    },
+    "repro-prediction-deck.nodes.json": {
+      "bytes": 127891,
+      "sha256": "62d19aaaff9e129e6d1336f732db80ce13afebe8eb335bae5e8a4f0cc921292b"
+    },
+    "repro-prediction-deck.png": {
+      "bytes": 859820,
+      "sha256": "2961595c4494bab5bca4863227161c5ec86bdff560ba8c271dbe1c59861a7692"
+    },
+    "repro-prediction-drag-field.nodes.json": {
+      "bytes": 92363,
+      "sha256": "fb4965afd8f0f05ed24a12116d0ef3e584f61b598c3adf525803df15318d6a61"
+    },
+    "repro-prediction-drag-field.png": {
+      "bytes": 1055326,
+      "sha256": "38ed7def19925ee28212cabca6ea970b11fd3d7edab9332206a75e126e962372"
+    },
+    "repro-prediction-entry.nodes.json": {
+      "bytes": 78477,
+      "sha256": "54709c127e746a091b881c41edb0e850e2ca2b1bc6287124fa3f0846f89f893f"
+    },
+    "repro-prediction-entry.png": {
+      "bytes": 1022889,
+      "sha256": "cbd9d5b9fb98a5bd546655164c4584dccdd6176f941b683906cdceea29a36878"
+    },
+    "repro-prediction-hand-detail-end.nodes.json": {
+      "bytes": 120956,
+      "sha256": "13d747d1bd6e61d24f21b8c74fb660450e680b2be6c2a2ef15271989c289da88"
+    },
+    "repro-prediction-hand-detail-end.png": {
+      "bytes": 878126,
+      "sha256": "377fb3cd23462412136cde46c2284099ddc5b18a97a5d908aac71eaacbe136c6"
+    },
+    "repro-prediction-hand-detail.nodes.json": {
+      "bytes": 120968,
+      "sha256": "2c36fb6ac966ae506430843a6c569ec5c8397592106fd0a1717ad3a5ba3617bb"
+    },
+    "repro-prediction-hand-detail.png": {
+      "bytes": 874112,
+      "sha256": "d8902bba2ce2a6df9e7424fae8ec3b5fecfb2c4be944678af5325f50f4777fae"
+    },
+    "repro-prediction-help.nodes.json": {
+      "bytes": 96227,
+      "sha256": "a1a02a35babcd0fc469734eed757ef18571559f8d24c96297178265f7d15a224"
+    },
+    "repro-prediction-help.png": {
+      "bytes": 916213,
+      "sha256": "d625a4626776c9bd152eb9de729d419d4fe62c40e168422bfd645619f5c2dd39"
+    },
+    "repro-prediction-history.nodes.json": {
+      "bytes": 96963,
+      "sha256": "cb65e11bce0336a2c19a8a538fcf8a6b4402cc8b637e4672613e297db9f08bea"
+    },
+    "repro-prediction-history.png": {
+      "bytes": 895965,
+      "sha256": "9ee371c72c8ce6ee0bf2ec7f1628ea46bcc7565f7e0491202148c2ee404ba026"
+    },
+    "repro-prediction-hold-cue.nodes.json": {
+      "bytes": 86293,
+      "sha256": "81f5ed0aab6e8f66fd56744a324de1dba4c7fc21258d78db5907582432cdfff0"
+    },
+    "repro-prediction-hold-cue.png": {
+      "bytes": 1040127,
+      "sha256": "562f847ba9c9e3576a05f5a8602f1aa1ee0040d740cf7507688c5fba88166d3d"
+    },
+    "repro-prediction-known-card-child.nodes.json": {
+      "bytes": 133181,
+      "sha256": "caae47165655dfd9df19f41fb0325945ebb293eb827a867010c949409ff0b931"
+    },
+    "repro-prediction-known-card-child.png": {
+      "bytes": 775673,
+      "sha256": "83400fa5d062df06923962916dd3fd61d4a6387b873a4f222a0614932ec32c06"
+    },
+    "repro-prediction-menu-action-history.nodes.json": {
+      "bytes": 96266,
+      "sha256": "cf1968978c1d9768a2066021c73567a376caf8e487727e1a4dedf854d9ddb6b1"
+    },
+    "repro-prediction-menu-action-history.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-deck.nodes.json": {
+      "bytes": 96266,
+      "sha256": "b6e82b7197ee3176b4fbfc8e68abfb26d3dc15cd9e0199ca66444fd40965795a"
+    },
+    "repro-prediction-menu-deck.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-help.nodes.json": {
+      "bytes": 96266,
+      "sha256": "15f77cbd4d4b156b01594e69f16adc56b5b81ddf66766cfe8e6ca0ae03f96010"
+    },
+    "repro-prediction-menu-help.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-history.nodes.json": {
+      "bytes": 96266,
+      "sha256": "effe94bc8e84fe2db88d61ad804a8c6bc3cc815db5a37bd10978eb83efb95ebc"
+    },
+    "repro-prediction-menu-history.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-objective.nodes.json": {
+      "bytes": 96266,
+      "sha256": "3a217253e43a0286688234c4c5789e734aff73ce108aaa804be0a80e880342d3"
+    },
+    "repro-prediction-menu-objective.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-operation.nodes.json": {
+      "bytes": 96266,
+      "sha256": "dfe925a5339e5488e262b5e532285991e218b31ed23ed56ff2b1b3d42020c0e9"
+    },
+    "repro-prediction-menu-operation.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-order.nodes.json": {
+      "bytes": 96266,
+      "sha256": "77e2d1814f6b089786596fca3e1368260dd19b441f61868acbae2aba558223fc"
+    },
+    "repro-prediction-menu-order.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-save-data.nodes.json": {
+      "bytes": 96266,
+      "sha256": "802380a5969475cd61018414a482178872193d6721121b5cd0a0d8e9ad0705ad"
+    },
+    "repro-prediction-menu-save-data.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-settings.nodes.json": {
+      "bytes": 96266,
+      "sha256": "88ad5156d70d09f6d460faf847eeca1ae1acd4bf5e0cf6931bba7a6e29bc7404"
+    },
+    "repro-prediction-menu-settings.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-menu-status.nodes.json": {
+      "bytes": 96266,
+      "sha256": "ebfcdadc964b7330f06dce63e129cdf7ee358e7a4e32976e96863988e5496250"
+    },
+    "repro-prediction-menu-status.png": {
+      "bytes": 868276,
+      "sha256": "ef37c47ed1420ccc565f92ad3efa1aab4836d3b59c74f3eb9dd70fd6a9d3cc6b"
+    },
+    "repro-prediction-objective.nodes.json": {
+      "bytes": 93621,
+      "sha256": "6c26cc9b95edfaff25214f4d0fe106731e5c3e92391436645d50accc198d5293"
+    },
+    "repro-prediction-objective.png": {
+      "bytes": 876787,
+      "sha256": "8e833dc2cc493af4681a94ded6e3fb5b6bcb00acbadc6890f2f96f8d6881b6cb"
+    },
+    "repro-prediction-operation.nodes.json": {
+      "bytes": 98768,
+      "sha256": "b310bd6f74bb671ee7f2d6b7132508d1d748eba056695ca70bb3aefab7c7abb7"
+    },
+    "repro-prediction-operation.png": {
+      "bytes": 895726,
+      "sha256": "5b4da0cb50d639496fa4e5834d55c058f13e78da1e62ef2e774447100fae80c5"
+    },
+    "repro-prediction-order.nodes.json": {
+      "bytes": 94846,
+      "sha256": "a3cb21fedcd2ad5dfa7307dbbfca6450ba8851adcc983029498d11ca3da0aa16"
+    },
+    "repro-prediction-order.png": {
+      "bytes": 851022,
+      "sha256": "7cd5d0bf8570a30c7afb8b1ba62ea485b76005345027c48e759ee3729253f64d"
+    },
+    "repro-prediction-prediction-end.nodes.json": {
+      "bytes": 104013,
+      "sha256": "4135df5253bd7194c849067f747d540133e7e3f5384fa2b26e479ae9448bc16f"
+    },
+    "repro-prediction-prediction-end.png": {
+      "bytes": 889431,
+      "sha256": "1bb397341f5d943e08cfa9ce9882c912d11d32c85f39a8333b77a6689b25b898"
+    },
+    "repro-prediction-prediction.nodes.json": {
+      "bytes": 104018,
+      "sha256": "db8f4af47a4ae57f071f3d1a9782781525b4ce9b744e984ec6bc456d63b0a1f9"
+    },
+    "repro-prediction-prediction.png": {
+      "bytes": 906079,
+      "sha256": "5dc79be6527310ae6551c47723998f23b11f15dfaa975155a6b16c69856229f7"
+    },
+    "repro-prediction-public.json": {
+      "bytes": 29189,
+      "sha256": "78d409c4f8af4b2dfbd665bbc1d5063534882ee51eebc47245697ca0822ef1e5"
+    },
+    "repro-prediction-records-card-child.nodes.json": {
+      "bytes": 130890,
+      "sha256": "b878155086549dab59bb898f0a86aa750e57adb8d46127c7e6dad0d8f8a1cc8e"
+    },
+    "repro-prediction-records-card-child.png": {
+      "bytes": 790117,
+      "sha256": "8179eec9381f314fe9a7e5c1b5b03f001a306b352af60cca52378af3c83cdf76"
+    },
+    "repro-prediction-records-cards.nodes.json": {
+      "bytes": 103636,
+      "sha256": "1f67c3a3fd8b97a7e9a7be42aff3895c3a05710016c9d84e64aaa4761f3d8a86"
+    },
+    "repro-prediction-records-cards.png": {
+      "bytes": 863053,
+      "sha256": "d4999c9b43bf99ea1ac2abb47ee5a29ec8ae7a1fb931af4fd73e88a15f418b05"
+    },
+    "repro-prediction-records-current.nodes.json": {
+      "bytes": 111639,
+      "sha256": "d82a22c462074a0b08bb980d1b4bb6f56016cadae778aace57c2d10b927fc293"
+    },
+    "repro-prediction-records-current.png": {
+      "bytes": 792817,
+      "sha256": "3b7ff303e9ea081c6e4a22fc54af96af1db97fe058a67de2c4b8a66850875767"
+    },
+    "repro-prediction-records-targets.nodes.json": {
+      "bytes": 97954,
+      "sha256": "029066b2a468ccc31aeb068070687d89713eae2edf816cd6bd8fac53fbb68455"
+    },
+    "repro-prediction-records-targets.png": {
+      "bytes": 879009,
+      "sha256": "67851ce50c0a49d17d52474fd818c682c0b41b114d88b85715a2d693c0e5449c"
+    },
+    "repro-prediction-reduced-motion.nodes.json": {
+      "bytes": 90777,
+      "sha256": "e28d816d00fbbaf13c6b34d5d3601c0847272686fbd3cb2206549bf6d583357d"
+    },
+    "repro-prediction-reduced-motion.png": {
+      "bytes": 841457,
+      "sha256": "1239da834f5532c230ed546ec77d293032d3b8282ef67cc0fa37c07fc9c905fd"
+    },
+    "repro-prediction-save-data.nodes.json": {
+      "bytes": 92967,
+      "sha256": "9810f3701d55a2a21d49cb7af25ae675fc1958bef35afc1048b3e55e3607c819"
+    },
+    "repro-prediction-save-data.png": {
+      "bytes": 871211,
+      "sha256": "8b06c429c25dfc199541330e8587b844a3b452826f19760c0711c376e69e8e69"
+    },
+    "repro-prediction-selected.nodes.json": {
+      "bytes": 86294,
+      "sha256": "f7542359975b1ba7ff13d671edf8b0d9ee2809bc419f2177668fa33df0618e40"
+    },
+    "repro-prediction-selected.png": {
+      "bytes": 1035209,
+      "sha256": "e31b3dcca86eac7c0c128d30905b1b35f8bc6deb7c71dd6e1907b5fecd8d0cc7"
+    },
+    "repro-prediction-settings.nodes.json": {
+      "bytes": 90778,
+      "sha256": "a8cb01e6684790c1e480fd97a324ad2f203c695985067d2d7db60e9e46e7ff4d"
+    },
+    "repro-prediction-settings.png": {
+      "bytes": 841333,
+      "sha256": "17ce567e537cb7ba14caf1928c9ebc6e86451d61ceaf27464be468a29b1df3dd"
+    },
+    "repro-prediction-start.nodes.json": {
+      "bytes": 9159,
+      "sha256": "a57d2b8c3311983a4e4d0eee28e784e0901382998d7d1f0f1e23e78f56f9c532"
+    },
+    "repro-prediction-start.png": {
+      "bytes": 1370256,
+      "sha256": "f3ca27b18e4282d5be941ef8bcab092f3787b1535dea3ec0aa6c71e158436b66"
+    },
+    "repro-prediction-status.nodes.json": {
+      "bytes": 98844,
+      "sha256": "0443da70be7fb63a675076e1c94275d05f4f3ee5ed978f53a865fd2ed818bfcb"
+    },
+    "repro-prediction-status.png": {
+      "bytes": 864913,
+      "sha256": "5dc84439ab50c85a408879aa2c1ee51e313b3d60213e435d14755378f1872dd8"
+    },
+    "repro-prediction-unpinned.nodes.json": {
+      "bytes": 104007,
+      "sha256": "5d87171eb0d1ca1c72941917aa236cd4729e257b4f3aec9dc3ea230eec678062"
+    },
+    "repro-prediction-unpinned.png": {
+      "bytes": 889121,
+      "sha256": "8f18f3f7e5c8250b67192bdcaca63666db8ecf5c0644e0c8193b3931559d9454"
+    },
+    "repro-prediction.json": {
+      "bytes": 1686,
+      "sha256": "3fbca00d4b66fc64adc7b4d09e31b4e3604ff0d3c0101df20ab8b15e0c203dbd"
+    },
+    "repro-prediction.log": {
+      "bytes": 1725,
+      "sha256": "be10a4397b071a3cabfa1b74e8248fd9417c7829b96c73c4724367883077f00c"
+    },
+    "repro-story-entry.nodes.json": {
+      "bytes": 14630,
+      "sha256": "d9c64785af489bef251193a25651e15a4c88784ad9775f32089a67601fae5237"
+    },
+    "repro-story-entry.png": {
+      "bytes": 753917,
+      "sha256": "586ea27cac5539431b80fb3707aebac4ec267e7b75183fac7f0ad1f7c6ca1c6e"
+    },
+    "repro-story-optional-prose.nodes.json": {
+      "bytes": 20910,
+      "sha256": "9f45b238b0d1d46b7cf8531b0d02fb759fa07257ec8770d7ab3b7d871de8a2dc"
+    },
+    "repro-story-optional-prose.png": {
+      "bytes": 756426,
+      "sha256": "a178b996ccdfb3296c427b4e3262a849341a77f89b0d211937be2f49b060442a"
+    },
+    "repro-story-prose-end.nodes.json": {
+      "bytes": 14630,
+      "sha256": "4f46e206f7e1bb9387f9866ca92c8748499417f3c5a3d42031a9653913c36996"
+    },
+    "repro-story-prose-end.png": {
+      "bytes": 753917,
+      "sha256": "586ea27cac5539431b80fb3707aebac4ec267e7b75183fac7f0ad1f7c6ca1c6e"
+    },
+    "repro-story-public.json": {
+      "bytes": 25858,
+      "sha256": "0ff4d27ea4178208818d0fc1ca344f8155c39627b3512f77540b0dadbcf3d958"
+    },
+    "repro-story-start.nodes.json": {
+      "bytes": 9159,
+      "sha256": "b7dd305c54e1dbbc679d6f7904ec94a9a1373cc92c037b90170cb62d4dc6fd30"
+    },
+    "repro-story-start.png": {
+      "bytes": 1370256,
+      "sha256": "f3ca27b18e4282d5be941ef8bcab092f3787b1535dea3ec0aa6c71e158436b66"
+    },
+    "repro-story.json": {
+      "bytes": 1404,
+      "sha256": "f1ce2bbff0a55335239f43c80aa2192773b7cf2612f4889737cf88061edd8668"
+    },
+    "repro-story.log": {
+      "bytes": 333,
+      "sha256": "58ea33762c65631f01dcfedb8506e2d834d40446dce7b0a85c3845b7444c927e"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    }
+  }
+}

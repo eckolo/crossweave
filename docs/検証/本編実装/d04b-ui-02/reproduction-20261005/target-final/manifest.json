@@ -1,0 +1,1163 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "2ac825aec8e5deb1d639447361004334af916649",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "theme": "light",
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "repro-explore": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-explore",
+        "--ui-slot=ui-ba0cb7261fcd4249-repro-explore",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-explore.json"
+      ],
+      "exit": 0
+    },
+    "review-safety-consume": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-safety-consume",
+        "--ui-slot=ui-ba0cb7261fcd4249-review-safety-consume",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-safety-consume.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-place": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-place",
+        "--ui-slot=ui-ba0cb7261fcd4249-review-prediction-place",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-prediction-place.json"
+      ],
+      "exit": 0
+    },
+    "review-prediction-attack": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-prediction-attack",
+        "--ui-slot=ui-ba0cb7261fcd4249-review-prediction-attack",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-prediction-attack.json"
+      ],
+      "exit": 0
+    },
+    "review-order-tie": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-order-tie",
+        "--ui-slot=ui-ba0cb7261fcd4249-review-order-tie",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\review-order-tie.json"
+      ],
+      "exit": 0
+    },
+    "inheritance": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=inheritance",
+        "--ui-slot=ui-ba0cb7261fcd4249-inheritance",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\target-final",
+        "--ui-theme=light"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-ba0cb7261fcd4249"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "repro-explore": {
+      "status": "passed",
+      "process_id": 33404,
+      "checks": 6,
+      "commands": 0,
+      "final_revision": 2
+    },
+    "review-safety-consume": {
+      "status": "passed",
+      "process_id": 47288,
+      "checks": 9,
+      "commands": 1,
+      "final_revision": 1
+    },
+    "review-prediction-place": {
+      "status": "passed",
+      "process_id": 39312,
+      "checks": 5,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-prediction-attack": {
+      "status": "passed",
+      "process_id": 30124,
+      "checks": 8,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "review-order-tie": {
+      "status": "passed",
+      "process_id": 38468,
+      "checks": 5,
+      "commands": 0,
+      "final_revision": 0
+    },
+    "inheritance": {
+      "status": "passed",
+      "process_id": 2428,
+      "checks": 36,
+      "commands": 0,
+      "final_revision": 4
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs": "ddd0a875239cb51e15adaf72c12d48f8dbc4c7508981dcaa51e65c6cdf2e7ddc",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs.uid": "cf10866f7c1347bd72be74d270f44de5c0bdf16171493701229c350b783c1f16",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "7d9614fedf4e4db1b417e29f8ff81121ca010e148af3889e271e8c11f48b1117",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs.uid": "fe2dbb3780846a23e9c0fd3b41309b0f03555fd1cc2f8cd038fa305a6ffbeb14",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "d1bc262ba38e587045dfbb0227c6e19fcfed939fdbae238792c01fc31c53b4d5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs.uid": "495e007ffd25c2375fde5385505458c146ebcd78f443e80f720e10c8d14fd0ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "7b750a5bc4e418a9f4cc7e7d1198db9b08726d9947a739a1f620259b38160e7c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs.uid": "c90628908ad0cb4493320e0f258393cb615ae4be0544920633f366c01990e5b8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "0c9f63be2df2dd47f400b929bcabb3408e6b909b1119ee3129d191525f8ea5ac",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "55d96ee5dd93b9c402bd336620c7b2f5f5d027463d6e913d61dc092aa4ddc769",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "aa58b384cd6fd0d6b8243d156ca56b3f98fba636dd1349ddcbcb2991f6bd9a4a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "fac81034456d6d3c5faa7241c09ec569b12f7f80d7dac950ca3aad2e15fbc582",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "9ff6c6d8d2788d8e251912b37a25dc885d93bdb8011360d37bdd7f8cdd1033a7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "fa45b7b55c7ef8bd19bdaf74a020860d814b859485a04bee9a9a1d32413db7de",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "8905eedff7481cb436127676fdf1c89b82cac3bd8d3ec1a882934a1b55560a94",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "341c920aa826eb21a4089ef031088c6262391a0e85ade2114006e1ee1f6895f7",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs.uid": "d0577a58913ccad7dae4029bfc534036ac5993e1439353c48ae4d3ca2bb43eb5",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "d7e901d2b877890f842e182a117a43c2f572324b595e3f6925fe006d620616a8",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "fa4c428fea0d2f5ac39b4b8007cd055a5ae160bfad77e56937d6a5b8733fa88e",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Core/Application/UiPublicProjection.cs": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3ae9a7eea0c0105476ec00d05146b8464d155757ae47fb6e4c96bcc78fb685c7",
+    "apps/crossweave-godot/UiProbe/verify.py": "2e368a23ece31ce0701498cc039f21b031e5a657a24794318acd44bf51a1133f",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "repro-explore": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+    "review-safety-consume": "adfb206e44dee9deb74ad81c742efdf2adea0f49c0be1cbe553d57dcadfaf7dd",
+    "review-prediction-place": "ee43258d672e0f9ba4b80d1d58a21126f19ddce0dfffa6b9e75be5318651c1c3",
+    "review-prediction-attack": "8bce08b642e26c9bba18bbd09eeba2453694f83abfa04ab2d6e457da14a9e940",
+    "review-order-tie": "77d14b0401453087d6a985af6dab10a74abb0a3964d61eb96697370ea6bc2a49"
+  },
+  "source_changed_during_run": [],
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "14c22790368405086929b17d4fe4bfbad4eae0f9a75ac5e11983e9758961c6ab"
+    },
+    "import-ui.log": {
+      "bytes": 1181,
+      "sha256": "180c10d9059e2b6fd7005f8700a6f627e375625f6c8ad6bd7d9dd09784a773f8"
+    },
+    "inheritance-action-history.nodes.json": {
+      "bytes": 121860,
+      "sha256": "f13b8daa388f64b2f54c5a5a90b8770140859ddccf6b3762923e079ef8a76fae"
+    },
+    "inheritance-action-history.png": {
+      "bytes": 948822,
+      "sha256": "3957ca1f30108bc2feb097d0b7d72f2e711037b26d86038094f303c4178850ae"
+    },
+    "inheritance-deck.nodes.json": {
+      "bytes": 163783,
+      "sha256": "024fc21ea703cbe527591e97c82a2bd169bc36662c83e895f644b12001c4045b"
+    },
+    "inheritance-deck.png": {
+      "bytes": 960884,
+      "sha256": "6fca53682626bdaae33d263a13b2c443ce2b1ff13a5fc15a14791096297cf0a0"
+    },
+    "inheritance-exploration.nodes.json": {
+      "bytes": 97187,
+      "sha256": "f68a76a8f591daa53b4102db8dcdce72680d0f8023781116d620549fa834a91c"
+    },
+    "inheritance-exploration.png": {
+      "bytes": 1015062,
+      "sha256": "edc029047d631d62f8f0aed1105c15477d6604098fbc24865159c3d59470def9"
+    },
+    "inheritance-forecast-detail.nodes.json": {
+      "bytes": 154550,
+      "sha256": "bd65f293dafff2f4eebf2beca1c81e37b96e293fbce99456b99fc2907abf22ad"
+    },
+    "inheritance-forecast-detail.png": {
+      "bytes": 967273,
+      "sha256": "018ee8c4db07ef85c875786cd9590fb586da8bead811ea858a709620cfc297d2"
+    },
+    "inheritance-hand-detail.nodes.json": {
+      "bytes": 154635,
+      "sha256": "86807f442ada58843ea2229795eeb355645cf06e5de91badc69f0303f4a202c9"
+    },
+    "inheritance-hand-detail.png": {
+      "bytes": 854024,
+      "sha256": "0198e2b47d5192df35a9324f70d48214043903c058af19cfc5e8eca2fd2e95ef"
+    },
+    "inheritance-hand-drag.nodes.json": {
+      "bytes": 122870,
+      "sha256": "35eef5168d742970ede86188a1af6374c6402cf4ee6f86931f0b1a209bf1936c"
+    },
+    "inheritance-hand-drag.png": {
+      "bytes": 1037664,
+      "sha256": "ea0e247e9541809d4fa0e5eb17990e16e65b7a415865a255372aa2094a5152b8"
+    },
+    "inheritance-home.nodes.json": {
+      "bytes": 22280,
+      "sha256": "7a1f0c8bd4d8c29d767f250c6b82d7d36d5a7fbc44408171dc3a3938a8bde465"
+    },
+    "inheritance-home.png": {
+      "bytes": 839367,
+      "sha256": "a0665d6da17f78a5e37e4aa7042efde4722d9d0efd30a2223b017a76d1995d45"
+    },
+    "inheritance-knowledge.nodes.json": {
+      "bytes": 144737,
+      "sha256": "26574ae468740f0729e7d0783158f8a290b6d4ab7924b3bc0f351847a2c7aaa3"
+    },
+    "inheritance-knowledge.png": {
+      "bytes": 783568,
+      "sha256": "b04260dbe991028fc606777855fa6c0cb72ac01a835542a6fff57f03b931f29e"
+    },
+    "inheritance-menu.nodes.json": {
+      "bytes": 133644,
+      "sha256": "9e2228ac730be1fa3f683e312161d6ab26bc965584e6585ff32ba26ddee4c4a5"
+    },
+    "inheritance-menu.png": {
+      "bytes": 854670,
+      "sha256": "bb127add4267de0b4872a5f9e9728c2b7ecc6a4e1524e17b6e59c150ce7d8895"
+    },
+    "inheritance-order-detail.nodes.json": {
+      "bytes": 135340,
+      "sha256": "d79a758d6cb82056a21cad20eaeb9dfbc89c1d9177b83434d05633c4ff989ee4"
+    },
+    "inheritance-order-detail.png": {
+      "bytes": 939662,
+      "sha256": "e39cd70ae73bde0dcee98f34ea390473ff380a9e3f3d726d803f94361f84a47f"
+    },
+    "inheritance-passive-details.nodes.json": {
+      "bytes": 89420,
+      "sha256": "7dbc6d7253f97db070e56671f30d8133120dfd617bcb4f868ec218538cef875a"
+    },
+    "inheritance-passive-details.png": {
+      "bytes": 126251,
+      "sha256": "133c739495d9a0429d7bdd5c548cbcac531970faaab3c6cab23de9e47b4f1944"
+    },
+    "inheritance-pending-unpaid.nodes.json": {
+      "bytes": 65305,
+      "sha256": "e8d9a7938d8990717e0d19189531278d42cf63ecb1827fce9685038a3f9cead9"
+    },
+    "inheritance-pending-unpaid.png": {
+      "bytes": 86195,
+      "sha256": "2014199b2ee0d9f4fea92bcc036af0bd020d779ee52e2468f2b59261a5429b57"
+    },
+    "inheritance-prediction.nodes.json": {
+      "bytes": 130964,
+      "sha256": "0e8b1006bd1c780620464fdc06fc91f885fe36e18ec1e42cf6da8e3bd8228163"
+    },
+    "inheritance-prediction.png": {
+      "bytes": 861274,
+      "sha256": "2a16cbf60257e60c8a080c45de7a8320e3a876e393b35f315c9192fc94bb5925"
+    },
+    "inheritance-preparation-drag.nodes.json": {
+      "bytes": 131384,
+      "sha256": "242be8866cc85deed9af0ad0b602363dce80467fd4e905ea4cb3facfee7fc269"
+    },
+    "inheritance-preparation-drag.png": {
+      "bytes": 115837,
+      "sha256": "b581790844ab16feaf1b83a4e668646fc8180279d4dbee52b4b54ffdc17bb57a"
+    },
+    "inheritance-preparation.nodes.json": {
+      "bytes": 127889,
+      "sha256": "598a21164dddc1e8f2c38154a39a09c285f400586b9643bcf6613365dd8ba6a4"
+    },
+    "inheritance-preparation.png": {
+      "bytes": 109780,
+      "sha256": "4e3b4c1ca44cf2795c2c32eb08018a01c8b3af39bfdb7eada65bba07f065f8d0"
+    },
+    "inheritance-return-preparation.nodes.json": {
+      "bytes": 127890,
+      "sha256": "682b337c972c479a5f5f8183b231435ca2f5c2415f0e0d369b7f5a67e43eb19d"
+    },
+    "inheritance-return-preparation.png": {
+      "bytes": 109780,
+      "sha256": "4e3b4c1ca44cf2795c2c32eb08018a01c8b3af39bfdb7eada65bba07f065f8d0"
+    },
+    "inheritance-return.nodes.json": {
+      "bytes": 25839,
+      "sha256": "2759b12e5509f838dbd62e9f615419eef6769453cb19778a8ee0b0fbea6099f3"
+    },
+    "inheritance-return.png": {
+      "bytes": 837512,
+      "sha256": "ae2b56bfefec05df297b886095dd4d7ddc81189d77d64646a5af232b6223314d"
+    },
+    "inheritance-settings.nodes.json": {
+      "bytes": 137839,
+      "sha256": "6d39108c7caccc315ee0587e204d5c64e3c706700265d5970a33c028b98ae636"
+    },
+    "inheritance-settings.png": {
+      "bytes": 989069,
+      "sha256": "2bd6b53081b7a34b000bf0ee8d8cad9bc603b2880ebeda341526807408c1d227"
+    },
+    "inheritance-start.nodes.json": {
+      "bytes": 15292,
+      "sha256": "7c9577fe95f8ce728c70d1e640d88de0f3a58ba3a7e335eba0df775a93c0450e"
+    },
+    "inheritance-start.png": {
+      "bytes": 38892,
+      "sha256": "77e34fa2a4ec107b156e81d16c9604e0dbc1821e463f78eb51bac68a3fc8b388"
+    },
+    "inheritance-story.nodes.json": {
+      "bytes": 23139,
+      "sha256": "7c1df1628e534e9d90a42a509d479181298aef49c09072c64c08d2f87f0222b7"
+    },
+    "inheritance-story.png": {
+      "bytes": 775822,
+      "sha256": "1ec20831ca4a7287e0d5d1563c1e3e691d91176cb0c9912d185eb3dc8260e9c7"
+    },
+    "inheritance.json": {
+      "bytes": 7776,
+      "sha256": "b6e6664b20523c83f7641093ab573418dca564c9a8fa57f5c5ea34550d3afc92"
+    },
+    "inheritance.log": {
+      "bytes": 1387,
+      "sha256": "23cfb12282450970a95a2c3830524d6151fc5656c98e31e74a3565f1de8b51f9"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 410,
+      "sha256": "fa7b749b98ca207682c0eb766f1d3d2b536125c0b473123cbd3805e55c503fd5"
+    },
+    "repro-explore-action-history.nodes.json": {
+      "bytes": 102614,
+      "sha256": "367d2792cdaa77b1546297418c398158f040c4e03647787b3f14381194bfdb6d"
+    },
+    "repro-explore-action-history.png": {
+      "bytes": 937718,
+      "sha256": "3acee265904478112e81aba4f3e728961e531600ec20e8bc55bad357b1733550"
+    },
+    "repro-explore-deck-child.nodes.json": {
+      "bytes": 186512,
+      "sha256": "3bd51f78b5dc9362f3a3acda0eb4e88e37b89424e19e346bd4e384d29ca8dbd6"
+    },
+    "repro-explore-deck-child.png": {
+      "bytes": 906717,
+      "sha256": "f0a125dd4f5e3604b6f0d855280c80ee7bfbe8c1d449136358aec29db25c8c7c"
+    },
+    "repro-explore-deck.nodes.json": {
+      "bytes": 144537,
+      "sha256": "280a6ac88415786896fc6f2df80ce1e2e292c54cfa44b2dbef0c57751509c979"
+    },
+    "repro-explore-deck.png": {
+      "bytes": 948700,
+      "sha256": "a7890c95622d9771cce9dba72810b658aed0e8300edd34fb6aa58bf6fdfd82ee"
+    },
+    "repro-explore-detail-close-focus.nodes.json": {
+      "bytes": 152146,
+      "sha256": "837651209302dc2e28f39f5426c103f491e4b98f143d953d58aef2f91c2c6ffa"
+    },
+    "repro-explore-detail-close-focus.png": {
+      "bytes": 863841,
+      "sha256": "ddffb713550174110752c889005c581758ce46667020794bc9b059da4871484e"
+    },
+    "repro-explore-detail-close-hover.nodes.json": {
+      "bytes": 152148,
+      "sha256": "1c329887f76aa177371cb6814921efdb566dda46844e846742b9c816979a9ec1"
+    },
+    "repro-explore-detail-close-hover.png": {
+      "bytes": 863390,
+      "sha256": "776c3a247690390eb8ce26d78e410ede97103052bbfdba8cd543e360abf49296"
+    },
+    "repro-explore-detail-close-normal.nodes.json": {
+      "bytes": 152149,
+      "sha256": "2a8646dfde9ceb8033a882b9f2df94795fdce0092a1e7827be1a861fd1af9e65"
+    },
+    "repro-explore-detail-close-normal.png": {
+      "bytes": 863395,
+      "sha256": "2ca77cd7f4a490ccb11ee1d5fa3c5c2f0595b65295ec4d24a85289c12686c284"
+    },
+    "repro-explore-detail-close-pressed.nodes.json": {
+      "bytes": 152147,
+      "sha256": "ac665cac53c9fa3939070cc55eac58b815e325b782661e47ae4d951750fee1d0"
+    },
+    "repro-explore-detail-close-pressed.png": {
+      "bytes": 863660,
+      "sha256": "fa95027c5e7dc99f6ee555e64575636b82f55a47832f75e0172d02d081f6c208"
+    },
+    "repro-explore-drag-field.nodes.json": {
+      "bytes": 121009,
+      "sha256": "4c288cf96d181100295dbd9b6ac6fc49d9ea9e96b17e99ecb0942ad446314b6a"
+    },
+    "repro-explore-drag-field.png": {
+      "bytes": 1044005,
+      "sha256": "c1672579f37ab85ff5b92ab444e057dbed7134b22cecfea063cb7e3619d5e3a8"
+    },
+    "repro-explore-entry.nodes.json": {
+      "bytes": 95348,
+      "sha256": "afb9e3bbd38cf600c492c27e26aaa1d6f68ee674c08ee0378236d9c16471bc43"
+    },
+    "repro-explore-entry.png": {
+      "bytes": 1017240,
+      "sha256": "639a6fe86cc4dd75460647b14cdf762c8db5b3bbcc7f9259ef51ecfcf09b01e3"
+    },
+    "repro-explore-hand-detail-end.nodes.json": {
+      "bytes": 152150,
+      "sha256": "0d065e4271412c47963563d74373792ab50aeed2951f012a66dff3762ebda0b4"
+    },
+    "repro-explore-hand-detail-end.png": {
+      "bytes": 862551,
+      "sha256": "ee00966f08d7c1bfd79c99ee0da9e3a39763ee8754aafa12431c7f30a78e86a4"
+    },
+    "repro-explore-hand-detail.nodes.json": {
+      "bytes": 152149,
+      "sha256": "20c6f1237f4b6c7576d361f128255567eb01c39baa185cfd6567d762b92c1ec8"
+    },
+    "repro-explore-hand-detail.png": {
+      "bytes": 863377,
+      "sha256": "f3967cd2d542e1f79e19e36dc354727eb4bc16d389726c43b54616b75d8d6bb2"
+    },
+    "repro-explore-help.nodes.json": {
+      "bytes": 106365,
+      "sha256": "25c74b165bc856f53c58cfb42e4c29367ba5a6f0d93650ec883afdabe0557ebe"
+    },
+    "repro-explore-help.png": {
+      "bytes": 902970,
+      "sha256": "9230fbe308b2d3d42f75713a8c8976d9f60222d0f82577e2de72d326478461f3"
+    },
+    "repro-explore-history.nodes.json": {
+      "bytes": 107148,
+      "sha256": "2f69d8569b2bfb501e0ac627ea5ecfbc6021e8972c308c240e12b3066b1d218c"
+    },
+    "repro-explore-history.png": {
+      "bytes": 885587,
+      "sha256": "4572e52d62deeb5f4fd0c84041a1ddbf36a37c41785cddc0549c1017aad0256a"
+    },
+    "repro-explore-hold-cue.nodes.json": {
+      "bytes": 114609,
+      "sha256": "72f2e204f9d2499cd8e02f4ebd327afaa455cf86d5cfe98271256f4c7848454b"
+    },
+    "repro-explore-hold-cue.png": {
+      "bytes": 1035264,
+      "sha256": "23eeea29556df527b813fd9ab6a7b35f79949d024dc6dd0100339dc3f07abadd"
+    },
+    "repro-explore-known-card-child.nodes.json": {
+      "bytes": 162452,
+      "sha256": "6a43efbdbcaf6ef5424346afa7740932992a908d48dad0def050b72f96edd9f8"
+    },
+    "repro-explore-known-card-child.png": {
+      "bytes": 756148,
+      "sha256": "f60636d3827257886a4db577ed61cb22e08f5d39521f2c9e3efb0ea384961345"
+    },
+    "repro-explore-menu-action-history.nodes.json": {
+      "bytes": 112541,
+      "sha256": "f0a657220b6d4ff0178fe6f315177792f0be6a8a202b64993f4dad91dc0c8320"
+    },
+    "repro-explore-menu-action-history.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-deck.nodes.json": {
+      "bytes": 112541,
+      "sha256": "d0835abaa477075ee1f286cd70ec620ea2d94b74b26741fc1c2f346448772377"
+    },
+    "repro-explore-menu-deck.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-focus.nodes.json": {
+      "bytes": 95345,
+      "sha256": "390a0c0e81d6d405bd0e3855a9201d003e937b31372c5338893a80766aef003c"
+    },
+    "repro-explore-menu-focus.png": {
+      "bytes": 1017906,
+      "sha256": "22fae12a535ca1d295b731df1a052fcfca389d875a23bc7a630821f4e1b2be42"
+    },
+    "repro-explore-menu-help.nodes.json": {
+      "bytes": 112540,
+      "sha256": "531aba0988ab623e69074badab1ea4a67d00655439af6a62bc263555df700af9"
+    },
+    "repro-explore-menu-help.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-history.nodes.json": {
+      "bytes": 112541,
+      "sha256": "8c681dc923c2d659d184dbbc1035ee26301f8c1de24a4b52febaace908c2a2eb"
+    },
+    "repro-explore-menu-history.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-hover.nodes.json": {
+      "bytes": 95347,
+      "sha256": "c6152c24e32a46d6f5bd9cc81d5c7c6d296ca088058cbf27d3f9342021500909"
+    },
+    "repro-explore-menu-hover.png": {
+      "bytes": 1017345,
+      "sha256": "da56863b94465866e24ee7fae61396c810422efc90568cdfc279a5b6c151b7ee"
+    },
+    "repro-explore-menu-normal.nodes.json": {
+      "bytes": 95348,
+      "sha256": "27c32e4facaf94eae153dc12684f99e344da49c5f239bd9f526dc2c8796667e3"
+    },
+    "repro-explore-menu-normal.png": {
+      "bytes": 1017214,
+      "sha256": "f5f08d71a9db12d189f0cde7e1f685122170577576610ca83aa0ac18d1ea4cb6"
+    },
+    "repro-explore-menu-objective.nodes.json": {
+      "bytes": 112541,
+      "sha256": "2d1f973d6dc594fc17a7fdd83a114641549b735a77dfebc6ecb427c6b9d47279"
+    },
+    "repro-explore-menu-objective.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-operation.nodes.json": {
+      "bytes": 112540,
+      "sha256": "4c7e6e0538f666c5536119f12aa29dd80edfe8fc815d1f55b013edfb02bb8e9e"
+    },
+    "repro-explore-menu-operation.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-order.nodes.json": {
+      "bytes": 112541,
+      "sha256": "be8700eb0fe1bea8ba489c745e3ea6e4841ea724fa5398d2a839cc8e1d7653ff"
+    },
+    "repro-explore-menu-order.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-pressed.nodes.json": {
+      "bytes": 95346,
+      "sha256": "2880e5ea68325f7d57016f1d14669beb6fe6aa775c4159a08a0d8a816bf7c158"
+    },
+    "repro-explore-menu-pressed.png": {
+      "bytes": 1017857,
+      "sha256": "a4bf43791d7cec26400f292623bbb893da7d8c25cb1f11ac5bad0c9948d680f3"
+    },
+    "repro-explore-menu-save-data.nodes.json": {
+      "bytes": 112541,
+      "sha256": "9cc20ba71748537ac1d29869071532aba7469f79884196539fb92125d2b347c5"
+    },
+    "repro-explore-menu-save-data.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-settings.nodes.json": {
+      "bytes": 112540,
+      "sha256": "3ae3f0319ed83224b45f741302f6a7e11566cfdba95e62a95d284e888c8f0b30"
+    },
+    "repro-explore-menu-settings.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-menu-status.nodes.json": {
+      "bytes": 112541,
+      "sha256": "82a8beef189047ea5795e1a1744a14f059c27cd49cdcbcd5c5c6f0cc9b4674fe"
+    },
+    "repro-explore-menu-status.png": {
+      "bytes": 851174,
+      "sha256": "caffe83fb485a49d4b27c5fe01ccae9edeb72bec4377b421119c70baff920e5b"
+    },
+    "repro-explore-objective.nodes.json": {
+      "bytes": 103637,
+      "sha256": "5b77cb8601a823c97fe894c0016fc2b4b7d79bd95f42b9c04506f7483f610a08"
+    },
+    "repro-explore-objective.png": {
+      "bytes": 969742,
+      "sha256": "a96ab228f7c40d5e716408a4dbe4fac68f19e0c22aad10e564556834df708801"
+    },
+    "repro-explore-operation.nodes.json": {
+      "bytes": 117320,
+      "sha256": "86fc9d5f01b04e2d6bd5623299bc7dcd6bbb5e8a253311593043594b17bf5f61"
+    },
+    "repro-explore-operation.png": {
+      "bytes": 987155,
+      "sha256": "402cc89cb97d24ce505fa74aed492e441e70fa9470f1ed8018ab80869e2a5c1e"
+    },
+    "repro-explore-order.nodes.json": {
+      "bytes": 104410,
+      "sha256": "83c3c3d9598855503fbab736798e931dd569c7e523a614e838e2189b7c3cc16c"
+    },
+    "repro-explore-order.png": {
+      "bytes": 945037,
+      "sha256": "a7b9ebea6cdfc14fa9556369deb9b45f160f3c7ba448fb8a31a31837598395bc"
+    },
+    "repro-explore-play-focus.nodes.json": {
+      "bytes": 134928,
+      "sha256": "f11d44b33357ca52762753b7bc038b7f8b3dc3a1e015c94dab1db8d4f4503f85"
+    },
+    "repro-explore-play-focus.png": {
+      "bytes": 873405,
+      "sha256": "70b60837ba8982038ce69bf422c59ef3cba2de8ad1773c8f700b6624cbe29e0f"
+    },
+    "repro-explore-play-hover.nodes.json": {
+      "bytes": 134930,
+      "sha256": "d0fffd510bb0d08713658c81072fdc7cce86c24ead4ea0bca09f6639fb6cb8e8"
+    },
+    "repro-explore-play-hover.png": {
+      "bytes": 873257,
+      "sha256": "9544b7b41476fdd5921071f08e5d947ce25b6b64a5fe7f0c9d0c223761d8f7d8"
+    },
+    "repro-explore-play-normal.nodes.json": {
+      "bytes": 134931,
+      "sha256": "9b42e11d83a5a759acde22d5199a92128b1427c9f6c4c5c57a7b28da28ac27ab"
+    },
+    "repro-explore-play-normal.png": {
+      "bytes": 873209,
+      "sha256": "4e0cc994f6ecbe6b05ff13e942d196bb8b76c9d771a2703ab739a6776ee4ee27"
+    },
+    "repro-explore-play-pressed.nodes.json": {
+      "bytes": 114593,
+      "sha256": "d087df1c3cf24ac3d50151819fb169cfb2473ef554b1734426e21b8f16622f29"
+    },
+    "repro-explore-play-pressed.png": {
+      "bytes": 1031211,
+      "sha256": "b82bbf01942665057542db92dc533e93241016d4b217944f15bc62bd3173a499"
+    },
+    "repro-explore-prediction-end.nodes.json": {
+      "bytes": 134937,
+      "sha256": "1ee6a340a22e82a57300cc72c0e469f18719f2234ecfe9ceb4db2a1ac494d3b5"
+    },
+    "repro-explore-prediction-end.png": {
+      "bytes": 873601,
+      "sha256": "99c38c367b1e7f6b3723e4832dfbe50b0217a7359c2fdcb197b3b5c15d7e2f70"
+    },
+    "repro-explore-prediction.nodes.json": {
+      "bytes": 134937,
+      "sha256": "65323d1610e0c02436d29a8dd22f56bee8d43ae4b99451dcc480c0dd8b6e893c"
+    },
+    "repro-explore-prediction.png": {
+      "bytes": 873601,
+      "sha256": "99c38c367b1e7f6b3723e4832dfbe50b0217a7359c2fdcb197b3b5c15d7e2f70"
+    },
+    "repro-explore-preview-focus.nodes.json": {
+      "bytes": 134929,
+      "sha256": "80a1b4e40834a763a7fe6cdae991f4a0be26c88ff6f5b17975432a3086f15304"
+    },
+    "repro-explore-preview-focus.png": {
+      "bytes": 873434,
+      "sha256": "fe7165bd5dab6a6585339033601580e4e2b4b3ce3fa2bd906cc86ce83b2deba1"
+    },
+    "repro-explore-preview-hover.nodes.json": {
+      "bytes": 114594,
+      "sha256": "3c57b9acb04a907a42572b158e24e0177081ec516dc88668cf03caf0ef875fd1"
+    },
+    "repro-explore-preview-hover.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-explore-preview-normal.nodes.json": {
+      "bytes": 114595,
+      "sha256": "baaf9521b320b6bd09329d51171f63704da882066d15068c4b10b143e4bb11c5"
+    },
+    "repro-explore-preview-normal.png": {
+      "bytes": 1029015,
+      "sha256": "868b406ce8d8a23e9ec8c7a3c6bf857c832c3c2e3dbc4bf60fb34b74675c2983"
+    },
+    "repro-explore-preview-pressed.nodes.json": {
+      "bytes": 134929,
+      "sha256": "d170248b4f9886360b765791fac4743b41b16acc5095f91913ce13c4bfef9af5"
+    },
+    "repro-explore-preview-pressed.png": {
+      "bytes": 873605,
+      "sha256": "6d21686fa878d828af6bfc25fad67120ed5525f1c7e5af186a6ada25fa0bd0bd"
+    },
+    "repro-explore-public.json": {
+      "bytes": 29189,
+      "sha256": "78d409c4f8af4b2dfbd665bbc1d5063534882ee51eebc47245697ca0822ef1e5"
+    },
+    "repro-explore-records-card-child.nodes.json": {
+      "bytes": 154444,
+      "sha256": "ebd8c19dcc4751bab0a2c6d3a4152a2a249821df73e7d46af441a2cd4c5d6a01"
+    },
+    "repro-explore-records-card-child.png": {
+      "bytes": 770041,
+      "sha256": "0591ca502564a5ccdb614a5ac0cb11217ee70ce01a7ee4480f905ae5814bc3fc"
+    },
+    "repro-explore-records-cards.nodes.json": {
+      "bytes": 120348,
+      "sha256": "6ffbe31108ca14e49b8748b1265e7f7317e703351d7abe082f6584a1aec33e06"
+    },
+    "repro-explore-records-cards.png": {
+      "bytes": 845124,
+      "sha256": "cb491124a57a7728111ad679cba5956c2e091a3f52c284e9d7f37e6bc6e4fbf0"
+    },
+    "repro-explore-records-current.nodes.json": {
+      "bytes": 125491,
+      "sha256": "bf920ed4716cdf698483f3354be48163b31e1fb7d9dbf02ccd0752bfc667c958"
+    },
+    "repro-explore-records-current.png": {
+      "bytes": 777851,
+      "sha256": "fd5bd024508891c8c59c0d8ea63b4dc6d61700dadd868c8a8973486aee44aaa9"
+    },
+    "repro-explore-records-targets.nodes.json": {
+      "bytes": 109903,
+      "sha256": "58afa19b8d2151a1559588b7ee663decfae6d2e5ab70f6f021d335a9d6f2e369"
+    },
+    "repro-explore-records-targets.png": {
+      "bytes": 859684,
+      "sha256": "8bbc52062927d4a2df34e1375958e0175351b3f1ceda0c174c78ffa649186ebd"
+    },
+    "repro-explore-reduced-motion-focus.nodes.json": {
+      "bytes": 101802,
+      "sha256": "decf040783f7af04096a97d6d40436125ef9031969cb343e523a450213ec52ee"
+    },
+    "repro-explore-reduced-motion-focus.png": {
+      "bytes": 822476,
+      "sha256": "e88b6aed86e1356abe25d40b3bb9634ccc01719bba1eab31690053d4ac1a955d"
+    },
+    "repro-explore-reduced-motion-hover.nodes.json": {
+      "bytes": 101804,
+      "sha256": "6c584297025e52172e96f165738563c1b0b6a9e93ffb5c463fb83ba7bf48d9d5"
+    },
+    "repro-explore-reduced-motion-hover.png": {
+      "bytes": 822453,
+      "sha256": "77ab3a6d97c2fff73eaacc5f87100186df73b6da75713fbcc6dcfa5354668b6a"
+    },
+    "repro-explore-reduced-motion-normal.nodes.json": {
+      "bytes": 101805,
+      "sha256": "dd5329c263e60e7380ceac7f591a9555299c845f9a2042ade2baad5dd32df936"
+    },
+    "repro-explore-reduced-motion-normal.png": {
+      "bytes": 822436,
+      "sha256": "a84bda1b5145045d9ace4d403bc902a7f487a545cfad075176912884f47cccf5"
+    },
+    "repro-explore-reduced-motion-pressed.nodes.json": {
+      "bytes": 101804,
+      "sha256": "a4f170ba8b0d7a263711281344898ad7baf983ab81ea7f6b7922c6e12ed793f8"
+    },
+    "repro-explore-reduced-motion-pressed.png": {
+      "bytes": 822476,
+      "sha256": "e88b6aed86e1356abe25d40b3bb9634ccc01719bba1eab31690053d4ac1a955d"
+    },
+    "repro-explore-reduced-motion.nodes.json": {
+      "bytes": 102380,
+      "sha256": "b275f993e5a99486b0be08aa8777a8e52ad2053ff0352cc901d0d2200be84af2"
+    },
+    "repro-explore-reduced-motion.png": {
+      "bytes": 822488,
+      "sha256": "3518a7d70a22aa20a7073a9709c79a3c5c6ea0455895cc9ccb9c925dc8cbae03"
+    },
+    "repro-explore-save-data.nodes.json": {
+      "bytes": 102949,
+      "sha256": "15a13a757350cb258b30e158cf947b0aad5600eff692cda7bcb5a11a56803511"
+    },
+    "repro-explore-save-data.png": {
+      "bytes": 855832,
+      "sha256": "8a717830cb7a2881fbc1b89312e3c20c8a1a605bb31234f7bfcef6db38eea5b2"
+    },
+    "repro-explore-selected.nodes.json": {
+      "bytes": 114595,
+      "sha256": "b22fe2bfc724c3f6ddf9d624c3d3d2aeaddbe5607d16d71c66d4c6f1fd083b4a"
+    },
+    "repro-explore-selected.png": {
+      "bytes": 1029035,
+      "sha256": "24965e35cd9a908f44e9aac7cf933a33df0eeaf829808aa306d3ec737c95314e"
+    },
+    "repro-explore-settings.nodes.json": {
+      "bytes": 101805,
+      "sha256": "fb61d45cd52d42396446038b19a34bcc05103c2182347a819c824df746d7fc21"
+    },
+    "repro-explore-settings.png": {
+      "bytes": 822453,
+      "sha256": "77ab3a6d97c2fff73eaacc5f87100186df73b6da75713fbcc6dcfa5354668b6a"
+    },
+    "repro-explore-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "77c3a5066f2d24155ac29218bbdb538f0dee74e5f39d4cc141d4902e88c507ab"
+    },
+    "repro-explore-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-explore-status.nodes.json": {
+      "bytes": 109110,
+      "sha256": "81eb3a500fb756d777eb20f26a46adc3b2edd0be4eadb39085b1298e430ed66c"
+    },
+    "repro-explore-status.png": {
+      "bytes": 955120,
+      "sha256": "ca41c9b91765579c51b731709dfece8cde6163ed8bb76b3f8cce2f9942f96119"
+    },
+    "repro-explore-unpinned.nodes.json": {
+      "bytes": 134931,
+      "sha256": "cc5618fde90ca72140c2989d09bab2535a1336489ed9643e4464ae38d8c2c8ed"
+    },
+    "repro-explore-unpinned.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-explore-window-pin-focus.nodes.json": {
+      "bytes": 152746,
+      "sha256": "9f8ba24056460bd602315cf7c613aacb57e03e4d36835e0570d326a5ae66b622"
+    },
+    "repro-explore-window-pin-focus.png": {
+      "bytes": 866936,
+      "sha256": "273218f4096806416ca6b8659d2568660c3266b5bc8503b77d3ef4d5f2c8fafa"
+    },
+    "repro-explore-window-pin-hover.nodes.json": {
+      "bytes": 152148,
+      "sha256": "830f03761fd306156856998d68984076f85b3254fdd022f7d04ae863afbf320e"
+    },
+    "repro-explore-window-pin-hover.png": {
+      "bytes": 863266,
+      "sha256": "745447f1d0b5cfc3a925976b4baec25c7ea6ee3d55d1389fa7ecbb5e30c35b31"
+    },
+    "repro-explore-window-pin-normal.nodes.json": {
+      "bytes": 152149,
+      "sha256": "626c68d362ab8511f91de85110ade6400bb28356e2bf02ec74e9dbf233d68358"
+    },
+    "repro-explore-window-pin-normal.png": {
+      "bytes": 863395,
+      "sha256": "2ca77cd7f4a490ccb11ee1d5fa3c5c2f0595b65295ec4d24a85289c12686c284"
+    },
+    "repro-explore-window-pin-pressed.nodes.json": {
+      "bytes": 152147,
+      "sha256": "8993414ea0a8a87025d715142d8d5b15d81a7b928c9e4a1bd9d46452b91f3b21"
+    },
+    "repro-explore-window-pin-pressed.png": {
+      "bytes": 863556,
+      "sha256": "3c81e9b1e4bb5ff07106a6b45f1c77aad431aafb774c04c6b3c09e74705ef9cb"
+    },
+    "repro-explore.json": {
+      "bytes": 3849,
+      "sha256": "e7a6a5eeb896284fc8c19509b15846d854487fe589a97957e4939dfb58a70e1f"
+    },
+    "repro-explore.log": {
+      "bytes": 1661,
+      "sha256": "529e6a4bc3f40e6f8f42123b0742c8d1d07604073316efd45730cd999e548a18"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    },
+    "review-order-tie-R05-order-strip.nodes.json": {
+      "bytes": 116451,
+      "sha256": "4bf7e7fb6a94fa0840f6e94a27e762824dd00269e50a098f876da21dde97938f"
+    },
+    "review-order-tie-R05-order-strip.png": {
+      "bytes": 1021088,
+      "sha256": "28e5e8853e358b0b21dbfe483b04d8d14cb0c8f27e86600c9223c7fc7cf6d9cf"
+    },
+    "review-order-tie-R05-reservations.nodes.json": {
+      "bytes": 130963,
+      "sha256": "1f4e52230862d44834d271563c6730824ff4b0e24423c11fe430d96937107cc5"
+    },
+    "review-order-tie-R05-reservations.png": {
+      "bytes": 861274,
+      "sha256": "2a16cbf60257e60c8a080c45de7a8320e3a876e393b35f315c9192fc94bb5925"
+    },
+    "review-order-tie-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "c65dbc0b852b5181a056f93804c4f90bf2e5e896b15d722e39eb0edfe09bf39d"
+    },
+    "review-order-tie-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-order-tie.json": {
+      "bytes": 4438,
+      "sha256": "e486c160b3f834a6a259b8e8182ac89b8924c9e1b2a20885a5271b188b71fc1e"
+    },
+    "review-order-tie.log": {
+      "bytes": 425,
+      "sha256": "f8cd83f1a395693e32283ae4c20d9f06a52bba0cb51434c3192f931bc2c87a19"
+    },
+    "review-prediction-attack-R03-prediction-bottom.nodes.json": {
+      "bytes": 119693,
+      "sha256": "f3f16693104618249a22b2a59da01069d437e7dca0ca45b2bdc128ab3835eb1c"
+    },
+    "review-prediction-attack-R03-prediction-bottom.png": {
+      "bytes": 823157,
+      "sha256": "3fd37edadc4390294daac9a51ca6bce73e22b9e00ec532130a103ca7382ac440"
+    },
+    "review-prediction-attack-R03-prediction-top.nodes.json": {
+      "bytes": 119693,
+      "sha256": "99b17b5604cfec1842a08c7227c5bf3ba076f435f44aa0940542dd06cff31f4c"
+    },
+    "review-prediction-attack-R03-prediction-top.png": {
+      "bytes": 823157,
+      "sha256": "3fd37edadc4390294daac9a51ca6bce73e22b9e00ec532130a103ca7382ac440"
+    },
+    "review-prediction-attack-R03-self-and-actors.nodes.json": {
+      "bytes": 98747,
+      "sha256": "97bad18e98f7f424d1ec40b1e9a0d703483f006cc4c1b06547110b1f9aa311a4"
+    },
+    "review-prediction-attack-R03-self-and-actors.png": {
+      "bytes": 976801,
+      "sha256": "411d3f2b81ba99ac2b7efd43969457eab1f736a1c21d7e9ff8e97505ed0c62b3"
+    },
+    "review-prediction-attack-R04-hand-detail-bottom.nodes.json": {
+      "bytes": 136305,
+      "sha256": "d778b6478b536bb6e95d302293bcbd31de36493a58beeafaaecd67c1307b63b1"
+    },
+    "review-prediction-attack-R04-hand-detail-bottom.png": {
+      "bytes": 807972,
+      "sha256": "2ebea69886d45ab455b9996105aefbb227df1f0b766c21eb8fb0badb451231b4"
+    },
+    "review-prediction-attack-R04-hand-detail.nodes.json": {
+      "bytes": 136308,
+      "sha256": "2def86092d8e4fb46d65e8c8d60d27aaa468166355cc73c06d27fe7fc0188e94"
+    },
+    "review-prediction-attack-R04-hand-detail.png": {
+      "bytes": 806137,
+      "sha256": "3a37a0006669bcf57a95d7d8124ed5d3de25a0fd204968b344d11d7ec10ee4bb"
+    },
+    "review-prediction-attack-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "f1c8a944f72c5a7bf8f6688aca51abc8fbda73b98bd70dc3be548f995c9309f7"
+    },
+    "review-prediction-attack-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-prediction-attack.json": {
+      "bytes": 13909,
+      "sha256": "56238b309f51f380a5be29b2c9c301b048bffe93e7f667f969e4dde390b4ce54"
+    },
+    "review-prediction-attack.log": {
+      "bytes": 460,
+      "sha256": "cd75aecec8d710c17978a8c777c78b52d8157c58fbded632e6c81d1105d4a0ff"
+    },
+    "review-prediction-place-R03-prediction-bottom.nodes.json": {
+      "bytes": 140482,
+      "sha256": "3feb0dca468f5be47d2a30f59fc9ff7d947d72a2b7abfa223b2b0c4ad42e5f50"
+    },
+    "review-prediction-place-R03-prediction-bottom.png": {
+      "bytes": 825856,
+      "sha256": "7bb95cbf6f89c694758ade827cc2116526ce1f199ec6c0821692307f73f4d3e8"
+    },
+    "review-prediction-place-R03-prediction-top.nodes.json": {
+      "bytes": 140482,
+      "sha256": "c05d5a705bc5139dff380f574a1c2b658ee3c3eeb70d72efa73e6cbb1146c22d"
+    },
+    "review-prediction-place-R03-prediction-top.png": {
+      "bytes": 825856,
+      "sha256": "7bb95cbf6f89c694758ade827cc2116526ce1f199ec6c0821692307f73f4d3e8"
+    },
+    "review-prediction-place-R03-self-and-actors.nodes.json": {
+      "bytes": 125243,
+      "sha256": "39eaf6eb7615cfd11c677c0d33ea1ed2bf7722eb81b13437972cbce4d707a943"
+    },
+    "review-prediction-place-R03-self-and-actors.png": {
+      "bytes": 973372,
+      "sha256": "64799f48869625ef7578066e9c594b3c9673eccbf39d4af1fe8ebdb0b70b2770"
+    },
+    "review-prediction-place-R04-hand-detail-bottom.nodes.json": {
+      "bytes": 161587,
+      "sha256": "e64bde4c64bb91841530795f9c85e27be2d3cc1a04070a478c8c60524cf70673"
+    },
+    "review-prediction-place-R04-hand-detail-bottom.png": {
+      "bytes": 810459,
+      "sha256": "c193f6fa94a8409418b5df585b5c0652de50b2f6dd545812b0442d70268df6ba"
+    },
+    "review-prediction-place-R04-hand-detail.nodes.json": {
+      "bytes": 161587,
+      "sha256": "c88c3a101535f7da116b1cf25ffb1cbe265f63d347b82cac48b773e21ea4a28c"
+    },
+    "review-prediction-place-R04-hand-detail.png": {
+      "bytes": 810459,
+      "sha256": "c193f6fa94a8409418b5df585b5c0652de50b2f6dd545812b0442d70268df6ba"
+    },
+    "review-prediction-place-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "cc4b253b4cbaf9b999bab0a100d29932428781ebfc8f4bb8bfd6b6a3100d6e07"
+    },
+    "review-prediction-place-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-prediction-place.json": {
+      "bytes": 12246,
+      "sha256": "7fa8b756da7337087a9007f9caa0488ba29e8705e9de309398545a489903ada3"
+    },
+    "review-prediction-place.log": {
+      "bytes": 396,
+      "sha256": "3aab436c9b15cc5b46acf3b14371983394fbeb8915c7e6dca2bfa80dac268617"
+    },
+    "review-safety-consume-R01-after-drop.nodes.json": {
+      "bytes": 120334,
+      "sha256": "2f934d25ac7bd596ee8e1614b631d62bd7c6b72f4713e7bcb5d4598de304bfc0"
+    },
+    "review-safety-consume-R01-after-drop.png": {
+      "bytes": 770620,
+      "sha256": "811ae285d0f7d0652946de992d39c0276178f8f9b1423169c581a63ffb03a075"
+    },
+    "review-safety-consume-R01-before-drop.nodes.json": {
+      "bytes": 105236,
+      "sha256": "3c2c4cf099a0a1d497ebe647680bc744c7302dac25fdb5a7bb5ced6061824553"
+    },
+    "review-safety-consume-R01-before-drop.png": {
+      "bytes": 926962,
+      "sha256": "536b38fe0edf6d321437f4543c5d2e6f596cf0924f49b8da70bde796ca7258a5"
+    },
+    "review-safety-consume-R01-confirmed.nodes.json": {
+      "bytes": 101241,
+      "sha256": "3bedb811b548991cd1a74bb91cb4b87bba43f0b113f0fc7c876a43e15e825d1c"
+    },
+    "review-safety-consume-R01-confirmed.png": {
+      "bytes": 903126,
+      "sha256": "69eaa0fb7b7a0f9bd15325d182c5cf19e54676999577c57e95dfea7bdd0a8559"
+    },
+    "review-safety-consume-R01-expiry-and-order.nodes.json": {
+      "bytes": 120334,
+      "sha256": "853751d5b82e3ffe2bd5fb8a7a3dda16957d9f0ea5c357b8e527f58cc678ee27"
+    },
+    "review-safety-consume-R01-expiry-and-order.png": {
+      "bytes": 770620,
+      "sha256": "811ae285d0f7d0652946de992d39c0276178f8f9b1423169c581a63ffb03a075"
+    },
+    "review-safety-consume-R04-destruction-detail.nodes.json": {
+      "bytes": 134685,
+      "sha256": "9a47da6da7513a0fae1d4c0c2f8d3caa039d1228b7eaf4ae310081a5fe680939"
+    },
+    "review-safety-consume-R04-destruction-detail.png": {
+      "bytes": 775337,
+      "sha256": "3d9d9bb614262c5f845d3f9b062a18b9979e413478f05159a8e5cc5a9c560f8e"
+    },
+    "review-safety-consume-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "e60156cbe0bd8121ff8adda7cbe8275547de13826f51d9ace1078f10449904aa"
+    },
+    "review-safety-consume-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "review-safety-consume.json": {
+      "bytes": 15531,
+      "sha256": "efdc4b79c6fe665859cc067188ec870a0cb08ea85c39da38710671c9e444cd46"
+    },
+    "review-safety-consume.log": {
+      "bytes": 394,
+      "sha256": "c44f517879b13de99c9a75eb23528e001b32110ff1c6f5ca1b791dc1cd26b4e7"
+    }
+  }
+}

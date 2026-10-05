@@ -1,0 +1,432 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "theme": "light",
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "inheritance": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=inheritance",
+        "--ui-slot=ui-90873d81e8154c75-inheritance",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\all-sites-fifth",
+        "--ui-theme=light"
+      ],
+      "exit": 0
+    },
+    "review-preparation": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=review-preparation",
+        "--ui-slot=ui-90873d81e8154c75-review-preparation",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\all-sites-fifth",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\review-20261002\\fixtures-fixed\\fixtures\\review-preparation.json"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-90873d81e8154c75"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "inheritance": {
+      "status": "passed",
+      "process_id": 43104,
+      "checks": 36,
+      "commands": 0,
+      "final_revision": 4
+    },
+    "review-preparation": {
+      "status": "passed",
+      "process_id": 34332,
+      "checks": 24,
+      "commands": 1,
+      "final_revision": 158
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "8416120256f8a63cf8ce6da6a1730494f17ccf297e260b33d543746635d7d107",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs.uid": "fe2dbb3780846a23e9c0fd3b41309b0f03555fd1cc2f8cd038fa305a6ffbeb14",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "695741deed8130076713bcf94efe8507efc5b1d106cdc4646b91403b4dd3b2c6",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs.uid": "495e007ffd25c2375fde5385505458c146ebcd78f443e80f720e10c8d14fd0ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "c189ffc2b67ae6eb21322f5f5305b238d2681b7b263817adf5cc66491bccc4fa",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs.uid": "c90628908ad0cb4493320e0f258393cb615ae4be0544920633f366c01990e5b8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "8f4fe664206ec90c2982907637890b9ecdaf7b81c3ba110b3c4e5796e4f246e5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "36b612628c95d9d2709f7c89164a83472270d310eb316ec9a1caa3b4cb73b084",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "ec9a34a03aa9979aebf10bfb1a80c41cafd7c7871bff26cb63c258358c7367e1",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "97672a17519f53a1e27e74c94b39f3b9427614fe1b3f228a12652a35757e5d55",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "1ea4d3b08339a14312670a254afa4eb09bc69049e69ae534d54d0dab2f43c651",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "390c5711cc391146ff39b1271ff48e3971d7f418a00f30c5a8c7a34506a8de37",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "1b037df5bb14d2fa0f51bf88a81b84a7679f84b6c0e974f2b4e3a1259215eef7",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "ec28dab956483da177fb163a4a4b947a8f9a6f50ba9cbc1192a878e116a75966",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "4d21640be1d1f0f9ddb9d20248d8fb8cf7f26fdd3b0ffc264635a9fbd236317f",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "fbacbb11ce7cddf01fb1c8ac664a01a205cf81806cd2a9d1f92524a1c1f5f9fd",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Core/Application/UiPublicProjection.cs": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3c45ab9c6d2188b5cf321fa20f97194a0a5c66db87383d0bdffe774837c9de93",
+    "apps/crossweave-godot/UiProbe/verify.py": "56798881d7443082664c6a51382b1bafb6eb793c7ea5b353e134ad06b69d8d0b",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "review-preparation": "b2d405487c01fa03f5347df9d1db8ae82754740efedf62dbeb3a87e1f50bd5f5"
+  },
+  "source_changed_during_run": [],
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "f25dfb906863a33d136d59be0622491780140031d6780c4e1057ac4441377119"
+    },
+    "import-ui.log": {
+      "bytes": 2005,
+      "sha256": "6b6d95bfa81c78690b6242bfd97d313ed6e0a5079ccc3c45267e7757150558b9"
+    },
+    "inheritance-action-history.nodes.json": {
+      "bytes": 92675,
+      "sha256": "648b4246857f6b90a9ddeb5f8d0c47906eedb745fe2a62e0aba8d519e13c65c2"
+    },
+    "inheritance-action-history.png": {
+      "bytes": 853821,
+      "sha256": "f08a2279636377fd3e9691a0ead5b3915910a201b23949db2eb1409632b8284c"
+    },
+    "inheritance-deck.nodes.json": {
+      "bytes": 127891,
+      "sha256": "73ed21e4a6842bf4d27f019377aee18ded2b6a05d101a941131e6b6dfb993034"
+    },
+    "inheritance-deck.png": {
+      "bytes": 859820,
+      "sha256": "2961595c4494bab5bca4863227161c5ec86bdff560ba8c271dbe1c59861a7692"
+    },
+    "inheritance-exploration.nodes.json": {
+      "bytes": 79734,
+      "sha256": "32252d708a0c92d409f9946a5b21125c490e41b275ee4e5462811cf5c22a6383"
+    },
+    "inheritance-exploration.png": {
+      "bytes": 1023485,
+      "sha256": "6eccbe4b026af9834bffe73b9ced9bf96afbe062ed7dcf03158e94a0a4c5e47d"
+    },
+    "inheritance-forecast-detail.nodes.json": {
+      "bytes": 117662,
+      "sha256": "a28118ac3975c8a45f2c4b8b8a65522b118d18d479896d4eb0e8872977e18689"
+    },
+    "inheritance-forecast-detail.png": {
+      "bytes": 977470,
+      "sha256": "74bc0ed01e914a55ff61b95226c787e5866fad8af5eea997cc53a8ceeff9670a"
+    },
+    "inheritance-hand-detail.nodes.json": {
+      "bytes": 117730,
+      "sha256": "b3dfe4872649ec38c79886b48fe16e3f9dc0ab067c578ecfcffc86086e208d80"
+    },
+    "inheritance-hand-detail.png": {
+      "bytes": 863346,
+      "sha256": "bbdb3db57dc2a68832d595230a21b26940a1a8745cae8eb5c1176303e78ebddb"
+    },
+    "inheritance-hand-drag.nodes.json": {
+      "bytes": 92937,
+      "sha256": "d019714d69cf352f9079db59b54b5e0bacb16746c7364e1c49a09d72ba4e3c6b"
+    },
+    "inheritance-hand-drag.png": {
+      "bytes": 1044731,
+      "sha256": "475cf99d689787a8bbda269adc0dfd1d9f2f5cceb9d01d5c4333fd9f42d0b8b1"
+    },
+    "inheritance-home.nodes.json": {
+      "bytes": 17015,
+      "sha256": "6c4da53564e77bb4547dddf9752e22a60a6710a739c757e6d300f2d5b4f6e073"
+    },
+    "inheritance-home.png": {
+      "bytes": 889919,
+      "sha256": "a1a4c943d161ad2102278852a17eb904a3055b0ffabe1389fca64403ba6b3903"
+    },
+    "inheritance-knowledge.nodes.json": {
+      "bytes": 111639,
+      "sha256": "31dd9f748bd8420241ad2767cc59f743c623077b6cedc4cecd7873fafef8320f"
+    },
+    "inheritance-knowledge.png": {
+      "bytes": 792817,
+      "sha256": "3b7ff303e9ea081c6e4a22fc54af96af1db97fe058a67de2c4b8a66850875767"
+    },
+    "inheritance-menu.nodes.json": {
+      "bytes": 96846,
+      "sha256": "6e97c7f7238b6455683ea1acd2ced58e30e22a71dac560d39f6f49bdb9944115"
+    },
+    "inheritance-menu.png": {
+      "bytes": 857742,
+      "sha256": "8109039a34c1ba7aec0399dd1ed77d76a6d0b0bf674a9ead812eb7f1b8e27a4e"
+    },
+    "inheritance-order-detail.nodes.json": {
+      "bytes": 101529,
+      "sha256": "c4b0a65797ec44934cdae891401bc44c66fcb9be573954893c007d3fa72017b9"
+    },
+    "inheritance-order-detail.png": {
+      "bytes": 942687,
+      "sha256": "e1a223188a91f640fe9743bdbbe8193141ffc7b7f135255f0cbcf10c70c7f8ac"
+    },
+    "inheritance-passive-details.nodes.json": {
+      "bytes": 72035,
+      "sha256": "4084018d90b6302c18e68bfb774a8b509a58e7145925b502eae37c4992ae1564"
+    },
+    "inheritance-passive-details.png": {
+      "bytes": 125961,
+      "sha256": "57d055668a68a6c92dea015e73d6f756cbdf12bc21560fd58c5f451ca2e97380"
+    },
+    "inheritance-pending-unpaid.nodes.json": {
+      "bytes": 50693,
+      "sha256": "fb298fd2f1be842e42c7dc86043f3e1cc21d6b2a49461f905eefe1003d58bf5d"
+    },
+    "inheritance-pending-unpaid.png": {
+      "bytes": 89176,
+      "sha256": "c3efcc48a8e43a844b2667102e131c20f5ff91f6522c29e4fcf96188a13b7c54"
+    },
+    "inheritance-prediction.nodes.json": {
+      "bytes": 102200,
+      "sha256": "cbe22ba9dee1511573091583c3d2629b96e46b14b0e9aa573b522440bc693028"
+    },
+    "inheritance-prediction.png": {
+      "bytes": 885469,
+      "sha256": "662814626a35f966100ded60d934c2daf77bb74665445b0b80069c86b704e7d7"
+    },
+    "inheritance-preparation-drag.nodes.json": {
+      "bytes": 105647,
+      "sha256": "e0418eaccc02849af77aff6a53862708908a6ed2eff0b2cdceeb058ac6382f5f"
+    },
+    "inheritance-preparation-drag.png": {
+      "bytes": 117458,
+      "sha256": "5f0a01cf92a2652aab5f5e9c9b7c3862bf1400ca81127ef8bb7018e202aa54fd"
+    },
+    "inheritance-preparation.nodes.json": {
+      "bytes": 102345,
+      "sha256": "9b6279b3c7fcd21fae29918d599e763a4da30d85324f01fcb3bacafe39caddf1"
+    },
+    "inheritance-preparation.png": {
+      "bytes": 110886,
+      "sha256": "5b09e3e8b7d3610b59c1266fe5567e47e33f913561570eacb1ebc0e172dc316b"
+    },
+    "inheritance-return-preparation.nodes.json": {
+      "bytes": 102346,
+      "sha256": "14e3b713db0b04d964c57d745a2d46eca74f61420c4809265eb7aab52efa40b9"
+    },
+    "inheritance-return-preparation.png": {
+      "bytes": 110886,
+      "sha256": "5b09e3e8b7d3610b59c1266fe5567e47e33f913561570eacb1ebc0e172dc316b"
+    },
+    "inheritance-return.nodes.json": {
+      "bytes": 17213,
+      "sha256": "01130fc9e779ff6ef93a6d3069baf03e26f081534d2364ca43970dfe9ca484a9"
+    },
+    "inheritance-return.png": {
+      "bytes": 855156,
+      "sha256": "e9f90f6375bbc3c654a339084a6dd354cf277970c794961ab8064bda334e7b8b"
+    },
+    "inheritance-settings.nodes.json": {
+      "bytes": 99349,
+      "sha256": "ee3526898bbdab0a3ae6f6a18e4d2f5211a855723d81342bd150896ead5764d5"
+    },
+    "inheritance-settings.png": {
+      "bytes": 883053,
+      "sha256": "c7dbbad6bf57334d06a878af8c54e7ec1d98d61a4eee622de960cb86451903de"
+    },
+    "inheritance-start.nodes.json": {
+      "bytes": 9217,
+      "sha256": "047ce4c1b6f3b0e24ab6980b6a8826b1a39a98d8eace81c9ef8984ab4f63091b"
+    },
+    "inheritance-start.png": {
+      "bytes": 1369300,
+      "sha256": "fc6961a6e56dadc84ca91ebf403e87869323dba53f0e469a8dd210771fc9f37e"
+    },
+    "inheritance-story.nodes.json": {
+      "bytes": 14630,
+      "sha256": "ccfd256c0dde0337e66740486ce86df88bcb107225d9ada62513630d917c7b1e"
+    },
+    "inheritance-story.png": {
+      "bytes": 753917,
+      "sha256": "586ea27cac5539431b80fb3707aebac4ec267e7b75183fac7f0ad1f7c6ca1c6e"
+    },
+    "inheritance.json": {
+      "bytes": 5602,
+      "sha256": "2585670366977f85a62240e404ae7c8776ffac639f2569e7e6ac387bed89ad1c"
+    },
+    "inheritance.log": {
+      "bytes": 1387,
+      "sha256": "23cfb12282450970a95a2c3830524d6151fc5656c98e31e74a3565f1de8b51f9"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 410,
+      "sha256": "014962ba215a8ef10dd2794cb42e7fb536dc6a1d50f6e5e1c0617cf2fee45cf3"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    },
+    "review-preparation-R02-composition-only.nodes.json": {
+      "bytes": 66741,
+      "sha256": "bea7a6f706b164f50b0343605e54cbdc353ec45ea76d51a8c98e6ca10bcf8aa2"
+    },
+    "review-preparation-R02-composition-only.png": {
+      "bytes": 89723,
+      "sha256": "ee2498c0ac6f1e3f16f20c1c6a7245d8227f64a9a51a2460d8c060f4f41a281a"
+    },
+    "review-preparation-R02-mixed-bottom.nodes.json": {
+      "bytes": 115255,
+      "sha256": "92825c95719b571fd9c75254c6f1222da75ac7513a474564f9a37af0feba2f02"
+    },
+    "review-preparation-R02-mixed-bottom.png": {
+      "bytes": 160513,
+      "sha256": "79f615127eee19353e96ea97e9c29ed116c6cc7aedbca1f16cad5db0ec2cc5b1"
+    },
+    "review-preparation-R02-mixed-committed.nodes.json": {
+      "bytes": 43451,
+      "sha256": "8dd17140c2b8aa41c1d5d0ef589d7392b3f37034b1630412f19dcbae7c1b55cc"
+    },
+    "review-preparation-R02-mixed-committed.png": {
+      "bytes": 67211,
+      "sha256": "18e9882e2969c06ced95140dab164a18a89cc010098cdc99ad459c11222631f1"
+    },
+    "review-preparation-R02-mixed-top.nodes.json": {
+      "bytes": 115261,
+      "sha256": "4773065528b710b5c498fda32e46986d4aa6f499fab3f1b3be55e94215ad7ab7"
+    },
+    "review-preparation-R02-mixed-top.png": {
+      "bytes": 144154,
+      "sha256": "9548ce5429616554a584f99bf24f4b1f7cae0738b9c583033b29036a0f7f0fd9"
+    },
+    "review-preparation-R02-passive-only-bottom.nodes.json": {
+      "bytes": 78721,
+      "sha256": "12f0fd9a898eaace2ff6b7cc3b5aba1fdf73c84542ef79daf9ede7ce2d13dc4d"
+    },
+    "review-preparation-R02-passive-only-bottom.png": {
+      "bytes": 122231,
+      "sha256": "aa9838747dd4ef2b827daea5fed31baa10bd0e5b8c5ff9689a069d8d56dbdae0"
+    },
+    "review-preparation-R02-passive-only-top.nodes.json": {
+      "bytes": 78757,
+      "sha256": "3b7a0dffc159cc4ed8dfdac80dd0f21db521f03a504439a3eb53bd5ebce8a631"
+    },
+    "review-preparation-R02-passive-only-top.png": {
+      "bytes": 125992,
+      "sha256": "aaf432eb842b6b8143a6b45875c64f5b0c190f94aa6639840f9597aa9420e449"
+    },
+    "review-preparation-R07-detail-disabled.nodes.json": {
+      "bytes": 81429,
+      "sha256": "9200ecc3f52641765e12aaead232f18af9d74ab944bdf922bde3510f3b128cb1"
+    },
+    "review-preparation-R07-detail-disabled.png": {
+      "bytes": 130198,
+      "sha256": "da53f97448fb22db89e030193c9de39117397c993b30dddec8cbe53e369336e1"
+    },
+    "review-preparation-R07-drag-denied.nodes.json": {
+      "bytes": 65638,
+      "sha256": "3a0eb6b3e222e2db3aec8dd3ab4d36252a2285339972abc9abeef39e71b50f1e"
+    },
+    "review-preparation-R07-drag-denied.png": {
+      "bytes": 107533,
+      "sha256": "ea1a1f368cd77107143ff5701025b798e95a88bd348ff031602baf6f2d31da18"
+    },
+    "review-preparation-start.nodes.json": {
+      "bytes": 9159,
+      "sha256": "2619ae9753f2ea3847e65a6433621d95a43066f43bcae0cd10cf50dcf3bad463"
+    },
+    "review-preparation-start.png": {
+      "bytes": 1370256,
+      "sha256": "f3ca27b18e4282d5be941ef8bcab092f3787b1535dea3ec0aa6c71e158436b66"
+    },
+    "review-preparation.json": {
+      "bytes": 6480,
+      "sha256": "585216c867a921c962d3127a9b30202160191c3b84ff40e5f01ca74d277f1346"
+    },
+    "review-preparation.log": {
+      "bytes": 1743,
+      "sha256": "824225a17cc134fdf5d93d2fdeae3c1d991467022ad826334f73066f1688bafc"
+    }
+  }
+}

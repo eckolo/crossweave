@@ -3,7 +3,7 @@ from pathlib import Path
 import report_io
 import hashlib,json,subprocess
 repo=Path(__file__).resolve().parents[3];ed=repo/'docs/検証/本編実装/d04b-ui-02/reproduction-20261005'
-implementation='572bb9a59b914345830df5c18f910a1deb6af2bc'
+implementation='c761cbf4950a750b5b337e1bc9926528b87be54a'
 original='72d0eb58c7e3d04759f1ab56a939d1dff20a46b2';base='0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6'
 def binding(commit,path,locator,observation):
  b=subprocess.check_output(['git','show',commit+':'+path],cwd=repo)

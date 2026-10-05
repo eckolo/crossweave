@@ -1,0 +1,2299 @@
+{
+  "schema": "CW-M1-view-1",
+  "meta": {
+    "revision": 52,
+    "view_token": "f837eba3-f46d-460f-9789-3ce7db918470"
+  },
+  "display_data": {
+    "public_contract": "CW-M1-public-0.6",
+    "migration_notice": null,
+    "phase": "exploring",
+    "capabilities": {
+      "save_draft": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "discard_draft": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "commit_preparation": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "purchase": {
+        "available": false,
+        "reasons": [
+          "use_commit_preparation"
+        ]
+      },
+      "convert_items": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "set_item_lock": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "quoteConversion": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "owned_items": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "affixes": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "previewPreparation": {
+        "available": false,
+        "reasons": [
+          "exploring"
+        ]
+      },
+      "depart": {
+        "available": false,
+        "reasons": [
+          "already_exploring"
+        ]
+      },
+      "play": {
+        "available": false,
+        "reasons": [
+          "scene_paused"
+        ]
+      },
+      "previewAction": {
+        "available": false,
+        "reasons": [
+          "scene_paused"
+        ]
+      },
+      "withdraw": {
+        "available": true,
+        "reasons": []
+      },
+      "continue_scene": {
+        "available": true,
+        "reasons": []
+      },
+      "record_displayed_text": {
+        "available": true,
+        "reasons": []
+      },
+      "ack_return": {
+        "available": false,
+        "reasons": [
+          "not_return"
+        ]
+      }
+    },
+    "home": null,
+    "details": {
+      "base:f": {
+        "name": "牽制",
+        "base_name": "牽制",
+        "base_id": "f",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 30
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:h": {
+        "name": "重撃",
+        "base_name": "重撃",
+        "base_id": "h",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 12,
+          "hit": 30,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": -20
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:l": {
+        "name": "踏み込み",
+        "base_name": "踏み込み",
+        "base_id": "l",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 4,
+          "hit": 50,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 6,
+          "hit": 0
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 8,
+          "match": 12
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:j": {
+        "name": "小突き",
+        "base_name": "小突き",
+        "base_id": "j",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 3,
+          "hit": 40,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 0
+        },
+        "life": 1,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:g": {
+        "name": "防御",
+        "base_name": "防御",
+        "base_id": "g",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 20
+        },
+        "field": {
+          "power": -4,
+          "hit": 0
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:r": {
+        "name": "受け流し",
+        "base_name": "受け流し",
+        "base_id": "r",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 2,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 40
+        },
+        "field": {
+          "power": -2,
+          "hit": 0
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:fast": {
+        "name": "速撃",
+        "base_name": "速撃",
+        "base_id": "fast",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 2,
+          "hit": 100,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": -20
+        },
+        "life": 1,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:read": {
+        "name": "見切り",
+        "base_name": "見切り",
+        "base_id": "read",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 1,
+          "hit": 0,
+          "evasion": 30,
+          "crit_gain": 20
+        },
+        "field": {
+          "power": 0,
+          "hit": 20
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:sweep": {
+        "name": "打ち払い",
+        "base_name": "打ち払い",
+        "base_id": "sweep",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 4,
+          "hit": 60,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 20
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:salve": {
+        "name": "回復草",
+        "base_name": "回復草",
+        "base_id": "salve",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "heal",
+          "power": 16,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 10
+        },
+        "field": {
+          "power": -4,
+          "hit": 0
+        },
+        "life": 16,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "consumed_on_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:nt_flow": {
+        "name": "返し潮",
+        "base_name": "返し潮",
+        "base_id": "nt_flow",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 30
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "base:nt_stop": {
+        "name": "汐留め",
+        "base_name": "汐留め",
+        "base_id": "nt_stop",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "evasion": 20,
+          "crit_gain": 20
+        },
+        "field": {
+          "power": 2,
+          "hit": 20
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:0": {
+        "name": "牽制",
+        "base_name": "牽制",
+        "base_id": "f",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 3,
+          "hit": 70,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 30
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:1": {
+        "name": "速撃",
+        "base_name": "速撃",
+        "base_id": "fast",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 2,
+          "hit": 100,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": -20
+        },
+        "life": 1,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:2": {
+        "name": "防御",
+        "base_name": "防御",
+        "base_id": "g",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 3,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 20
+        },
+        "field": {
+          "power": -4,
+          "hit": 0
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:3": {
+        "name": "重撃",
+        "base_name": "重撃",
+        "base_id": "h",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 12,
+          "hit": 30,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": -20
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:4": {
+        "name": "踏み込み",
+        "base_name": "踏み込み",
+        "base_id": "l",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 4,
+          "hit": 50,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 6,
+          "hit": 0
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 8,
+          "match": 12
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:5": {
+        "name": "受け流し",
+        "base_name": "受け流し",
+        "base_id": "r",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 2,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 40
+        },
+        "field": {
+          "power": -2,
+          "hit": 0
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:6": {
+        "name": "見切り",
+        "base_name": "見切り",
+        "base_id": "read",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "guard",
+          "power": 1,
+          "hit": 0,
+          "evasion": 30,
+          "crit_gain": 20
+        },
+        "field": {
+          "power": 0,
+          "hit": 20
+        },
+        "life": 3,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:7": {
+        "name": "回復草",
+        "base_name": "回復草",
+        "base_id": "salve",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "heal",
+          "power": 16,
+          "hit": 0,
+          "evasion": 0,
+          "crit_gain": 10
+        },
+        "field": {
+          "power": -4,
+          "hit": 0
+        },
+        "life": 16,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "consumed_on_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      },
+      "own-card:8": {
+        "name": "打ち払い",
+        "base_name": "打ち払い",
+        "base_id": "sweep",
+        "kind": "card",
+        "affixes": [],
+        "primary": {
+          "kind": "attack",
+          "power": 4,
+          "hit": 60,
+          "evasion": 0,
+          "crit_gain": 25
+        },
+        "field": {
+          "power": 0,
+          "hit": 20
+        },
+        "life": 2,
+        "action_intervals": {
+          "place": 10,
+          "match": 10
+        },
+        "recovery_rule": "shared_recovery",
+        "trigger_text": null,
+        "effect_text": null,
+        "equipment_cost": null,
+        "learning_cost_units": null
+      }
+    },
+    "stat_labels": {
+      "power": "突破",
+      "hit": "探査",
+      "guard": "身構",
+      "evasion": "攪乱",
+      "crit": "一閃",
+      "crit_gain": "機転",
+      "damage_reduction": "隠蔽",
+      "hp": "余力"
+    },
+    "knowledge_views": [
+      {
+        "key": "[\"knowledge\",\"SCN-001-ACT01\",\"CW-M1-cards-0.2/ACT01/initial-2\"]",
+        "target_id": "SCN-001-ACT01",
+        "catalogue_version": "CW-M1-cards-0.2/ACT01/initial-2",
+        "name": "逆流する地下水路",
+        "profile": "SCN-001/target/ACT01",
+        "initial_catalogue": {
+          "basis": "explicit_experienced_knowledge",
+          "scope": "initial_composition",
+          "cards": [
+            {
+              "card": {
+                "type": "nt_flow",
+                "name": "返し潮",
+                "attr": "A",
+                "kind": "attack",
+                "power": 3,
+                "hit": 70,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 30,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            },
+            {
+              "card": {
+                "type": "nt_ward",
+                "name": "流れの壁",
+                "attr": "B",
+                "kind": "defense_support",
+                "power": 0,
+                "hit": 0,
+                "evasion": 0,
+                "crit_gain": 0,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null,
+                "defense_grant": {
+                  "effect_kind": "ward",
+                  "guard": 2,
+                  "evasion": 10,
+                  "uses": 1
+                }
+              },
+              "initial_count": 4
+            },
+            {
+              "card": {
+                "type": "weak_B",
+                "name": "弱攻撃札",
+                "attr": "B",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            },
+            {
+              "card": {
+                "type": "weak_C",
+                "name": "弱攻撃札",
+                "attr": "C",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            },
+            {
+              "card": {
+                "type": "weak_D",
+                "name": "弱攻撃札",
+                "attr": "D",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            }
+          ],
+          "evidence": "攻略時に確認した基本構成"
+        },
+        "observed_by_current_actor": [],
+        "observed_elsewhere_this_run": [],
+        "observed_earlier": [
+          {
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-1"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "nt_flow",
+              "name": "返し潮",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-2",
+              "evidence-3"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "nt_ward",
+              "name": "流れの壁",
+              "attr": "B",
+              "kind": "defense_support",
+              "power": 0,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 0,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null,
+              "defense_grant": {
+                "effect_kind": "ward",
+                "guard": 2,
+                "evasion": 10,
+                "uses": 1
+              }
+            },
+            "evidence_ids": [
+              "evidence-4",
+              "evidence-5",
+              "evidence-6",
+              "evidence-7"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-8",
+              "evidence-9"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "weak_C",
+              "name": "弱攻撃札",
+              "attr": "C",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-10",
+              "evidence-11",
+              "evidence-12"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "weak_D",
+              "name": "弱攻撃札",
+              "attr": "D",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-13",
+              "evidence-14"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          }
+        ],
+        "confirmed_reward_candidates": [
+          {
+            "reward_key": "SCN-001-RW01",
+            "label": "1習得点、素材 M 1、札解放:返し潮",
+            "evidence_ids": [
+              "evidence-15"
+            ]
+          }
+        ],
+        "historical_evidence_count": 0,
+        "current_private_composition": "unknown",
+        "next_card": "unknown",
+        "encountered": true
+      },
+      {
+        "key": "[\"knowledge\",\"SCN-001-ACT02\",\"CW-M1-cards-0.1/ACT02/initial-1\"]",
+        "target_id": "SCN-001-ACT02",
+        "catalogue_version": "CW-M1-cards-0.1/ACT02/initial-1",
+        "name": "漂着した潜水服",
+        "profile": "SCN-001/target/ACT02",
+        "initial_catalogue": null,
+        "observed_by_current_actor": [],
+        "observed_elsewhere_this_run": [],
+        "observed_earlier": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-16"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-17",
+              "evidence-18"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-19",
+              "evidence-20",
+              "evidence-21"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "j",
+              "name": "小突き",
+              "attr": "C",
+              "kind": "attack",
+              "power": 3,
+              "hit": 40,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-22",
+              "evidence-23"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-24"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "nt_pressure",
+              "name": "潮底の踏み足",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-25",
+              "evidence-26"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "nt_ward",
+              "name": "流れの壁",
+              "attr": "B",
+              "kind": "defense_support",
+              "power": 0,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 0,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null,
+              "defense_grant": {
+                "effect_kind": "ward",
+                "guard": 2,
+                "evasion": 10,
+                "uses": 1
+              }
+            },
+            "evidence_ids": [
+              "evidence-27",
+              "evidence-28"
+            ],
+            "relation_to_initial": "initial_unknown"
+          },
+          {
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-29",
+              "evidence-30"
+            ],
+            "relation_to_initial": "initial_unknown"
+          }
+        ],
+        "confirmed_reward_candidates": [],
+        "historical_evidence_count": 0,
+        "current_private_composition": "unknown",
+        "next_card": "unknown",
+        "encountered": true
+      },
+      {
+        "key": "[\"knowledge\",\"SCN-001-ACT03\",\"CW-M1-cards-0.1/ACT03/initial-1\"]",
+        "target_id": "SCN-001-ACT03",
+        "catalogue_version": "CW-M1-cards-0.1/ACT03/initial-1",
+        "name": "奥の水門",
+        "profile": "SCN-001/target/ACT03",
+        "initial_catalogue": {
+          "basis": "explicit_experienced_knowledge",
+          "scope": "initial_composition",
+          "cards": [
+            {
+              "card": {
+                "type": "nt_stop",
+                "name": "汐留め",
+                "attr": "D",
+                "kind": "guard",
+                "power": 3,
+                "hit": 0,
+                "evasion": 20,
+                "crit_gain": 20,
+                "field_power": 2,
+                "field_hit": 20,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            },
+            {
+              "card": {
+                "type": "weak_A",
+                "name": "弱攻撃札",
+                "attr": "A",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            },
+            {
+              "card": {
+                "type": "weak_B",
+                "name": "弱攻撃札",
+                "attr": "B",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 6
+            },
+            {
+              "card": {
+                "type": "weak_C",
+                "name": "弱攻撃札",
+                "attr": "C",
+                "kind": "attack",
+                "power": 2,
+                "hit": 20,
+                "evasion": 0,
+                "crit_gain": 25,
+                "field_power": 0,
+                "field_hit": 0,
+                "life": 2,
+                "place_cost": 10,
+                "match_cost": 10,
+                "consume_on_recover": null
+              },
+              "initial_count": 2
+            }
+          ],
+          "evidence": "攻略時に確認した基本構成"
+        },
+        "observed_by_current_actor": [],
+        "observed_elsewhere_this_run": [],
+        "observed_earlier": [
+          {
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-31",
+              "evidence-32",
+              "evidence-33"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-34",
+              "evidence-35",
+              "evidence-36"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-37",
+              "evidence-38"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "nt_stop",
+              "name": "汐留め",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 20,
+              "crit_gain": 20,
+              "field_power": 2,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-39",
+              "evidence-40"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-41"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "read",
+              "name": "見切り",
+              "attr": "C",
+              "kind": "guard",
+              "power": 1,
+              "hit": 0,
+              "evasion": 30,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-42"
+            ],
+            "relation_to_initial": "outside_known_initial"
+          },
+          {
+            "card": {
+              "type": "weak_A",
+              "name": "弱攻撃札",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-43",
+              "evidence-44",
+              "evidence-45",
+              "evidence-46"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "weak_B",
+              "name": "弱攻撃札",
+              "attr": "B",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-47",
+              "evidence-48",
+              "evidence-49",
+              "evidence-50",
+              "evidence-51",
+              "evidence-52",
+              "evidence-53",
+              "evidence-54",
+              "evidence-55"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          },
+          {
+            "card": {
+              "type": "weak_C",
+              "name": "弱攻撃札",
+              "attr": "C",
+              "kind": "attack",
+              "power": 2,
+              "hit": 20,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "evidence_ids": [
+              "evidence-56",
+              "evidence-57",
+              "evidence-58",
+              "evidence-59",
+              "evidence-60"
+            ],
+            "relation_to_initial": "known_initial_kind"
+          }
+        ],
+        "confirmed_reward_candidates": [
+          {
+            "reward_key": "SCN-001-RW03",
+            "label": "2習得点、札解放:汐留め",
+            "evidence_ids": [
+              "evidence-61"
+            ]
+          }
+        ],
+        "historical_evidence_count": 0,
+        "current_private_composition": "unknown",
+        "next_card": "unknown",
+        "encountered": true
+      },
+      {
+        "key": "[\"knowledge\",\"SCN-001-ACT04\",\"CW-M1-cards-0.2/ACT04/initial-2\"]",
+        "target_id": "SCN-001-ACT04",
+        "catalogue_version": "CW-M1-cards-0.2/ACT04/initial-2",
+        "name": "潮の残る地下水路",
+        "profile": "SCN-001/target/ACT04",
+        "initial_catalogue": null,
+        "observed_by_current_actor": [],
+        "observed_elsewhere_this_run": [],
+        "observed_earlier": [],
+        "confirmed_reward_candidates": [],
+        "historical_evidence_count": 0,
+        "current_private_composition": "unknown",
+        "next_card": "unknown",
+        "encountered": true
+      }
+    ],
+    "texts": {
+      "SCN-001-TXT18": {
+        "id": "SCN-001-TXT18",
+        "title": null,
+        "short_text": "水路の床を、港の潮が薄く洗っている。日常へ押し寄せていた流れは止まり、通路の先から荷揚げの音が届く。",
+        "detail_text": null,
+        "kind": "main",
+        "read": true
+      },
+      "SCN-001-TXT25": {
+        "id": "SCN-001-TXT25",
+        "title": null,
+        "short_text": "見覚えのある型の潜水服が、流れの中に立っている。足元を確かめながら、重い腕の届く範囲を測る。",
+        "detail_text": null,
+        "kind": "main",
+        "read": true
+      },
+      "SCN-001-DETAIL02": {
+        "id": "SCN-001-DETAIL02",
+        "title": null,
+        "short_text": "窓の内側は暗く、中に何があるのかは分からない。潮が引いても、重い靴だけは床から離れない。",
+        "detail_text": "窓の内側は暗く、中に何があるのかは分からない。潮が引いても、重い靴だけは床から離れない。",
+        "kind": "detail",
+        "read": true
+      },
+      "SCN-001-OBJ-REVISIT": {
+        "id": "SCN-001-OBJ-REVISIT",
+        "title": null,
+        "short_text": "管理用連絡路のつながりを確かめる",
+        "detail_text": null,
+        "kind": "objective",
+        "read": false
+      }
+    },
+    "text_history": [
+      {
+        "id": "SCN-001-TXT01",
+        "scene_ids": [
+          "SCN-001-S01"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "「雨は降っていないんです。それなのに夜になると、地下から潮の匂いがして。品物は上へ移しましたが、いつまでも使わないわけにはいかなくて」",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT02",
+        "scene_ids": [
+          "SCN-001-S01"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "流れに逆らい、障害を越えて奥へ進む探索。途中の相手を調べる余地もある。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT03",
+        "scene_ids": [
+          "SCN-001-S02"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "水が、下り坂を上ってくる。壁の白い筋を辿ると、照明の途切れた奥へ続いていた。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT04",
+        "scene_ids": [
+          "SCN-001-S02"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "古い潜水服が流れの中に立っている。足元の水だけが割れ、こちらへ重い腕を伸ばした。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-COND02",
+        "scene_ids": [
+          "SCN-001-S02"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "conditional",
+        "short_text": "靴底を重ねると、足元が沈むように落ち着く。あの潜水服が立っていた理由の一端が分かった。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-COND01",
+        "scene_ids": [
+          "SCN-001-S02"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "conditional",
+        "short_text": "逆らう水の働きが、掌ほどの櫂に収まる。今なら、この流れを使えそうだ。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT05",
+        "scene_ids": [
+          "SCN-001-S03"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "通路を抜けると、頭上に海があった。遠い舟底の影が、港の屋根をゆっくり横切っていく。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT06",
+        "scene_ids": [
+          "SCN-001-S03"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "港の壁にも、地下で見た水位の筋がある。奥の水門で噴き返した白い水が、こちらの通路へ流れ込んでいた。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-COND04",
+        "scene_ids": [
+          "SCN-001-S03"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "conditional",
+        "short_text": "通路の角を越える。振り返ると、潜水服はまだ、同じ流れの中に立っていた。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT07",
+        "scene_ids": [
+          "SCN-001-S04"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "鎖が歯車に噛み込み、逃がし口を開いたまま留めている。擦れた正常位置は、そのすぐ隣にあった。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-COND08",
+        "scene_ids": [
+          "SCN-001-S04"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "conditional",
+        "short_text": "圧を受け止める働きが、小さな留め具の形になる。どこへ力を逃がすか、手元で確かめられそうだ。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT08",
+        "scene_ids": [
+          "SCN-001-S05"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "噛み込んだ鎖が外れ、水門がゆっくり戻る。足元へ向かっていた水が曲がり、港の水路へ流れていった。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT09",
+        "scene_ids": [
+          "SCN-001-S06"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "「地下の水、引きました。まずは空の棚から戻してみます。……奥には、港があったんですか」",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT10B",
+        "scene_ids": [
+          "SCN-001-S07"
+        ],
+        "published": true,
+        "read": false,
+        "kind": "main",
+        "short_text": "地図に描き足した港は、まだ小さな点だ。調べていない場所は、その外へ広がっている。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT18",
+        "scene_ids": [
+          "SCN-001-S02R"
+        ],
+        "published": true,
+        "read": true,
+        "kind": "main",
+        "short_text": "水路の床を、港の潮が薄く洗っている。日常へ押し寄せていた流れは止まり、通路の先から荷揚げの音が届く。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-TXT25",
+        "scene_ids": [
+          "SCN-001-S02R"
+        ],
+        "published": true,
+        "read": true,
+        "kind": "main",
+        "short_text": "見覚えのある型の潜水服が、流れの中に立っている。足元を確かめながら、重い腕の届く範囲を測る。",
+        "detail_text": null
+      },
+      {
+        "id": "SCN-001-DETAIL02",
+        "scene_ids": [
+          "SCN-001-S02R"
+        ],
+        "published": true,
+        "read": true,
+        "kind": "detail",
+        "short_text": "窓の内側は暗く、中に何があるのかは分からない。潮が引いても、重い靴だけは床から離れない。",
+        "detail_text": "窓の内側は暗く、中に何があるのかは分からない。潮が引いても、重い靴だけは床から離れない。"
+      }
+    ],
+    "action_history": [],
+    "draft": null,
+    "preparation_comparison": null,
+    "conversion_quote": null,
+    "case": {
+      "id": "SCN-001",
+      "status": "resolved",
+      "attempts": 2,
+      "available_mode": "revisit",
+      "objective_text_id": "SCN-001-OBJ-REVISIT",
+      "visible_clue_ids": [
+        "SCN-001-CL01",
+        "SCN-001-CL02",
+        "SCN-001-CL03",
+        "SCN-001-CL04"
+      ],
+      "unlocked_card_ids": [
+        "f",
+        "h",
+        "l",
+        "j",
+        "g",
+        "r",
+        "fast",
+        "read",
+        "sweep",
+        "salve",
+        "nt_flow",
+        "nt_stop"
+      ]
+    },
+    "scene": {
+      "id": "SCN-001-S02R",
+      "text_ids": [
+        "SCN-001-TXT18",
+        "SCN-001-TXT25"
+      ],
+      "optional_text_ids": [
+        "SCN-001-DETAIL02"
+      ],
+      "paused": true,
+      "can_continue": true,
+      "can_withdraw": true
+    },
+    "exploration": {
+      "now": 0,
+      "self": {
+        "id": "P",
+        "name": "本人",
+        "purpose": "self",
+        "remaining_label": "余力",
+        "action_label": null,
+        "hp": 40,
+        "max_hp": 40,
+        "hit": 0,
+        "posture_remaining": 100,
+        "max_posture": 100,
+        "crit": 0,
+        "guard": null,
+        "defense": {
+          "guard": 0,
+          "evasion": 0,
+          "effects": [],
+          "duration": {
+            "all": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "guard": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            },
+            "evasion": {
+              "effect_count": 0,
+              "finite_min": null,
+              "finite_max": null,
+              "unlimited": false,
+              "status": "empty",
+              "uniform_uses": 0
+            }
+          },
+          "clear_on": "owner_match"
+        },
+        "evasion": 0,
+        "reduction": 0,
+        "active": true,
+        "next_at": 0,
+        "hand_count": 0,
+        "deck_count": 12,
+        "actions": 0,
+        "knowledge_key": null,
+        "knowledge_status": "self",
+        "persistent_sources": []
+      },
+      "actors": {
+        "P": {
+          "id": "P",
+          "name": "本人",
+          "purpose": "self",
+          "remaining_label": "余力",
+          "action_label": null,
+          "hp": 40,
+          "max_hp": 40,
+          "hit": 0,
+          "posture_remaining": 100,
+          "max_posture": 100,
+          "crit": 0,
+          "guard": null,
+          "defense": {
+            "guard": 0,
+            "evasion": 0,
+            "effects": [],
+            "duration": {
+              "all": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "guard": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "evasion": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              }
+            },
+            "clear_on": "owner_match"
+          },
+          "evasion": 0,
+          "reduction": 0,
+          "active": true,
+          "next_at": 0,
+          "hand_count": 0,
+          "deck_count": 12,
+          "actions": 0,
+          "knowledge_key": null,
+          "knowledge_status": "self",
+          "persistent_sources": []
+        },
+        "V0": {
+          "id": "V0",
+          "name": "潮の残る地下水路",
+          "purpose": "passage",
+          "remaining_label": "道のり",
+          "action_label": "進む",
+          "hp": 40,
+          "max_hp": 40,
+          "hit": 0,
+          "posture_remaining": 1,
+          "max_posture": 1,
+          "crit": 0,
+          "guard": null,
+          "defense": {
+            "guard": 0,
+            "evasion": 0,
+            "effects": [],
+            "duration": {
+              "all": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "guard": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "evasion": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              }
+            },
+            "clear_on": "owner_match"
+          },
+          "evasion": 0,
+          "reduction": 0,
+          "active": true,
+          "next_at": 0,
+          "hand_count": 0,
+          "deck_count": 12,
+          "actions": 0,
+          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT04\",\"CW-M1-cards-0.2/ACT04/initial-2\"]",
+          "knowledge_status": "encountered",
+          "persistent_sources": []
+        },
+        "E1": {
+          "id": "E1",
+          "name": "漂着した潜水服",
+          "purpose": "optional_enemy",
+          "remaining_label": "余力",
+          "action_label": "攻撃",
+          "hp": 24,
+          "max_hp": 24,
+          "hit": 0,
+          "posture_remaining": 100,
+          "max_posture": 100,
+          "crit": 0,
+          "guard": null,
+          "defense": {
+            "guard": 0,
+            "evasion": 0,
+            "effects": [],
+            "duration": {
+              "all": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "guard": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              },
+              "evasion": {
+                "effect_count": 0,
+                "finite_min": null,
+                "finite_max": null,
+                "unlimited": false,
+                "status": "empty",
+                "uniform_uses": 0
+              }
+            },
+            "clear_on": "owner_match"
+          },
+          "evasion": 0,
+          "reduction": 0,
+          "active": true,
+          "next_at": 0,
+          "hand_count": 0,
+          "deck_count": 12,
+          "actions": 0,
+          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT02\",\"CW-M1-cards-0.1/ACT02/initial-1\"]",
+          "knowledge_status": "encountered",
+          "persistent_sources": []
+        }
+      },
+      "hand": [],
+      "field": {},
+      "recovery_count": 0,
+      "legal_actions": [],
+      "public_history": [],
+      "passive_state": {
+        "after_guard": false,
+        "last_match_attr": null,
+        "borrowed_guard": false
+      },
+      "diagnostic": null,
+      "deck_catalogue": {
+        "status": "known",
+        "owner_actor_id": "P",
+        "reference_scope": "current_view",
+        "order_disclosed": false,
+        "deck_count": 12,
+        "hand_count": 0,
+        "initial_count": 12,
+        "entries": [
+          {
+            "detail_id": "own-card:0",
+            "card": {
+              "type": "f",
+              "name": "牽制",
+              "attr": "A",
+              "kind": "attack",
+              "power": 3,
+              "hit": 70,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 30,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 2,
+            "hand_count": 0,
+            "initial_count": 2,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:1",
+            "card": {
+              "type": "fast",
+              "name": "速撃",
+              "attr": "A",
+              "kind": "attack",
+              "power": 2,
+              "hit": 100,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 1,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:2",
+            "card": {
+              "type": "g",
+              "name": "防御",
+              "attr": "D",
+              "kind": "guard",
+              "power": 3,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 20,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:3",
+            "card": {
+              "type": "h",
+              "name": "重撃",
+              "attr": "B",
+              "kind": "attack",
+              "power": 12,
+              "hit": 30,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": -20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 2,
+            "hand_count": 0,
+            "initial_count": 2,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:4",
+            "card": {
+              "type": "l",
+              "name": "踏み込み",
+              "attr": "B",
+              "kind": "attack",
+              "power": 4,
+              "hit": 50,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 6,
+              "field_hit": 0,
+              "life": 2,
+              "place_cost": 8,
+              "match_cost": 12,
+              "consume_on_recover": null
+            },
+            "deck_count": 2,
+            "hand_count": 0,
+            "initial_count": 2,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:5",
+            "card": {
+              "type": "r",
+              "name": "受け流し",
+              "attr": "A",
+              "kind": "guard",
+              "power": 2,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 40,
+              "field_power": -2,
+              "field_hit": 0,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:6",
+            "card": {
+              "type": "read",
+              "name": "見切り",
+              "attr": "C",
+              "kind": "guard",
+              "power": 1,
+              "hit": 0,
+              "evasion": 30,
+              "crit_gain": 20,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 3,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:7",
+            "card": {
+              "type": "salve",
+              "name": "回復草",
+              "attr": "C",
+              "kind": "heal",
+              "power": 16,
+              "hit": 0,
+              "evasion": 0,
+              "crit_gain": 10,
+              "field_power": -4,
+              "field_hit": 0,
+              "life": 16,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": true
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          },
+          {
+            "detail_id": "own-card:8",
+            "card": {
+              "type": "sweep",
+              "name": "打ち払い",
+              "attr": "D",
+              "kind": "attack",
+              "power": 4,
+              "hit": 60,
+              "evasion": 0,
+              "crit_gain": 25,
+              "field_power": 0,
+              "field_hit": 20,
+              "life": 2,
+              "place_cost": 10,
+              "match_cost": 10,
+              "consume_on_recover": null
+            },
+            "deck_count": 1,
+            "hand_count": 0,
+            "initial_count": 1,
+            "doomed_deck_count": 0,
+            "doomed_hand_count": 0
+          }
+        ]
+      },
+      "other_decks": {
+        "V0": {
+          "status": "unknown",
+          "count": 12,
+          "entries": null,
+          "reason": "current_private_composition",
+          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT04\",\"CW-M1-cards-0.2/ACT04/initial-2\"]"
+        },
+        "E1": {
+          "status": "unknown",
+          "count": 12,
+          "entries": null,
+          "reason": "current_private_composition",
+          "knowledge_key": "[\"knowledge\",\"SCN-001-ACT02\",\"CW-M1-cards-0.1/ACT02/initial-1\"]"
+        }
+      },
+      "shared_recovery": {
+        "status": "count_only",
+        "count": 0,
+        "entries": null,
+        "reason": "composition_not_published"
+      }
+    },
+    "action_preview": null,
+    "return_receipt": null,
+    "operation": null,
+    "error": null
+  }
+}

@@ -1,0 +1,597 @@
+{
+  "source": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+  "viewport": [
+    1920,
+    1080
+  ],
+  "dpr": 1,
+  "zoom": 1,
+  "browser": "154.0.4258.53",
+  "platform": "win32",
+  "physical_input": false,
+  "method": "同じ固定原本のCampaign・UI。合法保存／隔離MemoryStore／公開APIのみ。localhost無し。",
+  "cases": [
+    {
+      "fixture": "repro-bars-prep",
+      "theme": "light",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_preparation_references"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "9af03d97079137f68e8d7dc7250bc9b2257bfd02247d316f0f93a9d105fba4fa",
+      "before": "ef166ac22ec32238f3664dc701c82e279d67ef7b03196eaf4b669d223c84d9d4"
+    },
+    {
+      "fixture": "repro-bars-hand",
+      "theme": "light",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_read_provenance"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "1ab8e917d86f2401d51af5d9f0b9efb16f4a16fabb4a31d342d7be054d696fb7",
+      "before": "c5c52f3acdf33559c7530ae8dd656448b83c9c85862f078f9c774a4683c97e28"
+    },
+    {
+      "fixture": "repro-bars-field",
+      "theme": "light",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_clue_provenance"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "83402db354efd1809cc7aaebd606d95ed4d8397762ec5b237003f2b993fbc12c",
+      "before": "5b222cf2ad34ee99e94253311d2c43d9c6a6dbb79e463c38944337362c6e1e77"
+    },
+    {
+      "fixture": "repro-motion-home",
+      "theme": "light",
+      "captures": [
+        "light-repro-motion-home-entry.png",
+        "light-repro-motion-home-settings.png",
+        "light-repro-motion-home-staging-default-end.png",
+        "light-repro-motion-home-settings.png",
+        "light-repro-motion-home-staging-reduced-end.png"
+      ],
+      "limitations": [],
+      "fixture_sha256": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+      "before": "a032e36d64ee0cd1d778d57d083530686655106930879344e338469bd760206e",
+      "events": [
+        {
+          "name": "staging-default",
+          "epoch_ms": 1791157784607,
+          "performance_ms": 1783.5
+        },
+        {
+          "name": "staging-default-end",
+          "epoch_ms": 1791157785136,
+          "performance_ms": 2312.7999999523163
+        },
+        {
+          "name": "staging-reduced",
+          "epoch_ms": 1791157786558,
+          "performance_ms": 3734.2999999523163
+        },
+        {
+          "name": "staging-reduced-end",
+          "epoch_ms": 1791157787138,
+          "performance_ms": 4315
+        }
+      ],
+      "continuous_frames": 32,
+      "frame_ack_errors": [],
+      "after": "a032e36d64ee0cd1d778d57d083530686655106930879344e338469bd760206e",
+      "state_unchanged": true
+    },
+    {
+      "fixture": "repro-motion-explore",
+      "theme": "light",
+      "captures": [
+        "light-repro-motion-explore-entry.png",
+        "light-repro-motion-explore-settings.png",
+        "light-repro-motion-explore-hold-default-end.png",
+        "light-repro-motion-explore-settings.png",
+        "light-repro-motion-explore-hold-reduced-end.png",
+        "light-repro-motion-explore-settings.png",
+        "light-repro-motion-explore-short-hold-cancel-end.png",
+        "light-repro-motion-explore-action-events-end.png"
+      ],
+      "limitations": [],
+      "fixture_sha256": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+      "before": "bd66980ebfd7560bbe52ecd2263d2cbf9c86f7d7c6607ff318734279c6df412f",
+      "events": [
+        {
+          "name": "hold-default",
+          "epoch_ms": 1791157790058,
+          "performance_ms": 7234.799999952316
+        },
+        {
+          "name": "hold-default-end",
+          "epoch_ms": 1791157790693,
+          "performance_ms": 7869.599999964237
+        },
+        {
+          "name": "hold-reduced",
+          "epoch_ms": 1791157792608,
+          "performance_ms": 9795.399999976158
+        },
+        {
+          "name": "hold-reduced-end",
+          "epoch_ms": 1791157793327,
+          "performance_ms": 10503.199999988079
+        },
+        {
+          "name": "short-hold-cancel",
+          "epoch_ms": 1791157795286,
+          "performance_ms": 12462.5
+        },
+        {
+          "name": "short-hold-cancel-end",
+          "epoch_ms": 1791157795465,
+          "performance_ms": 12642.099999964237
+        },
+        {
+          "name": "action-events",
+          "epoch_ms": 1791157801627,
+          "performance_ms": 18812.099999964237
+        },
+        {
+          "name": "action-events-end",
+          "epoch_ms": 1791157805034,
+          "performance_ms": 22219.5
+        }
+      ],
+      "action_before": "bd66980ebfd7560bbe52ecd2263d2cbf9c86f7d7c6607ff318734279c6df412f",
+      "action_after": "e5d001280d24577ec1bea22567d00cc24071ecdd128eb3d6ed34c649374ba464",
+      "continuous_frames": 79,
+      "frame_ack_errors": [],
+      "after": "e5d001280d24577ec1bea22567d00cc24071ecdd128eb3d6ed34c649374ba464",
+      "state_unchanged": false
+    },
+    {
+      "fixture": "repro-bars-prep",
+      "theme": "dark",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_preparation_references"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "9af03d97079137f68e8d7dc7250bc9b2257bfd02247d316f0f93a9d105fba4fa",
+      "before": "ef166ac22ec32238f3664dc701c82e279d67ef7b03196eaf4b669d223c84d9d4"
+    },
+    {
+      "fixture": "repro-bars-hand",
+      "theme": "dark",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_read_provenance"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "1ab8e917d86f2401d51af5d9f0b9efb16f4a16fabb4a31d342d7be054d696fb7",
+      "before": "c5c52f3acdf33559c7530ae8dd656448b83c9c85862f078f9c774a4683c97e28"
+    },
+    {
+      "fixture": "repro-bars-field",
+      "theme": "dark",
+      "captures": [],
+      "limitations": [
+        "Error: invalid_clue_provenance"
+      ],
+      "adapter": "既存oracleの通常command保存。接続schema/engine_versionの2tagのみ原本へ戻す。値・規則・乱数は変更しない。",
+      "fixture_sha256": "83402db354efd1809cc7aaebd606d95ed4d8397762ec5b237003f2b993fbc12c",
+      "before": "5b222cf2ad34ee99e94253311d2c43d9c6a6dbb79e463c38944337362c6e1e77"
+    },
+    {
+      "fixture": "repro-motion-home",
+      "theme": "dark",
+      "captures": [
+        "dark-repro-motion-home-entry.png",
+        "dark-repro-motion-home-settings.png",
+        "dark-repro-motion-home-staging-default-end.png",
+        "dark-repro-motion-home-settings.png",
+        "dark-repro-motion-home-staging-reduced-end.png"
+      ],
+      "limitations": [],
+      "fixture_sha256": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+      "before": "a032e36d64ee0cd1d778d57d083530686655106930879344e338469bd760206e",
+      "events": [
+        {
+          "name": "staging-default",
+          "epoch_ms": 1791157807777,
+          "performance_ms": 24953.899999976158
+        },
+        {
+          "name": "staging-default-end",
+          "epoch_ms": 1791157808316,
+          "performance_ms": 25493.099999964237
+        },
+        {
+          "name": "staging-reduced",
+          "epoch_ms": 1791157809770,
+          "performance_ms": 26946.69999998808
+        },
+        {
+          "name": "staging-reduced-end",
+          "epoch_ms": 1791157810376,
+          "performance_ms": 27552.899999976158
+        }
+      ],
+      "continuous_frames": 35,
+      "frame_ack_errors": [],
+      "after": "a032e36d64ee0cd1d778d57d083530686655106930879344e338469bd760206e",
+      "state_unchanged": true
+    },
+    {
+      "fixture": "repro-motion-explore",
+      "theme": "dark",
+      "captures": [
+        "dark-repro-motion-explore-entry.png",
+        "dark-repro-motion-explore-settings.png",
+        "dark-repro-motion-explore-hold-default-end.png",
+        "dark-repro-motion-explore-settings.png",
+        "dark-repro-motion-explore-hold-reduced-end.png",
+        "dark-repro-motion-explore-settings.png",
+        "dark-repro-motion-explore-short-hold-cancel-end.png",
+        "dark-repro-motion-explore-action-events-end.png"
+      ],
+      "limitations": [],
+      "fixture_sha256": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac",
+      "before": "bd66980ebfd7560bbe52ecd2263d2cbf9c86f7d7c6607ff318734279c6df412f",
+      "events": [
+        {
+          "name": "hold-default",
+          "epoch_ms": 1791157813723,
+          "performance_ms": 30899.399999976158
+        },
+        {
+          "name": "hold-default-end",
+          "epoch_ms": 1791157814361,
+          "performance_ms": 31537.5
+        },
+        {
+          "name": "hold-reduced",
+          "epoch_ms": 1791157816324,
+          "performance_ms": 33500.299999952316
+        },
+        {
+          "name": "hold-reduced-end",
+          "epoch_ms": 1791157816973,
+          "performance_ms": 34150.19999998808
+        },
+        {
+          "name": "short-hold-cancel",
+          "epoch_ms": 1791157818912,
+          "performance_ms": 36088.69999998808
+        },
+        {
+          "name": "short-hold-cancel-end",
+          "epoch_ms": 1791157819080,
+          "performance_ms": 36259.09999996424
+        },
+        {
+          "name": "action-events",
+          "epoch_ms": 1791157825237,
+          "performance_ms": 42420.19999998808
+        },
+        {
+          "name": "action-events-end",
+          "epoch_ms": 1791157828625,
+          "performance_ms": 45810.19999998808
+        }
+      ],
+      "action_before": "bd66980ebfd7560bbe52ecd2263d2cbf9c86f7d7c6607ff318734279c6df412f",
+      "action_after": "46d8532791caf7dd763a9c22567696ebb4d31a16e6f67a040b6cb1d75d03aaa6",
+      "continuous_frames": 79,
+      "frame_ack_errors": [],
+      "after": "46d8532791caf7dd763a9c22567696ebb4d31a16e6f67a040b6cb1d75d03aaa6",
+      "state_unchanged": false
+    }
+  ],
+  "errors": [],
+  "sources": {
+    "dist/crossweave-ui.css": "d75614d5f814d63f53f617be00dcec5190d5905224b9bdd9b6307e1781418c35",
+    "dist/crossweave-ui.js": "9b0608e413fdd7606f43ec354458c338cf169a7912020d407f7b07297f4c3679"
+  },
+  "font_samples": {
+    "light-repro-motion-home-entry": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 2
+          }
+        ]
+      }
+    ],
+    "light-repro-motion-home-settings": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 4
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 1
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cj-setting",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      }
+    ],
+    "light-repro-motion-explore-entry": [
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cw-face-caption>strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      }
+    ],
+    "light-repro-motion-explore-settings": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 4
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey dt",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey dd",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cj-setting",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey .cw-face-caption>strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      }
+    ],
+    "dark-repro-motion-home-entry": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 2
+          }
+        ]
+      }
+    ],
+    "dark-repro-motion-home-settings": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 4
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 1
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cj-setting",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      }
+    ],
+    "dark-repro-motion-explore-entry": [
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cw-face-caption>strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      }
+    ],
+    "dark-repro-motion-explore-settings": [
+      {
+        "selector": "#crossweave-journey h2",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 4
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey dt",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey dd",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey button",
+        "fonts": []
+      },
+      {
+        "selector": "#crossweave-journey .cj-setting",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI",
+            "postScriptName": "YuGothicUI-Regular",
+            "isCustomFont": false,
+            "glyphCount": 6
+          }
+        ]
+      },
+      {
+        "selector": "#crossweave-journey .cw-face-caption>strong",
+        "fonts": [
+          {
+            "familyName": "Yu Gothic UI Semibold",
+            "postScriptName": "YuGothicUI-Semibold",
+            "isCustomFont": false,
+            "glyphCount": 8
+          }
+        ]
+      }
+    ]
+  },
+  "sequences": []
+}

@@ -1,0 +1,22 @@
+  Crossweave.Core -> C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\bin\Debug\net10.0\Crossweave.Core.dll
+  Crossweave.Infrastructure -> C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Infrastructure\bin\Debug\net10.0\Crossweave.Infrastructure.dll
+  Crossweave.SaveProbe -> C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\SaveProbe\bin\Debug\net10.0\Crossweave.SaveProbe.dll
+  Crossweave.Tests -> C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Tests\bin\Debug\net10.0\Crossweave.Tests.dll
+C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Tests\bin\Debug\net10.0\Crossweave.Tests.dll (.NETCoreApp,Version=v10.0) のテスト実行
+合計 1 個のテスト ファイルが指定されたパターンと一致しました。
+[xUnit.net 00:00:01.05]     Crossweave.Tests.UiPublicProjectionTests.ExistingLegalSavesRestoreWithReadonlyKnowledgeAndAffixViews [FAIL]
+  失敗 Crossweave.Tests.UiPublicProjectionTests.ExistingLegalSavesRestoreWithReadonlyKnowledgeAndAffixViews [637 ms]
+  エラー メッセージ:
+   Crossweave.Core.Application.RuleException : card_conservation
+  スタック トレース:
+     at Crossweave.Core.Application.J.Check(Boolean ok, String code) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\Application\Json.cs:line 63
+   at Crossweave.Core.Application.Expedition.Validate() in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\Application\Expedition.cs:line 759
+   at Crossweave.Core.Application.GameApplication.Validate(JsonObject d) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\Application\GameApplication.cs:line 453
+   at Crossweave.Core.Application.GameApplication..ctor(JsonObject d, IApplicationCommitBoundary commitBoundary) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\Application\GameApplication.cs:line 37
+   at Crossweave.Core.Application.GameApplication.Restore(ApplicationDto dto, IApplicationCommitBoundary commitBoundary) in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Core\Application\GameApplication.cs:line 54
+   at Crossweave.Tests.UiPublicProjectionTests.ExistingLegalSavesRestoreWithReadonlyKnowledgeAndAffixViews() in C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\apps\crossweave-godot\Tests\UiPublicProjectionTests.cs:line 47
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+結果ファイル: C:\Users\eckol\eckolo Dropbox\久乃銑泉\gist\crossweave\docs\検証\本編実装\d04b-ui-02\reproduction-20261005\core-regression-fourth\results.trx
+
+失敗!   -失敗:     1、合格:    16、スキップ:     0、合計:    17、期間: 30 s - Crossweave.Tests.dll (net10.0)
