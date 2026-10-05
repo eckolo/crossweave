@@ -14,17 +14,33 @@ public partial class GameScreen
         foreach(var state in new[]{"normal","pressed","disabled"})Theme.SetStylebox(state,"Button",Box(Paper));
         Theme.SetStylebox("hover","Button",Box("e6eddf"));
         Theme.SetStylebox("focus","Button",Box("ffffff00",Line,2));
-        foreach(var state in new[]{"font_color","font_hover_color","font_pressed_color","font_focus_color","font_disabled_color","icon_normal_color","icon_hover_color","icon_pressed_color"})Theme.SetColor(state,"Button",Ink);
+        foreach(var state in new[]{"font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color","font_disabled_color","icon_normal_color","icon_hover_color","icon_pressed_color","icon_hover_pressed_color"})Theme.SetColor(state,"Button",Ink);
         foreach(var kind in new[]{"HScrollBar","VScrollBar"})
         {
-            int thickness=kind=="HScrollBar"?6:10;
-            var track=Box("ffffff00",Line,0,0);track.ContentMarginTop=track.ContentMarginBottom=thickness/2;
+            // 原本のCSSにはheight6もあるが、現Edgeではscrollbar-width:thinが優先し
+            // 実client差は縦横とも10px。CSS文字だけで値を決めず採取画素を使う。
+            const int thickness=10;bool vertical=kind=="VScrollBar";
+            var track=Box("ffffff00",Line,0,0);if(vertical)track.BgColor=new Color(darkTheme?"2c2c2c":"fcfcfc");track.ContentMarginTop=track.ContentMarginBottom=thickness/2;
             track.ContentMarginLeft=track.ContentMarginRight=thickness/2;
             Theme.SetStylebox("scroll",""+kind,track);Theme.SetStylebox("scroll_focus",kind,track);
             foreach(var state in new[]{"grabber","grabber_highlight","grabber_pressed"})
-            {var thumb=Box(Line,Line,0,3);thumb.ContentMarginTop=thumb.ContentMarginBottom=thickness/2;thumb.ContentMarginLeft=thumb.ContentMarginRight=thickness/2;Theme.SetStylebox(state,kind,thumb);}
-            foreach(var state in new[]{"increment","decrement","increment_highlight","decrement_highlight","increment_pressed","decrement_pressed"})Theme.SetIcon(state,kind,new GradientTexture2D{Width=1,Height=1,Gradient=new Gradient{Colors=[new Color(0,0,0,0),new Color(0,0,0,0)]}});
+            {
+                var thumb=Box(Line,Line,0,3);if(vertical)thumb.BgColor=new Color(state=="grabber"?(darkTheme?"9f9f9f":"8b8b8b"):(darkTheme?"d1d1d1":"636363"));
+                thumb.ContentMarginTop=thumb.ContentMarginBottom=thickness/2;thumb.ContentMarginLeft=thumb.ContentMarginRight=thickness/2;
+                if(vertical){thumb.SetExpandMargin(Side.Left,-2);thumb.SetExpandMargin(Side.Right,-2);}else{thumb.SetExpandMargin(Side.Top,-2);thumb.SetExpandMargin(Side.Bottom,-2);}
+                Theme.SetStylebox(state,kind,thumb);
+            }
+            foreach(var state in new[]{"increment","decrement","increment_highlight","decrement_highlight","increment_pressed","decrement_pressed"})
+                Theme.SetIcon(state,kind,ScrollbarArrow(vertical,state.StartsWith("increment"),vertical?new Color(darkTheme?"9f9f9f":"8b8b8b"):UiColor(Line)));
         }
+    }
+    private static Texture2D ScrollbarArrow(bool vertical,bool forward,Color color)
+    {
+        // 小さな標準UIの三角をメモリ上で描く。ゲーム素材ファイルを追加・置換しない。
+        using var image=Image.CreateEmpty(10,10,false,Image.Format.Rgba8);image.Fill(new Color(0,0,0,0));
+        for(int row=0;row<3;row++)for(int cross=3+row;cross<=7-row;cross++)
+        {int axis=forward?4+row:6-row;image.SetPixel(vertical?cross:axis,vertical?axis:cross,color);}
+        return ImageTexture.CreateFromImage(image);
     }
 
     private Label Text(Control parent, string value, Rect2 rect, int size = 24, Color? color = null)

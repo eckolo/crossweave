@@ -18,6 +18,7 @@ public partial class GameScreen
 
     private void ExplorationScreen()
     {
+        RetainPublicTarget();
         var e=View.Obj("exploration");var actors=e.Obj("actors").Where(x=>x.Key!="P"&&x.Value.Flag("active")).ToArray();
         float total=actors.Length*344-24;
         var actorScroll=Scroll(content,"actors",new(24,88,1870,272),true);
@@ -31,8 +32,8 @@ public partial class GameScreen
             if(row.Text("knowledge_profile_id")=="SCN-001/target/ACT02")
                 b.AddChild(new TextureRect{ExpandMode=TextureRect.ExpandModeEnum.IgnoreSize,Texture=GD.Load<Texture2D>("res://Assets/Application/diver-placeholder.webp"),Position=new(19,-8),Size=new(282,176),StretchMode=TextureRect.StretchModeEnum.KeepAspectCentered,MouseFilter=MouseFilterEnum.Ignore});
             else Icon(b,row.Text("purpose")=="passage"?"Triangle":"Flag",new(128,22,64,64),stroke:1.5f);
-            var band=Surface(b,new(1,128,318,119),id==selectedTarget?"e9eee4":"f7f8f4");
-            float nameX=id==selectedTarget?32:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,15,16,16));
+            var band=Surface(b,new(1,129,318,118),id==selectedTarget?"e9eee4":"f7f8f4");
+            float nameX=id==selectedTarget?25:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,17,12,12));
             var name=Text(band,row.Text("display_name"),new(nameX,10,308-nameX,28),20);Strong(name);LineHeight(name,20,28);
             ActorVitals(band,id,row,10,42,298);
         }
@@ -51,7 +52,7 @@ public partial class GameScreen
             else field.Add(new(){["attr"]=attr,["empty"]=true,["id"]="empty-"+attr});
         }
         CardStrip("field",field,new(24,412,1870,216));
-        CardStrip("hand",e.Arr("hand").Rows(),new(24,687,1870,208));
+        CardStrip("hand",e.Arr("hand").Rows(),new(24,684,1870,214));
         dropZones.Add((new(25,381,1870,248),"field"));
         if(selectedCard!=""&&Controls.GetValueOrDefault("card-hand-"+selectedCard) is Control hand)
         {
@@ -124,15 +125,37 @@ public partial class GameScreen
     }
     private void RefreshAction()
     {
+        RetainPublicTarget();
         actionPreview = new();
         if (Session is not null && Can("preview_action") && Choice() is { } choice)
             actionPreview = Session.PreviewAction(View.Number("revision"), View.Text("view_token"), choice.Copy());
     }
+    private void RetainPublicTarget()
+    {
+        // 原本targetForと同じ、公開合法候補だけのUI選択。前の対象を保持し、
+        // 消えた時は公開passageを優先する。規則・対象能力・保存は変更しない。
+        var e=View.Obj("exploration");var allowed=e.Arr("legal_actions").Rows().Where(r=>r.Text("card_id")==selectedCard&&r.Text("target")!="").Select(r=>r.Text("target")).ToHashSet();
+        var candidates=e.Obj("actors").Where(p=>p.Key!="P"&&p.Value.Flag("active")&&(allowed.Count==0||allowed.Contains(p.Key))).ToArray();
+        if(candidates.Any(p=>p.Key==selectedTarget))return;
+        selectedTarget=candidates.FirstOrDefault(p=>p.Value.Text("purpose")=="passage").Key??candidates.FirstOrDefault().Key??"";
+    }
     private void CardStrip(string zone, IEnumerable<JsonObject> rows, Rect2 rect)
     {
         var array=rows.ToArray();var scroll=Scroll(content,"strip-"+zone,rect,true);
-        var line=new HBoxContainer {CustomMinimumSize=new(Math.Max(rect.Size.X,array.Length*264-16),208),Alignment=BoxContainer.AlignmentMode.Center};
-        line.AddThemeConstantOverride("separation",16);scroll.AddChild(line);
+        // overflow-y:hidden相当。208px札は縦バーを出さず、横バー出現時だけ
+        // viewportの内側で切れる。padding2を同じ実一覧の内容に含める。
+        scroll.VerticalScrollMode=ScrollContainer.ScrollMode.ShowNever;
+        var inset=new MarginContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill,SizeFlagsVertical=zone=="hand"?SizeFlags.ShrinkCenter:SizeFlags.ShrinkBegin,MouseFilter=MouseFilterEnum.Pass};
+        inset.AddThemeConstantOverride("margin_left",2);inset.AddThemeConstantOverride("margin_right",2);scroll.AddChild(inset);
+        if(zone=="hand")
+        {
+            // flexのcenterは横バー出現時に札の上下2pxを切る。整数余白で
+            // 同じ位置へ寄せ、一覧の余白入力はPassで実viewportまで通す。
+            void Center(){int pad=scroll.GetHScrollBar().IsVisibleInTree()?-2:3;inset.AddThemeConstantOverride("margin_top",pad);inset.AddThemeConstantOverride("margin_bottom",pad);}
+            scroll.GetHScrollBar().VisibilityChanged+=Center;Center();
+        }
+        var line=new HBoxContainer {CustomMinimumSize=new(Math.Max(rect.Size.X-4,array.Length*264-16),208),Alignment=BoxContainer.AlignmentMode.Center};
+        line.AddThemeConstantOverride("separation",16);inset.AddChild(line);
         foreach(var row in array)
         {
             var kind=row.Flag("forecast")?"forecast":zone;
@@ -227,8 +250,10 @@ public partial class GameScreen
             if(input is InputEventMouseMotion pan)
             {
                 var delta=pan.Position-blankLast;blankLast=pan.Position;
-                if(blankScroll.VerticalScrollMode!=ScrollContainer.ScrollMode.Disabled)blankScroll.ScrollVertical-=(int)delta.Y;
-                else blankScroll.ScrollHorizontal-=(int)delta.X;
+                // overflow-y:hidden相当のShowNeverでも操作軸は横。
+                // バーの表示条件ではなく、一覧の横操作契約から送り先を決める。
+                if(blankScroll.HorizontalScrollMode!=ScrollContainer.ScrollMode.Disabled)blankScroll.ScrollHorizontal-=(int)delta.X;
+                else blankScroll.ScrollVertical-=(int)delta.Y;
                 GetViewport().SetInputAsHandled();return;
             }
             if(input is InputEventMouseButton {Pressed:false,ButtonIndex:MouseButton.Left})

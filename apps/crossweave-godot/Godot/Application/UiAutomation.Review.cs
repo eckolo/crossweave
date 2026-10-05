@@ -131,7 +131,7 @@ internal sealed partial class UiAutomation
         if(naturalMaximum<1)
         {
             if(vertical)scroll.Size=new(scroll.Size.X,220);
-            else{scroll.Size=new(540,scroll.Size.Y);((Control)scroll.GetChild(0)).CustomMinimumSize=new(540,208);}
+            else{scroll.Size=new(540,scroll.Size.Y);Descendants(scroll).OfType<HBoxContainer>().First().CustomMinimumSize=new(536,208);}
             await Frame(3);r=scroll.GetGlobalRect();
         }
         var maximum=Math.Max(0,bar.MaxValue-bar.Page);var before=screen.Session!.ExportDto();var plan=screen.Plan.Copy();
@@ -344,7 +344,7 @@ internal sealed partial class UiAutomation
         // 選択に伴う通常再描画を先に済ませ、その同じ場viewportを限定幅で確認する。
         await HoldTo("card-hand-"+id,new(960,540),false);
         var origin=(ScrollContainer)screen.Controls["strip-hand"];var dest=(ScrollContainer)screen.Controls["strip-field"];var original=dest.GetGlobalRect();
-        dest.Size=new(540,dest.Size.Y);((Control)dest.GetChild(0)).CustomMinimumSize=new(540,208);await Frame(3);var r=dest.GetGlobalRect();var point=new Vector2(r.End.X-4,r.Position.Y+70);
+        dest.Size=new(540,dest.Size.Y);Descendants(dest).OfType<HBoxContainer>().First().CustomMinimumSize=new(536,208);await Frame(3);var r=dest.GetGlobalRect();var point=new Vector2(r.End.X-4,r.Position.Y+70);
         await Move(new(960,540),point);await Frame(8);var acceptance=screen.DragAcceptance();
         Check("R06-field-destination-only",dest.ScrollHorizontal>0&&origin.ScrollHorizontal==0&&acceptance.Flag("allowed"),new{destination=dest.ScrollHorizontal,origin=origin.ScrollHorizontal,natural_rect=original.ToString(),probe_rect=r.ToString(),acceptance});await Capture("R06-field-edge-scroll");
         await Move(point,new(960,760));await Frame(2);int at=dest.ScrollHorizontal;await Frame(8);Check("R06-field-outside-stops",dest.ScrollHorizontal==at&&origin.ScrollHorizontal==0);await KeyInput(Key.Escape);await Mouse(new(960,760),false);await Idle();

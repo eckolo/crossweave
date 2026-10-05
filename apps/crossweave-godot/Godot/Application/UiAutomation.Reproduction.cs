@@ -13,6 +13,8 @@ internal sealed partial class UiAutomation
 {
     private async Task Reproduction()
     {
+        if(mode.StartsWith("repro-bars-",StringComparison.Ordinal)){await ReproductionBars();return;}
+        if(mode.StartsWith("repro-edges-",StringComparison.Ordinal)){await ReproductionEdges();return;}
         if (mode.StartsWith("repro-acquisition-", StringComparison.Ordinal)||mode is "repro-revisit-home" or "repro-component-extra") { await ReproductionExtra(); return; }
         if (mode.StartsWith("repro-shared-", StringComparison.Ordinal)) { await ReproductionShared(); return; }
         if (mode.StartsWith("repro-motion-", StringComparison.Ordinal)) { await ReproductionMotion(); return; }
@@ -87,6 +89,48 @@ internal sealed partial class UiAutomation
         Check("all-reading-inputs-preserve-full-dto-file", JsonNode.DeepEquals(dto.State, screen.Session.ExportDto().State) && bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + "-public.json"), screen.View.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
     }
+    private async Task ReproductionEdges()
+    {
+        var before=screen.Session!.ExportDto();var file=System.IO.File.ReadAllBytes(SavePath);bool vertical=mode=="repro-edges-prep";
+        string origin;
+        if(vertical){await Click("prepare");await Click("tab-passive");await Click("取得-basic:PS01");origin="item-reserve-pending:basic:PS01";}
+        else origin="card-hand-"+screen.View.Obj("exploration").Arr("hand").Rows().First().Text("id");
+        await HoldTo(origin,new(960,540),false);
+        string id=vertical?"prep-passive-offer":mode=="repro-edges-hand"?"strip-hand":"strip-field";
+        var list=(ScrollContainer)screen.Controls[id];
+        if(vertical)list.Size=new(list.Size.X,220);else{list.Size=new(400,list.Size.Y);Descendants(list).OfType<HBoxContainer>().First().CustomMinimumSize=new(396,208);}
+        if(vertical)list.ScrollVertical=0;else list.ScrollHorizontal=0;await Frame(3);var r=list.GetGlobalRect();int threshold=vertical?22:64;
+        var p=vertical?new Vector2(r.Position.X+150,r.End.Y-threshold-1):new Vector2(r.End.X-threshold-1,r.Position.Y+80);
+        await Move(new(960,540),p);await screen.ToSignal(screen.GetTree().CreateTimer(.16),SceneTreeTimer.SignalName.Timeout);await Capture("threshold-before");
+        Check("edge-before-threshold-still",(vertical?list.ScrollVertical:list.ScrollHorizontal)==0);
+        var active=p+(vertical?new Vector2(0,2):new Vector2(2,0));await Move(p,active);ulong began=Time.GetTicksMsec();var trace=new List<object>();
+        while(Time.GetTicksMsec()-began<1000){await Frame();trace.Add(new{elapsed_ms=Time.GetTicksMsec()-began,horizontal=list.ScrollHorizontal,vertical=list.ScrollVertical});}
+        await Capture("edge-one-second");var value=vertical?list.ScrollVertical:list.ScrollHorizontal;ScrollBar bar=vertical?list.GetVScrollBar():list.GetHScrollBar();
+        Check("edge-one-logical-second-moved",value>0,new{threshold,step_per_frame=vertical?7:16,logical_seconds=1,actual_elapsed_ms=Time.GetTicksMsec()-began,maximum=bar.MaxValue-bar.Page,value,trace,acceptance=screen.DragAcceptance()});
+        await Move(active,r.End+Vector2.One);await screen.ToSignal(screen.GetTree().CreateTimer(.16),SceneTreeTimer.SignalName.Timeout);await Capture("outside-stops");Check("edge-outside-still",value==(vertical?list.ScrollVertical:list.ScrollHorizontal));
+        await KeyInput(Key.Escape);await Mouse(r.End+Vector2.One,false);await Idle();await Capture("canceled");if(vertical)await Click("discard");
+        Check("edge-cancel-keeps-full-dto-file",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&file.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
+    }
+    private async Task ReproductionBars()
+    {
+        bool vertical=mode=="repro-bars-prep";if(vertical){await Click("prepare");await Click("tab-passive");}
+        string id=vertical?"prep-passive-offer":mode=="repro-bars-hand"?"strip-hand":"strip-field";
+        var list=(ScrollContainer)screen.Controls[id];ScrollBar bar=vertical?list.GetVScrollBar():list.GetHScrollBar();
+        var before=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);var plan=screen.Plan.Copy();
+        object Measure()=>new{rect=list.GetGlobalRect().ToString(),bar_rect=bar.GetGlobalRect().ToString(),visible=bar.IsVisibleInTree(),value=bar.Value,maximum=bar.MaxValue,page=bar.Page,
+            styles=new[]{"scroll","grabber","grabber_highlight","grabber_pressed"}.Select(k=>new{key=k,color=(bar.GetThemeStylebox(k)as StyleBoxFlat)?.BgColor.ToHtml(),radius=(bar.GetThemeStylebox(k)as StyleBoxFlat)?.CornerRadiusTopLeft})};
+        await Frame(3);await Capture("natural");checks.Add(new{id="natural-bar-metrics",data=Measure()});
+        // 同じ実ノードの寸法だけを制限する。自然状態の非overflowを成功扱いの代用にしない。
+        if(vertical)list.Size=new(list.Size.X,220);else{int width=mode=="repro-bars-field"?400:540;list.Size=new(width,list.Size.Y);Descendants(list).OfType<HBoxContainer>().First().CustomMinimumSize=new(width-4,208);}
+        bar.Value=0;await Frame(3);Check("limited-real-node-overflow",bar.IsVisibleInTree()&&bar.MaxValue-bar.Page>0,Measure());
+        await Capture("bar-start");var r=bar.GetGlobalRect();float length=(vertical?r.Size.Y:r.Size.X)*(float)(bar.Page/bar.MaxValue);
+        var p=vertical?new Vector2(r.GetCenter().X,r.Position.Y+length/2):new Vector2(r.Position.X+length/2,r.GetCenter().Y);
+        await Move(new(950,500),p);await Capture("bar-hover");await Mouse(p,true);await Capture("bar-pressed");
+        var end=p+(vertical?new Vector2(0,70):new Vector2(90,0));await Move(p,end);await Capture("bar-drag");await Mouse(end,false);await Frame(3);await Capture("bar-released");
+        Check("actual-native-thumb-drag",bar.Value>0,Measure());bar.Value=bar.MaxValue-bar.Page;await Frame(3);await Capture("bar-end");checks.Add(new{id="bar-end-metrics",data=Measure()});
+        bar.Value=0;await Frame(3);await Capture("bar-restored");
+        Check("bar-input-preserves-full-dto-plan-file",JsonNode.DeepEquals(before.State,screen.Session.ExportDto().State)&&JsonNode.DeepEquals(plan,screen.Plan)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
+    }
     private async Task ReproductionExtra()
     {
         var dto=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);
@@ -94,7 +138,11 @@ internal sealed partial class UiAutomation
         if(mode=="repro-component-extra")
         {
             await ButtonStates("knowledge");await Click("menu");await Click("operation");await Capture("operation");
-            var select=(OptionButton)screen.Controls["hold-duration"];await Click("hold-duration");
+            var select=(OptionButton)screen.Controls["hold-duration"];
+            // OptionButtonは製品がPressedを接続しない標準部品。独自Button用の
+            // 受信カウンタではなく、同じ実入力と実PopupMenuの可視状態で確認する。
+            var point=await Point("hold-duration");screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);
+            await Mouse(point,true);await Mouse(point,false);await Frame(3);
             Check("actual-option-popup-visible",select.GetPopup().Visible);await Capture("hold-select-open");
             await KeyInput(Key.Escape);await KeyInput(Key.Tab);select=(OptionButton)screen.Controls["hold-duration"];select.GrabFocus();
             await KeyInput(Key.Down);await Capture("hold-select-keyboard");await KeyInput(Key.Escape);await CloseDetail();

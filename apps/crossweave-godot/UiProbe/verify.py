@@ -59,7 +59,10 @@ def main():
                 assert fixture.is_file(), fixture
                 manifest.setdefault('fixture_sha256',{})[mode]=hashlib.sha256(fixture.read_bytes()).hexdigest()
                 fixture_args=['--ui-fixture='+str(fixture)]
-            run(mode,[godot,*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence),*(['--ui-theme='+args.theme] if args.theme else []),*fixture_args],timeout=240)
+            # 画面・入力・保存の隔離検査は音声デバイスを検査しない。Windows CIは
+            # WASAPI出力端点が無く、描画成功後にも初期化ERRORを残すため明示Dummy。
+            # 実ゲームのproject/audio設定は変更せず、他のengine ERRORは引続き失敗。
+            run(mode,[godot,'--audio-driver','Dummy',*([] if args.rendered else ['--headless']),*(['--resolution','1920x1080'] if args.full_hd else []),'--path','Godot','--','--ui-check='+mode,'--ui-slot='+slot,'--ui-output='+str(evidence),*(['--ui-theme='+args.theme] if args.theme else []),*fixture_args],timeout=240)
             report=json.loads((evidence/(mode+'.json')).read_text(encoding='utf-8'))
             assert report['status']=='passed', mode
             manifest['cases'][mode]=dict(status=report['status'],process_id=report['process_id'],checks=len(report['checks']),commands=len(report['commands']),final_revision=report['final_revision'])

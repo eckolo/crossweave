@@ -134,6 +134,14 @@ public partial class GameScreen
     }
     private ScrollContainer? DestinationScroll()
     {
+        if(Screen=="exploring")
+        {
+            // 原本は保持中、pointerがある手札／場の実一覧だけを送る。
+            // 手札上の送りはdrop受入とは別で、playや保存を発生させない。
+            foreach(string key in new[]{"strip-field","strip-hand"})
+                if(Controls.GetValueOrDefault(key)is ScrollContainer list&&list.GetGlobalRect().HasPoint(pointer))return list;
+            return null;
+        }
         var zone=dropZones.LastOrDefault(z=>z.rect.HasPoint(pointer)).zone;
         return Controls.GetValueOrDefault(Screen=="preparation"?"prep-"+preparationTab+"-"+zone:"strip-"+zone) as ScrollContainer;
     }

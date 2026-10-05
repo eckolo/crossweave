@@ -77,10 +77,16 @@ public partial class GameScreen
             }
             else if(zone=="build")Surface(content,area,"dce6d2","b3c4a4",1,6);
             else Surface(content,new(x,996,width,2),"bdb69a");
-            var scroll=Scroll(content,"prep-"+preparationTab+"-"+zone,new(x+2,122,width-4,874),false);
+            // 原本のscrollbar-gutter:stableは一覧の外寸内に場所を予約する。
+            // padding2は内容側に置き、自然非overflow時も札の位置を動かさない。
+            var scroll=Scroll(content,"prep-"+preparationTab+"-"+zone,area,false);
+            scroll.VerticalScrollMode=ScrollContainer.ScrollMode.Reserve;
+            var inset=new MarginContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Pass};
+            foreach(string side in new[]{"left","top","right","bottom"})inset.AddThemeConstantOverride("margin_"+side,2);
+            scroll.AddChild(inset);
             dropZones.Add((new(x+1,121,width,878),zone));
             var grid=new GridContainer{Columns=i==0?1:2,SizeFlagsHorizontal=SizeFlags.ExpandFill};
-            grid.AddThemeConstantOverride("h_separation",8);grid.AddThemeConstantOverride("v_separation",8);scroll.AddChild(grid);
+            grid.AddThemeConstantOverride("h_separation",8);grid.AddThemeConstantOverride("v_separation",8);inset.AddChild(grid);
             IEnumerable<JsonObject> rows=zone=="offer"?View.Obj("home").Arr("acquisition").Rows():zone=="build"?Plan.Obj("composition").Arr(preparationTab=="card"?"deck":"equipment").Strings().Select(id=>projected.FirstOrDefault(r=>r.Text("id")==id)).OfType<JsonObject>():projected.Where(r=>!Composed(r));
             rows=rows.Where(r=>r.Obj("blueprint").Text("kind")==preparationTab);
             if(zone=="reserve")rows=rows.GroupBy(r=>r.Obj("blueprint").Text("key")+"|"+r.Flag("pending")+"|"+r.Flag("locked")+"|"+r.Flag("conversion_available")).Select(g=>{var row=g.First().Copy();row["display_quantity"]=g.Count();return row;});

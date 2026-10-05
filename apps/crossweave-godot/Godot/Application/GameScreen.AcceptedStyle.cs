@@ -159,12 +159,13 @@ public partial class GameScreen
         if (!b.HasMeta("accepted_pressed_style"))
         {
             b.SetMeta("accepted_pressed_style", true);
-            b.MouseEntered += () => b.AddThemeStyleboxOverride("pressed", b.GetThemeStylebox("hover"));
+            b.MouseEntered += () => { b.AddThemeStyleboxOverride("pressed", b.GetThemeStylebox("hover")); b.AddThemeStyleboxOverride("hover_pressed", b.GetThemeStylebox("hover")); };
             b.MouseExited += () => b.AddThemeStyleboxOverride("pressed", b.GetThemeStylebox("normal"));
         }
         b.AddThemeStyleboxOverride("pressed", b.GetThemeStylebox(b.IsHovered() ? "hover" : "normal"));
+        b.AddThemeStyleboxOverride("hover_pressed", b.GetThemeStylebox("hover"));
         b.SetMeta("accepted_focus_radius", radius); ApplyFocusAppearance(b);
-        foreach (var state in new[] { "font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color" }) b.AddThemeColorOverride(state, UiColor(ink));
+        foreach (var state in new[] { "font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color", "font_disabled_color" }) b.AddThemeColorOverride(state, UiColor(ink));
         foreach (var child in b.GetChildren())
         { if (child is Label label) label.AddThemeColorOverride("font_color", UiColor(ink)); else if (child is TextureRect icon) icon.Modulate = UiColor(ink); }
     }

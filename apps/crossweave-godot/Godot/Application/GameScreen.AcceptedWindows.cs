@@ -300,13 +300,14 @@ public partial class GameScreen
     }
     private CheckBox Setting(Control parent, string id, string value, Rect2 rect, bool enabled, Action<bool> changed, bool browserInput = false)
     {
-        var box = new CheckBox { Text = value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box;
+        var box = new CheckBox { Text = browserInput ? "" : value, AccessibilityName=value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box;
         box.AddThemeFontSizeOverride("font_size", 18); box.AddThemeConstantOverride("h_separation", 10);
         // 原本の20px inputとaccent-colorを実CheckBoxへ与える。標準テーマの
         // 大きいチェック絵を残さず、既存Check SVGと同じ四角面で構成する。
         var blank = new GradientTexture2D { Width = 20, Height = 20, Gradient = new Gradient { Colors = [new Color(0, 0, 0, 0), new Color(0, 0, 0, 0)] } };
         foreach (string key in new[] { "checked", "unchecked", "checked_disabled", "unchecked_disabled" }) box.AddThemeIconOverride(key, blank);
-        foreach (string state in new[] { "normal", "hover", "pressed", "disabled", "focus" }) { var style = Box("ffffff00", width: 0); if (browserInput) style.ContentMarginLeft = 4; box.AddThemeStyleboxOverride(state, style); }
+        foreach (string state in new[] { "normal", "hover", "pressed", "hover_pressed", "disabled", "focus" }) { var style = Box("ffffff00", width: 0); if (browserInput) style.ContentMarginLeft = 4; box.AddThemeStyleboxOverride(state, style); }
+        if(browserInput){var caption=Text(box,value,new(34,0,rect.Size.X-34,rect.Size.Y),18);LineHeight(caption,18,25.2f);}
         string accent = browserInput ? (darkTheme ? "99c8ff" : "0075ff") : "315849";
         var check = Surface(box, new(browserInput ? 4 : 0, browserInput ? 4.094f : (rect.Size.Y - 20) / 2, 20, 20), enabled ? accent : Paper, enabled ? accent : Line, 1, 2);
         if (enabled) Icon(check, "Check", new(2, 2, 16, 16), new Color(browserInput ? (darkTheme ? "3b3b3b" : "ffffff") : "fffef5"), 3);
@@ -318,15 +319,34 @@ public partial class GameScreen
         var rect = PlaceWindow(modalAnchor); var p = WindowFrame(operationSettings ? "操作" : "表示", rect, back: modalParent != "" && !operationSettings, pinned: operationSettings);
         if (!operationSettings) { Setting(p, "reduced-motion", "動きを抑える", new(16, 80, 488, 48), reducedMotion, on => reducedMotion = on); return; }
         var body = FactsBody(p, "settings-body", new(16, 80, 488, 384), 10); Paragraph(body, "札も相手もクリックで選択・詳細。相手を選ぶと行動の対象も切り替わります。札を短く押し続けて場へ運ぶと出札できます。押してすぐ横へ動かすと手札を送ります。");
+        // VBoxの行ごとの整数丸めを累積させない。原本の27.09375px行を
+        // 一つの内容Control内へ小数座標で置き、同じ実CheckBoxへ入力を渡す。
+        var inputs=new Control{CustomMinimumSize=new(0,186.375f),MouseFilter=MouseFilterEnum.Ignore};body.AddChild(inputs);float rowY=-.8125f;
         foreach (var (id, label, on) in new[] { ("show-relations", "関係線を表示", showRelations), ("auto-details", "選択時に詳細を開く", autoDetails), ("quick-place", "通常の設置をすぐ実行", quickPlace), ("allow-drag", "ドラッグを使う", allowDrag) })
-        { var cell = new Control { CustomMinimumSize = new(0, 27.094f) }; body.AddChild(cell); Setting(cell, id, label, new(0, 0, 486, 27.094f), on, v => { switch (id) { case "show-relations": showRelations = v; break; case "auto-details": autoDetails = v; break; case "quick-place": quickPlace = v; break; case "allow-drag": allowDrag = v; break; } }, browserInput: true); }
-        var hold = new Control { CustomMinimumSize = new(0, 38) }; body.AddChild(hold); var title = Text(hold, "つかむまで", new(0, 0, 76.453f, 38), 18); LineHeight(title, 18, 25.2f);
+        { Setting(inputs, id, label, new(0,rowY,486,27.09375f), on, v => { switch (id) { case "show-relations": showRelations = v; break; case "auto-details": autoDetails = v; break; case "quick-place": quickPlace = v; break; case "allow-drag": allowDrag = v; break; } }, browserInput: true);rowY+=37.09375f; }
+        var hold = new Control { Position=new(0,rowY),Size=new(486,38) }; inputs.AddChild(hold); var title = Text(hold, "つかむまで", new(0, 0, 76.453f, 38), 18); LineHeight(title, 18, 25.2f);
         var select = new OptionButton { Position = new(76.453f, 0), Size = new(90, 38) }; hold.AddChild(select); Controls["hold-duration"] = select;
-        select.AddThemeFontSizeOverride("font_size", 18); select.AddThemeIconOverride("arrow", IconTexture("ChevronDown", textureSize: 12)); select.AddThemeConstantOverride("arrow_margin", 4); select.AddThemeConstantOverride("h_separation", 4); select.AddThemeColorOverride("font_color", Ink); select.AddThemeColorOverride("font_hover_color", Ink);
-        foreach (string state in new[] { "normal", "hover", "pressed", "focus" }) { var style = Box(Paper, Line, 1, 5); style.ContentMarginLeft = style.ContentMarginRight = 6; select.AddThemeStyleboxOverride(state, style); }
-        foreach (string state in new[] { "icon_normal_color", "icon_hover_color", "icon_pressed_color" }) select.AddThemeColorOverride(state, Ink);
+        select.AddThemeFontSizeOverride("font_size", 18); select.AddThemeIconOverride("arrow", IconTexture("ChevronDown", textureSize: 12)); select.AddThemeConstantOverride("modulate_arrow",1); select.AddThemeConstantOverride("arrow_margin", 4); select.AddThemeConstantOverride("h_separation", 4);
+        foreach(string state in new[]{"font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"})select.AddThemeColorOverride(state,Ink);
+        foreach (string state in new[] { "normal", "hover", "pressed", "hover_pressed", "focus" }) { var style = Box(Paper, Line, 1, 5); style.ContentMarginLeft = style.ContentMarginRight = 6; select.AddThemeStyleboxOverride(state, style); }
+        foreach (string state in new[] { "icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_hover_pressed_color" }) select.AddThemeColorOverride(state, Ink);
         select.SetMeta("accepted_focus_radius",5); ApplyFocusAppearance(select);
         foreach (int ms in new[] { 150, 220, 320 }) select.AddItem((ms / 1000m).ToString("0.00") + "秒", ms); select.Selected = Array.IndexOf(new[] { 150, 220, 320 }, holdMilliseconds); select.ItemSelected += index => { CancelGesture(); holdMilliseconds = select.GetItemId((int)index); };
+        // 実OptionButton/PopupMenuの入力を維持し、原本の選択面の色と行高を与える。
+        // radio記号は原本に無い。標準テーマを理由に追加せず、選択行の背景で示す。
+        var popup=select.GetPopup();popup.AddThemeFontOverride("font",font);popup.AddThemeFontSizeOverride("font_size",18);
+        popup.AddThemeColorOverride("font_color",Ink);popup.AddThemeColorOverride("font_hover_color",new Color("ffffff"));
+        var popupBox=Box(Paper,Line,1,0);popupBox.ContentMarginLeft=popupBox.ContentMarginRight=1;popupBox.ContentMarginTop=popupBox.ContentMarginBottom=1;
+        popup.AddThemeStyleboxOverride("panel",popupBox);popup.AddThemeStyleboxOverride("hover",new StyleBoxFlat{BgColor=new Color("767676")});
+        popup.AddThemeConstantOverride("v_separation",5);popup.AddThemeConstantOverride("h_separation",0);
+        popup.AddThemeConstantOverride("item_start_padding",1);popup.AddThemeConstantOverride("item_end_padding",1);
+        for(int n=0;n<3;n++){popup.SetItemAsRadioCheckable(n,false);popup.SetItemAsCheckable(n,false);}
+        popup.AboutToPopup+=()=>Callable.From(()=>
+        {
+            if(!GodotObject.IsInstanceValid(select)||!popup.Visible)return;
+            var anchor=popup.IsEmbedded()?select.GlobalPosition:select.GetScreenPosition();
+            popup.Size=new(90,98);popup.Position=new((int)anchor.X,(int)anchor.Y-popup.Size.Y-4);popup.SetFocusedItem(select.Selected);
+        }).CallDeferred();
     }
     private void GenericFacts(VBoxContainer body, string kind, string fallback)
     {
