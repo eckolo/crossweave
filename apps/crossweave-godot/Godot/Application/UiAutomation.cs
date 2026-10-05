@@ -401,6 +401,10 @@ internal sealed partial class UiAutomation
     private async Task Capture(string name)
     {
         if (DisplayServer.GetName() == "headless") return;
+        // 比較用の静止画は200msの取得移動が着地した後に採る。
+        // 遷移中の実フレームはReproductionMotionのSampleへ分け、途中を
+        // 静止状態と読み替えない。保存・入力の製品処理には待機を足さない。
+        while (Time.GetTicksMsec() < screen.MotionEndsAt) await Frame();
         await screen.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
         ulong capturedAt=Time.GetTicksMsec();
         var image = screen.GetViewport().GetTexture().GetImage();

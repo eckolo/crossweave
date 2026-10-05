@@ -219,6 +219,17 @@ internal sealed partial class UiAutomation
         var initial = screen.Session!.ExportDto(); var initialBytes = System.IO.File.ReadAllBytes(SavePath);
         var sequence = new List<object>();
         var rawFrames = new List<(Image image, string filename, string nodes)>();
+        async Task<ulong> BeginClick(string id)
+        {
+            // 通常Clickのノード探索・ホバー待機を時計開始前へ出す。
+            // 解放後のFrame(3)を省き、最初の実描画から記録する。
+            var point = await Point(id);
+            screen.GetViewport().PushInput(new InputEventMouseMotion { Position=point, GlobalPosition=point }, true);
+            await Frame(2); ulong start=Time.GetTicksMsec();
+            screen.GetViewport().PushInput(new InputEventMouseButton { Position=point, GlobalPosition=point, ButtonIndex=MouseButton.Left, Pressed=true }, true);
+            screen.GetViewport().PushInput(new InputEventMouseButton { Position=point, GlobalPosition=point, ButtonIndex=MouseButton.Left, Pressed=false }, true);
+            return start;
+        }
         async Task Sample(string label, ulong start)
         {
             // PNG圧縮中はmain threadが進まない。保持の120〜220msを圧縮時間で
@@ -228,7 +239,9 @@ internal sealed partial class UiAutomation
             string filename = mode + "-" + label;
             var image = screen.GetViewport().GetTexture().GetImage();
             rawFrames.Add((image, filename, JsonSerializer.Serialize(new { at_ms = at, revision = screen.View.Number("revision"), screen = screen.Screen, modal = screen.Modal, nodes = Geometry() }, new JsonSerializerOptions { WriteIndented = true })));
-            sequence.Add(new { frame = filename + ".png", elapsed_ms = at - start, state });
+            sequence.Add(new { frame = filename + ".png", input_at_ms=start, at_ms=at, elapsed_ms = at - start,
+                // 入力後の再構築時間と実Tweenの200msを別に読む。
+                tween_started_at_ms=screen.MotionEndsAt>start ? (ulong?)(screen.MotionEndsAt-200) : null, state });
         }
         async Task Reduced(bool on)
         {
@@ -241,8 +254,11 @@ internal sealed partial class UiAutomation
             foreach (bool reduced in new[] { false, true })
             {
                 await Reduced(reduced); await Click("prepare"); await Click("tab-passive");
-                ulong start = Time.GetTicksMsec(); await Click("取得-basic:PS01", false);
-                for (int i = 0; i < 8; i++) await Sample((reduced ? "reduced" : "normal") + "-move-" + i, start);
+                ulong start = await BeginClick("取得-basic:PS01");
+                int i=0;
+                do { await Sample((reduced ? "reduced" : "normal") + "-move-" + i++, start); }
+                while (Time.GetTicksMsec()-start<500 || Time.GetTicksMsec()<screen.MotionEndsAt);
+                Check("motion-captured-through-settled-"+reduced,screen.Dirty && Time.GetTicksMsec()>=screen.MotionEndsAt);
                 await Click("discard"); await Click("home");
             }
             Check("motion-plan-only-no-dto-file", JsonNode.DeepEquals(initial.State, screen.Session.ExportDto().State) && initialBytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
@@ -274,7 +290,7 @@ internal sealed partial class UiAutomation
                 var choice = screen.View.Obj("exploration").Arr("legal_actions").Rows().First();
                 await Click("card-hand-" + choice.Text("card_id")); await CloseDetail();
                 if (choice.Text("target") != "") { await Click("actor-" + choice.Text("target")); await CloseDetail(); }
-                ulong start = Time.GetTicksMsec(); await Click("play", false);
+                ulong start = await BeginClick("play");
                 while (Time.GetTicksMsec() - start < 3200)
                 { await Sample((reduced ? "reduced" : "normal") + "-event-" + sequence.Count, start); await screen.ToSignal(screen.GetTree().CreateTimer(.08), SceneTreeTimer.SignalName.Timeout); }
                 await Idle(); VerifyCommand(before, "play", new() { ["choice"] = choice.Copy() });
