@@ -1,5 +1,6 @@
 """採取済みと未取得を分ける。CSSで到達しない状態にも原本根拠を付ける。"""
 from pathlib import Path
+import report_io
 import json,hashlib,subprocess
 R=Path(__file__).resolve().parents[3];E=R/'docs/検証/本編実装/d04b-ui-02/reproduction-20261005'
 def read(p):return json.loads(p.read_text(encoding='utf-8-sig'))
@@ -11,7 +12,7 @@ for role,names in roles.items():
   states=[]
   for p in cmp['pairs']:
    if name not in p['id']:continue
-   states.append({'pair':p['id'],'state':next((s for s in ['normal','hover','focus','pressed','disabled','open'] if s in p['id']),'captured'),'reference':p['reference'],'godot':p['godot'],'comparison_status':p['comparison_status']})
+   states.append({'pair':p['id'],'state':next((s for s in ['normal','hover','focus','pressed','disabled','selected','open'] if s in p['id']),'captured'),'reference':p['reference'],'godot':p['godot'],'comparison_status':p['comparison_status']})
   rows.append({'role':role,'control':name,'states':states,'status':'証拠を提出・独立判定未確認' if states else '未取得・依頼内未完了','no_combinatorial_approval':True})
 original='72d0eb58c7e3d04759f1ab56a939d1dff20a46b2';path='docs/検証/UI/readability/co-u02/acquisition-preview/structure.css'
 blob=subprocess.check_output(['git','rev-parse',original+':'+path],cwd=R,text=True).strip()

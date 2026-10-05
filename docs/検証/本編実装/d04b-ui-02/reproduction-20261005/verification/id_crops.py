@@ -1,5 +1,6 @@
 """実画像の画素を等倍で切り出す。配置を加工せず、差分値を適合判定へ変えない。"""
 from pathlib import Path
+import report_io
 import json,hashlib,math
 from PIL import Image,ImageChops,ImageStat
 R=Path(__file__).resolve().parents[3];E=R/'docs/検証/本編実装/d04b-ui-02/reproduction-20261005'

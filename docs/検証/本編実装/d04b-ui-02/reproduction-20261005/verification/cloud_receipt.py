@@ -1,5 +1,6 @@
 """通常読戻ししたActions ZIPの内部結果を照合する。jobの緑だけでは合格にしない。"""
 from pathlib import Path
+import report_io
 import hashlib,json,subprocess,zipfile,argparse
 R=Path(__file__).resolve().parents[3];E=R/'docs/検証/本編実装/d04b-ui-02/reproduction-20261005'
 p=argparse.ArgumentParser();p.add_argument('stage');p.add_argument('sha');p.add_argument('run',type=int);p.add_argument('artifact',type=int);p.add_argument('digest');a=p.parse_args()

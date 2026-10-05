@@ -1,8 +1,9 @@
 """未確認を適用外へ変えず、既存境界の実source/blobと合法探索を渡す。"""
 from pathlib import Path
+import report_io
 import hashlib,json,subprocess
 repo=Path(__file__).resolve().parents[3];ed=repo/'docs/検証/本編実装/d04b-ui-02/reproduction-20261005'
-implementation=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+implementation='572bb9a59b914345830df5c18f910a1deb6af2bc'
 original='72d0eb58c7e3d04759f1ab56a939d1dff20a46b2';base='0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6'
 def binding(commit,path,locator,observation):
  b=subprocess.check_output(['git','show',commit+':'+path],cwd=repo)
@@ -18,7 +19,7 @@ items=[
  js('defense.mjs','validateEffect / validateDefense / spendDefense / duration / migrateLegacyDefense','uses:nullは合法な防御効果の型で、消費されない。旧guard移行は有限1/2から移す。これだけで合法なnull札を新規生成できたとはしない。'),
  js('validate.mjs','validateDocument / validateEconomy / restoreGame / draftFor','保存provenance、旧版移行、ゲームと公開境界を検査する。保存値を任意編集した状態を合法commandの証拠にしない。'),
  js('migration-acquisition.mjs','migrateAcquisition','取得統合の旧保存移行。null公開の全入口除外根拠は未取得。'),
- js('affixes.mjs','compileCard / compilePassive','修飾compile入口。登録修飾と能力を編集せず、修飾展開は既存return offerで採取。'),
+ js('affixes.mjs','variants / compileCard / passiveSpec','修飾compile入口。登録修飾と能力を編集せず、修飾展開は既存return offerで採取。'),
  js('possessions.mjs','initializePossessions / mapLegacySelections / acquireBasic','初期・基礎取得・旧所持移行の入口。購入は公開取得契約を通す。'),
  js('action-public.mjs','publicContract / actionPreview','予測応答と未公開境界。未公開から独自の倍率や他人の私有構成を推計しない。'),
  js('campaign.mjs','Campaign.create / open / importSave / execute / previewAction','合法な新規・再開・旧保存入力と公開command。nullの保存型受入と、null札を得る合法command列は区別する。'),
