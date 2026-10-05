@@ -13,6 +13,7 @@ internal sealed partial class UiAutomation
 {
     private async Task Reproduction()
     {
+        if (mode is "repro-hover" or "repro-preparation-boundaries") { await ReproductionBoundaries(); return; }
         if(mode.StartsWith("repro-bars-",StringComparison.Ordinal)){await ReproductionBars();return;}
         if(mode.StartsWith("repro-edges-",StringComparison.Ordinal)){await ReproductionEdges();return;}
         if (mode.StartsWith("repro-acquisition-", StringComparison.Ordinal)||mode is "repro-revisit-home" or "repro-component-extra") { await ReproductionExtra(); return; }
@@ -88,6 +89,44 @@ internal sealed partial class UiAutomation
         }
         Check("all-reading-inputs-preserve-full-dto-file", JsonNode.DeepEquals(dto.State, screen.Session.ExportDto().State) && bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
         System.IO.File.WriteAllText(System.IO.Path.Combine(output, mode + "-public.json"), screen.View.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+    }
+    private async Task ReproductionBoundaries()
+    {
+        var dto=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);
+        await Capture("entry");
+        if(mode=="repro-preparation-boundaries")
+        {
+            await Click("prepare");await Click("tab-passive");
+            // 正式保存を変更せず、合法な未確定案の枠不足を作る。
+            foreach(string id in screen.Plan.Obj("composition").Arr("equipment").Strings())await Click("外す-"+id);
+            foreach(var offer in screen.View.Obj("home").Arr("acquisition").Rows().Where(r=>r.Obj("blueprint").Text("kind")=="passive"&&r.Text("id").StartsWith("basic:")).ToArray())
+            {await Click("取得-"+offer.Text("id"));await Click("編成-"+offer.Text("pending_selection_id"));}
+            Check("legal-unpaid-capacity-exceeded",!screen.Comparison.Flag("ok")&&screen.Comparison.Text("error")=="equipment_capacity_exceeded",new{screen.Comparison});
+            await Capture("capacity-invalid");await Click("review");
+            Check("capacity-no-commit",screen.Controls["commit"] is Button{Disabled:true});await Capture("capacity-confirmation");await CloseDetail();await Click("discard");
+            Check("capacity-discard-retains-paid-state",!screen.Dirty);
+        }
+        else
+        {
+            var choice=screen.View.Obj("exploration").Arr("legal_actions").Rows().First();await Click("card-hand-"+choice.Text("card_id"));await CloseDetail();
+            var point=await Point("preview");var frames=new List<(Image image,string label,string nodes)>();var timeline=new List<object>();
+            async Task Sample(string label,ulong start)
+            {
+                await screen.ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);ulong at=Time.GetTicksMsec();
+                frames.Add((screen.GetViewport().GetTexture().GetImage(),label,JsonSerializer.Serialize(new{at_ms=at,nodes=Geometry()})));
+                timeline.Add(new{frame=mode+"-"+label+".png",input_at_ms=start,at_ms=at,elapsed_ms=at-start,modal=screen.Modal,pin=screen.Controls.GetValueOrDefault("window-pin")?.TooltipText});
+            }
+            ulong start=Time.GetTicksMsec();screen.GetViewport().PushInput(new InputEventMouseMotion{Position=point,GlobalPosition=point},true);
+            int i=0;do{await Sample("enter-"+i++,start);}while(Time.GetTicksMsec()-start<420);
+            Check("hover-open-transient",screen.Modal=="prediction"&&screen.Controls["window-pin"].TooltipText=="固定する");
+            start=Time.GetTicksMsec();screen.GetViewport().PushInput(new InputEventMouseMotion{Position=new(960,360),GlobalPosition=new(960,360)},true);
+            i=0;do{await Sample("leave-"+i++,start);}while(Time.GetTicksMsec()-start<420);
+            Check("hover-leave-closes",screen.Modal=="");
+            // 採取中のPNG圧縮で180/160msを延ばさない。実描画を先に保持する。
+            foreach(var f in frames){f.image.SavePng(System.IO.Path.Combine(output,mode+"-"+f.label+".png"));System.IO.File.WriteAllText(System.IO.Path.Combine(output,mode+"-"+f.label+".nodes.json"),f.nodes);f.image.Dispose();}
+            System.IO.File.WriteAllText(System.IO.Path.Combine(output,mode+"-sequence.json"),JsonSerializer.Serialize(new{frames_are_actual=true,no_interpolation=true,physical_input=false,sequence=timeline},new JsonSerializerOptions{WriteIndented=true}));
+        }
+        Check("boundary-readonly-full-dto-and-file",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));
     }
     private async Task ReproductionEdges()
     {
