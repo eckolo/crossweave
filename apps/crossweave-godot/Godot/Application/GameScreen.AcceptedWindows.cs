@@ -40,7 +40,7 @@ public partial class GameScreen
         return label;
     }
     private void Heading(Control parent, string value)
-    { var label = Paragraph(parent, value, 20, 1.4f); Strong(label); label.CustomMinimumSize = new(0, 28); }
+    { float height = journeyWindowStyle ? 30 : 28; var label = Paragraph(parent, value, 20, height / 20); Strong(label); label.CustomMinimumSize = new(0, height); }
     private void Fact(VBoxContainer body, string term, string value, string? symbol = null, float labelWidth = 164)
     {
         bool preparationFacts = Screen == "preparation" && !journeyWindowStyle;
@@ -54,6 +54,27 @@ public partial class GameScreen
     { var line = new ColorRect { Color = UiColor(Line), CustomMinimumSize = new(0, 1), MouseFilter = MouseFilterEnum.Ignore }; body.AddChild(line); }
     private void Ledger(VBoxContainer body, IEnumerable<(string term, string value, string? icons, string? field)> entries)
     {
+        if (journeyWindowStyle)
+        {
+            // cj-record-statsは探索cwのmax-content表とは別の共通契約。
+            // 原本の後勝ちCSSは18px/1.6、行間9px、値は右端、記号16px。
+            // 窓を開いた取得画面のcp書体や、cwの場加算列を混ぜない。
+            var journeyTable = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+            journeyTable.AddThemeConstantOverride("separation", 9); body.AddChild(journeyTable);
+            foreach (var r in entries)
+            {
+                var line = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+                line.AddThemeConstantOverride("separation", 12); journeyTable.AddChild(line);
+                float symbolWidth = r.icons is null ? 0 : 20;
+                float journeyWidth = font.GetStringSize(r.term, fontSize: 18).X + symbolWidth;
+                var term = new Control { CustomMinimumSize = new(journeyWidth, 29), MouseFilter = MouseFilterEnum.Ignore }; line.AddChild(term);
+                if (r.icons is not null) Icon(term, r.icons.Split('/')[0], new(0, 6.4f, 16, 16));
+                var label = Text(term, r.term, new(symbolWidth, 0, journeyWidth-symbolWidth, 29), 18); LineHeight(label, 18, 28.8f);
+                var value = Paragraph(line, r.value, 18, 1.6f); value.HorizontalAlignment = HorizontalAlignment.Right;
+                value.SetMeta("journey_ledger_value", true);
+            }
+            return;
+        }
         // CSSのmax-content列幅は表ごとに決まる。単一の固定164px幅にすると
         // 短いラベルの値が遠ざかり、長い主体名では逆に切れる。
         var rows = entries.ToArray();
@@ -141,13 +162,18 @@ public partial class GameScreen
             string? Contribution(string key) => field is null ? null : Known(field[key]);
             if (detailKind is "knowledge" or "deck") primary.Add(("属性", d.Text("attr"), null, null));
             if (d.Text("kind") == "defense_support")
-            { primary.Add(("身構", Known(d.Obj("defense_grant")["guard"]), "Shield", Contribution("field_power"))); primary.Add(("攪乱", Known(d.Obj("defense_grant")["evasion"]), "Wind", Contribution("field_hit"))); }
+            {
+                string prefix = journeyWindowStyle ? "全員へ" : "";
+                primary.Add((prefix+"身構", Known(d.Obj("defense_grant")["guard"]), "Shield", Contribution("field_power")));
+                primary.Add((prefix+"攪乱", Known(d.Obj("defense_grant")["evasion"]), "Wind", Contribution("field_hit")));
+            }
             else
             { primary.Add((guard ? "身構" : heal ? "回復" : "突破", Known(d["power"]), guard ? "Shield" : heal ? "HeartPlus" : "ArrowUpRight", heal ? null : Contribution("field_power"))); if (!heal) primary.Add((guard ? "攪乱" : "探査", Known(d[guard ? "evasion" : "hit"]), guard ? "Wind" : "ScanSearch", Contribution("field_hit"))); }
-            primary.Add(("機転", Known(d["crit_gain"]), "Zap", null));
+            // 原本cjの付与札は全員への二行。予測cwの公開機転は従来どおり残す。
+            if (!journeyWindowStyle || d.Text("kind") != "defense_support") primary.Add(("機転", Known(d["crit_gain"]), "Zap", null));
             if (detailKind is "knowledge" or "deck") primary.Add(("手札期限", Known(row["remaining_life"] ?? d["life"]), null, null));
             // HTML dlの既定上下余白を残し、原本にない「基礎値」見出しは増やさない。
-            body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, primary);
+            if (!journeyWindowStyle) body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, primary);
             Heading(body, "場に置くと"); Ledger(body, [("突破／身構", Known(d["field_power"]), "ArrowUpRight/Shield", null), ("探査／攪乱", Known(d["field_hit"]), "ScanSearch/Wind", null)]);
             Heading(body, "次の行動まで"); Ledger(body, [("置く", Known(d["place_cost"]), null, null), ("一致", Known(d["match_cost"]), null, null)]);
             if (guard) Paragraph(body, "防御の回数：" + (d.ContainsKey("defense_uses") ? d["defense_uses"] is null ? "制限なし" : d.Text("defense_uses") + "回" : "未公開"));
@@ -469,8 +495,12 @@ public partial class GameScreen
         var targets = Knowledge.Arr("views").Rows().ToArray();
         var target = targets.FirstOrDefault(r => r.Text("key") == knowledgeSelection || r.Text("profile") == knowledgeSelection);
         bool hasChild = cardDetail || target is not null; var rect = hasChild ? PlaceWindow(modalAnchor) : CommonWindowRect(); var pair = WindowPair(sourceWindow ?? rect);
+        // 一覧→対象→札では、札の直前にある対象窓が新しい親になる。
+        // 一覧の原位置は残し、戻ると元の一覧／対象pairを復元する。
+        bool nestedCard = cardDetail && target is not null;
+        if (nestedCard) pair = WindowPair(pair.right);
         var parent = WindowFrame(cardDetail && target is not null ? target.Text("display_name") : "調査記録", hasChild ? pair.left : rect, back: cardDetail && target is not null || modalParent != "", backAction: () => { knowledgeSelection = ""; Modal = "knowledge"; });
-        sourceWindow = new(parent.Position, parent.Size);
+        if (!nestedCard) sourceWindow = new(parent.Position, parent.Size);
         if (cardDetail && target is not null) TargetKnowledge(KnowledgeBody(parent,"knowledge-cards"), target);
         else
         {

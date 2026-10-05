@@ -268,7 +268,18 @@ internal sealed partial class UiAutomation
         if (screen.Controls.ContainsKey("knowledge-group-0"))
         {
             await Click("knowledge-group-0"); await Capture("records-observations");
-            if (screen.Controls.ContainsKey("knowledge-card-0")) { await Click("knowledge-card-0"); await Capture("records-card-child"); await Click("modal-back"); }
+            if (screen.Controls.ContainsKey("knowledge-card-0"))
+            {
+                var listRect = screen.Controls["dialog-panel"].GetGlobalRect();
+                await Click("knowledge-card-0"); await Capture("records-card-child");
+                if (mode == "repro-shared-preparation")
+                {
+                    // 固定原本の同じFHD状態は553/1089。二段目の親を17へ戻さない。
+                    Check("record-grandchild-source-panel", Mathf.IsEqualApprox(screen.Controls["dialog-panel"].GlobalPosition.X, 553) && Mathf.IsEqualApprox(screen.Controls["knowledge-child"].GlobalPosition.X, 1089));
+                }
+                await Click("modal-back"); await Capture("records-return-from-card");
+                Check("record-back-restores-list-origin", screen.Controls["dialog-panel"].GetGlobalRect() == listRect);
+            }
             await Click("modal-back");
         }
         await ButtonStates("knowledge-tab-targets"); await ButtonStates("knowledge-tab-cards");
