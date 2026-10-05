@@ -1,0 +1,469 @@
+{
+  "task": "D04B-UI-02",
+  "commit": "d4c9d50dfb5d8ba048499454b82733357f84d935",
+  "host": "windows",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sdk": "10.0.401",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "rendered": true,
+  "physical_input": false,
+  "windows11_physical": false,
+  "formal_distribution": false,
+  "theme": "light",
+  "commands": {
+    "restore-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "restore",
+        "Godot/Crossweave.Proof.csproj",
+        "--locked-mode",
+        "--disable-parallel",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "build-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\dotnet\\dotnet.exe",
+        "build",
+        "Godot/Crossweave.Proof.csproj",
+        "--no-restore",
+        "-m:1"
+      ],
+      "exit": 0
+    },
+    "import-ui": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit": 0
+    },
+    "repro-preparation-boundaries": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-preparation-boundaries",
+        "--ui-slot=ui-a2d0781c9053457a-repro-preparation-boundaries",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\boundary-light",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-preparation-boundaries.json"
+      ],
+      "exit": 0
+    },
+    "repro-hover": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--path",
+        "Godot",
+        "--",
+        "--ui-check=repro-hover",
+        "--ui-slot=ui-a2d0781c9053457a-repro-hover",
+        "--ui-output=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\boundary-light",
+        "--ui-theme=light",
+        "--ui-fixture=C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\docs\\検証\\本編実装\\d04b-ui-02\\reproduction-20261005\\fixtures\\repro-hover.json"
+      ],
+      "exit": 0
+    },
+    "proof-entry-regression": {
+      "arguments": [
+        "C:\\Users\\eckol\\eckolo Dropbox\\久乃銑泉\\gist\\crossweave\\apps\\crossweave-godot\\.tools\\godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe",
+        "--headless",
+        "--path",
+        "Godot",
+        "--",
+        "--proof-smoke",
+        "--probe-slot=ui-a2d0781c9053457a"
+      ],
+      "exit": 0
+    }
+  },
+  "cases": {
+    "repro-preparation-boundaries": {
+      "status": "passed",
+      "process_id": 16572,
+      "checks": 5,
+      "commands": 0,
+      "final_revision": 169
+    },
+    "repro-hover": {
+      "status": "passed",
+      "process_id": 47472,
+      "checks": 4,
+      "commands": 0,
+      "final_revision": 2
+    }
+  },
+  "source_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.LICENSE": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs": "ddd0a875239cb51e15adaf72c12d48f8dbc4c7508981dcaa51e65c6cdf2e7ddc",
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs.uid": "cf10866f7c1347bd72be74d270f44de5c0bdf16171493701229c350b783c1f16",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs.uid": "96b62823c327c690af1dadb1790922272feffb4f976419bdfc01975ce53949c7",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "7d9614fedf4e4db1b417e29f8ff81121ca010e148af3889e271e8c11f48b1117",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs.uid": "fe2dbb3780846a23e9c0fd3b41309b0f03555fd1cc2f8cd038fa305a6ffbeb14",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "d1bc262ba38e587045dfbb0227c6e19fcfed939fdbae238792c01fc31c53b4d5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs.uid": "495e007ffd25c2375fde5385505458c146ebcd78f443e80f720e10c8d14fd0ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "7b750a5bc4e418a9f4cc7e7d1198db9b08726d9947a739a1f620259b38160e7c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs.uid": "c90628908ad0cb4493320e0f258393cb615ae4be0544920633f366c01990e5b8",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "ceeb03b93a0954955457f5288b4ebb7746f8bb0cbc01321caa2d66939276c6ec",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs.uid": "7a166622f2c46f8f71481a461de16738c59086f777e140d5c510461a12936286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "55d96ee5dd93b9c402bd336620c7b2f5f5d027463d6e913d61dc092aa4ddc769",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs.uid": "8c8400e043a5dd0e2cb556e28ba64b29fec5e8cbb04634e7be8aa601971aae9a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "aa58b384cd6fd0d6b8243d156ca56b3f98fba636dd1349ddcbcb2991f6bd9a4a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs.uid": "b2ba03f384c5a5010a9853aaf5e5eb743ef1debfed41889ebabac92d2ee8f47c",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "fac81034456d6d3c5faa7241c09ec569b12f7f80d7dac950ca3aad2e15fbc582",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs.uid": "489e582dd8111d58076efbec2be752c7c8e70305ef7d9eacf16f6a779e275b08",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "1b5e5cee2aa29db939c22b06677b5ea43dee50c67d4184c579cbed61b0e75f74",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs.uid": "8736891df98b043cf009801995cdd1ee28c870562e9e60b47188cdeb11532e23",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "fa45b7b55c7ef8bd19bdaf74a020860d814b859485a04bee9a9a1d32413db7de",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs.uid": "262915d92fdd3914f0265bf9154d76aec1f18979701a06d891c2bcbd5ea7d2a1",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs.uid": "a2a7d835778c1f261348699a01f2c98240f35c6612f83681c9ec35a664281371",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "c5622588ad9c6740392484671d84b1d7f089adcc794a59f9a3001f13e0052c85",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs.uid": "80c02d6256aa694c8ceaf1858f1e57c48e7c979d021c29c7ccb838fce55f9a80",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs.uid": "1d0dd41ba78163aef37137317c4209749fbbc05610367cc3fa2d04db6e12475e",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "744902c656880206a02af3f33ff35f5698e7585a574e1a2bf3d74792f8e78acd",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs.uid": "d0577a58913ccad7dae4029bfc534036ac5993e1439353c48ae4d3ca2bb43eb5",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "d7e901d2b877890f842e182a117a43c2f572324b595e3f6925fe006d620616a8",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs.uid": "989f3111871a31bf6e967b76027ea0ec949a9da57739016e9aaa26c131bc37bc",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs.uid": "af6ec3ac66546ea0532f4ef4ad4e1e6d0070fc54deda4f1fb18be54143742902",
+    "apps/crossweave-godot/Core/Application/Assembly.cs": "e8e9c0c26629d3fdf855570553cb1a1dc16cb8c9ce8012f4acb0b914c51b5020",
+    "apps/crossweave-godot/Core/Application/Expedition.cs": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+    "apps/crossweave-godot/Core/Application/GameApplication.cs": "fa4c428fea0d2f5ac39b4b8007cd055a5ae160bfad77e56937d6a5b8733fa88e",
+    "apps/crossweave-godot/Core/Application/Json.cs": "42f91137f79c8a9f00eb46d7cdba9698fe282e4eb8ccf9be154f234c10477553",
+    "apps/crossweave-godot/Core/Application/MtRandom.cs": "18cb33a04b80b11120499084e52c8d8fff597530762c15aec54aefccd87acc7f",
+    "apps/crossweave-godot/Core/Application/Preparation.cs": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+    "apps/crossweave-godot/Core/Application/Story.cs": "f5aad2aab3f0bd10364a66822d1132f775f339011aa1cbea7e5aa37dd4d97c54",
+    "apps/crossweave-godot/Core/Application/UiPublicProjection.cs": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+    "apps/crossweave-godot/Infrastructure/Application/ApplicationFileStore.cs": "58d1095ef3cd172f912426f894ed15e0fc0a9efd691f354e2c90f19b0f66f75d",
+    "apps/crossweave-godot/Infrastructure/Application/FileGameSession.cs": "b79c64e4f2eb92b377a713d458dfaab02f06601645a4a50042f9df019b7e94e3",
+    "apps/crossweave-godot/Infrastructure/Application/SaveContracts.cs": "aa428ec6afbd79844b1bb959b628076a3bf77c154596c32b6a5e3d8bf4174bab",
+    "apps/crossweave-godot/Infrastructure/Application/SaveFileCodec.cs": "d8a866b0c544235fee327315c44c19bd5840437445d2c4b6c86c82b380963413",
+    "apps/crossweave-godot/UiProbe/launch.py": "3afc8e9847e88dee5d42090572b7610437cbce57bef2a9d905fb26c03d1342f8",
+    "apps/crossweave-godot/UiProbe/runtime.py": "3ae9a7eea0c0105476ec00d05146b8464d155757ae47fb6e4c96bcc78fb685c7",
+    "apps/crossweave-godot/UiProbe/verify.py": "2e368a23ece31ce0701498cc039f21b031e5a657a24794318acd44bf51a1133f",
+    "apps/crossweave-godot/Godot/Main.tscn": "fbe9f69dda93a3d0607699728e1e76b2727fc14b78cf4c275959b46340c3b3ef",
+    "apps/crossweave-godot/Godot/Proof.tscn": "b8bf45333aefd0057c63ee762d0499b7e1ea0a3b265e948d6c9eb88edfa1cecc",
+    "apps/crossweave-godot/Godot/project.godot": "791c066a0af4cadba898f57bd2144e8074eeccc7599cf03f049ee583c4441a42",
+    "apps/crossweave-godot/Infrastructure/Assembly.cs": "d20494e649c53d91a601bfffafd1c4b0a27f37b27cf66c97c88053a4255897c9"
+  },
+  "fixture_sha256": {
+    "repro-preparation-boundaries": "fb99a7af9e3c5f551175aef56ec0c45a245f3d42e36df2ea251088a334879e28",
+    "repro-hover": "bf42a97080e78ca9240f39a8f54ed98805f351a4b226de3a4ea079d0d1f626ac"
+  },
+  "source_changed_during_run": [],
+  "status": "passed",
+  "artifacts": {
+    "build-ui.log": {
+      "bytes": 582,
+      "sha256": "5b27b3b59f770a294b554b58067479160d3ebf517efe045287a5fd1baa090714"
+    },
+    "import-ui.log": {
+      "bytes": 1473,
+      "sha256": "5f2b4ecae9b11cb652763e3e425aabefdcecba1183e42835beba0881d6bb8600"
+    },
+    "proof-entry-regression.log": {
+      "bytes": 410,
+      "sha256": "3961d5f01a041d2b6175f7c479bea45fcb1a0be784915f696a092c920b1af24e"
+    },
+    "repro-hover-enter-0.nodes.json": {
+      "bytes": 66824,
+      "sha256": "6c5d28de253e0223a58608e70623563ca2a2cb1c59b89d35065e2b77fa183f1c"
+    },
+    "repro-hover-enter-0.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-1.nodes.json": {
+      "bytes": 66824,
+      "sha256": "2ecfce12fbe5deff62f3b5a52acb5cacf9cc9337a105a7dc2928e5fe625952fb"
+    },
+    "repro-hover-enter-1.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-10.nodes.json": {
+      "bytes": 66824,
+      "sha256": "470b30a2212385348600eef7785c14b20617027cc01901494549339a6a1caeba"
+    },
+    "repro-hover-enter-10.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-11.nodes.json": {
+      "bytes": 78821,
+      "sha256": "0dff6b1c3fa81ad3547bdbd4f541dc1ecdd30c2d715d74ab2d45cbe30a56e536"
+    },
+    "repro-hover-enter-11.png": {
+      "bytes": 875229,
+      "sha256": "98f0b44976b043f137c433cfbd949e6b07e428b3c0817c3f9b3967c23ebab0de"
+    },
+    "repro-hover-enter-2.nodes.json": {
+      "bytes": 66824,
+      "sha256": "6e1b9fd15882525be6ab0216689d429da5960d11a459947d99f0b0465fcf5e07"
+    },
+    "repro-hover-enter-2.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-3.nodes.json": {
+      "bytes": 66824,
+      "sha256": "62ba6fd4d75cdd0ad22eb61e04f752bc208fe8082d9316b21b9a21cc22b01ab4"
+    },
+    "repro-hover-enter-3.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-4.nodes.json": {
+      "bytes": 66824,
+      "sha256": "53c9380b033b73ac6297b32e3329ac6f44e5bb7fed21db6855c47d8b44763c76"
+    },
+    "repro-hover-enter-4.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-5.nodes.json": {
+      "bytes": 66824,
+      "sha256": "2970a42221b6956fc066b0c48a35726522b0746f2c5713c39109279559902fd8"
+    },
+    "repro-hover-enter-5.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-6.nodes.json": {
+      "bytes": 66824,
+      "sha256": "1cbc832f1f4f1e550a6b1fedc8821779ad8d38c3f728b363b72a93963f542811"
+    },
+    "repro-hover-enter-6.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-7.nodes.json": {
+      "bytes": 66824,
+      "sha256": "869d9520bc77bfa03551ed469ce3cb1e413584a5c23dddf0d5d358c881ed6f9e"
+    },
+    "repro-hover-enter-7.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-8.nodes.json": {
+      "bytes": 66824,
+      "sha256": "eb2bc36d167e8b94fe192e8caf69f356ca4b5e02464cb692b71b7768d2afa6e2"
+    },
+    "repro-hover-enter-8.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-enter-9.nodes.json": {
+      "bytes": 66824,
+      "sha256": "5712046cee1d86795418d7aa538b53b62bf1fafe8b3778ae0fdede48ec29ab22"
+    },
+    "repro-hover-enter-9.png": {
+      "bytes": 1029054,
+      "sha256": "c0b9293547ed287d2a8e9658d04161c129c4a172f0af72aa06cefffc54ea041d"
+    },
+    "repro-hover-entry.nodes.json": {
+      "bytes": 95348,
+      "sha256": "f76750cfc028562dd6248388a25872e5110c2657e736afcf5cf07c4b4595fd6a"
+    },
+    "repro-hover-entry.png": {
+      "bytes": 1017240,
+      "sha256": "639a6fe86cc4dd75460647b14cdf762c8db5b3bbcc7f9259ef51ecfcf09b01e3"
+    },
+    "repro-hover-leave-0.nodes.json": {
+      "bytes": 78823,
+      "sha256": "4477f150915dc171b3cf345bb9f28fc88b232f84f9bd5d615e1f76a54bd0559d"
+    },
+    "repro-hover-leave-0.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-1.nodes.json": {
+      "bytes": 78823,
+      "sha256": "15d758045f0f98059d39bd5b75570999c2c2417a113ed363d85ea57ea0e572c1"
+    },
+    "repro-hover-leave-1.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-10.nodes.json": {
+      "bytes": 78823,
+      "sha256": "c484e80344699166bcc8e0d0eee5de90703e3d8fe3eff1300663a271c59c7884"
+    },
+    "repro-hover-leave-10.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-11.nodes.json": {
+      "bytes": 66823,
+      "sha256": "de0b6b65823f829b3d39ac6237270cb1e8a1c8cddcfb62b6b9b72367839ca16d"
+    },
+    "repro-hover-leave-11.png": {
+      "bytes": 1031211,
+      "sha256": "b82bbf01942665057542db92dc533e93241016d4b217944f15bc62bd3173a499"
+    },
+    "repro-hover-leave-12.nodes.json": {
+      "bytes": 66825,
+      "sha256": "ed90b290593e3e4394cf11f13d31947fc63516698c2d356e6495fd47bbd68eb0"
+    },
+    "repro-hover-leave-12.png": {
+      "bytes": 1029035,
+      "sha256": "24965e35cd9a908f44e9aac7cf933a33df0eeaf829808aa306d3ec737c95314e"
+    },
+    "repro-hover-leave-13.nodes.json": {
+      "bytes": 66825,
+      "sha256": "3cc06945f1973e4dde90198d96467a22bed481c33fa236ae809e6f3468f134b0"
+    },
+    "repro-hover-leave-13.png": {
+      "bytes": 1029035,
+      "sha256": "24965e35cd9a908f44e9aac7cf933a33df0eeaf829808aa306d3ec737c95314e"
+    },
+    "repro-hover-leave-2.nodes.json": {
+      "bytes": 78823,
+      "sha256": "225534cc50af9ce7f75945431810270913f589970e477c06880ad41337d6249c"
+    },
+    "repro-hover-leave-2.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-3.nodes.json": {
+      "bytes": 78823,
+      "sha256": "70bd86a4c65048af8f936b9d762c678656728a0c14470ca0253b1822270d3d5a"
+    },
+    "repro-hover-leave-3.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-4.nodes.json": {
+      "bytes": 78823,
+      "sha256": "ccd8d7b67fe09cb0fa6c16b3ecae13449af9a223da96f5bff29df289119b5166"
+    },
+    "repro-hover-leave-4.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-5.nodes.json": {
+      "bytes": 78823,
+      "sha256": "9920b2e3ddaff3dbef9ba41c067d719692961e9758b512aa3cd1ba8c3140fb1c"
+    },
+    "repro-hover-leave-5.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-6.nodes.json": {
+      "bytes": 78823,
+      "sha256": "fcda63ac00a82eb10c706b46a2c26505166bc1804de92b249e777aaf4d1f64d7"
+    },
+    "repro-hover-leave-6.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-7.nodes.json": {
+      "bytes": 78823,
+      "sha256": "68fb5dd793c56b766fa7e3da3b6dab1dbbaff51d0433b63e1da076d3d438be61"
+    },
+    "repro-hover-leave-7.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-8.nodes.json": {
+      "bytes": 78823,
+      "sha256": "49b0640d0da511ea173ba09e6c0842e0d39a1dd64a6270f4e219a2f63de113d4"
+    },
+    "repro-hover-leave-8.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-leave-9.nodes.json": {
+      "bytes": 78823,
+      "sha256": "b1db0d5cb048a9eeeee783b06aef4aace70f91330f02001f0cb8f0ed978725ab"
+    },
+    "repro-hover-leave-9.png": {
+      "bytes": 873155,
+      "sha256": "74c7f86a86ce4450bc81bba65baef5766244d5939b0510c7057acb2d07572842"
+    },
+    "repro-hover-sequence.json": {
+      "bytes": 4987,
+      "sha256": "bc877a0d58f018d50a70ff18085adee99e24cfc879ac5e94e269f90b70401914"
+    },
+    "repro-hover-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "d9e18f6c09bf4b109d82df94b1722ae75d154cec0d6d886ca1651e49c59296b5"
+    },
+    "repro-hover-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-hover.json": {
+      "bytes": 3528,
+      "sha256": "f73a9b86289246c7ab19d95bb2ef8c457704606a1c3d8929a1264c469d9914a4"
+    },
+    "repro-hover.log": {
+      "bytes": 300,
+      "sha256": "b3a79463f4631348812f3c61181bfb7f941208a7bc30cc3e5e70c7be7e099bf7"
+    },
+    "repro-preparation-boundaries-capacity-confirmation.nodes.json": {
+      "bytes": 89437,
+      "sha256": "c4ba6969d261b7b156c3e324099d2dca43cc11146dd1b2108eb13e0af0aebe50"
+    },
+    "repro-preparation-boundaries-capacity-confirmation.png": {
+      "bytes": 114928,
+      "sha256": "1e468c603d78d6cbb7a97fb9671a9f492752ffc09f49844d9204ec4931572096"
+    },
+    "repro-preparation-boundaries-capacity-invalid.nodes.json": {
+      "bytes": 80407,
+      "sha256": "d346b672163b542e16b648680868a78a8ee179dd050afb3b9328fe37fe1f9211"
+    },
+    "repro-preparation-boundaries-capacity-invalid.png": {
+      "bytes": 102512,
+      "sha256": "92ec91a4330d5d557122b15ab1d7f709db983f8ef89086103c1122f6ed8c8dfd"
+    },
+    "repro-preparation-boundaries-entry.nodes.json": {
+      "bytes": 22295,
+      "sha256": "61550f5c49657352ceb8fecb8cf9e075c71a6f7194c3525013df18ee0e16a9a2"
+    },
+    "repro-preparation-boundaries-entry.png": {
+      "bytes": 841536,
+      "sha256": "8bee7d9d0709e55e9c9fc1aefe43bb7548b057cbcede9c8bfc2adeba2701ee43"
+    },
+    "repro-preparation-boundaries-start.nodes.json": {
+      "bytes": 15234,
+      "sha256": "cafd967f6df467db33e6c8cbf99cb6b8bb50b3e4388338cdf5425bca02e9f215"
+    },
+    "repro-preparation-boundaries-start.png": {
+      "bytes": 36939,
+      "sha256": "a6e73ec2a41680654ca2295fd4ee3c60a249491a21094840f512711bc41e6688"
+    },
+    "repro-preparation-boundaries.json": {
+      "bytes": 3853,
+      "sha256": "71394926e7364d738d2f1461a2d5a13d8d71dd7dfd7762ca8974f8fcafc21db9"
+    },
+    "repro-preparation-boundaries.log": {
+      "bytes": 762,
+      "sha256": "dda24985144e4aeb4069b818ee15fc90e5596dab6e297682ee1e6a59e419725e"
+    },
+    "restore-ui.log": {
+      "bytes": 131,
+      "sha256": "000e98ead297a3b2bc75542eb5825e571fcef231ceca4ab5275893e82b12ae94"
+    }
+  }
+}
