@@ -109,7 +109,9 @@ internal sealed partial class UiAutomation
         else
         {
             var choice=screen.View.Obj("exploration").Arr("legal_actions").Rows().First();await Click("card-hand-"+choice.Text("card_id"));await CloseDetail();
-            var point=await Point("preview");var frames=new List<(Image image,string label,string nodes)>();var timeline=new List<object>();
+            // 原本exploration.jsの180ms入口は#cw-use（場に出す）。
+            // 既存のpreview hover追加はinheritanceで別に保全し、同じ入口へ読み替えない。
+            var point=await Point("play");var frames=new List<(Image image,string label,string nodes)>();var timeline=new List<object>();
             async Task Sample(string label,ulong start)
             {
                 await screen.ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);ulong at=Time.GetTicksMsec();
