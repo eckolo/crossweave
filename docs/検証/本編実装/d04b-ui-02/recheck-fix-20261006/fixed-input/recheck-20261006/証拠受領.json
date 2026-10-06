@@ -1,0 +1,4386 @@
+{
+  "schema": "crossweave.ui.evidence-reception.v1",
+  "fixed": {
+    "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_commit": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_version": "2026-10-04.1",
+    "plan": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+    "design": "21ddd349b6bec69ecac6d9db288c537553dab860"
+  },
+  "method": "保存済みファイルの通常Github取得・Git blob hash・PNG終端・寸法・提出manifestのSHA256/bytesとnodes・コード/時系列を照合。新画像/調査基準/ゲーム実行の再作成なし。",
+  "new_game_runs": 0,
+  "audit": {
+    "schema": "UI-GODOT-REVIEW-01.readonly-evidence-audit.v1",
+    "texts": [
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+        "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+        "actual_blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+        "blob_matches": true,
+        "bytes": 10910,
+        "sha256": "97b722952d6e9d313705d5f17aeea91f7cea70e2060b44c50a6d0fd420d20763",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/common-navigation.css",
+        "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+        "actual_blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+        "blob_matches": true,
+        "bytes": 1868,
+        "sha256": "932ba6c8bce1afa39604dd4d9cdbbb1f6e7d415fc4f1cdf5185886ac809ada55",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+        "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+        "actual_blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+        "blob_matches": true,
+        "bytes": 14043,
+        "sha256": "fa97b3b4165a4e9ae83b94eba1b0f4841769a80d0d628bcf9e74f3ac68bf8b38",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+        "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+        "actual_blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+        "blob_matches": true,
+        "bytes": 4941,
+        "sha256": "63410ef4e03c8c8640f8aaa58d4832dbe5933d44042ed6f690f80ae7a837b2de",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/interaction/table.css",
+        "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+        "actual_blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+        "blob_matches": true,
+        "bytes": 21360,
+        "sha256": "a357011d6a14f7bd4b21aadcd8e4c899f5e4ae0353f9d97109ed67af53df9f71",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+        "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+        "actual_blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+        "blob_matches": true,
+        "bytes": 1988,
+        "sha256": "40bebf9f3e563bef8a2862951bc000f6b64f1b0e9fa4e78a1fde501e46f0a4a2",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/exploration.css",
+        "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+        "actual_blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+        "blob_matches": true,
+        "bytes": 14587,
+        "sha256": "f3dd055082e736080f8e80308b13ad3893fa2f9d979224decdfecd2305f98628",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+        "blob": "263e8808358db4abd57999f8351a738a734ba388",
+        "actual_blob": "263e8808358db4abd57999f8351a738a734ba388",
+        "blob_matches": true,
+        "bytes": 5377,
+        "sha256": "d1840f0b9ed1b2c3cda23e7202143d2238f50fdc04b41688215cdcfe70943ef4",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+        "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+        "actual_blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+        "blob_matches": true,
+        "bytes": 5496,
+        "sha256": "3b70c827bc346b8a3fa86a41b8bd9100e9df0d2f1f0a0d765725a7bff168c8ad",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+        "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+        "actual_blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+        "blob_matches": true,
+        "bytes": 1563,
+        "sha256": "8344682d9dc5cbd45c505c29901c31023755255cbb4d811cbde0b7de1d0bed00",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/hold-cue.css",
+        "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+        "actual_blob": "4f2ff388918168751fa43658caeb904083c51de3",
+        "blob_matches": true,
+        "bytes": 928,
+        "sha256": "b17d43bd142774358a9e1a12555c8541c2e1cb620c4c7159b0ac2b174377748a",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+        "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+        "actual_blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+        "blob_matches": true,
+        "bytes": 10636,
+        "sha256": "69853115dc9494b00f74e461a3ec56e1b5f291f9a31ef8443853ba735d46394a",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+        "blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502",
+        "actual_blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502",
+        "blob_matches": true,
+        "bytes": 34781,
+        "sha256": "e107bf74230e7d3532de5e6cc365802df096519fcd3bb59566dd87ba3dfc08bd",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs",
+        "blob": "c59016c28f1a217fec68f7288e2a580b701647af",
+        "actual_blob": "c59016c28f1a217fec68f7288e2a580b701647af",
+        "blob_matches": true,
+        "bytes": 3482,
+        "sha256": "ddd0a875239cb51e15adaf72c12d48f8dbc4c7508981dcaa51e65c6cdf2e7ddc",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+        "blob": "953814e2d9803bdf4434650c62adee2207381319",
+        "actual_blob": "953814e2d9803bdf4434650c62adee2207381319",
+        "blob_matches": true,
+        "bytes": 56500,
+        "sha256": "8c837e801d62737e188f8e970fcac515db4099de677fb0c7cca4e00536b27c85",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs",
+        "blob": "58dbfbc8ff3b5ae73e6150f5f604f437302b5db0",
+        "actual_blob": "58dbfbc8ff3b5ae73e6150f5f604f437302b5db0",
+        "blob_matches": true,
+        "bytes": 9856,
+        "sha256": "7d9614fedf4e4db1b417e29f8ff81121ca010e148af3889e271e8c11f48b1117",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "blob": "9cce67443dfc1112198606bc7e16d2ac7d3da4da",
+        "actual_blob": "9cce67443dfc1112198606bc7e16d2ac7d3da4da",
+        "blob_matches": true,
+        "bytes": 31647,
+        "sha256": "04c6cf049c71b22caf927e74a05aae7ef7600304d2fd9b2a3a1712420bbe8249",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+        "blob": "53b588a0043975916692f65d6aca6187360de10b",
+        "actual_blob": "53b588a0043975916692f65d6aca6187360de10b",
+        "blob_matches": true,
+        "bytes": 10264,
+        "sha256": "ceeb03b93a0954955457f5288b4ebb7746f8bb0cbc01321caa2d66939276c6ec",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "blob": "78ada4a4da864327cd05b6266440d5523163a8a3",
+        "actual_blob": "78ada4a4da864327cd05b6266440d5523163a8a3",
+        "blob_matches": true,
+        "bytes": 22468,
+        "sha256": "78184497cf66a88a9ad4ebff3a050592d24c163f87098c79393c3cfab11a8f3d",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "blob": "1b18a30b087a7a1e9d29aebc6867cd9b48ea3e07",
+        "actual_blob": "1b18a30b087a7a1e9d29aebc6867cd9b48ea3e07",
+        "blob_matches": true,
+        "bytes": 15623,
+        "sha256": "1b5e5cee2aa29db939c22b06677b5ea43dee50c67d4184c579cbed61b0e75f74",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+        "blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848",
+        "actual_blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848",
+        "blob_matches": true,
+        "bytes": 30282,
+        "sha256": "fa4c428fea0d2f5ac39b4b8007cd055a5ae160bfad77e56937d6a5b8733fa88e",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+        "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+        "actual_blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+        "blob_matches": true,
+        "bytes": 3949,
+        "sha256": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/AcceptedIcons.json",
+        "blob": "a1c7968db5c7312bd1bf3f381eafe58afdeb5d2c",
+        "actual_blob": "a1c7968db5c7312bd1bf3f381eafe58afdeb5d2c",
+        "blob_matches": true,
+        "bytes": 12652,
+        "sha256": "f891bcb953813da30ca1e783224f754c9a93a939930f2c48b63f93d3109881cf",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+        "blob": "c6eccd57dbbd8971192f0569d8429ff924ac5b96",
+        "actual_blob": "c6eccd57dbbd8971192f0569d8429ff924ac5b96",
+        "blob_matches": true,
+        "bytes": 14634,
+        "sha256": "fa45b7b55c7ef8bd19bdaf74a020860d814b859485a04bee9a9a1d32413db7de",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/vendor/build-icons.cjs",
+        "blob": "364adab1c4c2cd2052be47f2a9b55bf0bc80fab9",
+        "actual_blob": "364adab1c4c2cd2052be47f2a9b55bf0bc80fab9",
+        "blob_matches": true,
+        "bytes": 3374,
+        "sha256": "2e96b2bea90171b99e0edf395239fdc1ae4268bcc81acacd11b5a8078ddc0e7f",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+        "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+        "actual_blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+        "blob_matches": true,
+        "bytes": 18348,
+        "sha256": "933eed685eac2fdfdb13957eb32bf102763d3aabb3a600f5638b2ca05801dd0a",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/exploration.js",
+        "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+        "actual_blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+        "blob_matches": true,
+        "bytes": 45664,
+        "sha256": "cbe9daf149f6ea91be68304be9c5dc0e27ca35ee56bd2b35830b5801f4ee5706",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+        "actual_blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+        "blob_matches": true,
+        "bytes": 8712,
+        "sha256": "8757b369f655570fac492e081f72d6ea4bc1d3dea5ac3e0842ba9b23fac25f64",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/prose-layout.js",
+        "blob": "7b71047efe595f921286448a363e4fce14e37e2f",
+        "actual_blob": "7b71047efe595f921286448a363e4fce14e37e2f",
+        "blob_matches": true,
+        "bytes": 2640,
+        "sha256": "76be45715d694c0500ad6b5e0b3bcad0b851f8c27addcdd968233dcc3a20920a",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/view.js",
+        "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+        "actual_blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+        "blob_matches": true,
+        "bytes": 23704,
+        "sha256": "e0c0ba95ce65cddd06b41d4d1242090fc57e0f395714103153ff11102c8d989e",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/panels.js",
+        "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+        "actual_blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+        "blob_matches": true,
+        "bytes": 29452,
+        "sha256": "aaeb38e8a2943ecc86d51d3892ccd3f8808b7c394f28a690747f27af456b2bf9",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "source-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/records.js",
+        "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+        "actual_blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+        "blob_matches": true,
+        "bytes": 5059,
+        "sha256": "3066cad76a9cad1f3f325adfa327bc592192fc68a7c5f0ba0dcac5bee25e3c37",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-card-light:reference_nodes",
+        "blob": "130b4393211231adc47df3d0c1d74d02c18bca3c",
+        "actual_blob": "130b4393211231adc47df3d0c1d74d02c18bca3c",
+        "blob_matches": true,
+        "bytes": 147516,
+        "sha256": "2c5810889ac2683be4fdd71a99142959a234afc9572028bc7b825d2168738e8a",
+        "expected_bytes": 147516,
+        "expected_sha256": "2c5810889ac2683be4fdd71a99142959a234afc9572028bc7b825d2168738e8a",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-card-light:godot_nodes",
+        "blob": "b3f23c20a7a8eb9628b4a9de01e72ffb1d2763e8",
+        "actual_blob": "b3f23c20a7a8eb9628b4a9de01e72ffb1d2763e8",
+        "blob_matches": true,
+        "bytes": 127897,
+        "sha256": "fde8b7e5e7791bdf1097440b2f19eaa51084d8a194c6be0ec5ef6e56e524ad80",
+        "expected_bytes": 127897,
+        "expected_sha256": "fde8b7e5e7791bdf1097440b2f19eaa51084d8a194c6be0ec5ef6e56e524ad80",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-pending-detail-light:reference_nodes",
+        "blob": "b4f1bc1249a3d36c5a0cb04b6ae74d693cb9ff73",
+        "actual_blob": "b4f1bc1249a3d36c5a0cb04b6ae74d693cb9ff73",
+        "blob_matches": true,
+        "bytes": 97617,
+        "sha256": "de0bbc7505afd26cbbdfbb24f6ee9cc3148624d52b5549c85394e7cc70ccf1e4",
+        "expected_bytes": 97617,
+        "expected_sha256": "de0bbc7505afd26cbbdfbb24f6ee9cc3148624d52b5549c85394e7cc70ccf1e4",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-pending-detail-light:godot_nodes",
+        "blob": "9b1d8dfcf4733750bd7b650f3d8435ee8e7d37da",
+        "actual_blob": "9b1d8dfcf4733750bd7b650f3d8435ee8e7d37da",
+        "blob_matches": true,
+        "bytes": 89428,
+        "sha256": "6050210ac041ca4ef6fc3cd764855b47e34e3793af366270909000eddffbb3d7",
+        "expected_bytes": 89428,
+        "expected_sha256": "6050210ac041ca4ef6fc3cd764855b47e34e3793af366270909000eddffbb3d7",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-confirmation-light:reference_nodes",
+        "blob": "caae300a54c69f9747b8b3ad5ec73ba77043e2cd",
+        "actual_blob": "caae300a54c69f9747b8b3ad5ec73ba77043e2cd",
+        "blob_matches": true,
+        "bytes": 83516,
+        "sha256": "91ed351a8fd1d61f6d4e894e92a6d2263d44b946e9d5517f6c6ab0430550b8d7",
+        "expected_bytes": 83516,
+        "expected_sha256": "91ed351a8fd1d61f6d4e894e92a6d2263d44b946e9d5517f6c6ab0430550b8d7",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-confirmation-light:godot_nodes",
+        "blob": "5a7a780964470d2ab6a9465c180af00b84585b34",
+        "actual_blob": "5a7a780964470d2ab6a9465c180af00b84585b34",
+        "blob_matches": true,
+        "bytes": 74319,
+        "sha256": "700749a620e82a13c03344a574feeeafd27e9858a68ca4e874efa9760f01741c",
+        "expected_bytes": 74319,
+        "expected_sha256": "700749a620e82a13c03344a574feeeafd27e9858a68ca4e874efa9760f01741c",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-entry-dark:reference_nodes",
+        "blob": "e0622b595f9d993a6136313eb5b2c43c6acb5649",
+        "actual_blob": "e0622b595f9d993a6136313eb5b2c43c6acb5649",
+        "blob_matches": true,
+        "bytes": 241859,
+        "sha256": "ae99e7261959d5984e5d82f0e9271a6c257d1faaeaa3e5290bad685feb4b32e0",
+        "expected_bytes": 241859,
+        "expected_sha256": "ae99e7261959d5984e5d82f0e9271a6c257d1faaeaa3e5290bad685feb4b32e0",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-entry-dark:godot_nodes",
+        "blob": "6f2ecb89b804de42dd0b749ce73ee40391c20af0",
+        "actual_blob": "6f2ecb89b804de42dd0b749ce73ee40391c20af0",
+        "blob_matches": true,
+        "bytes": 97599,
+        "sha256": "19ddbb0833e58a684cfa4f2020c94d2843cf029464a990374cfe13113c31448b",
+        "expected_bytes": 97599,
+        "expected_sha256": "19ddbb0833e58a684cfa4f2020c94d2843cf029464a990374cfe13113c31448b",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-records-cards-light:reference_nodes",
+        "blob": "f189be92b29427fa7c79116654bbc80c57b74df1",
+        "actual_blob": "f189be92b29427fa7c79116654bbc80c57b74df1",
+        "blob_matches": true,
+        "bytes": 287140,
+        "sha256": "5623499049072effaf391215952a2e412d5b5e15b42ae27c2c6e99f3dd7b4437",
+        "expected_bytes": 287140,
+        "expected_sha256": "5623499049072effaf391215952a2e412d5b5e15b42ae27c2c6e99f3dd7b4437",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-records-cards-light:godot_nodes",
+        "blob": "d13efd4989bd45e7fa673bf805051684d35f448e",
+        "actual_blob": "d13efd4989bd45e7fa673bf805051684d35f448e",
+        "blob_matches": true,
+        "bytes": 136692,
+        "sha256": "3d4c665df5787dddbc0f33b98c652cf5be3846647db185441864251fd599c22a",
+        "expected_bytes": 136692,
+        "expected_sha256": "3d4c665df5787dddbc0f33b98c652cf5be3846647db185441864251fd599c22a",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "startup-entry-light:reference_nodes",
+        "blob": "dcea4b82fcc536ad580d95d79524d87b9b8e34ba",
+        "actual_blob": "dcea4b82fcc536ad580d95d79524d87b9b8e34ba",
+        "blob_matches": true,
+        "bytes": 7190,
+        "sha256": "732b0063db41831290213328da6177bca95bf7a65dc29bfe1d7bb7a05eccddd3",
+        "expected_bytes": 7190,
+        "expected_sha256": "732b0063db41831290213328da6177bca95bf7a65dc29bfe1d7bb7a05eccddd3",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "startup-entry-light:godot_nodes",
+        "blob": "81262863b3a79a332e7c0a1510617e51f29bf400",
+        "actual_blob": "81262863b3a79a332e7c0a1510617e51f29bf400",
+        "blob_matches": true,
+        "bytes": 15292,
+        "sha256": "16c6cc1da1d151346a23d1484ea0b3f5ccd8c510588ab291adc5c497b0a928d3",
+        "expected_bytes": 15292,
+        "expected_sha256": "16c6cc1da1d151346a23d1484ea0b3f5ccd8c510588ab291adc5c497b0a928d3",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-empty-composition-light:reference_nodes",
+        "blob": "81a011086594b015965b331e588ded50ba70950e",
+        "actual_blob": "81a011086594b015965b331e588ded50ba70950e",
+        "blob_matches": true,
+        "bytes": 210032,
+        "sha256": "3e1d487be214d98d8fc089d0247ab40758413f84264ce0ffdbf8cb7b9ad31082",
+        "expected_bytes": 210032,
+        "expected_sha256": "3e1d487be214d98d8fc089d0247ab40758413f84264ce0ffdbf8cb7b9ad31082",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-home-empty-composition-light:godot_nodes",
+        "blob": "d21dfafc873639b1c3cbe11ba449b8f20e9a822d",
+        "actual_blob": "d21dfafc873639b1c3cbe11ba449b8f20e9a822d",
+        "blob_matches": true,
+        "bytes": 109712,
+        "sha256": "da8b7b8143a28e27f72245bd28e02adfeb7709366e73de252fc28a0938bb7ee9",
+        "expected_bytes": 109712,
+        "expected_sha256": "da8b7b8143a28e27f72245bd28e02adfeb7709366e73de252fc28a0938bb7ee9",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-window-pin-pressed-light:reference_nodes",
+        "blob": "64e712cba9bd840192844027f00da23d9ca3d979",
+        "actual_blob": "64e712cba9bd840192844027f00da23d9ca3d979",
+        "blob_matches": true,
+        "bytes": 345839,
+        "sha256": "ea7d81ae1ad679939058ce0a7cdfbc6f41274ee0c211e416ae7c5ad89e6107fb",
+        "expected_bytes": 345839,
+        "expected_sha256": "ea7d81ae1ad679939058ce0a7cdfbc6f41274ee0c211e416ae7c5ad89e6107fb",
+        "manifest_matches": true
+      },
+      {
+        "cache": "node-cache.json",
+        "key": "repro-explore-window-pin-pressed-light:godot_nodes",
+        "blob": "236d021b60181682487c11c5d789604c64319e89",
+        "actual_blob": "236d021b60181682487c11c5d789604c64319e89",
+        "blob_matches": true,
+        "bytes": 152147,
+        "sha256": "977d7c002044d24c7545b9f702b4869330d2d34326832f78b3c8e0f722d17573",
+        "expected_bytes": 152147,
+        "expected_sha256": "977d7c002044d24c7545b9f702b4869330d2d34326832f78b3c8e0f722d17573",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "environment/os-collection-faces.json",
+        "blob": "987fc0a8642ae748bfa6528fc7fde0b894951a56",
+        "actual_blob": "987fc0a8642ae748bfa6528fc7fde0b894951a56",
+        "blob_matches": true,
+        "bytes": 3984,
+        "sha256": "29683cb3a6d6cab8ef7338cf455dabd0062ac4bb69b66805c4668bd13d4d3927",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "environment/css-dark-pairs.json",
+        "blob": "f42e2117e645353dd892bcd2c4c897fbe7178793",
+        "actual_blob": "f42e2117e645353dd892bcd2c4c897fbe7178793",
+        "blob_matches": true,
+        "bytes": 4296,
+        "sha256": "7f5cb12c8be6f00c7f6e31d2169abba88fcfb4de7ff22b0a55d4a83dd248b646",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "source-font-leaves/manifest.json",
+        "blob": "72e50c1821788d27ee12e363522c254d309213b1",
+        "actual_blob": "72e50c1821788d27ee12e363522c254d309213b1",
+        "blob_matches": true,
+        "bytes": 14509,
+        "sha256": "47dd88f656b1b1dab356d5d9b72a39cd70770c0ad215c774e29d591e7997278d",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "common-light-records-final/repro-record-memory.json",
+        "blob": "30caca18a292335ea0d6a9a2fe20a2a4e40759fd",
+        "actual_blob": "30caca18a292335ea0d6a9a2fe20a2a4e40759fd",
+        "blob_matches": true,
+        "bytes": 3852,
+        "sha256": "d86dc4ad9c7f576596845a426c94aaf850d67b4bb55e215b42a713a394774924",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "common-dark-records-final/repro-record-memory.json",
+        "blob": "5be1926be83c1403060e927beabfb4396dff0e17",
+        "actual_blob": "5be1926be83c1403060e927beabfb4396dff0e17",
+        "blob_matches": true,
+        "bytes": 3852,
+        "sha256": "9d859494eedaeca9ef65d173617ed938ef9523e4b0495cbf910d4e438bb55452",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "source-required-boundaries-complete/light-repro-hover-sequence.json",
+        "blob": "bb4b908e4098ef13c87a43f82632e028c83585cd",
+        "actual_blob": "bb4b908e4098ef13c87a43f82632e028c83585cd",
+        "blob_matches": true,
+        "bytes": 15344,
+        "sha256": "98c08291f284cf9ad69f710cb60be86e0fc60f302654b9a403a6c3ae0a44b897",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "hover-use-light/repro-hover-sequence.json",
+        "blob": "6464e519c92fe0d8ac046568166751a2aa2ae704",
+        "actual_blob": "6464e519c92fe0d8ac046568166751a2aa2ae704",
+        "blob_matches": true,
+        "bytes": 4986,
+        "sha256": "3ec581314ea65e9d4f8ee1d10d66c5dd37b67d101eb6a18de7975c3135d14699",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "hover-use-dark/repro-hover-sequence.json",
+        "blob": "e67e8dcffae21568b24cf541539b3c329300ff24",
+        "actual_blob": "e67e8dcffae21568b24cf541539b3c329300ff24",
+        "blob_matches": true,
+        "bytes": 4955,
+        "sha256": "35d7fd340b8a0d6e99e524456a3666a36afa02188ac6a201fb5489700ad2af4f",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "preparation-light-final/repro-motion-home-sequence.json",
+        "blob": "39ccf4148cd25c57cb398e50e48b46e4dfc12084",
+        "actual_blob": "39ccf4148cd25c57cb398e50e48b46e4dfc12084",
+        "blob_matches": true,
+        "bytes": 27351,
+        "sha256": "1adc235fdf024e305297624087a945653f2776751d0b4bb42fecea0d4d7de779",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "settled-light/repro-motion-explore-sequence.json",
+        "blob": "6077d04e7cea62299608a96ddf6894d5fe8cb53c",
+        "actual_blob": "6077d04e7cea62299608a96ddf6894d5fe8cb53c",
+        "blob_matches": true,
+        "bytes": 75506,
+        "sha256": "b3b206b34b05128c532b8331c88dce0519c207f2d1d4677e9820a280621e3a87",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "fixed-light-final/repro-edges-hand.json",
+        "blob": "f0e08a811f0def4219f62cfdfe903a22f9882562",
+        "actual_blob": "f0e08a811f0def4219f62cfdfe903a22f9882562",
+        "blob_matches": true,
+        "bytes": 11339,
+        "sha256": "60930314fedb223241abd6b144f88dcee49734905afba3d784eeaaa4ba9d2112",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "fixed-light-final/repro-edges-field.json",
+        "blob": "dbbbdd6f83813b1252bbac087eaac4e74b43cafa",
+        "actual_blob": "dbbbdd6f83813b1252bbac087eaac4e74b43cafa",
+        "blob_matches": true,
+        "bytes": 11357,
+        "sha256": "6cc23e7ed7c2b4270a999785a4031a7ef140bd4320306f9fd766fe3e06e2ddcc",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "related-final/failure.json",
+        "blob": "f0ee3e3581849371870da82666d79a13a3aae65c",
+        "actual_blob": "f0ee3e3581849371870da82666d79a13a3aae65c",
+        "blob_matches": true,
+        "bytes": 3404,
+        "sha256": "cae715dcd9f7c0e7e8d1932209f6d9791e929963d1bdb7be7421ffc3ced0d104",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "related-final/corrupt.json",
+        "blob": "12dc03589577bceb9366758526998c8240451e04",
+        "actual_blob": "12dc03589577bceb9366758526998c8240451e04",
+        "blob_matches": true,
+        "bytes": 3402,
+        "sha256": "cb83e65c9007525df5fafce1f5b1eda18edf5ea5b951879130235ab5941531ba",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "common-light-submitted/repro-checkbox-states.json",
+        "blob": "28685c0bf07a5a18bdcd3bb4eb5b8d12f226ef34",
+        "actual_blob": "28685c0bf07a5a18bdcd3bb4eb5b8d12f226ef34",
+        "blob_matches": true,
+        "bytes": 3700,
+        "sha256": "133f04b988fe577ed4b695ffa88dc9770ec3a7c6aa380a89df381a910ea2c2a7",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-cache.json",
+        "key": "source-boundary-states-final/manifest.json",
+        "blob": "3f0a0f9d1d57dfb25bfd39e89adbec09ed23036c",
+        "actual_blob": "3f0a0f9d1d57dfb25bfd39e89adbec09ed23036c",
+        "blob_matches": true,
+        "bytes": 36851,
+        "sha256": "e596e80ef58707f957acd375a6a8f4fce3cd21a566e47af8bd665457f7e07bc4",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-explore-drag-field-light:reference_nodes",
+        "blob": "8c88879ad629d721c7b271a5e0df7f52192db4fd",
+        "actual_blob": "8c88879ad629d721c7b271a5e0df7f52192db4fd",
+        "blob_matches": true,
+        "bytes": 278871,
+        "sha256": "61410e74926eca14a025d690960452f44b316a9c05e8811d3eb7f548f30d9f1f",
+        "expected_bytes": 278871,
+        "expected_sha256": "61410e74926eca14a025d690960452f44b316a9c05e8811d3eb7f548f30d9f1f",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-explore-drag-field-light:godot_nodes",
+        "blob": "79bdf770aaf6cb6ab22b8176babb2af651ed4f93",
+        "actual_blob": "79bdf770aaf6cb6ab22b8176babb2af651ed4f93",
+        "blob_matches": true,
+        "bytes": 121009,
+        "sha256": "097b1ad8e2ca5bf5031c68650d1216346a06831e6a658f70015135237e4216de",
+        "expected_bytes": 121009,
+        "expected_sha256": "097b1ad8e2ca5bf5031c68650d1216346a06831e6a658f70015135237e4216de",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-record-memory-child-beside-scrolled-parent-light:reference_nodes",
+        "blob": "40cca1aedb4efebedb3b4f0d57d30f7d39f15a62",
+        "actual_blob": "40cca1aedb4efebedb3b4f0d57d30f7d39f15a62",
+        "blob_matches": true,
+        "bytes": 267438,
+        "sha256": "15c6c4b2ff6dae242d63502a12ee54c8d2fcbf679101da449a3a80b8a581236f",
+        "expected_bytes": 267438,
+        "expected_sha256": "15c6c4b2ff6dae242d63502a12ee54c8d2fcbf679101da449a3a80b8a581236f",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-record-memory-child-beside-scrolled-parent-light:godot_nodes",
+        "blob": "2e0a289f0196616b22f275a8cf63befc3d13650c",
+        "actual_blob": "2e0a289f0196616b22f275a8cf63befc3d13650c",
+        "blob_matches": true,
+        "bytes": 124019,
+        "sha256": "01a37983efd239e7e5b25bdf57f52845ffcc8af3b3f3b992aeb13e4b474ec95e",
+        "expected_bytes": 124019,
+        "expected_sha256": "01a37983efd239e7e5b25bdf57f52845ffcc8af3b3f3b992aeb13e4b474ec95e",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-record-memory-parent-restored-light:reference_nodes",
+        "blob": "068662cd1e476a449be606b1e6f489a38aa24ff4",
+        "actual_blob": "068662cd1e476a449be606b1e6f489a38aa24ff4",
+        "blob_matches": true,
+        "bytes": 244790,
+        "sha256": "57b0b88d981d66dd4c2f99996b5ce60be7247c1709aeb4fac23464d59fc862a3",
+        "expected_bytes": 244790,
+        "expected_sha256": "57b0b88d981d66dd4c2f99996b5ce60be7247c1709aeb4fac23464d59fc862a3",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "repro-record-memory-parent-restored-light:godot_nodes",
+        "blob": "7765c0fbb95364191237dad00ead259743beb05a",
+        "actual_blob": "7765c0fbb95364191237dad00ead259743beb05a",
+        "blob_matches": true,
+        "bytes": 110397,
+        "sha256": "e4a2fd413cbc33e8e5145ce0a1239fcd779393a4507e232ebb8ba3342f46645b",
+        "expected_bytes": 110397,
+        "expected_sha256": "e4a2fd413cbc33e8e5145ce0a1239fcd779393a4507e232ebb8ba3342f46645b",
+        "manifest_matches": true
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "source-edge-states/manifest.json",
+        "blob": "31e422604294cbbb6028b4b41f2aafc41f4b422b",
+        "actual_blob": "31e422604294cbbb6028b4b41f2aafc41f4b422b",
+        "blob_matches": true,
+        "bytes": 130090,
+        "sha256": "872e6a69a62624bfb79fbeb7d853d08921b4e0f62d1f7bb62ecb8d737898254f",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "source-required-states-neutral/manifest.json",
+        "blob": "bcb123329d67a19814f4301a3e69fe6d37b3c1b3",
+        "actual_blob": "bcb123329d67a19814f4301a3e69fe6d37b3c1b3",
+        "blob_matches": true,
+        "bytes": 10549,
+        "sha256": "9b79bed98fc8623deaf3320829d71a3463211f0668dcccccb317d83250109882",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "cloud/I12/receipt.json",
+        "blob": "7cd0b4059c0a831f40846afee0b877200218451e",
+        "actual_blob": "7cd0b4059c0a831f40846afee0b877200218451e",
+        "blob_matches": true,
+        "bytes": 76860,
+        "sha256": "ade80fbcb9e43149f52a9c465d01c57c93c8a3615d2f3ac4c17ead9e3f40a397",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "additional-evidence-2-cache.json",
+        "key": "core-final/related.trx",
+        "blob": "3f9fe1b2edf467d41e044608dadbdff68285969e",
+        "actual_blob": "3f9fe1b2edf467d41e044608dadbdff68285969e",
+        "blob_matches": true,
+        "bytes": 26310,
+        "sha256": "e866dfeb7dd4e2a0e68cea794ee618fd62fc4d626e4073a1ff07e18e967c7ad8",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "original-additional-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/vendor/lucide.js",
+        "blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4",
+        "actual_blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4",
+        "blob_matches": true,
+        "bytes": 20992,
+        "sha256": "8fe8b892f640ff7e6c3e215ee3532dcfceb116a5b256126c3cffe36a1031b576",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "original-additional-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/vendor/lucide-source.json",
+        "blob": "afe0952ad8b1a467dd12c1454c9831396c3f56d3",
+        "actual_blob": "afe0952ad8b1a467dd12c1454c9831396c3f56d3",
+        "blob_matches": true,
+        "bytes": 6098,
+        "sha256": "3e595610452c519553697f997bdf95cbabd4732d3b6260a2ec5e7bc5dca958f3",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "original-additional-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+        "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+        "actual_blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+        "blob_matches": true,
+        "bytes": 2620,
+        "sha256": "e7a0bb6a6c31919709b7f73d171ca6c815e14eb8cba8b4323f60d420f8ec7fcd",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "original-additional-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+        "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+        "actual_blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+        "blob_matches": true,
+        "bytes": 13364,
+        "sha256": "793c321564d30bbec5faaffc60792b447bcfb82ae87aaeff5b6327eb3772788f",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "name-input-cache.json",
+        "key": "docs/検証/UI/readability/co-u02/acquisition-preview/name-metrics.json",
+        "blob": "b072e70fc6ab9558e03e93b111d0303ecf0d5975",
+        "actual_blob": "b072e70fc6ab9558e03e93b111d0303ecf0d5975",
+        "blob_matches": true,
+        "bytes": 2149,
+        "sha256": "e7a244d34b05544d1463e22488913d9d58017dde11d5b140e679c240384f7c71",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      },
+      {
+        "cache": "name-input-cache.json",
+        "key": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_合法入力と既存契約の確認.md",
+        "blob": "bdc5dde36c022e7a756fb5b1d3376caaf1c730b0",
+        "actual_blob": "bdc5dde36c022e7a756fb5b1d3376caaf1c730b0",
+        "blob_matches": true,
+        "bytes": 4171,
+        "sha256": "848cf134b57e7a0e1ec68c8e4a4dc6f064bc7406a4b95f63f373e4b0a8431a72",
+        "expected_bytes": null,
+        "expected_sha256": null,
+        "manifest_matches": null
+      }
+    ],
+    "ink": [
+      {
+        "file": "V-P04-light-reference.png",
+        "roi": [
+          4,
+          4,
+          260,
+          48
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 410,
+        "bbox": [
+          12,
+          10,
+          39,
+          19
+        ]
+      },
+      {
+        "file": "V-P04-light-godot.png",
+        "roi": [
+          4,
+          4,
+          260,
+          48
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 402,
+        "bbox": [
+          12,
+          13,
+          38,
+          18
+        ]
+      },
+      {
+        "file": "V-C01-light-reference.png",
+        "roi": [
+          8,
+          48,
+          120,
+          36
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 410,
+        "bbox": [
+          14,
+          52,
+          39,
+          19
+        ]
+      },
+      {
+        "file": "V-C01-light-godot.png",
+        "roi": [
+          8,
+          48,
+          120,
+          36
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 402,
+        "bbox": [
+          14,
+          55,
+          38,
+          18
+        ]
+      },
+      {
+        "file": "V-H02-light-reference.png",
+        "roi": [
+          8,
+          0,
+          800,
+          42
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 3646,
+        "bbox": [
+          25,
+          6,
+          633,
+          20
+        ]
+      },
+      {
+        "file": "V-H02-light-godot.png",
+        "roi": [
+          8,
+          0,
+          800,
+          42
+        ],
+        "measurement": "any RGB channel <180 for locating dark ink only; not an acceptance threshold",
+        "dark_pixels": 3005,
+        "bbox": [
+          25,
+          9,
+          632,
+          19
+        ]
+      }
+    ],
+    "crops": [
+      {
+        "name": "V-E14-light-reference",
+        "source_path": "id-comparisons/V-E14/light-reference.png",
+        "blob": "18e70e55d9b9ef93880c79d5e7036d9ee0a274b9",
+        "sha256": "5997aa89066ca7d48a2df85226dfa658d2937b44bfe3f0be2184a3e972cc1508",
+        "bytes": 492086,
+        "dimensions": [
+          1870,
+          630
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E14-light-godot",
+        "source_path": "id-comparisons/V-E14/light-godot.png",
+        "blob": "f934fb49c21059de9b4e63c1cb194d5c604b378e",
+        "sha256": "e10cfe766f84feecf37499b4219bc1b3525bd3ee1076ab5cf160d2eb1b876c2e",
+        "bytes": 427957,
+        "dimensions": [
+          1870,
+          630
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E08-light-reference",
+        "source_path": "id-comparisons/V-E08/light-reference.png",
+        "blob": "d50c9aaf4c8b32115eec28a5137942ad6bbcca92",
+        "sha256": "dfe71061947d8b77294f534dfd052ee16bf2622c1ba496af9be5461f32bdb468",
+        "bytes": 387882,
+        "dimensions": [
+          1870,
+          518
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E09-light-reference",
+        "source_path": "id-comparisons/V-E09/light-reference.png",
+        "blob": "d50c9aaf4c8b32115eec28a5137942ad6bbcca92",
+        "sha256": "dfe71061947d8b77294f534dfd052ee16bf2622c1ba496af9be5461f32bdb468",
+        "bytes": 387882,
+        "dimensions": [
+          1870,
+          518
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E08-light-godot",
+        "source_path": "id-comparisons/V-E08/light-godot.png",
+        "blob": "c2ee2b52826fabcdb9a2b55b5cedff99a1239856",
+        "sha256": "9901ac29999edda2dbfaf207f8b0452b586879bd2f07480b1186b4bf297bc932",
+        "bytes": 332705,
+        "dimensions": [
+          1870,
+          518
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E09-light-godot",
+        "source_path": "id-comparisons/V-E09/light-godot.png",
+        "blob": "c2ee2b52826fabcdb9a2b55b5cedff99a1239856",
+        "sha256": "9901ac29999edda2dbfaf207f8b0452b586879bd2f07480b1186b4bf297bc932",
+        "bytes": 332705,
+        "dimensions": [
+          1870,
+          518
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D01-light-reference",
+        "source_path": "id-comparisons/V-D01/light-reference.png",
+        "blob": "05c804dd043347de44b9231f5bc431bf3b11b5ef",
+        "sha256": "1dd601414c2a43b93af7d88b10e1d9aef7069da5c791aed576a829e65a67761f",
+        "bytes": 329501,
+        "dimensions": [
+          1870,
+          280
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D04-light-reference",
+        "source_path": "id-comparisons/V-D04/light-reference.png",
+        "blob": "b473086a1879aec63a900c2f44aceeadbadcc08a",
+        "sha256": "d596f075fafe309929137ced5e7074ac462571c5c158efa53a1b537ac3d55787",
+        "bytes": 306669,
+        "dimensions": [
+          1870,
+          245
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E03-light-reference",
+        "source_path": "id-comparisons/V-E03/light-reference.png",
+        "blob": "8934182ae01b7a0bf9d37db30cf1e2ef7d9cce88",
+        "sha256": "d9e9e85c46e05fdad0392e71f9361bbce71930822a8ce2841bbcf9a154071cc0",
+        "bytes": 291118,
+        "dimensions": [
+          1870,
+          250
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D01-light-godot",
+        "source_path": "id-comparisons/V-D01/light-godot.png",
+        "blob": "0def33c475a4801bc7f5e922e6a6aeaaa45e6520",
+        "sha256": "9b9dbc448c9395dafdd793ed4af9022fc8bc7728f0a9db4c7c5dbaa18170986f",
+        "bytes": 279041,
+        "dimensions": [
+          1870,
+          280
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W05-light-reference",
+        "source_path": "id-comparisons/V-W05/light-reference.png",
+        "blob": "aa4d7fddb3270c16d90e2bd27fb80107b66e0826",
+        "sha256": "6ffa687bfc6eae72acfd4835abfa6bbaa3823d9424a9fd08e87b384122c254f8",
+        "bytes": 274932,
+        "dimensions": [
+          1104,
+          696
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E01-light-reference",
+        "source_path": "id-comparisons/V-E01/light-reference.png",
+        "blob": "83deba87d3779f1f0a21bd7c2429235ab34a8b01",
+        "sha256": "d95e0610d335551135b4ef4176b4d10f98edf1ea7d536ce9d9656fe180ca4e38",
+        "bytes": 273359,
+        "dimensions": [
+          900,
+          640
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W05-light-godot",
+        "source_path": "id-comparisons/V-W05/light-godot.png",
+        "blob": "ae2e6a59324a334f2090d0122cfd7c1ef2ef98b6",
+        "sha256": "f434ee2fbe2958147c692eb9a0dfa61ef50dd59896abca32263a6e6bde3721d8",
+        "bytes": 247957,
+        "dimensions": [
+          1104,
+          696
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E03-light-godot",
+        "source_path": "id-comparisons/V-E03/light-godot.png",
+        "blob": "ed1b4757501488324287805261f6306e3e88314b",
+        "sha256": "58b54bc4c118597737690c11c857d187a8e05136e6ec488ae12dd90178e312c6",
+        "bytes": 242833,
+        "dimensions": [
+          1870,
+          250
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D04-light-godot",
+        "source_path": "id-comparisons/V-D04/light-godot.png",
+        "blob": "00f3cb67d7caa5d40d231ff564f06a7efbcf4590",
+        "sha256": "f1e94a0b5ebe072a42a3e6daddd4bd6d1f36b26de0a333d0ba384541c2ab3331",
+        "bytes": 231083,
+        "dimensions": [
+          1870,
+          245
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W09-light-reference",
+        "source_path": "id-comparisons/V-W09/light-reference.png",
+        "blob": "06573aa2dd9fbbc60044018a71220db9ecd409eb",
+        "sha256": "13fbeb6dffb554502d0bfefb93d7e302635f1bd92bb4f151925e630c4499b0da",
+        "bytes": 225147,
+        "dimensions": [
+          724,
+          806
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E01-light-godot",
+        "source_path": "id-comparisons/V-E01/light-godot.png",
+        "blob": "d99259719739daa1f85420d4782d69ecb3b32d05",
+        "sha256": "36917e20566a2b98f5df23d3c82beb09ab93d920a72c164b6d97c1a9fbbcd7c0",
+        "bytes": 216303,
+        "dimensions": [
+          900,
+          640
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W01-light-reference",
+        "source_path": "id-comparisons/V-W01/light-reference.png",
+        "blob": "ba6220ddcda52107e961ae9e7eab1ad64561a25c",
+        "sha256": "5a22eb31937b1102187fba68147b18b2f3ee4654b7b59e0a62b73d94b4107909",
+        "bytes": 216279,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W03-light-reference",
+        "source_path": "id-comparisons/V-W03/light-reference.png",
+        "blob": "ba6220ddcda52107e961ae9e7eab1ad64561a25c",
+        "sha256": "5a22eb31937b1102187fba68147b18b2f3ee4654b7b59e0a62b73d94b4107909",
+        "bytes": 216279,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W04-light-reference",
+        "source_path": "id-comparisons/V-W04/light-reference.png",
+        "blob": "ba6220ddcda52107e961ae9e7eab1ad64561a25c",
+        "sha256": "5a22eb31937b1102187fba68147b18b2f3ee4654b7b59e0a62b73d94b4107909",
+        "bytes": 216279,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W09-light-godot",
+        "source_path": "id-comparisons/V-W09/light-godot.png",
+        "blob": "61c1071aa6249ab1d50597a8ed294272ad3bc234",
+        "sha256": "d00c6deb8895d8ad8cee38aec074027c47aae51b569dce5c90883b58c37c6d26",
+        "bytes": 212728,
+        "dimensions": [
+          724,
+          806
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W01-light-godot",
+        "source_path": "id-comparisons/V-W01/light-godot.png",
+        "blob": "83039a6a76502e9d057af5ab16e9febec223a287",
+        "sha256": "b0bc4565cc392fc0ed54d12686a6f6ad0a676795e87390bb02b01a13a49dce67",
+        "bytes": 188354,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W03-light-godot",
+        "source_path": "id-comparisons/V-W03/light-godot.png",
+        "blob": "83039a6a76502e9d057af5ab16e9febec223a287",
+        "sha256": "b0bc4565cc392fc0ed54d12686a6f6ad0a676795e87390bb02b01a13a49dce67",
+        "bytes": 188354,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W04-light-godot",
+        "source_path": "id-comparisons/V-W04/light-godot.png",
+        "blob": "83039a6a76502e9d057af5ab16e9febec223a287",
+        "sha256": "b0bc4565cc392fc0ed54d12686a6f6ad0a676795e87390bb02b01a13a49dce67",
+        "bytes": 188354,
+        "dimensions": [
+          624,
+          656
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H02-light-reference",
+        "source_path": "id-comparisons/V-H02/light-reference.png",
+        "blob": "0cd43db30b78bd8f845e24e6fdc11ee7c71b382b",
+        "sha256": "91a5b9ef73cc06f6ebc72be47e44eedb0a07941e4ec7dc994ebf48ca884dafdd",
+        "bytes": 181968,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H04-light-reference",
+        "source_path": "id-comparisons/V-H04/light-reference.png",
+        "blob": "0cd43db30b78bd8f845e24e6fdc11ee7c71b382b",
+        "sha256": "91a5b9ef73cc06f6ebc72be47e44eedb0a07941e4ec7dc994ebf48ca884dafdd",
+        "bytes": 181968,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D02-light-reference",
+        "source_path": "id-comparisons/V-D02/light-reference.png",
+        "blob": "8f574186a52b20b9c554cf601f5c5f3a74bec5af",
+        "sha256": "58f1740879ea41415108a5fefe145002a6e5b16ebae1aa2962e5c985313a93c8",
+        "bytes": 167783,
+        "dimensions": [
+          730,
+          540
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D03-light-reference",
+        "source_path": "id-comparisons/V-D03/light-reference.png",
+        "blob": "8f574186a52b20b9c554cf601f5c5f3a74bec5af",
+        "sha256": "58f1740879ea41415108a5fefe145002a6e5b16ebae1aa2962e5c985313a93c8",
+        "bytes": 167783,
+        "dimensions": [
+          730,
+          540
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H03-light-reference",
+        "source_path": "id-comparisons/V-H03/light-reference.png",
+        "blob": "5b3f29e0d873083a71ba1bf41fd11e90ad576336",
+        "sha256": "f6f1e57a9c37965cfdabe5094f2f27ca852cc93477c7f0b9f52d9e30824665c3",
+        "bytes": 164397,
+        "dimensions": [
+          870,
+          455
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D02-light-godot",
+        "source_path": "id-comparisons/V-D02/light-godot.png",
+        "blob": "5e772a9a93d9809ffbb55bee58963ab906e1eff4",
+        "sha256": "9dbd8df28dcee5d230882020ca1b9fe994c472f7278a9a9ee419dce303f23e6b",
+        "bytes": 143605,
+        "dimensions": [
+          730,
+          540
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D03-light-godot",
+        "source_path": "id-comparisons/V-D03/light-godot.png",
+        "blob": "5e772a9a93d9809ffbb55bee58963ab906e1eff4",
+        "sha256": "9dbd8df28dcee5d230882020ca1b9fe994c472f7278a9a9ee419dce303f23e6b",
+        "bytes": 143605,
+        "dimensions": [
+          730,
+          540
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H01-light-reference",
+        "source_path": "id-comparisons/V-H01/light-reference.png",
+        "blob": "9d0b4a62f2987870d842296e482196914858081c",
+        "sha256": "cecc51cef8b916ff19f9594ef674452ca57ec19fb27b8e2795389248be57a75d",
+        "bytes": 127753,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H02-light-godot",
+        "source_path": "id-comparisons/V-H02/light-godot.png",
+        "blob": "8805a86a66cb3f771720072b7267981d228781b5",
+        "sha256": "c6e8988176dff9e502d7defcce9e7078a0794a83f6b2b4b65d1f8a8df272601b",
+        "bytes": 92901,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H04-light-godot",
+        "source_path": "id-comparisons/V-H04/light-godot.png",
+        "blob": "8805a86a66cb3f771720072b7267981d228781b5",
+        "sha256": "c6e8988176dff9e502d7defcce9e7078a0794a83f6b2b4b65d1f8a8df272601b",
+        "bytes": 92901,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H03-light-godot",
+        "source_path": "id-comparisons/V-H03/light-godot.png",
+        "blob": "c9120817fdf3a3a27a8248abf635836665e5515f",
+        "sha256": "0e07cbbadd16176c0b967489e15febba91afe6317dcee92decbe76eafae14f1f",
+        "bytes": 89892,
+        "dimensions": [
+          870,
+          455
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E05-light-godot",
+        "source_path": "id-comparisons/V-E05/light-godot.png",
+        "blob": "9c3b89de8ab6dce9455a452bbd48c1ad163662fc",
+        "sha256": "d3faad7948374e51b357eabaf706f716e0e1bb9b44ef7b8b168904a635d05c6c",
+        "bytes": 82525,
+        "dimensions": [
+          664,
+          256
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E11-light-godot",
+        "source_path": "id-comparisons/V-E11/light-godot.png",
+        "blob": "9c3b89de8ab6dce9455a452bbd48c1ad163662fc",
+        "sha256": "d3faad7948374e51b357eabaf706f716e0e1bb9b44ef7b8b168904a635d05c6c",
+        "bytes": 82525,
+        "dimensions": [
+          664,
+          256
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E05-light-reference",
+        "source_path": "id-comparisons/V-E05/light-reference.png",
+        "blob": "bb55ae88b1cfcb80c5b1c49bfe048b1efd2f0c49",
+        "sha256": "139640523d21e9864433df15afc069187041d19b6d5c00209bd6be031a3c3e1a",
+        "bytes": 79437,
+        "dimensions": [
+          664,
+          256
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E11-light-reference",
+        "source_path": "id-comparisons/V-E11/light-reference.png",
+        "blob": "bb55ae88b1cfcb80c5b1c49bfe048b1efd2f0c49",
+        "sha256": "139640523d21e9864433df15afc069187041d19b6d5c00209bd6be031a3c3e1a",
+        "bytes": 79437,
+        "dimensions": [
+          664,
+          256
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H01-light-godot",
+        "source_path": "id-comparisons/V-H01/light-godot.png",
+        "blob": "bd82e2f69734b891040db76f6ad0e2d5b39a3dee",
+        "sha256": "ccc71140109d953d4c5c30d7739a3c7f350dbf4fe68cc5dff060fc862ad1ceab",
+        "bytes": 75747,
+        "dimensions": [
+          870,
+          375
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E02-light-reference",
+        "source_path": "id-comparisons/V-E02/light-reference.png",
+        "blob": "64680b783f86a3b55b8b8fabf380cab6e64066ac",
+        "sha256": "3b74557d3181cd87fb37da2865082446d33342a1a2f1d3db0cf33ce73eaa7940",
+        "bytes": 63679,
+        "dimensions": [
+          1870,
+          60
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E02-light-godot",
+        "source_path": "id-comparisons/V-E02/light-godot.png",
+        "blob": "7a3ee02306576a8691c10e586b582a73952ce01d",
+        "sha256": "e7dd1b1661173f8b4e861d4850b3915f460e5c60f522413ad3a636802c0a920e",
+        "bytes": 62675,
+        "dimensions": [
+          1870,
+          60
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P13-light-godot",
+        "source_path": "id-comparisons/V-P13/light-godot.png",
+        "blob": "004e7d01c52ed1f700a89f9051acbd8f79576a78",
+        "sha256": "0410c9645eafccd1f24336dbcd9a582090181f21d359c61acf7258c47ceecfe2",
+        "bytes": 56024,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E13-light-reference",
+        "source_path": "id-comparisons/V-E13/light-reference.png",
+        "blob": "bcc6c9642e0e7b95cb6a68af92c95b3512637bd5",
+        "sha256": "ab1f030e633ec7448f2decf03edb770914f8bbafd81177117029875118340514",
+        "bytes": 44560,
+        "dimensions": [
+          1020,
+          72
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P15-light-godot",
+        "source_path": "id-comparisons/V-P15/light-godot.png",
+        "blob": "c427c1780bb0084d2a6cf907a27c61c074ef813b",
+        "sha256": "fbf34bd7982ce8320b996c973838ff8457a1365d73308968b57bdba08739cb77",
+        "bytes": 39412,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W06-light-godot",
+        "source_path": "id-comparisons/V-W06/light-godot.png",
+        "blob": "1f40bc9aa437f8b00e5cbd27630ec8cea830d28f",
+        "sha256": "e1aee764640671a8d95460c3a5974aa707ee5a3e2739e6ae7b5465a3f3da741a",
+        "bytes": 35804,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W07-light-godot",
+        "source_path": "id-comparisons/V-W07/light-godot.png",
+        "blob": "fbca13104b0ddb16595b40d35c184d4fc456300d",
+        "sha256": "2dfecf9c212d9cc14743af882be1c4a572ee91e28c1dba1fb174cd4e3dece0ce",
+        "bytes": 34986,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P15-light-reference",
+        "source_path": "id-comparisons/V-P15/light-reference.png",
+        "blob": "18ed8c469825f3436f92c5a6814a27386c40b816",
+        "sha256": "b644ee18757e9bc2e463735504bda996cfd596aad0df5968db43e61c32225ceb",
+        "bytes": 33416,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E13-light-godot",
+        "source_path": "id-comparisons/V-E13/light-godot.png",
+        "blob": "1a16293bfae88e96eb6ff8804ae8313bdb7fa0c2",
+        "sha256": "6d0ecc30d893651e28db856b56cf7c9569edd3ea751e0b9e30f2a61e38e15c57",
+        "bytes": 33128,
+        "dimensions": [
+          1020,
+          72
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W06-light-reference",
+        "source_path": "id-comparisons/V-W06/light-reference.png",
+        "blob": "c20aaaaca4c000f7f8b724c514e5884efe680aca",
+        "sha256": "90e2f6b6a7d5101bfde027cc368fc7744d674e0dd1e1779eafb660d9bbec1b0e",
+        "bytes": 30882,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P02-light-godot",
+        "source_path": "id-comparisons/V-P02/light-godot.png",
+        "blob": "f9c79ed567fc526a332aec0da9ba76a7babdf54c",
+        "sha256": "d4e7fb35839d374ae901f6771c1bb492fbb5dd1abe3ae48045c2e020a5f5627d",
+        "bytes": 30574,
+        "dimensions": [
+          755,
+          881
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W07-light-reference",
+        "source_path": "id-comparisons/V-W07/light-reference.png",
+        "blob": "d84684a8442ec4faab0f17f51d414f1bbf6df17c",
+        "sha256": "67accd5639c9d9c8728d6117b346f5d7432e5473d6c84b331df2c55a2fe669a8",
+        "bytes": 30377,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W02-light-reference",
+        "source_path": "id-comparisons/V-W02/light-reference.png",
+        "blob": "86cfb2ccce7d0585bba764ee24d825207efc42d7",
+        "sha256": "26d24a782338ac1dcd62edbdaed7a729f72efdac9cdf570acde1cd72d6c88c63",
+        "bytes": 29413,
+        "dimensions": [
+          624,
+          126
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W02-light-godot",
+        "source_path": "id-comparisons/V-W02/light-godot.png",
+        "blob": "03f63f0a9a8425394c231a95cd653c63243722c7",
+        "sha256": "38b9c9cbba899db89d9c92c4d5839f129e04dca6d284b2c1d151ffa4a60e1785",
+        "bytes": 28657,
+        "dimensions": [
+          624,
+          126
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W08-light-godot",
+        "source_path": "id-comparisons/V-W08/light-godot.png",
+        "blob": "76fafd4a641b9bebaecd22d9fd905eab72c48ef0",
+        "sha256": "18bc944d6d7e12b29d37bf2545577d955e384be17ec2b415ced3f2e2d60ea9df",
+        "bytes": 28119,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W10-light-godot",
+        "source_path": "id-comparisons/V-W10/light-godot.png",
+        "blob": "76fafd4a641b9bebaecd22d9fd905eab72c48ef0",
+        "sha256": "18bc944d6d7e12b29d37bf2545577d955e384be17ec2b415ced3f2e2d60ea9df",
+        "bytes": 28119,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P13-light-reference",
+        "source_path": "id-comparisons/V-P13/light-reference.png",
+        "blob": "2bd7ee4db0056fd61596d9b0a0aa0583d1cec780",
+        "sha256": "19cb43d9e4043c7e6a5fa821f4aad8935f98b9a7b02a3544db74a96d4a9690ac",
+        "bytes": 26545,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P14-light-godot",
+        "source_path": "id-comparisons/V-P14/light-godot.png",
+        "blob": "7dfed1c221a53aa315c8345d9d787b2a5e8f92a6",
+        "sha256": "fd5935668be87465e06514d42dde89b2fb7000710b086eef98fe931a1fef2884",
+        "bytes": 26147,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P12-light-godot",
+        "source_path": "id-comparisons/V-P12/light-godot.png",
+        "blob": "62aa73a6bdc94153e10ead00e12b687abaf7b775",
+        "sha256": "ed7da124c8acb728761a49ceca4e942be1dd09860e757c516d7e24ed256d43c4",
+        "bytes": 25985,
+        "dimensions": [
+          1918,
+          65
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P01-light-godot",
+        "source_path": "id-comparisons/V-P01/light-godot.png",
+        "blob": "3697c51fa50a91fcdb26b486b14a3565421e8c07",
+        "sha256": "bf343350691691a983c1d8b6ab4f82d5c9338046abed8afea6ce404382823d2d",
+        "bytes": 25811,
+        "dimensions": [
+          1896,
+          132
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W08-light-reference",
+        "source_path": "id-comparisons/V-W08/light-reference.png",
+        "blob": "8db469e86fdb41815486f4c872367f086581fa0f",
+        "sha256": "c1331b775abb4750c167742a76968c857a551d21960902a02b08563615945740",
+        "bytes": 24267,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-W10-light-reference",
+        "source_path": "id-comparisons/V-W10/light-reference.png",
+        "blob": "10f008add38deef443ad644dc4ad3b79fe3dd5c9",
+        "sha256": "521cbbddc6ee6e33fef51a7529daffabd92fe56fed2c59b631de7e51d93e82bf",
+        "bytes": 24195,
+        "dimensions": [
+          526,
+          486
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P02-light-reference",
+        "source_path": "id-comparisons/V-P02/light-reference.png",
+        "blob": "c208f25e53d60bbbd5ebfa70c42c09d196620f63",
+        "sha256": "e75bd1fd9ffba4b157d775e699c2921034fee4df16d8539bba1fc02ada02fce0",
+        "bytes": 24142,
+        "dimensions": [
+          755,
+          881
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P01-light-reference",
+        "source_path": "id-comparisons/V-P01/light-reference.png",
+        "blob": "223f6510e73ddd397c41e8f16599536b3f36d1bf",
+        "sha256": "437c54a2daf84b1b44136ea2f3ea5bffea42b2612bd29cc77441271cfc83be73",
+        "bytes": 20541,
+        "dimensions": [
+          1896,
+          132
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-S01-light-godot",
+        "source_path": "id-comparisons/V-S01/light-godot.png",
+        "blob": "12f13781ce6b741fa6a438479d027333f936c7ae",
+        "sha256": "7a38642aa14cd3c7ba4333723cc37d9c92d50b8f22419e5061d1595e88857a90",
+        "bytes": 20492,
+        "dimensions": [
+          1918,
+          104
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-S01-light-reference",
+        "source_path": "id-comparisons/V-S01/light-reference.png",
+        "blob": "caa61cf162a0b34296299439962d1bc062f47fb3",
+        "sha256": "37a702082980308362f053006a69cb8f791f2087020bf824f6fc13886a28a3a1",
+        "bytes": 18977,
+        "dimensions": [
+          1918,
+          104
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P14-light-reference",
+        "source_path": "id-comparisons/V-P14/light-reference.png",
+        "blob": "8712fab81280637c476a3f94d8dd0221604d36c5",
+        "sha256": "e4c2244526a843e124f407eac0f91880de939ca2edc39fd4543190face74d32c",
+        "bytes": 18178,
+        "dimensions": [
+          960,
+          820
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E04-light-reference",
+        "source_path": "id-comparisons/V-E04/light-reference.png",
+        "blob": "e7fb4e46faeefaf835249d66199d703b632361bc",
+        "sha256": "c484ac4e785ac9925de512b4d3975716d540f4aa6c3427b12d6d8d8c91e92083",
+        "bytes": 17159,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E10-light-godot",
+        "source_path": "id-comparisons/V-E10/light-godot.png",
+        "blob": "cb357339e640102ec39626e47eb9e17ad4bd27b5",
+        "sha256": "84c0f32a1739abcccf874f7edde20518b9aee998649bb86ea2cef7d421f09518",
+        "bytes": 16719,
+        "dimensions": [
+          664,
+          119
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C02-light-reference",
+        "source_path": "id-comparisons/V-C02/light-reference.png",
+        "blob": "9e620b2577a138cf706d157f153ef1def5b69ee3",
+        "sha256": "c83c1f0c5905885604118e06aa614920ff8bbf6364010858835abeb3fcb1ebb5",
+        "bytes": 15591,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H05-light-godot",
+        "source_path": "id-comparisons/V-H05/light-godot.png",
+        "blob": "1c41237b21609098184449ad9ae9459e9f32b97c",
+        "sha256": "a2a96d0dc15fd87713e6e45017d52cd28783f5d1bddf0e5f7954a8e1aa681057",
+        "bytes": 15423,
+        "dimensions": [
+          820,
+          748
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E10-light-reference",
+        "source_path": "id-comparisons/V-E10/light-reference.png",
+        "blob": "8c9a699cfbe9c863e2314e86c48e5bcb9c1ab9cf",
+        "sha256": "aad28aa375bb5721d046dc1b40b260a3d69328e7ffa767cd66803211c03ce75b",
+        "bytes": 15364,
+        "dimensions": [
+          664,
+          119
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E07-light-reference",
+        "source_path": "id-comparisons/V-E07/light-reference.png",
+        "blob": "34b9aa1bdb4d27e9822785b17075803daf2c4656",
+        "sha256": "f4c19ed5dd713cc98d777e650de1f4661467b4263aa49e20ba1a799b5341f048",
+        "bytes": 14185,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E15-light-reference",
+        "source_path": "id-comparisons/V-E15/light-reference.png",
+        "blob": "383f7efcf2b4793ba4fbf694d01fe03fa415ecfa",
+        "sha256": "ee8edeaaf5a1259482727bd19dd237233d4cdd47eccea8d68329a8ec87baf64a",
+        "bytes": 13682,
+        "dimensions": [
+          450,
+          65
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E15-light-godot",
+        "source_path": "id-comparisons/V-E15/light-godot.png",
+        "blob": "6c0e564dabd8ce3e15a1e609df024c264a17ec74",
+        "sha256": "db51a21feceff08359937e9543f69c1c8e86bb10b7381224e654b29ea6730bae",
+        "bytes": 13314,
+        "dimensions": [
+          450,
+          65
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-H05-light-reference",
+        "source_path": "id-comparisons/V-H05/light-reference.png",
+        "blob": "038927cdc7bdfea4e544cdd60f280b5eb43cab5b",
+        "sha256": "86732e29bc24aaed998ab66f459eebfdd90a57a85bacf92ed390bc8eb16271db",
+        "bytes": 12932,
+        "dimensions": [
+          820,
+          748
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E07-light-godot",
+        "source_path": "id-comparisons/V-E07/light-godot.png",
+        "blob": "f6d9e4de019dd18fd7d52c6503926f3b5fd33959",
+        "sha256": "550471e8f4d3af3948390e168a0e3c288b005897ab51b78af0ac349203275241",
+        "bytes": 11758,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P07-light-godot",
+        "source_path": "id-comparisons/V-P07/light-godot.png",
+        "blob": "a0dc929d5f931ecb54dda82c2d4153b4114d1c8c",
+        "sha256": "e4db7d2b40fc3432b11effcda714a7c55ad903e007c04f85bfd9e6dab1120749",
+        "bytes": 9756,
+        "dimensions": [
+          713,
+          115
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D05-light-godot",
+        "source_path": "id-comparisons/V-D05/light-godot.png",
+        "blob": "eeaf1431670d8afae306fed740ffb967fde7336b",
+        "sha256": "8fdeaae7fa451644ee2fc07c0f2dfaed074cf21acde16cad8d5e030aebb2186d",
+        "bytes": 9670,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P08-light-godot",
+        "source_path": "id-comparisons/V-P08/light-godot.png",
+        "blob": "eeaf1431670d8afae306fed740ffb967fde7336b",
+        "sha256": "8fdeaae7fa451644ee2fc07c0f2dfaed074cf21acde16cad8d5e030aebb2186d",
+        "bytes": 9670,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E04-light-godot",
+        "source_path": "id-comparisons/V-E04/light-godot.png",
+        "blob": "b8c61b4392133112b55abe12976029b1ee2ddf74",
+        "sha256": "52e6cc59678bbf9d8fd7b2aa64fd346f5c6f9ed703086e7bad29fa8089ced7f7",
+        "bytes": 8993,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P12-light-reference",
+        "source_path": "id-comparisons/V-P12/light-reference.png",
+        "blob": "437d1f068ea19665d5dede18de8be15303716108",
+        "sha256": "533838570fafbbae2ca2b9d79f78f0a37cb4b745c5c4a4854a520d5c15b92753",
+        "bytes": 8397,
+        "dimensions": [
+          1918,
+          65
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-D05-light-reference",
+        "source_path": "id-comparisons/V-D05/light-reference.png",
+        "blob": "0ec0de0254f6a412661d0b6596f447a6ed359ae6",
+        "sha256": "546326b1d1bc008e0aadd1833bbb8aea4912489b1b53254ea2d3191f42bbbb9e",
+        "bytes": 8359,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P08-light-reference",
+        "source_path": "id-comparisons/V-P08/light-reference.png",
+        "blob": "0ec0de0254f6a412661d0b6596f447a6ed359ae6",
+        "sha256": "546326b1d1bc008e0aadd1833bbb8aea4912489b1b53254ea2d3191f42bbbb9e",
+        "bytes": 8359,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C02-light-godot",
+        "source_path": "id-comparisons/V-C02/light-godot.png",
+        "blob": "1f7010cb50ebe16fac6418f0d0f244908af619bd",
+        "sha256": "a84f8a42db3094e5e7f7e972632abd3d98cde6febbbac11fc01aabf935a6ecff",
+        "bytes": 7852,
+        "dimensions": [
+          248,
+          208
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C01-light-godot",
+        "source_path": "id-comparisons/V-C01/light-godot.png",
+        "blob": "805fdf8d744b792dea6941e69aa4ea7723785ec4",
+        "sha256": "b9b17204953b65ce9fd6298de3a183189235f64bda787d51d7727bb2f7a48b21",
+        "bytes": 7570,
+        "dimensions": [
+          370,
+          124
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P07-light-reference",
+        "source_path": "id-comparisons/V-P07/light-reference.png",
+        "blob": "f56d477b200468ff7960b4e50f02e21f057b31b3",
+        "sha256": "3c35f4e76b0b714bc743a76d806a98082fdc2a02429b9d08e3e5f264e1fcd069",
+        "bytes": 7325,
+        "dimensions": [
+          713,
+          115
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E12-light-godot",
+        "source_path": "id-comparisons/V-E12/light-godot.png",
+        "blob": "92b48593ce34a8b5924f4abd6e945bc7f15af9e9",
+        "sha256": "f7790087e21c25e9ee52538b8481de6cee6f3d3a026479ca473b86a0209df6c9",
+        "bytes": 6032,
+        "dimensions": [
+          800,
+          74
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E12-light-reference",
+        "source_path": "id-comparisons/V-E12/light-reference.png",
+        "blob": "7a8e3d4d4ad6971b222d3edc900d5d891594484e",
+        "sha256": "95d30b61f2ffc3d847839d5037db9c6798584a8669095d902b3e95bd2a2f2ce6",
+        "bytes": 5984,
+        "dimensions": [
+          800,
+          74
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C01-light-reference",
+        "source_path": "id-comparisons/V-C01/light-reference.png",
+        "blob": "9f80781b345a9591127960625e84991c55ddd816",
+        "sha256": "34d9b6afc16f34173e59e50ee5a1b81301ca4a3305e66637ae1773c751a81b1c",
+        "bytes": 5910,
+        "dimensions": [
+          370,
+          124
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P04-light-godot",
+        "source_path": "id-comparisons/V-P04/light-godot.png",
+        "blob": "743e9b153d91cc19473d3e17b1455ea32105f170",
+        "sha256": "d83558ee1dcc57d06d0a91cac88368abeeb48e3bae57162210309b4317208d81",
+        "bytes": 4682,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P03-light-godot",
+        "source_path": "id-comparisons/V-P03/light-godot.png",
+        "blob": "da6070193a8a6701e93d6ca10d141280e8bc628f",
+        "sha256": "08729b2b4ccea27965a1e0faeaaa8b2ebaa992fd9642344d6d95d768ef4ff8c6",
+        "bytes": 3875,
+        "dimensions": [
+          310,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P04-light-reference",
+        "source_path": "id-comparisons/V-P04/light-reference.png",
+        "blob": "1022134c1851852af09587ce97e380d7ee38ce19",
+        "sha256": "d53fd6049f109a1795605c7b7c7da1cee5367c1cf131c241c5b726986c37d817",
+        "bytes": 3591,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P06-light-godot",
+        "source_path": "id-comparisons/V-P06/light-godot.png",
+        "blob": "832d08e1ba41d6f5dc5f7772de14e0b33f41ef58",
+        "sha256": "9e76b3860bd62d8ee6a5121908c1c8eeb74cbfbaa5c2a7e24372a7bc86767392",
+        "bytes": 3429,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P11-light-godot",
+        "source_path": "id-comparisons/V-P11/light-godot.png",
+        "blob": "44581d9206e04f172004364a9d275ed912311515",
+        "sha256": "d82d2d4813c3b89dbbecf6c7990fad43bb8ed5b0cc19829d4ebe085079681f41",
+        "bytes": 3277,
+        "dimensions": [
+          390,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P03-light-reference",
+        "source_path": "id-comparisons/V-P03/light-reference.png",
+        "blob": "da96526a958b6df8cfe395f88c8501431a786df2",
+        "sha256": "f49914a4e44c39ab1a3530f3316ed709dc8e005e3a553ac95a091021694e1b02",
+        "bytes": 3194,
+        "dimensions": [
+          310,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C03-light-godot",
+        "source_path": "id-comparisons/V-C03/light-godot.png",
+        "blob": "2126e03c8580e308ca2d0e39a74979a90fc62d60",
+        "sha256": "ff3f27c71f0bb6e77ce602d529b2a0c0d628355747d59714c12333545d4bd5f5",
+        "bytes": 3121,
+        "dimensions": [
+          225,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E06-light-godot",
+        "source_path": "id-comparisons/V-E06/light-godot.png",
+        "blob": "33ff7b69d402d36aa4104877a16ceb272058a9fe",
+        "sha256": "945713bfdbf162cb0ea0f250c4135d5782265d407763b907329d733cbb4a6111",
+        "bytes": 3082,
+        "dimensions": [
+          248,
+          46
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C03-light-reference",
+        "source_path": "id-comparisons/V-C03/light-reference.png",
+        "blob": "bb2596709b1b4fa4b976bb58d9e2bdb11cb177c1",
+        "sha256": "72275bc45f29c08e3d8421eb9913b82a082088b0f185a80770f4b372f30ae614",
+        "bytes": 2759,
+        "dimensions": [
+          225,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P06-light-reference",
+        "source_path": "id-comparisons/V-P06/light-reference.png",
+        "blob": "d61871d6b74a574e39dd249bd3887a782e3057cc",
+        "sha256": "7fda4a0c91517b04192d57f11fdce1cf9328f8af81b442a2898fcd622957fe10",
+        "bytes": 2578,
+        "dimensions": [
+          352,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P11-light-reference",
+        "source_path": "id-comparisons/V-P11/light-reference.png",
+        "blob": "5dd8ba2b87b8d6eee2137cd8ea62ec94de43e701",
+        "sha256": "346ffbf90d736d6feff2d6b619be0990335cbc4a059c64a932564084fb6acb53",
+        "bytes": 2507,
+        "dimensions": [
+          390,
+          64
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-E06-light-reference",
+        "source_path": "id-comparisons/V-E06/light-reference.png",
+        "blob": "7fceb8e0d53267a3356f4890a8d612e48791005f",
+        "sha256": "b65a51b5210edbc7e5951ef002ad01b07773e00d56988d695ab54dd7973f9541",
+        "bytes": 2376,
+        "dimensions": [
+          248,
+          46
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C05-light-godot",
+        "source_path": "id-comparisons/V-C05/light-godot.png",
+        "blob": "32ef24f5812825c02a4f48d6714bd46608a3def9",
+        "sha256": "671dd7a4aa74466c8d92540b2fb2c1ffa2914e50b808c8867815e9382d26051b",
+        "bytes": 2022,
+        "dimensions": [
+          145,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P05-light-godot",
+        "source_path": "id-comparisons/V-P05/light-godot.png",
+        "blob": "6c20222c2c6ba62aa1079a8e1af673db4df062dc",
+        "sha256": "f18d31acc1bf9cb753397a002f9dcef4f83ef3a9bfc3188e1111b318161f695f",
+        "bytes": 1788,
+        "dimensions": [
+          74,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C05-light-reference",
+        "source_path": "id-comparisons/V-C05/light-reference.png",
+        "blob": "01bf5f8c88a169a884c0af1e25c27b40230ad186",
+        "sha256": "77ae520d9618ffeabb3359505eeb28cb05034ce8b726decd056b4b6c9705a07c",
+        "bytes": 1617,
+        "dimensions": [
+          145,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P05-light-reference",
+        "source_path": "id-comparisons/V-P05/light-reference.png",
+        "blob": "d29f4b6bfd711bb0b221e966726c84d8987c3fe8",
+        "sha256": "613e348df25779d7c9f6f8d2ae4884d737a0e519679c0c3f5aa7c7dc719fb7fb",
+        "bytes": 1459,
+        "dimensions": [
+          74,
+          80
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C04-light-reference",
+        "source_path": "id-comparisons/V-C04/light-reference.png",
+        "blob": "e699382321c8b09a4fe4c769155d58eba066cba0",
+        "sha256": "8526f3201c76a129c941bce5cda9a2dbcb4884af0867a2802fe60f26dbd696d2",
+        "bytes": 1452,
+        "dimensions": [
+          390,
+          99
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P10-light-reference",
+        "source_path": "id-comparisons/V-P10/light-reference.png",
+        "blob": "9baeaef342208b726b8b1940de2f659c6fa17aa5",
+        "sha256": "6720f6d94886a0d64dab4a15cd651ed41971345ac57cd9c710e7664d93008705",
+        "bytes": 1159,
+        "dimensions": [
+          713,
+          82
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P10-light-godot",
+        "source_path": "id-comparisons/V-P10/light-godot.png",
+        "blob": "2e43ce27b99f3f93bc2e2e4fa9c36b9662c2f8e6",
+        "sha256": "e7bc4c01b0da144b2f0fb1de96b2592c841148ad21b6252ec7a0402e892fccd9",
+        "bytes": 1065,
+        "dimensions": [
+          713,
+          82
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C06-light-reference",
+        "source_path": "id-comparisons/V-C06/light-reference.png",
+        "blob": "cfa07afa250739232ed8b494daad765c1fb79fe6",
+        "sha256": "493fa58f5d9293bfe7978ed842eceefee1fe81e884fa8b592ce43328294d6ac2",
+        "bytes": 765,
+        "dimensions": [
+          42,
+          225
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C06-light-godot",
+        "source_path": "id-comparisons/V-C06/light-godot.png",
+        "blob": "0b8c37569d61483b884e8dfb94b44ce223921832",
+        "sha256": "11d14f83e548b346f6b04db8e1720e6568177c806b68fa07a05df68a25fa503f",
+        "bytes": 719,
+        "dimensions": [
+          42,
+          225
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P09-light-reference",
+        "source_path": "id-comparisons/V-P09/light-reference.png",
+        "blob": "b995340817e5934c2565160cbec103607726a71f",
+        "sha256": "3bc88f2f3cc5a8405af6ab9dffb34d75da878704b9328289d54c8a0582b03edc",
+        "bytes": 664,
+        "dimensions": [
+          354,
+          82
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-C04-light-godot",
+        "source_path": "id-comparisons/V-C04/light-godot.png",
+        "blob": "9de8fa860995819f3e2fda9c1dd38d80d552008b",
+        "sha256": "5fab0cd9d42a01446038cb603495a3e7d59e81d0b0299a2d293aec64e0f37933",
+        "bytes": 605,
+        "dimensions": [
+          390,
+          99
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      },
+      {
+        "name": "V-P09-light-godot",
+        "source_path": "id-comparisons/V-P09/light-godot.png",
+        "blob": "d99ba60a753431c7737023373b7deaed3fb0a9e0",
+        "sha256": "79e7e83ed98f3ecb1a81c82c9fb3d013f0b733825d5e21b9131ff9142775ef09",
+        "bytes": 453,
+        "dimensions": [
+          354,
+          82
+        ],
+        "blob_matches": true,
+        "bytes_match": true,
+        "png_complete": true,
+        "expected_sha256_compared": false
+      }
+    ],
+    "full": [
+      {
+        "name": "repro-home-card-light-reference",
+        "source_path": "source-representative-final/light-repro-home-card.png",
+        "blob": "e3656333e9f252c0c76f454b9867fd86e3f80962",
+        "sha256": "07898e7d7f4c1c6a4db4341c0919bae9c2a119201dfa32db8c3f2114a2c24c9f",
+        "bytes": 77950,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-card-light-godot",
+        "source_path": "common-light-submitted/repro-home-card.png",
+        "blob": "15e2ffed09be9025a40d04a3aff10923448567fe",
+        "sha256": "d6998520b090f40efc86b19f46ae58a846c8a89f58e095c4d93a757f13e3b939",
+        "bytes": 110519,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-card-dark-reference",
+        "source_path": "source-representative-final/dark-repro-home-card.png",
+        "blob": "1cd87546ea372a1bce5cd3c36ea98e684b039cc7",
+        "sha256": "5eddcc9b2770715fbfe4c74e2f23cac92c27f00d2bbdea4cacbadd0782e4a3e6",
+        "bytes": 77367,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-card-dark-godot",
+        "source_path": "common-dark-background-final/repro-home-card.png",
+        "blob": "088ffda450815e6629a7f9ad3373a31ea3f20d4f",
+        "sha256": "c8dd6b1982ce6a0b72f2907cc76e9cd31c57abb2a5cf3ea5575d1bcb2d44ff3c",
+        "bytes": 109648,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-confirmation-light-reference",
+        "source_path": "source-representative-final/light-repro-home-confirmation.png",
+        "blob": "d9c2a947b0c79f176db343cc459e8599a4a66606",
+        "sha256": "1655de71aada83d820f6cf960c8c98cbefef2894421f2699239e29caebd9384a",
+        "bytes": 67909,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-confirmation-light-godot",
+        "source_path": "common-light-submitted/repro-home-confirmation.png",
+        "blob": "d2d2233da95f66bbd738b8e1d780270ef1e2a66e",
+        "sha256": "793f315f737bc930a4049fcbdfc6f980d73a73f0e7954cbe96259be3b121ea21",
+        "bytes": 111888,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-pending-detail-light-reference",
+        "source_path": "source-representative-final/light-repro-home-pending-detail.png",
+        "blob": "76bbcb823109986db3094e16432530274ec07c70",
+        "sha256": "2d27266dac0598f29e21bdd632779e7a5a3f0df5fbeec98bb213889e08ec6d5c",
+        "bytes": 84509,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-pending-detail-light-godot",
+        "source_path": "common-light-submitted/repro-home-pending-detail.png",
+        "blob": "a58010f01a77bdd8df17d5ae16af6058088d2b03",
+        "sha256": "392f313c95e9d42c674e4c67bcfb10368659634c490af670c6761e061e1b742a",
+        "bytes": 126745,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-empty-composition-light-reference",
+        "source_path": "source-components-final/light-repro-home-empty-composition.png",
+        "blob": "78f089776998c5efa0b8f7ec232f1c8e8e156b5f",
+        "sha256": "7ca07005693d3dc63846bae457bdc546e1efe67a84da380581a7293ed94bc132",
+        "bytes": 72426,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-home-empty-composition-light-godot",
+        "source_path": "common-light-submitted/repro-home-empty-composition.png",
+        "blob": "44594855cf94a9c8f179c8518f7861bd3e4c902f",
+        "sha256": "5ba7aedf05f5263cef838d61bea4df431cb33e4c70b072435c72522d175edd27",
+        "bytes": 114171,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-window-pin-pressed-light-reference",
+        "source_path": "source-components-final/light-repro-explore-window-pin-pressed.png",
+        "blob": "618ac6597d678defe6feed8e9e9ead0356a0e6a6",
+        "sha256": "4b89164e235a4177dc0f211a643beb515e46e0759876d68ad2fe700e583ad4d2",
+        "bytes": 885973,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-window-pin-pressed-light-godot",
+        "source_path": "common-light-records-final/repro-explore-window-pin-pressed.png",
+        "blob": "91061518f6bbaba26b8358b8787d3dec2949dbc0",
+        "sha256": "bfa81fc1a3ead760bdcace849328f8b37065d0320f625d316ef67c845fa6ae3a",
+        "bytes": 863786,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-entry-dark-reference",
+        "source_path": "source-remaining-final/dark-repro-explore-entry.png",
+        "blob": "7e7270359c1cf1670ad6d6755232833530e3ec5b",
+        "sha256": "a5631705752f7c8d7b76f3dea80b3c269e22c47815df98956709e95d4f9a5314",
+        "bytes": 1048540,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-entry-dark-godot",
+        "source_path": "common-dark-records-final/repro-explore-entry.png",
+        "blob": "8de0e3ef71b3a4d2d92ceb633879551fad989903",
+        "sha256": "697267698266c7bbe7d110f47358a7bb7ad590618971945798a373e543ff5a3c",
+        "bytes": 1020164,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-records-cards-light-reference",
+        "source_path": "source-remaining-final/light-repro-explore-records-cards.png",
+        "blob": "4197d9dc8f3d27c4a43b440f9ce885ac320931aa",
+        "sha256": "518fa82271f09f0d352afcd1bbebd02b4f3a8373dbd7a6d9a464204ad7195078",
+        "bytes": 951812,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "repro-explore-records-cards-light-godot",
+        "source_path": "common-light-records-final/repro-explore-records-cards.png",
+        "blob": "bba70fe19799a0bfae866a5d47d549e88d46e553",
+        "sha256": "7f7d5a615c2ed750697a8a2ea11f7c9474ea20c29cc93bb819bf72a7f41b33cf",
+        "bytes": 940591,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "startup-entry-light-reference",
+        "source_path": "source-remaining-final/light-startup-entry.png",
+        "blob": "5d8fbc05e55620699fc81abab781fba6fc7b139d",
+        "sha256": "0f0337cac0c2b54d75176eafc0b60ee049e440b3326255de478556aab89be49b",
+        "bytes": 21627,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      },
+      {
+        "name": "startup-entry-light-godot",
+        "source_path": "related-final/interaction-start.png",
+        "blob": "24caa17bfdbb8309606710c3a9cd3bdd23a25640",
+        "sha256": "77e34fa2a4ec107b156e81d16c9604e0dbc1821e463f78eb51bac68a3fc8b388",
+        "bytes": 38892,
+        "dimensions": [
+          1920,
+          1080
+        ],
+        "blob_matches": true,
+        "sha256_matches": true,
+        "bytes_match": true,
+        "png_complete": true
+      }
+    ],
+    "failures": [],
+    "source_images_recreated": false,
+    "game_tests_run": 0
+  },
+  "icon_audit": {
+    "original_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "original_path": "docs/検証/UI/readability/co-u02/vendor/lucide.js",
+    "original_blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4",
+    "godot_commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "godot_path": "apps/crossweave-godot/Godot/Application/AcceptedIcons.json",
+    "godot_blob": "a1c7968db5c7312bd1bf3f381eafe58afdeb5d2c",
+    "original_count": 30,
+    "original_names": [
+      "Activity",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUpRight",
+      "BookOpen",
+      "ChevronLeft",
+      "ChevronRight",
+      "Crosshair",
+      "Flag",
+      "Heart",
+      "HeartPlus",
+      "HeartPulse",
+      "History",
+      "Info",
+      "Layers",
+      "Lightbulb",
+      "ListOrdered",
+      "Menu",
+      "Pin",
+      "ScanSearch",
+      "Settings",
+      "Shield",
+      "ShieldMinus",
+      "SlidersHorizontal",
+      "Sparkles",
+      "Swords",
+      "VenetianMask",
+      "Wind",
+      "X",
+      "Zap"
+    ],
+    "original_definitions": {
+      "Activity": [
+        [
+          "path",
+          {
+            "d": "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"
+          }
+        ]
+      ],
+      "ArrowLeft": [
+        [
+          "path",
+          {
+            "d": "m12 19-7-7 7-7"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M19 12H5"
+          }
+        ]
+      ],
+      "ArrowRight": [
+        [
+          "path",
+          {
+            "d": "M5 12h14"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m12 5 7 7-7 7"
+          }
+        ]
+      ],
+      "ArrowUpRight": [
+        [
+          "path",
+          {
+            "d": "M7 7h10v10"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M7 17 17 7"
+          }
+        ]
+      ],
+      "BookOpen": [
+        [
+          "path",
+          {
+            "d": "M12 7v14"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+          }
+        ]
+      ],
+      "ChevronLeft": [
+        [
+          "path",
+          {
+            "d": "m15 18-6-6 6-6"
+          }
+        ]
+      ],
+      "ChevronRight": [
+        [
+          "path",
+          {
+            "d": "m9 18 6-6-6-6"
+          }
+        ]
+      ],
+      "Crosshair": [
+        [
+          "circle",
+          {
+            "cx": "12",
+            "cy": "12",
+            "r": "10"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "22",
+            "x2": "18",
+            "y1": "12",
+            "y2": "12"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "6",
+            "x2": "2",
+            "y1": "12",
+            "y2": "12"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "12",
+            "x2": "12",
+            "y1": "6",
+            "y2": "2"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "12",
+            "x2": "12",
+            "y1": "22",
+            "y2": "18"
+          }
+        ]
+      ],
+      "Flag": [
+        [
+          "path",
+          {
+            "d": "M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
+          }
+        ]
+      ],
+      "Heart": [
+        [
+          "path",
+          {
+            "d": "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+          }
+        ]
+      ],
+      "HeartPlus": [
+        [
+          "path",
+          {
+            "d": "m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M15 15h6"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M18 12v6"
+          }
+        ]
+      ],
+      "HeartPulse": [
+        [
+          "path",
+          {
+            "d": "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"
+          }
+        ]
+      ],
+      "History": [
+        [
+          "path",
+          {
+            "d": "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 3v5h5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 7v5l4 2"
+          }
+        ]
+      ],
+      "Info": [
+        [
+          "circle",
+          {
+            "cx": "12",
+            "cy": "12",
+            "r": "10"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 16v-4"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 8h.01"
+          }
+        ]
+      ],
+      "Layers": [
+        [
+          "path",
+          {
+            "d": "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"
+          }
+        ]
+      ],
+      "Lightbulb": [
+        [
+          "path",
+          {
+            "d": "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M9 18h6"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M10 22h4"
+          }
+        ]
+      ],
+      "ListOrdered": [
+        [
+          "path",
+          {
+            "d": "M11 5h10"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M11 12h10"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M11 19h10"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M4 4h1v5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M4 9h2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"
+          }
+        ]
+      ],
+      "Menu": [
+        [
+          "path",
+          {
+            "d": "M4 5h16"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M4 12h16"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M4 19h16"
+          }
+        ]
+      ],
+      "Pin": [
+        [
+          "path",
+          {
+            "d": "M12 17v5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"
+          }
+        ]
+      ],
+      "ScanSearch": [
+        [
+          "path",
+          {
+            "d": "M3 7V5a2 2 0 0 1 2-2h2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M17 3h2a2 2 0 0 1 2 2v2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M21 17v2a2 2 0 0 1-2 2h-2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M7 21H5a2 2 0 0 1-2-2v-2"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": "12",
+            "cy": "12",
+            "r": "3"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m16 16-1.9-1.9"
+          }
+        ]
+      ],
+      "Settings": [
+        [
+          "path",
+          {
+            "d": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": "12",
+            "cy": "12",
+            "r": "3"
+          }
+        ]
+      ],
+      "Shield": [
+        [
+          "path",
+          {
+            "d": "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+          }
+        ]
+      ],
+      "ShieldMinus": [
+        [
+          "path",
+          {
+            "d": "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M9 12h6"
+          }
+        ]
+      ],
+      "SlidersHorizontal": [
+        [
+          "path",
+          {
+            "d": "M10 5H3"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 19H3"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M14 3v4"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M16 17v4"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M21 12h-9"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M21 19h-5"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M21 5h-7"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M8 10v4"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M8 12H3"
+          }
+        ]
+      ],
+      "Sparkles": [
+        [
+          "path",
+          {
+            "d": "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M20 2v4"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M22 4h-4"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": "4",
+            "cy": "20",
+            "r": "2"
+          }
+        ]
+      ],
+      "Swords": [
+        [
+          "polyline",
+          {
+            "points": "14.5 17.5 3 6 3 3 6 3 17.5 14.5"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "13",
+            "x2": "19",
+            "y1": "19",
+            "y2": "13"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "16",
+            "x2": "20",
+            "y1": "16",
+            "y2": "20"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "19",
+            "x2": "21",
+            "y1": "21",
+            "y2": "19"
+          }
+        ],
+        [
+          "polyline",
+          {
+            "points": "14.5 6.5 18 3 21 3 21 6 17.5 9.5"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "5",
+            "x2": "9",
+            "y1": "14",
+            "y2": "18"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "7",
+            "x2": "4",
+            "y1": "17",
+            "y2": "20"
+          }
+        ],
+        [
+          "line",
+          {
+            "x1": "3",
+            "x2": "5",
+            "y1": "19",
+            "y2": "21"
+          }
+        ]
+      ],
+      "VenetianMask": [
+        [
+          "path",
+          {
+            "d": "M18 11c-1.5 0-2.5.5-3 2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M4 6a2 2 0 0 0-2 2v4a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V8a2 2 0 0 0-2-2h-3a8 8 0 0 0-5 2 8 8 0 0 0-5-2z"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M6 11c1.5 0 2.5.5 3 2"
+          }
+        ]
+      ],
+      "Wind": [
+        [
+          "path",
+          {
+            "d": "M12.8 19.6A2 2 0 1 0 14 16H2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M17.5 8a2.5 2.5 0 1 1 2 4H2"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M9.8 4.4A2 2 0 1 1 11 8H2"
+          }
+        ]
+      ],
+      "X": [
+        [
+          "path",
+          {
+            "d": "M18 6 6 18"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m6 6 12 12"
+          }
+        ]
+      ],
+      "Zap": [
+        [
+          "path",
+          {
+            "d": "M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+          }
+        ]
+      ]
+    },
+    "godot_structure": [
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUpRight",
+      "BookOpen",
+      "Menu",
+      "X",
+      "Pin",
+      "Layers",
+      "Lightbulb",
+      "Shield",
+      "Wind",
+      "Zap",
+      "Heart",
+      "HeartPlus",
+      "VenetianMask",
+      "ScanSearch",
+      "Crosshair",
+      "Info",
+      "Flag",
+      "History",
+      "ListOrdered",
+      "Settings",
+      "SlidersHorizontal",
+      "Activity",
+      "ChevronRight",
+      "ChevronLeft",
+      "Sparkles",
+      "ShieldMinus",
+      "ScrollText",
+      "Check",
+      "Grid2X2",
+      "Clock3",
+      "Plus",
+      "CircleCheck",
+      "Inbox",
+      "Undo2",
+      "Store",
+      "LayoutGrid",
+      "SquareDashed",
+      "Triangle"
+    ],
+    "note": "登録済み定義の抽出。登録外の記号の由来・採用を証明せず、stroke等の描画条件の適合とも別。",
+    "registered_comparison": [
+      {
+        "name": "Activity",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ArrowLeft",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ArrowRight",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ArrowUpRight",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "BookOpen",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ChevronLeft",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ChevronRight",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Crosshair",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Flag",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Heart",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "HeartPlus",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "HeartPulse",
+        "godot_present": false,
+        "same_vectors": false
+      },
+      {
+        "name": "History",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Info",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Layers",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Lightbulb",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ListOrdered",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Menu",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Pin",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ScanSearch",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Settings",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Shield",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "ShieldMinus",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "SlidersHorizontal",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Sparkles",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Swords",
+        "godot_present": false,
+        "same_vectors": false
+      },
+      {
+        "name": "VenetianMask",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Wind",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "X",
+        "godot_present": true,
+        "same_vectors": true
+      },
+      {
+        "name": "Zap",
+        "godot_present": true,
+        "same_vectors": true
+      }
+    ],
+    "godot_only_definitions": [
+      "ScrollText",
+      "Check",
+      "Grid2X2",
+      "Clock3",
+      "Plus",
+      "CircleCheck",
+      "Inbox",
+      "Undo2",
+      "Store",
+      "LayoutGrid",
+      "SquareDashed",
+      "Triangle"
+    ]
+  },
+  "source_files": [
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+      "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+      "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+      "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+      "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/interaction/table.css",
+      "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+      "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/exploration.css",
+      "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+      "blob": "263e8808358db4abd57999f8351a738a734ba388",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+      "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+      "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+      "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+      "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs",
+      "blob": "c59016c28f1a217fec68f7288e2a580b701647af",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+      "blob": "953814e2d9803bdf4434650c62adee2207381319",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs",
+      "blob": "58dbfbc8ff3b5ae73e6150f5f604f437302b5db0",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+      "blob": "9cce67443dfc1112198606bc7e16d2ac7d3da4da",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+      "blob": "53b588a0043975916692f65d6aca6187360de10b",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+      "blob": "78ada4a4da864327cd05b6266440d5523163a8a3",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+      "blob": "1b18a30b087a7a1e9d29aebc6867cd9b48ea3e07",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+      "blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+      "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/AcceptedIcons.json",
+      "blob": "a1c7968db5c7312bd1bf3f381eafe58afdeb5d2c",
+      "content_verified": true
+    },
+    {
+      "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+      "blob": "c6eccd57dbbd8971192f0569d8429ff924ac5b96",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/vendor/build-icons.cjs",
+      "blob": "364adab1c4c2cd2052be47f2a9b55bf0bc80fab9",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+      "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/exploration.js",
+      "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+      "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/prose-layout.js",
+      "blob": "7b71047efe595f921286448a363e4fce14e37e2f",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+      "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+      "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+      "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/vendor/lucide.js",
+      "blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/vendor/lucide-source.json",
+      "blob": "afe0952ad8b1a467dd12c1454c9831396c3f56d3",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+      "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+      "content_verified": true
+    },
+    {
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+      "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+      "content_verified": true
+    }
+  ],
+  "actual_visual_inspection": {
+    "full_png": 18,
+    "light_id_crops_read": 114,
+    "light_id_crops_visually_inspected_distinct": 106,
+    "identical_crops_reused": 8,
+    "note": "画像は保存済み132PNG。byte一致のW03/W04=W01、H04=H02等は同一画素として扱う。474対全画像を見たとはしない。"
+  },
+  "read_limits": [
+    {
+      "kind": "original PNG",
+      "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/environment/home.png",
+      "blob": "8dd3e54395fc9fbd42b6f447495114573c1a843d",
+      "bytes": 1114167,
+      "status": "メタデータのみ・content空",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "original_record_path": "docs/検証/本編実装/d04b-ui-02/reference/home.png"
+    },
+    {
+      "kind": "original PNG",
+      "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/environment/story.png",
+      "blob": "d4a5e3cb290326afa0ac930c4b9a260d54afbf8c",
+      "bytes": 1112764,
+      "status": "メタデータのみ・content空",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "original_record_path": "docs/検証/本編実装/d04b-ui-02/reference/story.png"
+    },
+    {
+      "kind": "original PNG",
+      "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/environment/return.png",
+      "blob": "fb4a02002c830c813ca6bd70e440772fa684657d",
+      "bytes": 1135030,
+      "status": "メタデータのみ・content空",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "original_record_path": "docs/検証/本編実装/d04b-ui-02/reference/return.png"
+    },
+    {
+      "kind": "main index",
+      "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/publication.json",
+      "blob": "a70be08ed2bfa89f2bc18cd94fb09a001722254c",
+      "status": "content空・本文未確認"
+    },
+    {
+      "kind": "main index",
+      "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/id-comparisons.json",
+      "blob": "26de0543ee74689c5d4a9ac73e984d5936004798",
+      "status": "content空・本文未確認"
+    }
+  ],
+  "route_policy": "取得制限を別のraw/blob経路で迂回せず、該当部分を未確認として独立可能な判定を続けた。",
+  "historical_CP02": "旧比較図8点は保全。CP02のPNG破損は既存未確認であり、今回の肯定判定に使用していない。",
+  "declared_ci": {
+    "run": 37263773975,
+    "head_sha": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "conclusion": "success",
+    "direct_api_verified": true,
+    "core_tests": 17,
+    "failed": 0,
+    "skipped": 0,
+    "reexecuted_by_this_review": false
+  },
+  "file_readback_scope": "GitHubの元ファイルblobと一致した内容を使用。GitHubへ今回文書を保存した読戻しはpublication.jsonに別記録。",
+  "document_readbacks": [
+    {
+      "key": "work",
+      "blob": "f9634589dcb5548d2504f4a6d6769ed81570c49e",
+      "actual_blob": "f9634589dcb5548d2504f4a6d6769ed81570c49e",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/f3857b909de48e07a164f396a3e80b4a1748c02a/docs/%E4%BD%9C%E6%A5%AD%E8%B3%87%E6%96%99/Work/20260910-ui-readability.md"
+    },
+    {
+      "key": "sync",
+      "blob": "f359febae895df1b5568baf6e3abb1d14425dd2f",
+      "actual_blob": "f359febae895df1b5568baf6e3abb1d14425dd2f",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/f3857b909de48e07a164f396a3e80b4a1748c02a/docs/%E4%BD%9C%E6%A5%AD%E8%B3%87%E6%96%99/%E8%A8%88%E7%94%BB%E5%90%8C%E6%9C%9F/20260910-ui-readability.json"
+    },
+    {
+      "key": "ui:visual-baseline.json",
+      "blob": "10b74494c981a6b7c97c6e8a950ca37ba05a92b5",
+      "actual_blob": "10b74494c981a6b7c97c6e8a950ca37ba05a92b5",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/visual-baseline.json"
+    },
+    {
+      "key": "ui:visual-diff.json",
+      "blob": "641b3bde9d4afa02b89fc197da6fb078087fce15",
+      "actual_blob": "641b3bde9d4afa02b89fc197da6fb078087fce15",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/visual-diff.json"
+    },
+    {
+      "key": "ui:unknowns.json",
+      "blob": "1d1eeeb74469d15b0a06ecddb3b7e9064149d86f",
+      "actual_blob": "1d1eeeb74469d15b0a06ecddb3b7e9064149d86f",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/unknowns.json"
+    },
+    {
+      "key": "ui:review.json",
+      "blob": "c02eb988df354348cdce2271d2239bb6ce829d9d",
+      "actual_blob": "c02eb988df354348cdce2271d2239bb6ce829d9d",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/review.json"
+    },
+    {
+      "key": "ui:screen-states.json",
+      "blob": "91865003922a35559a1cd7bc466ff8f19964a3b6",
+      "actual_blob": "91865003922a35559a1cd7bc466ff8f19964a3b6",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/screen-states.json"
+    },
+    {
+      "key": "ui:README.md",
+      "blob": "deeb55a7664f86d8cb078dc82793606e348f0537",
+      "actual_blob": "deeb55a7664f86d8cb078dc82793606e348f0537",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/README.md"
+    },
+    {
+      "key": "ui:publication.json",
+      "blob": "035723c86de14ec5c0d5395141e18f5c11b18257",
+      "actual_blob": "035723c86de14ec5c0d5395141e18f5c11b18257",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/publication.json"
+    },
+    {
+      "key": "ui:とりまとめ引継ぎ.md",
+      "blob": "551ff31799e08f3e3aa801e3ff38bcdcd0f3970f",
+      "actual_blob": "551ff31799e08f3e3aa801e3ff38bcdcd0f3970f",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/%E3%81%A8%E3%82%8A%E3%81%BE%E3%81%A8%E3%82%81%E5%BC%95%E7%B6%99%E3%81%8E.md"
+    },
+    {
+      "key": "ui:visual-baseline.md",
+      "blob": "94d76d21becfef8f5bba7a123116657634b3dea5",
+      "actual_blob": "94d76d21becfef8f5bba7a123116657634b3dea5",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8b535c2f17d3bd6f83030e98527cf97ab281e557/docs/%E6%A4%9C%E8%A8%BC/UI/readability/godot-ui-review-01/visual-baseline.md"
+    },
+    {
+      "key": "main:UI対応表.json",
+      "blob": "b706f46daf25b573d2947b4de004c4023ea3e3ad",
+      "actual_blob": "b706f46daf25b573d2947b4de004c4023ea3e3ad",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/UI%E5%AF%BE%E5%BF%9C%E8%A1%A8.json"
+    },
+    {
+      "key": "main:必要証拠と残件.json",
+      "blob": "93dbd3b94b2b398cef93218a18791b3ca53ed700",
+      "actual_blob": "93dbd3b94b2b398cef93218a18791b3ca53ed700",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/%E5%BF%85%E8%A6%81%E8%A8%BC%E6%8B%A0%E3%81%A8%E6%AE%8B%E4%BB%B6.json"
+    },
+    {
+      "key": "main:原本判断への返却.json",
+      "blob": "ee25335474fe8f139187405e49d420a93b8ee95a",
+      "actual_blob": "ee25335474fe8f139187405e49d420a93b8ee95a",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/%E5%8E%9F%E6%9C%AC%E5%88%A4%E6%96%AD%E3%81%B8%E3%81%AE%E8%BF%94%E5%8D%B4.json"
+    },
+    {
+      "key": "main:contract-boundaries.json",
+      "blob": "18f9e37b5434dfae8d2ddc072b7152e3c9cc7bef",
+      "actual_blob": "18f9e37b5434dfae8d2ddc072b7152e3c9cc7bef",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/contract-boundaries.json"
+    },
+    {
+      "key": "main:comparisons.json",
+      "blob": "15f5fa11927253570d2d7137a11522069d820f74",
+      "actual_blob": "15f5fa11927253570d2d7137a11522069d820f74",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/comparisons.json"
+    },
+    {
+      "key": "main:screen-states.json",
+      "blob": "4aefdf66319df8133c1b524c855e48c6320e9747",
+      "actual_blob": "4aefdf66319df8133c1b524c855e48c6320e9747",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/screen-states.json"
+    },
+    {
+      "key": "main:ci-readback.json",
+      "blob": "6086d4de44adfa7409f11e3c8d75a6ada28c3199",
+      "actual_blob": "6086d4de44adfa7409f11e3c8d75a6ada28c3199",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/ci-readback.json"
+    },
+    {
+      "key": "main:results.json",
+      "blob": "09c3229b5f65d8152a58777e3306f774d7124c28",
+      "actual_blob": "09c3229b5f65d8152a58777e3306f774d7124c28",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/results.json"
+    },
+    {
+      "key": "main:interaction-state-coverage.json",
+      "blob": "90e58e10c3430d98e9749840261f80ff1ade8c28",
+      "actual_blob": "90e58e10c3430d98e9749840261f80ff1ade8c28",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/interaction-state-coverage.json"
+    },
+    {
+      "key": "main:record-fix-comparison.json",
+      "blob": "e3c24bfcf275d48f1c607dc56dd89f864c892516",
+      "actual_blob": "e3c24bfcf275d48f1c607dc56dd89f864c892516",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/record-fix-comparison.json"
+    },
+    {
+      "key": "main:same-fixture-audit.json",
+      "blob": "93324381afc968a693730fbbc38d546395687a2d",
+      "actual_blob": "93324381afc968a693730fbbc38d546395687a2d",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/same-fixture-audit.json"
+    },
+    {
+      "key": "main:必要証拠と残件.md",
+      "blob": "52558d7dce93091258384353dc24723dd6bac94c",
+      "actual_blob": "52558d7dce93091258384353dc24723dd6bac94c",
+      "matches": true,
+      "url": "https://github.com/eckolo/crossweave/blob/8e992501a8b4ac633ee78d6f41e66a2de431bdb2/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/reproduction-20261005/%E5%BF%85%E8%A6%81%E8%A8%BC%E6%8B%A0%E3%81%A8%E6%AE%8B%E4%BB%B6.md"
+    }
+  ]
+}

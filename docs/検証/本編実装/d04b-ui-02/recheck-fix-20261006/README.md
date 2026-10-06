@@ -1,9 +1,13 @@
-# D04B-UI-02 固定再判定への修正提出（2026-10-06）
+# D04B-UI-02 固定再判定と暗色補足の提出
 
-WorkID `20260927-game-application`／枝 `impl/m1-godot-application-20260927` を継続。指示0.7、計画 `cced087833da26b7f7281cfd579f2fac34543adf` 全69path/blob、技術 `21ddd349b6bec69ecac6d9db288c537553dab860`、固定UI `099d4adeaa025e78ca069c4eca0d54d75fdf0c3b` を受領した。
+同じWorkID `20260927-game-application`／枝 `impl/m1-godot-application-20260927`を継続。開始8e992501と未追跡7.9GBを保全。計画cced0878全69path/blob→技術21ddd349→再照合後、作業区切りで388c69a5全73path/blob→技術更新なし→再照合。指示0.9の暗色補足を0.7の元依頼に含めた。
 
-27要修正IDの独立部分を同じMainへ修正し、3未確認IDと必要群へ証拠を補う。現在は限定検査と提出資料を集約中。最終状態は [とりまとめ引継ぎ](とりまとめ引継ぎ.md)・[ID台帳](UI対応表.json)・[結果](results.json)・[GitHub読戻し](publication.json) へ固定する。旧証拠・通常セーブ・開始HEADは保全した。
+固定コード `aabfefab076252f050824640fba6d8a8dd13e8e0`。独立可能な修正・必要検査・暗色比較・人判断資料・日本語教材を保存提出。UI適合・D04B-UI-02全体は未完了。27要修正IDの独立部分、V-C06/S01/D03への証拠を追加し、属性公開値/親scroll保持を維持。未回答の記号/hover/追加routeは採用しない。
 
-人向けの [未登録記号16用途の比較](human/未登録記号の用途別比較.html) はすべて未採用。候補定義・実box・現在の実画像を添えた。H12のhoverとH13の追加routeは未回答を維持する。属性の公開値と親scroll保持は既条件を維持。Swords／HeartPulseは登録済み原本の定義を復元したが、使われない原本入口の描画を合格へ転記しない。
+[ID台帳](UI対応表.json) → [暗色199原寸対](comparisons.json) → [54ID領域とcue進行/取消](id-comparisons.json) → [実結果/版別再利用](results.json) → [確認入口](確認入口.md) → [日本語教材](コード解説.md) → [残件](必要証拠と残件.md) → [とりまとめ引継ぎ](とりまとめ引継ぎ.md) → [GitHub読戻し](publication.json)。全画像が最終source byte一致という扱いはせず、source-binding.jsonとeol-cleanup.jsonへ再利用範囲を記録する。
 
-修正提出・UI独立適合・新版配布・実機・M1は別判定である。
+通常表示はOSによらず了承済み緑系暗色。撮影指定なしの3画面・共通窓、OS明暗相当入力、実Main/実GPU/実FileGameSessionを確認した。実OS設定は変更していない。明色は過去診断資料で、新しいテーマUI/保存項目/切替/明色仕上げは追加しない。
+
+[記号16用途の暗色比較](human/未登録記号の用途別比較.html)と[owned/追加導線の暗色比較](human/ownedと追加導線の暗色比較.html)は未採用。異なるMountainは同じGodotで描いた。最初の候補frameの未描画はcandidate-capture-correction.jsonへ保全し、訂正版の実画素を比較へ使う。概略配置図を実入力済みの候補へ読み替えない。
+
+通常セーブ・規則・保存形式・旧素材/旧証拠/配布は保持。次は同じUI担当の固定再判定と、とりまとめが受領する具体回答/合法入力。修正提出、UI適合、新版配布、Windows実機、人の試遊、M1は別判定。
