@@ -15,7 +15,10 @@ internal sealed partial class UiAutomation
         var dto=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);long revision=screen.View.Number("revision");
         if(mode=="repro-mountain-review")
         {
-            var figure=screen.MountainReviewFigure((JsonArray)reviewFixture!["review_definition"]!);await Capture("mountain-candidates");figure.QueueFree();
+            var figure=screen.MountainReviewFigure((JsonArray)reviewFixture!["review_definition"]!);
+            // AddChild直後は実ノードのrectだけが先に存在する。通常の描画更新を
+            // 待ってから撮り、nodesがあるだけの未描画frameを候補画素にしない。
+            await Frame(3);await Capture("mountain-candidates");figure.QueueFree();
             Check("unadopted-candidate-does-not-change-game",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));return;
         }
         if(mode.StartsWith("repro-normal-dark",StringComparison.Ordinal))
