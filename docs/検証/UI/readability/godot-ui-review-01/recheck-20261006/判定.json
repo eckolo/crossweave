@@ -1,17 +1,39 @@
 {
-  "schema": "crossweave-ui-visual-difference-recheck-2",
-  "baseline_version": "2026-10-04.1",
-  "implementation": "c761cbf4950a750b5b337e1bc9926528b87be54a",
-  "submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+  "schema": "crossweave.ui.fixed-recheck.v1",
+  "task": "UI-GODOT-REVIEW-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "fixed": {
+    "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_commit": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_version": "2026-10-04.1",
+    "plan": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+    "design": "21ddd349b6bec69ecac6d9db288c537553dab860"
+  },
+  "reviewer": "UI改善（本編の自己判定と独立）",
+  "new_game_runs": 0,
+  "original_components": 19,
+  "state_groups": 37,
+  "original_differences": 57,
+  "status_counts": {
+    "要修正": 27,
+    "原本判断待ち": 6,
+    "未確認": 3,
+    "解消（当該差異の範囲）": 21
+  },
   "items": [
     {
       "id": "V-C01",
       "title": "文字のfont・weight・行組",
-      "status": "要修正",
       "baseline_id": "B02",
-      "scope": "全画面",
-      "expected": "B02の用途別font/size/line-height、strong500。実解決fontは別採取",
-      "actual": "現在のYu Gothic UI 400/600・Georgia等の採取と適用は確認。取得札の文字の濃色画素外接矩形は原本[12,10,39,19]／Godot[12,13,38,18]、本文先頭行は[25,6,633,20]／[25,9,632,19]。上端が3pxずれる。これはAAだけの差として免除しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "現在のYu Gothic UI 400/600・Georgia等の採取と適用は確認。取得札の文字の濃色画素外接矩形は原本[12,10,39,19]／Godot[12,13,38,18]、本文先頭行は[25,6,633,20]／[25,9,632,19]。上端が3pxずれる。これはAAだけの差として免除しない。",
+      "original_expected": "B02の用途別font/size/line-height、strong500。実解決fontは別採取",
+      "expectation_clarification": null,
+      "implementation_condition": "用途別line box・baseline・strongの実解決を合わせる。詳細数値の幅1px問題はV-W01も修正。補正後のAAだけをDEC-UI-04の限定比較へ。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -65,33 +87,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png",
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "読める量と余白、文字の強弱が変わる",
-      "fix_conditions": [
-        "Noto固定を暗黙の代替承認にせず、原本の実解決fontと用途別weight/line-heightを採取・再現する。各文字役割を別themeに定義。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "用途別line box・baseline・strongの実解決を合わせる。詳細数値の幅1px問題はV-W01も修正。補正後のAAだけをDEC-UI-04の限定比較へ。",
-      "decisions": [
-        "DEC-UI-04"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -152,22 +150,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "NotoSansJP wght400を全域に使用。共通ボタン20、詳細本文22、札titleも400。原本と字形・太さ・折返しが異なる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-04"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-C02",
       "title": "配色の名前空間を一本化",
-      "status": "要修正",
       "baseline_id": "B03",
-      "scope": "全画面",
-      "expected": "取得・探索・共通ナビの別tokenを保持",
-      "actual": "取得／探索のtoken分離は導入されたが、外側cj-shellがPaper/Lineの現在画面tokenを使う。開始原本の面f1f1e8に対しGodotはfcfcf5。原本cjの固定面・線が保持されない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "取得／探索のtoken分離は導入されたが、外側cj-shellがPaper/Lineの現在画面tokenを使う。開始原本の面f1f1e8に対しGodotはfcfcf5。原本cjの固定面・線が保持されない。",
+      "original_expected": "取得・探索・共通ナビの別tokenを保持",
+      "expectation_clarification": null,
+      "implementation_condition": "cp/cw/common-navとは別に原本cj-shellの面f1f1e8・線bbc7bbを同じ用途へ。darkも元の対応値で確認する。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -200,29 +199,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "全面に細かな色差が拡がる",
-      "fix_conditions": [
-        "B03のnamespace単位で色を適用。RGB差1も未承認のまま自動許容しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "cp/cw/common-navとは別に原本cj-shellの面f1f1e8・線bbc7bbを同じ用途へ。darkも元の対応値で確認する。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "startup-entry-light",
         "existing_light_crop": [
           {
@@ -283,22 +262,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Ink243d35/Paperfcfcf5/Gold315849を探索にも使用。探索原本263c32/f7f8f4/345747とは異なる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-C03",
       "title": "共通ナビの図記号・色・字寸法",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B04",
-      "scope": "全ゲーム画面",
-      "expected": "book-open20＋調査記録18、背景f2f5e9・線a8b9a5・角5",
-      "actual": "book-openの既存ベクトル、20px記号＋18px文言、152×56の共通ナビ、paper/line/角5を固定コードと原寸対で確認。cropの原本hover／本編normalは入力が違うため状態差の根拠にはしない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "book-openの既存ベクトル、20px記号＋18px文言、152×56の共通ナビ、paper/line/角5を固定コードと原寸対で確認。cropの原本hover／本編normalは入力が違うため状態差の根拠にはしない。",
+      "original_expected": "book-open20＋調査記録18、背景f2f5e9・線a8b9a5・角5",
+      "expectation_clarification": null,
+      "implementation_condition": "当該構成を維持し、文字全般はV-C01、操作状態はV-C04で継続する。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -331,27 +309,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A03"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ機能の目印と見た目が変わる",
-      "fix_conditions": [
-        "位置152×56/56×56は維持し、原本SVGとB04の色・font・角へ一致させる。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該構成を維持し、文字全般はV-C01、操作状態はV-C04で継続する。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -412,22 +372,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "book-openを省略し「調査記録」の文字だけ。標準Button20・背景fcfcf5・線bac9ba・角6"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-C04",
       "title": "ボタンのhover・pressed・focus・disabled",
-      "status": "要修正",
       "baseline_id": "B19",
-      "scope": "全共通ボタン",
-      "expected": "元部品のhover色、取得disabled opacity.42／探索.5、focus原本の見え方",
-      "actual": "実際のpin pressed対では原本aria-pressed=true・focusVisible=trueで濃緑面／白記号。本編もpressed=trueだが淡い面に白記号。ID切出しは空欄で当該状態を含まない。確認窓disabledの描画にも元部品との差が残る。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "実際のpin pressed対では原本aria-pressed=true・focusVisible=trueで濃緑面／白記号。本編もpressed=trueだが淡い面に白記号。ID切出しは空欄で当該状態を含まない。確認窓disabledの描画にも元部品との差が残る。",
+      "original_expected": "元部品のhover色、取得disabled opacity.42／探索.5、focus原本の見え方",
+      "expectation_clarification": null,
+      "implementation_condition": "原本の部品別pressed/hover/focus/disabledを個別に再現し、同じ入力フラグ付き原寸対を返す。role一般の合格で代用しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -471,30 +430,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "無効・選択・フォーカスの視覚上の区別が変わる",
-      "fix_conditions": [
-        "通常・hover・押下・focus・disabledを各部品で採取して一致。Godotデフォルト状態を残さない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本の部品別pressed/hover/focus/disabledを個別に再現し、同じ入力フラグ付き原寸対を返す。role一般の合格で代用しない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -555,22 +493,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "BuildThemeは通常/hover/pressed/focusを独自Boxで置換。disabledは不透明e5e9de＋89988bで、元のprimary背景を含む透過とは異なる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-C05",
       "title": "外枠と1px内側座標",
-      "status": "要修正",
       "baseline_id": "B01",
-      "scope": "全画面",
-      "expected": "原本shellの1px枠と内側1918×1078、用途別角丸",
-      "actual": "1px内側1918×1078は修正済み。外側cj-shellの原本radius10に対し本編Surfaceは9。原本の外枠10／内側クリップ9の役割を混同している。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "1px内側1918×1078は修正済み。外側cj-shellの原本radius10に対し本編Surfaceは9。原本の外枠10／内側クリップ9の役割を混同している。",
+      "original_expected": "原本shellの1px枠と内側1918×1078、用途別角丸",
+      "expectation_clarification": null,
+      "implementation_condition": "外側の角10と内側クリップを分けて再現する。面・線はV-C02。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -603,28 +540,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "端・基準線・詳細の半画面判定の位置が微妙にずれる",
-      "fix_conditions": [
-        "B01の外枠と内側originを共通化し、全固定位置を同じ座標系へ変換する。単に各所へ±1補正を散布しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "外側の角10と内側クリップを分けて再現する。面・線はV-C02。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "startup-entry-light",
         "existing_light_crop": [
           {
@@ -685,22 +603,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Godot画面全1920×1080へ直置き。準備Panelの角6と背景線、探索は共通外枠なし。原本の内側座標に対し1px単位の差が残る"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-C06",
       "title": "標準スクロールバーの残存",
-      "status": "未確認",
       "baseline_id": "B19",
-      "scope": "取得列・手札・場・長文・詳細",
-      "expected": "thin、探索横6px、原本thumb/track色とgutter",
-      "actual": "現在のChromium thin幅は10pxで、宣言のWebKit 6pxだけを実幅とする旧説明は不正確。gutterと自然overflow／制限同部品の計測は受領したが、thumb/track/端部/全状態の原寸照合は未完。",
+      "baseline_version": "2026-10-04.1",
+      "status": "未確認",
+      "current_observation": "現在のChromium thin幅は10pxで、宣言のWebKit 6pxだけを実幅とする旧説明は不正確。gutterと自然overflow／制限同部品の計測は受領したが、thumb/track/端部/全状態の原寸照合は未完。",
+      "original_expected": "thin、探索横6px、原本thumb/track色とgutter",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "実計測10pxと適用selectorを区別し、同じoverflow・scroll位置のtrack/thumb/hover/drag端部を原寸で対応。6pxへ機械的に縮小しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -744,32 +661,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail-bottom.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail-bottom.png",
-        "evidence/implementation/targeted-third/review-scroll-hand-U01-after.png",
-        "evidence/implementation/targeted-third/review-scroll-prep-U01-after.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ一覧でも余白・見える幅・視線誘導が変わる",
-      "fix_conditions": [
-        "元の実バー寸法とthumb/track/hoverを採取しthemeを明示。原本6px指定の横バーは6pxへ。標準部品差として免除しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "実計測10pxと適用selectorを区別し、同じoverflow・scroll位置のtrack/thumb/hover/drag端部を原寸で対応。6pxへ機械的に縮小しない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -798,22 +692,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "ScrollContainerのバーthemeを指定していない。U01画像・詳細下端に太い灰色のGodotバーが出る"
-      },
-      "unknowns_remaining": true,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P01",
       "title": "三領域の開始位置と行高",
-      "status": "原本判断待ち",
       "baseline_id": "B05",
-      "scope": "取得札・心得全状態",
-      "expected": "原本main padding16、lane gap20、grid padding2。原画先頭tile x19/415/1170,y123",
-      "actual": "三領域・先頭tile x19/415/1170,y123・行高は原寸nodesで修正を確認。headerのStore/LayoutGrid等は固定bundle未登録で原本と本編の図記号が異なる。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "三領域・先頭tile x19/415/1170,y123・行高は原寸nodesで修正を確認。headerのStore/LayoutGrid等は固定bundle未登録で原本と本編の図記号が異なる。",
+      "original_expected": "原本main padding16、lane gap20、grid padding2。原画先頭tile x19/415/1170,y123",
+      "expectation_clarification": null,
+      "implementation_condition": "配置を保持。未登録記号の原本判断後、指定した既存定義だけへ合わせる。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -835,30 +728,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "移動先の整列・外側余白が一致しない",
-      "fix_conditions": [
-        "lane全体ではなく見出し32＋gap8＋gridの分離でB05を再現。352×80と8px gapは維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "配置を保持。未登録記号の原本判断後、指定した既存定義だけへ合わせる。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -919,22 +791,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Godotpanel x25/413/1160,y76、tile x27/415/1162,y124。見出しを含むpanel高922、grid872"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P02",
       "title": "取得欄・所持欄の囲い範囲",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B05",
-      "scope": "取得三領域",
-      "expected": "取得可能は底線だけ、所持・編成の地色はgridから下",
-      "actual": "取得欄は底線、所持・編成の地色はgrid以下になり、旧header全体の不要な囲いを解消。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "取得欄は底線、所持・編成の地色はgrid以下になり、旧header全体の不要な囲いを解消。",
+      "original_expected": "取得可能は底線だけ、所持・編成の地色はgridから下",
+      "expectation_clarification": null,
+      "implementation_condition": "当該囲い範囲を維持。記号と文字は別IDで継続。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -961,28 +834,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "領域の意味を示す構造が別物になる",
-      "fix_conditions": [
-        "見出しを地色の外へ出す。取得底2px、所持左右1/底4px、編成inset1pxをB05どおりにする。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該囲い範囲を維持。記号と文字は別IDで継続。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -1043,22 +897,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Godotは見出しを含めた全3列を角丸panelで囲み、原本にない取得欄の側線・上線を表示"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P03",
       "title": "タブの選択表現",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B08",
-      "scope": "札／心得切替",
-      "expected": "64高の連続した角なし帯、active315849＋on-activefffef5",
-      "actual": "64px連続帯、角なし、active315849/on-activefffef5を固定コードと原寸で確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "64px連続帯、角なし、active315849/on-activefffef5を固定コードと原寸で確認。",
+      "original_expected": "64高の連続した角なし帯、active315849＋on-activefffef5",
+      "expectation_clarification": null,
+      "implementation_condition": "元の選択帯を維持。全操作状態の確認はU-V06。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1086,29 +939,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "選択中の分類の強さと一体感が変わる",
-      "fix_conditions": [
-        "選択/非選択のtabをB08の元部品で再現。位置・64px高を維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元の選択帯を維持。全操作状態の確認はU-V06。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -1169,22 +1002,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "独立した角6枠付きbutton。選択はcfdec8背景と2px枠、文字inkのまま"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P04",
       "title": "共通取得札の枠・角",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B06",
-      "scope": "取得可能／所持／編成／ドラッグ",
-      "expected": "2px枠を含む352×80、角5、内側76",
-      "actual": "外枠込み352×80、2px枠、角5、内側76を確認。長い名称の合法状態は取得できていない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "外枠込み352×80、2px枠、角5、内側76を確認。長い名称の合法状態は取得できていない。",
+      "original_expected": "2px枠を含む352×80、角5、内側76",
+      "expectation_clarification": null,
+      "implementation_condition": "寸法を維持。文字C01、合法最大名称U-V01を独立して満たす。小さい文字・省略で名称確認を置き換えない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1216,27 +1048,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "枠線の内外位置と右端の接続が合意案からずれる",
-      "fix_conditions": [
-        "枠内描画とclipをB06へ揃え、移動しても同じ部品・外形のままにする。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "寸法を維持。文字C01、合法最大名称U-V01を独立して満たす。小さい文字・省略で名称確認を置き換えない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -1297,22 +1111,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "CardTile.DrawRectは角なし、strokeを中心に描画。右buttonだけ角6が付く"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P05",
       "title": "札の操作側が外枠に食い込む",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B06",
-      "scope": "取得・編成・外す",
-      "expected": "右72×76、外枠の内側2px、区切りinset1px",
-      "actual": "右操作側72×76、外枠内側2px、区切りのinset1pxを確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "右操作側72×76、外枠内側2px、区切りのinset1pxを確認。",
+      "original_expected": "右72×76、外枠の内側2px、区切りinset1px",
+      "expectation_clarification": null,
+      "implementation_condition": "この内側配置を維持。ボタンの状態はC04へ。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1334,27 +1147,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "内側線と外側枠の位置が揃わない",
-      "fix_conditions": [
-        "右操作領域をx278,y2,w72,h76相当の枠内へ置き、原本の区切りと右角だけを再現する。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "この内側配置を維持。ボタンの状態はC04へ。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -1415,22 +1210,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "x278,y0,w74,h80のButtonで外枠を覆う。丸い左角も付く"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P06",
       "title": "編成済みの外すまで主操作色",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B06",
-      "scope": "編成欄",
-      "expected": "build外枠58754a、「外す」はf5f7eeとink",
-      "actual": "編成外枠58754a、外す面f5f7eeとinkに修正。旧主操作色の共用を解消。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "編成外枠58754a、外す面f5f7eeとinkに修正。旧主操作色の共用を解消。",
+      "original_expected": "build外枠58754a、「外す」はf5f7eeとink",
+      "expectation_clarification": null,
+      "implementation_condition": "secondaryの用途を維持。check未登録判断と文字を別途追う。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1457,27 +1251,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "取得／編成済みの視覚差が失われる",
-      "fix_conditions": [
-        "外すをsecondaryへ、編成済み枠をbuild色へ。取得・編成のprimaryと分ける。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "secondaryの用途を維持。check未登録判断と文字を別途追う。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-empty-composition-light",
         "existing_light_crop": [
           {
@@ -1538,22 +1314,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "build札は通常bac9ba枠。「外す」も取得と同じ315849主操作色"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P07",
       "title": "メタ行の記号・文字・数量",
-      "status": "原本判断待ち",
       "baseline_id": "B06",
-      "scope": "札／心得所持・取得",
-      "expected": "layers/scroll-text/check、lightbulb、grid-2x2、18px。数量は右端",
-      "actual": "メタ行の18px・数量右端は修正。公開attrの表示はDEC-UI-02の読取専用adapterで説明可能。ScrollText/Check/Grid2X2等の定義は固定bundleにない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "メタ行の18px・数量右端は修正。公開attrの表示はDEC-UI-02の読取専用adapterで説明可能。ScrollText/Check/Grid2X2等の定義は固定bundleにない。",
+      "original_expected": "layers/scroll-text/check、lightbulb、grid-2x2、18px。数量は右端",
+      "expectation_clarification": null,
+      "implementation_condition": "attrは公開値を表示し、DTO名・規則を変えない。記号はDEC-UI-01の個別指定へ。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1585,30 +1360,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "取得済み・編成中・種類を文字なしで識別しにくい",
-      "fix_conditions": [
-        "元18px記号・gap6・右寄せquantityを再現。公開数量・ロック意味は保ちながら配置を戻す。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "attrは公開値を表示し、DTO名・規則を変えない。記号はDEC-UI-01の個別指定へ。",
-      "decisions": [
-        "DEC-UI-01",
-        "DEC-UI-02"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-card-light",
         "existing_light_crop": [
           {
@@ -1669,22 +1423,24 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "16pxの属性／「着想」「枠消費」「ロック」文章中心。数量を途中へ連結"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-02"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P08",
       "title": "未払いの斜線・色・時計",
-      "status": "要修正",
       "baseline_id": "B07",
-      "scope": "未払い所持／未払い編成",
-      "expected": "金茶破線、135deg斜線、右下独立clock",
-      "actual": "未払いの金茶破線・独立時計の構成は戻ったが、原寸で斜線の向きが逆。原本の135deg CSSは／、本編PaintTileは＼に見える。時計の未登録判断も残る。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "未払いの金茶破線・独立時計の構成は戻ったが、原寸で斜線の向きが逆。原本の135deg CSSは／、本編PaintTileは＼に見える。時計の未登録判断も残る。",
+      "original_expected": "金茶破線、135deg斜線、右下独立clock",
+      "expectation_clarification": null,
+      "implementation_condition": "CSSの見える向き・周期・線幅を同じ352×80に再現。時計の定義はDEC-UI-01へ。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1711,30 +1467,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "未払いが正式所持と似た見た目になる",
-      "fix_conditions": [
-        "B07のpending専用色・斜線・clockを実装し、価格などをclockへ重ねない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "CSSの見える向き・周期・線幅を同じ352×80に再現。時計の定義はDEC-UI-01へ。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-pending-detail-light",
         "existing_light_crop": [
           {
@@ -1795,22 +1530,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "緑破線・通常白背景・「◷ 未払い」の文字連結"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P09",
       "title": "取得元の跡を文章化",
-      "status": "要修正",
       "baseline_id": "B07",
-      "scope": "未払い取得後の左欄",
-      "expected": "同寸法placeholder、中央arrow-rightと底線",
-      "actual": "placeholderは同寸法へ戻ったが中央arrow-mutedのopacity.6と底線の角3が本編と一致しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "placeholderは同寸法へ戻ったが中央arrow-mutedのopacity.6と底線の角3が本編と一致しない。",
+      "original_expected": "同寸法placeholder、中央arrow-rightと底線",
+      "expectation_clarification": null,
+      "implementation_condition": "中央矢印の元opacityと底線の丸端・寸法へ。文章化を再導入しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1837,28 +1573,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "元の空間的手掛かりが説明文へ戻る",
-      "fix_conditions": [
-        "cp-offer-emptyの中央SVGと底3pxをそのまま再現。候補件数・正式取得後の消去規則は維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "中央矢印の元opacityと底線の丸端・寸法へ。文章化を再導入しない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-pending-detail-light",
         "existing_light_crop": [
           {
@@ -1919,22 +1636,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "「→ 取得予定」を左寄せLabelで表示"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P10",
       "title": "空き枠・候補なしの形",
-      "status": "要修正",
       "baseline_id": "B07",
-      "scope": "空所持／空編成／取得完了／候補なし",
-      "expected": "共通352×80の破線枠・状態icon・20/28の文言",
-      "actual": "empty枠と文言は戻ったが、本編の破線は原本より長く太い。Plus/Inbox/CircleCheckは固定bundle未登録。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "empty枠と文言は戻ったが、本編の破線は原本より長く太い。Plus/Inbox/CircleCheckは固定bundle未登録。",
+      "original_expected": "共通352×80の破線枠・状態icon・20/28の文言",
+      "expectation_clarification": null,
+      "implementation_condition": "原本の1px破線・角5・周期を再現。記号の参照はDEC-UI-01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -1961,31 +1677,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png",
-        "evidence/implementation/targeted-third/review-scroll-prep-U01-before.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "空状態でも置き場と操作単位が維持されない",
-      "fix_conditions": [
-        "B07の空部品を両分類に共用。公開群が残るケースを完了と誤表示しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本の1px破線・角5・周期を再現。記号の参照はDEC-UI-01。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-empty-composition-light",
         "existing_light_crop": [
           {
@@ -2046,22 +1740,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "空編成は枠なし＋だけ、空所持は「ここにはありません」。空候補は汎用Label300×100"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P11",
       "title": "財布の現在・未払い予測",
-      "status": "原本判断待ち",
       "baseline_id": "B08",
-      "scope": "取得未払い／不足／確定後",
-      "expected": "lightbulb、現在値、変更後clock点線token",
-      "actual": "財布の現在／未払いの別tokenは戻った。clockの破線・未登録定義を最終適合とする根拠が不足。無効価格の—を0へ変える修正は要求しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "財布の現在／未払いの別tokenは戻った。clockの破線・未登録定義を最終適合とする根拠が不足。無効価格の—を0へ変える修正は要求しない。",
+      "original_expected": "lightbulb、現在値、変更後clock点線token",
+      "expectation_clarification": null,
+      "implementation_condition": "既知の現在値と未払い値を別表示し、clockの点線と原本判断指定を反映。同状態値を変えず返す。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2094,31 +1789,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
-        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "確定前後の区別が文字依存になる",
-      "fix_conditions": [
-        "cp-wallet/cp-wallet-nextの記号と点線枠を再現。未公開の残高は—を維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "既知の現在値と未払い値を別表示し、clockの点線と原本判断指定を反映。同状態値を変えず返す。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-confirmation-light",
         "existing_light_crop": [
           {
@@ -2179,22 +1852,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "「着想 現在 → 後」を一つのLabelに連結"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P12",
       "title": "取得フッターと固定操作",
-      "status": "要修正",
       "baseline_id": "B08",
-      "scope": "取得全状態",
-      "expected": "64高の帯e9eee0、上線、undo-2、角なし戻す／確認する、22px",
-      "actual": "64px帯は戻ったが、原本の予測token開始約x221に対し本編約x450。固定380px幅のlabelが原因。元にない長い警告も帯へ追加されている。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "64px帯は戻ったが、原本の予測token開始約x221に対し本編約x450。固定380px幅のlabelが原因。元にない長い警告も帯へ追加されている。",
+      "original_expected": "64高の帯e9eee0、上線、undo-2、角なし戻す／確認する、22px",
+      "expectation_clarification": null,
+      "implementation_condition": "実文字幅＋原本gap12で並べ、22px・点線token・角なしボタンを保つ。補足の新配置はDEC-UI-05へ、undo記号はDEC-UI-01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2222,32 +1896,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A04",
-        "A05"
-      ],
-      "images": [
-        "evidence/reference/preparation.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-committed.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "確定前の操作帯と作業面の分離が弱まる",
-      "fix_conditions": [
-        "B08の帯・枠・font・iconへ戻し、公開群上限と容量の追加情報は既存表示構造に収める。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "実文字幅＋原本gap12で並べ、22px・点線token・角なしボタンを保つ。補足の新配置はDEC-UI-05へ、undo記号はDEC-UI-01。",
-      "decisions": [
-        "DEC-UI-01",
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-pending-detail-light",
         "existing_light_crop": [
           {
@@ -2308,22 +1959,24 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "背景はmainと同じ。丸い独立buttonと20pxの長い容量文。undo記号なし"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P13",
       "title": "取得窓の面・余白・境界",
-      "status": "要修正",
       "baseline_id": "B09",
-      "scope": "取得詳細／確認",
-      "expected": "960×820、角8、paperf4f6ec、header64/body padding24/footer72、区切り線とshadow",
-      "actual": "960×820・header64/body24/footer72は修正。pendingの元footer2操作は各471×64でx487/962、本編は160×64でx504/680。第一操作の原本濃緑面も本編paperと異なる。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "960×820・header64/body24/footer72は修正。pendingの元footer2操作は各471×64でx487/962、本編は160×64でx504/680。第一操作の原本濃緑面も本編paperと異なる。",
+      "original_expected": "960×820、角8、paperf4f6ec、header64/body padding24/footer72、区切り線とshadow",
+      "expectation_clarification": null,
+      "implementation_condition": "元cp-dialog-actionsのflex:1・gap4・padding2px6・上線を再現し、均等幅とprimaryを戻す。追加機能の採用判断と、既存footer修正を分離する。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2361,30 +2014,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png",
-        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ窓でも見た目と密度が違う",
-      "fix_conditions": [
-        "B09の一つのframeへ詳細・確認・変換を揃える。暗幕も283d3555へ。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元cp-dialog-actionsのflex:1・gap4・padding2px6・上線を再現し、均等幅とprimaryを戻す。追加機能の採用判断と、既存footer修正を分離する。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-pending-detail-light",
         "existing_light_crop": [
           {
@@ -2445,22 +2077,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "外形960×820は同じ。角6・fcfcf5fa、shadow/区切りなし、body x20,y76。確認overlay黒.6と詳細黒.3が不統一"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P14",
       "title": "一括確認が改行Labelへ平坦化",
-      "status": "要修正",
       "baseline_id": "B09",
-      "scope": "混合／編成のみ／心得のみ確認",
-      "expected": "中央36px残高、取得行の価格・移動先、数量差分の右列、容量2列、変更心得の折畳み",
-      "actual": "確認内容の段組は戻ったが、無効確認で残高脇のlightbulb／—・価格の表示が省かれ、元の短い着想不足文も長い文へ変わった。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "確認内容の段組は戻ったが、無効確認で残高脇のlightbulb／—・価格の表示が省かれ、元の短い着想不足文も長い文へ変わった。",
+      "original_expected": "中央36px残高、取得行の価格・移動先、数量差分の右列、容量2列、変更心得の折畳み",
+      "expectation_clarification": null,
+      "implementation_condition": "原本の36px残高＋記号・価格・行/右列/容量2列を公開値から復元。同じ無効入力で元文言と面を合わせる。合法funded全群はU-V01で継続。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2488,31 +2121,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-bottom.png",
-        "evidence/implementation/final-caption/review-preparation-R02-mixed-top.png",
-        "evidence/implementation/final-caption/review-preparation-R02-passive-only-top.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "支払いと変更を視覚的に走査できない",
-      "fix_conditions": [
-        "R02の公開値を保ちcp-review-wallet/cp-change/cp-capacity/details構造を再現。データを削らず原本の行と列へ投影する。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本の36px残高＋記号・価格・行/右列/容量2列を公開値から復元。同じ無効入力で元文言と面を合わせる。合法funded全群はU-V01で継続。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-confirmation-light",
         "existing_light_crop": [
           {
@@ -2573,22 +2184,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "情報はR02で追加済みだが全て20pxの連続文章。残高が小さく左端、区切り・整列・折畳みがない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-P15",
       "title": "取得詳細の位置・価格・修飾構造不足",
-      "status": "要修正",
       "baseline_id": "B09",
-      "scope": "取得可能／所持／編成の札・心得詳細",
-      "expected": "三領域location、pendingclock、取得価格、112px label/value、修飾summary",
-      "actual": "公開price・所在・修飾summaryを戻したが、pendingclockは原本64×48 [1351,219]、本編32×32 [1371,227]。footerの固定160幅も残る。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "公開price・所在・修飾summaryを戻したが、pendingclockは原本64×48 [1351,219]、本編32×32 [1371,227]。footerの固定160幅も残る。",
+      "original_expected": "三領域location、pendingclock、取得価格、112px label/value、修飾summary",
+      "expectation_clarification": null,
+      "implementation_condition": "元時計のbox/位置・三領域active位置・112px label/valueと折畳みを復元。追加lock/convertはDEC-UI-05で機能を保全して個別判断。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2626,30 +2238,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A05"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-preparation-R07-detail-disabled.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "詳細を見て取得費と所在を判断できない",
-      "fix_conditions": [
-        "公開offer.price_units等を元の価格行へ、所在を既存locationへ。修飾の公開説明を元のsummaryへ。必要情報がpublic viewに無ければ境界不足を具体化し、私的DTOから補完しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "要修正（追加N01：元詳細の判断材料の欠落）",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元時計のbox/位置・三領域active位置・112px label/valueと折畳みを復元。追加lock/convertはDEC-UI-05で機能を保全して個別判断。",
-      "decisions": [
-        "DEC-UI-01",
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-home-pending-detail-light",
         "existing_light_crop": [
           {
@@ -2710,22 +2301,24 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "DetailWindowはItemTextだけ。offerの価格・現在の置き場が本文にない。修飾別説明の折畳みもない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E01",
       "title": "探索の手札・場・本人帯の縦位置",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B01",
-      "scope": "探索全状態",
-      "expected": "原画field上413、hand上688、本人帯983。内側の336/248/314/72＋gap20",
-      "actual": "原寸nodesで手札tile [572,688,248,208]が両者一致。field上413／本人帯983を確認。原本の内側select枠と外側tileの違いを寸法差としない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "原寸nodesで手札tile [572,688,248,208]が両者一致。field上413／本人帯983を確認。原本の内側select枠と外側tileの違いを寸法差としない。",
+      "original_expected": "原画field上413、hand上688、本人帯983。内側の336/248/314/72＋gap20",
+      "expectation_clarification": null,
+      "implementation_condition": "当該縦配置とgap20を維持。絵面・バー等の他IDは継続。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2758,28 +2351,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "縦の間隔と札の下の操作位置が不揃いになる",
-      "fix_conditions": [
-        "B01の行＋B10のalignを再現。コードコメントの行寸法だけで一致にしない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該縦配置とgap20を維持。絵面・バー等の他IDは継続。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -2840,22 +2414,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "field上412、hand上676、本人帯984。手札だけ12px上。原本の行内alignを固定座標で置換"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E02",
       "title": "探索背景の前景色かぶせ",
-      "status": "要修正",
       "baseline_id": "B12",
-      "scope": "探索全状態",
-      "expected": "night-tide cover＋下方e8edd933 wash",
-      "actual": "night-tideを使用しているが、同原寸対の石・海の位置が異なる。原本のcoverとsceneArtwork由来の位置に対し、本編KeepAspectCoveredの中央基準が一致していない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "night-tideを使用しているが、同原寸対の石・海の位置が異なる。原本のcoverとsceneArtwork由来の位置に対し、本編KeepAspectCoveredの中央基準が一致していない。",
+      "original_expected": "night-tide cover＋下方e8edd933 wash",
+      "expectation_clarification": null,
+      "implementation_condition": "新背景を作らず、既存絵のobject-position/cover・下方washを採取して再現する。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -2888,27 +2461,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ素材でも明るさ・背景と札の馴染みが変わる",
-      "fix_conditions": [
-        "元asset/positionを維持し、B12の既存overlayを再現。新しい画像加工・新素材に置換しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "新背景を作らず、既存絵のobject-position/cover・下方washを採取して再現する。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -2969,22 +2524,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "TextureRectのみ。原本の45%以降の前景washがない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E03",
       "title": "場の帯の線・透明度",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B12",
-      "scope": "場通常／予測／ドラッグ",
-      "expected": "border0、e9eed81a、radius8",
-      "actual": "field [25,381,1870,248]、border0、e9eed81a、角8へ修正。旧強い外枠を解消。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "field [25,381,1870,248]、border0、e9eed81a、角8へ修正。旧強い外枠を解消。",
+      "original_expected": "border0、e9eed81a、radius8",
+      "expectation_clarification": null,
+      "implementation_condition": "当該帯を維持。背景差E02を帯の免除理由にしない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3017,27 +2571,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "場を示す面が濃く、囲いが増える",
-      "fix_conditions": [
-        "元の0px線・alpha1a・角8に一致させる。ドラッグ可否枠とは別層。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該帯を維持。背景差E02を帯の免除理由にしない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3098,22 +2634,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Panelで1px線、e9eed833、radius6"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E04",
       "title": "札面の角・線と絵面gradient",
-      "status": "要修正",
       "baseline_id": "B10",
-      "scope": "手札／場／ドラッグ",
-      "expected": "1px線と角6/7、150deg gradient",
-      "actual": "1px枠と角6/7は戻ったが、150deg絵面gradientの見える軸・色の分布が原寸と異なる。UV座標の終点指定が横長boxで元CSS角度と同じにならない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "1px枠と角6/7は戻ったが、150deg絵面gradientの見える軸・色の分布が原寸と異なる。UV座標の終点指定が横長boxで元CSS角度と同じにならない。",
+      "original_expected": "1px線と角6/7、150deg gradient",
+      "expectation_clarification": null,
+      "implementation_condition": "元の150degをboxの実アスペクト比込みで再現し、同stop・色・alphaを使う。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3140,27 +2675,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "札の内側線・上下の結合・面が異なる",
-      "fix_conditions": [
-        "B10の同じ描画部品で上下をclipし、外形・gradient・線を復元。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元の150degをboxの実アスペクト比込みで再現し、同stop・色・alphaを使う。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3221,22 +2738,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "角なし2px線＋c9d8c5単色。下captionPanelだけ角6"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E05",
       "title": "札・主体の図記号をUnicode置換",
-      "status": "原本判断待ち",
       "baseline_id": "B10",
-      "scope": "札効果／地形／能力／予約",
-      "expected": "原本Lucide/既存svg。strokeと各20px等を固定",
-      "actual": "登録済み記号28件のSVGベクトルは固定原本bundleと完全一致。ただしMountainは未登録で原本の小さい△fallbackに対し、本編は大きいTriangleを使用。旧B11のtriangle64という説明は原本呼出しと一致しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "登録済み記号28件のSVGベクトルは固定原本bundleと完全一致。ただしMountainは未登録で原本の小さい△fallbackに対し、本編は大きいTriangleを使用。旧B11のtriangle64という説明は原本呼出しと一致しない。",
+      "original_expected": "原本Lucide/既存svg。strokeと各20px等を固定",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "登録済み同一ベクトルは維持し、用途別size/strokeを合わせる。未登録Mountain等はDEC-UI-01の個別指定まで適合にしない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3268,33 +2784,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/final-records/review-prediction-defense_support-R03-self-and-actors.png",
-        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png",
-        "evidence/implementation/targeted-first/review-prediction-attack-R03-self-and-actors.png",
-        "evidence/implementation/targeted-first/review-prediction-heal-R03-self-and-actors.png",
-        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "記号の形・太さ・baseline・欠字時の意味が変わる",
-      "fix_conditions": [
-        "新規iconを制作せず既存SVGを資源として再利用し、B10/B11の寸法へ。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "登録済み同一ベクトルは維持し、用途別size/strokeを合わせる。未登録Mountain等はDEC-UI-01の個別指定まで適合にしない。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3355,22 +2847,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "↗、◇、⌖、♡、◒、ϟ、≋、△をfont文字として描く"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E06",
       "title": "属性badgeの枠を欠く",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B10",
-      "scope": "手札／場／予測",
-      "expected": "16/24、1px枠、角4、左右4px",
-      "actual": "16/24、1px枠、角4、左右4pxの属性badgeを固定コードと原寸で確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "16/24、1px枠、角4、左右4pxの属性badgeを固定コードと原寸で確認。",
+      "original_expected": "16/24、1px枠、角4、左右4px",
+      "expectation_clarification": null,
+      "implementation_condition": "当該枠を維持。字形・line boxはC01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3392,27 +2885,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "属性と数値や本文の区切りが薄れる",
-      "fix_conditions": [
-        "B10のbadgeを共用し、札の下段の行高を保つ。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該枠を維持。字形・line boxはC01。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3473,22 +2948,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "属性英字だけのLabel"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E07",
       "title": "空の場札のcaption高さ",
-      "status": "要修正",
       "baseline_id": "B10",
-      "scope": "場の未配置属性",
-      "expected": "原本empty cw-slotは下端に属性の短いcaption、通常札のtitle空白を作らない",
-      "actual": "empty captionの高さ60は戻ったが、原寸切出しの属性Aが原本の上寄せに対し本編では下へ寄る。コードはcaption内で高さ48のLabelを置いている。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "empty captionの高さ60は戻ったが、原寸切出しの属性Aが原本の上寄せに対し本編では下へ寄る。コードはcaption内で高さ48のLabelを置いている。",
+      "original_expected": "原本empty cw-slotは下端に属性の短いcaption、通常札のtitle空白を作らない",
+      "expectation_clarification": null,
+      "implementation_condition": "元の短い属性captionのline boxと上寄せへ。空のtitle/effect領域を作らず、字面だけのAA差として免除しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3510,27 +2984,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "空の場所に札本文の白い余白が大きく現れる",
-      "fix_conditions": [
-        "空slotを元のempty構造へ。実札の共通面は変更しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元の短い属性captionのline boxと上寄せへ。空のtitle/effect領域を作らず、字面だけのAA差として免除しない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3591,22 +3047,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "emptyでも88pxから120pxの白Panelを作る"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E08",
       "title": "予測／消費ラベルの位置と背景",
-      "status": "要修正",
       "baseline_id": "B13",
-      "scope": "予測札／使用後に場から離れる札",
-      "expected": "右上4px、paper背景、padding6、radius3",
-      "actual": "予測ラベルの右上4px・paper・padding6/角3は戻ったが、consumeラベルの本編文字が赤、同状態原本はmuted。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "予測ラベルの右上4px・paper・padding6/角3は戻ったが、consumeラベルの本編文字が赤、同状態原本はmuted。",
+      "original_expected": "右上4px、paper背景、padding6、radius3",
+      "expectation_clarification": null,
+      "implementation_condition": "原本のconsume/forecastごとの文字色へ。警告の公開意味を変更しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3640,27 +3095,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-details/review-safety-consume-R01-after-drop.png",
-        "evidence/implementation/targeted-first/review-prediction-place-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "絵の記号と状態文が重なりやすい",
-      "fix_conditions": [
-        "B13の右上badgeへ移す。captionの48/24/28行を動かさない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本のconsume/forecastごとの文字色へ。警告の公開意味を変更しない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3721,22 +3158,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "左上4px、背景なしのLabel240×24"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E09",
       "title": "離れる場札の警告色",
-      "status": "要修正",
       "baseline_id": "B13",
-      "scope": "消費・回収される場札",
-      "expected": "data-changedはdanger943c25枠、予測と区別",
-      "actual": "旧基準説明はconsumeをdata-changedへ読み替えていた。固定exploration.jsはconsume/linkedを出し、data-changedを出さない。同状態原本は通常線＋linked内側線、本編は消費を赤線／赤文字へ置換。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "旧基準説明はconsumeをdata-changedへ読み替えていた。固定exploration.jsはconsume/linkedを出し、data-changedを出さない。同状態原本は通常線＋linked内側線、本編は消費を赤線／赤文字へ置換。",
+      "original_expected": "data-changedはdanger943c25枠、予測と区別",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "消費=無条件dangerを止め、実際の公開フラグと原本selectorを対応する。data-changedが合法に生じる場合のdangerは別条件として残す。規則・R01消滅警告は変えない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3770,26 +3206,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "残る札と離れる札の視覚差が弱い",
-      "fix_conditions": [
-        "元data-changedとlinkedの重なり順を再現し、消滅/共通回収の意味はR03の公開値で保持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "消費=無条件dangerを止め、実際の公開フラグと原本selectorを対応する。data-changedが合法に生じる場合のdangerは別条件として残す。規則・R01消滅警告は変えない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3850,22 +3269,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "consumedをCardTile._Drawが見ない。linked315849緑枠だけになる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E10",
       "title": "主体と本人のバーを横2本へ変更",
-      "status": "要修正",
       "baseline_id": "B11",
-      "scope": "敵／地形／本人／予測差分",
-      "expected": "余力・隠蔽の全幅バーを上下4px＋2pxgap＋4px、後者.6",
-      "actual": "上下バーの形は復元したが主体のバーが原本[639,296,298,10]に対し本編はy292で4px上。主体下段の中項も幅/3配置で原本space-betweenと異なる。本人バーy1014は一致。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "上下バーの形は復元したが主体のバーが原本[639,296,298,10]に対し本編はy292で4px上。主体下段の中項も幅/3配置で原本space-betweenと異なる。本人バーy1014は一致。",
+      "original_expected": "余力・隠蔽の全幅バーを上下4px＋2pxgap＋4px、後者.6",
+      "expectation_clarification": null,
+      "implementation_condition": "主体captionからのgapと上下4+2+4を合わせ、下段は内容幅に基づくspace-betweenへ。公開数値を変えない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -3893,27 +3311,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "能力表示の行構造そのものが違う",
-      "fix_conditions": [
-        "R03で追加した差分値を保ち、B11の上下バーと18px能力行へ戻す。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "主体captionからのgapと上下4+2+4を合わせ、下段は内容幅に基づくspace-betweenへ。公開数値を変えない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -3974,22 +3374,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "左右半幅に各4pxバーを1段で配置。後者のopacityなし"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E11",
       "title": "主体の通常枠・選択枠・hover",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B11",
-      "scope": "未選択／選択／hover主体",
-      "expected": "通常枠transparent、選択2px内側＋target記号＋softcaption",
-      "actual": "旧通常太枠は除去。選択2px内側、target記号、softcaptionと282×176の主体配置を確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "旧通常太枠は除去。選択2px内側、target記号、softcaptionと282×176の主体配置を確認。",
+      "original_expected": "通常枠transparent、選択2px内側＋target記号＋softcaption",
+      "expectation_clarification": null,
+      "implementation_condition": "当該枠を維持。記号E05・バーE10・hover寿命DEC-UI-03を別途追う。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4022,29 +3421,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "選択対象と絵の抜けが原本と違う",
-      "fix_conditions": [
-        "主体固有の通常/hover/selected themeを作りB11へ。既存diverの282×176/上8は維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該枠を維持。記号E05・バーE10・hover寿命DEC-UI-03を別途追う。",
-      "decisions": [
-        "DEC-UI-03"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -4105,22 +3484,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "通常bac9ba1px枠、選択3px、targetmarkなし。hoverはButton共通の紙面色"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [
+        "DEC-UI-03"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E12",
       "title": "本人帯の幅・内容密度",
-      "status": "要修正",
       "baseline_id": "B11",
-      "scope": "探索本人帯",
-      "expected": "self400px、手札18px、既存の公開補助情報の位置",
-      "actual": "本人400pxと手札18pxは戻ったが補助情報の中項が本編の幅/3固定位置となり、原本の内容幅に基づくspace-betweenと一致しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "本人400pxと手札18pxは戻ったが補助情報の中項が本編の幅/3固定位置となり、原本の内容幅に基づくspace-betweenと一致しない。",
+      "original_expected": "self400px、手札18px、既存の公開補助情報の位置",
+      "expectation_clarification": null,
+      "implementation_condition": "self400pxのまま各内容幅・両端と中間を原本へ。情報を省略せず元の密度にする。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4148,27 +3528,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-third/natural-exploration.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "最下帯の余白と情報階層が変わる",
-      "fix_conditions": [
-        "B11のself400と原本footer-state構造を再現。追加公開情報は原本の山札／状況入口で扱い、未承認の帯拡張を残さない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "self400pxのまま各内容幅・両端と中間を原本へ。情報を省略せず元の密度にする。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -4229,22 +3591,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "self410px、手札20pxに山札枚数と共通回収枚数を連結。右撤退も固定110"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E13",
       "title": "札の下の操作枠を固定拡張",
-      "status": "要修正",
       "baseline_id": "B13",
-      "scope": "手札選択",
-      "expected": "56高、18px、padding16、内容幅、gap8、選択札に追従するtrack",
-      "actual": "56px・内容幅・gap8・札追従は戻ったが、選択札のanchorと操作の間に原本の白い◇trackがあり本編では欠ける。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "56px・内容幅・gap8・札追従は戻ったが、選択札のanchorと操作の間に原本の白い◇trackがあり本編では欠ける。",
+      "original_expected": "56高、18px、padding16、内容幅、gap8、選択札に追従するtrack",
+      "expectation_clarification": null,
+      "implementation_condition": "元cw-use-trackの位置・向き・色を選択札へ追従させる。ボタンを固定幅へ戻さない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4283,26 +3644,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "短い述語にも過大な枠が付き、元札の真下との対応が変わる",
-      "fix_conditions": [
-        "原本layoutのanchor/trackを再現し、表示文言ごとの実幅を算出。最右札でも画面内に収める。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元cw-use-trackの位置・向き・色を選択札へ追従させる。ボタンを固定幅へ戻さない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -4363,22 +3707,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "予測132px/16pxと実行250px/20px、y920固定"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E14",
       "title": "関係線が直線矢印へ変わる",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B13",
-      "scope": "選択／一致／設置予測",
-      "expected": "縦端点同士をcubicBezier、stroke2、opacity.5、原本は線のみ",
-      "actual": "原寸で端点間のcubicBezier・stroke2/opacity.5・矢印なしを確認。固定コードも線のみの経路へ修正。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "原寸で端点間のcubicBezier・stroke2/opacity.5・矢印なしを確認。固定コードも線のみの経路へ修正。",
+      "original_expected": "縦端点同士をcubicBezier、stroke2、opacity.5、原本は線のみ",
+      "expectation_clarification": null,
+      "implementation_condition": "当該関係線を維持。対象変更の全状態はU-V02。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4412,26 +3755,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-guard-R03-self-and-actors.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "線の太さと流れが変わり他の札にかかる",
-      "fix_conditions": [
-        "drawRelationsの可視範囲clip・端点・curve・stroke・alphaを共用描画へ移す。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該関係線を維持。対象変更の全状態はU-V02。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-entry-dark",
         "existing_light_crop": [
           {
@@ -4492,22 +3818,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "中心方向の直線と20px矢頭、stroke4、不透明Gold"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-E15",
       "title": "行動順の顔・余白・次のbadge",
-      "status": "原本判断待ち",
       "baseline_id": "B14",
-      "scope": "通常／同時刻／本人次回",
-      "expected": "40pxボタン、16gap、同群2gap、次はsoft背景と底2px",
-      "actual": "40px顔・gap16/同群2は戻った。terrain記号は原本fallbackと本編定義が異なる。次badgeは原本自身で下端がclipされる例があり、切出しだけで非表示／全状態適合のいずれにも断定しない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "40px顔・gap16/同群2は戻った。terrain記号は原本fallbackと本編定義が異なる。次badgeは原本自身で下端がclipされる例があり、切出しだけで非表示／全状態適合のいずれにも断定しない。",
+      "original_expected": "40pxボタン、16gap、同群2gap、次はsoft背景と底2px",
+      "expectation_clarification": null,
+      "implementation_condition": "DEC-UI-01のterrain定義を指定し、次badgeの同状態原寸・overflow/scrollを対応。次順の規則を変更しない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4541,30 +3866,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/reference/exploration.png",
-        "evidence/implementation/targeted-second/review-order-different-R05-order-strip.png",
-        "evidence/implementation/targeted-second/review-order-tie-R05-order-strip.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同時刻や本人次回の空間的なまとまりが異なる",
-      "fix_conditions": [
-        "R05のgroup/順位計算は維持しB14の原本部品へ表示。白地に白い次ラベルを残さない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "DEC-UI-01のterrain定義を指定し、次badgeの同状態原寸・overflow/scrollを対応。次順の規則を変更しない。",
-      "decisions": [
-        "DEC-UI-01"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -4625,22 +3929,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "44pxボタン、群ごとcount×54+110、gap12、次は14px白文字のみ。diverは36px contain"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W01",
       "title": "探索詳細の文字・表組・余白",
-      "status": "要修正",
       "baseline_id": "B15",
-      "scope": "札／主体／予測／予約詳細",
-      "expected": "64header、16padding、20見出し、18/1.6本文、ledgerでラベル値整列",
-      "actual": "詳細ledgerの値4のLabelが[1465,586,1,56]、50が[1465,654,1,85]。幅1pxのため50が折返し、+0と行の高さも原本からずれる。原本は20px数字を通常幅で横に表示。切出しW01は対象窓を含まないため原寸nodesを根拠にした。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "詳細ledgerの値4のLabelが[1465,586,1,56]、50が[1465,654,1,85]。幅1pxのため50が折返し、+0と行の高さも原本からずれる。原本は20px数字を通常幅で横に表示。切出しW01は対象窓を含まないため原寸nodesを根拠にした。",
+      "original_expected": "64header、16padding、20見出し、18/1.6本文、ledgerでラベル値整列",
+      "expectation_clarification": null,
+      "implementation_condition": "値の実文字幅を確保しnowrap/inlineにする。LabelのShrinkBeginだけで幅を失わせず、元18/1.6行・gap12・label/valueの整列へ。公開値は維持。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4674,34 +3979,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
-        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
-        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
-        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
-        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ情報でも一画面に入る量と探しやすさが違う",
-      "fix_conditions": [
-        "ItemText/PredictionSummaryは公開値の供給に留め、原本ledger/見出し/別段落を実部品で再現する。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "値の実文字幅を確保しnowrap/inlineにする。LabelのShrinkBeginだけで幅を失わせず、元18/1.6行・gap12・label/valueの整列へ。公開値は維持。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -4762,22 +4042,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "headerの見出し22/27、本文22、x20/y82、内容をLongTextに連結"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W02",
       "title": "pinと閉じるの形",
-      "status": "要修正",
       "baseline_id": "B15",
-      "scope": "一時／固定詳細",
-      "expected": "pin SVG、56×56、固定はactive背景。close56×56",
-      "actual": "pin/closeの56px枠は戻ったがpressed面が違う。原本のpin内側16pxに対し本編の用途別サイズも合わせる必要がある。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "pin/closeの56px枠は戻ったがpressed面が違う。原本のpin内側16pxに対し本編の用途別サイズも合わせる必要がある。",
+      "original_expected": "pin SVG、56×56、固定はactive背景。close56×56",
+      "expectation_clarification": null,
+      "implementation_condition": "pin/closeの元の内側寸法・active面・focusを同フラグで対応。補助窓のheader機能配置はDEC-UI-05。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4816,34 +4097,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-defense_support-R03-prediction-top.png",
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
-        "evidence/implementation/final-records/review-prediction-guard-R03-prediction-top.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png",
-        "evidence/implementation/targeted-first/review-prediction-attack-R03-prediction-top.png",
-        "evidence/implementation/targeted-first/review-prediction-heal-R03-prediction-top.png",
-        "evidence/implementation/targeted-first/review-prediction-place-R03-prediction-top.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "固定状態と閉じるの共通操作部品が変わる",
-      "fix_conditions": [
-        "B15のicon状態表現と同じ高さへ。機能のtoggle・180/160msは維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "pin/closeの元の内側寸法・active面・focusを同フラグで対応。補助窓のheader機能配置はDEC-UI-05。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -4904,22 +4160,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "60×48の「固定／一時」文字ボタンと48×48の×"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W03",
       "title": "窓の面と影・区切り",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B15",
-      "scope": "探索詳細／予測",
-      "expected": "cw-paper、元の1px線、角8、shadow、header境界",
-      "actual": "cw-paper、1px線、角8、header境界、元のshadow役割を固定コードと原寸で確認。ID cropは対象窓を含まない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "cw-paper、1px線、角8、header境界、元のshadow役割を固定コードと原寸で確認。ID cropは対象窓を含まない。",
+      "original_expected": "cw-paper、元の1px線、角8、shadow、header境界",
+      "expectation_clarification": null,
+      "implementation_condition": "当該window Surfaceを維持。root紙C02・文字C01・pinW02を別途修正。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -4958,27 +4215,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-hand-detail.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-hand-detail.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "背景への抜け・窓の輪郭が一致しない",
-      "fix_conditions": [
-        "B15とstyle-sourceの最終drawer指定をテーマで再現。本文だけ別白面を重ねない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該window Surfaceを維持。root紙C02・文字C01・pinW02を別途修正。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -5039,22 +4278,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "fcfcf5faのPanel、角6、shadowとheader境界なし"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W04",
       "title": "反対端窓の座標系・縦基準",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B15",
-      "scope": "左／右／中央の札・主体・予測",
-      "expected": "原本uiSpaceの内側寸法とanchor.y、bottom本人帯上端を用いたplaceEdgeWindow",
-      "actual": "反対端の原寸windowとpin/close座標、uiSpace内側・本人帯上端・縦clampのコードを照合し、旧固定位置差は解消。窓の寿命は位置とは分ける。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "反対端の原寸windowとpin/close座標、uiSpace内側・本人帯上端・縦clampのコードを照合し、旧固定位置差は解消。窓の寿命は位置とは分ける。",
+      "original_expected": "原本uiSpaceの内側寸法とanchor.y、bottom本人帯上端を用いたplaceEdgeWindow",
+      "expectation_clarification": null,
+      "implementation_condition": "placeEdgeWindowの座標を維持。hoverのroot内外差はDEC-UI-03の判断後に別途限定再確認。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5093,29 +4331,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-details/review-safety-consume-R01-after-drop.png",
-        "evidence/implementation/final-details/review-safety-doomed-R01-after-drop.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "方角は継承しても1pxの端や行位置がずれる",
-      "fix_conditions": [
-        "アルゴリズムをB15そのまま移植し、手札/場/主体の左右・中央・端clampを同じ座標表で確認。新しい縦配置案は作らない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "placeEdgeWindowの座標を維持。hoverのroot内外差はDEC-UI-03の判断後に別途限定再確認。",
-      "decisions": [
-        "DEC-UI-03"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-window-pin-pressed-light",
         "existing_light_crop": [
           {
@@ -5176,22 +4394,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "root1920へ直置きし中心Y−104、bottom984固定。主体はroot座標16"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [
+        "DEC-UI-03"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W05",
       "title": "共通窓・親子窓が固定座標",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B16",
-      "scope": "メニュー／記録／設定／本文履歴",
-      "expected": "triggerと上下帯からplaceWindow、親位置を保ったpair520×480/gap16",
-      "actual": "保存済み親子nodesでscroll領域[848,142,518,414]／[1384,142,518,414]が両者一致し、520幅とgap16の隣接を確認。単独共通窓の配置経路も元trigger/上下帯へ修正。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "保存済み親子nodesでscroll領域[848,142,518,414]／[1384,142,518,414]が両者一致し、520幅とgap16の隣接を確認。単独共通窓の配置経路も元trigger/上下帯へ修正。",
+      "original_expected": "triggerと上下帯からplaceWindow、親位置を保ったpair520×480/gap16",
+      "expectation_clarification": null,
+      "implementation_condition": "当該placeWindow/pairを維持。子の全本文・header機能の適合はW10とDEC-UI-05。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5241,27 +4460,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-known-catalogue.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "開く元による一貫した配置規則を失う",
-      "fix_conditions": [
-        "B16の元anchor/avoid/parent計算を共用化。各窓別の思いつき座標にしない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該placeWindow/pairを維持。子の全本文・header機能の適合はW10とDEC-UI-05。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-records-cards-light",
         "existing_light_crop": [
           {
@@ -5326,22 +4527,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "menu1384,80、settings700,300、knowledge424,300と960,300等を固定"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W06",
       "title": "記録タブ・列・区分を省略",
-      "status": "要修正",
       "baseline_id": "B16",
-      "scope": "調査記録一覧／判明／未判明",
-      "expected": "相手・環境／札タブ、対象の判明状態、札/属性/初期枚数table、観測区分・獲得記録",
-      "actual": "相手・環境／札タブ、観測区分・表は復元。札リスト原本行上端481.59375→528.59375は47px間隔、本編は約482→521の39pxでgap8を欠く。公開区分の不足はU-RC04として別途解消。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "相手・環境／札タブ、観測区分・表は復元。札リスト原本行上端481.59375→528.59375は47px間隔、本編は約482→521の39pxでgap8を欠く。公開区分の不足はU-RC04として別途解消。",
+      "original_expected": "相手・環境／札タブ、対象の判明状態、札/属性/初期枚数table、観測区分・獲得記録",
+      "expectation_clarification": null,
+      "implementation_condition": "原本リストgap8・行高・分類と獲得記録を同じ公開fixtureで再現。区分のために現在の未公開情報を混ぜない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5391,27 +4591,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-known-catalogue.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "判明済みの札や記録の分類を辿る構造が後退",
-      "fix_conditions": [
-        "元records.jsの構造を復元。public viewにあるencounters/evidence/profileを使う。run/actor別区分が不足する場合は必要な公開項目と旧契約を特定して同D04Bで処置し、推定分類を作らない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "要修正＋公開境界の区分根拠はU-RC04（追加N02）",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本リストgap8・行高・分類と獲得記録を同じ公開fixtureで再現。区分のために現在の未公開情報を混ぜない。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-records-cards-light",
         "existing_light_crop": [
           {
@@ -5472,22 +4654,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "タブなし。対象ボタン一覧→札名×枚数のボタン列。公開reward_key/labelも描画しない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W07",
       "title": "記録札詳細で直前の親が消える",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B16",
-      "scope": "基本構成→札詳細",
-      "expected": "直前の対象構成を左、札詳細を右。元の選択・scroll保持",
-      "actual": "親子・戻りの原本実描画はscroll597→0→0、本編は598→598→598。原本scrollMemoryのsave/restoreと直前親を保持する設計、B16の期待値を優先するDEC-UI-06回答を作成。本編の保持は当該条件を満たす。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "親子・戻りの原本実描画はscroll597→0→0、本編は598→598→598。原本scrollMemoryのsave/restoreと直前親を保持する設計、B16の期待値を優先するDEC-UI-06回答を作成。本編の保持は当該条件を満たす。",
+      "original_expected": "直前の対象構成を左、札詳細を右。元の選択・scroll保持",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "元の選択・親と各画面自身のclamp済みscrollを保持。597/598の固定値や内容高さ1pxの免除は作らず、文字/リスト差は別IDで修正。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5532,31 +4713,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/implementation/final-records/review-prediction-defense_support-R04-record-top.png",
-        "evidence/implementation/final-records/review-prediction-guard-R04-record-top.png",
-        "evidence/implementation/targeted-third/natural-known-card.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "元の札の並びと詳細を見比べられない",
-      "fix_conditions": [
-        "元recordsPanelViewのsource＋childを同時表示。戻るで元のscroll・選択を保ち、親を覆わない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "要修正（追加N02の親子表示）",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元の選択・親と各画面自身のclamp済みscrollを保持。597/598の固定値や内容高さ1pxの免除は作らず、文字/リスト差は別IDで修正。",
-      "decisions": [
-        "DEC-UI-06"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-records-cards-light",
         "existing_light_crop": [
           {
@@ -5622,22 +4781,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Modal=knowledge-cardで中央520×480の一窓のみ描き、構成paneを消す"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [
+        "DEC-UI-06"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W08",
       "title": "メニューが2列から縦1列へ",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B16",
-      "scope": "各画面メニュー",
-      "expected": "2列×56px、必要時だけ既存pager",
-      "actual": "2列×56pxのmenuに復元。新しい縦1列への置換は解消。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "2列×56pxのmenuに復元。新しい縦1列への置換は解消。",
+      "original_expected": "2列×56px、必要時だけ既存pager",
+      "expectation_clarification": null,
+      "implementation_condition": "当該menu gridを維持。Windows中断等の追加入口の配置はDEC-UI-05で個別判断。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5677,27 +4837,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ項目でも到達操作と密度が変わる",
-      "fix_conditions": [
-        "B16の2列と共通操作位置を復元。Windowsの終了は同じ共通部品へ割当し、既存項目を重複させない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該menu gridを維持。Windows中断等の追加入口の配置はDEC-UI-05で個別判断。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-records-cards-light",
         "existing_light_crop": [
           {
@@ -5758,22 +4900,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "全幅456×54の縦列＋内部scroll＋下の終了。探索メニューは長くスクロールする"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W09",
       "title": "表示・操作設定の元UIを省略",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B18",
-      "scope": "表示設定／探索操作設定",
-      "expected": "表示は「動きを抑える」checkbox、探索設定は元操作項目と選択部品",
-      "actual": "表示の減動checkboxと元探索設定のcheckbox/選択部品、hold選択の値を復元。通常200msと抑制時tween0の保存済みsequenceで設定が表示経路へ届くことを確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "表示の減動checkboxと元探索設定のcheckbox/選択部品、hold選択の値を復元。通常200msと抑制時tween0の保存済みsequenceで設定が表示経路へ届くことを確認。",
+      "original_expected": "表示は「動きを抑える」checkbox、探索設定は元操作項目と選択部品",
+      "expectation_clarification": null,
+      "implementation_condition": "元の設定構造と値を維持。popup/hover/全操作状態はU-V06、文字はC01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5818,25 +4961,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "機能の入口が重複し、元の設定が辿れない",
-      "fix_conditions": [
-        "共通表示と探索操作の元項目・部品を対応づけて復元。既存Godot操作設定は必要性と元の対応を明記する。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "要修正（追加N03：動きを抑えるの欠落）",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "元の設定構造と値を維持。popup/hover/全操作状態はU-V06、文字はC01。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "repro-explore-records-cards-light",
         "existing_light_crop": [
           {
@@ -5897,22 +5024,21 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "同じSettingsWindowに長文トグルButton5個。動きを抑えるがない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-W10",
       "title": "山札・履歴・案内を単一本文へ",
-      "status": "要修正",
       "baseline_id": "B16",
-      "scope": "山札／履歴／目的／状況／遊び方",
-      "expected": "原本の表・記号・見出し、18/1.6と親子導線",
-      "actual": "表・見出しは戻ったが山札表の名称buttonが本編で列幅いっぱいへ伸び、数値列と行間・区切りも原本と異なる。W10 cropはmenuのみで子本文がなく、W05の既存切出し/固定コードを補助根拠にした。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "表・見出しは戻ったが山札表の名称buttonが本編で列幅いっぱいへ伸び、数値列と行間・区切りも原本と異なる。W10 cropはmenuのみで子本文がなく、W05の既存切出し/固定コードを補助根拠にした。",
+      "original_expected": "原本の表・記号・見出し、18/1.6と親子導線",
+      "expectation_clarification": null,
+      "implementation_condition": "原本name/属性/初期枚数の列寸法・内容幅と行間へ。menu cropを子本文の合格証拠にせず、header機能とWindows追加窓はDEC-UI-05へ。 原本itemIconのattack/healで使うSwords/HeartPulseは登録定義が存在するため、該当使用先ではその既存定義を戻す。未描画使用先は未確認として返す。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -5952,29 +5078,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-known-card.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "情報の比較・閲覧中の周辺確認が変わる",
-      "fix_conditions": [
-        "各元panelView/renderDrawerの既存表組と非遮断窓を再現。確認が必要な破壊操作だけ元契約に従う。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本name/属性/初期枚数の列寸法・内容幅と行間へ。menu cropを子本文の合格証拠にせず、header機能とWindows追加窓はDEC-UI-05へ。 原本itemIconのattack/healで使うSwords/HeartPulseは登録定義が存在するため、該当使用先ではその既存定義を戻す。未描画使用先は未確認として返す。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6007,22 +5113,23 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "DeckWindow以外はLongText、履歴も改行文。汎用窓に黒.6暗幕、原本非modal窓と異なる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-H01",
       "title": "探索先の詳細が題名から離れる",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B17",
-      "scope": "探索先通常／再訪",
-      "expected": "左40幅840のsummary内、h2と詳細がflex隣接gap8",
-      "actual": "summary左40・幅840、h2と詳細のflex隣接gap8、下36と題名32を固定コード・既存切出しで確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "summary左40・幅840、h2と詳細のflex隣接gap8、下36と題名32を固定コード・既存切出しで確認。",
+      "original_expected": "左40幅840のsummary内、h2と詳細がflex隣接gap8",
+      "expectation_clarification": null,
+      "implementation_condition": "当該配置を維持。fontの字面差はC01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6062,29 +5169,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-known-catalogue.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "ボタンの対象を位置で伝える構造が崩れる",
-      "fix_conditions": [
-        "原本summary/headingの内容幅とgapを再現。全文言違いは比較条件で分離。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該配置を維持。fontの字面差はC01。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6113,22 +5200,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "題名x40,w760、詳細x824固定。短い題名でも大きく離れる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-H02",
       "title": "本文・帰還背景のgradientを近似",
-      "status": "要修正",
       "baseline_id": "B17",
-      "scope": "本文／探索先／帰還",
-      "expected": "原本の0deg/90deg多stopと本文自身の90deg gradient",
-      "actual": "原本の0deg/90deg多stopと本文gradientに対し、本編は絵の位置・washの見え方が一致しない。原寸の再生成はしていない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "原本の0deg/90deg多stopと本文gradientに対し、本編は絵の位置・washの見え方が一致しない。原寸の再生成はしていない。",
+      "original_expected": "原本の0deg/90deg多stopと本文自身の90deg gradient",
+      "expectation_clarification": null,
+      "implementation_condition": "既存背景のcover/位置と元多stop・alpha・重なる順を同boxで再現。固定原本U-B02/B03の未読込は未確認のまま。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6178,29 +5264,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-return-clear.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "背景の濃さと本文背後の面が場面ごとに変わる",
-      "fix_conditions": [
-        "B17のstop/color/適用範囲をそのまま再現。二重適用をなくし、既存画像は変更しない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "既存背景のcover/位置と元多stop・alpha・重なる順を同boxで再現。固定原本U-B02/B03の未読込は未確認のまま。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6229,22 +5295,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "ReadingBackdropの単純2本fadeと固定上下64Panel。SceneReaderでも再度ReadingBackdropを重ねる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-H03",
       "title": "帰還要約の文字階層",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B17",
-      "scope": "踏破／撤退／緊急脱出",
-      "expected": "金額32px Georgia/serif、labelと総額を分離、結果items18px、gap8",
-      "actual": "32px Georgia/serif、label/総額、items18px、gap8の階層へ復元を既存切出しと固定コードで確認。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "32px Georgia/serif、label/総額、items18px、gap8の階層へ復元を既存切出しと固定コードで確認。",
+      "original_expected": "金額32px Georgia/serif、labelと総額を分離、結果items18px、gap8",
+      "expectation_clarification": null,
+      "implementation_condition": "当該階層を維持。三帰還結果の全原寸はU-V05、書体の字面はC01。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6284,29 +5349,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-return-clear.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "獲得と回復と記録が同じ強さになり要約しにくい",
-      "fix_conditions": [
-        "B17のresult-values/money/itemsを部品化。新しい結果情報も元の役割へ対応づける。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "当該階層を維持。三帰還結果の全原寸はU-V05、書体の字面はC01。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6335,22 +5380,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "全要約を24pxの改行Label(x24,y812,w890,h132)へ。記号・金額の強弱がない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-H04",
       "title": "本文窓の内面・余白・行間",
-      "status": "原本判断待ち",
       "baseline_id": "B17",
-      "scope": "進行本文／任意本文／帰還本文",
-      "expected": "reading padding24、20px/1.7、原本の最大幅と高さ、境界なしのgradient",
-      "actual": "reading20/1.7・padding24の経路は復元したが、本編の読了button/footerは固定原本に一対一の形がなく、360px本文表示領域への影響が残る。",
+      "baseline_version": "2026-10-04.1",
+      "status": "原本判断待ち",
+      "current_observation": "reading20/1.7・padding24の経路は復元したが、本編の読了button/footerは固定原本に一対一の形がなく、360px本文表示領域への影響が残る。",
+      "original_expected": "reading padding24、20px/1.7、原本の最大幅と高さ、境界なしのgradient",
+      "expectation_clarification": null,
+      "implementation_condition": "既確認の読了機能を保全し、DEC-UI-05で既存B17/B16への配置を個別指定。正文・規則を変えない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6405,31 +5449,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03",
-        "A05",
-        "A06"
-      ],
-      "images": [
-        "evidence/implementation/targeted-third/natural-return-clear.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "文字の改行と読み終わり位置が変わる",
-      "fix_conditions": [
-        "原本prose-layoutとCSS最終値を同じ文言で実測し、幅/line-height/段落gapを一致。可視段落記録の境界は壊さない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "既確認の読了機能を保全し、DEC-UI-05で既存B17/B16への配置を個別指定。正文・規則を変えない。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6458,22 +5480,23 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Panelの一様alpha紙面、内側x24,y20、幅792高さ320、line_spacing10で代用"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-H05",
       "title": "開始画面の配置と書体",
-      "status": "要修正",
       "baseline_id": "B17",
-      "scope": "新規／続き／読込み前",
-      "expected": "中心28px serifのcrossweave、操作は下64px帯",
-      "actual": "中央serif28pxのcrossweaveは復元。外面は原本f1f1e8に対し本編fcfcf5、footerは原本e9eee0に対し本編f1f1e8。追加Windows入口の配置は別判断。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "中央serif28pxのcrossweaveは復元。外面は原本f1f1e8に対し本編fcfcf5、footerは原本e9eee0に対し本編f1f1e8。追加Windows入口の配置は別判断。",
+      "original_expected": "中心28px serifのcrossweave、操作は下64px帯",
+      "expectation_clarification": null,
+      "implementation_condition": "原本の面と下64px帯を戻す。new/resume/diagnostics/exitの機能を保全してDEC-UI-05の配置へ。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6513,29 +5536,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A02",
-        "A03",
-        "A05",
-        "A06"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "本編だけ別の画面構造になる",
-      "fix_conditions": [
-        "共通shellと元launcherの位置・文字を再現。Windows固有の復旧操作は元共通窓の部品へ割当し、見た目の例外扱いにしない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本の面と下64px帯を戻す。new/resume/diagnostics/exitの機能を保全してDEC-UI-05の配置へ。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・依頼内未解消あり",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "startup-entry-light",
         "existing_light_crop": [
           {
@@ -6596,22 +5599,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "左上72pxタイトル、y630/y730へ開始・再開・診断を固定"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-S01",
       "title": "通知・保存中表示の位置",
-      "status": "未確認",
       "baseline_id": "B19",
-      "scope": "保存中／失敗／古い応答／再試行",
-      "expected": "共通通知はtop72中央、18px、警告面と影。取得通知top76左右24",
-      "actual": "FHD原本はtop72・min-height56・padding8px16・18px。56pxを不一致とする根拠はない。本編コードもこの経路と取得top76/左右24に合わせたが、ID cropには通知自体がなく、同じ通知状態の原寸を十分照合できていない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "未確認",
+      "current_observation": "FHD原本はtop72・min-height56・padding8px16・18px。56pxを不一致とする根拠はない。本編コードもこの経路と取得top76/左右24に合わせたが、ID cropには通知自体がなく、同じ通知状態の原寸を十分照合できていない。",
+      "original_expected": "共通通知はtop72中央、18px、警告面と影。取得通知top76左右24",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "同じ公開message/保存状態・複数行を含む原寸対で面/影/位置/高さを確認。異なる保存可否の文言をそのまま外観差にしない。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6650,29 +5654,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02",
-        "A05",
-        "A06"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "失敗・処理中の案内位置と余白が画面ごとに変わる",
-      "fix_conditions": [
-        "B19の通常通知と取得noticeへ統一。保存の成否・retry/reloadの契約は維持し、通常セーブでは試さない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "同じ公開message/保存状態・複数行を含む原寸対で面/影/位置/高さを確認。異なる保存可否の文言をそのまま外観差にしない。",
-      "decisions": [
-        "DEC-UI-05"
-      ],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": "startup-entry-light",
         "existing_light_crop": [
           {
@@ -6733,22 +5717,23 @@
           }
         ]
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Message x24,y66,w1540,h50 font19、Busyはx1230のヘッダー文字"
-      },
-      "unknowns_remaining": true,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-D01",
       "title": "受入先枠・ラベルを全列へ広げる",
-      "status": "要修正",
       "baseline_id": "B18",
-      "scope": "ドラッグ可／不可",
-      "expected": "pointer下の1列にallowed実線2／blocked破線1、ヘッダー全幅の短い述語",
-      "actual": "対象1列と短い述語は戻ったが、allowed field overlayの本編は角なし1px線で、原本の角8・2px実線と異なる。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "対象1列と短い述語は戻ったが、allowed field overlayの本編は角なし1px線で、原本の角8・2px実線と異なる。",
+      "original_expected": "pointer下の1列にallowed実線2／blocked破線1、ヘッダー全幅の短い述語",
+      "expectation_clarification": null,
+      "implementation_condition": "原本allowed2px/blocked1px破線・角・対象1列を同じ公開可否で対応。全対象のcommand=0とcancel条件は保全。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6793,29 +5778,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-owned-cancel-denied.png",
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
-        "evidence/implementation/final-caption/review-preparation-R07-drag-denied.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "どの領域が現在の移動先なのかと操作名が原本と異なる",
-      "fix_conditions": [
-        "R06の判定共用は保ちB18の見た目に置換。labelを取得／取得・編成／編成／外す／取消へ戻す。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "原本allowed2px/blocked1px破線・角・対象1列を同じ公開可否で対応。全対象のcommand=0とcancel条件は保全。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6844,22 +5809,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "全dropZonesを可否色で囲む、hover4/非hover2、不可は赤実線。labelは白い短い箱で見出し左上に重なる"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-D02",
       "title": "ドラッグ元と像の透明度・影",
-      "status": "要修正",
       "baseline_id": "B18",
-      "scope": "取得ドラッグ／探索ドラッグ",
-      "expected": "取得元opacity.3、ghost原寸＋影、不可.75。探索は元部品の指定を保持",
-      "actual": "探索の原本drag中handはopacity1でdata-dragging属性が出ない。本編は.6へ変える。同原寸/JSONで確認。ghostのarrowも原本白に対し本編暗色。取得元.3は別の原本指定。",
+      "baseline_version": "2026-10-04.1",
+      "status": "要修正",
+      "current_observation": "探索の原本drag中handはopacity1でdata-dragging属性が出ない。本編は.6へ変える。同原寸/JSONで確認。ghostのarrowも原本白に対し本編暗色。取得元.3は別の原本指定。",
+      "original_expected": "取得元opacity.3、ghost原寸＋影、不可.75。探索は元部品の指定を保持",
+      "expectation_clarification": "基準説明.mdの該当項参照。既存基準の採用版は変えない。",
+      "implementation_condition": "探索の実部品指定と白glyph/影を再現。取得元.3を探索へ流用せず、grab点・原寸・不可.75を保持。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -6904,28 +5868,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-pending-cancel-allowed.png",
-        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "掴んだ個体と残る個体の区別が弱くなる",
-      "fix_conditions": [
-        "B18の元/ghost/不可を独立した状態として再現。grabOffsetと原寸を維持。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "探索の実部品指定と白glyph/影を再現。取得元.3を探索へ流用せず、grab点・原寸・不可.75を保持。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -6957,22 +5902,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "ghostを一律.88、元はfadeせず、影なし。元と像が同じ強さで残る"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-D03",
       "title": "ホールドcueの形と位置",
-      "status": "未確認",
       "baseline_id": "B18",
-      "scope": "120〜220ms保持中",
-      "expected": "pointer(+20,-20)の32px進捗環、下34pxの12/18ラベル、背景・影・mask",
-      "actual": "32px環・120ms待ち・pointer(+20,-20)のコードと時系列は受領したが、D03 cropはD02と同じdrag状態でcueを含まない。mask進捗・文字・影・cancelを描画済みとは扱えない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "未確認",
+      "current_observation": "32px環・120ms待ち・pointer(+20,-20)のコードと時系列は受領したが、D03 cropはD02と同じdrag状態でcueを含まない。mask進捗・文字・影・cancelを描画済みとは扱えない。",
+      "original_expected": "pointer(+20,-20)の32px進捗環、下34pxの12/18ラベル、背景・影・mask",
+      "expectation_clarification": null,
+      "implementation_condition": "既存連続記録の120ms前後/cue進行/満了/取消を原寸へ対応し、環・下34pxラベルを同じpointerで確認する。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -7012,25 +5956,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "通常クリック後の見え方・指示の位置・読める背景が変わる",
-      "fix_conditions": [
-        "delay120/hold220は保ち、元のcue形/位置/labelを再現。短クリック非表示・途中・成立・取消の連続証拠を付ける。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "既存連続記録の120ms前後/cue進行/満了/取消を原寸へ対応し、環・下34pxラベルを同じpointerで確認する。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -7059,22 +5987,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "pointer(+36,0)へ半径16の3px線arc、右24pxへ18px文字、ラベル背景なし"
-      },
-      "unknowns_remaining": true,
-      "approval_status": "未承認／未確認を保持"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-D04",
       "title": "端送り速度と閾値",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B18",
-      "scope": "保持中の取得列／手札→場",
-      "expected": "取得edge22/step7、探索edge64/step16（原本の論理倍率補正）",
-      "actual": "保存済みtraceは探索edge64/step16と端のclamp、範囲外cancelを示す。60論理frame×約16.7msと実測elapsed1452msを分け、収録待ち込みを実行性能や毎秒960pxとは認定しない。取得edge22/step7も固定原本条件を維持。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "保存済みtraceは探索edge64/step16と端のclamp、範囲外cancelを示す。60論理frame×約16.7msと実測elapsed1452msを分け、収録待ち込みを実行性能や毎秒960pxとは認定しない。取得edge22/step7も固定原本条件を維持。",
+      "original_expected": "取得edge22/step7、探索edge64/step16（原本の論理倍率補正）",
+      "expectation_clarification": null,
+      "implementation_condition": "閾値・論理stepと端clampを維持。人の物理入力/DPIと実時間性能は後続CO-H02/H03で分離。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -7119,28 +6046,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [
-        "evidence/implementation/final-caption/review-destination-R06-destination-scroll.png",
-        "evidence/implementation/final-caption/review-destination-field-R06-field-edge-scroll.png"
-      ],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ入力でも送り開始位置と移動量が変わる",
-      "fix_conditions": [
-        "R06の移動先・領域外停止を保ち、原本の閾値/速度単位を移植。frame時間と倍率を記録して限定確認する。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "閾値・論理stepと端clampを維持。人の物理入力/DPIと実時間性能は後続CO-H02/H03で分離。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -7172,22 +6080,21 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "取得24/9、探索50/10で毎frame送り"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     },
     {
       "id": "V-D05",
       "title": "移動・イベントの表示タイミング",
-      "status": "解消（当該差異の範囲）",
       "baseline_id": "B18",
-      "scope": "取得移動／操作後履歴／動きを抑える",
-      "expected": "取得移動200ms ease-out、探索の元live-eventと減衰、抑制設定",
-      "actual": "通常の取得tween200ms・CSS ease-out相当と抑制時0、探索live-eventの260/1300/2800ms経路をコードと保存済みsequenceで確認。静止D05 cropだけから動きの適合を宣言していない。",
+      "baseline_version": "2026-10-04.1",
+      "status": "解消（当該差異の範囲）",
+      "current_observation": "通常の取得tween200ms・CSS ease-out相当と抑制時0、探索live-eventの260/1300/2800ms経路をコードと保存済みsequenceで確認。静止D05 cropだけから動きの適合を宣言していない。",
+      "original_expected": "取得移動200ms ease-out、探索の元live-eventと減衰、抑制設定",
+      "expectation_clarification": null,
+      "implementation_condition": "同じtiming/抑制設定を維持。移動する部品の絵面/斜線は該当別ID、cue描画はD03で継続。",
       "original": [
         {
           "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
@@ -7232,25 +6139,9 @@
           "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a"
         }
       ],
-      "approval_ids": [
-        "A01",
-        "A02"
-      ],
-      "images": [],
-      "observation": "実画像を参照できる部分とソースで確定した差を併記。原本画像がない状態の一致は宣言しない。",
-      "impact": "同じ状態遷移の追いやすさが変わる",
-      "fix_conditions": [
-        "元の表示タイミングを共通部品へ移植。減動時分岐と通常分岐の短い動画／連続フレームを保存し、実行・保存回数は変えない。",
-        "同一公開状態・文言・FHD倍率で原本／修正Godotの全画面と対象部品を再比較し、このIDへ解消証拠を結ぶ。"
-      ],
-      "owner": "20260927-game-application / D04B-UI-02",
-      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
-      "functional_assessment": "既存機能の適合と別判定",
-      "resolution_evidence": [],
-      "individually_approved": false,
-      "fix": "同じtiming/抑制設定を維持。移動する部品の絵面/斜線は該当別ID、cue描画はD03で継続。",
-      "decisions": [],
-      "recheck_evidence": {
+      "submitted_status": "修正提出・独立適合未判定",
+      "submitted_status_is_not_independent_approval": true,
+      "evidence": {
         "primary_pair": null,
         "existing_light_crop": [
           {
@@ -7282,32 +6173,52 @@
         "primary_images": [],
         "node_files": []
       },
-      "historical_before": {
-        "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
-        "status": "不一致・修正必要",
-        "actual": "Renderは全childを再生成。取得移動アニメーションと同じlive-event層がない"
-      },
-      "unknowns_remaining": false,
-      "approval_status": "当該差異の範囲を確認"
+      "decisions": [],
+      "owner": "20260927-game-application / D04B-UI-02",
+      "recheck_owner": "20260910-ui-readability / UI-GODOT-REVIEW-01",
+      "reopen": "修正・判断反映後、当該IDと共通部品の全使用先を固定SHA・合法同状態・原寸／nodes／非変更記録で返す。"
     }
   ],
-  "individual_exceptions": [],
-  "policy": "既存57IDを維持。解消は当該差異の範囲。共通文字・未確認状態・人の実機/試遊は別。基準と原本判断の補足はrecheck-20261006/基準説明.md。",
-  "summary": {
-    "original_difference_ids": 57,
-    "resolved_difference_ids": 21,
-    "repair_difference_ids": 27,
-    "original_decision_pending_ids": 6,
-    "unknown_difference_ids": 3,
-    "unresolved_difference_ids": 36,
-    "unapproved_visual_differences": 33,
-    "required_group_inventory": 17,
-    "required_unknown_groups": 15,
-    "closed_required_groups": 2,
-    "baseline_components": 19,
-    "M1_state_groups": 37,
-    "UI_conformant": false,
-    "distribution_allowed": false
-  },
-  "current_recheck": "recheck-20261006/判定.json"
+  "supplement": [
+    {
+      "id": "N01",
+      "title": "取得詳細の所在・価格・修飾",
+      "status": "一部修正・残件あり",
+      "difference_ids": [
+        "V-P15",
+        "V-P13"
+      ],
+      "observation": "公開価格・所在・折畳みは復元。時計boxとfooter、owned追加機能の配置が残る。",
+      "decision_ids": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ]
+    },
+    {
+      "id": "N02",
+      "title": "調査記録の分類・親子・公開区分",
+      "status": "機能修正確認・外観残件あり",
+      "difference_ids": [
+        "V-W06",
+        "V-W07"
+      ],
+      "observation": "タブ/分類と親・scroll保持、最小公開区分を確認。リストgap8と文字は残る。",
+      "required_groups": [
+        "U-RC04"
+      ]
+    },
+    {
+      "id": "N03",
+      "title": "減動設定",
+      "status": "当該機能の修正確認",
+      "difference_ids": [
+        "V-W09",
+        "V-D05"
+      ],
+      "observation": "元checkboxを復元し、保存済み通常200ms／抑制0のsequenceと固定コードを照合。全popup状態の外観を包括認定しない。"
+    }
+  ],
+  "UI_conformant": false,
+  "distribution_allowed": false,
+  "policy": "解消は当該差異の範囲。共通文字・未確認の使用先・合法入力・人の実機や試遊を包含しない。基準・画像を作り直していない。"
 }
