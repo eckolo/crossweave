@@ -41,7 +41,12 @@ public partial class GameScreen
         Stat("hp","Heart",new(x,y,width/2,24));Stat("posture_remaining","VenetianMask",new(x+width/2,y,width/2,24),true);
         VitalBar(parent,new(x,y+24,width,4),row.Number("hp"),row.Number("max_hp"));
         var bars=new Control{Position=new(x,y+30),Size=new(width,4),Modulate=new(1,1,1,.6f),MouseFilter=MouseFilterEnum.Ignore};parent.AddChild(bars);VitalBar(bars,new(0,0,width,4),row.Number("posture_remaining"),row.Number("max_posture"));
-        Stat("guard","Shield",new(x,y+38,width/3,24));Stat("crit","Zap",new(x+width/3,y+38,width/3,24));Stat("evasion","Wind",new(x+2*width/3,y+38,width/3,24),true);
+        // CSS space-betweenは3等分セルではなく、実内容幅を引いた残りを二つのgapへ。
+        // 予測差分が増えた時も中央項の位置を同じ公開文言の幅から求める。
+        float StatWidth(string key) { string value=Known(StatValue(row,key)),delta=StatDelta(id,key).Trim(' ','(',')');return 24+strongFont.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X); }
+        float guardWidth=StatWidth("guard"),critWidth=StatWidth("crit"),evasionWidth=StatWidth("evasion");
+        float space=(width-guardWidth-critWidth-evasionWidth)/2;
+        Stat("guard","Shield",new(x,y+38,guardWidth,24));Stat("crit","Zap",new(x+guardWidth+space,y+38,critWidth,24));Stat("evasion","Wind",new(x+width-evasionWidth,y+38,evasionWidth,24));
     }
     private string PredictionSummary()
     {
@@ -152,7 +157,9 @@ public partial class GameScreen
         var destination=dropZones.LastOrDefault(z=>z.rect.HasPoint(pointer));if(destination.zone is null)return;
         var (rect,zone)=destination;var status=DropPlan(gestureRow,gestureZone,zone);
         var color=status.allowed?Gold:Muted;
-        if(status.allowed)surface.DrawRect(rect.Grow(-2),color,false,2);else DashedRect(surface,rect.Grow(-2),color,1);
+        var overlay=rect.Grow(-2);
+        if(status.allowed)surface.DrawStyleBox(Box("ffffff00",Exploring?"345747":"315849",2,Screen=="preparation"?6:8),overlay);
+        else DashedRect(surface,overlay,color,1,3,3,Screen=="preparation"?6:8);
         if(Screen!="preparation")return;
         string caption=gestureZone=="offer"?zone=="build"?"取得・編成":"取得":zone=="offer"?"取消":zone=="build"?"編成":"外す";
         var heading=new Rect2(rect.Position.X,81,rect.Size.X,32);

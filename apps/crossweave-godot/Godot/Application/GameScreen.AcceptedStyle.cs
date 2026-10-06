@@ -14,6 +14,7 @@ public partial class GameScreen
 {
     private const float InnerWidth = 1918, InnerHeight = 1078;
     private Font strongFont = null!, serifFont = null!;
+    private readonly Dictionary<(Font face, int size), Font> lineBoxFonts = new();
     private bool darkTheme, reducedMotion;
     private bool journeyWindowStyle;
     private JsonObject acceptedIcons = new();
@@ -219,7 +220,17 @@ public partial class GameScreen
             if (box.GetNodeOrNull<Panel>("InputFocus") is { } outline)
             { outline.Visible = keyboardFocusVisible && box.HasFocus(); outline.AddThemeStyleboxOverride("panel", FocusBox(2)); }
     }
-    private Label Strong(Label label) { label.AddThemeFontOverride("font", strongFont); return label; }
+    // 原本と同じYu Gothic UIでも、Godotの自然baselineは今回の実測で3px下に出る。
+    // 行box・Control・当たり判定を動かさず、同じfaceの描画baselineだけを補正する。
+    // 64pxの札glyphやGeorgiaは別の役割なので、この測定値を流用しない。
+    private Font LineBoxFont(Font face, int size)
+    {
+        if (OS.GetName() != "Windows" || size > 36) return face;
+        if (!lineBoxFonts.TryGetValue((face, size), out var resolved))
+            lineBoxFonts[(face, size)] = resolved = new FontVariation { BaseFont = face, BaselineOffset = -3f / face.GetHeight(size) };
+        return resolved;
+    }
+    private Label Strong(Label label) { label.AddThemeFontOverride("font", LineBoxFont(strongFont, label.GetThemeFontSize("font_size"))); return label; }
     private void LineHeight(Label label, int size, float height)
     { label.AddThemeConstantOverride("line_spacing", (int)Math.Round(height - font.GetHeight(size))); }
     private Texture2D IconTexture(string name, float stroke = 2, int textureSize = 96)
@@ -266,15 +277,14 @@ public partial class GameScreen
             ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             Position = rect.Position,
             Size = rect.Size,
-            Texture = new GradientTexture2D { Width = (int)rect.Size.X, Height = (int)rect.Size.Y, Gradient = gradient, FillFrom = from, FillTo = to },
+            Texture = new GradientTexture2D { Width = (int)rect.Size.X, Height = (int)rect.Size.Y, Gradient = gradient, FillFrom = new(0, .5f), FillTo = new(1, .5f) },
             MouseFilter = MouseFilterEnum.Ignore
         };
-        if (topRadius > 0)
-        {
-            // TextureRectにはCSS border-radiusが無い。既存gradientの上角だけを
-            // alphaで切る小さなcanvas shaderを使う。札の枠・当たり判定は変えない。
-            RoundTexture(texture, topRadius);
-        }
+        // GradientTexture2Dの内積はUV空間なので、横長札ではCSSの150degにならない。
+        // 実pixel空間で投影し、stopの1次元色だけを読む。角のmaskも同じshader内で
+        // 適用する。軸方向の多stop・透明度・宣言順は変更しない。
+        var material = new ShaderMaterial { Shader = new Shader { Code = "shader_type canvas_item; uniform vec2 extent; uniform vec2 start; uniform vec2 finish; uniform float radius; void fragment(){vec2 p=UV*extent;vec2 d=finish-start;float t=clamp(dot(p-start,d)/dot(d,d),0.0,1.0);vec4 c=texture(TEXTURE,vec2(t,0.5));float x=min(p.x,extent.x-p.x);if(radius>0.0&&p.y<radius&&x<radius){float v=length(vec2(x-radius,p.y-radius));c.a*=1.0-smoothstep(radius-0.5,radius+0.5,v);}COLOR=c;}" } };
+        material.SetShaderParameter("extent", rect.Size); material.SetShaderParameter("start", from * rect.Size); material.SetShaderParameter("finish", to * rect.Size); material.SetShaderParameter("radius", topRadius); texture.Material = material;
         parent.AddChild(texture);
     }
     private static void RoundTexture(TextureRect texture, float radius, bool whole = false)
@@ -303,7 +313,7 @@ public partial class GameScreen
     private void ShellBars()
     {
         Surface(content, new(0, 0, InnerWidth, 64), "f1f1e8");
-        Surface(content, new(0, 1014, InnerWidth, 64), "f1f1e8");
+        Surface(content, new(0, 1014, InnerWidth, 64), "e9eee0");
         Surface(content, new(0, 63, InnerWidth, 1), "d3dbcf");
     }
     private Rect2 EdgeWindow(float width, float height, bool actor = false)
@@ -355,9 +365,13 @@ public partial class GameScreen
     {
         float width = Math.Min(InnerWidth - 48, font.GetStringSize(value, fontSize: 18).X + 32);
         bool preparation = Screen == "preparation";
-        var p = Surface(content, new(preparation ? 24 : (InnerWidth - width) / 2, preparation ? 76 : 72, preparation ? InnerWidth - 48 : width, preparation ? 64 : 56), preparation ? Paper : "f2e6c8", radius: 5, shadow: true);
+        float actualWidth=preparation?InnerWidth-48:width,padding=preparation?16:8;
+        // 原本のmin-heightは複数行を切る固定高ではない。同じ公開messageを
+        // 内容幅で折り、各27px line boxと上下paddingから面の高さを求める。
+        string lines=ProseLines(value,actualWidth-32,18);float height=Math.Max(preparation?64:56,lines.Split('\n').Length*27+padding*2);
+        var p = Surface(content, new(preparation ? 24 : (InnerWidth - width) / 2, preparation ? 76 : 72, actualWidth, height), preparation ? Paper : "f2e6c8", radius: 5, shadow: true);
         var shadow = (StyleBoxFlat)p.GetThemeStylebox("panel"); shadow.ShadowSize = preparation ? 18 : 10; shadow.ShadowOffset = new(0, preparation ? 4 : 2); shadow.ShadowColor = new(preparation ? "00000055" : darkTheme ? "00000066" : "243a2b30");
-        Text(p, value, new(preparation ? 16 : 16, 8, p.Size.X - 32, p.Size.Y - 16), 18);
+        var text=Text(p, lines, new(16, padding, p.Size.X - 32, p.Size.Y - padding*2), 18);text.AutowrapMode=TextServer.AutowrapMode.Off;LineHeight(text,18,27);
         Controls["notice"] = p;
     }
     private string MotionKey(CardTile tile) => tile.Zone == "offer" ? "offer-" + tile.Row.Text("id") :
@@ -404,7 +418,9 @@ public partial class GameScreen
     {
         bool compact = tile.Size.Y < 100, empty = tile.Row.Flag("empty"), pending = tile.Row.Flag("pending"), forecast = tile.Row.Flag("forecast");
         string background = empty ? (compact ? "e2e9d8" : "e8eed345") : pending ? "faf8ed" : compact ? "fcfcf5" : "f7f8f4";
-        string border = pending ? "846838" : tile.Row.Flag("consumed") ? "943c25" : tile.Selected || tile.Linked ? "345747" : compact && tile.Zone == "build" ? "58754a" : Line;
+        // consumeは公開予測の「離れる」であり、原本のdata-changedとは別の状態。
+        // 消滅の確定安全条件は変えず、danger線はchangedの時だけに使う。
+        string border = pending ? "846838" : tile.Row.Flag("changed") ? "943c25" : tile.Selected || tile.Linked ? "345747" : compact && tile.Zone == "build" ? "58754a" : Line;
         var style = Box(tile.Hovered && !empty ? "e6eddf" : background, border, compact ? 2 : tile.Selected || tile.Linked ? 2 : 1, compact ? 5 : tile.Zone == "hand" ? 7 : 6);
         if (tile.Ghost) { style.ShadowColor = new("203a3540"); style.ShadowSize = 18; style.ShadowOffset = new(0, 6); }
         if (pending || forecast || empty && compact) style.BorderWidthBottom = style.BorderWidthTop = style.BorderWidthLeft = style.BorderWidthRight = 0;
@@ -413,10 +429,10 @@ public partial class GameScreen
         {
             // repeating-linear-gradient(135deg,...8px,...10px)の既存斜線。端は札内にclipする。
             float w = tile.Size.X - 4, h = tile.Size.Y - 4;
-            for (float c = -h; c < w; c += 10 * Mathf.Sqrt(2))
-            { var a = new Vector2(Math.Max(0, c), Math.Max(0, -c)); var b = new Vector2(Math.Min(w, c + h), Math.Min(h, w - c)); if (a.Y <= h && b.Y >= 0) tile.DrawLine(a + new Vector2(2, 2), b + new Vector2(2, 2), UiColor("f1ebd7"), 2, true); }
+            for (float c = 9 * Mathf.Sqrt(2); c < w + h; c += 10 * Mathf.Sqrt(2))
+            { var a = new Vector2(Math.Max(0, c - h), Math.Min(h, c)); var b = new Vector2(Math.Min(w, c), Math.Max(0, c - w)); tile.DrawLine(a + new Vector2(2, 2), b + new Vector2(2, 2), UiColor("f1ebd7"), 2, true); }
         }
-        if (pending || forecast || empty && compact) DashedRect(tile, new(1, 1, tile.Size.X - 2, tile.Size.Y - 2), UiColor(border), pending || forecast ? 2 : 1);
+        if (pending || forecast || empty && compact) DashedRect(tile, new(.5f, .5f, tile.Size.X - 1, tile.Size.Y - 1), UiColor(border), pending || forecast ? 2 : 1, 3, 3, compact ? 5 : 6);
     }
     private void LiveEvents()
     {
@@ -469,8 +485,23 @@ public partial class GameScreen
             p.Modulate = new(1, 1, 1, reducedMotion ? now - start < 1300 ? 1 : 0 : Mathf.Clamp(1 - (now - start - 1300f) / 1500, 0, 1));
         }
     }
-    internal static void DashedRect(Control surface, Rect2 r, Color color, float width, float on = 6, float gap = 4)
+    internal static void DashedRect(Control surface, Rect2 r, Color color, float width, float on = 6, float gap = 4, float radius = 0)
     {
+        if (radius > 0)
+        {
+            // CSSの1px破線の丸角を連続した周長へ展開する。直角に4本の線を
+            // 重ねて角だけ太くする方法を避け、empty/pendingの線幅を保つ。
+            var points = new List<Vector2>();
+            foreach (var (center, angle) in new[] { (new Vector2(r.End.X-radius, r.Position.Y+radius), -90f), (new Vector2(r.End.X-radius, r.End.Y-radius), 0f), (new Vector2(r.Position.X+radius, r.End.Y-radius), 90f), (new Vector2(r.Position.X+radius, r.Position.Y+radius), 180f) })
+                for (int i=0;i<=8;i++) { float a=Mathf.DegToRad(angle+i*90f/8);points.Add(center+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius); }
+            points.Add(points[0]); float distance=0;
+            for(int i=1;i<points.Count;i++)
+            {
+                var a=points[i-1];var b=points[i];float length=a.DistanceTo(b),at=0;
+                while(at<length) { float phase=distance%(on+gap),step=Math.Min(length-at,(phase<on?on:on+gap)-phase);if(step<.001f)step=Math.Min(length-at,.001f);if(phase<on)surface.DrawLine(a.Lerp(b,at/length),a.Lerp(b,(at+step)/length),color,width,true);at+=step;distance+=step; }
+            }
+            return;
+        }
         for (float x = r.Position.X; x < r.End.X; x += on + gap) { surface.DrawLine(new(x, r.Position.Y), new(Math.Min(x + on, r.End.X), r.Position.Y), color, width, true); surface.DrawLine(new(x, r.End.Y), new(Math.Min(x + on, r.End.X), r.End.Y), color, width, true); }
         for (float y = r.Position.Y; y < r.End.Y; y += on + gap) { surface.DrawLine(new(r.Position.X, y), new(r.Position.X, Math.Min(y + on, r.End.Y)), color, width, true); surface.DrawLine(new(r.End.X, y), new(r.End.X, Math.Min(y + on, r.End.Y)), color, width, true); }
     }

@@ -1,0 +1,1176 @@
+{
+  "schema": "crossweave-coordination-ui-receipt/1",
+  "date_jst": "2026-10-06",
+  "work_id": "20260913-project-coordination",
+  "branch": "ops/project-coordination-20260913",
+  "basis_plan_commit": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+  "heads": [
+    {
+      "branch": "design/runtime-delivery-20260926",
+      "commit": "0ef1689599b0dbeaf89646322811bbb7a39cac93"
+    },
+    {
+      "branch": "design/scenario-content-20260912",
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c"
+    },
+    {
+      "branch": "design/visual-direction-20260912",
+      "commit": "25e7ce99bffc551e2370568b74704865c3de13e0"
+    },
+    {
+      "branch": "design/worldbuilding-20260910",
+      "commit": "b99b00bd5c031c291f74ee7abdb2aac4a2963929"
+    },
+    {
+      "branch": "dev_design_tmp_assembly",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860"
+    },
+    {
+      "branch": "impl/m1-godot-application-20260927",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2"
+    },
+    {
+      "branch": "impl/m1-windows-package-20260930",
+      "commit": "e7722a56b6a47064614209f0a70c49162f5990a9"
+    },
+    {
+      "branch": "maintenance/stash-conflict-audit-20260909",
+      "commit": "eaa174557781f434176d794192f20f47e357b157"
+    },
+    {
+      "branch": "master",
+      "commit": "90d7d8a88f4d8a791298588f5bc93aaae85258ba"
+    },
+    {
+      "branch": "ops/project-coordination-20260913",
+      "commit": "9d4029252ce8977478a3c1dffbaaa210af32f299"
+    },
+    {
+      "branch": "playtest/terrain-build-z-20260909",
+      "commit": "a0ff589142f74500be4ccc4a02ffab78293f9fa3"
+    },
+    {
+      "branch": "ui/readability-20260910",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    }
+  ],
+  "received": {
+    "task": "UI-GODOT-REVIEW-01",
+    "instruction_version": "0.6",
+    "request_complete": true,
+    "artifact": "d134c0ffe53978602daafaa9f83a3b71a9716314",
+    "artifact_tree": "e740f67c5b1bbee7000d5a5dd4df3cc657f85392",
+    "completion": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+    "completion_date_jst": "2026-10-06T12:03:55+09:00",
+    "checkpoint": "16e053e1e150524b29f1fe6f8119f848b700c07f",
+    "fixed_main_code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "fixed_main_submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "ui_conformant": false,
+    "distribution_allowed": false
+  },
+  "baseline": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "source": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "version": "2026-10-04.1",
+    "components": 19,
+    "states": 37,
+    "ids": 57
+  },
+  "counts": {
+    "repair": 27,
+    "original_decision_wait": 6,
+    "unknown": 3,
+    "resolved_specific_difference": 21,
+    "unapproved_differences": 33,
+    "groups_total": 17,
+    "groups_closed": 2,
+    "groups_remaining": 15,
+    "counts_overlap": "ID未確認3と群15は別集計で重なり、加算しない"
+  },
+  "ids": [
+    {
+      "id": "V-C01",
+      "title": "文字のfont・weight・行組",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-04"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-C02",
+      "title": "配色の名前空間を一本化",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-C03",
+      "title": "共通ナビの図記号・色・字寸法",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-C04",
+      "title": "ボタンのhover・pressed・focus・disabled",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-C05",
+      "title": "外枠と1px内側座標",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-C06",
+      "title": "標準スクロールバーの残存",
+      "status": "未確認",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P01",
+      "title": "三領域の開始位置と行高",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P02",
+      "title": "取得欄・所持欄の囲い範囲",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P03",
+      "title": "タブの選択表現",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P04",
+      "title": "共通取得札の枠・角",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P05",
+      "title": "札の操作側が外枠に食い込む",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P06",
+      "title": "編成済みの外すまで主操作色",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P07",
+      "title": "メタ行の記号・文字・数量",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-02"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P08",
+      "title": "未払いの斜線・色・時計",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P09",
+      "title": "取得元の跡を文章化",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P10",
+      "title": "空き枠・候補なしの形",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P11",
+      "title": "財布の現在・未払い予測",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P12",
+      "title": "取得フッターと固定操作",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P13",
+      "title": "取得窓の面・余白・境界",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P14",
+      "title": "一括確認が改行Labelへ平坦化",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-P15",
+      "title": "取得詳細の位置・価格・修飾構造不足",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E01",
+      "title": "探索の手札・場・本人帯の縦位置",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E02",
+      "title": "探索背景の前景色かぶせ",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E03",
+      "title": "場の帯の線・透明度",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E04",
+      "title": "札面の角・線と絵面gradient",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E05",
+      "title": "札・主体の図記号をUnicode置換",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E06",
+      "title": "属性badgeの枠を欠く",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E07",
+      "title": "空の場札のcaption高さ",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E08",
+      "title": "予測／消費ラベルの位置と背景",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E09",
+      "title": "離れる場札の警告色",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E10",
+      "title": "主体と本人のバーを横2本へ変更",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E11",
+      "title": "主体の通常枠・選択枠・hover",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [
+        "DEC-UI-03"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E12",
+      "title": "本人帯の幅・内容密度",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E13",
+      "title": "札の下の操作枠を固定拡張",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E14",
+      "title": "関係線が直線矢印へ変わる",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-E15",
+      "title": "行動順の顔・余白・次のbadge",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-01"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W01",
+      "title": "探索詳細の文字・表組・余白",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W02",
+      "title": "pinと閉じるの形",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W03",
+      "title": "窓の面と影・区切り",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W04",
+      "title": "反対端窓の座標系・縦基準",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [
+        "DEC-UI-03"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W05",
+      "title": "共通窓・親子窓が固定座標",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W06",
+      "title": "記録タブ・列・区分を省略",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W07",
+      "title": "記録札詳細で直前の親が消える",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [
+        "DEC-UI-06"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W08",
+      "title": "メニューが2列から縦1列へ",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W09",
+      "title": "表示・操作設定の元UIを省略",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-W10",
+      "title": "山札・履歴・案内を単一本文へ",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-H01",
+      "title": "探索先の詳細が題名から離れる",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-H02",
+      "title": "本文・帰還背景のgradientを近似",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-H03",
+      "title": "帰還要約の文字階層",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-H04",
+      "title": "本文窓の内面・余白・行間",
+      "status": "原本判断待ち",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-H05",
+      "title": "開始画面の配置と書体",
+      "status": "要修正",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-S01",
+      "title": "通知・保存中表示の位置",
+      "status": "未確認",
+      "decisions": [
+        "DEC-UI-05"
+      ],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-D01",
+      "title": "受入先枠・ラベルを全列へ広げる",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-D02",
+      "title": "ドラッグ元と像の透明度・影",
+      "status": "要修正",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-D03",
+      "title": "ホールドcueの形と位置",
+      "status": "未確認",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-D04",
+      "title": "端送り速度と閾値",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "id": "V-D05",
+      "title": "移動・イベントの表示タイミング",
+      "status": "解消（当該差異の範囲）",
+      "decisions": [],
+      "source": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "source_blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    }
+  ],
+  "groups": [
+    {
+      "id": "R01-filler",
+      "title": "補充由来札の期限切れ消滅",
+      "status": "未確認",
+      "closed": false
+    },
+    {
+      "id": "R04-unlimited",
+      "title": "明示nullの無制限guard",
+      "status": "未確認",
+      "closed": false
+    },
+    {
+      "id": "U-B01",
+      "title": "固定原本PNG：home",
+      "status": "未確認",
+      "closed": false
+    },
+    {
+      "id": "U-B02",
+      "title": "固定原本PNG：story",
+      "status": "未確認",
+      "closed": false
+    },
+    {
+      "id": "U-B03",
+      "title": "固定原本PNG：return",
+      "status": "未確認",
+      "closed": false
+    },
+    {
+      "id": "U-C01",
+      "title": "原本の実解決font・AA・環境",
+      "status": "要修正・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-C02",
+      "title": "light-darkの適用範囲",
+      "status": "要修正・一部確認",
+      "closed": false
+    },
+    {
+      "id": "U-V01",
+      "title": "取得編成の同状態対照",
+      "status": "要修正・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-V02",
+      "title": "探索・詳細の同状態対照",
+      "status": "要修正・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-V03",
+      "title": "共通窓・記録・設定の対照",
+      "status": "要修正・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-V04",
+      "title": "開始・保存失敗・復旧の表示",
+      "status": "原本判断待ち・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-V05",
+      "title": "本文・帰還の全結果状態",
+      "status": "要修正・原本判断待ち",
+      "closed": false
+    },
+    {
+      "id": "U-V06",
+      "title": "共通部品の全操作状態",
+      "status": "要修正・一部未確認",
+      "closed": false
+    },
+    {
+      "id": "U-V07",
+      "title": "スクロールバーの外観・境界",
+      "status": "未確認（計測受領）",
+      "closed": false
+    },
+    {
+      "id": "U-V08",
+      "title": "ホールド・ドラッグ・移動時間",
+      "status": "未確認（一部時間条件確認）",
+      "closed": false
+    },
+    {
+      "id": "U-RC04",
+      "title": "調査記録の観測区分と公開境界",
+      "status": "解消（公開区分の根拠）",
+      "closed": true
+    },
+    {
+      "id": "UI-CI01",
+      "title": "固定修正版の画面CI成立",
+      "status": "解消（固定版CI）",
+      "closed": true
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-UI-01",
+      "status": "登録済み定義を特定／未登録用途は人の個別判断待ち",
+      "unresolved": "原本bundleにScrollText/Check/Grid2X2/Clock3/Plus/CircleCheck/Inbox/Undo2/Store/LayoutGrid/Mountainの実定義がない。本編候補の由来だけで採用済みにはできない。",
+      "human_decision": "未登録の各用途をA/Bまたは既存別原本の正確な参照で指定。まとめて全UIを承認し直さない。"
+    },
+    {
+      "id": "DEC-UI-02",
+      "status": "回答確定（公開値の読取専用対応）",
+      "unresolved": null,
+      "human_decision": "不要。既了承の公開属性表示の復元。"
+    },
+    {
+      "id": "DEC-UI-03",
+      "status": "原本挙動と基準の差を整理／人の個別判断待ち",
+      "unresolved": "原本実コードと「窓外離脱」説明の境界が一致しない。位置確認だけで本編の追加挙動を採用済みにしない。",
+      "human_decision": "root内空白の保持/160ms閉鎖と、preview入口追加の可否を個別指定。"
+    },
+    {
+      "id": "DEC-UI-04",
+      "status": "比較条件確定／修正前のAA許容採用は未決",
+      "unresolved": "既知のmetric差を修正した原寸対がまだないため、AAだけを残した具体比較が未成立。過去OS/AA未取得は成功と扱わず、今回の可能な判定を止めない。",
+      "human_decision": "現在はAI/本編のmetrics修正待ち。修正後の名指したAA比較が成立した時にだけA/Bの残差採用を案内。"
+    },
+    {
+      "id": "DEC-UI-05",
+      "status": "共通部品対応を返却／追加routeの配置は人の個別判断待ち",
+      "unresolved": "追加routeのA/B配置は原本の一対一再現だけで一意に決まらない。上記比較と既存原寸/コードを判断資料とし、新しい合意案を無断採用しない。",
+      "human_decision": "各routeのA/Bと必要な限定条件を個別指定。原本footer再現など判断不要の修正は待たず本編へ。 ownedの合法ST-P08は未取得のため、そのrouteはAI側の比較補完待ち。既存契約担当の入力と本編の原寸が届くまで人の開始条件を満たした扱いにしない。"
+    },
+    {
+      "id": "DEC-UI-06",
+      "status": "回答確定（既存scroll保持条件を維持）",
+      "unresolved": null,
+      "human_decision": "不要。新しい操作仕様を作らず、既存の保持条件を適用。"
+    }
+  ],
+  "independent_checks": {
+    "plan": {
+      "source": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+      "path_count": 67,
+      "copies_verified": 67,
+      "errors": [],
+      "extra": []
+    },
+    "artifact": {
+      "commit": "d134c0ffe53978602daafaa9f83a3b71a9716314",
+      "tree": "e740f67c5b1bbee7000d5a5dd4df3cc657f85392",
+      "paths": 36,
+      "errors": [],
+      "commit_files": 36,
+      "expected_parent": "16e053e1e150524b29f1fe6f8119f848b700c07f",
+      "actual_parents": [
+        "16e053e1e150524b29f1fe6f8119f848b700c07f"
+      ]
+    },
+    "final": [
+      {
+        "path": "docs/作業資料/Work/20260910-ui-readability.md",
+        "blob": "f0c4ef1679bba240f755b81942c310063a063e12",
+        "tree_blob": "f0c4ef1679bba240f755b81942c310063a063e12",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/README.md",
+        "blob": "45e719c7bdcb2513296ce6e13d588b45311d3224",
+        "tree_blob": "45e719c7bdcb2513296ce6e13d588b45311d3224",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/publication.json",
+        "blob": "a686d6c65976c0a89e08423b99cc42a2a0973289",
+        "tree_blob": "a686d6c65976c0a89e08423b99cc42a2a0973289",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/GitHub読戻し.json",
+        "blob": "738ab574502675e395d86d02c81031b2d02d8890",
+        "tree_blob": "738ab574502675e395d86d02c81031b2d02d8890",
+        "status": "added",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/README.md",
+        "blob": "c9f79867e657cdb2e7abff1c94ea2d36452f0365",
+        "tree_blob": "c9f79867e657cdb2e7abff1c94ea2d36452f0365",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/review.json",
+        "blob": "7b5c58e54ff0ca2162edc26025cfd65f8f23fc86",
+        "tree_blob": "7b5c58e54ff0ca2162edc26025cfd65f8f23fc86",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/とりまとめ引継ぎ.md",
+        "blob": "8f94b0eb81cef9dd1f5a922514e2080cb54fd936",
+        "tree_blob": "8f94b0eb81cef9dd1f5a922514e2080cb54fd936",
+        "status": "modified",
+        "match": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/適合確認.md",
+        "blob": "bdf9133100d0b3df0fb329513d2a7c3543a874bb",
+        "tree_blob": "bdf9133100d0b3df0fb329513d2a7c3543a874bb",
+        "status": "modified",
+        "match": true
+      }
+    ],
+    "original_main_references": {
+      "references": 341,
+      "unique_refs": 40,
+      "refs": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs",
+          "blob": "c59016c28f1a217fec68f7288e2a580b701647af"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "953814e2d9803bdf4434650c62adee2207381319"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs",
+          "blob": "58dbfbc8ff3b5ae73e6150f5f604f437302b5db0"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "9cce67443dfc1112198606bc7e16d2ac7d3da4da"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "53b588a0043975916692f65d6aca6187360de10b"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.js",
+          "blob": "af0835bc652851bca5507415b61a3ace8e3eac16"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+          "blob": "d780db5987f64a052616f4d6226c62911e96fd89"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "78ada4a4da864327cd05b6266440d5523163a8a3"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "1b18a30b087a7a1e9d29aebc6867cd9b48ea3e07"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+          "blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+          "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/AcceptedIcons.json",
+          "blob": "a1c7968db5c7312bd1bf3f381eafe58afdeb5d2c"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+          "blob": "263e8808358db4abd57999f8351a738a734ba388"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888"
+        },
+        {
+          "commit": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "c6eccd57dbbd8971192f0569d8429ff924ac5b96"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/lucide.js",
+          "blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/build-icons.cjs",
+          "blob": "364adab1c4c2cd2052be47f2a9b55bf0bc80fab9"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/lucide-source.json",
+          "blob": "afe0952ad8b1a467dd12c1454c9831396c3f56d3"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+          "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+          "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/prose-layout.js",
+          "blob": "7b71047efe595f921286448a363e4fce14e37e2f"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "source_documents": [
+    {
+      "path": "docs/作業資料/Work/20260910-ui-readability.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "f0c4ef1679bba240f755b81942c310063a063e12"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/とりまとめ引継ぎ.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "8f94b0eb81cef9dd1f5a922514e2080cb54fd936"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/原本判断回答.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "af433a4d9e7734677a360786c4c0c5bed3087fee"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/原本判断回答.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "10baeb11dedb678faa23840394809630b0308c2c"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/判定.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "5d74a01c22538efd7a49ea3e628edd0026c75fb2"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/必要群判定.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "dcddb1dfab26aa4c28b4bc8453db17d9b571550b"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/合法入力返却.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "5b5248b2527ae0341d32c8d2769957c4252e73a7"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/publication.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "a686d6c65976c0a89e08423b99cc42a2a0973289"
+    },
+    {
+      "path": "docs/作業資料/計画同期/20260910-ui-readability.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "fd850a85e641ad6ea5c09c806e078c836590c59e"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/本編向け修正条件.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "5f875f09f1c67e45a823862189030c42aea58ebf"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/証拠受領.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "16e5e1ef75fbfb8cd9bfd7d90982dbf77ff69e1e"
+    },
+    {
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/GitHub読戻し.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "738ab574502675e395d86d02c81031b2d02d8890"
+    }
+  ],
+  "limits": {
+    "new_game_runs": 0,
+    "physical_input_checks": 0,
+    "new_ci_runs": 0,
+    "new_exe_builds": 0,
+    "new_dropbox_checks": 0,
+    "ui_reported_full_png": 18,
+    "ui_reported_crops_read": 114,
+    "ui_reported_distinct_crops": 106,
+    "ui_reported_byte_identical_reuse": 8,
+    "not_all_474_image_pairs": true,
+    "coordinator_all_image_or_all_byte_reinspection": false,
+    "original_png3_contents": "取得未確認",
+    "main_publication_and_id_comparisons_full_body": "取得未確認",
+    "app_live_threads": "取得エラー、会話全文・画面・内部処理・認証状態未確認",
+    "old_linux_unsaved_or_unpushed": "有無不明",
+    "stop_reason": "不明",
+    "alternate_route_used": false
+  },
+  "allocation": {
+    "active_specialist_work": "ゲーム本編実装",
+    "work_id": "20260927-game-application",
+    "branch": "impl/m1-godot-application-20260927",
+    "instruction_version": "0.7",
+    "instruction_path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+    "request_sent_or_received": "未確認",
+    "scope": "27修正IDの判断不要部分、V-C06/V-S01/V-D03と必要15群の可能な証拠・人比較補完・教材・自枝保存読戻し",
+    "existing_work_reused": true,
+    "new_work": false,
+    "new_branch": false,
+    "additional_specialist_parallel": false
+  },
+  "human": {
+    "H09": "UI受領・実施・提出で完了",
+    "H10": "今回本編0.7開始文受渡し、開始可・送付未確認",
+    "H11": "未登録記号の用途別比較成立待ち",
+    "H12": "root内空白境界／preview入口を個別選択可・回答未着",
+    "H13": {
+      "windows_story_public_supplement": "3route選択可・回答未着",
+      "owned": "ST-P08合法状態・実表示対待ち"
+    },
+    "H14": "本編独立修正提出後の必要な契約依頼開始文待ち",
+    "H02_H03": "新版待ち",
+    "H04": "実機受入後",
+    "DEC04": "metrics修正後の特定AA比較成立前、人タスク未登録"
+  },
+  "legal_questions": {
+    "source_ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+    "source_path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/合法入力返却.json",
+    "source_blob": "5b5248b2527ae0341d32c8d2769957c4252e73a7",
+    "items": [
+      "R01-filler",
+      "R04-unlimited",
+      "U-V01登録長名称・ST-P08"
+    ],
+    "owner_work_id": "20260909-design-assembly",
+    "owner_branch": "dev_design_tmp_assembly",
+    "stage": "本編独立可能修正提出後、具体不足へ後続依頼",
+    "sent_received_started": false,
+    "main_fixture_render_input_owner": "20260927-game-application"
+  },
+  "acceptance": {
+    "D04B_and_RD_SAVE02_implementation": "既存完了受領を保持",
+    "P5_DIR_and_RD_PACK02": "完了受領を保持",
+    "D04B_UI02_whole": "未完了",
+    "UI_fit": "要修正・配布不可",
+    "RD_PACK03": "未着手・UI適合待ち",
+    "CO_D04C": "実機未完了",
+    "RD_ENV02": "実機残件未完了",
+    "RD_PROOF02": "実機残件未完了",
+    "parent_CO_D04": "未完了",
+    "CO_P02": "未着手",
+    "M1": "未受入",
+    "old_user_startup_report": "とりまとめ受領、runtime原文結果欄未受領"
+  },
+  "external_index_proposal": {
+    "owner": "ゲームバランス検討／既存運用",
+    "status": "旧フォルダー反映案未統合を維持、追加割当なし"
+  },
+  "preserved_history": [
+    "旧ZIP403／全量未実施・要件変更対象外",
+    "CP02破損／利用不可",
+    "旧font通信停止",
+    "旧固定入力／検査／証拠",
+    "他Work未保存差分有無不明",
+    "通常セーブ"
+  ],
+  "write_scope": [
+    "docs/作業資料/とりまとめ/",
+    "docs/作業資料/Work/20260913-project-coordination.md"
+  ],
+  "automatic_work_start_stop_or_message": false
+}

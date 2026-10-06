@@ -87,7 +87,11 @@ public partial class GameScreen
     private void PinButton(Control parent,float width)
     {
         var pin=IconButton(parent,"window-pin","Pin","",new(width-139,4.5f,56,56),()=>{windowPinned=!windowPinned;hoverCloseAt=0;});
-        ButtonStyle(pin,windowPinned?(Exploring?"345747":"315849"):Paper,Line,windowPinned?"ffffff":(Exploring?"263c32":"243d35"),1,6);
+        string active=Exploring?"345747":"315849";
+        // aria-pressedはhover中もactive面を維持する。一般hoverの淡色で
+        // toggleの選択色を上書きしない。記号は原本pinの内側16px。
+        ButtonStyle(pin,windowPinned?active:Paper,Line,windowPinned?"ffffff":(Exploring?"263c32":"243d35"),1,6,hover:windowPinned?active:"e6eddf");
+        foreach(var icon in pin.GetChildren().OfType<TextureRect>()){icon.Position=new(20,20);icon.Size=new(16,16);}
         pin.TooltipText=windowPinned?"固定を外す":"固定する";
     }
     private void TrackPreviewHover()
@@ -115,12 +119,14 @@ public partial class GameScreen
             float width=preview.Size.X+8+play.Size.X;
             float x=Mathf.Clamp(hand.GetGlobalRect().GetCenter().X-1-width/2,24,InnerWidth-24-width);
             preview.Position=new(x,906);play.Position=new(x+preview.Size.X+8,906);
+            if(Controls.TryGetValue("action-track",out var track))track.Position=new(hand.GetGlobalRect().GetCenter().X-5,902);
         }
         if(gesture.Mode!=Crossweave.Core.GestureMode.Dragging||verticalSwipe)return;
         if(gestureZone=="hand"&&selectedCard!=gestureRow.Text("id")){SelectHand(gestureRow);Modal="";renderNeeded=true;return;}
         if(!IsInstanceValid(dragGhost))
         {
             dragGhost=MakeTile(canvas!,"drag-ghost",gestureRow,new(Vector2.Zero,grabbedSize),gestureZone);dragGhost.Ghost=true;dragGhost.QueueRedraw();
+            if(gestureZone=="hand")foreach(var glyph in dragGhost.GetChildren().OfType<Label>().Where(l=>l.GetThemeFontSize("font_size")==64))glyph.AddThemeColorOverride("font_color",UiColor("ffffff"));
             if(grabbedSize.Y<100)
             {var action=Surface(dragGhost,new(278,2,72,76),gestureZone=="build"?"f5f7ee":"315849");Text(action,gestureZone=="offer"?"取得":gestureZone=="build"?"外す":"編成",new(0,0,72,76),20,gestureZone=="build"?Muted:UiColor("fffef5")).HorizontalAlignment=HorizontalAlignment.Center;}
             dragGhost.MouseFilter=MouseFilterEnum.Ignore;
@@ -128,7 +134,8 @@ public partial class GameScreen
         var destination=dropZones.LastOrDefault(z=>z.rect.HasPoint(pointer));bool blocked=destination.zone is not null&&!DropPlan(gestureRow,gestureZone,destination.zone).allowed;
         dragGhost!.Modulate=new(1,1,1,blocked?.75f:1);
         if(Screen=="preparation"&&Controls.Values.OfType<CardTile>().FirstOrDefault(t=>!t.Ghost&&t.Zone==gestureZone&&t.Row.Text("id")==gestureRow.Text("id")) is {} source)source.Modulate=new(1,1,1,.3f);
-        if(Screen=="exploring"&&Controls.Values.OfType<CardTile>().FirstOrDefault(t=>!t.Ghost&&t.Zone=="hand"&&t.Row.Text("id")==gestureRow.Text("id")) is {} held)held.Modulate=new(1,1,1,.6f);
+        // 固定原本の探索handにはdata-dragging=.6が出ない。取得の.3とは別用途。
+        if(Screen=="exploring"&&Controls.Values.OfType<CardTile>().FirstOrDefault(t=>!t.Ghost&&t.Zone=="hand"&&t.Row.Text("id")==gestureRow.Text("id")) is {} held)held.Modulate=Colors.White;
         dragGhost.GlobalPosition=(pointer-grabOffset).Clamp(Vector2.Zero,new Vector2(1920,1080)-grabbedSize);
     }
 

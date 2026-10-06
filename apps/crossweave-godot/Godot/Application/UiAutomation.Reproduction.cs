@@ -13,6 +13,7 @@ internal sealed partial class UiAutomation
 {
     private async Task Reproduction()
     {
+        if(mode is "repro-fixed-metrics" or "repro-notice" or "repro-saving" or "repro-owned-review"){await FixedRecheck();return;}
         if (mode is "repro-record-memory" or "repro-checkbox-states") { await ReproductionStateBoundaries(); return; }
         if (mode is "repro-hover" or "repro-preparation-boundaries") { await ReproductionBoundaries(); return; }
         if(mode.StartsWith("repro-bars-",StringComparison.Ordinal)){await ReproductionBars();return;}
@@ -366,7 +367,9 @@ internal sealed partial class UiAutomation
                 await Reduced(reduced);
                 var choice = screen.View.Obj("exploration").Arr("legal_actions").Rows().First(); string id = "card-hand-" + choice.Text("card_id");
                 await Click(id); await CloseDetail(); var point = await Point(id); ulong start = Time.GetTicksMsec(); await Mouse(point, true);
-                for (int i = 0; i < 12; i++) await Sample((reduced ? "reduced" : "normal") + "-hold-" + i, start);
+                // ForceDrawだけを連打すると12枚が120msより前に終わる。実時計を
+                // 16msずつ進め、cueの開始・進行・満了を実フレームで採る。
+                for (int i = 0; i < 12; i++) { await Sample((reduced ? "reduced" : "normal") + "-hold-" + i, start); await screen.ToSignal(screen.GetTree().CreateTimer(.016), SceneTreeTimer.SignalName.Timeout); }
                 await screen.ToSignal(screen.GetTree().CreateTimer(.05), SceneTreeTimer.SignalName.Timeout);
                 await Move(point, new(960, 570)); await Sample((reduced ? "reduced" : "normal") + "-drag", start);
                 await KeyInput(Key.Escape); await Mouse(new(960, 570), false); await Idle(); await Sample((reduced ? "reduced" : "normal") + "-cancel", start);

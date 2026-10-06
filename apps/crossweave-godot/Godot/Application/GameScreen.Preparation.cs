@@ -95,7 +95,7 @@ public partial class GameScreen
             {
                 rowCount++;var unit=row.Copy();var cell=new Control{CustomMinimumSize=new(352,80),MouseFilter=MouseFilterEnum.Ignore};grid.AddChild(cell);
                 if(zone=="offer"&&Plan.Arr("acquire").Strings().Contains(row.Text("id")))
-                {Surface(cell,new(0,77,352,3),"c4c2ac");Icon(cell,"ArrowRight",new(164,28,24,24),Muted);continue;}
+                {var placeholder=Surface(cell,new(0,0,352,80),"ffffff00",radius:5);var bottom=Box("ffffff00","c4c2ac",0,5);bottom.BorderWidthBottom=3;placeholder.AddThemeStyleboxOverride("panel",bottom);Icon(cell,"ArrowRight",new(164,28,24,24),Muted).Modulate=new(Muted.R,Muted.G,Muted.B,.6f);continue;}
                 var tile=MakeTile(cell,"item-"+zone+"-"+row.Text("id"),unit,new(0,0,352,80),zone);
                 var verb=zone=="offer"?"取得":zone=="build"?"外す":"編成";
                 var action=Button(tile,verb+"-"+row.Text("id"),verb,new(278,2,72,76),()=>{if(zone=="offer")Stage(unit);else Compose(unit,zone=="reserve");},zone=="offer"?CanStage(unit):Can("commit_preparation"));
@@ -127,10 +127,11 @@ public partial class GameScreen
         }
         Surface(content,new(0,1014,InnerWidth,64),"e9eee0");Surface(content,new(0,1014,InnerWidth,1),Line);
         Icon(content,View.Obj("home").Obj("offers").Text("status")=="purchased"?"CircleCheck":"Store",new(24,1034,24,24),Muted);
-        Text(content,PurchaseTrack(),new(60,1014,380,64),22);
-        if(DraftDirty){var token=Surface(content,new(450,1027,70,36),"f5eedb","846838",1,4);Icon(token,"Clock3",new(6,9,18,18),UiColor("846838"));Text(token,Plan.Arr("acquire").Count.ToString(),new(28,0,36,36),22);}
+        string purchase=PurchaseTrack();float purchaseWidth=font.GetStringSize(purchase,fontSize:22).X;Text(content,purchase,new(60,1014,purchaseWidth,64),22);
+        if(Plan.Arr("acquire").Count>0){string count=Plan.Arr("acquire").Count.ToString();float numberWidth=font.GetStringSize(count,fontSize:22).X,tokenWidth=18+2+numberWidth+8;var token=Surface(content,new(60+purchaseWidth+12,1024.5f,tokenWidth,43),"f5eedb",radius:4);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore});Icon(token,"Clock3",new(4,12.5f,18,18),UiColor("846838"));Text(token,count,new(24,4,numberWidth,35),22);}
         // 枠は編成見出しと確認表へ置く。原本footerの取得群・未払い・取消・確認の密度を保つ。
-        if(!Comparison.Flag("ok"))Text(content,ViewData.Explain(Comparison.Text("error")),new(560,1014,800,64),22,UiColor("883e20"));
+        // 既存footerは取得群と操作だけ。拒否理由は確認窓の原本problemsへ表示する。
+        // 操作の拒否・保存機能は変えず、未採用の長い補足を帯へ重ねない。
         var discard=IconButton(content,"discard","Undo2","戻す",new(1640,1014,120,64),()=>{if(View.Obj("draft").Flag("dirty"))Send("discard_draft");else{Plan=View.Obj("draft").Obj("plan").Copy();RefreshComparison();LastCommand=null;}},DraftDirty&&!Blocked);
         var review=Button(content,"review","確認する",new(1768,1014,128,64),()=>{RefreshComparison();Modal="review";},DraftDirty&&Can("commit_preparation"));
         ButtonStyle(discard,"fcfcf5","bac9ba","243d35",0,0);ButtonStyle(review,"315849","315849","fffef5",0,0);

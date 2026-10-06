@@ -47,7 +47,7 @@ public partial class GameScreen
     {
         var label = new Label { Text = value, Position = rect.Position, Size = rect.Size, MouseFilter = MouseFilterEnum.Ignore,
             AutowrapMode = rect.Size.Y < size*2 ? TextServer.AutowrapMode.Off : TextServer.AutowrapMode.WordSmart, ClipText = true, VerticalAlignment=VerticalAlignment.Center };
-        LineHeight(label,size,size*(Exploring?1.4f:1.5f)); label.AddThemeFontSizeOverride("font_size", size); label.AddThemeColorOverride("font_color", color ?? Ink); parent.AddChild(label); return label;
+        LineHeight(label,size,size*(Exploring?1.4f:1.5f)); label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font", LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); parent.AddChild(label); return label;
     }
     private Panel Panel(Control parent, Rect2 rect, string color = "15272dea")
     {
@@ -64,6 +64,7 @@ public partial class GameScreen
         bool explorationButton=Exploring&&!journeyWindowStyle;
         ButtonStyle(button,primary?(explorationButton?"345747":"315849"):Paper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
         button.AddThemeFontSizeOverride("font_size",Screen=="preparation"&&!journeyWindowStyle?20:18);
+        button.AddThemeFontOverride("font",LineBoxFont(font,button.GetThemeFontSize("font_size")));
         if(button.Disabled)button.Modulate=new Color(1,1,1,Screen=="preparation"&&!journeyWindowStyle?.42f:.5f);
         // PressedはGodot標準のsignal。ラムダはUIの意図を本作の操作へ渡すだけで、ゲーム計算を行わない。
         button.Pressed += () => { if (Automation is not null) {Automation.ButtonPressed(id);GD.Print("UI PRESS " + id + " busy=" + Busy);} if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
@@ -100,16 +101,21 @@ public partial class GameScreen
         foreach (var child in GetChildren()) { RemoveChild(child); child.QueueFree(); }
         Controls.Clear(); dropZones.Clear(); cardRows.Clear(); visibleParagraphs.Clear();
         darkTheme=ThemeDarkOverride??DisplayServer.IsDarkMode();BuildTheme();
-        // CanvasItemの描画maskでshellの1px枠・角9を共通化する。
+        // cj-shellの外角10と1px内側のクリップを別の役割として保持する。
         // ScrollContainerの矩形clipとは別の機能。子へ丸いmaskを重ねて作らない。
-        var shell=Surface(this,new(0,0,1920,1080),Paper,Line,1,9);
+        var shell=Surface(this,new(0,0,1920,1080),"f1f1e8","bbc7bb",1,10);
         shell.ClipChildren=CanvasItem.ClipChildrenMode.AndDraw;
         content = new Control { MouseFilter = MouseFilterEnum.Ignore, Position=new(1,1), Size=new(InnerWidth,InnerHeight),ClipContents=true }; shell.AddChild(content);
         // ExpandModeをSizeより先に指定する。逆順だと元画像の最小サイズにSizeが拡大され、後のIgnoreSizeでは戻らない。
         var background = new TextureRect { ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             Texture = GD.Load<Texture2D>(Screen == "exploring" ? "res://Assets/Application/night-tide.webp" : "res://Assets/Application/antique-shop.webp"),
-            Position=new(0,Exploring?0:64), Size = new(InnerWidth, Exploring?InnerHeight:950), StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
+            Position=new(0,Exploring?0:64), Size = new(InnerWidth, Exploring?InnerHeight:950), StretchMode = TextureRect.StretchModeEnum.Scale,
             MouseFilter = MouseFilterEnum.Ignore };
+        // sceneArtworkのcoverとobject-positionを実画像の切出しへ変換する。
+        // 原素材は不変。KeepAspectCoveredの中央固定で40%指定を失わない。
+        var artwork = background.Texture; float scale = Math.Max(background.Size.X/artwork.GetWidth(),background.Size.Y/artwork.GetHeight());
+        var regionSize=background.Size/scale; float yPosition=Exploring?.4f:.5f;
+        background.Texture=new AtlasTexture { Atlas=artwork, Region=new(new Vector2((artwork.GetWidth()-regionSize.X)*.5f,(artwork.GetHeight()-regionSize.Y)*yPosition),regionSize) };
         content.AddChild(background);
         if(Screen=="start")background.Hide();
         if(Screen is "home" or "return" || View.Obj("story").Obj("scene").Flag("paused"))ReadingBackdrop();
@@ -215,10 +221,10 @@ public partial class GameScreen
         if(preparation)
         {
             Surface(p,new(1,footer,width-2,1),"bac9ba");
-            if(Modal=="review"&&Comparison.Flag("ok"))
+            if(Modal=="review")
             {
-                string cost=ViewData.Money(Comparison.Obj("payment").Number("cost_units"));float w=strongFont.GetStringSize(cost,fontSize:22).X;
-                Icon(p,"Lightbulb",new(width-208-w-28,footer+22,24,24));Strong(Text(p,cost,new(width-208-w,footer+4,w,64),22));
+                string cost=Comparison.Flag("ok")?ViewData.Money(Comparison.Obj("payment").Number("cost_units")):"—";float w=strongFont.GetStringSize(cost,fontSize:22).X;
+                Icon(p,"Lightbulb",new(width-184-w-40,footer+22,24,24));Strong(Text(p,cost,new(width-184-w-12,footer+4,w,64),22));
             }
         }
         if(Blocked&&Modal=="failure")((Button)Controls["modal-close"]).Disabled=true;
@@ -233,7 +239,7 @@ public partial class GameScreen
             case "resend": Button(p, "retry", "前の操作を照合", new(width-184, footer+4, 160, preparation?64:56), ExecuteLast); break;
             case "reload": Button(p, "reload-confirm", "読み直す", new(width-184, footer+4, 160, preparation?64:56), Reload); break;
             case "withdraw": Button(p, "withdraw-confirm", "撤退", new(width-184, footer+4, 160, preparation?64:56), () => Send("withdraw"), Can("withdraw")); break;
-            case "review": Button(p, "commit", "確定する", new(width-184, footer+4, 160, preparation?64:56), () => Send("commit_preparation", new() { ["plan"] = Plan.DeepClone() }), Comparison.Flag("ok") && Can("commit_preparation")); break;
+            case "review": var commit=Button(p, "commit", "確定する", new(width-167, footer+4, 160, preparation?64:56), () => Send("commit_preparation", new() { ["plan"] = Plan.DeepClone() }), Comparison.Flag("ok") && Can("commit_preparation"));commit.AddThemeFontSizeOverride("font_size",22);break;
             case "convert": Button(p, "convert-confirm", "変換する", new(width-184, footer+4, 160, preparation?64:56), () => Send("convert_items", new() { ["item_ids"] = ViewData.Array([detailId]) }), conversionQuote.Flag("ok") && Can("convert_items") && !DraftDirty); break;
             case "story-detail": Button(p, "record-detail", "読了して閉じる", new(width-184, footer+4, 160, preparation?64:56), () => ContinueStory(false), !Blocked); break;
             case "settings": Button(p,"auto-details",autoDetails?"自動詳細：入":"自動詳細：切",new(20,footer,width-40,56),()=>autoDetails=!autoDetails);break;

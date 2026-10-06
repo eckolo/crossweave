@@ -22,7 +22,7 @@ public partial class GameScreen
     private Label Paragraph(Control parent, string value, int size = 18, float height = 1.6f, Color? color = null)
     {
         var label = new Label { Text = value, AutowrapMode = TextServer.AutowrapMode.WordSmart, VerticalAlignment = VerticalAlignment.Center, SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore };
-        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height); parent.AddChild(label);
+        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font",LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height); parent.AddChild(label);
         // 原本layoutProseは窓内pも句点で折る。実Containerの幅が決まってから
         // 同じ文字を改行し、語の意味・公開値を編集しない。
         label.Resized += () =>
@@ -96,12 +96,17 @@ public partial class GameScreen
                 Text(term, parts[i], new(x, 0, w, 29), 16); x += w;
             }
             var value = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; value.AddThemeConstantOverride("separation", 4); line.AddChild(value);
-            Paragraph(value, r.value).SizeFlagsHorizontal = r.field is null ? SizeFlags.ExpandFill : SizeFlags.ShrinkBegin;
+            // inlineの数値はmax-content幅を先に確保し、折返しを禁止する。
+            // Paragraphは折返し前提の最小幅1になるためShrinkBeginだけでは50が縦に割れる。
+            float numberWidth=MathF.Ceiling(font.GetStringSize(r.value,fontSize:18).X);
+            var number=Text(value,r.value,new(0,0,numberWidth,28.8f),18);number.AutowrapMode=TextServer.AutowrapMode.Off;
+            number.CustomMinimumSize=new(numberWidth,28.8f);number.SizeFlagsHorizontal=SizeFlags.ShrinkBegin;LineHeight(number,18,28.8f);number.SetMeta("ledger_inline_value",true);
             if (r.field is not null)
             {
                 // 場の値は既存公開fieldからの表示。基礎値に足して規則を再実装しない。
-                var extra = Paragraph(value, "+ " + r.field + "（場）", 16, 1.8f, Muted);
-                extra.SetMeta("field_contribution", r.field); extra.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+                string contribution="+ "+r.field+"（場）";float extraWidth=MathF.Ceiling(font.GetStringSize(contribution,fontSize:16).X);
+                var extra=Text(value,contribution,new(0,0,extraWidth,28.8f),16,Muted);extra.AutowrapMode=TextServer.AutowrapMode.Off;extra.CustomMinimumSize=new(extraWidth,28.8f);
+                extra.SetMeta("field_contribution", r.field); extra.SizeFlagsHorizontal = SizeFlags.ShrinkBegin;
             }
         }
     }
@@ -245,7 +250,14 @@ public partial class GameScreen
         {
             var warning = new PanelContainer(); warning.AddThemeStyleboxOverride("panel", Box("f6e3d6", width: 0)); body.AddChild(warning);
             var inset = new MarginContainer(); foreach (string side in new[] { "left", "top", "right", "bottom" }) inset.AddThemeConstantOverride("margin_" + side, 8); warning.AddChild(inset);
-            Paragraph(inset, ViewData.Explain(Comparison.Text("error")), 20, 1.5f, UiColor("803d25")); return;
+            string error=Comparison.Text("error");string text=error is "insufficient_funds" or "insufficient_unspent_funds"?"着想が足りません。取得予定を見直してください。":ViewData.Explain(error);
+            Paragraph(inset, text, 20, 1.5f, UiColor("803d25"));
+            // 原本runtimeReviewBodyは無効時のproblems、残高／—、価格を残す。
+            // 比較拒否時に公開されないafterを0として計算し直さない。
+            var balance=new Control{CustomMinimumSize=new(0,54)};body.AddChild(balance);
+            string currentBalance=ViewData.Money(View.Obj("home").Obj("economy").Number("unspent_units"));float currentWidth=strongFont.GetStringSize(currentBalance,fontSize:36).X;
+            float balanceX=(body.CustomMinimumSize.X-currentWidth-90)/2;Icon(balance,"Lightbulb",new(balanceX,15,24,24));Strong(Text(balance,currentBalance,new(balanceX+38,0,currentWidth,54),36));Text(balance,"—",new(balanceX+currentWidth+52,0,38,54),36);Controls["review-wallet"]=balance;
+            return;
         }
         body.AddThemeConstantOverride("separation", 24);
         var pay = Comparison.Obj("payment");
@@ -303,7 +315,7 @@ public partial class GameScreen
         string location = offer ? "offer" : detailKind == "build" ? "build" : "reserve";
         foreach (var (id, icon, x) in new[] { ("offer", "Store", 0f), ("reserve", "Layers", 108f), ("build", "LayoutGrid", 216f) })
         { var p = Surface(locations, new(x, 0, 64, 48), id == location ? "315849" : "ffffff00", width: 0, radius: 6); Icon(p, icon, new(22, 14, 20, 20), id == location ? UiColor("fffef5") : Ink); p.Modulate = new(1, 1, 1, id == location ? 1 : .45f); if (x < 216) Icon(locations, "ChevronRight", new(x + 76, 14, 20, 20)); }
-        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 32, 8, 32, 32), "f5eedb", "846838", 1, 4); Icon(token, "Clock3", new(7, 7, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い"; }
+        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 64, 0, 64, 48), "f5eedb", radius:6);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore}); Icon(token, "Clock3", new(23, 15, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い";Controls["detail-pending-clock"]=token; }
         PreparationItemFacts(body, detail);
         var affixes = detail.Obj("details").Arr("affix_descriptions"); if (affixes.Count > 0) Fold(body, "affix-" + detail.Text("id"), "修飾", b => { foreach (var a in affixes.Rows()) Paragraph(b, a.Text("label") + "：" + a.Text("description")); });
         if (offer || pending) { var price = new Control { CustomMinimumSize = new(0, 33) }; body.AddChild(price); string amount = ViewData.Money(detail.Number("price_units")); float w = strongFont.GetStringSize(amount, fontSize: 22).X; Icon(price, "Lightbulb", new(body.CustomMinimumSize.X - w - 28, 6, 20, 20)); Strong(Text(price, amount, new(body.CustomMinimumSize.X - w, 0, w, 33), 22)); Controls["detail-price"] = price; }
@@ -322,11 +334,13 @@ public partial class GameScreen
         if (actor && detail.Text("knowledge_profile_id") is { Length: > 0 } profile) Button(p, "actor-record", "調査記録", new(16, y, rect.Size.X - 32, 56), () => { knowledgeSelection = profile; OpenModal("knowledge"); });
         if (!preparation) return;
         Surface(p, new(1, y, rect.Size.X - 2, 1), "bac9ba");
-        if (detailKind == "offer") Button(p, "detail-stage", "取得", new(rect.Size.X - 184, y + 4, 160, 64), () => { Stage(detail); Modal = ""; }, CanStage(detail));
+        if (detailKind == "offer") {var stage=Button(p, "detail-stage", "取得", new(7, y + 4, rect.Size.X-14, 64), () => { Stage(detail); Modal = ""; }, CanStage(detail));ButtonStyle(stage,"315849","315849","fffef5",hover:"244537");stage.AddThemeFontSizeOverride("font_size",22);}
         else
         {
-            Button(p, "detail-compose", detailKind == "build" ? "外す" : "編成", new(24, y + 4, 160, 64), () => { Compose(detail, detailKind != "build"); Modal = ""; }, Can("commit_preparation"));
-            if (detail.Flag("pending")) Button(p, "detail-unstage", "取消", new(200, y + 4, 160, 64), () => { Unstage(detail); Modal = ""; }, Can("commit_preparation"));
+            bool pending=detail.Flag("pending");float actionWidth=pending?(rect.Size.X-18)/2:160;
+            var compose=Button(p, "detail-compose", detailKind == "build" ? "外す" : "編成", new(pending?7:24, y + 4, actionWidth, 64), () => { Compose(detail, detailKind != "build"); Modal = ""; }, Can("commit_preparation"));
+            if(pending){compose.AddThemeFontSizeOverride("font_size",22);if(detailKind!="build")ButtonStyle(compose,"315849","315849","fffef5",hover:"244537");}
+            if (pending) {var unstage=Button(p, "detail-unstage", "取消", new(11+actionWidth, y + 4, actionWidth, 64), () => { Unstage(detail); Modal = ""; }, Can("commit_preparation"));unstage.AddThemeFontSizeOverride("font_size",22);}
             else { Button(p, "lock", detail.Flag("locked") ? "解除" : "ロック", new(200, y + 4, 160, 64), () => Send("set_item_lock", new() { ["item_id"] = detailId, ["locked"] = !detail.Flag("locked") }), Can("set_item_lock") && !DraftDirty); Button(p, "convert", "変換", new(376, y + 4, 160, 64), () => Modal = "convert", Can("convert_items") && detail.Flag("conversion_available") && !DraftDirty); }
         }
     }
@@ -427,14 +441,27 @@ public partial class GameScreen
         var p = WindowFrame("本人の札", child ? pair.left : rect, back: modalParent != "");
         var e = View.Obj("exploration"); var body = FactsBody(p, "deck-list", new(16, 80, 488, 384));
         Paragraph(body, $"山札 {e.Arr("own_deck").Count}枚 · 手札 {e.Arr("hand").Count}枚 · 共有回収 {e.Number("pool_count")}枚");
-        var header = new HBoxContainer(); header.SetMeta("fact_columns", true); body.AddChild(header);
-        foreach (var (title, width) in new[] { ("札", 242f), ("持込", 76f), ("山札", 76f), ("手札", 76f) }) { var cell = new Control { CustomMinimumSize = new(width, 32) }; header.AddChild(cell); Strong(Text(cell, title, new(0, 0, width, 32), 18)); }
-        int index = 0; foreach (var row in e.Arr("deck_catalogue").Rows())
+        // cw-deck-tableは自動列幅・td上下4px・内容幅のbutton。cjの55%固定表と
+        // 別に組む。行ごとのVBox gap/Dividerで原本にない余白・線を増やさない。
+        var rows=e.Arr("deck_catalogue").Rows().ToArray();string[] titles=["札","持込","山札","手札"],keys=["initial_count","deck_count","hand_count"];
+        float nameWidth=rows.Length==0?0:rows.Max(r=>font.GetStringSize(CardName(r.Obj("card")),fontSize:18).X+18);
+        float[] natural=[Math.Max(nameWidth,strongFont.GetStringSize(titles[0],fontSize:18).X)+4,..titles.Skip(1).Select((t,i)=>Math.Max(strongFont.GetStringSize(t,fontSize:18).X,rows.Length==0?0:rows.Max(r=>font.GetStringSize(Known(r[keys[i]]),fontSize:18).X))+4)];
+        var table=new Control{CustomMinimumSize=new(0,36.8f+rows.Length*64),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};body.AddChild(table);
+        var headings=titles.Select(t=>Strong(Text(table,t,new(0,4,1,28.8f),18))).ToArray();
+        var cells=new List<(Button name,Label[] values)>();int index=0;
+        foreach(var row in rows)
         {
-            var line = new Control { CustomMinimumSize = new(0, 56) }; body.AddChild(line);
-            Button(line, "deck-card-" + index++, CardName(row.Obj("card")), new(0, 0, 242, 56), () => { detail = row.Obj("card").Copy(); detailKind = "deck"; sourceWindow = new(p.Position, p.Size); Modal = "deck-card"; });
-            int col = 0; foreach (string key in new[] { "initial_count", "deck_count", "hand_count" }) Text(line, Known(row[key]), new(242 + 76 * col++, 0, 76, 56), 18).HorizontalAlignment = HorizontalAlignment.Center; Divider(body);
+            float w=font.GetStringSize(CardName(row.Obj("card")),fontSize:18).X+18;
+            var name=Button(table,"deck-card-"+index++,CardName(row.Obj("card")),new(0,0,w,56),()=>{detail=row.Obj("card").Copy();detailKind="deck";sourceWindow=new(p.Position,p.Size);Modal="deck-card";});name.Alignment=HorizontalAlignment.Left;
+            var values=keys.Select(key=>Text(table,Known(row[key]),new(0,0,1,28.8f),18)).ToArray();cells.Add((name,values));
         }
+        void PlaceCells()
+        {
+            float[] widths=natural.Select(w=>table.Size.X*w/natural.Sum()).ToArray();float x=0;
+            for(int col=0;col<4;col++){headings[col].Position=new(x+2,4);headings[col].Size=new(widths[col]-4,28.8f);x+=widths[col];}
+            for(int row=0;row<cells.Count;row++){var cell=cells[row];float y=36.8f+row*64;cell.name.Position=new(2,y+4);cell.name.Size=new(Math.Min(widths[0]-4,font.GetStringSize(cell.name.Text,fontSize:18).X+18),56);x=widths[0];for(int col=0;col<3;col++){cell.values[col].Position=new(x+2,y+17.6f);cell.values[col].Size=new(widths[col+1]-4,28.8f);x+=widths[col+1];}}
+        }
+        table.Resized+=PlaceCells;PlaceCells();
         Paragraph(body, "相手の現在の内訳・共有回収の内訳は未公開", 16);
         if (child) { var card = WindowFrame(CardName(detail), pair.right, back: true, backAction: () => Modal = "deck"); CardFacts(FactsBody(card, "deck-detail", new(16, 80, 488, 384)), detail); }
     }
@@ -509,7 +536,7 @@ public partial class GameScreen
             Button(tabs,"knowledge-tab-targets","相手・環境",new(0,0,firstWidth,43),()=>{knowledgeTab="targets";knowledgeSelection="";});Button(tabs,"knowledge-tab-cards","札",new(firstWidth+6,0,secondWidth,43),()=>{knowledgeTab="cards";knowledgeSelection="";});
             foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6);
             Paragraph(body,knowledgeTab=="targets"?"探索で判明した構成と札":"判明した札の性能",16,1.6f,UiColor("586e50"));
-            var list=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};list.AddThemeConstantOverride("separation",knowledgeTab=="targets"?10:0);body.AddChild(list);
+            var list=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};list.AddThemeConstantOverride("separation",knowledgeTab=="targets"?10:8);body.AddChild(list);
             if (knowledgeTab == "cards")
             {int i=0;foreach(var card in View.Arr("known_cards").Rows()){var line=new Control{CustomMinimumSize=new(0,39)};list.AddChild(line);var b=Button(line,"knowledge-known-"+i++,"",new(0,0,1,39),()=>{detail=card.Copy();detailKind="knowledge";knowledgeSelection="";Modal="knowledge-card";});var label=Text(b,CardName(card),new(8,6,1,27),18);var icon=Icon(b,"ChevronRight",new(0,0,16,16));line.Resized+=()=>{b.Size=new(line.Size.X,39);label.Size=new(line.Size.X-48,27);icon.Position=new(line.Size.X-24,11.5f);};}}
             else

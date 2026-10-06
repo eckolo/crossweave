@@ -35,7 +35,7 @@ public partial class GameScreen
             var band=Surface(b,new(1,129,318,118),id==selectedTarget?"e9eee4":"f7f8f4");
             float nameX=id==selectedTarget?25:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,17,12,12));
             var name=Text(band,row.Text("display_name"),new(nameX,10,308-nameX,28),20);Strong(name);LineHeight(name,20,28);
-            ActorVitals(band,id,row,10,42,298);
+            ActorVitals(band,id,row,10,46,298);
         }
         OrderStrip(e);
         Surface(content,new(24,380,1870,248),"e9eed81a",radius:8);
@@ -58,6 +58,9 @@ public partial class GameScreen
         {
             string label=ActionLabel();float playWidth=Math.Max(80,font.GetStringSize(label,fontSize:18).X+32);
             float x=Mathf.Clamp(hand.GetGlobalRect().GetCenter().X-1-(88+playWidth)/2,24,InnerWidth-24-88-playWidth);
+            // 原本action-anchor::beforeの8px角を45度回す。選択札の中心を追い、
+            // ScrollContainerの送りでボタンと同じ実Controlを移動する。
+            var track=Surface(content,new(hand.GetGlobalRect().GetCenter().X-5,902,8,8),Paper);track.PivotOffset=new(4,4);track.Rotation=Mathf.Pi/4;Controls["action-track"]=track;
             Button(content,"preview","予測",new(x,906,80,56),()=>OpenPrediction(),actionPreview.Flag("ok"));
             Button(content,"play",label,new(x+88,906,playWidth,56),()=>{if(Choice() is {} c)Send("play",new(){["choice"]=c.Copy()});},Choice() is not null&&Can("play"));
         }
@@ -190,7 +193,7 @@ public partial class GameScreen
         else if(row.Flag("empty"))
         {
             // 空の場は短いcaptionのみ。通常札の名称48px・効果24pxを架空に確保しない。
-            Surface(tile,new(1,147,246,60),"f7f8f4");Strong(Text(tile,d.Text("attr"),new(7,153,234,48),18));
+            Surface(tile,new(1,147,246,60),"f7f8f4");var emptyCaption=Strong(Text(tile,d.Text("attr"),new(7,153,234,24),18));emptyCaption.VerticalAlignment=VerticalAlignment.Top;LineHeight(emptyCaption,18,24);
         }
         else
         {
@@ -215,7 +218,7 @@ public partial class GameScreen
             var badge=Surface(tile,new(7,175,badgeWidth,26),"ffffff00",Exploring?"263c32":"243d35",1,4);Text(badge,d.Text("attr"),new(5,0,badgeWidth-10,26),16);
             if(zone=="hand")Text(tile,d.Number("remaining")==1?"今回まで":"あと"+d.Number("remaining")+"行動",new(badgeWidth+15,176,226-badgeWidth,24),16,d.Number("remaining")==1?UiColor("943c25"):Ink).HorizontalAlignment=HorizontalAlignment.Right;
             if(row.Flag("forecast")||row.Flag("consumed"))
-            {string caption=row.Flag("forecast")?"＋ 予測":"使用後に場から離れる";float w=Math.Min(240,font.GetStringSize(caption,fontSize:16).X+12);var state=Surface(tile,new(244-w,4,w,24),Paper,radius:3);Text(state,caption,new(6,0,w-12,24),16,row.Flag("consumed")?UiColor("943c25"):Ink);}
+            {string caption=row.Flag("forecast")?"＋ 予測":"使用後に場から離れる";float w=Math.Min(240,font.GetStringSize(caption,fontSize:16).X+12);var state=Surface(tile,new(244-w,4,w,24),Paper,radius:3);Text(state,caption,new(6,0,w-12,24),16,row.Flag("consumed")?Muted:Ink);}
         }
         return tile;
     }
@@ -352,7 +355,7 @@ public partial class GameScreen
             // 末行のfont heightで終わるため、段落数に応じて後続の位置がずれる。
             // 行送りと外形高を別に固定し、上下の半行余白は中央寄せで再現する。
             var label = new Label { Text = lines, CustomMinimumSize = new(rect.Size.X - 12, lines.Split('\n').Length * 34), VerticalAlignment = VerticalAlignment.Center, AutowrapMode = TextServer.AutowrapMode.Off, MouseFilter = MouseFilterEnum.Ignore };
-            label.AddThemeFontSizeOverride("font_size", 20); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
+            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeFontOverride("font",LineBoxFont(font,20)); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
         }
     }
     private void RecordVisibleParagraphs()
