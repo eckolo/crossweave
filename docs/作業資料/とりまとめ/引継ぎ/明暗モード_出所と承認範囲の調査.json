@@ -1,0 +1,414 @@
+{
+  "schema": "crossweave-theme-origin-investigation/1",
+  "date_jst": "2026-10-06",
+  "work_id": "20260913-project-coordination",
+  "branch": "ops/project-coordination-20260913",
+  "basis_commit": "cced087833da26b7f7281cfd579f2fac34543adf",
+  "heads": [
+    {
+      "branch": "design/runtime-delivery-20260926",
+      "commit": "0ef1689599b0dbeaf89646322811bbb7a39cac93"
+    },
+    {
+      "branch": "design/scenario-content-20260912",
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c"
+    },
+    {
+      "branch": "design/visual-direction-20260912",
+      "commit": "25e7ce99bffc551e2370568b74704865c3de13e0"
+    },
+    {
+      "branch": "design/worldbuilding-20260910",
+      "commit": "b99b00bd5c031c291f74ee7abdb2aac4a2963929"
+    },
+    {
+      "branch": "dev_design_tmp_assembly",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860"
+    },
+    {
+      "branch": "impl/m1-godot-application-20260927",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2"
+    },
+    {
+      "branch": "impl/m1-windows-package-20260930",
+      "commit": "e7722a56b6a47064614209f0a70c49162f5990a9"
+    },
+    {
+      "branch": "maintenance/stash-conflict-audit-20260909",
+      "commit": "eaa174557781f434176d794192f20f47e357b157"
+    },
+    {
+      "branch": "master",
+      "commit": "90d7d8a88f4d8a791298588f5bc93aaae85258ba"
+    },
+    {
+      "branch": "ops/project-coordination-20260913",
+      "commit": "cced087833da26b7f7281cfd579f2fac34543adf"
+    },
+    {
+      "branch": "playtest/terrain-build-z-20260909",
+      "commit": "a0ff589142f74500be4ccc4a02ffab78293f9fa3"
+    },
+    {
+      "branch": "ui/readability-20260910",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    }
+  ],
+  "chronology": [
+    {
+      "stage": "GitHubで今回追跡できた最古の統合試作",
+      "commit": "b1eb9bf1ec524af1fcf6795ca9c42ab0682422d5",
+      "date_jst": "2026-09-09T16:15:43+09:00",
+      "path": "docs/検証/統合試作/deck_feedback_trial/play.fragment.html",
+      "blob": "a57030afec35a4f3b3cb0ebbb350671d8e4d41d7",
+      "fact": "cw-deck-huntにlight-dark()両値とcolor-scheme:light dark。M1／UI改善の後年の採用判断ではない"
+    },
+    {
+      "stage": "固定試遊へのコピー",
+      "commit": "a8f7ab05a5d085614d2b4dd819e52aef3c3ab5c1",
+      "date_jst": "2026-09-09T21:41:52+09:00",
+      "path": "docs/検証/試遊/terrain-build-z/fixed/play.fragment.html",
+      "blob": "c8c7ae7b9ece9f858c9e18b97fbae9c47fe65590",
+      "fact": "cw-terrain-huntの同じ明暗宣言を保持"
+    },
+    {
+      "stage": "UI改善初回継承",
+      "commit": "36994df65be28926bd3a6a10735552c7e37618ec",
+      "date_jst": "2026-09-10T00:51:17+09:00",
+      "path": "docs/検証/UI/readability/play.fragment.html",
+      "blob": "3a2db1f04ad23e5c817228d78fc6344350e5309b",
+      "fact": "cw-readabilityに明暗値を継承。build.cjsのラッパーもcolor-scheme:light dark。検証記録は実ブラウザーの明暗contrast未確認"
+    },
+    {
+      "stage": "了承原本を固定したレビューの条件化",
+      "commit": "8f5cb467471fd460f802c7ee5a497c6b50186c10",
+      "date_jst": "2026-10-04T22:40:59+09:00",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/必要未確認.md",
+      "blob": "0bcf01b4900753c3ad09f29890ca2d9e4a5009f6",
+      "fact": "U-C02は採否未確認ながら『M1でdarkを廃止する個別承認はない』を理由とし、両テーマの証拠を条件化"
+    },
+    {
+      "stage": "GodotのOS連動・検証指定を実装",
+      "commit": "2ac825aec8e5deb1d639447361004334af916649",
+      "date_jst": "2026-10-05T08:25:12+09:00",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "artifact_blob": "7592f7bfe6faa02dab08ffcd208e965a233b25ad",
+      "current_blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502",
+      "fact": "darkTheme／DarkColors／DisplayServer.IsDarkMode()と撮影用--theme light|dark／--ui-theme=を追加。親0a4142caのLayoutは明色の固定値で、当該暗色分岐なし"
+    }
+  ],
+  "sources": [
+    {
+      "key": "earliest-fragment",
+      "path": "docs/検証/統合試作/deck_feedback_trial/play.fragment.html",
+      "ref": "b1eb9bf1ec524af1fcf6795ca9c42ab0682422d5",
+      "blob": "a57030afec35a4f3b3cb0ebbb350671d8e4d41d7"
+    },
+    {
+      "key": "fixed-fragment",
+      "path": "docs/検証/試遊/terrain-build-z/fixed/play.fragment.html",
+      "ref": "a8f7ab05a5d085614d2b4dd819e52aef3c3ab5c1",
+      "blob": "c8c7ae7b9ece9f858c9e18b97fbae9c47fe65590"
+    },
+    {
+      "key": "initial-usage",
+      "path": "docs/検証/UI/readability/使用版.json",
+      "ref": "36994df65be28926bd3a6a10735552c7e37618ec",
+      "blob": "215f7670ac3a81b5778d9a5ea9b049c88f12c693"
+    },
+    {
+      "key": "old-play",
+      "path": "docs/検証/UI/readability/play.fragment.html",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "3a2db1f04ad23e5c817228d78fc6344350e5309b"
+    },
+    {
+      "key": "old-preview",
+      "path": "docs/検証/UI/readability/preview.html",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "50c691bc1523e7a69b19a342600625e6acc52706"
+    },
+    {
+      "key": "initial-record",
+      "path": "docs/検証/UI/readability/検証記録.md",
+      "ref": "36994df65be28926bd3a6a10735552c7e37618ec",
+      "blob": "edcfbf15a0394f60a879804825ab39d6252d6c4d"
+    },
+    {
+      "key": "interaction-css",
+      "path": "docs/検証/UI/readability/interaction/table.css",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776"
+    },
+    {
+      "key": "journey-css",
+      "path": "docs/検証/UI/readability/co-u02/journey/screen.css",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "1f269b8902900d903bae8e174e3a75a937a7a69a"
+    },
+    {
+      "key": "acquisition-css",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/screen.css",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "f287bf86f801a44d2e4ea06d1b6f408b89ee9a2b"
+    },
+    {
+      "key": "ui-ref",
+      "path": "docs/検証/UI/readability/正式参照版.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "d1f466c6578f20844e37f253962cce25f4651cce"
+    },
+    {
+      "key": "ui-spec",
+      "path": "docs/検証/UI/readability/UI検討.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "4796f680536e3ddbbb3f57737f018006eedbdc55"
+    },
+    {
+      "key": "ui-work",
+      "path": "docs/作業資料/Work/20260910-ui-readability.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "f0c4ef1679bba240f755b81942c310063a063e12"
+    },
+    {
+      "key": "ui-principles",
+      "path": "docs/検証/UI/readability/操作表示原則.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "fab2681bd971c5e6b8d6a292c03ffea6a3e7173e"
+    },
+    {
+      "key": "initial-ui-policy",
+      "path": "docs/検証/UI/readability/interaction/画面操作・描画方針.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "b70d7228aab82c4a34a8de7be32473c3306efa6c"
+    },
+    {
+      "key": "acquisition-approval",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298"
+    },
+    {
+      "key": "exploration-approval",
+      "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede"
+    },
+    {
+      "key": "baseline-json",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "10b74494c981a6b7c97c6e8a950ca37ba05a92b5"
+    },
+    {
+      "key": "ui-baseline",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "94d76d21becfef8f5bba7a123116657634b3dea5"
+    },
+    {
+      "key": "old-required",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/必要未確認.md",
+      "ref": "8f5cb467471fd460f802c7ee5a497c6b50186c10",
+      "blob": "0bcf01b4900753c3ad09f29890ca2d9e4a5009f6"
+    },
+    {
+      "key": "recheck-groups",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/必要群判定.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "dcddb1dfab26aa4c28b4bc8453db17d9b571550b"
+    },
+    {
+      "key": "style-source",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/style-source.json",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "fdb64cf39051576abc231d9e2c19734d494acee7"
+    },
+    {
+      "key": "before-main-layout",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+      "ref": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+      "blob": "6fdf977b80348c818b44d709b8252f6e0b304345"
+    },
+    {
+      "key": "accepted-style",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "ref": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502"
+    },
+    {
+      "key": "layout",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+      "ref": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "blob": "78ada4a4da864327cd05b6266440d5523163a8a3"
+    },
+    {
+      "key": "automation",
+      "path": "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+      "ref": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "blob": "7d32a1aad036c5c99b2db71427f6f867509ed9c2"
+    },
+    {
+      "key": "verify",
+      "path": "apps/crossweave-godot/UiProbe/verify.py",
+      "ref": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "blob": "9554b83c5c016696a157f14ea3f572200e6e6208"
+    },
+    {
+      "key": "main-current",
+      "path": "docs/作業資料/Work/20260927-game-application.md",
+      "ref": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "blob": "12562d4435319aed3203d92836b2be6d8a9aa666"
+    },
+    {
+      "key": "pack-layout",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+      "ref": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
+      "blob": "8dca217e7a5dae6ec2e5e6e565f71779c0220c12"
+    },
+    {
+      "key": "design-basic",
+      "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670"
+    },
+    {
+      "key": "design-pending",
+      "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447"
+    }
+  ],
+  "approvals_checked": [
+    {
+      "id": "A01",
+      "version": "two-stage-ui-5.1",
+      "scope": "二段階取得、札／心得、取得可能／所持／編成の横三領域、352×80共通札枠、短い操作名、1920×1080",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+        "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+        "locator": "§画面構造の了承・5.1名称修正／2026-09-25"
+      },
+      "user_record": "「UI構造としては問題無さそう」→「一旦札と心得の取得編成画面はこれでよい」",
+      "limits": "構造と合意案の継承。実機入力・永続保存の検証合格を意味しない。5.2以降を一括承認とはしない。"
+    },
+    {
+      "id": "A02",
+      "version": "UI0.14.8",
+      "scope": "探索FHD、敵クリックで選択＋詳細、共通札面、仮素材の大きさ・重なり、120ms遅延、反対端詳細、予測の場札詳細",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+        "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+        "locator": "§ユーザー指摘と対応／位置は概ね了承"
+      },
+      "user_record": "「詳細窓の位置は大体いい」「一旦画面周りは問題無さそう」",
+      "limits": "場の詳細の縦位置を新たに再設計しない。潜水服の画風は新制作時の担当条件であり、既存部品の外観差を免除しない。"
+    },
+    {
+      "id": "A03",
+      "version": "UI0.15.0",
+      "scope": "了承取得部品を帰還後の同一編成へ接続、共通メニュー／記録を右上、戻るを左上、閉じるを窓右上",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "blob": "61498e25455e468f820cd9efea57bf1a6cf8e38a",
+        "locator": "§同じ画面への統合・配置照合"
+      },
+      "user_record": "「同じ画面でよくないか」「位置を統一」「同機能との照合を必須に」",
+      "limits": "機能の統合指示を受領。新しい別管理画面や独立した購入タブを正にしない。"
+    },
+    {
+      "id": "A04",
+      "version": "UI0.15.1",
+      "scope": "取得可能の完了／候補なし空状態。同じ左欄・0件・終了表示、所持／編成の継続",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md",
+        "blob": "28e2ada2cd7afadcbd6c077ed405782a4aa969ae",
+        "locator": "§取得確定後と候補なし"
+      },
+      "user_record": "2026-09-26 14:57「よい」。自Workの同時刻了承記録",
+      "limits": "成果なし帰還でも持越し候補がある場合は空にならない。現在の公開取得群ごとに判定し、未取得の別群を消さない。"
+    },
+    {
+      "id": "A05",
+      "version": "UI0.16.0 / UI-ACQ-INT-01",
+      "scope": "D03R公開個体・取得群・予測・一括確定・保存・同編成での出発。UI0.15.1の部品を継承する接続後継",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+        "blob": "445bdebd351a4ce1bf3fc9b7a885f6e6226ac0a5",
+        "locator": "§接続範囲・33確認"
+      },
+      "user_record": "既存UIを維持してD03Rへ接続する依頼・成果9ca472ea。最新保存を新デザインの包括承認にしない",
+      "limits": "機能接続の契約。font、色、余白、窓の文章化などのGodot変更は承認されていない。"
+    },
+    {
+      "id": "A06",
+      "version": "M1 Windows保存契約",
+      "scope": "既存の保存・再開・失敗／復旧の機能条件。画面部品にはA01〜A05の共通表示を適用",
+      "record": {
+        "commit": "d93d0b482c13da4aa91df0d2173b87f46999a3a9",
+        "path": "docs/作業資料/とりまとめ/UI合意案の再現と受入基準.md",
+        "blob": "abc39b84877b6b2dbe9acb6c093a9e8b50a24c8b",
+        "locator": "§判断の基準・配布へ進む終了条件"
+      },
+      "user_record": "今回の固定本編の了承UI適合調査依頼",
+      "limits": "Windows固有入口にHTML原本で完全対応する画面がない場合は未確認。新機能の存在を外観承認に代えず、既存共通部品でまず再現する。"
+    }
+  ],
+  "decision": {
+    "css_dual_colors_exist": true,
+    "normal_main_uses_os_theme": true,
+    "probe_has_explicit_theme": true,
+    "explicit_M1_adoption_of_dual_theme_or_os_link": "確認した保存原本では未確認",
+    "not_proven": "過去会話で一度も話していないこと／未保存の当初発案者",
+    "coordination_correction": "保存コードの存在と採用を分け、二色対応の追加実装／仕上げ／全画面展開を判断不要の必須修正へ含めない",
+    "default_single_theme_selected": false,
+    "code_deleted_or_changed": false,
+    "new_human_adoption_task": false
+  },
+  "historical_review": {
+    "ui_submission": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+    "fixed_code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "counts": {
+      "repair": 27,
+      "decision_wait": 6,
+      "unknown": 3,
+      "resolved_specific": 21
+    },
+    "groups_remaining": 15,
+    "rejudged_here": false
+  },
+  "limits": {
+    "new_game_runs": 0,
+    "new_image_inspections": 0,
+    "app_live_state_checked": false,
+    "whole_conversations_retrieved": false,
+    "earliest_traced_relevant_path": "b1eb9bf1ec524af1fcf6795ca9c42ab0682422d5",
+    "does_not_claim_original_unsaved_creation_time": true,
+    "full_recursive_main_tree": "取得エラー。既定GitHub連携で原本path／履歴／Applicationディレクトリを確認。別経路なし",
+    "alternate_route_used": false
+  },
+  "specialist_proposal": {
+    "work_id": "20260910-ui-readability",
+    "branch": "ui/readability-20260910",
+    "paths": [
+      "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.md",
+      "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.json",
+      "docs/検証/UI/readability/godot-ui-review-01/必要未確認.md",
+      "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/必要群判定.json"
+    ],
+    "scope": "B03/U-C02の実装存在・提示承認・モード採否・検証を区別。次の同じUI再判定で反映",
+    "saved_on_specialist_branch": false,
+    "automatically_sent_or_started": false
+  },
+  "current_allocation": "既存本編D04B-UI-02を継続。今回新Work／新枝／専門並列追加なし",
+  "preserve": [
+    "旧明暗CSS／DarkColors／OS分岐／検証証拠",
+    "固定UIレビューの57ID／17群／採用未確認履歴",
+    "通常セーブ／担当外原本／sources/"
+  ]
+}
