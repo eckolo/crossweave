@@ -13,6 +13,20 @@ internal sealed partial class UiAutomation
     private async Task FixedRecheck()
     {
         var dto=screen.Session!.ExportDto();var bytes=System.IO.File.ReadAllBytes(SavePath);long revision=screen.View.Number("revision");
+        if(mode=="repro-mountain-review")
+        {
+            var figure=screen.MountainReviewFigure((JsonArray)reviewFixture!["review_definition"]!);await Capture("mountain-candidates");figure.QueueFree();
+            Check("unadopted-candidate-does-not-change-game",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));return;
+        }
+        if(mode.StartsWith("repro-normal-dark",StringComparison.Ordinal))
+        {
+            Check("normal-theme-no-photography-override",screen.ThemeDarkOverride is null&&screen.ActiveThemeIsDark);
+            Check("os-light-and-dark-equivalents-resolve-approved-dark",GameScreen.NormalThemeIsDark(false)&&GameScreen.NormalThemeIsDark(true),new{os_light_resolves_dark=GameScreen.NormalThemeIsDark(false),os_dark_resolves_dark=GameScreen.NormalThemeIsDark(true),actual_os_dark=DisplayServer.IsDarkMode(),os_settings_changed=false});
+            await Capture("normal");await Click("menu");await Click("settings");await Capture("normal-settings");await CloseDetail();
+            if(screen.Screen=="home"){await Click("prepare");await Capture("normal-preparation");await Click("menu");await Click("settings");await Capture("normal-preparation-settings");await CloseDetail();await Click("home");}
+            Check("normal-transitions-retain-approved-dark",screen.ActiveThemeIsDark&&screen.ThemeDarkOverride is null);
+            Check("normal-viewing-no-dto-rng-file-change",JsonNode.DeepEquals(dto.State,screen.Session.ExportDto().State)&&bytes.SequenceEqual(System.IO.File.ReadAllBytes(SavePath)));return;
+        }
         if(mode=="repro-saving")
         {
             // 既存のBeforeReplace待機を用い、Taskが生きたままの同じMainを描く。

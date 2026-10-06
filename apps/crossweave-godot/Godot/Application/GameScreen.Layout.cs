@@ -100,7 +100,7 @@ public partial class GameScreen
             scrollPositions[id] = scroll.HorizontalScrollMode == ScrollContainer.ScrollMode.Auto ? scroll.ScrollHorizontal : scroll.ScrollVertical;
         foreach (var child in GetChildren()) { RemoveChild(child); child.QueueFree(); }
         Controls.Clear(); dropZones.Clear(); cardRows.Clear(); visibleParagraphs.Clear();
-        darkTheme=ThemeDarkOverride??DisplayServer.IsDarkMode();BuildTheme();
+        darkTheme=ThemeDarkOverride??NormalThemeIsDark(DisplayServer.IsDarkMode());BuildTheme();
         // cj-shellの外角10と1px内側のクリップを別の役割として保持する。
         // ScrollContainerの矩形clipとは別の機能。子へ丸いmaskを重ねて作らない。
         var shell=Surface(this,new(0,0,1920,1080),"f1f1e8","bbc7bb",1,10);

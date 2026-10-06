@@ -1,0 +1,314 @@
+{
+  "schema": "crossweave-dark-approved-ui-correction/1",
+  "date_jst": "2026-10-06",
+  "user_clarification_time_jst": "2026-10-06T17:20:47+09:00",
+  "work_id": "20260913-project-coordination",
+  "branch": "ops/project-coordination-20260913",
+  "basis_commit": "e9434b8b92772cc6fdac275ad1cb9cdc4acbbfdf",
+  "work_settings": {
+    "mandatory_sync": [],
+    "reason": "全専門Workが計画を必須同期するため循環を避ける。専門HEAD／原本は参考確認。",
+    "integration": "横断計画は自枝で本Work保存。専門原本は既存担当へ反映案。逆方向自動統合なし",
+    "direct_write_scope": [
+      "docs/作業資料/Work/20260913-project-coordination.md",
+      "docs/作業資料/とりまとめ/"
+    ]
+  },
+  "heads": [
+    {
+      "branch": "design/runtime-delivery-20260926",
+      "commit": "0ef1689599b0dbeaf89646322811bbb7a39cac93"
+    },
+    {
+      "branch": "design/scenario-content-20260912",
+      "commit": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c"
+    },
+    {
+      "branch": "design/visual-direction-20260912",
+      "commit": "25e7ce99bffc551e2370568b74704865c3de13e0"
+    },
+    {
+      "branch": "design/worldbuilding-20260910",
+      "commit": "b99b00bd5c031c291f74ee7abdb2aac4a2963929"
+    },
+    {
+      "branch": "dev_design_tmp_assembly",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860"
+    },
+    {
+      "branch": "impl/m1-godot-application-20260927",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2"
+    },
+    {
+      "branch": "impl/m1-windows-package-20260930",
+      "commit": "e7722a56b6a47064614209f0a70c49162f5990a9"
+    },
+    {
+      "branch": "maintenance/stash-conflict-audit-20260909",
+      "commit": "eaa174557781f434176d794192f20f47e357b157"
+    },
+    {
+      "branch": "master",
+      "commit": "90d7d8a88f4d8a791298588f5bc93aaae85258ba"
+    },
+    {
+      "branch": "ops/project-coordination-20260913",
+      "commit": "e9434b8b92772cc6fdac275ad1cb9cdc4acbbfdf"
+    },
+    {
+      "branch": "playtest/terrain-build-z-20260909",
+      "commit": "a0ff589142f74500be4ccc4a02ffab78293f9fa3"
+    },
+    {
+      "branch": "ui/readability-20260910",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    }
+  ],
+  "user_evidence": {
+    "source": "本会話の直接のユーザー説明",
+    "quote": "こちらとしてはUI確認時に暗色のものしか見ていなかった（そもそも明色に関して存在を伝えられていない）\nなので暗色前提で諸々確認し承認している\nこの前提で調整できるか",
+    "subsequent_question": "ちなみに暗色モードってウィンドウ背景が概ね緑っぽい色になるやつで合ってる？",
+    "answer_basis": "UI原本CSSのdark第2値。質問を追加の一括承認として扱わず、了承した暗色の識別を説明",
+    "not_claimed": "他会話全文／過去の未保存発案者を取得したという記録ではない"
+  },
+  "current_scope": {
+    "approved_appearance": "既存の対象画面・状態でユーザーが確認した緑系暗色",
+    "normal_launch": "OS設定によらず了承済み暗色を表示。コード修正は未提出",
+    "exclude_from_current_adoption_and_required_gate": [
+      "明色UIの完成／全画面照合",
+      "OS自動切替",
+      "新しいテーマ切替設定／保存項目"
+    ],
+    "color_examples_only": {
+      "exploration_paper": "#202820",
+      "exploration_window": "#202820e6",
+      "journey_and_acquisition_shell": "#1d2b27"
+    },
+    "source_application": "cj/cp/cw/nav別のselector/cascade・alpha・gradient・影／状態差を照合。全背景を同じ色へ揃える新仕様ではない",
+    "u_c02": {
+      "adopted_reference_known": true,
+      "dark_all_uses_render_conformity": "未確認",
+      "normal_launch_os_independence": "修正／証拠待ち"
+    },
+    "new_theme_approval_task": false,
+    "new_work_or_branch": false,
+    "parallel_specialist_work_added": false
+  },
+  "sources": [
+    {
+      "key": "tablecss",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/interaction/table.css",
+      "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776"
+    },
+    {
+      "key": "journeycss",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/co-u02/journey/screen.css",
+      "blob": "1f269b8902900d903bae8e174e3a75a937a7a69a"
+    },
+    {
+      "key": "previewcss",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/screen.css",
+      "blob": "f287bf86f801a44d2e4ea06d1b6f408b89ee9a2b"
+    },
+    {
+      "key": "navcss",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+      "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b"
+    },
+    {
+      "key": "mainstyle",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "blob": "e8581d7161e6c48b2e9cd483a3781e0a0ab47502"
+    },
+    {
+      "key": "stylejson",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/style-source.json",
+      "blob": "fdb64cf39051576abc231d9e2c19734d494acee7"
+    },
+    {
+      "key": "visualbaseline",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.md",
+      "blob": "94d76d21becfef8f5bba7a123116657634b3dea5"
+    },
+    {
+      "key": "visualjson",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.json",
+      "blob": "10b74494c981a6b7c97c6e8a950ca37ba05a92b5"
+    },
+    {
+      "key": "uiwork",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/作業資料/Work/20260910-ui-readability.md",
+      "blob": "f0c4ef1679bba240f755b81942c310063a063e12"
+    },
+    {
+      "key": "mainwork",
+      "commit": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+      "path": "docs/作業資料/Work/20260927-game-application.md",
+      "blob": "12562d4435319aed3203d92836b2be6d8a9aa666"
+    },
+    {
+      "key": "uiapproval",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/正式参照版.md",
+      "blob": "d1f466c6578f20844e37f253962cce25f4651cce"
+    },
+    {
+      "key": "uioperating",
+      "commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "path": "docs/検証/UI/readability/interaction/画面操作・描画方針.md",
+      "blob": "b70d7228aab82c4a34a8de7be32473c3306efa6c"
+    },
+    {
+      "key": "runtimework",
+      "commit": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "path": "docs/作業資料/Work/20260926-runtime-delivery.md",
+      "blob": "d1283f480194821f416cb459fc3f0281abc616aa"
+    },
+    {
+      "key": "designreadme",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "path": "README.md",
+      "blob": "48d1bad372c73cad125135c010385e7d9ef66bea"
+    },
+    {
+      "key": "designbasic",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+      "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670"
+    },
+    {
+      "key": "designpending",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+      "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447"
+    },
+    {
+      "key": "designwork",
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "path": "docs/作業資料/Work分担.md",
+      "blob": "5632a604cd299a326c2be9cb3f682149b9016037"
+    }
+  ],
+  "historical_fixed_review": {
+    "ui_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+    "artifact_commit": "d134c0ffe53978602daafaa9f83a3b71a9716314",
+    "main_submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "main_code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "ids": 57,
+    "needs_repair": 27,
+    "requires_specific_decision": 6,
+    "unknown_ids": 3,
+    "resolved_specific_differences": 21,
+    "required_groups": 17,
+    "closed_groups": 2,
+    "continuing_groups": 15,
+    "policy": "従前条件の固定判定。暗色の全適合数へ転記しない。色等に依存する証拠だけ次固定SHAで再判定し、無関係な機能証拠は再利用",
+    "new_conformity_decisions_this_turn": 0
+  },
+  "gate": {
+    "scope": "了承済み暗色のM1対象",
+    "unapproved_differences_required": 0,
+    "necessary_unknowns_required": 0,
+    "fixed_sha_and_functional_evidence_required": true,
+    "light_acceptance_required": false,
+    "status": "未完了"
+  },
+  "specialist_proposals": [
+    {
+      "owner": "ゲーム本編実装",
+      "work_id": "20260927-game-application",
+      "branch": "impl/m1-godot-application-20260927",
+      "instruction_version": "0.9",
+      "scope": "通常暗色／OS非連動、暗色原本の再現、既存独立修正・必要証拠・人向け暗色比較・日本語教材",
+      "status": "計画発行。送付／受領／コード反映未確認"
+    },
+    {
+      "owner": "UI改善",
+      "work_id": "20260910-ui-readability",
+      "branch": "ui/readability-20260910",
+      "instruction_version": "0.9",
+      "paths": [
+        "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.md",
+        "docs/検証/UI/readability/godot-ui-review-01/visual-baseline.json",
+        "docs/検証/UI/readability/godot-ui-review-01/style-source.json",
+        "docs/検証/UI/readability/godot-ui-review-01/必要未確認.md",
+        "docs/検証/UI/readability/godot-ui-review-01/recheck-20261006/必要群判定.json"
+      ],
+      "scope": "了承根拠・B03／U-C02・比較dark条件・該当台帳と影響判定の更新。light資料／旧固定判定は履歴で保全",
+      "status": "担当外反映案。原本未統合、次同じUI再判定へ。UIファイル形式／後継は担当が維持"
+    },
+    {
+      "owner": "実行基盤・配布設計",
+      "work_id": "20260926-runtime-delivery",
+      "branch": "impl/m1-windows-package-20260930",
+      "instruction_version": "0.5",
+      "scope": "UI適合受領後、新exeの通常dark・ソース／資源一致・旧保存互換・受渡し",
+      "status": "後続待ち。今は新配布生成を開始しない"
+    }
+  ],
+  "human_tasks": {
+    "no_new_theme_task": true,
+    "no_whole_ui_reapproval": true,
+    "h10": "同じ本編窓口へ基本依頼一度、既送付なら今回補足だけ。送付／担当受領は未確認",
+    "h11_h13_and_specific_aa": "現在／候補／原本とも暗色・同状態の比較資料はAI作成。未採用具体変更だけ人判断",
+    "h12_h13_ready_choices": "既登録の具体導線／挙動の選択は暗色を前提に可能。未指定は未回答",
+    "h02_h03": "新版案内待ち。OS設定変更／ビルド／セーブ初期化／全差異調査は要求しない",
+    "h04": "実機受入／必要修正後の人試遊待ち"
+  },
+  "preserved_milestones": {
+    "main_implementation_and_save_connection": "既受領完了を維持",
+    "main_ui02": "部分受領・全体未完了",
+    "pack02_p5_dir": "完了受領を維持",
+    "pack03": "待ち",
+    "d04c_env_proof_parent_d04": "実機未完了",
+    "p02": "未着手",
+    "m1": "未受入",
+    "old_exe_source": "0765f1588e63b591733f3ea87635c8f4814dc1bc"
+  },
+  "versions": {
+    "plan": "0.37",
+    "work_plan": "0.37",
+    "inventory": "0.34",
+    "pending": "0.33",
+    "acceptance": "0.4",
+    "human": "0.8",
+    "main_instruction": "0.9",
+    "ui_instruction": "0.9",
+    "pack_instruction": "0.5"
+  },
+  "limits": {
+    "new_game_runs": 0,
+    "new_ci_runs": 0,
+    "new_distributions": 0,
+    "code_changes": 0,
+    "specialist_original_changes": 0,
+    "all_images_independently_compared": false
+  },
+  "receipt_markdown": "docs/作業資料/とりまとめ/引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md",
+  "next_prompt": "既存「ゲーム本編実装／D04B-UI-02」への補足です。同じWorkID 20260927-game-application／impl/m1-godot-application-20260927を継続してください。\n自枝・未保存差分を保全し、ops/project-coordination-20260913の最新計画配下全体を実ファイル同期して元SHA・全path/blobを記録→既定技術同期→計画再照合してください。\n読む指示書：docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md（改訂0.9）。\nユーザーは緑系の暗色UIだけを見て確認・承認しています。M1の通常起動・再描画／遷移はOS設定によらず了承済み暗色へ揃えてください。撮影指定だけdarkにせず、原本のcj／cp／cw／nav別の暗色値・透過・影・gradient／状態差を再現してください。明色の仕上げ・自動切替・新しい設定UIは今回の対象外です。\n従来の判断不要修正は継続し、原本／実装の比較と人向け候補資料も暗色・同状態へ統一してください。色に依存する旧判定は固定履歴として保全し、無関係な機能証拠を再利用してください。原本基準の訂正は同じUI担当への反映案として渡してください。\n成果：固定修正SHA・変更path/blob、通常暗色／OS非連動の確認根拠、暗色同状態証拠、ID別対応・未了／次担当、比較資料、日本語コメントとコード解説。独立可能な修正・資料を終え、自枝通常保存・Push・GitHub読戻しまで提出してください。UI適合・配布・実機受入は後続です。新Work・新枝・追加並列なし。既存基本依頼を渡していれば元依頼の再送は不要です。",
+  "changed_paths": [
+    "docs/作業資料/とりまとめ/全体計画.md",
+    "docs/作業資料/とりまとめ/Work別実施計画.md",
+    "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+    "docs/作業資料/とりまとめ/UI合意案の再現と受入基準.md",
+    "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+    "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md",
+    "docs/作業資料/とりまとめ/着手指示/RD-PACK-03_UI修正版の配布と再開確認.md",
+    "docs/作業資料/とりまとめ/人の担当タスク.md",
+    "docs/作業資料/Work/20260913-project-coordination.md",
+    "docs/作業資料/とりまとめ/現状棚卸し.md",
+    "docs/作業資料/とりまとめ/引継ぎ/明暗モード_出所と承認範囲の調査.md",
+    "docs/作業資料/とりまとめ/引継ぎ/明暗モード_出所と承認範囲の調査.json",
+    "docs/作業資料/とりまとめ/引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md",
+    "docs/作業資料/とりまとめ/引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.json"
+  ]
+}

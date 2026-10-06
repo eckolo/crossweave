@@ -35,11 +35,11 @@ jobs:
       - name: Real Godot nodes, files and restart
         # 表示共通部品の変更影響へ絞る。無関係なCore全旧suiteは反復しない。
         run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-regression
-      - name: Rendered screenshots through the same application
-        # runner上の描画は試みるが、Windows 11実機表示・物理入力の代用にはしない。
-        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --full-hd --theme light --modes repro-home,repro-story,repro-explore,repro-prediction,repro-return-clear,repro-return-withdrawal,repro-return-defeat,repro-motion-home,repro-motion-explore,repro-shared-preparation,repro-shared-story,repro-shared-return-clear,repro-shared-return-withdrawal,repro-shared-return-defeat,repro-record-memory,repro-checkbox-states,repro-fixed-metrics,repro-notice,repro-saving,repro-owned-review --review-fixtures docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/fixtures --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered-light
       - name: Dark screenshots through the same application
         run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --full-hd --theme dark --modes repro-home,repro-story,repro-explore,repro-prediction,repro-return-clear,repro-return-withdrawal,repro-return-defeat,repro-motion-home,repro-motion-explore,repro-shared-preparation,repro-shared-story,repro-shared-return-clear,repro-shared-return-withdrawal,repro-shared-return-defeat,repro-record-memory,repro-checkbox-states,repro-fixed-metrics,repro-notice,repro-saving,repro-owned-review --review-fixtures docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/fixtures --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/rendered-dark
+      - name: Approved normal dark without an OS-dependent override
+        # OS設定は変更せず、通常色の選択を明暗相当入力と実Mainで確認する。
+        run: python apps/crossweave-godot/UiProbe/verify.py --no-acquire --skip-build --skip-regression --rendered --full-hd --modes repro-normal-dark-home,repro-normal-dark-explore,repro-normal-dark-return --review-fixtures docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/fixtures --evidence apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/normal-dark
       - name: Retain exact-code evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

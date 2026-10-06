@@ -37,6 +37,11 @@ public partial class GameScreen
     private Label? holdLabel;
     private ShaderMaterial? holdRing;
     internal bool? ThemeDarkOverride { get; set; }
+    // 0.9：人が確認・了承した暗色を通常表示にする。OSの設定は入力として
+    // 検査できるが採用色を変えない。overrideは隔離検査の過去light証拠専用。
+    internal static bool NormalThemeIsDark(bool operatingSystemDark) => true;
+    internal bool ActiveThemeIsDark => darkTheme;
+    private string ColorScope => Screen == "preparation" && !journeyWindowStyle ? "cp" : Exploring && !journeyWindowStyle ? "cw" : "cj";
     private bool Exploring => Screen == "exploring" && !View.Obj("story").Obj("scene").Flag("paused");
     private bool ExplorerUtilityWindow => Exploring && (Modal is "objective" or "status" or "order" or "deck" or "deck-card" or "action-history" || Modal == "settings" && operationSettings);
     private bool CommonMenuChild => modalParent == "menu" && !ExplorerUtilityWindow && Modal is "settings" or "help" or "history" or "save-data" or "knowledge";
@@ -102,14 +107,16 @@ public partial class GameScreen
     private Color UiColor(string value)
     {
         value = value.TrimStart('#');
-        if (darkTheme && Screen != "preparation" && value == "fcfcf5") return new Color("192a22");
+        // 同じlight hexでもcp-paperとcj-paperのdark値は異なる。
+        // 取得画面から開く共通menu/記録もcj。画面phaseだけの例外にしない。
+        if (darkTheme && value == "fcfcf5") return new Color(ColorScope == "cp" ? "2b3d34" : "192a22");
         if (darkTheme && DarkColors.TryGetValue(value, out var dark)) return new Color(dark);
         if (darkTheme && value.Length == 8 && DarkColors.TryGetValue(value[..6], out var baseDark)) return new Color(baseDark + value[6..]);
         return new Color(value);
     }
     private void PrepareAcceptedStyle()
     {
-        darkTheme = ThemeDarkOverride ?? DisplayServer.IsDarkMode();
+        darkTheme = ThemeDarkOverride ?? NormalThemeIsDark(DisplayServer.IsDarkMode());
         // 現Windows/Edgeではsystem-uiがYu Gothic UIへ解決した。OSの同じfamilyを利用し、
         // 配布素材を追加せず既存NotoをOS側にfamilyが無い場合のfallbackとして保つ。
         var fallback = new FontVariation { BaseFont = GD.Load<Font>("res://Assets/NotoSansJP.ttf"), VariationOpentype = new Godot.Collections.Dictionary { [TextServerManager.GetPrimaryInterface().NameToTag("wght")] = 400 } };

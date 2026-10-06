@@ -13,7 +13,8 @@ internal sealed partial class UiAutomation
 {
     private async Task Reproduction()
     {
-        if(mode is "repro-fixed-metrics" or "repro-notice" or "repro-saving" or "repro-owned-review"){await FixedRecheck();return;}
+        if(mode is "repro-fixed-metrics" or "repro-notice" or "repro-saving" or "repro-owned-review" or "repro-mountain-review"){await FixedRecheck();return;}
+        if(mode.StartsWith("repro-normal-dark",StringComparison.Ordinal)){await FixedRecheck();return;}
         if (mode is "repro-record-memory" or "repro-checkbox-states") { await ReproductionStateBoundaries(); return; }
         if (mode is "repro-hover" or "repro-preparation-boundaries") { await ReproductionBoundaries(); return; }
         if(mode.StartsWith("repro-bars-",StringComparison.Ordinal)){await ReproductionBars();return;}
