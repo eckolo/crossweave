@@ -1,0 +1,564 @@
+{
+  "schema": "crossweave.coordination.receipt.v1",
+  "checked_on": "2026-10-06 JST",
+  "work_id": "20260913-project-coordination",
+  "work_branch": "ops/project-coordination-20260913",
+  "mandatory_sync_sources": [],
+  "mandatory_sync_reason": "全Workが計画を同期するため循環を避ける。専門HEADと原本は参考確認。",
+  "base_commit": "388c69a5c2714923b139134038e6cd6de4d5aac6",
+  "reference_heads": {
+    "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+    "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+    "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+    "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+    "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "impl/m1-godot-application-20260927": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+    "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+    "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+    "ops/project-coordination-20260913": "388c69a5c2714923b139134038e6cd6de4d5aac6",
+    "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+    "ui/readability-20260910": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+  },
+  "receipt": {
+    "task": "D04B-UI-02",
+    "status": "partial_received",
+    "whole_task_complete": false,
+    "ui_conformity": "not_independently_judged",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "payload": "ea2d9c65cbaa4dd6d2387e8d3ea23671b9823ddc",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a"
+  },
+  "independent_audit": {
+    "payload": "ea2d9c65cbaa4dd6d2387e8d3ea23671b9823ddc",
+    "latest": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "changed_paths_checked": 2136,
+    "payload_path_mismatches": [],
+    "major_blobs_checked": 25,
+    "major_mismatches": [],
+    "latest_metadata_changes": [
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/UI原本への基準訂正案.md",
+        "before": "8fd44cdbcfe72c4781b210d8fc7847a47b11fc47",
+        "after": "35cc5d853efde8a475984fbad1b7d65f04b0b0c4"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/ci-latest-status.json",
+        "before": null,
+        "after": "fe244133cddaed98d481ef660f4420a229b007d8"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/ci-readback.json",
+        "before": null,
+        "after": "bae7c4e3f3e6ab41291883b2b7d24a339f330a8a"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/publication.json",
+        "before": null,
+        "after": "d9d1bc4eca0694e707deecdd4bfdb78a21d7aec4"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/source-binding.json",
+        "before": "74f75763f448ac1cde549be6e71074c1f68da699",
+        "after": "68446d06dd1ac6734adf7e08bf0c6bbb9bf03e46"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/source-readback.json",
+        "before": null,
+        "after": "233cc5fccce9cd64dce255e8362a81a63a69dd00"
+      },
+      {
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/verification/read_ci_artifact.py",
+        "before": null,
+        "after": "ee5d54d494be2cacdf0c530fcbf09fcaa7692bee"
+      }
+    ],
+    "app_changes_after_fixed_code": [
+      {
+        "path": "apps/crossweave-godot/README.md",
+        "sha": "f7f178fda56fc5bc1f31d97c366db1b0f59a2406"
+      }
+    ],
+    "workflow_equal": true,
+    "code_files_match": true,
+    "plan": {
+      "source": "388c69a5c2714923b139134038e6cd6de4d5aac6",
+      "expected": "388c69a5c2714923b139134038e6cd6de4d5aac6",
+      "count": 73,
+      "recordedCount": 73,
+      "matching": 73,
+      "mismatches": []
+    },
+    "ci": {
+      "run": 37461945694,
+      "sha": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+      "status": "completed",
+      "conclusion": "success",
+      "artifact_bytes_read": false
+    },
+    "independently_reviewed_all_images": false,
+    "new_test_runs": 0
+  },
+  "code_path_blobs": {
+    "apps/crossweave-godot/Godot/Application/AcceptedIcons.json": "4f918fa999f1995a81ad497b05761ca60e6279de",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "8ed4077bf4b9da1824538b605fa1671aebb57dbb",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "77b22f98826181980dd5d6da1bc53bc5e5be839d",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "bd1c4cb2d6f6aba8fd9f33ce1e702988a913ce9f",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "8caa71d71538a5a75256c8cbd0d31fed2b3c3050",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "0e2ba578cd8095ef1234070b92707c64c3eb5286",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "1a40ec9084a14241e7aa325067e8cb4b87fead6a",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFigures.cs": "5a021eb1c9289adf748c6a6bced1345e3f1c17ea",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "201fd4bb68addba10503175254d1fb65902489f6",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.FixedRecheck.cs": "d23800c3c4336bd9df299e7b4c95d057f8e2a6bf",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "620b16a08a23544771581ee6dc85c06d01ba7743",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "9d8e059a714f1fac862a11919ad1650e7bb6fc9f"
+  },
+  "source_file_reads": [
+    {
+      "key": "mainwork",
+      "path": "docs/作業資料/Work/20260927-game-application.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "dcdc604deea7fc3ea01840cfbb7c2919a6e5ca95",
+      "content_read": true
+    },
+    {
+      "key": "mainplansync",
+      "path": "docs/作業資料/計画同期/20260927-game-application.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "77b9a5260261913c13c0f771e03091c438c9bc36",
+      "content_read": true
+    },
+    {
+      "key": "mainreadme",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/README.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "0ef8a015c395ef3cc4fbcea1c2dfd04a2f4edbb8",
+      "content_read": true
+    },
+    {
+      "key": "mainhandoff",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/とりまとめ引継ぎ.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "8a826ef5e1085bdb1c2b85e46af1cc0009f63fac",
+      "content_read": true
+    },
+    {
+      "key": "mainremaining",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/必要証拠と残件.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "f16fe5e6f92b40ab55e0860892d9eec777593b5e",
+      "content_read": true
+    },
+    {
+      "key": "maingroups",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/必要群と残件.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "8dff6d2ac44dad98de7fe826f7f2e0464fb5dde2",
+      "content_read": true
+    },
+    {
+      "key": "mainids",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/UI対応表.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "510187bd2b10f5fe899cf8a4ca204171c8c0ad4d",
+      "content_read": true
+    },
+    {
+      "key": "mainresults",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/results.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "ba9e6f4c66b58e3516ef24789cc27b147121690c",
+      "content_read": true
+    },
+    {
+      "key": "mainpublication",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/publication.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "d9d1bc4eca0694e707deecdd4bfdb78a21d7aec4",
+      "content_read": true
+    },
+    {
+      "key": "mainsourcereadback",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/source-readback.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "233cc5fccce9cd64dce255e8362a81a63a69dd00",
+      "content_read": true
+    },
+    {
+      "key": "maincodeblobs",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/code-path-blobs.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "b5aaa8e88de5425aa75726e5e92f98e27b3e7fee",
+      "content_read": true
+    },
+    {
+      "key": "maincisaved",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/ci-latest-status.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "fe244133cddaed98d481ef660f4420a229b007d8",
+      "content_read": true
+    },
+    {
+      "key": "maincireadback",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/ci-readback.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "bae7c4e3f3e6ab41291883b2b7d24a339f330a8a",
+      "content_read": true
+    },
+    {
+      "key": "maincorrection",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/UI原本への基準訂正案.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "35cc5d853efde8a475984fbad1b7d65f04b0b0c4",
+      "content_read": true
+    },
+    {
+      "key": "mainentry",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/確認入口.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "059a7b031249a084c0aa3786b886fe8491565013",
+      "content_read": true
+    },
+    {
+      "key": "maintextbook",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/コード解説.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "536d5ff9d4816716cdba8f48c32bfb3f2500d5e8",
+      "content_read": true
+    },
+    {
+      "key": "mainbinding",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/source-binding.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "68446d06dd1ac6734adf7e08bf0c6bbb9bf03e46",
+      "content_read": true
+    },
+    {
+      "key": "maincomparisons",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/comparisons.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "758e424fd06527e0825cbc0bcb0c83f2afc8a3a7",
+      "content_read": true
+    },
+    {
+      "key": "mainidcomparisons",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/id-comparisons.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "148b4b9ec742b1d40251965d9e19427057621ed3",
+      "content_read": true
+    },
+    {
+      "key": "mainfontmetrics",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/font-metrics-dark.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "a4d6c7fcd0453dea41acdefb07c7370063e839d6",
+      "content_read": true
+    },
+    {
+      "key": "maineol",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/eol-cleanup.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "db4bbce481a14eccb78d2a669696fcd0a781b44a",
+      "content_read": true
+    },
+    {
+      "key": "maincandidatecorrection",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/candidate-capture-correction.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "b79b7dc16abca61300793939cd5fc57778c43877",
+      "content_read": true
+    },
+    {
+      "key": "mainfixtures",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/fixture-receipt.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "9cb62216931e1e0a3af4a5f5159b9edc6754097c",
+      "content_read": true
+    },
+    {
+      "key": "mainsources",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/sources.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "8de25fd67b0e706b2255efa7137f48a811b2c10a",
+      "content_read": true
+    },
+    {
+      "key": "mainproofinventory",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/proof-inventory.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "89f5d2dcb9292ceb81413617582ed5ea0aabe2a3",
+      "content_read": true
+    },
+    {
+      "key": "humanicons",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/human/未登録記号の用途別比較.html",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "8acdee483df79f8a7cfa1dbbbced62161de13b2d",
+      "content_read": true
+    },
+    {
+      "key": "humanroutes",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/human/ownedと追加導線の暗色比較.html",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "958c3827f8e38d9026bc294aaf876aaed731f72b",
+      "content_read": true
+    },
+    {
+      "key": "human/candidate-icons.json",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/human/candidate-icons.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "3ac2c42434c47564d1e7cc18edcb93a26484a8c3",
+      "content_read": true
+    },
+    {
+      "key": "human/icon-use-evidence.json",
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/human/icon-use-evidence.json",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "fef4da1e0b216368f4c0f3cde9466344a90f23c4",
+      "content_read": true
+    },
+    {
+      "key": "mainstyle",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "8ed4077bf4b9da1824538b605fa1671aebb57dbb",
+      "content_read": true
+    },
+    {
+      "key": "mainlayout",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "0e2ba578cd8095ef1234070b92707c64c3eb5286",
+      "content_read": true
+    },
+    {
+      "key": "mainfixes",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "201fd4bb68addba10503175254d1fb65902489f6",
+      "content_read": true
+    },
+    {
+      "key": "mainautomation",
+      "path": "apps/crossweave-godot/Godot/Application/UiAutomation.FixedRecheck.cs",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "d23800c3c4336bd9df299e7b4c95d057f8e2a6bf",
+      "content_read": true
+    },
+    {
+      "key": "mainappreadme",
+      "path": "apps/crossweave-godot/README.md",
+      "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "blob": "f7f178fda56fc5bc1f31d97c366db1b0f59a2406",
+      "content_read": true
+    },
+    {
+      "key": "uiwork",
+      "path": "docs/作業資料/Work/20260910-ui-readability.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "f0c4ef1679bba240f755b81942c310063a063e12",
+      "content_read": true
+    },
+    {
+      "key": "uihandoff",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/とりまとめ引継ぎ.md",
+      "ref": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "blob": "8f94b0eb81cef9dd1f5a922514e2080cb54fd936",
+      "content_read": true
+    },
+    {
+      "key": "runtimework",
+      "path": "docs/作業資料/Work/20260926-runtime-delivery.md",
+      "ref": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "blob": "d1283f480194821f416cb459fc3f0281abc616aa",
+      "content_read": true
+    },
+    {
+      "key": "runtimeresults",
+      "path": "docs/検証/実行基盤/co-d04c-windows11/results.json",
+      "ref": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "blob": "5fd9151a33a6a0bc5236f31322b7f0e2b47f91db",
+      "content_read": true
+    },
+    {
+      "key": "runtimehandoff",
+      "path": "docs/検証/実行基盤/rd-pack-02/とりまとめ引継ぎ.md",
+      "ref": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "blob": "8738d470dab26a6c8d415d5755dd04b16d9c67e8",
+      "content_read": true
+    },
+    {
+      "key": "designreadme",
+      "path": "README.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "48d1bad372c73cad125135c010385e7d9ef66bea",
+      "content_read": true
+    },
+    {
+      "key": "designwork",
+      "path": "docs/作業資料/Work分担.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "5632a604cd299a326c2be9cb3f682149b9016037",
+      "content_read": true
+    },
+    {
+      "key": "designbasic",
+      "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670",
+      "content_read": true
+    },
+    {
+      "key": "designpending",
+      "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+      "ref": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447",
+      "content_read": true
+    }
+  ],
+  "test_results": {
+    "evidence_origin": "main_work_saved_records_not_new_coordinator_runs",
+    "approved_dark_final": {
+      "modes": 11,
+      "status": "passed",
+      "source_stable_at_execution": true
+    },
+    "normal_and_human_final": {
+      "modes": 4,
+      "status": "passed",
+      "source_stable_at_execution": true
+    },
+    "human_native_corrected": {
+      "modes": 1,
+      "status": "passed",
+      "source_stable_at_execution": true
+    },
+    "related_final": {
+      "modes": 24,
+      "status": "passed",
+      "source_stable_at_execution": true
+    },
+    "rendered_dark": {
+      "manifest": "failed",
+      "reason": "source_changed_during_run",
+      "passed_cases_reused": 19,
+      "reuse_requires_source_binding_and_independent_impact_check": true
+    },
+    "ci": {
+      "run": 37461945694,
+      "sha": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+      "status": "completed",
+      "conclusion": "success",
+      "artifact_bytes_read": false
+    }
+  },
+  "evidence_limits": {
+    "all_images_independently_reviewed": false,
+    "all_captures_match_final_code_bytes": false,
+    "ci_artifact_internal_readback": false,
+    "ci_artifact_failed_in_main_work": "HTTP 403",
+    "ci_artifact_retry_or_alternative_used": false,
+    "old_original_png_3_retrieval_unconfirmed_preserved": true,
+    "physical_windows11_input_dpi_audio_gpu_unconfirmed": true,
+    "coordinator_new_game_test_runs": 0
+  },
+  "dark_acceptance": {
+    "user_statement": "2026-10-06 17:20 JST: 暗色だけを見て承認した",
+    "m1_basis": "既了承の緑系暗色。通常起動・再描画／遷移はOS非連動",
+    "light_and_os_theme_switch_adopted": false,
+    "new_theme_approval_needed": false,
+    "computed_cw_drawer": "#202820",
+    "declaration_example": "#202820e6",
+    "cascade_and_namespace_must_be_independently_reviewed": true
+  },
+  "old_fixed_ui_review": {
+    "review_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+    "target_code": "c761cbf4",
+    "managed_ids": 57,
+    "repair_needed": 27,
+    "human_decisions": 6,
+    "unknown": 3,
+    "particular_differences_resolved": 21,
+    "necessary_groups": 17,
+    "groups_closed": 2,
+    "groups_remaining": 15,
+    "new_code_conformity_counts": "unknown_not_copied_from_old_review"
+  },
+  "decision": {
+    "receipt": "本編指示0.9の独立修正・暗色証拠・人資料・教材を部分受領。依頼全体／UI適合は未完了",
+    "next": "UI改善／UI-GODOT-REVIEW-01の同じ固定暗色再判定",
+    "reason": "固定修正と通常dark証拠が提出され、B03/U-C02訂正・変更影響の独立判断が次に必要。人／合法入力未着の独立項目は先行判定する",
+    "human": {
+      "H10": "本編の受領・同期・実施・提出で完了",
+      "H15": "今回UI固定再判定への受渡し。今開始可能",
+      "H11": "16用途資料を補完提出。用途別開始成立はUIの確認待ち",
+      "H12": "選択可能・回答未着",
+      "H13": "3route選択可能・ownedは一部補完／不足あり",
+      "H14": "UIが確定した既存契約不足へ後続",
+      "H02": "新版待ち",
+      "H03": "新版＋H02後",
+      "H04": "実機受入後"
+    },
+    "one_specialist": "今回はUIのみ",
+    "new_work": false,
+    "new_branch": false
+  },
+  "other_gate_statuses": {
+    "rd_pack_02": "complete_received",
+    "p5_dir": "complete_received",
+    "old_executable_source": "0765f1588e63b591733f3ea87635c8f4814dc1bc",
+    "old_user_startup": "reported_success_not_new_version_acceptance",
+    "rd_pack_03": "waiting_for_dark_ui_conformity",
+    "co_d04c": "incomplete",
+    "rd_env_02": "physical_remaining_incomplete",
+    "rd_proof_02": "physical_remaining_incomplete",
+    "co_d04": "physical_remaining_incomplete",
+    "co_p02": "not_started",
+    "m1": "not_accepted"
+  },
+  "instruction_versions": {
+    "plan": "0.38",
+    "work_plan": "0.38",
+    "inventory": "0.35",
+    "pending": "0.34",
+    "ui_acceptance": "0.5",
+    "human": "0.9",
+    "main_ui_02": "0.10",
+    "ui_review": "0.10",
+    "legal_inputs": "0.3",
+    "rd_pack_03": "0.6"
+  },
+  "saving": {
+    "branch": "ops/project-coordination-20260913",
+    "normal_non_force": true,
+    "readback_requirement": "全変更本文・コミット親／tree／ref・専門HEADを照合してから最終応答へ保存SHA",
+    "future_commit_sha_recorded_in_final_response": true
+  },
+  "scope": {
+    "specialist_source_edits": 0,
+    "code_edits": 0,
+    "external_deliverable_operations": 0,
+    "main_master_integration": false,
+    "other_chat_send_or_start": false
+  },
+  "procedure_failure_rule": "対象・選択した手段・停止点・実施済み・確認／未確認を報告。別手段／経路／入力／資料・仮定・範囲／終了条件変更の準備・試行も具体範囲の明示承認前には実施しない。",
+  "pre_save_head_check": {
+    "checked_at": "2026-10-06T14:13:28Z",
+    "reference_heads": {
+      "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+      "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+      "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "impl/m1-godot-application-20260927": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+      "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "ops/project-coordination-20260913": "388c69a5c2714923b139134038e6cd6de4d5aac6",
+      "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+      "ui/readability-20260910": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    },
+    "changes": []
+  }
+}
