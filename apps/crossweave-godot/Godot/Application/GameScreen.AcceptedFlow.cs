@@ -30,7 +30,8 @@ public partial class GameScreen
     private void AcceptedStartScreen()
     {
         Strong(Text(content, "crossweave", new(24, 4, 800, 56), 24));
-        var brand = Text(content, "crossweave", new(0, 519, InnerWidth, 40), 28); brand.HorizontalAlignment = HorizontalAlignment.Center; brand.AddThemeFontOverride("font", new FontVariation { BaseFont = serifFont, SpacingGlyph = 2 });
+        var brand = Text(content, "crossweave", new(0, 519, InnerWidth, 40), 28); brand.HorizontalAlignment = HorizontalAlignment.Center;
+        brand.SetMeta("metric_face",spacedSerifFont);LineHeight(brand,28,33.6f);
         bool empty = diagnosis?.Primary.Code == "missing" && diagnosis.Backup.Code == "missing" && diagnosis.PendingFiles.Length == 0;
         bool recover = diagnosis?.Backup.Code == "ready" && diagnosis.Primary.Code != "ready" && !diagnosis.Primary.Code.StartsWith("unsupported_");
         var actions = new List<(string id, string label, Action action, bool enabled)>{
@@ -59,7 +60,7 @@ public partial class GameScreen
     }
     private void AcceptedReturnScreen()
     {
-        var r = View.Obj("return"); string outcome = r.Text("outcome") switch { "clear" => "踏破", "withdrawal" => "撤退", _ => "緊急脱出" }; var title = Text(content, outcome, new(24, 4, 900, 56), 24); title.AddThemeFontOverride("font", new FontVariation { BaseFont = serifFont, SpacingGlyph = 2 }); LineHeight(title, 24, 28.8f); CompactHeaderWallet();
+        var r = View.Obj("return"); string outcome = r.Text("outcome") switch { "clear" => "踏破", "withdrawal" => "撤退", _ => "緊急脱出" }; var title = Text(content, outcome, new(24, 4, 900, 56), 24);title.SetMeta("metric_face",spacedSerifFont); LineHeight(title, 24, 28.8f); CompactHeaderWallet();
         // panels.returnViewの三行集計。本文や結果の見出しを独自に増やさず下端へ揃える。
         float bottom = 994, y = bottom - 165.4f; var summary = new Control { Position = new(24, y), Size = new(900, 165.4f), MouseFilter = MouseFilterEnum.Ignore }; content.AddChild(summary);
         Icon(summary, "Lightbulb", new(0, 11.2f, 16, 16)); Text(summary, "着想", new(22, 7, 40, 30), 20);
@@ -67,7 +68,7 @@ public partial class GameScreen
         // CSSは異なるfontをbaselineで並べる。数値の自然高がline boxより高い場合も
         // 半行余白を配分し、Labelの最小高によって集計の一行目を下へ押し下げない。
         float moneyHeight = MathF.Ceiling(serifFont.GetHeight(32));
-        var money = Text(summary, amount, new(68, (38.4f-moneyHeight)/2, amountWidth, moneyHeight), 32, UiColor("42684a")); money.AddThemeFontOverride("font", serifFont); LineHeight(money, 32, 38.4f);
+        var money = Text(summary, amount, new(68, (38.4f-moneyHeight)/2, amountWidth, moneyHeight), 32, UiColor("42684a"));money.SetMeta("metric_face",serifFont); LineHeight(money, 32, 38.4f);
         Text(summary, "計 " + ViewData.Money(r.Number("unspent_after_units")), new(74 + amountWidth, 16, 200, 18), 12, Muted);
         Text(summary, "余力 " + r.Number("expedition_end_hp") + " → " + r.Number("home_hp"), new(0, 46.4f, 850, 30), 20);
         var materials = r.Arr("kept_items").Rows().Where(x => x.Text("kind") != "points").ToArray();

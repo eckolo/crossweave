@@ -35,8 +35,8 @@ public partial class GameScreen
             float w=24+font.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X);
             float left=right?rect.End.X-w:rect.Position.X;
             Icon(parent,icon,new(left,rect.Position.Y+2,20,20));
-            var number=Strong(Text(parent,value,new(left+24,rect.Position.Y,w-24,24),18));number.TooltipText=key+" / "+Known(row[key=="hp"?"max_hp":"max_posture"]);number.SetMeta("public_stat",key);
-            if(delta!=""){var deltaLabel=Text(parent,delta,new(left+28+font.GetStringSize(value,fontSize:18).X,rect.Position.Y,Math.Max(1,w-28-font.GetStringSize(value,fontSize:18).X),22),16);deltaLabel.SetMeta("forecast_delta",key);}
+            var number=Strong(Text(parent,value,new(left+24,rect.Position.Y,w-24,24),18));LineHeight(number,18,24);number.TooltipText=key+" / "+Known(row[key=="hp"?"max_hp":"max_posture"]);number.SetMeta("public_stat",key);
+            if(delta!=""){var deltaLabel=Text(parent,delta,new(left+28+font.GetStringSize(value,fontSize:18).X,rect.Position.Y,Math.Max(1,w-28-font.GetStringSize(value,fontSize:18).X),22),16);LineHeight(deltaLabel,16,22);deltaLabel.SetMeta("forecast_delta",key);}
         }
         Stat("hp","Heart",new(x,y,width/2,24));Stat("posture_remaining","VenetianMask",new(x+width/2,y,width/2,24),true);
         VitalBar(parent,new(x,y+24,width,4),row.Number("hp"),row.Number("max_hp"));
@@ -46,7 +46,9 @@ public partial class GameScreen
         float StatWidth(string key) { string value=Known(StatValue(row,key)),delta=StatDelta(id,key).Trim(' ','(',')');return 24+strongFont.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X); }
         float guardWidth=StatWidth("guard"),critWidth=StatWidth("crit"),evasionWidth=StatWidth("evasion");
         float space=(width-guardWidth-critWidth-evasionWidth)/2;
-        Stat("guard","Shield",new(x,y+38,guardWidth,24));Stat("crit","Zap",new(x+guardWidth+space,y+38,critWidth,24));Stat("evasion","Wind",new(x+width-evasionWidth,y+38,evasionWidth,24));
+        // 本人は24/10/24、主体captionはgap4を含んで下段が+42。
+        float statsY=y+(id=="P"?34:42);
+        Stat("guard","Shield",new(x,statsY,guardWidth,24));Stat("crit","Zap",new(x+guardWidth+space,statsY,critWidth,24));Stat("evasion","Wind",new(x+width-evasionWidth,statsY,evasionWidth,24));
     }
     private string PredictionSummary()
     {

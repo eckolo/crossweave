@@ -57,7 +57,7 @@ public partial class GameScreen
         {
             var tab=Button(content,"tab-"+key,label,new(x,0,width,64),()=>{preparationTab=key;Modal="";});
             bool selected=preparationTab==key;
-            ButtonStyle(tab,selected?"315849":"fcfcf5","bac9ba",selected?"fffef5":"243d35",0,0);
+            ButtonStyle(tab,selected?"315849":"fcfcf5","bac9ba",selected?"fffef5":"243d35",0,0,hover:selected?"315849":"e6eddf");
             tab.AddThemeFontSizeOverride("font_size",24);
         }
         PreparationWallet();
@@ -105,7 +105,7 @@ public partial class GameScreen
             }
             string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
             float titleX=x+36;
-            if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24));
+            if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24)).SetMeta("comparison_use",zone=="build"?"H11-13/build-heading":"registered/Layers/reserve-heading");
             // 原本cp-lane-titleのspanは通常24px、数量strongだけ20px。
             // 一律108pxを空けると「所持」「編成」の数量が48px遠ざかる。
             // 実書体の見出し幅＋原本gap12で三領域に同じ契約を使う。
@@ -128,7 +128,7 @@ public partial class GameScreen
         Surface(content,new(0,1014,InnerWidth,64),"e9eee0");Surface(content,new(0,1014,InnerWidth,1),Line);
         Icon(content,View.Obj("home").Obj("offers").Text("status")=="purchased"?"CircleCheck":"Store",new(24,1034,24,24),Muted);
         string purchase=PurchaseTrack();float purchaseWidth=font.GetStringSize(purchase,fontSize:22).X;Text(content,purchase,new(60,1014,purchaseWidth,64),22);
-        if(Plan.Arr("acquire").Count>0){string count=Plan.Arr("acquire").Count.ToString();float numberWidth=font.GetStringSize(count,fontSize:22).X,tokenWidth=18+2+numberWidth+8;var token=Surface(content,new(60+purchaseWidth+12,1024.5f,tokenWidth,43),"f5eedb",radius:4);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore});Icon(token,"Clock3",new(4,12.5f,18,18),UiColor("846838"));Text(token,count,new(24,4,numberWidth,35),22);}
+        if(Plan.Arr("acquire").Count>0){string count=Plan.Arr("acquire").Count.ToString();float numberWidth=font.GetStringSize(count,fontSize:22).X,tokenWidth=18+2+numberWidth+8;var token=Surface(content,new(60+purchaseWidth+12,1025.5f,tokenWidth,41),"f5eedb",radius:4);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore});Icon(token,"Clock3",new(4,11.5f,18,18),UiColor("846838"));var tokenText=Text(token,count,new(24,4,numberWidth,33),22);LineHeight(tokenText,22,33);}
         // 枠は編成見出しと確認表へ置く。原本footerの取得群・未払い・取消・確認の密度を保つ。
         // 既存footerは取得群と操作だけ。拒否理由は確認窓の原本problemsへ表示する。
         // 操作の拒否・保存機能は変えず、未採用の長い補足を帯へ重ねない。
@@ -159,7 +159,7 @@ public partial class GameScreen
         float currentWidth=font.GetStringSize(current,fontSize:24).X;float x=1662-currentWidth-extra-92;
         Icon(content,"Lightbulb",new(x,20,24,24));Text(content,"着想",new(x+32,0,52,64),24);Strong(Text(content,current,new(x+92,0,currentWidth,64),24));
         if(DraftDirty)
-        {Icon(content,"ArrowRight",new(x+100+currentWidth,20,24,24));var next=Surface(content,new(x+132+currentWidth,14,extra-40,36),"ffffff00","bac9ba",0,5);next.AddChild(new AcceptedDashedBorder{Size=next.Size,Border=UiColor("bac9ba"),MouseFilter=MouseFilterEnum.Ignore});Icon(next,"Clock3",new(8,9,18,18));Strong(Text(next,after,new(31,0,extra-73,36),24));}
+        {Icon(content,"ArrowRight",new(x+100+currentWidth,20,24,24));var next=Surface(content,new(x+132+currentWidth,14,extra-40,36),"ffffff00","bac9ba",0,5);next.AddChild(new AcceptedDashedBorder{Size=next.Size,Border=UiColor("bac9ba"),Radius=5,MouseFilter=MouseFilterEnum.Ignore});Icon(next,"Clock3",new(8,9,18,18));Strong(Text(next,after,new(31,0,extra-73,36),24));}
     }
 
     private string ReviewText()

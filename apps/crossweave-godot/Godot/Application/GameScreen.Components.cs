@@ -30,8 +30,9 @@ public partial class GameScreen
     {
         // flow最終層の二つの多stopを保持。SceneReaderから重複適用しない。
         string paper=darkTheme?"1d2b27":"f1f1e8";
-        GradientSurface(content,new(0,64,InnerWidth,950),new(.5f,1),new(.5f,0),[paper+"ff",paper+"00"],[0,.76f]);
         GradientSurface(content,new(0,64,InnerWidth,950),new(0,.5f),new(1,.5f),[paper+"ff",paper+(darkTheme?"b0":"a8"),paper+"00"],[.02f,.38f,.76f]);
+        // CSSの最初のbackground層が最前面。Godotは後に追加する子を前面に描く。
+        GradientSurface(content,new(0,64,InnerWidth,950),new(.5f,1),new(.5f,0),[paper+"ff",paper+"00"],[0,.76f]);
     }
 
     private static string ActorSymbol(JsonObject row) => row.Text("purpose") switch
@@ -126,7 +127,7 @@ public partial class GameScreen
         if(!IsInstanceValid(dragGhost))
         {
             dragGhost=MakeTile(canvas!,"drag-ghost",gestureRow,new(Vector2.Zero,grabbedSize),gestureZone);dragGhost.Ghost=true;dragGhost.QueueRedraw();
-            if(gestureZone=="hand")foreach(var glyph in dragGhost.GetChildren().OfType<Label>().Where(l=>l.GetThemeFontSize("font_size")==64))glyph.AddThemeColorOverride("font_color",UiColor("ffffff"));
+            if(gestureZone=="hand")foreach(var glyph in dragGhost.GetChildren().OfType<Label>().Where(l=>l.GetThemeFontSize("font_size")==64))LabelColor(glyph,UiColor("ffffff"));
             if(grabbedSize.Y<100)
             {var action=Surface(dragGhost,new(278,2,72,76),gestureZone=="build"?"f5f7ee":"315849");Text(action,gestureZone=="offer"?"取得":gestureZone=="build"?"外す":"編成",new(0,0,72,76),20,gestureZone=="build"?Muted:UiColor("fffef5")).HorizontalAlignment=HorizontalAlignment.Center;}
             dragGhost.MouseFilter=MouseFilterEnum.Ignore;

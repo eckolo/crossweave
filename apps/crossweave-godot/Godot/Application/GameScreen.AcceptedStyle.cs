@@ -13,8 +13,8 @@ namespace Crossweave.Application;
 public partial class GameScreen
 {
     private const float InnerWidth = 1918, InnerHeight = 1078;
-    private Font strongFont = null!, serifFont = null!;
-    private readonly Dictionary<(Font face, int size), Font> lineBoxFonts = new();
+    private Font strongFont = null!, serifFont = null!, spacedSerifFont = null!;
+    private readonly Dictionary<(Font face, int size, int leading), Font> lineBoxFonts = new();
     private bool darkTheme, reducedMotion;
     private bool journeyWindowStyle;
     private JsonObject acceptedIcons = new();
@@ -48,7 +48,9 @@ public partial class GameScreen
     internal Color Ink => UiColor(Exploring && !journeyWindowStyle ? "263c32" : "243d35");
     private Color Muted => UiColor("586e63");
     private Color Gold => UiColor(Exploring ? "345747" : "315849");
-    private string Paper => Exploring && !journeyWindowStyle ? "f7f8f4" : "fcfcf5";
+    // paper変数とbuttonは同じ明色でも最終dark値が異なる。用途を先に解決する。
+    private string Paper => darkTheme ? ColorScope switch { "cw" => "202820", "cp" => "2b3d34", _ => "192a22" }
+        : Exploring && !journeyWindowStyle ? "f7f8f4" : "fcfcf5";
     private string Line => Exploring && !journeyWindowStyle ? "acbdad" : "bac9ba";
     // light-dark()の宣言値から転記。明色の画像しかないことをdark無効の根拠にしない。
     private static readonly Dictionary<string, string> DarkColors = new(StringComparer.OrdinalIgnoreCase)
@@ -103,13 +105,13 @@ public partial class GameScreen
         ["d3dbcf"] = "40524a",
         ["42684a"] = "d9dfa6"
         ,["f3f5eb"] = "24362c", ["9aae98"] = "708968", ["c0ceb8"] = "4b6448", ["d1dbc8"] = "415b3e", ["586e50"] = "afc59f"
+        ,["e8eed345"] = "20282050"
     };
     private Color UiColor(string value)
     {
         value = value.TrimStart('#');
-        // 同じlight hexでもcp-paperとcj-paperのdark値は異なる。
-        // 取得画面から開く共通menu/記録もcj。画面phaseだけの例外にしない。
-        if (darkTheme && value == "fcfcf5") return new Color(ColorScope == "cp" ? "2b3d34" : "192a22");
+        // 宣言色の対応表。用途別変数は呼出し元で最終selectorを選ぶ。
+        // cj-buttonのfcfcf5をcj-paperへ一律に変換しない。
         if (darkTheme && DarkColors.TryGetValue(value, out var dark)) return new Color(dark);
         if (darkTheme && value.Length == 8 && DarkColors.TryGetValue(value[..6], out var baseDark)) return new Color(baseDark + value[6..]);
         return new Color(value);
@@ -124,6 +126,8 @@ public partial class GameScreen
         strongFont = AcceptedSystemFont.Resolve("Yu Gothic UI", 600, 2, fallback);
         var mincho = new SystemFont { FontNames = ["Yu Mincho", "serif"], FontWeight = 400, Fallbacks = [fallback] };
         serifFont = new SystemFont { FontNames = ["Georgia", "serif"], FontWeight = 400, Fallbacks = [mincho, fallback] };
+        // letter-spacing用のfaceを表示のたびに作らず、line box cacheのキーも安定させる。
+        spacedSerifFont=new FontVariation{BaseFont=serifFont,SpacingGlyph=2};
         acceptedIcons = (JsonObject)JsonNode.Parse(Godot.FileAccess.GetFileAsString("res://Application/AcceptedIcons.json"))!;
     }
     internal object AcceptedFontEvidence()
@@ -178,7 +182,7 @@ public partial class GameScreen
         b.SetMeta("accepted_focus_radius", radius); ApplyFocusAppearance(b);
         foreach (var state in new[] { "font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color", "font_disabled_color" }) b.AddThemeColorOverride(state, UiColor(ink));
         foreach (var child in b.GetChildren())
-        { if (child is Label label) label.AddThemeColorOverride("font_color", UiColor(ink)); else if (child is TextureRect icon) icon.Modulate = UiColor(ink); }
+        { if (child is Label label) LabelColor(label,UiColor(ink)); else if (child is TextureRect icon) icon.Modulate = UiColor(ink); }
     }
     private StyleBoxFlat FocusBox(int radius)
     {
@@ -228,18 +232,45 @@ public partial class GameScreen
             { outline.Visible = keyboardFocusVisible && box.HasFocus(); outline.AddThemeStyleboxOverride("panel", FocusBox(2)); }
     }
     // 原本と同じYu Gothic UIでも、Godotの自然baselineは今回の実測で3px下に出る。
-    // 行box・Control・当たり判定を動かさず、同じfaceの描画baselineだけを補正する。
-    // 64pxの札glyphやGeorgiaは別の役割なので、この測定値を流用しない。
-    private Font LineBoxFont(Font face, int size)
+    // CSSのline boxはfontの自然高と独立している。Godot Labelの最小高へ含まれる
+    // 自然高に上下leadingを配分し、title/body/heading/tableごとの指定高へ対応する。
+    // FontVariationはGodotのリソース。字形・OSの書体ファイルは変更しない。
+    private Font LineBoxFont(Font face, int size, float height)
     {
         if (OS.GetName() != "Windows" || size > 36) return face;
-        if (!lineBoxFonts.TryGetValue((face, size), out var resolved))
-            lineBoxFonts[(face, size)] = resolved = new FontVariation { BaseFont = face, BaselineOffset = -3f / face.GetHeight(size) };
+        // 指定行boxより自然高を大きくしない。小数の余白はLabel側の行boxに残す。
+        int leading = (int)Math.Floor(height - face.GetHeight(size));
+        if (!lineBoxFonts.TryGetValue((face, size, leading), out var resolved))
+        {
+            int top = (int)Math.Floor(leading / 2f);
+            lineBoxFonts[(face, size, leading)] = resolved = new FontVariation
+                { BaseFont = face, SpacingTop = top, SpacingBottom = leading - top };
+        }
         return resolved;
     }
-    private Label Strong(Label label) { label.AddThemeFontOverride("font", LineBoxFont(strongFont, label.GetThemeFontSize("font_size"))); return label; }
+    private Label Strong(Label label)
+    {
+        label.SetMeta("metric_face", strongFont);
+        LineHeight(label, label.GetThemeFontSize("font_size"), label.HasMeta("metric_line_height") ? (float)label.GetMeta("metric_line_height") : 28);
+        return label;
+    }
     private void LineHeight(Label label, int size, float height)
-    { label.AddThemeConstantOverride("line_spacing", (int)Math.Round(height - font.GetHeight(size))); }
+    {
+        var face = label.HasMeta("metric_face") ? (Font)label.GetMeta("metric_face").AsGodotObject() : label.GetThemeFont("font");
+        label.SetMeta("metric_face", face); label.SetMeta("metric_line_height", height);
+        var resolved=LineBoxFont(face,size,height);
+        label.AddThemeFontOverride("font",resolved);
+        // LabelSettingsのLineSpacingはfloat。整数theme定数だけでは28.8pxの行送りが
+        // 段落内で累積してずれるので、同じfontの自然高との差を小数で持つ。
+        label.LabelSettings=new LabelSettings{Font=resolved,FontSize=size,
+            FontColor=label.GetThemeColor("font_color"),LineSpacing=height-resolved.GetHeight(size)};
+        label.AddThemeConstantOverride("line_spacing", 0);
+    }
+    private static void LabelColor(Label label, Color color)
+    {
+        label.AddThemeColorOverride("font_color",color);
+        if(label.LabelSettings is not null)label.LabelSettings.FontColor=color;
+    }
     private Texture2D IconTexture(string name, float stroke = 2, int textureSize = 96)
     {
         string key = name + "/" + stroke + "/" + textureSize;
@@ -263,7 +294,7 @@ public partial class GameScreen
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
             Modulate = color ?? Ink,
             MouseFilter = MouseFilterEnum.Ignore
-        }; t.SetMeta("accepted_icon", name); parent.AddChild(t); return t;
+        }; t.SetMeta("accepted_icon", name); t.SetMeta("accepted_stroke",stroke); parent.AddChild(t); return t;
     }
     private Button IconButton(Control parent, string id, string name, string label, Rect2 rect, Action action, bool enabled = true)
     {
@@ -320,7 +351,8 @@ public partial class GameScreen
     private void ShellBars()
     {
         Surface(content, new(0, 0, InnerWidth, 64), "f1f1e8");
-        Surface(content, new(0, 1014, InnerWidth, 64), "e9eee0");
+        // backdrop.cssではhub/scene/returnのfooterだけ透明。操作ノードは残す。
+        if (Screen == "start") Surface(content, new(0, 1014, InnerWidth, 64), "e9eee0");
         Surface(content, new(0, 63, InnerWidth, 1), "d3dbcf");
     }
     private Rect2 EdgeWindow(float width, float height, bool actor = false)
@@ -429,7 +461,7 @@ public partial class GameScreen
         // 消滅の確定安全条件は変えず、danger線はchangedの時だけに使う。
         string border = pending ? "846838" : tile.Row.Flag("changed") ? "943c25" : tile.Selected || tile.Linked ? "345747" : compact && tile.Zone == "build" ? "58754a" : Line;
         var style = Box(tile.Hovered && !empty ? "e6eddf" : background, border, compact ? 2 : tile.Selected || tile.Linked ? 2 : 1, compact ? 5 : tile.Zone == "hand" ? 7 : 6);
-        if (tile.Ghost) { style.ShadowColor = new("203a3540"); style.ShadowSize = 18; style.ShadowOffset = new(0, 6); }
+        if (tile.Ghost) { style.ShadowColor = new(darkTheme?"00000088":compact?"203a3540":"00000044"); style.ShadowSize = 18; style.ShadowOffset = new(0, compact?6:8); }
         if (pending || forecast || empty && compact) style.BorderWidthBottom = style.BorderWidthTop = style.BorderWidthLeft = style.BorderWidthRight = 0;
         tile.DrawStyleBox(style, new(Vector2.Zero, tile.Size));
         if (pending)
@@ -439,7 +471,7 @@ public partial class GameScreen
             for (float c = 9 * Mathf.Sqrt(2); c < w + h; c += 10 * Mathf.Sqrt(2))
             { var a = new Vector2(Math.Max(0, c - h), Math.Min(h, c)); var b = new Vector2(Math.Min(w, c), Math.Max(0, c - w)); tile.DrawLine(a + new Vector2(2, 2), b + new Vector2(2, 2), UiColor("f1ebd7"), 2, true); }
         }
-        if (pending || forecast || empty && compact) DashedRect(tile, new(.5f, .5f, tile.Size.X - 1, tile.Size.Y - 1), UiColor(border), pending || forecast ? 2 : 1, 3, 3, compact ? 5 : 6);
+        if (pending || forecast || empty && compact) DashedRect(tile, new(.5f, .5f, tile.Size.X - 1, tile.Size.Y - 1), UiColor(border), pending || forecast ? 2 : 1, pending || forecast ? 6 : 3, pending || forecast ? 4 : 3, compact ? 5 : 6);
     }
     private void LiveEvents()
     {
@@ -498,7 +530,7 @@ public partial class GameScreen
         {
             // CSSの1px破線の丸角を連続した周長へ展開する。直角に4本の線を
             // 重ねて角だけ太くする方法を避け、empty/pendingの線幅を保つ。
-            var points = new List<Vector2>();
+            var points = new List<Vector2> { new(r.Position.X + radius, r.Position.Y) };
             foreach (var (center, angle) in new[] { (new Vector2(r.End.X-radius, r.Position.Y+radius), -90f), (new Vector2(r.End.X-radius, r.End.Y-radius), 0f), (new Vector2(r.Position.X+radius, r.End.Y-radius), 90f), (new Vector2(r.Position.X+radius, r.Position.Y+radius), 180f) })
                 for (int i=0;i<=8;i++) { float a=Mathf.DegToRad(angle+i*90f/8);points.Add(center+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius); }
             points.Add(points[0]); float distance=0;
@@ -531,5 +563,6 @@ public partial class GameScreen
 internal partial class AcceptedDashedBorder : Control
 {
     internal Color Border;
-    public override void _Draw() => GameScreen.DashedRect(this, new(.5f, .5f, Size.X - 1, Size.Y - 1), Border, 1, 3, 3);
+    internal float Radius = 4;
+    public override void _Draw() => GameScreen.DashedRect(this, new(.5f, .5f, Size.X - 1, Size.Y - 1), Border, 1, 3, 3, Radius);
 }

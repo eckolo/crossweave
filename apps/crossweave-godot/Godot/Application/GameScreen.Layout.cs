@@ -27,7 +27,9 @@ public partial class GameScreen
             {
                 var thumb=Box(Line,Line,0,3);if(vertical)thumb.BgColor=new Color(state=="grabber"?(darkTheme?"9f9f9f":"8b8b8b"):(darkTheme?"d1d1d1":"636363"));
                 thumb.ContentMarginTop=thumb.ContentMarginBottom=thickness/2;thumb.ContentMarginLeft=thumb.ContentMarginRight=thickness/2;
-                if(vertical){thumb.SetExpandMargin(Side.Left,-2);thumb.SetExpandMargin(Side.Right,-2);}else{thumb.SetExpandMargin(Side.Top,-2);thumb.SetExpandMargin(Side.Bottom,-2);}
+                // 同overflowでthumb長は一致し描画だけ3pxずれる。page/操作面は変えない。
+                if(vertical){thumb.SetExpandMargin(Side.Left,-2);thumb.SetExpandMargin(Side.Right,-2);thumb.SetExpandMargin(Side.Top,3);thumb.SetExpandMargin(Side.Bottom,-3);}
+                else{thumb.SetExpandMargin(Side.Top,-2);thumb.SetExpandMargin(Side.Bottom,-2);thumb.SetExpandMargin(Side.Left,3);thumb.SetExpandMargin(Side.Right,-3);}
                 Theme.SetStylebox(state,kind,thumb);
             }
             foreach(var state in new[]{"increment","decrement","increment_highlight","decrement_highlight","increment_pressed","decrement_pressed"})
@@ -47,7 +49,8 @@ public partial class GameScreen
     {
         var label = new Label { Text = value, Position = rect.Position, Size = rect.Size, MouseFilter = MouseFilterEnum.Ignore,
             AutowrapMode = rect.Size.Y < size*2 ? TextServer.AutowrapMode.Off : TextServer.AutowrapMode.WordSmart, ClipText = true, VerticalAlignment=VerticalAlignment.Center };
-        LineHeight(label,size,size*(Exploring?1.4f:1.5f)); label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font", LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); parent.AddChild(label); return label;
+        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font", font);
+        label.AddThemeColorOverride("font_color", color ?? Ink);LineHeight(label,size,size*(Exploring&&!journeyWindowStyle?1.4f:1.5f)); parent.AddChild(label); return label;
     }
     private Panel Panel(Control parent, Rect2 rect, string color = "15272dea")
     {
@@ -62,10 +65,11 @@ public partial class GameScreen
         parent.AddChild(button); Controls[id] = button;
         bool primary=id.StartsWith("取得-")||id.StartsWith("編成-")||id is "depart" or "continue" or "ack" or "review" or "commit" or "play";
         bool explorationButton=Exploring&&!journeyWindowStyle;
-        ButtonStyle(button,primary?(explorationButton?"345747":"315849"):Paper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
+        string normalPaper=ColorScope=="cj"?"fcfcf5":Paper;
+        ButtonStyle(button,primary?(explorationButton?"345747":"315849"):normalPaper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
         button.AddThemeFontSizeOverride("font_size",Screen=="preparation"&&!journeyWindowStyle?20:18);
-        button.AddThemeFontOverride("font",LineBoxFont(font,button.GetThemeFontSize("font_size")));
-        if(button.Disabled)button.Modulate=new Color(1,1,1,Screen=="preparation"&&!journeyWindowStyle?.42f:.5f);
+        button.AddThemeFontOverride("font",LineBoxFont(font,button.GetThemeFontSize("font_size"),button.GetThemeFontSize("font_size")*(explorationButton?1.4f:1.5f)));
+        if(button.Disabled)button.Modulate=new Color(1,1,1,ColorScope=="cp"?.42f:ColorScope=="cj"?.45f:.5f);
         // PressedはGodot標準のsignal。ラムダはUIの意図を本作の操作へ渡すだけで、ゲーム計算を行わない。
         button.Pressed += () => { if (Automation is not null) {Automation.ButtonPressed(id);GD.Print("UI PRESS " + id + " busy=" + Busy);} if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
         return button;
@@ -120,7 +124,13 @@ public partial class GameScreen
         if(Screen=="start")background.Hide();
         if(Screen is "home" or "return" || View.Obj("story").Obj("scene").Flag("paused"))ReadingBackdrop();
         if(Screen!="preparation"&&!Exploring)ShellBars();
-        if(Exploring)GradientSurface(content,new(0,0,InnerWidth,InnerHeight),new(.5f,0),new(.5f,1),["e8edd900","e8edd900","e8edd933"],[0,.45f,1]);
+        if(Exploring)
+        {
+            // transparentも終点と同じRGBでalpha0にする。透明な明色RGBをdark終点へ
+            // 補間すると中間のwashが明るくなり、空場の透過色まで変わってしまう。
+            string wash=darkTheme?"182a27":"e8edd9",end=darkTheme?"182a2755":"e8edd933";
+            GradientSurface(content,new(0,0,InnerWidth,InnerHeight),new(.5f,0),new(.5f,1),[wash+"00",wash+"00",end],[0,.45f,1]);
+        }
         if (Screen == "start") StartScreen();
         else if (Screen == "preparation") PreparationScreen();
         else if (Screen == "home") HomeScreen();

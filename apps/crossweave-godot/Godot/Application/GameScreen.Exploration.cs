@@ -35,7 +35,7 @@ public partial class GameScreen
             var band=Surface(b,new(1,129,318,118),id==selectedTarget?"e9eee4":"f7f8f4");
             float nameX=id==selectedTarget?25:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,17,12,12));
             var name=Text(band,row.Text("display_name"),new(nameX,10,308-nameX,28),20);Strong(name);LineHeight(name,20,28);
-            ActorVitals(band,id,row,10,46,298);
+            ActorVitals(band,id,row,10,42,298);
         }
         OrderStrip(e);
         Surface(content,new(24,380,1870,248),"e9eed81a",radius:8);
@@ -181,23 +181,30 @@ public partial class GameScreen
         if(rect.Size.Y<100)
         {
             var title=Text(tile,CardName(row),new(10,6,260,48),20);Strong(title);LineHeight(title,20,24);title.MaxLinesVisible=2;title.VerticalAlignment=VerticalAlignment.Top;
-            Icon(tile,zone=="build"?"Check":d["trigger"] is not null?"ScrollText":"Layers",new(10,55,18,18),zone=="build"?Gold:Muted);
+            var metaIcon=Icon(tile,zone=="build"?"Check":d["trigger"] is not null?"ScrollText":"Layers",new(10,55,18,18),zone=="build"?Gold:Muted);
+            metaIcon.SetMeta("comparison_use",zone=="build"?"H11-02/meta":d["trigger"] is not null?"H11-01/meta":"registered/Layers/meta");
             float x=34;
             if(zone=="offer"||row.Flag("pending")){Icon(tile,"Lightbulb",new(x,55,18,18),Muted);Text(tile,ViewData.Money(row.Number("price_units")),new(x+24,54,130,20),18,Muted);}
-            else if(d["trigger"] is not null){Icon(tile,"Grid2X2",new(x,55,18,18),Muted);Text(tile,d.Number("equipment_cost").ToString(),new(x+24,54,96,20),18,Muted);}
+            else if(d["trigger"] is not null){Icon(tile,"Grid2X2",new(x,55,18,18),Muted).SetMeta("comparison_use","H11-03/cost");Text(tile,d.Number("equipment_cost").ToString(),new(x+24,54,96,20),18,Muted);}
             else Text(tile,d.Text("attr"),new(x,54,96,20),18,Muted);
             if(row.Number("display_quantity")>1)Text(tile,"×"+row.Number("display_quantity"),new(190,54,80,20),18,Muted).HorizontalAlignment=HorizontalAlignment.Right;
             if(row.Flag("locked")){Icon(tile,"Pin",new(228,55,18,18),Muted);tile.TooltipText="ロック済み";}
-            if(row.Flag("pending")){Surface(tile,new(250,54,20,20),Paper,radius:10);Icon(tile,"Clock3",new(251,55,18,18),UiColor("846838"));}
+            if(row.Flag("pending")){Surface(tile,new(250,54,20,20),Paper,radius:10);Icon(tile,"Clock3",new(251,55,18,18),UiColor("846838")).SetMeta("comparison_use","H11-04/tile");}
         }
         else if(row.Flag("empty"))
         {
             // 空の場は短いcaptionのみ。通常札の名称48px・効果24pxを架空に確保しない。
-            Surface(tile,new(1,147,246,60),"f7f8f4");var emptyCaption=Strong(Text(tile,d.Text("attr"),new(7,153,234,24),18));emptyCaption.VerticalAlignment=VerticalAlignment.Top;LineHeight(emptyCaption,18,24);
+            var caption=Surface(tile,new(1,147,246,60),"f7f8f4",radius:5);
+            // 上端はfaceと直線で接し、下端だけ札の角に沿わせる。
+            var captionStyle=(StyleBoxFlat)caption.GetThemeStylebox("panel");captionStyle.CornerRadiusTopLeft=captionStyle.CornerRadiusTopRight=0;
+            var emptyCaption=Strong(Text(tile,d.Text("attr"),new(7,153,234,24),18));emptyCaption.VerticalAlignment=VerticalAlignment.Top;LineHeight(emptyCaption,18,24);
         }
         else
         {
-            CardGradient(tile,new(1,1,246,87),zone=="hand"?6:5);
+            // illustrationはcaption背後まで206px。投影長は全高で求め、実際に見える
+            // 上87pxだけをControlでclipする。caption面や入力領域は覆わない。
+            var illustration=new Control{Position=new(1,1),Size=new(246,87),ClipContents=true,MouseFilter=MouseFilterEnum.Ignore};tile.AddChild(illustration);
+            CardGradient(illustration,new(0,0,246,206),zone=="hand"?6:5);
             // exploration.jsのart('cards')は64pxの既存glyph。stat欄のLucide SVGとは役割が違う。
             // 原本のillustrationは上padding8px、spanは64px/1.4のline box。
             // Labelはfontの自然高未満に縮まないため、半行余白を外側で配分する。
@@ -355,7 +362,7 @@ public partial class GameScreen
             // 末行のfont heightで終わるため、段落数に応じて後続の位置がずれる。
             // 行送りと外形高を別に固定し、上下の半行余白は中央寄せで再現する。
             var label = new Label { Text = lines, CustomMinimumSize = new(rect.Size.X - 12, lines.Split('\n').Length * 34), VerticalAlignment = VerticalAlignment.Center, AutowrapMode = TextServer.AutowrapMode.Off, MouseFilter = MouseFilterEnum.Ignore };
-            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeFontOverride("font",LineBoxFont(font,20)); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
+            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeFontOverride("font",font);label.AddThemeColorOverride("font_color",Ink); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
         }
     }
     private void RecordVisibleParagraphs()

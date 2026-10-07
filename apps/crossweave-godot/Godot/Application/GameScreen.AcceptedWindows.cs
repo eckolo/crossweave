@@ -13,16 +13,37 @@ public partial class GameScreen
     private int menuPage;
     private VBoxContainer FactsBody(Control parent, string id, Rect2 rect, float gap = 12)
     {
-        // CSSのpaddingは1px borderの内側。外形520に対し内容幅は486となる。
-        rect = new(rect.Position + Vector2.One, rect.Size - new Vector2(2, 2));
-        var scroll = Scroll(parent, id, rect, false);
-        var list = new VBoxContainer { CustomMinimumSize = new(rect.Size.X - 12, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
-        list.AddThemeConstantOverride("separation", (int)gap); scroll.AddChild(list); return list;
+        bool cp=Screen=="preparation"&&!journeyWindowStyle;
+        int pad=cp?24:16;
+        // CSS overflowはpaddingを含む窓本体にある。内側だけをScrollContainerにすると
+        // viewportが414→382へ縮み、同じ内容でもscrollbarが消えてしまう。
+        var outer=new Rect2(rect.Position-new Vector2(pad-1,pad-1),rect.Size+new Vector2(2*(pad-1),2*(pad-1)));
+        var scroll = Scroll(parent, id, outer, false);
+        var margin=new MarginContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};
+        foreach(string side in new[]{"left","top","right","bottom"})margin.AddThemeConstantOverride("margin_"+side,pad);
+        scroll.AddChild(margin);
+        var list = new VBoxContainer { CustomMinimumSize = new(cp?rect.Size.X-2:rect.Size.X-12,0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        bool blockFlow=!cp&&!journeyWindowStyle;
+        list.SetMeta("css_block_flow",blockFlow);
+        list.AddThemeConstantOverride("separation",blockFlow?0:(int)gap);margin.AddChild(list); return list;
     }
-    private Label Paragraph(Control parent, string value, int size = 18, float height = 1.6f, Color? color = null)
+    // 本作のCSS対応adapter。Godot VBoxにはHTMLのmargin collapseがないので、
+    // cw本文だけ隣接する上下marginの最大値を実Controlの余白として保持する。
+    // cp/cjのflex gapに混ぜず、最後のbottom marginも内容高へ含める。
+    private void AddFlowBlock(Control parent, Control block, float before, float after)
+    {
+        if(!parent.HasMeta("css_block_flow")||!(bool)parent.GetMeta("css_block_flow")){parent.AddChild(block);return;}
+        var last=parent.GetChildCount()>0?parent.GetChild(parent.GetChildCount()-1) as Control:null;
+        if(last is not null&&last.HasMeta("css_margin_tail"))last.CustomMinimumSize=new(0,Math.Max(last.CustomMinimumSize.Y,before));
+        else if(before>0)parent.AddChild(new Control{CustomMinimumSize=new(0,before),MouseFilter=MouseFilterEnum.Ignore});
+        parent.AddChild(block);
+        var tail=new Control{CustomMinimumSize=new(0,after),MouseFilter=MouseFilterEnum.Ignore};tail.SetMeta("css_margin_tail",true);parent.AddChild(tail);
+    }
+    private Label Paragraph(Control parent, string value, int size = 18, float height = 1.6f, Color? color = null, float marginBefore = -1, float marginAfter = -1)
     {
         var label = new Label { Text = value, AutowrapMode = TextServer.AutowrapMode.WordSmart, VerticalAlignment = VerticalAlignment.Center, SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore };
-        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font",LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height); parent.AddChild(label);
+        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font",font); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height);
+        AddFlowBlock(parent,label,marginBefore<0?size:marginBefore,marginAfter<0?size:marginAfter);
         // 原本layoutProseは窓内pも句点で折る。実Containerの幅が決まってから
         // 同じ文字を改行し、語の意味・公開値を編集しない。
         label.Resized += () =>
@@ -40,11 +61,11 @@ public partial class GameScreen
         return label;
     }
     private void Heading(Control parent, string value)
-    { float height = journeyWindowStyle ? 30 : 28; var label = Paragraph(parent, value, 20, height / 20); Strong(label); label.CustomMinimumSize = new(0, height); }
+    { float height = journeyWindowStyle ? 30 : 28; var label = Paragraph(parent, value, 20, height / 20,marginBefore:14,marginAfter:6); Strong(label); label.CustomMinimumSize = new(0, height); }
     private void Fact(VBoxContainer body, string term, string value, string? symbol = null, float labelWidth = 164)
     {
         bool preparationFacts = Screen == "preparation" && !journeyWindowStyle;
-        var row = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; row.SetMeta("fact_columns", true); row.AddThemeConstantOverride("separation", 16); body.AddChild(row);
+        var row = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; row.SetMeta("fact_columns", true); row.AddThemeConstantOverride("separation", 16); AddFlowBlock(body,row,12,12);
         var name = new Control { CustomMinimumSize = new(labelWidth, preparationFacts ? 33 : 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; row.AddChild(name);
         if (symbol is not null) Icon(name, symbol, new(0, 4, 20, 20));
         var title = Text(name, term, new(symbol is null ? 0 : 28, 0, labelWidth - (symbol is null ? 0 : 28), preparationFacts ? 33 : 29), preparationFacts ? 20 : 18, preparationFacts ? Muted : Ink); title.VerticalAlignment = VerticalAlignment.Top; LineHeight(title, preparationFacts ? 20 : 18, preparationFacts ? 30 : 28.8f);
@@ -78,22 +99,22 @@ public partial class GameScreen
         // CSSのmax-content列幅は表ごとに決まる。単一の固定164px幅にすると
         // 短いラベルの値が遠ざかり、長い主体名では逆に切れる。
         var rows = entries.ToArray();
-        float TermWidth((string term, string value, string? icons, string? field) r) => font.GetStringSize(r.term, fontSize: 16).X + (r.icons is null ? 0 : r.icons.Split('/').Length * 17);
+        float TermWidth((string term, string value, string? icons, string? field) r) => font.GetStringSize(r.term, fontSize: 16).X + (r.icons is null ? 0 : r.icons.Split('/').Length * 17) + 3*(r.term.Split('／').Length-1);
         float width = rows.Length == 0 ? 0 : Math.Min(300, rows.Max(TermWidth));
         var table = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
-        table.AddThemeConstantOverride("separation", 12); body.AddChild(table);
+        table.AddThemeConstantOverride("separation", 12); AddFlowBlock(body,table,18,18);
         foreach (var r in rows)
         {
             var line = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
             line.SetMeta("fact_columns", true); line.AddThemeConstantOverride("separation", 16); table.AddChild(line);
-            var term = new Control { CustomMinimumSize = new(width, 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; line.AddChild(term);
+            var term = new Control { CustomMinimumSize = new(width, 28.8f), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; line.AddChild(term);
             float x = 0; var parts = r.term.Split('／'); var icons = r.icons?.Split('/');
             for (int i = 0; i < parts.Length; i++)
             {
-                if (i > 0) { Text(term, "／", new(x, 0, 16, 29), 16); x += 16; }
+                if (i > 0) { x+=3;var slash=Text(term, "／", new(x, 0, 16, 28.8f), 16);LineHeight(slash,16,25.6f); x += 16; }
                 if (icons is not null && i < icons.Length) { Icon(term, icons[i], new(x, 7, 14, 14)); x += 17; }
                 float w = font.GetStringSize(parts[i], fontSize: 16).X;
-                Text(term, parts[i], new(x, 0, w, 29), 16); x += w;
+                var termText=Text(term, parts[i], new(x, 0, w, 28.8f), 16);LineHeight(termText,16,25.6f); x += w;
             }
             var value = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; value.AddThemeConstantOverride("separation", 4); line.AddChild(value);
             // inlineの数値はmax-content幅を先に確保し、折返しを禁止する。
@@ -125,7 +146,7 @@ public partial class GameScreen
         // 同じ探索画面でも、記録・menu・表示はcj、札詳細・操作はcwの原本。
         // 画面phaseだけでpaper/枠/文字を選ぶと、共通窓に探索の値が混ざる。
         journeyWindowStyle=!preparation&&panelId!="detail-panel"&&!ExplorerUtilityWindow;
-        var p = Surface(popup, rect, preparation ? "f4f6ec" : journeyWindowStyle?"f3f5eb":"f7f8f4", preparation ? "bac9ba" : journeyWindowStyle?"9aae98":"acbdad", 1, 8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
+        var p = Surface(popup, rect, preparation ? "f4f6ec" : journeyWindowStyle?"f3f5eb":"f7f8f4", preparation ? "bac9ba" : journeyWindowStyle?"9aae98":"acbdad", 1, !preparation&&!journeyWindowStyle?9:8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
         if(journeyWindowStyle){var shadow=(StyleBoxFlat)p.GetThemeStylebox("panel");shadow.ShadowSize=12;shadow.ShadowOffset=new(0,3);shadow.ShadowColor=new(darkTheme?"00000066":"243a2b30");}
         if (!preparation && (panelId == "detail-panel" || ExplorerUtilityWindow)) { var shadow = (StyleBoxFlat)p.GetThemeStylebox("panel"); shadow.ShadowSize = 14; shadow.ShadowOffset = new(0, 4); shadow.ShadowColor = new(darkTheme ? "00000055" : "00000022"); }
         Surface(p, new(1, 64, rect.Size.X - 2, 1), preparation ? "bac9ba" : journeyWindowStyle?"c0ceb8":"acbdad");
@@ -144,7 +165,7 @@ public partial class GameScreen
             if (journeyWindowStyle) IconButton(p, closeId, "X", "", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
             else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
         }
-        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
+        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : journeyWindowStyle?"fcfcf5":Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
         if(journeyWindowStyle)
         {
             foreach(var icon in close.GetChildren().OfType<TextureRect>()){icon.Position=new(19,19);icon.Size=new(18,18);}
@@ -177,8 +198,8 @@ public partial class GameScreen
             // 原本cjの付与札は全員への二行。予測cwの公開機転は従来どおり残す。
             if (!journeyWindowStyle || d.Text("kind") != "defense_support") primary.Add(("機転", Known(d["crit_gain"]), "Zap", null));
             if (detailKind is "knowledge" or "deck") primary.Add(("手札期限", Known(row["remaining_life"] ?? d["life"]), null, null));
-            // HTML dlの既定上下余白を残し、原本にない「基礎値」見出しは増やさない。
-            if (!journeyWindowStyle) body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, primary);
+            // dl/h3の余白はAddFlowBlockが役割別に組む。架空の見出しは増やさない。
+            Ledger(body, primary);
             Heading(body, "場に置くと"); Ledger(body, [("突破／身構", Known(d["field_power"]), "ArrowUpRight/Shield", null), ("探査／攪乱", Known(d["field_hit"]), "ScanSearch/Wind", null)]);
             Heading(body, "次の行動まで"); Ledger(body, [("置く", Known(d["place_cost"]), null, null), ("一致", Known(d["match_cost"]), null, null)]);
             if (guard) Paragraph(body, "防御の回数：" + (d.ContainsKey("defense_uses") ? d["defense_uses"] is null ? "制限なし" : d.Text("defense_uses") + "回" : "未公開"));
@@ -235,7 +256,7 @@ public partial class GameScreen
             { var b = StatValue(change.Obj("before"), key); var a = StatValue(change.Obj("after"), key); if (b is null || a is null) Row(name + " " + label, "未公開"); else if (!JsonNode.DeepEquals(b, a)) Row(name + " " + label, Known(b) + " → " + Known(a)); }
         }
         if (mode == "place") Row("主効果", "発動なし");
-        body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, rows);
+        Ledger(body, rows);
         // 一閃倍率の公開不足をゼロとして見せない。補足は別段落に置き、
         // 原本ledgerのmax-content列幅を長い主体名で広げない。
         Paragraph(body, "一閃倍率：未公開", 16, 1.6f, Muted);
@@ -248,15 +269,12 @@ public partial class GameScreen
     {
         if (!Comparison.Flag("ok"))
         {
-            var warning = new PanelContainer(); warning.AddThemeStyleboxOverride("panel", Box("f6e3d6", width: 0)); body.AddChild(warning);
+            var warning = new PanelContainer(); warning.AddThemeStyleboxOverride("panel", Box("f6e3d6", width: 0,radius:0)); body.AddChild(warning);
             var inset = new MarginContainer(); foreach (string side in new[] { "left", "top", "right", "bottom" }) inset.AddThemeConstantOverride("margin_" + side, 8); warning.AddChild(inset);
             string error=Comparison.Text("error");string text=error is "insufficient_funds" or "insufficient_unspent_funds"?"着想が足りません。取得予定を見直してください。":ViewData.Explain(error);
             Paragraph(inset, text, 20, 1.5f, UiColor("803d25"));
-            // 原本runtimeReviewBodyは無効時のproblems、残高／—、価格を残す。
-            // 比較拒否時に公開されないafterを0として計算し直さない。
-            var balance=new Control{CustomMinimumSize=new(0,54)};body.AddChild(balance);
-            string currentBalance=ViewData.Money(View.Obj("home").Obj("economy").Number("unspent_units"));float currentWidth=strongFont.GetStringSize(currentBalance,fontSize:36).X;
-            float balanceX=(body.CustomMinimumSize.X-currentWidth-90)/2;Icon(balance,"Lightbulb",new(balanceX,15,24,24));Strong(Text(balance,currentBalance,new(balanceX+38,0,currentWidth,54),36));Text(balance,"—",new(balanceX+currentWidth+52,0,38,54),36);Controls["review-wallet"]=balance;
+            // 原本runtimeReviewBodyはproblemsだけで早期returnする。拒否時に
+            // 公開されない残高afterを0/—の追加walletとして表示しない。
             return;
         }
         body.AddThemeConstantOverride("separation", 24);
@@ -269,7 +287,7 @@ public partial class GameScreen
         Icon(wallet, "ArrowRight", new(x, 15, 24, 24)); x += 38; Strong(Text(wallet, afterBalance, new(x, 0, aw, 54), 36)); x += aw + 14; Text(wallet, cost, new(x, 0, cw, 54), 18, Muted);
         // 外側24、節内8、変更行の上下6を別々に持つ。全行を節の間隔で離さない。
         VBoxContainer Section(string title, string icon)
-        { var list = new VBoxContainer(); list.AddThemeConstantOverride("separation", 8); body.AddChild(list); var h = new Control { CustomMinimumSize = new(0, 30) }; list.AddChild(h); Icon(h, icon, new(0, 5, 20, 20), Muted); Strong(Text(h, title, new(32, 0, 600, 30), 20, Muted)); return list; }
+        { var list = new VBoxContainer(); list.AddThemeConstantOverride("separation", 8); body.AddChild(list); var h = new Control { CustomMinimumSize = new(0, 30) }; list.AddChild(h); Icon(h, icon, new(0, 3, 24, 24), Muted).SetMeta("comparison_use",icon=="Store"?"H11-11/confirmation-heading":"H11-13/confirmation-heading"); Strong(Text(h, title, new(32, 0, 600, 30), 20, Muted)); return list; }
         Control ChangeRow(VBoxContainer list, string id, float height = 45)
         { var row = new Control { CustomMinimumSize = new(0, height) }; list.AddChild(row); Controls[id] = row; Surface(row, new(0, height - 1, body.CustomMinimumSize.X, 1), "bac9ba"); return row; }
         var purchases = View.Obj("home").Arr("acquisition").Rows().Where(r => Plan.Arr("acquire").Strings().Contains(r.Text("id"))).ToArray();
@@ -315,7 +333,7 @@ public partial class GameScreen
         string location = offer ? "offer" : detailKind == "build" ? "build" : "reserve";
         foreach (var (id, icon, x) in new[] { ("offer", "Store", 0f), ("reserve", "Layers", 108f), ("build", "LayoutGrid", 216f) })
         { var p = Surface(locations, new(x, 0, 64, 48), id == location ? "315849" : "ffffff00", width: 0, radius: 6); Icon(p, icon, new(22, 14, 20, 20), id == location ? UiColor("fffef5") : Ink); p.Modulate = new(1, 1, 1, id == location ? 1 : .45f); if (x < 216) Icon(locations, "ChevronRight", new(x + 76, 14, 20, 20)); }
-        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 64, 0, 64, 48), "f5eedb", radius:6);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore}); Icon(token, "Clock3", new(23, 15, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い";Controls["detail-pending-clock"]=token; }
+        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 64, 0, 64, 48), "f5eedb", radius:6);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),Radius=6,MouseFilter=MouseFilterEnum.Ignore}); Icon(token, "Clock3", new(23, 15, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い";Controls["detail-pending-clock"]=token; }
         PreparationItemFacts(body, detail);
         var affixes = detail.Obj("details").Arr("affix_descriptions"); if (affixes.Count > 0) Fold(body, "affix-" + detail.Text("id"), "修飾", b => { foreach (var a in affixes.Rows()) Paragraph(b, a.Text("label") + "：" + a.Text("description")); });
         if (offer || pending) { var price = new Control { CustomMinimumSize = new(0, 33) }; body.AddChild(price); string amount = ViewData.Money(detail.Number("price_units")); float w = strongFont.GetStringSize(amount, fontSize: 22).X; Icon(price, "Lightbulb", new(body.CustomMinimumSize.X - w - 28, 6, 20, 20)); Strong(Text(price, amount, new(body.CustomMinimumSize.X - w, 0, w, 33), 22)); Controls["detail-price"] = price; }
@@ -440,13 +458,13 @@ public partial class GameScreen
         var rect = PlaceWindow(modalAnchor); var pair = WindowPair(sourceWindow ?? rect);
         var p = WindowFrame("本人の札", child ? pair.left : rect, back: modalParent != "");
         var e = View.Obj("exploration"); var body = FactsBody(p, "deck-list", new(16, 80, 488, 384));
-        Paragraph(body, $"山札 {e.Arr("own_deck").Count}枚 · 手札 {e.Arr("hand").Count}枚 · 共有回収 {e.Number("pool_count")}枚");
+        Paragraph(body, $"山札 {e.Arr("own_deck").Count}枚 · 手札 {e.Arr("hand").Count}枚 · 共有回収 {e.Number("pool_count")}枚",marginBefore:8,marginAfter:8);
         // cw-deck-tableは自動列幅・td上下4px・内容幅のbutton。cjの55%固定表と
         // 別に組む。行ごとのVBox gap/Dividerで原本にない余白・線を増やさない。
         var rows=e.Arr("deck_catalogue").Rows().ToArray();string[] titles=["札","持込","山札","手札"],keys=["initial_count","deck_count","hand_count"];
         float nameWidth=rows.Length==0?0:rows.Max(r=>font.GetStringSize(CardName(r.Obj("card")),fontSize:18).X+18);
         float[] natural=[Math.Max(nameWidth,strongFont.GetStringSize(titles[0],fontSize:18).X)+4,..titles.Skip(1).Select((t,i)=>Math.Max(strongFont.GetStringSize(t,fontSize:18).X,rows.Length==0?0:rows.Max(r=>font.GetStringSize(Known(r[keys[i]]),fontSize:18).X))+4)];
-        var table=new Control{CustomMinimumSize=new(0,36.8f+rows.Length*64),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};body.AddChild(table);
+        var table=new Control{CustomMinimumSize=new(0,36.8f+rows.Length*64),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};AddFlowBlock(body,table,0,0);
         var headings=titles.Select(t=>Strong(Text(table,t,new(0,4,1,28.8f),18))).ToArray();
         var cells=new List<(Button name,Label[] values)>();int index=0;
         foreach(var row in rows)
@@ -534,7 +552,7 @@ public partial class GameScreen
             var body=KnowledgeBody(parent,"knowledge-list");var tabs=new Control{CustomMinimumSize=new(0,43)};body.AddChild(tabs);
             float firstWidth=font.GetStringSize("相手・環境",fontSize:18).X+28,secondWidth=font.GetStringSize("札",fontSize:18).X+28;
             Button(tabs,"knowledge-tab-targets","相手・環境",new(0,0,firstWidth,43),()=>{knowledgeTab="targets";knowledgeSelection="";});Button(tabs,"knowledge-tab-cards","札",new(firstWidth+6,0,secondWidth,43),()=>{knowledgeTab="cards";knowledgeSelection="";});
-            foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6);
+            foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6,hover:knowledgeTab==tab?"315849":"e6eddf");
             Paragraph(body,knowledgeTab=="targets"?"探索で判明した構成と札":"判明した札の性能",16,1.6f,UiColor("586e50"));
             var list=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};list.AddThemeConstantOverride("separation",knowledgeTab=="targets"?10:8);body.AddChild(list);
             if (knowledgeTab == "cards")

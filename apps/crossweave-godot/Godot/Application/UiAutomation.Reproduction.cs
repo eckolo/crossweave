@@ -435,11 +435,17 @@ internal sealed partial class UiAutomation
                     font = label?.GetThemeFont("font").GetFontName() ?? (c as Button)?.GetThemeFont("font").GetFontName(),
                     font_size = label?.GetThemeFontSize("font_size") ?? (c as Button)?.GetThemeFontSize("font_size"),
                     line_spacing = label?.GetThemeConstant("line_spacing"),
+                    fractional_line_spacing = label?.LabelSettings?.LineSpacing,
+                    // 宣言line boxと実font高を別々に記録する。寸法差をAAと推測しない。
+                    metric_line_height = label is not null&&label.HasMeta("metric_line_height") ? (float?)label.GetMeta("metric_line_height").AsDouble() : null,
+                    native_font_height = label?.GetThemeFont("font").GetHeight(label.GetThemeFontSize("font_size")),
                     color = label?.GetThemeColor("font_color").ToHtml(),
                     disabled = button?.Disabled,
                     pressed = button?.ButtonPressed,
                     draw_mode = button?.GetDrawMode().ToString(),
                     icon = c.HasMeta("accepted_icon") ? c.GetMeta("accepted_icon").AsString() : null,
+                    stroke = c.HasMeta("accepted_stroke") ? (float?)c.GetMeta("accepted_stroke").AsDouble() : null,
+                    comparison_use = c.HasMeta("comparison_use") ? c.GetMeta("comparison_use").AsString() : null,
                     horizontal = scroll is null ? null : new[] { scroll.ScrollHorizontal, (float)scroll.GetHScrollBar().MaxValue, (float)scroll.GetHScrollBar().Page, scroll.GetHScrollBar().Size.Y },
                     vertical = scroll is null ? null : new[] { scroll.ScrollVertical, (float)scroll.GetVScrollBar().MaxValue, (float)scroll.GetVScrollBar().Page, scroll.GetVScrollBar().Size.X }
                 });
