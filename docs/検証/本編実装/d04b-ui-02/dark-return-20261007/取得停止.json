@@ -1,0 +1,49 @@
+{
+  "work_id": "20260927-game-application",
+  "task": "D04B-UI-02 改訂0.11の継続",
+  "branch": "impl/m1-godot-application-20260927",
+  "start_head": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+  "preserved_code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+  "target_refs": [
+    "impl/m1-godot-application-20260927",
+    "ops/project-coordination-20260913",
+    "dev_design_tmp_assembly",
+    "ui/readability-20260910"
+  ],
+  "method": "git fetch origin（既定SSH remote）",
+  "attempts": [
+    {"environment": "workspace sandbox", "result": "Permission denied (publickey)", "exit": 1},
+    {"environment": "require_escalated（同じSSH取得手段）", "result": "Permission denied (publickey)", "exit": 1}
+  ],
+  "stop_point": "自枝・計画枝の最新HEAD取得。計画実同期の開始前。",
+  "unverified": [
+    "自枝の最新リモートHEAD",
+    "計画改訂0.11の最新SHA・全path/blobと同じpathへの同期",
+    "技術枝の最新HEADとの差分確認",
+    "最新UI提出ab1b6fa067877a140ac9e9c9c006c70da76e40b4の本文・blob受領"
+  ],
+  "proposal": {
+    "status": "解消。利用者はGitHubプラグイン経由を当初から想定していたと明示。以後の取得・保存は同プラグインを使用。",
+    "method": "既存GitHubコネクタのref/tree/本文・blob取得",
+    "scope": "指定4枝と固定UI提出の読取り、計画全体の同じpathへの保存とblob照合",
+    "reason": "既定SSHの認証が成立せず、古いローカル計画では新修正へ進めない。",
+    "impact": "取得経路・受領記録のみ。枝全体のマージ・停止済み証拠取得・通常保存編集はしない。",
+    "push": "成果保存時に既定経路の成立を確認。新経路の書込みはこの読取り提案に含めない。"
+  },
+  "product_changed": false,
+  "new_checks_started": false,
+  "plan_synchronized": false,
+  "ui_approval": false,
+  "distribution": false,
+  "other_work_messages": false,
+  "parallel_agents": false
+  ,"resolution": {
+    "user_statement": "むしろgithubプラグイン経由を元々想定していた。問題ない。",
+    "agent_error": "GitHubプラグインを既定とせずSSH取得を先に試した。認証失敗のみで、リモート変更・資料同期なし。",
+    "received_plan": "5c61d64a2b32831e3cab842064b91913993c08ab",
+    "plan_files": 77,
+    "technical": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "ui_submission": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+    "text_blobs_received": 27
+  }
+}

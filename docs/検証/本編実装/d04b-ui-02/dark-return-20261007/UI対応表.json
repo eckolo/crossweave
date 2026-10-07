@@ -1,0 +1,820 @@
+{
+  "fixed_input": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_inventory_version": "2026-10-04.1",
+    "palette_correction_revision": "2026-10-07.1",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "theme": "了承済み緑系暗色・通常OS非連動",
+    "new_game_runs": 0
+  },
+  "received_summary": {
+    "original_difference_ids": 57,
+    "repair_difference_ids": 17,
+    "original_decision_pending_ids": 8,
+    "unknown_difference_ids": 6,
+    "resolved_difference_ids": 26,
+    "baseline_components": 19,
+    "M1_state_groups": 37,
+    "required_group_inventory": 17,
+    "closed_required_groups": 2,
+    "required_unknown_groups": 15,
+    "UI_conformant": false,
+    "distribution_allowed": false,
+    "unapproved_visual_differences": 25,
+    "unresolved_difference_ids": 31
+  },
+  "items": [
+    {
+      "id": "V-C01",
+      "received_status": "要修正",
+      "returned_condition": "B02の用途別font/size/line-height、strong500。実解決fontは別採取",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "自然高と役割line boxのleadingを分離。float行送りとmargin collapseを実装。title/meta/heading/body/table/serifへ波及。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs",
+          "blob": "6546b36e368573e86a397e434723bae78e46278d"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-C02",
+      "received_status": "要修正",
+      "returned_condition": "最終selectorのcp/cw/cj/nav、通常暗色・OS非連動。単一hex変換表で用途を統合しない。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "cj-paperとcj-buttonの宣言を区別。通常/hover/selected/disabled、ghostのcw/cp影、最終dark alphaとgradient層順を用途別に対応。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "305bcc58e621ec212bb1c618fdb2a0f6effbab56"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "851d3a6f9fc43e7df7c9657edd24c9725b10cafa"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-C03",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "book-open20/文字18、通常nav背景#2b4336/ink#e2ebdc/線#5c745c/角5。hover等は同フラグで別確認。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "暗色cropでbook-open20、文字18、共通navの寸法・通常面を確認。原本の記録buttonはhover、現在はnormalの対であり、その画素色差だけを通常色の不一致とは判定しない。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-C04",
+      "received_status": "未確認",
+      "returned_condition": "元部品のhover色、取得disabled opacity.42／探索.5、focus原本の見え方",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "提出ID領域[1,980,391,1079]には対象focus buttonが含まれない。原寸currentとnodesは取得、対応reference原寸はcontent空。既存状態検査や制御コードを、未読のfocus外観一致へ拡張しない。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-C05",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "原本shellの1px枠と内側1918×1078、用途別角丸",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "1920×1080外枠、内側1918×1078、1px内側原点、10px角のclipを固定コード・暗色領域で確認。外枠の幾何条件だけの判定。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-C06",
+      "received_status": "要修正",
+      "returned_condition": "thin、探索横6px、原本thumb/track色とgutter",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "同長thumbの内側描画を3px補正。縦横・hover/pressedへ適用しpage/最大値/入力面は保持。実画素は未確認。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-P01",
+      "received_status": "原本判断待ち",
+      "returned_condition": "原本main padding16、lane gap20、grid padding2。原画先頭tile x19/415/1170,y123",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "三領域の開始位置、16padding/20gapと先頭tile19/415/1170・y123は暗色で維持。見出しのStore/LayoutGridは未登録用途の採用待ち。Storeの資料nodeは見出しでなくfooterを指す。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P02",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "取得可能は底線だけ、所持・編成の地色はgridから下",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "取得欄の底線、所持/編成のgrid以降の囲い範囲を暗色cropと原寸で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P03",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "64px連続帯、暗色active#c6d9baとon-active#193224。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "64pxの連続した角なし選択帯と暗色active #c6d9ba／ink #193224を確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P04",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "2px枠を含む352×80、角5、内側76",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "352×80、2px外枠、5px角、76px内側の通常札を暗色領域で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P05",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "右72×76、外枠の内側2px、区切りinset1px",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "右72×76と外枠内側2px、操作側の区切り・insetを暗色通常札で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P06",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "暗色build線#809c6b、副操作面#293b2d。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "編成枠と副操作『外す』の面が分離され、全体を主操作色へ塗る差異は解消。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P07",
+      "received_status": "原本判断待ち",
+      "returned_condition": "layers/scroll-text/check、lightbulb、grid-2x2、18px。数量は右端",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "公開attrのA/C/D等の表示と数量右寄せはDEC02条件に沿う。ScrollText/Check/Grid2X2の未登録用途の採用は未了。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P08",
+      "received_status": "要修正",
+      "returned_condition": "金茶#dbbd78の原本破線周期と135deg斜線、右下独立clock。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "pending/forecastの2px破線を6/4の10px周期へ。左上の丸角端から位相を開始。金茶dbbd78と元斜線は保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-P09",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "同寸法placeholder、中央arrow-rightと底線",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "取得元の同寸placeholder、中央arrow、薄い面と下端線・角を暗色pending原寸で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P10",
+      "received_status": "原本判断待ち",
+      "returned_condition": "共通352×80の破線枠・状態icon・20/28の文言",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "空枠352×80と5px角・破線の復元は確認。Plus/Inbox/CircleCheckが原本空欄から可視記号へ変わる用途は未採用。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P11",
+      "received_status": "原本判断待ち",
+      "returned_condition": "lightbulb、現在値、変更後clock点線token",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "現在値と未払い予測値・財布の数値は同fixtureに対応。Clock3追加はH11-05のwalletとfooterの2使用先を区別する必要がある。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P12",
+      "received_status": "要修正",
+      "returned_condition": "64px footer #283d2e、元のtoken/line box/操作寸法。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "footer tokenを41px/角4/文字33pxへ。破線にも角を適用しwalletの角5と分離。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "851d3a6f9fc43e7df7c9657edd24c9725b10cafa"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-P13",
+      "received_status": "原本判断待ち",
+      "returned_condition": "960×820、角8、暗色paper#26382e、header64/body24/footer72、元の境界/影。owned追加配置は未採用。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "960×820・header64/footer72と通常offerの全幅操作は確認。合法owned対では原本の全幅『外す』に対し、現在は外す/ロック/変換の3操作と説明が追加。機能の存在と配置了承は別。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-P14",
+      "received_status": "要修正",
+      "returned_condition": "中央36px残高、取得行の価格・移動先、数量差分の右列、容量2列、変更心得の折畳み",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "invalidのproblemsを角0にし早期return。未公開0/—walletの追加を除去。funded各行・価格・折畳みは保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-P15",
+      "received_status": "要修正",
+      "returned_condition": "三領域location、pendingclock、取得価格、112px label/value、修飾summary",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "cp内容幅910の右端へtokenを戻し破線角6。価格・公開attr・修飾・owned機能意味は保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E01",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "原画field上413、hand上688、本人帯983。内側の336/248/314/72＋gap20",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "field上413、hand上688、本人帯983とgap20の配置を暗色領域で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E02",
+      "received_status": "要修正",
+      "returned_condition": "night-tide cover＋下方e8edd933 wash",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "dark washの透明端を同じdark RGB/alpha0にし、空場を20282050へ対応。既存cover位置・素材は保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E03",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "border0、e9eed81a、radius8",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "場の帯のborder0・radius8・低alphaの構造を暗色で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E04",
+      "received_status": "要修正",
+      "returned_condition": "1px線と角6/7、150degの元dark gradient #35452f→#2e4247と最終合成。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "illustration全高206pxで150deg投影を計算し、見える87pxへclip。手札/場/forecast/ghostへ共通反映。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E05",
+      "received_status": "原本判断待ち",
+      "returned_condition": "原本Lucide/既存svg。strokeと各20px等を固定",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "登録30定義は現在42定義中の対応30とベクトル一致。Swords/HeartPulseは復元され、新承認不要。ただし実itemIcon使用先の描画は別確認。Mountain要求の原本は未登録△fallback、現在Triangle64であり同一定義ではない。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E06",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "16/24、1px枠、角4、左右4px",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "属性badgeの1px枠・4px角・左右余白と16/24の形を暗色で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E07",
+      "received_status": "要修正",
+      "returned_condition": "空slot背景#20282050と短いcaption。通常札とは別面。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "空場の独立alphaとcaption下端角。通常札のgradientを空場へ描かない。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E08",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "右上4px、paper背景、padding6、radius3",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "右上の短い『使用後に場から離れる』と通常paper面・3px角への修正を暗色で確認。consumeとdata-changedを区別した固定コードを維持。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E09",
+      "received_status": "未確認",
+      "returned_condition": "公開data-changedのみdanger#ffc5a8。consume/selected/linkedと混同しない。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "固定DrawTileはchanged→dangerをconsumeより独立して適用。提出のselected手札/linked場のフラグ差とR01-filler未取得があり、danger枠の同状態全使用先は未成立。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E10",
+      "received_status": "要修正",
+      "returned_condition": "余力・隠蔽の全幅バーを上下4px＋2pxgap＋4px、後者.6",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "主体vitals y42、下段+42、数値18/24・delta16/22。既存上下2本のバーとspace-betweenを保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "6a7843ed4e0f3faeb87f02b47cde1635f3e89ff4"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E11",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "通常枠transparent、選択2px内側＋target記号＋softcaption",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "主体の通常透明枠、選択時2px内側とsoft captionの構造を暗色で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E12",
+      "received_status": "要修正",
+      "returned_condition": "self400px、手札18px、既存の公開補助情報の位置",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本人下段+34で24/10/24を保持。400px本人と最下72px帯は保持。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "6a7843ed4e0f3faeb87f02b47cde1635f3e89ff4"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-E13",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "56px操作枠/内容幅/gap8/追従。tipは最終cw-paper#202820であり白固定ではない。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "選択札に追従する56px操作枠、80px級の内容幅、gap8とtipを暗色で確認。tipの色は実原本のcw-paperであり、旧lightから『白固定』を要求しない。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E14",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "縦端点同士をcubicBezier、stroke2、opacity.5、原本は線のみ",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "縦端点を結ぶcubicBezier、stroke2、opacity.5、矢印追加なしの線を暗色で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-E15",
+      "received_status": "原本判断待ち",
+      "returned_condition": "40pxボタン、16gap、同群2gap、次はsoft背景と底2px",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "40px順番button・16gap・同群2gapは維持。H11比較の現在側は△の12px文字を22×22箱に描き、候補側はMountain SVG12×12・stroke2。主体のTriangle SVG64とは描画手段も用途も異なる。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W01",
+      "received_status": "要修正",
+      "returned_condition": "64header、16padding、20見出し、18/1.6本文、ledgerでラベル値整列",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "overflowをpadding外側へ戻す。cw本文のdl18/18・h3 14/6・行box28.8、wrapを維持。content/scrollは実描画未確認。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-W02",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "pin SVG、56×56、固定はactive背景。close56×56",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "pin16pxと56×56、固定時activeへの補完を暗色で確認。Pinは登録済み定義。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W03",
+      "received_status": "要修正",
+      "returned_condition": "最終cw-drawerは不透明#202820、線#697767、角9、shadow0 4px 14px #0005。初期--cw-window #202820e6と区別。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "cw角9・影0/4/14/0005を使用。cj/cpの窓へ一律適用しない。実対象はdetail-panel等。blur/画素は未確認。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-W04",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "原本uiSpaceの内側寸法とanchor.y、bottom本人帯上端を用いたplaceEdgeWindow",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "IDcropは対象窓を含まないため単独一致証拠にはしない。同じ指定sourceの原本/current nodesでdetail-panel[1383,487,520,480]を照合し、反対端と本人帯上の座標条件を確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W05",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "triggerと上下帯からplaceWindow、親位置を保ったpair520×480/gap16",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "記録の原本/現在で親520×480・右子520×480・gap16、親位置を保つ配置を確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W06",
+      "received_status": "要修正",
+      "returned_condition": "相手・環境／札タブ、対象の判明状態、札/属性/初期枚数table、観測区分・獲得記録",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "cj-button通常2b3d34、hover3a5043、selected c6d9ba/193224を別に保持。親選択/pane別scroll/clampは元のまま。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-W07",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "直前の対象構成を左、札詳細を右。元の選択・scroll保持",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "親を左、札詳細を右へ残す構造とscrollPositionsの保持を確認。公開projectionは旧c761と同blob。DEC06の意図keep/clampを正とし、原本実測の0リセットを採用条件にしない。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W08",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "2列×56px、必要時だけ既存pager",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "2列×56pxのメニュー構造を暗色cropで確認。Windowsの中断/終了等の追加文言・routeはH13の未回答。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W09",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "表示は「動きを抑える」checkbox、探索設定は元操作項目と選択部品",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "『動きを抑える』18px checkboxと元操作の選択構造を暗色で確認。N03機能は既存200ms/抑制0と提出motion条件の範囲。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-W10",
+      "received_status": "要修正",
+      "returned_condition": "原本の表・記号・見出し、18/1.6と親子導線",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "山札summaryと表のmargin/line boxを役割化。登録30定義のhashは不変。Swords/HeartPulse実itemIconの描画は未確認。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+          "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-H01",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "左40幅840のsummary内、h2と詳細がflex隣接gap8",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "左summary内の題名と詳細buttonの隣接gap8を暗色領域で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-H02",
+      "received_status": "要修正",
+      "returned_condition": "元の0/90deg多stopと本文自身90deg。hub/scene/returnのfooterは最終cascadeでtransparent/shadow none。",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "hub/scene/returnのfooter面を透明化。背景90deg→0degの描画順と本文自身の90degを分離。三帰還/本文/拠点の実画素は未確認。",
+      "paths": [
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+          "blob": "c488dd2217d3581596026256c82048d759db5a9c"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+          "blob": "305bcc58e621ec212bb1c618fdb2a0f6effbab56"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+          "blob": "0bb5ea4485a1ec3279b38da8029308f9e2392a47"
+        },
+        {
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs",
+          "blob": "6546b36e368573e86a397e434723bae78e46278d"
+        }
+      ],
+      "verification": "静的根拠照合・build通過。今回の固定描画／必要入力は未確認。",
+      "remaining": "render-stop.json／機能検査停止。H11/H12/H13/合法入力の依存は別に保持。",
+      "next_owner": "本Work（環境条件成立後の同条件検査）→UI改善（独立再判定）"
+    },
+    {
+      "id": "V-H03",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "金額32px Georgia/serif、labelと総額を分離、結果items18px、gap8",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "帰還金額32px Georgia/serif、label/総額の分離、items18pxとgap8の階層を暗色で確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-H04",
+      "received_status": "原本判断待ち",
+      "returned_condition": "reading padding24、20px/1.7、原本の最大幅と高さ、境界なしのgradient",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "本文の20/1.7、24paddingと最大幅の構造は補完。暗色字面は最初の行でx/y各1px・高さ1pxの残差があり、autoRead後revision/読了状態とM1の明示操作は一致の対象を分ける。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-H05",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "中心28px serifのcrossweave、操作は下64px帯",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "通常overrideなしのstart原寸で中央28px serifと下64px操作帯、暗色表示を確認。NormalThemeIsDark(false/true)ともtrueのコード条件と通常home/explore/returnのprobeを照合。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-S01",
+      "received_status": "未確認",
+      "returned_condition": "共通通知はtop72中央、18px、警告面と影。取得通知top76左右24",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "current単行/多行/保存中PNGとnodes・実保存probeは取得。reference単行/多行/保存失敗PNGの3件はcontent空。同文言nodesだけを実原寸画素の代用にしない。複数行white-space/高さ・全保存文言の外観一致は未確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-D01",
+      "received_status": "未確認",
+      "returned_condition": "pointer下の1列にallowed実線2／blocked破線1、ヘッダー全幅の短い述語",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "allowed/blockedの幅・線指定は補完。領域に上端2px程度の候補差が見えるが、pointer/selected/linked/dragフラグを揃えた確定実測が不足。色/ghostの変更影響も残る。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-D02",
+      "received_status": "未確認",
+      "returned_condition": "取得元opacity.3、ghost原寸＋影、不可.75。探索は元部品の指定を保持",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "元opacity.3・ghost1/不可.75の制御は固定コードで確認。提出対にはselected手札/場などフラグの差があり、暗色ghostの面/影/全不可状態の同条件画素一致は未確認。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-D03",
+      "received_status": "未確認",
+      "returned_condition": "pointer(+20,-20)の32px進捗環、下34pxの12/18ラベル、背景・影・mask",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "通常145/157/169/182ms、抑制129/146/162/178/195msの9進行cropと2取消cropを読み、進捗環と取消消失を確認。公開modeはPending→Idle、cue120/hold220。原本の同elapsed進行画素・影/maskとの対は未成立。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-D04",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "取得edge22/step7、探索edge64/step16（原本の論理倍率補正）",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "c761とaabのAutoScroll本文はSHA256 3155aafe486fc6ba35542a2b1d5e74c4fc30aea6b155e93e60e37f53617ea9ffで同一。取得22/7・探索64/16とclampの既存論理条件を再利用。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    },
+    {
+      "id": "V-D05",
+      "received_status": "解消（当該差異の範囲）",
+      "returned_condition": "取得移動200ms ease-out、探索の元live-eventと減衰、抑制設定",
+      "latest_ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "self_ui_pass": false,
+      "implementation_candidate": "本件で採否・状態を変更しない。受領した限定解消/依存/未確認を保持。",
+      "remaining": "AnimateAcquisition/RememberAcquisitionの既存本文と200ms ease-outを維持。通常/抑制motion提出で進行/取消を別に確認。既存live-event/減衰条件を機能の範囲で再利用。",
+      "next_owner": "20260927-game-application / D04B-UI-02"
+    }
+  ],
+  "implemented_candidates": 17,
+  "formal_ui_approval": false,
+  "necessary_unknown_zero": false,
+  "unapproved_difference_zero": false
+}
