@@ -1,12 +1,43 @@
 {
-  "schema": "crossweave-ui-visual-difference-recheck-2",
-  "baseline_version": "2026-10-04.1",
-  "palette_correction_revision": "2026-10-07.1",
-  "implementation": {
-    "commit": "aabfefab076252f050824640fba6d8a8dd13e8e0",
-    "branch": "impl/m1-godot-application-20260927"
+  "schema": "crossweave-ui-fixed-dark-recheck/1",
+  "task": "UI-GODOT-REVIEW-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "reviewed_at_utc": "2026-10-07T00:07:18.662Z",
+  "request_status": "成果作成済み・通常保存/Push/GitHub読戻し待ち",
+  "review_request_complete": false,
+  "current_state": "要修正・配布不可",
+  "fixed": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_inventory_version": "2026-10-04.1",
+    "palette_correction_revision": "2026-10-07.1",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "theme": "了承済み緑系暗色・通常OS非連動",
+    "new_game_runs": 0
   },
-  "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+  "summary": {
+    "original_difference_ids": 57,
+    "repair_difference_ids": 17,
+    "original_decision_pending_ids": 8,
+    "unknown_difference_ids": 6,
+    "resolved_difference_ids": 26,
+    "baseline_components": 19,
+    "M1_state_groups": 37,
+    "required_group_inventory": 17,
+    "closed_required_groups": 2,
+    "required_unknown_groups": 15,
+    "UI_conformant": false,
+    "distribution_allowed": false,
+    "unapproved_visual_differences": 25,
+    "unresolved_difference_ids": 31
+  },
   "items": [
     {
       "id": "V-C01",
@@ -10036,24 +10067,61 @@
       }
     }
   ],
-  "individual_exceptions": [],
-  "policy": "未承認差異0/必要未確認0を配布条件に維持。限定解消は全使用先/画面の適合ではない。",
-  "summary": {
-    "original_difference_ids": 57,
-    "repair_difference_ids": 17,
-    "original_decision_pending_ids": 8,
-    "unknown_difference_ids": 6,
-    "resolved_difference_ids": 26,
-    "baseline_components": 19,
-    "M1_state_groups": 37,
-    "required_group_inventory": 17,
-    "closed_required_groups": 2,
-    "required_unknown_groups": 15,
-    "UI_conformant": false,
-    "distribution_allowed": false,
-    "unapproved_visual_differences": 25,
-    "unresolved_difference_ids": 31
+  "additional_function_findings": [
+    {
+      "id": "N01",
+      "title": "取得詳細の所在/価格/修飾",
+      "status": "補完確認・残件あり",
+      "difference_ids": [
+        "V-P15",
+        "V-P13",
+        "V-P14"
+      ],
+      "observation": "公開所在/価格/修飾を確認。pending token x-12/破線角、invalid wallet、owned配置/合法全状態が残る。"
+    },
+    {
+      "id": "N02",
+      "title": "調査記録の分類/親子/公開区分",
+      "status": "機能条件維持・外観残件あり",
+      "difference_ids": [
+        "V-W06",
+        "V-W07"
+      ],
+      "observation": "projection旧同blobと旧17Core条件を再利用。親子/keepは維持。gap8補完、normal行の面と文字/tableは修正。"
+    },
+    {
+      "id": "N03",
+      "title": "減動設定",
+      "status": "当該機能条件を確認",
+      "difference_ids": [
+        "V-W09",
+        "V-D05",
+        "V-D03"
+      ],
+      "observation": "checkboxと200ms/抑制0の既存条件を維持。cue進行/取消を実画素確認。全popup・cue原本同elapsed・物理入力へ拡張しない。"
+    }
+  ],
+  "required_groups": "必要群判定.json",
+  "original_decisions": "原本判断回答.json",
+  "legal_inputs": "合法入力返却.json",
+  "H11": "H11開始成立.json",
+  "owned_and_routes": "owned・追加導線の返却.json",
+  "evidence": "証拠受領.json",
+  "baseline_correction": "暗色基準訂正.json",
+  "sync": "同期最終照合.json",
+  "unapproved_visual_difference_zero": false,
+  "necessary_unknown_zero": false,
+  "boundaries": {
+    "main_code_changes": 0,
+    "rules_changes": 0,
+    "save_format_changes": 0,
+    "other_works_started": 0,
+    "other_messages_sent": 0,
+    "new_work_or_branch": 0,
+    "reverse_merge": 0
   },
-  "current_recheck": "dark-recheck-20261006/判定.json",
-  "previous_fixed_archive": "history/20261006-dark-start/visual-diff.json"
+  "request_remaining_tasks": [
+    "通常保存/PushとGitHub本文・blob・親/tree/HEAD読戻し、完了記録・最終提出"
+  ],
+  "review_request_completion_rule": "指示0.10：項目別判定・必要未確認理由・具体次担当/再開条件の保存/提出でレビュー依頼は完了できる。UI適合/配布は未承認差異0・必要未確認0を別に要求。"
 }

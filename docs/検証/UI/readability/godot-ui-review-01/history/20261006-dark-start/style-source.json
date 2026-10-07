@@ -7,7 +7,7 @@
     "blob": "74bb9c37a3512942f0aa7caffd4b13605edc06f2",
     "locator": "buildStyle"
   },
-  "condition": "data-display=fhd / embedded acquisition / accepted green dark / normal OS-independent。lightは構造/過去記録。CSS21層の原文/path/blob/orderは不変。",
+  "condition": "data-display=fhd / embedded acquisition / light。低解像度の旧規則を最終値として採用しない",
   "layers": [
     {
       "order": 1,
@@ -176,103 +176,6 @@
       "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
       "locator": "buildStyle順。id置換はbuild.cjsを参照",
       "text": "/* Same component on journey, exploration, and the accepted acquisition screen. */\n#crossweave-journey .cw-common-nav{position:absolute;right:24px;top:4px;z-index:8;display:flex;align-items:center;gap:8px;height:56px}\n#crossweave-journey .cw-common-nav>button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:56px;width:56px;height:56px;min-height:56px;padding:8px;border:1px solid light-dark(#a8b9a5,#5c745c);border-radius:5px;background:light-dark(#f2f5e9,#2b4336);color:light-dark(#294133,#e2ebdc);font:400 18px/24px system-ui,sans-serif}\n#crossweave-journey .cw-common-nav>[data-common-control=\"records\"]{width:152px}\n#crossweave-journey .cw-common-nav :is(i,svg){width:20px;height:20px;flex:none}\n#crossweave-journey[data-display=\"fhd\"] .cj-header{padding-right:256px}\n#crossweave-journey[data-display=\"fhd\"] .cj-header>.cj-back{min-width:96px}\n#crossweave-journey[data-display=\"fhd\"] .cw-explore .cw-order-strip{width:calc(100% - 260px);max-width:calc(100% - 260px);margin-right:260px}\n#crossweave-journey[data-display=\"fhd\"][data-screen=\"collection\"] .cj-shell{grid-template-rows:0 minmax(0,1fr) 0}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"]{width:100%;height:100%;position:absolute;inset:0;margin:0}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"] .cp-shell{width:100%;height:100%;transform:none;border:0;border-radius:0}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"] .cp-header{padding-right:256px;gap:16px}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"] .cp-header>.cp-button{min-width:96px;height:56px;min-height:56px;font-size:18px}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"] .cp-header>nav:not(.cw-common-nav){height:64px}\n#crossweave-journey #cw-acquisition-review[data-embedded=\"true\"] .cp-header>.cp-wallet{font-size:20px}\n"
-    }
-  ],
-  "previous_condition": "data-display=fhd / embedded acquisition / light。低解像度の旧規則を最終値として採用しない",
-  "palette_correction": "dark-recheck-20261006/暗色基準訂正.json",
-  "final_cascade_bindings": [
-    {
-      "use": "cp root/cards",
-      "selector": "#cw-acquisition-review",
-      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
-      "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
-      "dark": {
-        "ink": "#e6ece3",
-        "muted": "#b0c0b3",
-        "line": "#52685b",
-        "paper": "#2b3d34",
-        "active": "#c6d9ba",
-        "on_active": "#193224",
-        "surface": "#1d2b27",
-        "reserve": "#26362b",
-        "build": "#213727"
-      }
-    },
-    {
-      "use": "cw base",
-      "selector": "#cw-playtable",
-      "path": "docs/検証/UI/readability/interaction/table.css",
-      "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
-      "dark": {
-        "window_declaration": "#202820e6",
-        "paper": "#202820",
-        "ink": "#f0f3ea",
-        "line": "#697767",
-        "soft": "#303d2e",
-        "selected": "#c2d8ba",
-        "selected_ink": "#20311e",
-        "danger": "#ffc5a8",
-        "empty_slot": "#20282050"
-      }
-    },
-    {
-      "use": "cw drawer final",
-      "selector": ".cw-explore .cw-drawer,.cw-explore .cw-drawer[data-window=\"card\"]",
-      "path": "docs/検証/UI/readability/co-u02/exploration.css",
-      "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
-      "background": "var(--cw-paper) = #202820",
-      "base_radius": 9,
-      "final_dom_reference": {
-        "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/source-representative-final/dark-repro-prediction-hand-detail.nodes.json",
-        "blob": "d160d46aba907151fab429da7889348b478d760e",
-        "rect": [
-          1383,
-          487,
-          520,
-          480
-        ],
-        "computed_background": "rgb(32,40,32)",
-        "computed_radius": "9px"
-      }
-    },
-    {
-      "use": "cj shell",
-      "selector": "#crossweave-journey .cj-shell",
-      "computed_dark": "#1d2b27",
-      "final_dom_reference": {
-        "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/source-representative-final/dark-repro-home-card.nodes.json",
-        "blob": "eb50e45404ede0427aea15c27da3e6fff610af28"
-      }
-    },
-    {
-      "use": "cj normal button",
-      "selector": "#crossweave-journey .cj-button",
-      "path": "docs/検証/UI/readability/co-u02/journey/screen.css",
-      "blob": "1f269b8902900d903bae8e174e3a75a937a7a69a",
-      "dark_normal": "#2b3d34",
-      "dark_hover": "#3a5043",
-      "fixed_difference": "fixed UiColor(fcfcf5) maps common cj use to #192a22; mapping by phase/one hex is insufficient."
-    },
-    {
-      "use": "nav",
-      "selector": "#crossweave-journey .cw-common-nav>button",
-      "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
-      "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
-      "dark": {
-        "paper": "#2b4336",
-        "ink": "#e2ebdc",
-        "line": "#5c745c"
-      },
-      "state_limit": "reference records button hover versus current normal is not a normal color mismatch."
-    },
-    {
-      "use": "footer by screen",
-      "selector": "#crossweave-journey:is([data-screen=\"return\"],[data-screen=\"hub\"],[data-screen=\"scene\"]) .cj-fixed-footer",
-      "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
-      "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
-      "background": "transparent",
-      "box_shadow": "none",
-      "base_footer": "#283d2e is only the base rule, not the final rule for these states."
     }
   ]
 }
