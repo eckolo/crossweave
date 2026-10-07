@@ -40,6 +40,12 @@ GitHub枝HEADは開始時 `e75b71d618a521dd07f4b6f90329aa13cb2271f9`、ローカ
 
 今回の前提検査の記録範囲は実施済み。継承起動／実描画は未成立、D04B-UI-02の提出範囲・全体、UI適合・配布・実機・人の試遊・M1は未完了。H11開始0/16、H12/H13未回答、契約・原本・取得停止の依存は前回票のまま維持する。
 
+## 保存・読戻し
+
+診断・保全・引継ぎ16ファイルを同枝へ通常FF保存した成果は `15eaf48777aaf43625f7573308b2b33919ec5f3c`。16全文/blob、親e75b71d6、commitのtree SHA c1b5a4a7、枝HEADが一致した。[読戻し原票](publication-readback.json)を参照する。
+
+tree全体本文を要求する同じGitHubプラグインの `/git/trees/c1b5a4a7a815c8a7b02ca536343540e23a3ac870?recursive=1` はTransport closed。単独再試行でも同じため、全tree本文の受領は未了。tree SHA一致を全tree本文受領へ読み替えない。別API／非recursive分割・別経路の準備／試行は行わない。今回の最終読戻し票を含む後続コミットは最終応答とGitHub履歴で固定する。
+
 ## コードを読む順と失敗時の状態
 
 [inspect_desktop.py](verification/inspect_desktop.py)はPython標準ctypesからWindows APIを読む診断コード。Godotの描画処理、C#/.NETの本編・保存処理とは別で、本作の検査開始条件だけを判定する。API型宣言→名前と入力状態の読取り→原票作成→不成立時の終了、の順に読む。取得した入力desktopのhandleだけを閉じ、親から継承したhandleは閉じない。API失敗はerrnoを記録し、未取得を合格へ補完しない。
