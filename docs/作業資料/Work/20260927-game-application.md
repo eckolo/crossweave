@@ -1,6 +1,12 @@
 # ゲーム本編実装 Work設定
 
-最新状態：**D04B-UI-02 改訂0.11は未完了。具体独立修正候補・比較資料の部分訂正・教材をローカル保存。必要検査の環境前提待ち。本編候補a01c5c27・資料e80d418eをGitHub保存。必要検査と開始時保全台帳1本文の読戻しが未了。** [今回記録](../../検証/本編実装/d04b-ui-02/dark-return-20261007/README.md)／[とりまとめへの途中引継ぎ](../../検証/本編実装/d04b-ui-02/dark-return-20261007/とりまとめ引継ぎ.md)。
+最新状態：**D04B-UI-02 改訂0.11は未完了。専用desktop継承案の前提検査を実施したが、実プロセスは入力desktopのWinSta0\Defaultで、Godot起動前に停止。環境・保存権限条件待ち。本編候補a01c5c27は変更なし。** [継承案の実測](../../検証/本編実装/d04b-ui-02/desktop-inherit-20261008/README.md)／[途中引継ぎ](../../検証/本編実装/d04b-ui-02/desktop-inherit-20261008/とりまとめ引継ぎ.md)。
+
+## 専用desktop継承案の検討・前提検査（2026-10-08）
+
+利用者の明示依頼を受け、ツールuse_default内でWindows APIを読み取った。別々のツール実行でPython子とPowerShell親を測定し、両方ともprocess window stationはWinSta0、thread desktopはDefault、UOI_IO=true、input desktopもDefault。追加desktop作成・切替・前面化・入力注入・Godot起動なし。GPU・実描画・PNG/nodesは未確認。ユーザー設定はelevated／専用desktopキー明示なしで、実行時の有効設定・相違の原因は未特定。設定・権限範囲・Cloud・別実行経路への変更は準備／試行しない。
+
+開始GitHub HEAD e75b71d6／ローカルHEAD0ec63342を保全。前回の未追跡15,849件は全SHA256再計算で一致、追加79件、消失0。追跡差分をpatch保存。本編候補9blob／計画77blob一致。計画5c61d64a・技術21ddd349・UIab1b6fa0の枝は変更なし。前回成果と通常セーブ・取得停止・H11/H12/H13等の依存を保持する。再開には実行経路側の専用desktop成立と、既定検査セーブの書込み許可条件が必要。実行環境担当へ確認案として返し、本編必要検査は本Workに残す。自動送信・新Work・新枝・並列実装なし。
 
 ## 固定暗色返却の具体修正（2026-10-07）
 

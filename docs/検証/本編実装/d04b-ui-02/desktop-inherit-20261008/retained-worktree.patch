@@ -1,0 +1,1409 @@
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs
+index 58dbfbc8..6546b36e 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs
+@@ -30,7 +30,8 @@ public partial class GameScreen
+     private void AcceptedStartScreen()
+     {
+         Strong(Text(content, "crossweave", new(24, 4, 800, 56), 24));
+-        var brand = Text(content, "crossweave", new(0, 519, InnerWidth, 40), 28); brand.HorizontalAlignment = HorizontalAlignment.Center; brand.AddThemeFontOverride("font", new FontVariation { BaseFont = serifFont, SpacingGlyph = 2 });
++        var brand = Text(content, "crossweave", new(0, 519, InnerWidth, 40), 28); brand.HorizontalAlignment = HorizontalAlignment.Center;
++        brand.SetMeta("metric_face",spacedSerifFont);LineHeight(brand,28,33.6f);
+         bool empty = diagnosis?.Primary.Code == "missing" && diagnosis.Backup.Code == "missing" && diagnosis.PendingFiles.Length == 0;
+         bool recover = diagnosis?.Backup.Code == "ready" && diagnosis.Primary.Code != "ready" && !diagnosis.Primary.Code.StartsWith("unsupported_");
+         var actions = new List<(string id, string label, Action action, bool enabled)>{
+@@ -59,7 +60,7 @@ public partial class GameScreen
+     }
+     private void AcceptedReturnScreen()
+     {
+-        var r = View.Obj("return"); string outcome = r.Text("outcome") switch { "clear" => "踏破", "withdrawal" => "撤退", _ => "緊急脱出" }; var title = Text(content, outcome, new(24, 4, 900, 56), 24); title.AddThemeFontOverride("font", new FontVariation { BaseFont = serifFont, SpacingGlyph = 2 }); LineHeight(title, 24, 28.8f); CompactHeaderWallet();
++        var r = View.Obj("return"); string outcome = r.Text("outcome") switch { "clear" => "踏破", "withdrawal" => "撤退", _ => "緊急脱出" }; var title = Text(content, outcome, new(24, 4, 900, 56), 24);title.SetMeta("metric_face",spacedSerifFont); LineHeight(title, 24, 28.8f); CompactHeaderWallet();
+         // panels.returnViewの三行集計。本文や結果の見出しを独自に増やさず下端へ揃える。
+         float bottom = 994, y = bottom - 165.4f; var summary = new Control { Position = new(24, y), Size = new(900, 165.4f), MouseFilter = MouseFilterEnum.Ignore }; content.AddChild(summary);
+         Icon(summary, "Lightbulb", new(0, 11.2f, 16, 16)); Text(summary, "着想", new(22, 7, 40, 30), 20);
+@@ -67,7 +68,7 @@ public partial class GameScreen
+         // CSSは異なるfontをbaselineで並べる。数値の自然高がline boxより高い場合も
+         // 半行余白を配分し、Labelの最小高によって集計の一行目を下へ押し下げない。
+         float moneyHeight = MathF.Ceiling(serifFont.GetHeight(32));
+-        var money = Text(summary, amount, new(68, (38.4f-moneyHeight)/2, amountWidth, moneyHeight), 32, UiColor("42684a")); money.AddThemeFontOverride("font", serifFont); LineHeight(money, 32, 38.4f);
++        var money = Text(summary, amount, new(68, (38.4f-moneyHeight)/2, amountWidth, moneyHeight), 32, UiColor("42684a"));money.SetMeta("metric_face",serifFont); LineHeight(money, 32, 38.4f);
+         Text(summary, "計 " + ViewData.Money(r.Number("unspent_after_units")), new(74 + amountWidth, 16, 200, 18), 12, Muted);
+         Text(summary, "余力 " + r.Number("expedition_end_hp") + " → " + r.Number("home_hp"), new(0, 46.4f, 850, 30), 20);
+         var materials = r.Arr("kept_items").Rows().Where(x => x.Text("kind") != "points").ToArray();
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs
+index 8ed4077b..c488dd22 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs
+@@ -13,8 +13,8 @@ namespace Crossweave.Application;
+ public partial class GameScreen
+ {
+     private const float InnerWidth = 1918, InnerHeight = 1078;
+-    private Font strongFont = null!, serifFont = null!;
+-    private readonly Dictionary<(Font face, int size), Font> lineBoxFonts = new();
++    private Font strongFont = null!, serifFont = null!, spacedSerifFont = null!;
++    private readonly Dictionary<(Font face, int size, int leading), Font> lineBoxFonts = new();
+     private bool darkTheme, reducedMotion;
+     private bool journeyWindowStyle;
+     private JsonObject acceptedIcons = new();
+@@ -48,7 +48,9 @@ public partial class GameScreen
+     internal Color Ink => UiColor(Exploring && !journeyWindowStyle ? "263c32" : "243d35");
+     private Color Muted => UiColor("586e63");
+     private Color Gold => UiColor(Exploring ? "345747" : "315849");
+-    private string Paper => Exploring && !journeyWindowStyle ? "f7f8f4" : "fcfcf5";
++    // paper変数とbuttonは同じ明色でも最終dark値が異なる。用途を先に解決する。
++    private string Paper => darkTheme ? ColorScope switch { "cw" => "202820", "cp" => "2b3d34", _ => "192a22" }
++        : Exploring && !journeyWindowStyle ? "f7f8f4" : "fcfcf5";
+     private string Line => Exploring && !journeyWindowStyle ? "acbdad" : "bac9ba";
+     // light-dark()の宣言値から転記。明色の画像しかないことをdark無効の根拠にしない。
+     private static readonly Dictionary<string, string> DarkColors = new(StringComparer.OrdinalIgnoreCase)
+@@ -103,13 +105,13 @@ public partial class GameScreen
+         ["d3dbcf"] = "40524a",
+         ["42684a"] = "d9dfa6"
+         ,["f3f5eb"] = "24362c", ["9aae98"] = "708968", ["c0ceb8"] = "4b6448", ["d1dbc8"] = "415b3e", ["586e50"] = "afc59f"
++        ,["e8eed345"] = "20282050"
+     };
+     private Color UiColor(string value)
+     {
+         value = value.TrimStart('#');
+-        // 同じlight hexでもcp-paperとcj-paperのdark値は異なる。
+-        // 取得画面から開く共通menu/記録もcj。画面phaseだけの例外にしない。
+-        if (darkTheme && value == "fcfcf5") return new Color(ColorScope == "cp" ? "2b3d34" : "192a22");
++        // 宣言色の対応表。用途別変数は呼出し元で最終selectorを選ぶ。
++        // cj-buttonのfcfcf5をcj-paperへ一律に変換しない。
+         if (darkTheme && DarkColors.TryGetValue(value, out var dark)) return new Color(dark);
+         if (darkTheme && value.Length == 8 && DarkColors.TryGetValue(value[..6], out var baseDark)) return new Color(baseDark + value[6..]);
+         return new Color(value);
+@@ -124,6 +126,8 @@ public partial class GameScreen
+         strongFont = AcceptedSystemFont.Resolve("Yu Gothic UI", 600, 2, fallback);
+         var mincho = new SystemFont { FontNames = ["Yu Mincho", "serif"], FontWeight = 400, Fallbacks = [fallback] };
+         serifFont = new SystemFont { FontNames = ["Georgia", "serif"], FontWeight = 400, Fallbacks = [mincho, fallback] };
++        // letter-spacing用のfaceを表示のたびに作らず、line box cacheのキーも安定させる。
++        spacedSerifFont=new FontVariation{BaseFont=serifFont,SpacingGlyph=2};
+         acceptedIcons = (JsonObject)JsonNode.Parse(Godot.FileAccess.GetFileAsString("res://Application/AcceptedIcons.json"))!;
+     }
+     internal object AcceptedFontEvidence()
+@@ -178,7 +182,7 @@ public partial class GameScreen
+         b.SetMeta("accepted_focus_radius", radius); ApplyFocusAppearance(b);
+         foreach (var state in new[] { "font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color", "font_focus_color", "font_disabled_color" }) b.AddThemeColorOverride(state, UiColor(ink));
+         foreach (var child in b.GetChildren())
+-        { if (child is Label label) label.AddThemeColorOverride("font_color", UiColor(ink)); else if (child is TextureRect icon) icon.Modulate = UiColor(ink); }
++        { if (child is Label label) LabelColor(label,UiColor(ink)); else if (child is TextureRect icon) icon.Modulate = UiColor(ink); }
+     }
+     private StyleBoxFlat FocusBox(int radius)
+     {
+@@ -228,18 +232,45 @@ public partial class GameScreen
+             { outline.Visible = keyboardFocusVisible && box.HasFocus(); outline.AddThemeStyleboxOverride("panel", FocusBox(2)); }
+     }
+     // 原本と同じYu Gothic UIでも、Godotの自然baselineは今回の実測で3px下に出る。
+-    // 行box・Control・当たり判定を動かさず、同じfaceの描画baselineだけを補正する。
+-    // 64pxの札glyphやGeorgiaは別の役割なので、この測定値を流用しない。
+-    private Font LineBoxFont(Font face, int size)
++    // CSSのline boxはfontの自然高と独立している。Godot Labelの最小高へ含まれる
++    // 自然高に上下leadingを配分し、title/body/heading/tableごとの指定高へ対応する。
++    // FontVariationはGodotのリソース。字形・OSの書体ファイルは変更しない。
++    private Font LineBoxFont(Font face, int size, float height)
+     {
+         if (OS.GetName() != "Windows" || size > 36) return face;
+-        if (!lineBoxFonts.TryGetValue((face, size), out var resolved))
+-            lineBoxFonts[(face, size)] = resolved = new FontVariation { BaseFont = face, BaselineOffset = -3f / face.GetHeight(size) };
++        // 指定行boxより自然高を大きくしない。小数の余白はLabel側の行boxに残す。
++        int leading = (int)Math.Floor(height - face.GetHeight(size));
++        if (!lineBoxFonts.TryGetValue((face, size, leading), out var resolved))
++        {
++            int top = (int)Math.Floor(leading / 2f);
++            lineBoxFonts[(face, size, leading)] = resolved = new FontVariation
++                { BaseFont = face, SpacingTop = top, SpacingBottom = leading - top };
++        }
+         return resolved;
+     }
+-    private Label Strong(Label label) { label.AddThemeFontOverride("font", LineBoxFont(strongFont, label.GetThemeFontSize("font_size"))); return label; }
++    private Label Strong(Label label)
++    {
++        label.SetMeta("metric_face", strongFont);
++        LineHeight(label, label.GetThemeFontSize("font_size"), label.HasMeta("metric_line_height") ? (float)label.GetMeta("metric_line_height") : 28);
++        return label;
++    }
+     private void LineHeight(Label label, int size, float height)
+-    { label.AddThemeConstantOverride("line_spacing", (int)Math.Round(height - font.GetHeight(size))); }
++    {
++        var face = label.HasMeta("metric_face") ? (Font)label.GetMeta("metric_face").AsGodotObject() : label.GetThemeFont("font");
++        label.SetMeta("metric_face", face); label.SetMeta("metric_line_height", height);
++        var resolved=LineBoxFont(face,size,height);
++        label.AddThemeFontOverride("font",resolved);
++        // LabelSettingsのLineSpacingはfloat。整数theme定数だけでは28.8pxの行送りが
++        // 段落内で累積してずれるので、同じfontの自然高との差を小数で持つ。
++        label.LabelSettings=new LabelSettings{Font=resolved,FontSize=size,
++            FontColor=label.GetThemeColor("font_color"),LineSpacing=height-resolved.GetHeight(size)};
++        label.AddThemeConstantOverride("line_spacing", 0);
++    }
++    private static void LabelColor(Label label, Color color)
++    {
++        label.AddThemeColorOverride("font_color",color);
++        if(label.LabelSettings is not null)label.LabelSettings.FontColor=color;
++    }
+     private Texture2D IconTexture(string name, float stroke = 2, int textureSize = 96)
+     {
+         string key = name + "/" + stroke + "/" + textureSize;
+@@ -263,7 +294,7 @@ public partial class GameScreen
+             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+             Modulate = color ?? Ink,
+             MouseFilter = MouseFilterEnum.Ignore
+-        }; t.SetMeta("accepted_icon", name); parent.AddChild(t); return t;
++        }; t.SetMeta("accepted_icon", name); t.SetMeta("accepted_stroke",stroke); parent.AddChild(t); return t;
+     }
+     private Button IconButton(Control parent, string id, string name, string label, Rect2 rect, Action action, bool enabled = true)
+     {
+@@ -320,7 +351,8 @@ public partial class GameScreen
+     private void ShellBars()
+     {
+         Surface(content, new(0, 0, InnerWidth, 64), "f1f1e8");
+-        Surface(content, new(0, 1014, InnerWidth, 64), "e9eee0");
++        // backdrop.cssではhub/scene/returnのfooterだけ透明。操作ノードは残す。
++        if (Screen == "start") Surface(content, new(0, 1014, InnerWidth, 64), "e9eee0");
+         Surface(content, new(0, 63, InnerWidth, 1), "d3dbcf");
+     }
+     private Rect2 EdgeWindow(float width, float height, bool actor = false)
+@@ -429,7 +461,7 @@ public partial class GameScreen
+         // 消滅の確定安全条件は変えず、danger線はchangedの時だけに使う。
+         string border = pending ? "846838" : tile.Row.Flag("changed") ? "943c25" : tile.Selected || tile.Linked ? "345747" : compact && tile.Zone == "build" ? "58754a" : Line;
+         var style = Box(tile.Hovered && !empty ? "e6eddf" : background, border, compact ? 2 : tile.Selected || tile.Linked ? 2 : 1, compact ? 5 : tile.Zone == "hand" ? 7 : 6);
+-        if (tile.Ghost) { style.ShadowColor = new("203a3540"); style.ShadowSize = 18; style.ShadowOffset = new(0, 6); }
++        if (tile.Ghost) { style.ShadowColor = new(darkTheme?"00000088":compact?"203a3540":"00000044"); style.ShadowSize = 18; style.ShadowOffset = new(0, compact?6:8); }
+         if (pending || forecast || empty && compact) style.BorderWidthBottom = style.BorderWidthTop = style.BorderWidthLeft = style.BorderWidthRight = 0;
+         tile.DrawStyleBox(style, new(Vector2.Zero, tile.Size));
+         if (pending)
+@@ -439,7 +471,7 @@ public partial class GameScreen
+             for (float c = 9 * Mathf.Sqrt(2); c < w + h; c += 10 * Mathf.Sqrt(2))
+             { var a = new Vector2(Math.Max(0, c - h), Math.Min(h, c)); var b = new Vector2(Math.Min(w, c), Math.Max(0, c - w)); tile.DrawLine(a + new Vector2(2, 2), b + new Vector2(2, 2), UiColor("f1ebd7"), 2, true); }
+         }
+-        if (pending || forecast || empty && compact) DashedRect(tile, new(.5f, .5f, tile.Size.X - 1, tile.Size.Y - 1), UiColor(border), pending || forecast ? 2 : 1, 3, 3, compact ? 5 : 6);
++        if (pending || forecast || empty && compact) DashedRect(tile, new(.5f, .5f, tile.Size.X - 1, tile.Size.Y - 1), UiColor(border), pending || forecast ? 2 : 1, pending || forecast ? 6 : 3, pending || forecast ? 4 : 3, compact ? 5 : 6);
+     }
+     private void LiveEvents()
+     {
+@@ -498,7 +530,7 @@ public partial class GameScreen
+         {
+             // CSSの1px破線の丸角を連続した周長へ展開する。直角に4本の線を
+             // 重ねて角だけ太くする方法を避け、empty/pendingの線幅を保つ。
+-            var points = new List<Vector2>();
++            var points = new List<Vector2> { new(r.Position.X + radius, r.Position.Y) };
+             foreach (var (center, angle) in new[] { (new Vector2(r.End.X-radius, r.Position.Y+radius), -90f), (new Vector2(r.End.X-radius, r.End.Y-radius), 0f), (new Vector2(r.Position.X+radius, r.End.Y-radius), 90f), (new Vector2(r.Position.X+radius, r.Position.Y+radius), 180f) })
+                 for (int i=0;i<=8;i++) { float a=Mathf.DegToRad(angle+i*90f/8);points.Add(center+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius); }
+             points.Add(points[0]); float distance=0;
+@@ -531,5 +563,6 @@ public partial class GameScreen
+ internal partial class AcceptedDashedBorder : Control
+ {
+     internal Color Border;
+-    public override void _Draw() => GameScreen.DashedRect(this, new(.5f, .5f, Size.X - 1, Size.Y - 1), Border, 1, 3, 3);
++    internal float Radius = 4;
++    public override void _Draw() => GameScreen.DashedRect(this, new(.5f, .5f, Size.X - 1, Size.Y - 1), Border, 1, 3, 3, Radius);
+ }
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs
+index 77b22f98..c54b5bee 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs
+@@ -13,16 +13,37 @@ public partial class GameScreen
+     private int menuPage;
+     private VBoxContainer FactsBody(Control parent, string id, Rect2 rect, float gap = 12)
+     {
+-        // CSSのpaddingは1px borderの内側。外形520に対し内容幅は486となる。
+-        rect = new(rect.Position + Vector2.One, rect.Size - new Vector2(2, 2));
+-        var scroll = Scroll(parent, id, rect, false);
+-        var list = new VBoxContainer { CustomMinimumSize = new(rect.Size.X - 12, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
+-        list.AddThemeConstantOverride("separation", (int)gap); scroll.AddChild(list); return list;
++        bool cp=Screen=="preparation"&&!journeyWindowStyle;
++        int pad=cp?24:16;
++        // CSS overflowはpaddingを含む窓本体にある。内側だけをScrollContainerにすると
++        // viewportが414→382へ縮み、同じ内容でもscrollbarが消えてしまう。
++        var outer=new Rect2(rect.Position-new Vector2(pad-1,pad-1),rect.Size+new Vector2(2*(pad-1),2*(pad-1)));
++        var scroll = Scroll(parent, id, outer, false);
++        var margin=new MarginContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};
++        foreach(string side in new[]{"left","top","right","bottom"})margin.AddThemeConstantOverride("margin_"+side,pad);
++        scroll.AddChild(margin);
++        var list = new VBoxContainer { CustomMinimumSize = new(cp?rect.Size.X-2:rect.Size.X-12,0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
++        bool blockFlow=!cp&&!journeyWindowStyle;
++        list.SetMeta("css_block_flow",blockFlow);
++        list.AddThemeConstantOverride("separation",blockFlow?0:(int)gap);margin.AddChild(list); return list;
+     }
+-    private Label Paragraph(Control parent, string value, int size = 18, float height = 1.6f, Color? color = null)
++    // 本作のCSS対応adapter。Godot VBoxにはHTMLのmargin collapseがないので、
++    // cw本文だけ隣接する上下marginの最大値を実Controlの余白として保持する。
++    // cp/cjのflex gapに混ぜず、最後のbottom marginも内容高へ含める。
++    private void AddFlowBlock(Control parent, Control block, float before, float after)
++    {
++        if(!parent.HasMeta("css_block_flow")||!(bool)parent.GetMeta("css_block_flow")){parent.AddChild(block);return;}
++        var last=parent.GetChildCount()>0?parent.GetChild(parent.GetChildCount()-1) as Control:null;
++        if(last is not null&&last.HasMeta("css_margin_tail"))last.CustomMinimumSize=new(0,Math.Max(last.CustomMinimumSize.Y,before));
++        else if(before>0)parent.AddChild(new Control{CustomMinimumSize=new(0,before),MouseFilter=MouseFilterEnum.Ignore});
++        parent.AddChild(block);
++        var tail=new Control{CustomMinimumSize=new(0,after),MouseFilter=MouseFilterEnum.Ignore};tail.SetMeta("css_margin_tail",true);parent.AddChild(tail);
++    }
++    private Label Paragraph(Control parent, string value, int size = 18, float height = 1.6f, Color? color = null, float marginBefore = -1, float marginAfter = -1)
+     {
+         var label = new Label { Text = value, AutowrapMode = TextServer.AutowrapMode.WordSmart, VerticalAlignment = VerticalAlignment.Center, SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore };
+-        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font",LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height); parent.AddChild(label);
++        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font",font); label.AddThemeColorOverride("font_color", color ?? Ink); LineHeight(label, size, size * height);
++        AddFlowBlock(parent,label,marginBefore<0?size:marginBefore,marginAfter<0?size:marginAfter);
+         // 原本layoutProseは窓内pも句点で折る。実Containerの幅が決まってから
+         // 同じ文字を改行し、語の意味・公開値を編集しない。
+         label.Resized += () =>
+@@ -40,11 +61,11 @@ public partial class GameScreen
+         return label;
+     }
+     private void Heading(Control parent, string value)
+-    { float height = journeyWindowStyle ? 30 : 28; var label = Paragraph(parent, value, 20, height / 20); Strong(label); label.CustomMinimumSize = new(0, height); }
++    { float height = journeyWindowStyle ? 30 : 28; var label = Paragraph(parent, value, 20, height / 20,marginBefore:14,marginAfter:6); Strong(label); label.CustomMinimumSize = new(0, height); }
+     private void Fact(VBoxContainer body, string term, string value, string? symbol = null, float labelWidth = 164)
+     {
+         bool preparationFacts = Screen == "preparation" && !journeyWindowStyle;
+-        var row = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; row.SetMeta("fact_columns", true); row.AddThemeConstantOverride("separation", 16); body.AddChild(row);
++        var row = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; row.SetMeta("fact_columns", true); row.AddThemeConstantOverride("separation", 16); AddFlowBlock(body,row,12,12);
+         var name = new Control { CustomMinimumSize = new(labelWidth, preparationFacts ? 33 : 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; row.AddChild(name);
+         if (symbol is not null) Icon(name, symbol, new(0, 4, 20, 20));
+         var title = Text(name, term, new(symbol is null ? 0 : 28, 0, labelWidth - (symbol is null ? 0 : 28), preparationFacts ? 33 : 29), preparationFacts ? 20 : 18, preparationFacts ? Muted : Ink); title.VerticalAlignment = VerticalAlignment.Top; LineHeight(title, preparationFacts ? 20 : 18, preparationFacts ? 30 : 28.8f);
+@@ -78,22 +99,22 @@ public partial class GameScreen
+         // CSSのmax-content列幅は表ごとに決まる。単一の固定164px幅にすると
+         // 短いラベルの値が遠ざかり、長い主体名では逆に切れる。
+         var rows = entries.ToArray();
+-        float TermWidth((string term, string value, string? icons, string? field) r) => font.GetStringSize(r.term, fontSize: 16).X + (r.icons is null ? 0 : r.icons.Split('/').Length * 17);
++        float TermWidth((string term, string value, string? icons, string? field) r) => font.GetStringSize(r.term, fontSize: 16).X + (r.icons is null ? 0 : r.icons.Split('/').Length * 17) + 3*(r.term.Split('／').Length-1);
+         float width = rows.Length == 0 ? 0 : Math.Min(300, rows.Max(TermWidth));
+         var table = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+-        table.AddThemeConstantOverride("separation", 12); body.AddChild(table);
++        table.AddThemeConstantOverride("separation", 12); AddFlowBlock(body,table,18,18);
+         foreach (var r in rows)
+         {
+             var line = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+             line.SetMeta("fact_columns", true); line.AddThemeConstantOverride("separation", 16); table.AddChild(line);
+-            var term = new Control { CustomMinimumSize = new(width, 29), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; line.AddChild(term);
++            var term = new Control { CustomMinimumSize = new(width, 28.8f), SizeFlagsVertical = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore }; line.AddChild(term);
+             float x = 0; var parts = r.term.Split('／'); var icons = r.icons?.Split('/');
+             for (int i = 0; i < parts.Length; i++)
+             {
+-                if (i > 0) { Text(term, "／", new(x, 0, 16, 29), 16); x += 16; }
++                if (i > 0) { x+=3;var slash=Text(term, "／", new(x, 0, 16, 28.8f), 16);LineHeight(slash,16,25.6f); x += 16; }
+                 if (icons is not null && i < icons.Length) { Icon(term, icons[i], new(x, 7, 14, 14)); x += 17; }
+                 float w = font.GetStringSize(parts[i], fontSize: 16).X;
+-                Text(term, parts[i], new(x, 0, w, 29), 16); x += w;
++                var termText=Text(term, parts[i], new(x, 0, w, 28.8f), 16);LineHeight(termText,16,25.6f); x += w;
+             }
+             var value = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill }; value.AddThemeConstantOverride("separation", 4); line.AddChild(value);
+             // inlineの数値はmax-content幅を先に確保し、折返しを禁止する。
+@@ -125,7 +146,7 @@ public partial class GameScreen
+         // 同じ探索画面でも、記録・menu・表示はcj、札詳細・操作はcwの原本。
+         // 画面phaseだけでpaper/枠/文字を選ぶと、共通窓に探索の値が混ざる。
+         journeyWindowStyle=!preparation&&panelId!="detail-panel"&&!ExplorerUtilityWindow;
+-        var p = Surface(popup, rect, preparation ? "f4f6ec" : journeyWindowStyle?"f3f5eb":"f7f8f4", preparation ? "bac9ba" : journeyWindowStyle?"9aae98":"acbdad", 1, 8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
++        var p = Surface(popup, rect, preparation ? "f4f6ec" : journeyWindowStyle?"f3f5eb":"f7f8f4", preparation ? "bac9ba" : journeyWindowStyle?"9aae98":"acbdad", 1, !preparation&&!journeyWindowStyle?9:8, true); p.MouseFilter = MouseFilterEnum.Stop; Controls[panelId] = p;
+         if(journeyWindowStyle){var shadow=(StyleBoxFlat)p.GetThemeStylebox("panel");shadow.ShadowSize=12;shadow.ShadowOffset=new(0,3);shadow.ShadowColor=new(darkTheme?"00000066":"243a2b30");}
+         if (!preparation && (panelId == "detail-panel" || ExplorerUtilityWindow)) { var shadow = (StyleBoxFlat)p.GetThemeStylebox("panel"); shadow.ShadowSize = 14; shadow.ShadowOffset = new(0, 4); shadow.ShadowColor = new(darkTheme ? "00000055" : "00000022"); }
+         Surface(p, new(1, 64, rect.Size.X - 2, 1), preparation ? "bac9ba" : journeyWindowStyle?"c0ceb8":"acbdad");
+@@ -144,7 +165,7 @@ public partial class GameScreen
+             if (journeyWindowStyle) IconButton(p, closeId, "X", "", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
+             else Button(p, closeId, "×", new(rect.Size.X - 65, 4.5f, 56, 56), closeWindow);
+         }
+-        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
++        var close = (Button)Controls[closeId]; ButtonStyle(close, preparation ? "ffffff00" : journeyWindowStyle?"fcfcf5":Paper, Line, Exploring&&!journeyWindowStyle ? "263c32" : "243d35", preparation ? 0 : 1, preparation ? 0 : 6);
+         if(journeyWindowStyle)
+         {
+             foreach(var icon in close.GetChildren().OfType<TextureRect>()){icon.Position=new(19,19);icon.Size=new(18,18);}
+@@ -177,8 +198,8 @@ public partial class GameScreen
+             // 原本cjの付与札は全員への二行。予測cwの公開機転は従来どおり残す。
+             if (!journeyWindowStyle || d.Text("kind") != "defense_support") primary.Add(("機転", Known(d["crit_gain"]), "Zap", null));
+             if (detailKind is "knowledge" or "deck") primary.Add(("手札期限", Known(row["remaining_life"] ?? d["life"]), null, null));
+-            // HTML dlの既定上下余白を残し、原本にない「基礎値」見出しは増やさない。
+-            if (!journeyWindowStyle) body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, primary);
++            // dl/h3の余白はAddFlowBlockが役割別に組む。架空の見出しは増やさない。
++            Ledger(body, primary);
+             Heading(body, "場に置くと"); Ledger(body, [("突破／身構", Known(d["field_power"]), "ArrowUpRight/Shield", null), ("探査／攪乱", Known(d["field_hit"]), "ScanSearch/Wind", null)]);
+             Heading(body, "次の行動まで"); Ledger(body, [("置く", Known(d["place_cost"]), null, null), ("一致", Known(d["match_cost"]), null, null)]);
+             if (guard) Paragraph(body, "防御の回数：" + (d.ContainsKey("defense_uses") ? d["defense_uses"] is null ? "制限なし" : d.Text("defense_uses") + "回" : "未公開"));
+@@ -235,7 +256,7 @@ public partial class GameScreen
+             { var b = StatValue(change.Obj("before"), key); var a = StatValue(change.Obj("after"), key); if (b is null || a is null) Row(name + " " + label, "未公開"); else if (!JsonNode.DeepEquals(b, a)) Row(name + " " + label, Known(b) + " → " + Known(a)); }
+         }
+         if (mode == "place") Row("主効果", "発動なし");
+-        body.AddChild(new Control { CustomMinimumSize = new(0, 6) }); Ledger(body, rows);
++        Ledger(body, rows);
+         // 一閃倍率の公開不足をゼロとして見せない。補足は別段落に置き、
+         // 原本ledgerのmax-content列幅を長い主体名で広げない。
+         Paragraph(body, "一閃倍率：未公開", 16, 1.6f, Muted);
+@@ -248,15 +269,12 @@ public partial class GameScreen
+     {
+         if (!Comparison.Flag("ok"))
+         {
+-            var warning = new PanelContainer(); warning.AddThemeStyleboxOverride("panel", Box("f6e3d6", width: 0)); body.AddChild(warning);
++            var warning = new PanelContainer(); warning.AddThemeStyleboxOverride("panel", Box("f6e3d6", width: 0,radius:0)); body.AddChild(warning);
+             var inset = new MarginContainer(); foreach (string side in new[] { "left", "top", "right", "bottom" }) inset.AddThemeConstantOverride("margin_" + side, 8); warning.AddChild(inset);
+             string error=Comparison.Text("error");string text=error is "insufficient_funds" or "insufficient_unspent_funds"?"着想が足りません。取得予定を見直してください。":ViewData.Explain(error);
+             Paragraph(inset, text, 20, 1.5f, UiColor("803d25"));
+-            // 原本runtimeReviewBodyは無効時のproblems、残高／—、価格を残す。
+-            // 比較拒否時に公開されないafterを0として計算し直さない。
+-            var balance=new Control{CustomMinimumSize=new(0,54)};body.AddChild(balance);
+-            string currentBalance=ViewData.Money(View.Obj("home").Obj("economy").Number("unspent_units"));float currentWidth=strongFont.GetStringSize(currentBalance,fontSize:36).X;
+-            float balanceX=(body.CustomMinimumSize.X-currentWidth-90)/2;Icon(balance,"Lightbulb",new(balanceX,15,24,24));Strong(Text(balance,currentBalance,new(balanceX+38,0,currentWidth,54),36));Text(balance,"—",new(balanceX+currentWidth+52,0,38,54),36);Controls["review-wallet"]=balance;
++            // 原本runtimeReviewBodyはproblemsだけで早期returnする。拒否時に
++            // 公開されない残高afterを0/—の追加walletとして表示しない。
+             return;
+         }
+         body.AddThemeConstantOverride("separation", 24);
+@@ -269,7 +287,7 @@ public partial class GameScreen
+         Icon(wallet, "ArrowRight", new(x, 15, 24, 24)); x += 38; Strong(Text(wallet, afterBalance, new(x, 0, aw, 54), 36)); x += aw + 14; Text(wallet, cost, new(x, 0, cw, 54), 18, Muted);
+         // 外側24、節内8、変更行の上下6を別々に持つ。全行を節の間隔で離さない。
+         VBoxContainer Section(string title, string icon)
+-        { var list = new VBoxContainer(); list.AddThemeConstantOverride("separation", 8); body.AddChild(list); var h = new Control { CustomMinimumSize = new(0, 30) }; list.AddChild(h); Icon(h, icon, new(0, 5, 20, 20), Muted); Strong(Text(h, title, new(32, 0, 600, 30), 20, Muted)); return list; }
++        { var list = new VBoxContainer(); list.AddThemeConstantOverride("separation", 8); body.AddChild(list); var h = new Control { CustomMinimumSize = new(0, 30) }; list.AddChild(h); Icon(h, icon, new(0, 3, 24, 24), Muted).SetMeta("comparison_use",icon=="Store"?"H11-11/confirmation-heading":"H11-13/confirmation-heading"); Strong(Text(h, title, new(32, 0, 600, 30), 20, Muted)); return list; }
+         Control ChangeRow(VBoxContainer list, string id, float height = 45)
+         { var row = new Control { CustomMinimumSize = new(0, height) }; list.AddChild(row); Controls[id] = row; Surface(row, new(0, height - 1, body.CustomMinimumSize.X, 1), "bac9ba"); return row; }
+         var purchases = View.Obj("home").Arr("acquisition").Rows().Where(r => Plan.Arr("acquire").Strings().Contains(r.Text("id"))).ToArray();
+@@ -315,7 +333,7 @@ public partial class GameScreen
+         string location = offer ? "offer" : detailKind == "build" ? "build" : "reserve";
+         foreach (var (id, icon, x) in new[] { ("offer", "Store", 0f), ("reserve", "Layers", 108f), ("build", "LayoutGrid", 216f) })
+         { var p = Surface(locations, new(x, 0, 64, 48), id == location ? "315849" : "ffffff00", width: 0, radius: 6); Icon(p, icon, new(22, 14, 20, 20), id == location ? UiColor("fffef5") : Ink); p.Modulate = new(1, 1, 1, id == location ? 1 : .45f); if (x < 216) Icon(locations, "ChevronRight", new(x + 76, 14, 20, 20)); }
+-        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 64, 0, 64, 48), "f5eedb", radius:6);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore}); Icon(token, "Clock3", new(23, 15, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い";Controls["detail-pending-clock"]=token; }
++        if (pending) { var token = Surface(locations, new(body.CustomMinimumSize.X - 64, 0, 64, 48), "f5eedb", radius:6);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),Radius=6,MouseFilter=MouseFilterEnum.Ignore}); Icon(token, "Clock3", new(23, 15, 18, 18), UiColor("846838")); token.TooltipText = "取得予定・未払い";Controls["detail-pending-clock"]=token; }
+         PreparationItemFacts(body, detail);
+         var affixes = detail.Obj("details").Arr("affix_descriptions"); if (affixes.Count > 0) Fold(body, "affix-" + detail.Text("id"), "修飾", b => { foreach (var a in affixes.Rows()) Paragraph(b, a.Text("label") + "：" + a.Text("description")); });
+         if (offer || pending) { var price = new Control { CustomMinimumSize = new(0, 33) }; body.AddChild(price); string amount = ViewData.Money(detail.Number("price_units")); float w = strongFont.GetStringSize(amount, fontSize: 22).X; Icon(price, "Lightbulb", new(body.CustomMinimumSize.X - w - 28, 6, 20, 20)); Strong(Text(price, amount, new(body.CustomMinimumSize.X - w, 0, w, 33), 22)); Controls["detail-price"] = price; }
+@@ -440,13 +458,13 @@ public partial class GameScreen
+         var rect = PlaceWindow(modalAnchor); var pair = WindowPair(sourceWindow ?? rect);
+         var p = WindowFrame("本人の札", child ? pair.left : rect, back: modalParent != "");
+         var e = View.Obj("exploration"); var body = FactsBody(p, "deck-list", new(16, 80, 488, 384));
+-        Paragraph(body, $"山札 {e.Arr("own_deck").Count}枚 · 手札 {e.Arr("hand").Count}枚 · 共有回収 {e.Number("pool_count")}枚");
++        Paragraph(body, $"山札 {e.Arr("own_deck").Count}枚 · 手札 {e.Arr("hand").Count}枚 · 共有回収 {e.Number("pool_count")}枚",marginBefore:8,marginAfter:8);
+         // cw-deck-tableは自動列幅・td上下4px・内容幅のbutton。cjの55%固定表と
+         // 別に組む。行ごとのVBox gap/Dividerで原本にない余白・線を増やさない。
+         var rows=e.Arr("deck_catalogue").Rows().ToArray();string[] titles=["札","持込","山札","手札"],keys=["initial_count","deck_count","hand_count"];
+         float nameWidth=rows.Length==0?0:rows.Max(r=>font.GetStringSize(CardName(r.Obj("card")),fontSize:18).X+18);
+         float[] natural=[Math.Max(nameWidth,strongFont.GetStringSize(titles[0],fontSize:18).X)+4,..titles.Skip(1).Select((t,i)=>Math.Max(strongFont.GetStringSize(t,fontSize:18).X,rows.Length==0?0:rows.Max(r=>font.GetStringSize(Known(r[keys[i]]),fontSize:18).X))+4)];
+-        var table=new Control{CustomMinimumSize=new(0,36.8f+rows.Length*64),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};body.AddChild(table);
++        var table=new Control{CustomMinimumSize=new(0,36.8f+rows.Length*64),SizeFlagsHorizontal=SizeFlags.ExpandFill,MouseFilter=MouseFilterEnum.Ignore};AddFlowBlock(body,table,0,0);
+         var headings=titles.Select(t=>Strong(Text(table,t,new(0,4,1,28.8f),18))).ToArray();
+         var cells=new List<(Button name,Label[] values)>();int index=0;
+         foreach(var row in rows)
+@@ -534,7 +552,7 @@ public partial class GameScreen
+             var body=KnowledgeBody(parent,"knowledge-list");var tabs=new Control{CustomMinimumSize=new(0,43)};body.AddChild(tabs);
+             float firstWidth=font.GetStringSize("相手・環境",fontSize:18).X+28,secondWidth=font.GetStringSize("札",fontSize:18).X+28;
+             Button(tabs,"knowledge-tab-targets","相手・環境",new(0,0,firstWidth,43),()=>{knowledgeTab="targets";knowledgeSelection="";});Button(tabs,"knowledge-tab-cards","札",new(firstWidth+6,0,secondWidth,43),()=>{knowledgeTab="cards";knowledgeSelection="";});
+-            foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6);
++            foreach(var(id,tab)in new[]{("knowledge-tab-targets","targets"),("knowledge-tab-cards","cards")})if(Controls[id] is Button b)ButtonStyle(b,knowledgeTab==tab?"315849":"fcfcf5","bac9ba",knowledgeTab==tab?"fffef5":"243d35",1,6,hover:knowledgeTab==tab?"315849":"e6eddf");
+             Paragraph(body,knowledgeTab=="targets"?"探索で判明した構成と札":"判明した札の性能",16,1.6f,UiColor("586e50"));
+             var list=new VBoxContainer{SizeFlagsHorizontal=SizeFlags.ExpandFill};list.AddThemeConstantOverride("separation",knowledgeTab=="targets"?10:8);body.AddChild(list);
+             if (knowledgeTab == "cards")
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.Components.cs b/apps/crossweave-godot/Godot/Application/GameScreen.Components.cs
+index bd1c4cb2..305bcc58 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.Components.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.Components.cs
+@@ -30,8 +30,9 @@ public partial class GameScreen
+     {
+         // flow最終層の二つの多stopを保持。SceneReaderから重複適用しない。
+         string paper=darkTheme?"1d2b27":"f1f1e8";
+-        GradientSurface(content,new(0,64,InnerWidth,950),new(.5f,1),new(.5f,0),[paper+"ff",paper+"00"],[0,.76f]);
+-        GradientSurface(content,new(0,64,InnerWidth,950),new(0,.5f),new(1,.5f),[paper+"ff",paper+(darkTheme?"b0":"a8"),paper+"00"],[.02f,.38f,.76f]);
++        GradientSurface(content,new(0,64,InnerWidth,950),new(0,.5f),new(1,.5f),[paper+"ff",paper+(darkTheme?"b0":"a8"),paper+"00"],[.02f,.38f,.76f]);
++        // CSSの最初のbackground層が最前面。Godotは後に追加する子を前面に描く。
++        GradientSurface(content,new(0,64,InnerWidth,950),new(.5f,1),new(.5f,0),[paper+"ff",paper+"00"],[0,.76f]);
+     }
+ 
+     private static string ActorSymbol(JsonObject row) => row.Text("purpose") switch
+@@ -126,7 +127,7 @@ public partial class GameScreen
+         if(!IsInstanceValid(dragGhost))
+         {
+             dragGhost=MakeTile(canvas!,"drag-ghost",gestureRow,new(Vector2.Zero,grabbedSize),gestureZone);dragGhost.Ghost=true;dragGhost.QueueRedraw();
+-            if(gestureZone=="hand")foreach(var glyph in dragGhost.GetChildren().OfType<Label>().Where(l=>l.GetThemeFontSize("font_size")==64))glyph.AddThemeColorOverride("font_color",UiColor("ffffff"));
++            if(gestureZone=="hand")foreach(var glyph in dragGhost.GetChildren().OfType<Label>().Where(l=>l.GetThemeFontSize("font_size")==64))LabelColor(glyph,UiColor("ffffff"));
+             if(grabbedSize.Y<100)
+             {var action=Surface(dragGhost,new(278,2,72,76),gestureZone=="build"?"f5f7ee":"315849");Text(action,gestureZone=="offer"?"取得":gestureZone=="build"?"外す":"編成",new(0,0,72,76),20,gestureZone=="build"?Muted:UiColor("fffef5")).HorizontalAlignment=HorizontalAlignment.Center;}
+             dragGhost.MouseFilter=MouseFilterEnum.Ignore;
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs b/apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs
+index 8caa71d7..8218fc35 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs
+@@ -35,7 +35,7 @@ public partial class GameScreen
+             var band=Surface(b,new(1,129,318,118),id==selectedTarget?"e9eee4":"f7f8f4");
+             float nameX=id==selectedTarget?25:10;if(id==selectedTarget)Icon(band,"Crosshair",new(10,17,12,12));
+             var name=Text(band,row.Text("display_name"),new(nameX,10,308-nameX,28),20);Strong(name);LineHeight(name,20,28);
+-            ActorVitals(band,id,row,10,46,298);
++            ActorVitals(band,id,row,10,42,298);
+         }
+         OrderStrip(e);
+         Surface(content,new(24,380,1870,248),"e9eed81a",radius:8);
+@@ -181,23 +181,30 @@ public partial class GameScreen
+         if(rect.Size.Y<100)
+         {
+             var title=Text(tile,CardName(row),new(10,6,260,48),20);Strong(title);LineHeight(title,20,24);title.MaxLinesVisible=2;title.VerticalAlignment=VerticalAlignment.Top;
+-            Icon(tile,zone=="build"?"Check":d["trigger"] is not null?"ScrollText":"Layers",new(10,55,18,18),zone=="build"?Gold:Muted);
++            var metaIcon=Icon(tile,zone=="build"?"Check":d["trigger"] is not null?"ScrollText":"Layers",new(10,55,18,18),zone=="build"?Gold:Muted);
++            metaIcon.SetMeta("comparison_use",zone=="build"?"H11-02/meta":d["trigger"] is not null?"H11-01/meta":"registered/Layers/meta");
+             float x=34;
+             if(zone=="offer"||row.Flag("pending")){Icon(tile,"Lightbulb",new(x,55,18,18),Muted);Text(tile,ViewData.Money(row.Number("price_units")),new(x+24,54,130,20),18,Muted);}
+-            else if(d["trigger"] is not null){Icon(tile,"Grid2X2",new(x,55,18,18),Muted);Text(tile,d.Number("equipment_cost").ToString(),new(x+24,54,96,20),18,Muted);}
++            else if(d["trigger"] is not null){Icon(tile,"Grid2X2",new(x,55,18,18),Muted).SetMeta("comparison_use","H11-03/cost");Text(tile,d.Number("equipment_cost").ToString(),new(x+24,54,96,20),18,Muted);}
+             else Text(tile,d.Text("attr"),new(x,54,96,20),18,Muted);
+             if(row.Number("display_quantity")>1)Text(tile,"×"+row.Number("display_quantity"),new(190,54,80,20),18,Muted).HorizontalAlignment=HorizontalAlignment.Right;
+             if(row.Flag("locked")){Icon(tile,"Pin",new(228,55,18,18),Muted);tile.TooltipText="ロック済み";}
+-            if(row.Flag("pending")){Surface(tile,new(250,54,20,20),Paper,radius:10);Icon(tile,"Clock3",new(251,55,18,18),UiColor("846838"));}
++            if(row.Flag("pending")){Surface(tile,new(250,54,20,20),Paper,radius:10);Icon(tile,"Clock3",new(251,55,18,18),UiColor("846838")).SetMeta("comparison_use","H11-04/tile");}
+         }
+         else if(row.Flag("empty"))
+         {
+             // 空の場は短いcaptionのみ。通常札の名称48px・効果24pxを架空に確保しない。
+-            Surface(tile,new(1,147,246,60),"f7f8f4");var emptyCaption=Strong(Text(tile,d.Text("attr"),new(7,153,234,24),18));emptyCaption.VerticalAlignment=VerticalAlignment.Top;LineHeight(emptyCaption,18,24);
++            var caption=Surface(tile,new(1,147,246,60),"f7f8f4",radius:5);
++            // 上端はfaceと直線で接し、下端だけ札の角に沿わせる。
++            var captionStyle=(StyleBoxFlat)caption.GetThemeStylebox("panel");captionStyle.CornerRadiusTopLeft=captionStyle.CornerRadiusTopRight=0;
++            var emptyCaption=Strong(Text(tile,d.Text("attr"),new(7,153,234,24),18));emptyCaption.VerticalAlignment=VerticalAlignment.Top;LineHeight(emptyCaption,18,24);
+         }
+         else
+         {
+-            CardGradient(tile,new(1,1,246,87),zone=="hand"?6:5);
++            // illustrationはcaption背後まで206px。投影長は全高で求め、実際に見える
++            // 上87pxだけをControlでclipする。caption面や入力領域は覆わない。
++            var illustration=new Control{Position=new(1,1),Size=new(246,87),ClipContents=true,MouseFilter=MouseFilterEnum.Ignore};tile.AddChild(illustration);
++            CardGradient(illustration,new(0,0,246,206),zone=="hand"?6:5);
+             // exploration.jsのart('cards')は64pxの既存glyph。stat欄のLucide SVGとは役割が違う。
+             // 原本のillustrationは上padding8px、spanは64px/1.4のline box。
+             // Labelはfontの自然高未満に縮まないため、半行余白を外側で配分する。
+@@ -355,7 +362,7 @@ public partial class GameScreen
+             // 末行のfont heightで終わるため、段落数に応じて後続の位置がずれる。
+             // 行送りと外形高を別に固定し、上下の半行余白は中央寄せで再現する。
+             var label = new Label { Text = lines, CustomMinimumSize = new(rect.Size.X - 12, lines.Split('\n').Length * 34), VerticalAlignment = VerticalAlignment.Center, AutowrapMode = TextServer.AutowrapMode.Off, MouseFilter = MouseFilterEnum.Ignore };
+-            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeFontOverride("font",LineBoxFont(font,20)); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
++            label.AddThemeFontSizeOverride("font_size", 20); label.AddThemeFontOverride("font",font);label.AddThemeColorOverride("font_color",Ink); LineHeight(label,20,34); list.AddChild(label); visibleParagraphs.Add((label, scroll, row.Text("id")));
+         }
+     }
+     private void RecordVisibleParagraphs()
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs b/apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs
+index 0e2ba578..0bb5ea44 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs
+@@ -27,7 +27,9 @@ public partial class GameScreen
+             {
+                 var thumb=Box(Line,Line,0,3);if(vertical)thumb.BgColor=new Color(state=="grabber"?(darkTheme?"9f9f9f":"8b8b8b"):(darkTheme?"d1d1d1":"636363"));
+                 thumb.ContentMarginTop=thumb.ContentMarginBottom=thickness/2;thumb.ContentMarginLeft=thumb.ContentMarginRight=thickness/2;
+-                if(vertical){thumb.SetExpandMargin(Side.Left,-2);thumb.SetExpandMargin(Side.Right,-2);}else{thumb.SetExpandMargin(Side.Top,-2);thumb.SetExpandMargin(Side.Bottom,-2);}
++                // 同overflowでthumb長は一致し描画だけ3pxずれる。page/操作面は変えない。
++                if(vertical){thumb.SetExpandMargin(Side.Left,-2);thumb.SetExpandMargin(Side.Right,-2);thumb.SetExpandMargin(Side.Top,3);thumb.SetExpandMargin(Side.Bottom,-3);}
++                else{thumb.SetExpandMargin(Side.Top,-2);thumb.SetExpandMargin(Side.Bottom,-2);thumb.SetExpandMargin(Side.Left,3);thumb.SetExpandMargin(Side.Right,-3);}
+                 Theme.SetStylebox(state,kind,thumb);
+             }
+             foreach(var state in new[]{"increment","decrement","increment_highlight","decrement_highlight","increment_pressed","decrement_pressed"})
+@@ -47,7 +49,8 @@ public partial class GameScreen
+     {
+         var label = new Label { Text = value, Position = rect.Position, Size = rect.Size, MouseFilter = MouseFilterEnum.Ignore,
+             AutowrapMode = rect.Size.Y < size*2 ? TextServer.AutowrapMode.Off : TextServer.AutowrapMode.WordSmart, ClipText = true, VerticalAlignment=VerticalAlignment.Center };
+-        LineHeight(label,size,size*(Exploring?1.4f:1.5f)); label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font", LineBoxFont(font,size)); label.AddThemeColorOverride("font_color", color ?? Ink); parent.AddChild(label); return label;
++        label.AddThemeFontSizeOverride("font_size", size); label.AddThemeFontOverride("font", font);
++        label.AddThemeColorOverride("font_color", color ?? Ink);LineHeight(label,size,size*(Exploring&&!journeyWindowStyle?1.4f:1.5f)); parent.AddChild(label); return label;
+     }
+     private Panel Panel(Control parent, Rect2 rect, string color = "15272dea")
+     {
+@@ -62,10 +65,11 @@ public partial class GameScreen
+         parent.AddChild(button); Controls[id] = button;
+         bool primary=id.StartsWith("取得-")||id.StartsWith("編成-")||id is "depart" or "continue" or "ack" or "review" or "commit" or "play";
+         bool explorationButton=Exploring&&!journeyWindowStyle;
+-        ButtonStyle(button,primary?(explorationButton?"345747":"315849"):Paper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
++        string normalPaper=ColorScope=="cj"?"fcfcf5":Paper;
++        ButtonStyle(button,primary?(explorationButton?"345747":"315849"):normalPaper,primary?(explorationButton?"345747":"315849"):Line,primary?(explorationButton?"ffffff":"fffef5"):(explorationButton?"263c32":"243d35"),hover:primary?"244537":"e6eddf");
+         button.AddThemeFontSizeOverride("font_size",Screen=="preparation"&&!journeyWindowStyle?20:18);
+-        button.AddThemeFontOverride("font",LineBoxFont(font,button.GetThemeFontSize("font_size")));
+-        if(button.Disabled)button.Modulate=new Color(1,1,1,Screen=="preparation"&&!journeyWindowStyle?.42f:.5f);
++        button.AddThemeFontOverride("font",LineBoxFont(font,button.GetThemeFontSize("font_size"),button.GetThemeFontSize("font_size")*(explorationButton?1.4f:1.5f)));
++        if(button.Disabled)button.Modulate=new Color(1,1,1,ColorScope=="cp"?.42f:ColorScope=="cj"?.45f:.5f);
+         // PressedはGodot標準のsignal。ラムダはUIの意図を本作の操作へ渡すだけで、ゲーム計算を行わない。
+         button.Pressed += () => { if (Automation is not null) {Automation.ButtonPressed(id);GD.Print("UI PRESS " + id + " busy=" + Busy);} if ((!Busy || id == "exit") && !button.Disabled) { CancelGesture(); action(); renderNeeded = true; } };
+         return button;
+@@ -120,7 +124,13 @@ public partial class GameScreen
+         if(Screen=="start")background.Hide();
+         if(Screen is "home" or "return" || View.Obj("story").Obj("scene").Flag("paused"))ReadingBackdrop();
+         if(Screen!="preparation"&&!Exploring)ShellBars();
+-        if(Exploring)GradientSurface(content,new(0,0,InnerWidth,InnerHeight),new(.5f,0),new(.5f,1),["e8edd900","e8edd900","e8edd933"],[0,.45f,1]);
++        if(Exploring)
++        {
++            // transparentも終点と同じRGBでalpha0にする。透明な明色RGBをdark終点へ
++            // 補間すると中間のwashが明るくなり、空場の透過色まで変わってしまう。
++            string wash=darkTheme?"182a27":"e8edd9",end=darkTheme?"182a2755":"e8edd933";
++            GradientSurface(content,new(0,0,InnerWidth,InnerHeight),new(.5f,0),new(.5f,1),[wash+"00",wash+"00",end],[0,.45f,1]);
++        }
+         if (Screen == "start") StartScreen();
+         else if (Screen == "preparation") PreparationScreen();
+         else if (Screen == "home") HomeScreen();
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs b/apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs
+index 1a40ec90..851d3a6f 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs
+@@ -57,7 +57,7 @@ public partial class GameScreen
+         {
+             var tab=Button(content,"tab-"+key,label,new(x,0,width,64),()=>{preparationTab=key;Modal="";});
+             bool selected=preparationTab==key;
+-            ButtonStyle(tab,selected?"315849":"fcfcf5","bac9ba",selected?"fffef5":"243d35",0,0);
++            ButtonStyle(tab,selected?"315849":"fcfcf5","bac9ba",selected?"fffef5":"243d35",0,0,hover:selected?"315849":"e6eddf");
+             tab.AddThemeFontSizeOverride("font_size",24);
+         }
+         PreparationWallet();
+@@ -105,7 +105,7 @@ public partial class GameScreen
+             }
+             string amount=zone=="build"?(preparationTab=="card"?Plan.Obj("composition").Arr("deck").Count+" / 12":Plan.Obj("composition").Arr("equipment").Strings().Sum(id=>projected.First(r=>r.Text("id")==id).Obj("details").Number("equipment_cost"))+" / "+View.Obj("home").Obj("equipment").Number("capacity")):count.ToString();
+             float titleX=x+36;
+-            if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24));
++            if(zone!="offer")Icon(content,zone=="reserve"?"Layers":"LayoutGrid",new(x,84,24,24)).SetMeta("comparison_use",zone=="build"?"H11-13/build-heading":"registered/Layers/reserve-heading");
+             // 原本cp-lane-titleのspanは通常24px、数量strongだけ20px。
+             // 一律108pxを空けると「所持」「編成」の数量が48px遠ざかる。
+             // 実書体の見出し幅＋原本gap12で三領域に同じ契約を使う。
+@@ -128,7 +128,7 @@ public partial class GameScreen
+         Surface(content,new(0,1014,InnerWidth,64),"e9eee0");Surface(content,new(0,1014,InnerWidth,1),Line);
+         Icon(content,View.Obj("home").Obj("offers").Text("status")=="purchased"?"CircleCheck":"Store",new(24,1034,24,24),Muted);
+         string purchase=PurchaseTrack();float purchaseWidth=font.GetStringSize(purchase,fontSize:22).X;Text(content,purchase,new(60,1014,purchaseWidth,64),22);
+-        if(Plan.Arr("acquire").Count>0){string count=Plan.Arr("acquire").Count.ToString();float numberWidth=font.GetStringSize(count,fontSize:22).X,tokenWidth=18+2+numberWidth+8;var token=Surface(content,new(60+purchaseWidth+12,1024.5f,tokenWidth,43),"f5eedb",radius:4);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore});Icon(token,"Clock3",new(4,12.5f,18,18),UiColor("846838"));Text(token,count,new(24,4,numberWidth,35),22);}
++        if(Plan.Arr("acquire").Count>0){string count=Plan.Arr("acquire").Count.ToString();float numberWidth=font.GetStringSize(count,fontSize:22).X,tokenWidth=18+2+numberWidth+8;var token=Surface(content,new(60+purchaseWidth+12,1025.5f,tokenWidth,41),"f5eedb",radius:4);token.AddChild(new AcceptedDashedBorder{Size=token.Size,Border=UiColor("846838"),MouseFilter=MouseFilterEnum.Ignore});Icon(token,"Clock3",new(4,11.5f,18,18),UiColor("846838"));var tokenText=Text(token,count,new(24,4,numberWidth,33),22);LineHeight(tokenText,22,33);}
+         // 枠は編成見出しと確認表へ置く。原本footerの取得群・未払い・取消・確認の密度を保つ。
+         // 既存footerは取得群と操作だけ。拒否理由は確認窓の原本problemsへ表示する。
+         // 操作の拒否・保存機能は変えず、未採用の長い補足を帯へ重ねない。
+@@ -159,7 +159,7 @@ public partial class GameScreen
+         float currentWidth=font.GetStringSize(current,fontSize:24).X;float x=1662-currentWidth-extra-92;
+         Icon(content,"Lightbulb",new(x,20,24,24));Text(content,"着想",new(x+32,0,52,64),24);Strong(Text(content,current,new(x+92,0,currentWidth,64),24));
+         if(DraftDirty)
+-        {Icon(content,"ArrowRight",new(x+100+currentWidth,20,24,24));var next=Surface(content,new(x+132+currentWidth,14,extra-40,36),"ffffff00","bac9ba",0,5);next.AddChild(new AcceptedDashedBorder{Size=next.Size,Border=UiColor("bac9ba"),MouseFilter=MouseFilterEnum.Ignore});Icon(next,"Clock3",new(8,9,18,18));Strong(Text(next,after,new(31,0,extra-73,36),24));}
++        {Icon(content,"ArrowRight",new(x+100+currentWidth,20,24,24));var next=Surface(content,new(x+132+currentWidth,14,extra-40,36),"ffffff00","bac9ba",0,5);next.AddChild(new AcceptedDashedBorder{Size=next.Size,Border=UiColor("bac9ba"),Radius=5,MouseFilter=MouseFilterEnum.Ignore});Icon(next,"Clock3",new(8,9,18,18));Strong(Text(next,after,new(31,0,extra-73,36),24));}
+     }
+ 
+     private string ReviewText()
+diff --git a/apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs b/apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs
+index 201fd4bb..6a7843ed 100644
+--- a/apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs
++++ b/apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs
+@@ -35,8 +35,8 @@ public partial class GameScreen
+             float w=24+font.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X);
+             float left=right?rect.End.X-w:rect.Position.X;
+             Icon(parent,icon,new(left,rect.Position.Y+2,20,20));
+-            var number=Strong(Text(parent,value,new(left+24,rect.Position.Y,w-24,24),18));number.TooltipText=key+" / "+Known(row[key=="hp"?"max_hp":"max_posture"]);number.SetMeta("public_stat",key);
+-            if(delta!=""){var deltaLabel=Text(parent,delta,new(left+28+font.GetStringSize(value,fontSize:18).X,rect.Position.Y,Math.Max(1,w-28-font.GetStringSize(value,fontSize:18).X),22),16);deltaLabel.SetMeta("forecast_delta",key);}
++            var number=Strong(Text(parent,value,new(left+24,rect.Position.Y,w-24,24),18));LineHeight(number,18,24);number.TooltipText=key+" / "+Known(row[key=="hp"?"max_hp":"max_posture"]);number.SetMeta("public_stat",key);
++            if(delta!=""){var deltaLabel=Text(parent,delta,new(left+28+font.GetStringSize(value,fontSize:18).X,rect.Position.Y,Math.Max(1,w-28-font.GetStringSize(value,fontSize:18).X),22),16);LineHeight(deltaLabel,16,22);deltaLabel.SetMeta("forecast_delta",key);}
+         }
+         Stat("hp","Heart",new(x,y,width/2,24));Stat("posture_remaining","VenetianMask",new(x+width/2,y,width/2,24),true);
+         VitalBar(parent,new(x,y+24,width,4),row.Number("hp"),row.Number("max_hp"));
+@@ -46,7 +46,9 @@ public partial class GameScreen
+         float StatWidth(string key) { string value=Known(StatValue(row,key)),delta=StatDelta(id,key).Trim(' ','(',')');return 24+strongFont.GetStringSize(value,fontSize:18).X+(delta==""?0:8+font.GetStringSize(delta,fontSize:16).X); }
+         float guardWidth=StatWidth("guard"),critWidth=StatWidth("crit"),evasionWidth=StatWidth("evasion");
+         float space=(width-guardWidth-critWidth-evasionWidth)/2;
+-        Stat("guard","Shield",new(x,y+38,guardWidth,24));Stat("crit","Zap",new(x+guardWidth+space,y+38,critWidth,24));Stat("evasion","Wind",new(x+width-evasionWidth,y+38,evasionWidth,24));
++        // 本人は24/10/24、主体captionはgap4を含んで下段が+42。
++        float statsY=y+(id=="P"?34:42);
++        Stat("guard","Shield",new(x,statsY,guardWidth,24));Stat("crit","Zap",new(x+guardWidth+space,statsY,critWidth,24));Stat("evasion","Wind",new(x+width-evasionWidth,statsY,evasionWidth,24));
+     }
+     private string PredictionSummary()
+     {
+diff --git a/apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs b/apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs
+index 620b16a0..dbed1e78 100644
+--- a/apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs
++++ b/apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs
+@@ -434,12 +434,18 @@ internal sealed partial class UiAutomation
+                     tooltip = c.TooltipText,
+                     font = label?.GetThemeFont("font").GetFontName() ?? (c as Button)?.GetThemeFont("font").GetFontName(),
+                     font_size = label?.GetThemeFontSize("font_size") ?? (c as Button)?.GetThemeFontSize("font_size"),
+-                    line_spacing = label?.GetThemeConstant("line_spacing"),
++                    line_spacing = label?.GetThemeConstant("line_spacing"),
++                    fractional_line_spacing = label?.LabelSettings?.LineSpacing,
++                    // 宣言line boxと実font高を別々に記録する。寸法差をAAと推測しない。
++                    metric_line_height = label is not null&&label.HasMeta("metric_line_height") ? (float?)label.GetMeta("metric_line_height").AsDouble() : null,
++                    native_font_height = label?.GetThemeFont("font").GetHeight(label.GetThemeFontSize("font_size")),
+                     color = label?.GetThemeColor("font_color").ToHtml(),
+                     disabled = button?.Disabled,
+                     pressed = button?.ButtonPressed,
+                     draw_mode = button?.GetDrawMode().ToString(),
+-                    icon = c.HasMeta("accepted_icon") ? c.GetMeta("accepted_icon").AsString() : null,
++                    icon = c.HasMeta("accepted_icon") ? c.GetMeta("accepted_icon").AsString() : null,
++                    stroke = c.HasMeta("accepted_stroke") ? (float?)c.GetMeta("accepted_stroke").AsDouble() : null,
++                    comparison_use = c.HasMeta("comparison_use") ? c.GetMeta("comparison_use").AsString() : null,
+                     horizontal = scroll is null ? null : new[] { scroll.ScrollHorizontal, (float)scroll.GetHScrollBar().MaxValue, (float)scroll.GetHScrollBar().Page, scroll.GetHScrollBar().Size.Y },
+                     vertical = scroll is null ? null : new[] { scroll.ScrollVertical, (float)scroll.GetVScrollBar().MaxValue, (float)scroll.GetVScrollBar().Page, scroll.GetVScrollBar().Size.X }
+                 });
+diff --git a/apps/crossweave-godot/README.md b/apps/crossweave-godot/README.md
+index f7f178fd..1a84971b 100644
+--- a/apps/crossweave-godot/README.md
++++ b/apps/crossweave-godot/README.md
+@@ -105,3 +105,6 @@ Windowsホストでは一括入口がWindows Release自体を起動して疎通
+ ## 2026-10-06 固定UI再判定と暗色補足
+ 
+ 通常表示は了承済み緑系暗色へ固定し、OSの明暗設定で切り替えない。新しいテーマUI/保存項目は追加しない。今回の修正・暗色原寸・確認・教材・残件は [今回版](../../docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/README.md)。独立UI適合・新版配布・実機・M1は後続。
++# 2026-10-07 D04B-UI-02 改訂0.11の修正候補
++
++固定暗色返却の具体独立修正候補・H11の部分訂正・教材を[今回記録](../../docs/検証/本編実装/d04b-ui-02/dark-return-20261007/README.md)へ保存。読む順は[コード解説](../../docs/検証/本編実装/d04b-ui-02/dark-return-20261007/コード解説.md)。9コードファイルのビルドは通過、必要描画／実入力は環境前提未成立、GitHub保存は要求キャンセルで未了。今回依頼全体・UI適合・配布・実機・人の試遊・M1は未完了。通常緑系暗色・OS非連動・通常保存接続を保持する。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260927-game-application.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260927-game-application.md"
+index dcdc604d..9a143dd1 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260927-game-application.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/Work/20260927-game-application.md"
+@@ -1,6 +1,28 @@
+ # ゲーム本編実装 Work設定
+ 
+-最新状態：**D04B-UI-02 指示0.9（0.7の独立修正を含む）の修正・必要証拠・暗色比較・教材を提出。依頼全体は未完了、独立UI再判定・個別回答・合法入力待ち。**
++最新状態：**D04B-UI-02 改訂0.11は未完了。具体独立修正候補・比較資料の部分訂正・教材をローカル保存。必要検査の環境前提待ち。本編候補a01c5c27・資料e80d418eをGitHub保存。必要検査と開始時保全台帳1本文の読戻しが未了。** [今回記録](../../検証/本編実装/d04b-ui-02/dark-return-20261007/README.md)／[とりまとめへの途中引継ぎ](../../検証/本編実装/d04b-ui-02/dark-return-20261007/とりまとめ引継ぎ.md)。
++
++## 固定暗色返却の具体修正（2026-10-07）
++
++開始HEAD `0ec6334254db00ebc7956b4df493f3a34b98845a`、固定コード `aabfefab076252f050824640fba6d8a8dd13e8e0`を継承。追跡差分なし、未追跡15,849ファイルを一覧／SHA256で保全。旧環境の未保存バッファ不存在は推定しない。旧ゲーム本編実装窓口はidleを読取り確認し、他Work送信・起動・停止・並列エージェントなし。
++
++必須同期はGitHubプラグインで計画 `5c61d64a` 全77path/blobを同じpathへ実同期→技術 `21ddd349` 追加差分なし→計画77件再照合。初回の配布元0765f158の3ファイル・通常保存接続を再受領で上書きしない。取得時のSSH認証失敗と経路選択の誤りは今回の取得停止記録へ保全し、利用者が当初から想定したGitHubプラグインへ訂正済み。
++
++固定UI `ab1b6fa0` の本文27件をblob照合して読了。新判定57ID＝17要修正／8判断待ち／6未確認／26限定解消、必要群2閉／15継続、H11比較開始0／16・採用0を入力として保持。旧判定・CI成功を今回の全画面適合へ読み替えない。
++
++役割別font leading／行margin、cp/cw/cj/navの最終用途、未払い破線、invalid早期return、詳細token、窓角、空場／札面と本文・帰還の合成を候補コードへ反映。H11-04/06/11の用途引用と05/13の複数使用先は部分訂正済み。H12/H13未回答・R01/R04／登録長名称の契約不足を先取り採用しない。登録30定義、公開attr表示adapter、pane別scroll保持／新maxへのclampを維持。
++
++9コードファイルの最終候補はビルド成功（警告0／エラー0）。実描画検査は隔離desktop作成がサンドボックス内で拒否され、外部実行は利用者が原則禁止と明示。外部実行なし。.NET既存8件はtesthost接続timeout、0実行。Main検査の既定user slotも書込み許可範囲外で、別保存先・手段・場所への変更は準備／試行しない。必要な実描画・入力を合格にしない。
++
++H11は原本／固定旧本編の16用途・20使用先へ部分訂正。今回本編の未描画、確認見出しの原本未取得、Mountain同用途候補不足等を行別に残し、UI開始成立0／16・採用0を保持。owned/候補は初期home対の限定再利用と必要入力の返却まで。
++
++最初の保存3要求のキャンセルと当時のHEAD0ec63342は履歴。後にPush承認を受領し、本編候補a01c5c27・資料e80d418eをGitHubプラグインで同枝へ通常FF保存した。コード9全文・資料84全文・85path/blobと親/tree/HEADを照合。保存結果票11c47c7dも10全文・親/tree/HEADが一致。保全台帳1本文は通常取得content空で未了、別経路未試行。
++
++ローカルGit HEADは開始時0ec63342を保全したまま。作業ファイルとGitHub保存内容は一致する。再開時はGitHub枝HEADとローカル基点を両方照合し、未保存差分を再保全する。今回の最終資料を含む後続コミットは最終応答とGitHub履歴で固定する。
++
++### とりまとめへの引継ぎ
++
++今回依頼全体は未完了。依頼内の未了ID・理由・次担当・必要入力、修正候補の9path/blob、必要検査の停止地点、教材・H11部分訂正・担当境界は[途中引継ぎ](../../検証/本編実装/d04b-ui-02/dark-return-20261007/とりまとめ引継ぎ.md)へ。本編成果コミットa01c5c27は保存・コード全文読戻し済み、資料保存はe80d418eへ完了、保全台帳1本文のcontent空は未了、とりまとめ受領は未確認。D04B-UI-02全体・UI適合・配布・実機・人の試遊・M1を別判定として未完了に保つ。
+ 
+ ## D04B-UI-02 固定再判定と暗色補足（2026-10-06）
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/UI\345\220\210\346\204\217\346\241\210\343\201\256\345\206\215\347\217\276\343\201\250\345\217\227\345\205\245\345\237\272\346\272\226.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/UI\345\220\210\346\204\217\346\241\210\343\201\256\345\206\215\347\217\276\343\201\250\345\217\227\345\205\245\345\237\272\346\272\226.md"
+index 71e0c08f..cb878c39 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/UI\345\220\210\346\204\217\346\241\210\343\201\256\345\206\215\347\217\276\343\201\250\345\217\227\345\205\245\345\237\272\346\272\226.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/UI\345\220\210\346\204\217\346\241\210\343\201\256\345\206\215\347\217\276\343\201\250\345\217\227\345\205\245\345\237\272\346\272\226.md"
+@@ -1,19 +1,19 @@
+ # UI合意案の再現と受入基準
+ 
+-版：0.4／2026-10-06（日本時間）。計画担当：20260913-project-coordination。適用先：D04B-UI-02、UI-GODOT-REVIEW-01、RD-PACK-03。本書は横断的な担当・受入条件であり、UI原本の新しいデザイン仕様をとりまとめが作るものではない。
++版：0.6／2026-10-07（日本時間）。計画担当：20260913-project-coordination。適用先：D04B-UI-02、UI-GODOT-REVIEW-01、RD-PACK-03。本書は横断的な担当・受入条件であり、UI原本の新しいデザイン仕様をとりまとめが作るものではない。
+ 
+-**現在はUI099d4adeの固定再判定／6回答を完了受領し、同じ本編Codex1Workの判断不要修正・必要証拠／人判断資料の補完を今回割り当てる。** 固定c761cbf4の57IDは要修正27・判断待ち6・未確認3・当該差異解消21、必要17群中2閉／15継続。未承認差異33と必要未確認が残り配布不可。属性表示／親scroll保持は既条件維持、未登録記号・hover・追加routeだけ具体範囲の人判断。合法入力3項目は既存契約へ後続確認。[今回受領と次条件](引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md)。
++**固定暗色版のUI判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可、次の修正依頼は既存本編Codex1Work。** 新しい固定コードaabfefab／提出0ec63342への57IDは、要修正17・原本判断待ち8・未確認6・当該差異の範囲で解消26。未承認差異25、未確認ID6、必要17群中2閉／15継続。解消26は共有font・配色・全操作状態や全画面適合を認める数ではない。旧c761cbf4への27／6／3／21は履歴として保全する。 成果f985a191／完了提出ab1b6fa0。payload35本文の読取・49対象path/blob（旧版14pathの保全を含む）と、最終15本文/blob・親/tree/HEADをGitHubで独立照合。 [今回受領と具体修正条件](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。今回の修正依頼は、同じゲーム本編実装／D04B-UI-02の指示0.11。17要修正IDのうち具体根拠があり人回答・既存契約・未取得原本に依存しない部分と、H11用途別比較資料の不足を先行する。必要な個別回答・既存契約3項目→同じ本編の依存箇所追補→UIの新固定SHAへの変更影響再判定→適合受領後RD-PACK-03→CO-D04C＋ENV／PROOF・親D04→CO-P02→CO-02／M1。各専門Workを順番に再利用し、新Work・新枝・追加並列を設けない。保存を送付・担当受領・着手にしない。
+ 
+ ## 了承済み配色と今回の確認範囲
+ 
+ **2026-10-06 17:20のユーザー説明により、UI確認・承認は暗色表示に対して行われたと確定した。M1は了承済みの緑系暗色を、OS設定によらず再現する。** 明色対応・OS自動切替は今回の採用範囲・受入条件に含めない。これは既了承の提示状態の確認であり、新しい暗色デザインの採用や全UIの再承認ではない。 [根拠と担当外反映案](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。
+ 
+ - 通常起動・再描画・各画面への遷移は暗色。OSの明色／暗色設定から見た目を選ばず、撮影だけをdark指定して通常表示をOS連動のまま残さない。新しい切替設定・保存項目は追加しない。
+-- 「暗色」は原本の暗い緑〜緑灰色の窓・明るい文字を含む、既了承の表示の再現。黒基調の新デザインや明色を適当に暗くする変換ではない。cj／cp／cw／共通navの名前空間とcascadeを保ち、色・透過・影・gradient・選択／hover／無効を適用する。探索窓#202820e6、journey／取得shell#1d2b27は識別用の原本例で、全背景を同じ色へ統一する指示ではない。
++- 「暗色」は原本の暗い緑〜緑灰色の窓・明るい文字を含む、既了承の表示の再現。黒基調の新デザインや明色を適当に暗くする変換ではない。cj／cp／cw／共通navの名前空間とcascadeを保ち、色・透過・影・gradient・選択／hover／無効を適用する。探索窓の宣言例#202820e6と、実DOMのcw-drawer最終#202820をcascadeで区別する。journey／取得shell#1d2b27も用途ごとの原本例で、全背景を同じ色へ統一する指示ではない。
+ - 原本基準のlight条件・light画像を暗色の色・透過・影の適合根拠として使わない。構造／機能へ再利用する範囲と、暗色での撮影・測定が必要な範囲を分ける。現在の暗色コードの存在も適合証明ではない。
+ - H11用途別記号／H13owned／特定AAの現在・候補・原本の比較は暗色・同じ状態／font／倍率で作る。既了承配色に対する新しい人判断IDは作らず、未採用の具体変更だけ従来の個別判断へ残す。
+ 
+-UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は従前条件の固定判定として保全。これを暗色の全適合数へ読み替えず、色・透過・影・AA・基準画像など暗色に依存する項目と共通部品の使用先を次固定SHAで再判定する。関係のない機能証拠は再利用し、全57件を一律再実装しない。 U-C02の了承配色・採用範囲の不足は今回の説明で解消したが、暗色の実描画／全使用先の適合証拠は未完了。新規適合判定0件。未承認差異0・必要未確認0の配布条件は、了承済み暗色のM1対象に適用する。明色の適合・画像・切替を新しい配布条件にしない。
++固定暗色版への判定57ID＝17要修正／8判断待ち／6未確認／26限定解消、必要17群中2閉／15継続を受領。B03／U-C02／最終cascadeの暗色基準訂正は済んだが、全使用先の配色適合やfont／操作状態は各残件に分ける。旧099d4adeの27／6／3／21はc761cbf4への固定履歴。修正提出やCI成功をUI適合へ読み替えず、必要な変更影響だけ新固定SHAで再判定する。
+ 
+ ## 判断の基準
+ 
+@@ -28,12 +28,14 @@ UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解
+ | 段階 | 担当・タスク | 必要な成果・次への条件 |
+ |---|---|---|
+ | 1 基準調査受領済み | 既存UI改善／UI-GODOT-REVIEW-01 | 合意案の基準固定、M1の画面・状態・共通部品の外観照合、差異台帳、R01〜R07・U01再判定。UI原本・本編コードは改変しない |
+-| 2 今回・既存本編修正 | ゲーム本編実装／Codex／同じD04B-UI-02 | 固定UI判定の判断不要部分を共通部品→代表→全使用先へ修正。必要な同状態証拠・個別判断資料／教材を先行。必要な契約回答・人判断は該当部分だけ待ち |
++| 2 固定暗色判定を受領→今回本編独立修正 | UIab1b6fa0→同じ本編Codex | 17要修正IDの具体独立部分・H11原本画素列／用途・全使用先の訂正、合法範囲のowned比較・変更影響と教材を新固定版へ。原本／通常保存／規則・既受領修正を保全 |
+ | 3 必要回答・本編追補後 | 人H11〜H13、既存契約担当→同じ本編→同じUI改善 | 用途／境界／routeごとの明示採用と合法入力を受領。次固定SHAの差分／使用先をUIが再判定し、未承認差異0・必要未確認0と機能／証拠一致をとりまとめ受領 |
+ | 4 適合受領後 | 既存実行基盤・配布／RD-PACK-03 | 適合判定に対応するソースを統合・生成し、新exeで関係画面の一致を確認。新規差異が出れば本編／UIへ戻す |
+ | 5 新版受渡し後 | 人／CO-H02・H03、案内・受領は配布 | 実機の途中再開・表示・入力等。AIの外観照合の代行や、既了承案の再承認は求めない |
+ 
+-今回の専門着手枠は本編Codex1Work。既存責務内なので新Work・新枝不要。人は準備成立したH12とH13の3routeを個別選択可能、H11の用途別原寸比較・H13owned・特定AA比較が未成立の部分はAI準備待ち。追加の専門並列を自動起動せず、契約確認／UI再判定は次条件成立後の同じ既存担当へ。とりまとめは受領・計画・切り分けを担当する。
++今回は同じ本編Codexへ具体独立修正・比較資料訂正を1Workとして返却。H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 原本担当と全体の受入条件を維持する。
++
++取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。 本編のrendered-darkは実行中source変更でmanifest失敗。19通過ケースの再利用はsource-binding・変更影響・capture条件の根拠を独立確認した範囲だけ。後続11／4／24modeとnative候補1modeは担当の検査時source安定の記録で、全画像が最終ソースbyteと一致する証明ではない。固定aabfefabのWindows CI37461945694 successを確認したが、担当のartifact取得403による内部未読戻しは残す。取得不能／手順不成立に際し、画像・入力・手段・完了条件を無断代用せず報告し、迂回策は具体範囲を説明して明示承認前に実施しない。
+ 
+ ## UI原本担当が固定するもの
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/Work\345\210\245\345\256\237\346\226\275\350\250\210\347\224\273.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/Work\345\210\245\345\256\237\346\226\275\350\250\210\347\224\273.md"
+index f3c5ff3a..ba89b160 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/Work\345\210\245\345\256\237\346\226\275\350\250\210\347\224\273.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/Work\345\210\245\345\256\237\346\226\275\350\250\210\347\224\273.md"
+@@ -1,22 +1,22 @@
+ # crossweave — Work別実施計画
+ 
+-版：0.37／2026-10-06（日本時間）。担当：20260913-project-coordination。
++版：0.39／2026-10-07（日本時間）。担当：20260913-project-coordination。
+ 
+-[全体計画](全体計画.md)と[固定UI再判定の受領／本編返却](引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md)に基づく。**UI099d4adeの改訂0.6レビュー依頼を完了受領。今回の専門着手は既存ゲーム本編実装／Codex1Workの判断不要修正。** 本編c761cbf4／8e992501の部分提出を保全。独立UI判定は57ID＝要修正27・判断待ち6・未確認3・当該差異解消21、必要17群中2閉／15継続。未承認差異33と必要未確認を残し、UI適合／新版配布は未完了。原本72d0eb58／基準2026-10-04.1・19部品／37状態は維持。
++**固定暗色版のUI判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可、次の修正依頼は既存本編Codex1Work。** 新しい固定コードaabfefab／提出0ec63342への57IDは、要修正17・原本判断待ち8・未確認6・当該差異の範囲で解消26。未承認差異25、未確認ID6、必要17群中2閉／15継続。解消26は共有font・配色・全操作状態や全画面適合を認める数ではない。旧c761cbf4への27／6／3／21は履歴として保全する。 成果f985a191／完了提出ab1b6fa0。payload35本文の読取・49対象path/blob（旧版14pathの保全を含む）と、最終15本文/blob・親/tree/HEADをGitHubで独立照合。 [受領・一度でコピーできる開始文](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
+ 
+-**2026-10-06 17:20のユーザー説明により、UI確認・承認は暗色表示に対して行われたと確定した。M1は了承済みの緑系暗色を、OS設定によらず再現する。** 明色対応・OS自動切替は今回の採用範囲・受入条件に含めない。これは既了承の提示状態の確認であり、新しい暗色デザインの採用や全UIの再承認ではない。 本編指示0.9で通常起動／再描画の暗色固定と、原本の暗色値・同状態証拠・人向け比較へ修正対象を具体化。U-C02の了承配色・採用範囲の不足は今回の説明で解消したが、暗色の実描画／全使用先の適合証拠は未完了。新規適合判定0件。未承認差異0・必要未確認0の配布条件は、了承済み暗色のM1対象に適用する。明色の適合・画像・切替を新しい配布条件にしない。 UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は従前条件の固定判定として保全。これを暗色の全適合数へ読み替えず、色・透過・影・AA・基準画像など暗色に依存する項目と共通部品の使用先を次固定SHAで再判定する。関係のない機能証拠は再利用し、全57件を一律再実装しない。 [暗色の了承根拠・反映案・本編補足](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。
++本編aabfefab／0ec63342の暗色修正・証拠／教材は部分受領済み。UI基準19部品／37状態・原本72d0eb58と明示後継を維持し、B03／U-C02／最終cascadeを了承済み緑系暗色へ訂正した。今回の返却は新固定版への具体指摘で、以前の修正全体を再依頼するものではない。未承認差異0・必要未確認0と機能／固定SHA／証拠一致を配布条件にする。
+ 
+ | 順序・担当 | Work・作業枝 | 成果・開始／終了条件 |
+ |---|---|---|
+-| 完了受領・UI基準／固定再判定、部分受領・本編 | UI099d4ade／本編c761cbf4・8e992501 | 基準調査と固定レビュー依頼完了。本編全体・UI適合は未完了、33未承認差異・3未確認ID、15必要群継続 |
+-| **1・今回：ゲーム本編実装／Codex** | 20260927-game-application／impl/m1-godot-application-20260927 | 指示0.9。了承済み緑系暗色の通常表示をOS非連動へ揃え、27要修正IDの判断不要部分・3未確認ID／15群の可能な証拠・暗色の比較資料・教材を保存提出。送付／受領未確認 |
+-| **2・必要回答→本編追補→UI再判定** | 人の個別判断、ゲームバランス検討→同じ本編→同じUI | 人H11〜H13は準備成立した用途／境界／routeだけ回答。本編の独立修正提出後、合法入力／既存契約の3項目を既存担当へ。必要差分・合法描画／入力を本編が追補しUIが固定再判定。既提出全修正・基準調査の一律再作成なし |
+-| **3・適合後：実行基盤・配布設計** | 20260926-runtime-delivery／impl/m1-windows-package-20260930 | RD-PACK-03。受領差分統合・新版生成・旧保存互換・新exeの関係外観確認・受渡し |
+-| 4・実機確認 | **人／CO-H02・H03**。案内・受領は配布Work | 起動・短い探索・中断終了・再開→一巡・DPI・入力・入替・性能。D04C・ENV／PROOF・親D04を個別判定 |
++| 受領：UI固定暗色判定 | 20260910-ui-readability／ui/readability-20260910・ab1b6fa0 | 57ID／N01〜03／17群・6原本判断回答・H11／owned／合法入力の具体返却を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は未完了 |
++| **1・今回：本編Codexの具体独立修正・比較資料訂正** | 20260927-game-application／impl/m1-godot-application-20260927・0ec63342から継続 | 指示0.11。17要修正IDの独立部分、H11原本実画素列／用途node・複数使用先、合法な範囲のowned比較と必要な変更影響・教材を同じ依頼で保存／読戻し。送付／受領／着手未確認 |
++| **2・必要な個別回答・既存契約→本編追補→UI確認** | 人H11〜H13、既存ゲームバランス→同じ本編→同じUI | 今回独立本編提出を受領後、H14でR01-filler／R04 null-vs-missing／登録長名称・ST-P08の必要回答。成立資料から用途／挙動／route回答を受領し該当箇所追補。UIは新固定SHAの依存IDと変更影響を再判定 |
++| **3・適合後：実行基盤・配布設計** | 20260926-runtime-delivery／impl/m1-windows-package-20260930 | RD-PACK-03。受領差分の範囲統合・新版生成・旧保存互換・関係外観確認・版付き1フォルダー受渡し。今は未着手 |
++| 4・実機確認 | **人／CO-H02・H03**。案内・受領は配布Work | 起動・短い探索・中断終了・再起動・続きから→一巡・DPI・実入力・入替・性能。D04C／ENV／PROOF／親D04を個別判定 |
+ | 5・人の試遊とM1受入 | **人／CO-H04**。試遊CO-P02→とりまとめCO-02 | D04と必要修正の受領後。本人の選択理由・理解・面白さを記録 |
+-| 保全・追加割当なし | シナリオ・世界観・ビジュアル等 | 仮素材の仕上げ・新規デザインは追加しない。ゲームバランスは具体的な既存契約の後続確認のみ |
++| 保全・追加割当なし | シナリオ・世界観・ビジュアル等 | 仮素材の仕上げ・新規デザイン・明色対応は追加しない |
+ 
+-**当面の専門Workは順番に1担当ずつ。今回は本編Codexのみ。** UIが具体修正条件を提出し、判断不要の修正が残るため契約／人の回答待ちから独立して先行する。既存の本編実装責務なので新Work・新枝不要。契約の意味／適用だけゲームバランス、原本解釈／判定はUI。人の具体判断は準備成立した範囲から別に返せる。本編CodexはVS Code・アプリ側いずれも同じID・枝・1窓口で継続。計画発行と送付・受領・着手は別。
++**今回は同じ本編Codexへの修正依頼1Work。** 今回の修正依頼は、同じゲーム本編実装／D04B-UI-02の指示0.11。17要修正IDのうち具体根拠があり人回答・既存契約・未取得原本に依存しない部分と、H11用途別比較資料の不足を先行する。必要な個別回答・既存契約3項目→同じ本編の依存箇所追補→UIの新固定SHAへの変更影響再判定→適合受領後RD-PACK-03→CO-D04C＋ENV／PROOF・親D04→CO-P02→CO-02／M1。各専門Workを順番に再利用し、新Work・新枝・追加並列を設けない。保存を送付・担当受領・着手にしない。 UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 VS Code／アプリ側どちらでも同じ本編ID・枝を継続し、二重編集しない。UI原本はUI、本編C#は本編、契約の意味はゲームバランス、配布は配布の既存担当を維持する。
+ 
+ ### 人の担当タスク
+ 
+@@ -30,11 +30,13 @@
+ | CO-H07／人 | 外観基準・差異調査と再判定の開始文をUIへ渡す | **完了**。UI受領・実施と8b535c2f提出を確認。再送不要 | とりまとめ・UI |
+ | CO-H08／人 | 再現修正開始文を既存本編Codexへ渡す | **完了**。計画23b00604受領・実施と8e992501提出を確認。再送不要 | とりまとめ・本編 |
+ | CO-H09／人 | 固定修正版再判定・6点の原本判断をUIへ渡す | **完了**。099d4adeで受領・実施・提出確認、再送不要 | とりまとめ・UI |
+-| CO-H10／人 | 今回の固定UI再判定の修正を本編Codexへ一度渡す | **今開始可能・送付／担当受領未確認**。一つの窓口へ渡せば完了 | とりまとめ・本編 |
+-| CO-H11／人 | 未登録記号の用途別採用 | 候補path/blob／box・現在／候補原寸比較の成立待ち。用途ごと判断 | とりまとめ、資料は本編／原本根拠はUI |
++| CO-H10／人 | 本編への固定UI修正・暗色補足を一度渡す | **完了**。計画388c69a5同期・0.9受領／実施と0ec63342提出を確認、再送不要 | とりまとめ・本編 |
++| CO-H11／人 | 未登録記号の用途別採用 | **比較開始0／16・本編資料の訂正待ち**。原本画素列／04・06・11のnode／05・13の全使用先等を直し、UIが成立した用途だけ人へ | とりまとめ、資料は本編／根拠と成立確認はUI |
+ | CO-H12／人 | 空白hover保持／160ms閉鎖とpreview追加を別々に選ぶ | **今選択可能・回答未着** | とりまとめ→本編／UI |
+-| CO-H13／人 | 追加routeの配置を個別に選ぶ | Windows／本文／公開補足3routeは選択可能。ownedはST-P08合法状態／原寸対待ち | とりまとめ→本編／UI |
+-| CO-H14／人 | 必要な既存契約の依頼文をゲームバランスへ渡す | 本編独立修正提出後、とりまとめの不足確認・次開始文待ち | とりまとめ・ゲームバランス |
++| CO-H13／人 | 追加routeの配置を個別に選ぶ | Windows／本文／公開補足3routeは選択可能。ownedの同状態対は一部補完、変換可能全状態／候補実入力等の不足は継続 | とりまとめ→本編／UI |
++| CO-H14／人 | 既存契約3項目の確認依頼をゲームバランスへ渡す | UI具体返却は受領。今回の独立本編修正提出を受領後、残る3項目へ次開始文を提示。今は後続 | とりまとめ・ゲームバランス |
++| CO-H15／人 | 固定暗色判定依頼を既存UIへ渡す | **完了**。UIの受領・実施と固定判定保存を確認、再送不要。レビュー全体の完了とは別 | とりまとめ・UI |
++| CO-H16／人 | 今回の具体修正・比較資料訂正を本編Codexへ一度渡す | **今開始可能・送付／担当受領未確認**。一つの窓口へ渡せば人の受渡し完了 | とりまとめ・本編 |
+ | CO-H02／人 | 新版の起動→短い探索→中断終了→再起動→続きから。成功範囲／失敗地点を返す | RD-PACK-03の新版・案内待ち | 配布／CO-D04C |
+ | CO-H03／人 | 表示・実入力・一巡と確認票残項目。結果／未確認理由を返す | H02の基本操作・途中再開後。新版待ち | 配布が保存・専門切り分け |
+ | CO-H04／人 | 同じ保存で遊び、選択理由・分かりにくさ・面白さを返す | D04・必要修正とCO-P02対象版待ち | 試遊・とりまとめ |
+@@ -47,7 +49,7 @@
+ |---|---|
+ | 計画と技術 | 最新計画全体をpath/blob記録付きで実同期→dev_design_tmp_assemblyの既定技術同期。現在21ddd349。技術同期後に計画再照合 |
+ | 本編の基点 | 本編749d648fへ配布元0765f158のPackageEvidence.cs・同.uid・UiAutomation.csを範囲取り込み。実配布コードの前提を保持。配布枝全体のマージなし |
+-| UIの原本 | 72d0eb58と明示後継／了承根拠を状態へ対応づける。基準2026-10-04.1の構造・原本path/blobを保全し、採用配色／撮影条件は17:20の暗色了承を優先。c761cbf4／8e992501を固定参照し一括マージしない。6判断は原本根拠へ結び、合意変更は具体資料付きで人判断へ |
++| UIの原本 | 原本72d0eb58と明示後継／了承根拠、19部品／37状態・構造のpath/blobを維持。UIab1b6fa0でB03／U-C02／最終cascadeの暗色基準訂正・固定aabfefab／0ec63342の具体判定を受領。枝全体をマージせず、次は新固定修正の変更影響と依存IDだけ確認。未採用の具体変更だけ人判断へ |
+ | 返却と配布 | 本編枝の修正→UI適合判定→配布担当が許可された本編path/blobをe7722a56以降へ範囲統合。双方のWork設定・計画・旧記録を上書きしない |
+ | 利用者報告 | 起動成功・UI反映不足を受領。版・環境詳細・途中再開は未確認。旧版の追加試験をUI修正開始の前提にせず、広い実機確認は新版へ集約 |
+ | 完了と受入 | 本編・通常保存接続・旧PACKの完了履歴を保持。UI適合・新版配布・D04C・ENV／PROOF・親D04・人の試遊・M1を別々に判定 |
+@@ -70,10 +72,10 @@ CO-D02Rは成果 `09acd78adac7da285cc43c690dd8ac5006a2ade2`・提出記録まで
+ 
+ | Work・原本担当 | 今先に作る成果 | 後ろへ回すが維持する仕事 | 受け渡し先 |
+ |---|---|---|---|
+-| ゲーム本編実装 `20260927-game-application` | **今回P0：D04B-UI-02判断不要修正・可能な証拠／比較資料**。UI099d4adeの27修正IDへ先行 | 本編c761cbf4／8e992501、当該差異解消21・既確認機能・配布基点を保全。残る判断／合法入力は具体範囲だけ待ち | 固定修正SHA・同状態／入力／保存・日本語教材・残IDと再開条件をUI／とりまとめへ |
++| ゲーム本編実装 `20260927-game-application` | **今回P0：固定暗色UI返却の独立修正・人比較資料訂正**。aabfefab／0ec63342を継承、指示0.11 | 人回答／契約／未取得原本依存だけ未確認。既受領修正・保存／規則・旧配布基点を維持 | 新固定コード・同状態の全使用先証拠・教材／残件を自枝へ保存／読戻ししUI／とりまとめへ |
+ | 実行基盤・配布設計 `20260926-runtime-delivery` | **後続RD-PACK-03→CO-D04C**。今は新版成果待ち | 起動報告・既存確認票を保全。旧P5対象外とPACK完了を維持 | UI適合済み本編を新フォルダーで渡し実機結果を受領 |
+-| ゲームバランス検討 `20260909-design-assembly` | **後続P0：既存契約／合法入力3項目**。本編の独立可能修正提出後にR01-filler／R04-unlimited／登録長名称・ST-P08の不足へ回答 | 本編fixture探索・C#検査／描画・統合は本編担当。新ルール・値・内容なし | 固定command・seed・隔離初期save根拠／全入口の対象外根拠を本編／UI／とりまとめへ |
+-| UI `20260910-ui-readability` | **今回レビュー完了受領・次固定修正版待ち**。099d4adeで57ID／17群・6回答・本編条件を提出 | 19部品・37状態・基準／旧画像・21当該差異解消を保全。具体人判断結果だけ採用根拠へ | 本編の次固定SHA／証拠・必要回答を受領し変更影響の適合を判定 |
++| ゲームバランス検討 `20260909-design-assembly` | **後続P0：既存契約／合法入力3項目**。新UI返却のR01-filler／R04-unlimited／登録長名称・ST-P08不足を固定 | 今回独立本編修正の提出受領後、具体不足をH14で依頼。一般C#／描画は本編、新規規則・値・内容なし | 合法command／seed／隔離save根拠または全入口の不適用根拠を本編／UI／とりまとめへ |
++| UI `20260910-ui-readability` | **新固定暗色の判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。** 要修正17／判断待ち8／未確認6／限定解消26 | 基準19部品／37状態・旧記録／画像を保全。次の再判定は新固定修正／個別回答／合法入力と依存ID・変更影響だけ | 項目別判定・不足証拠／具体修正条件・H11開始0／16を本編／とりまとめへ提出。UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 |
+ | シナリオ `20260912-scenario-content` | CO-S01提出を確認。今回は追加の実行タスクを割り当てず、設計が提出済み原本を参照する | 別案件の全文・大量の個別設定はM2以降。原本の修正が必要になれば不足を指定して必要な作業を割り当てる | 提出済みの3モード・ST/ACT/TXT/RW・3札対応を設計とUIが利用 |
+ | 世界観 `20260910-worldbuilding` | ユーザーの直接依頼による主要人物の性格案をb99b00bで保存・提示。先代・相棒の案への所感を受けられる状態。CO-W01・W02の自動開始にはしない。M1表示語等は必要な不足を指定して割当 | DBの広い比較・似た案の差別化は後続候補へ。全法則・全道具の専用体験をM1の前提にしない | UI・シナリオ・設計。正式／仮称を明記 |
+ | ビジュアル `20260912-visual-direction` | **今回は割当なし**。CO-V02A 0.4の保存・引継ぎ残件を保持 | 追加生成・仕上げ・合成検査をしない。回収不能なら正確な不足を記録 | とりまとめへ保存先・完了／未完了・残件。UIへの素材導入は未割当 |
+@@ -115,9 +117,9 @@ CO-D02Rは成果 `09acd78adac7da285cc43c690dd8ac5006a2ade2`・提出記録まで
+ | CO-D04B・実装接続完了 | ゲーム本編実装 | Core＋Godot画面で本編一巡・再出発 | Core＋UI-01完了受領 | **実装接続完了・受領**。配布・実機・人評価は後続 |
+ | D04B-CORE-01・完了 | ゲーム本編実装Work | C1〜C6：本編状態・規則・一巡・command/view・DTO・限定検査・保存引継ぎ | 提出済み基盤・既存規則・仮入力 | **完了・とりまとめ受領**。HEAD220d347f／コード56caf205、42試験。実ファイル・画面は含まない |
+ | D04B-UI-01・実装接続完了／UI適合残件 | ゲーム本編実装 | U1〜U3・U5〜U6：通常画面の本編一巡、確認・教材 | Core・保存部・基盤実装 | **完了・受領済み**。749d648f／dad99fbc。10月1日のUI継承差分の確認残件を追加。実機UI受入は未完了 |
+-| D04B-UI-02・今回P0修正 | 本編Work／Codex | 27修正IDの判断不要部分、3未確認ID・15群の可能な証拠／比較資料・機能保全・教材・保存 | UI099d4adeの固定判定／6回答を完了受領。判断・合法入力は該当箇所だけ待ち | 今回割当・送付／受領未確認。c761cbf4／8e992501部分受領を継承、全体未完了。[指示0.9](着手指示/D04B-UI-02_Godot_UI継承差分の修正.md) |
+-| UI-GODOT-REVIEW-01・今回依頼完了／適合未了 | UI改善Work | 改訂0.6の57ID・N01〜N03／17群判定・6回答・本編条件を提出完了 | 原本72d0eb58・基準8b535c2f／2026-10-04.1。次は本編固定修正版と必要回答／証拠 | **099d4adeで完了受領、配布不可**。33差異・3未確認ID／15群残。次再判定待ち。[指示0.9](着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md) |
+-| D04B-UI-02／合法入力・既存契約・P0後続 | ゲームバランス検討 | R01-filler／R04-unlimited／登録長名称・ST-P08の合法command・seed・隔離save根拠、または全対象入口の既存不適用根拠 | 今回本編の独立修正／資料提出後、具体不足の次開始文を提示 | 3項目固定・送付／受領／着手未確認。[指示0.2](着手指示/D04B-UI-02_合法入力と既存契約の確認.md)。本編検査／描画は本編責務 |
++| D04B-UI-02・部分受領／今回P0具体修正 | 本編Work／Codex | 17要修正IDの独立部分・H11比較列／使用先訂正・必要検査／教材を同じ依頼で追補 | 新UIの固定具体返却を受領、再開条件成立。人／契約／未取得原本への依存だけ保持 | 全体未完了。送付／受領未確認。[指示0.11](着手指示/D04B-UI-02_Godot_UI継承差分の修正.md) |
++| UI-GODOT-REVIEW-01・判定成果受領／適合未完了 | UI改善Work | 暗色基準訂正・57ID／17群・人／契約／取得不能の具体返却を完了受領 | 固定aabfefab／0ec63342、原本72d0eb58と了承済み緑系暗色 | 今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可。次は新固定版の変更影響のみ。[指示0.11](着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md) |
++| D04B-UI-02／合法入力・既存契約・P0後続 | ゲームバランス検討 | R01-filler／R04-unlimited／登録長名称・ST-P08の合法command／seed／隔離save根拠または全入口の不適用根拠 | 新UI返却は受領。今回の独立本編修正提出を受領後、残る3項目へH14の開始文を提示 | 3項目固定・送付／受領／着手未確認。[指示0.4](着手指示/D04B-UI-02_合法入力と既存契約の確認.md)。本編検査／描画は本編 |
+ | RD-PACK-03・P0 | 実行基盤・配布Work | P1〜P5：本編差分受領、新フォルダー、旧版保存→新版の互換、受渡し | UI-02＋UI適合判定の受領 | **後続割当・未着手**。[指示](着手指示/RD-PACK-03_UI修正版の配布と再開確認.md)。旧PACKの再実施ではない |
+ | CO-D04・P0受入 | 実機受入はCO-D04C／実行基盤・配布設計 | 本編の一巡・実入力・保存終了再開、既存異常系との対応、基盤残件 | D04B・SAVE完了＋利用可能な実行フォルダー | 未完了。実機結果と既存証拠の受領後に親完了を判定。ZIPは不要 |
+ | CO-D04C・P0実機未完了 | 実行基盤・配布設計 | C1〜C6の結果整理・切り分け・引継ぎ | 旧版起動報告あり。広い確認はUI適合後のRD-PACK-03新版 | 未完了。旧報告保全、途中再開・実機残件あり。[指示0.6](着手指示/CO-D04C_Windows本編の実機確認.md) |
+@@ -129,7 +131,7 @@ CO-D02Rは成果 `09acd78adac7da285cc43c690dd8ac5006a2ade2`・提出記録まで
+ 
+ ### 並列運用
+ 
+-**今回の適用：UI099d4adeの固定再判定を完了受領→既存本編Codex1Workの判断不要修正／必要証拠・比較補完→必要な既存契約回答と人判断→同じ本編の該当追補→UI適合→RD-PACK-03／CO-D04C。** 具体修正が独立して可能なため、午前の契約確認先行から本編修正先行へ更新。H09レビュー再送・基準の全再作成なし。一般的な並行可能性を追加の専門稼働へ読み替えず、他会話の起動・停止・自動送信は行わない。
++**今回の適用：今回の修正依頼は、同じゲーム本編実装／D04B-UI-02の指示0.11。17要修正IDのうち具体根拠があり人回答・既存契約・未取得原本に依存しない部分と、H11用途別比較資料の不足を先行する。必要な個別回答・既存契約3項目→同じ本編の依存箇所追補→UIの新固定SHAへの変更影響再判定→適合受領後RD-PACK-03→CO-D04C＋ENV／PROOF・親D04→CO-P02→CO-02／M1。各専門Workを順番に再利用し、新Work・新枝・追加並列を設けない。保存を送付・担当受領・着手にしない。** H15人受渡し完了、H16が今回本編への具体返却。UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 人回答未着でも独立修正を進め、依存部分だけ保持する。
+ 
+ - **「最大2Work」は2026-09-13当時の着手割振りに対する一時条件であり、プロジェクト全体・将来のCodex・とりまとめやレビューを含む恒久上限ではない。** 2026-09-20のユーザー訂正を優先する。2を既定値として残すこともせず、必要なら3Work以上を組む。人数だけを理由に既に承認された作業を止めたり、例外承認を求めたりしない。
+ - とりまとめは、目標への寄与、依存する成果の有無、同じ原本・共通コードへの編集重複、受領・統合・ユーザー確認の負荷を見て今回の組合せを決める。将来、一時的な件数指定を受けた場合は対象タスク・適用期間または終了条件を記し、次の割振りへ自動継承しない。
+@@ -147,7 +149,7 @@ CO-D02Rは成果 `09acd78adac7da285cc43c690dd8ac5006a2ade2`・提出記録まで
+ |---|---|---|
+ | 完了成果の再利用 | Core・保存・UI-01機能接続・PACK-02 | 過去の完了・検査・旧実機報告を保全 |
+ | 基準調査・完了受領 | UI改善の合意案基準・M1差異台帳と再判定 | 8b535c2f受領。19部品・37状態・57差異・17必要未確認 |
+-| 1 今回本編修正→2 必要回答・本編追補・UI適合 | UI099d4adeの条件へ判断不要部分を修正。必要な既存契約と人H11〜H13を具体化し、同じ本編が該当IDを追補 | 最終固定SHAに対し未承認差異0・必要未確認0。必要な変更影響を再判定し、当該差異解消21・既確認を保全 |
++| 1 今回本編の具体独立修正→2 必要回答・依存箇所追補・UI適合 | 新暗色判定17／8／6／26の具体独立修正とH11資料訂正。人H11〜H13／契約3項目の回答後に該当部分だけ追補、UIは新固定版へ再判定 | 最終固定SHAに対し未承認差異0・必要未確認0。機能／全使用先／証拠対応を確認し、無関係な既確認の一律反復なし |
+ | 3 配布 | RD-PACK-03 | 適合済み修正の統合、新版生成、旧版保存互換、フォルダー納品 |
+ | 4 実機 | CO-D04C、ENV／PROOF残件 | 新版の途中再開・表示・入力・一巡・DPI等を項目別判定 |
+ | 5 試遊・受入 | CO-P02→CO-02 | 技術受入と人の選択理由・理解・面白さを分けM1を判定 |
+@@ -208,7 +210,7 @@ CO-D04では正常な探索に加え、保護前後の撤退・緊急脱出・
+ | ゲーム本編実装 `20260927-game-application` | **不要・既存WorkをCodexで継続** | Godot本編UI修正は同じ責務。新Codex会話でもID・枝を継承し、旧窓口との二重編集を避ける |
+ | 実行基盤・配布設計 `20260926-runtime-delivery` | **不要・後続で既存Work継続** | 修正版の生成・受渡しと実機確認を担当。旧版を作り直さず、新版の差分を受領 |
+ | ゲームバランス検討 `20260909-design-assembly` | **不要・後続条件成立時に既存Work継続** | R01/R04等の既存規則・公開契約の適用／合法入口の根拠を回答。本編統合・一般的な検査は本編に残す |
+-| UI改善 `20260910-ui-readability` | **不要・次固定修正版で既存Work継続** | 原本判断・固定適合確認は同じ責務。今回6回答・57ID判定は完了、基準調査の全再作成なし |
++| UI改善 `20260910-ui-readability` | **不要・後続で同じWork継続** | 今回固定暗色レビューは完了受領。次は本編の新固定修正・個別回答／合法入力に依存するIDと変更影響だけ再判定 |
+ | ビジュアル演出 `20260912-visual-direction` | 今回追加稼働なし | 保存・引継ぎ残件は保全。次の割当時に作業順を見直す |
+ 
+ ## 6. 状態と完了時の引継ぎ
+@@ -223,6 +225,10 @@ CO-D04では正常な探索に加え、保護前後の撤退・緊急脱出・
+ 
+ ## 更新履歴
+ 
++- 0.39（2026-10-07）：固定暗色UI判定を完了受領、17／8／6／26と必要群2／15・配布不可を記録。今回のレビュー依頼は保存／読戻しを含め完了。 今回は同じ本編へ具体独立修正／H11資料訂正を返却。H15人受渡し完了・H16登録、契約3項目と人判断・UI再判定・配布／実機の順序を明確化。
++
++- 0.38（2026-10-06夜）：本編の固定暗色修正・検査／資料を部分受領し、1専門Workを同じUIの新固定再判定へ。本編は具体返却／回答待ち、旧判定件数は固定履歴。H10完了・H15のUI受渡しを登録し、H11資料提出／開始成立とH13ownedの一部補完／残不足を分ける。合法契約は今回UI返却後、新配布・実機・試遊は後続。
++
+ - 0.37（2026-10-06 17:20以降）：暗色での了承を受領し、既存本編の指示0.9へOS非連動の通常暗色・原本暗色の再現／比較を補足。UIは次固定SHAで暗色依存の基準／判定を更新、人のH11／H13／必要AA比較も暗色へ。旧57ID／17群の判定を履歴として保全し、機能証拠を再利用。明色の完成・切替を必須にせず、同じ1専門Workの順序を維持。
+ 
+ - 0.36（2026-10-06夕方）：明暗二種／OS連動は採用根拠未確認と補足。本編／UI指示0.8でコードの存在と承認を分け、未採用二色の追加展開を判断不要修正へ含めない。了承提示状態の再現・既存担当／順序・人の割当・固定判定を維持。新Work・追加並列なし。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\272\272\343\201\256\346\213\205\345\275\223\343\202\277\343\202\271\343\202\257.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\272\272\343\201\256\346\213\205\345\275\223\343\202\277\343\202\271\343\202\257.md"
+index b618a222..bf5a864d 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\272\272\343\201\256\346\213\205\345\275\223\343\202\277\343\202\271\343\202\257.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\272\272\343\201\256\346\213\205\345\275\223\343\202\277\343\202\271\343\202\257.md"
+@@ -1,8 +1,8 @@
+ # 人の担当タスク
+ 
+-版：0.8／2026-10-06（日本時間）。計画担当：開発計画とりまとめ。操作・所感・必要な採用判断の担当を **人（利用者）** として管理する。新しいAI Work・作業ブランチは作らない。
++版：1.0／2026-10-07（日本時間）。計画担当：開発計画とりまとめ。操作・所感・必要な採用判断の担当を **人（利用者）** として管理する。新しいAI Work・作業ブランチは作らない。
+ 
+-**CO-H01・H05〜H09は完了。今渡すのはCO-H10：既存本編Codexへの固定UI再判定に基づく修正依頼。** UIの099d4adeでH09受領・実施・提出を確認し、同じレビュー開始文の再送は不要。人の具体判断はH11用途別記号、H12hover、H13追加routeに分ける。H12とH13の3routeは選択可能、H11は用途別実表示比較、H13ownedは合法ST-P08／実表示対待ち。AAはmetrics修正後の限定比較まで人の作業にしない。判断待ち以外の本編修正は先行する。H02/H03は新版、H04は実機受入待ち。差異全列挙・既了承UIの再承認・旧版の網羅検査・セーブ初期化は不要。
++**CO-H01・H05〜H10・H15の人の受渡しは完了。今渡すのはCO-H16：新しい具体UI指摘を同じ本編Codexへ返す依頼。** H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 UIの判定成果は完了受領、今回のレビュー依頼は保存／読戻しを含め完了。 人の受渡し完了とレビュー作業／UI適合の完了を区別する。
+ 
+ ## 配色についての判断は受領済み
+ 
+@@ -20,11 +20,13 @@ H11の用途別記号、H13owned／追加routeの図・特定AAなど実画像
+ | CO-H07／人 | 合意案の外観基準・差異調査と再判定をUI改善へ渡す | **完了**。UI受領・実施と8b535c2f提出を確認。再送不要 | とりまとめ・UI改善 |
+ | CO-H08／人 | 固定基準の再現修正を本編Codexへ一度渡す | **完了**。担当が計画23b00604を受領・実施し8e992501を提出。再送不要 | とりまとめ・本編 |
+ | CO-H09／人 | 固定修正版の再判定・原本判断6点を既存UI改善へ渡す | **完了**。099d4adeで受領・実施・提出を確認。再送不要 | とりまとめ・UI改善 |
+-| CO-H10／人 | 固定UI再判定の修正依頼を既存本編Codexへ一度渡す | **今開始可能・今回の送付／担当受領未確認**。渡せば人の受渡し完了 | とりまとめが文を提示、ゲーム本編実装が保存提出 |
+-| CO-H11／人 | 未登録の記号を用途別に個別採用判断 | 選択肢／影響は提出済み。各用途の候補path/blob・box・暗色・同状態の現在／候補の実表示比較待ち。成立した用途から開始 | 本編が比較資料、UIが原本根拠、とりまとめが判断記録を受領 |
++| CO-H10／人 | 固定UI再判定の修正と暗色補足を既存本編Codexへ渡す | **完了**。計画388c69a5の73ファイル同期、指示0.9受領／実施、0ec63342提出を確認。再送不要 | とりまとめ・本編 |
++| CO-H11／人 | 未登録記号の用途別個別採用 | **比較開始0／16・本編資料訂正待ち**。原本画素列／用途node／複数使用先の不足を本編が直し、UIが成立した用途だけ人へ提示 | 本編が資料、UIが根拠・開始成立確認、とりまとめが判断記録受領 |
+ | CO-H12／人 | root内空白のhover保持／閉鎖とpreview入口追加を別々に選ぶ | **今選択可能・回答未着**。指定範囲だけの判断 | とりまとめ受領→本編・UI |
+-| CO-H13／人 | Windows／読了／補足の追加導線をroute別に選ぶ。ownedは資料成立後 | **3routeは選択可能・回答未着**。owned lock／変換はST-P08合法状態・実表示対待ち | とりまとめ受領→本編・UI |
+-| CO-H14／人 | 必要な既存契約／合法入力の依頼文を既存ゲームバランスへ一度渡す | 本編の独立可能修正／資料提出後、具体不足と次の依頼文をとりまとめが提示した時。今は後続準備待ち | とりまとめ・ゲームバランス検討 |
++| CO-H13／人 | Windows／読了／補足の追加導線をroute別に選ぶ。ownedは資料成立後 | **3routeは選択可能・回答未着**。owned同状態対は一部補完、変換可能全状態／候補の実入力等は不足 | とりまとめ受領→本編・UI |
++| CO-H14／人 | 既存契約／合法入力3項目の依頼を既存ゲームバランスへ渡す | 新UI具体返却を受領。今回独立本編修正の提出を受領後、残る3項目の開始文を提示。今は後続 | とりまとめ・ゲームバランス検討 |
++| CO-H15／人 | 固定暗色判定を既存UIへ一度依頼 | **完了**。UIの依頼受領・実施とab1b6fa0の判定保存を確認。再送不要、UI依頼全体／適合と別 | とりまとめ・UI改善 |
++| CO-H16／人 | 今回の具体独立修正・H11比較資料訂正を本編Codexへ渡す | **今開始可能・送付／担当受領未確認**。一つの窓口へ渡せば人の受渡し完了 | とりまとめが開始文、同じ本編が保存提出 |
+ | CO-H02／人 | 修正版の起動・短い探索・中断終了・再起動・続きからを確認 | RD-PACK-03の修正版受渡しと版・手順の案内待ち | 実行基盤・配布設計／CO-D04C |
+ | CO-H03／人 | 修正版の表示・実入力・一巡と実機残項目を確認 | CO-H02で基本操作・途中再開が確認できた後。現在は準備待ち | 実行基盤・配布設計が一つの窓口として受領し、UI／本編／基盤へ切り分け |
+ | CO-H04／人 | 同じ保存で遊び、選択理由・分かりにくさ・面白さを返す | CO-D04と必要修正の受領後、CO-P02の対象版・開始条件の提示待ち | 既存の試遊Work／CO-P02。とりまとめがM1受入へ反映 |
+@@ -96,7 +98,11 @@ H11の用途別記号、H13owned／追加routeの図・特定AAなど実画像
+ - 既存契約の不足がUI判定後にも残れば、とりまとめがゲームバランス検討への具体依頼を提示する。今回H09を渡しただけで後続Workも送付済み・着手済みにはしない。
+ 
+ <a id="co-h10"></a>
+-## CO-H10：本編Codexへ固定UI再判定の修正を渡す
++## CO-H10：本編Codexへの修正・暗色補足の受渡し（完了）
++
++2026-10-06夜：計画388c69a5の全73path/blob同期、指示0.9受領／実施と0ec63342提出を保存原本で確認し完了。元依頼・暗色補足は再送不要。D04B-UI-02全体の未完了と、人の受渡し完了は分ける。以下は実施前の依頼記録として保全。
++
++### 過去記録：H10開始時の依頼
+ 
+ - 親タスク：既存D04B-UI-02。[今回の貼り付け用開始文](引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md#start-prompt)を、一つの既存ゲーム本編実装Codex窓口へ一度渡す。WorkID 20260927-game-application／impl/m1-godot-application-20260927。VS Code／アプリ側いずれも可、同じ枝への二重編集・新Work／新枝なし。
+ - 開始条件：UI099d4adeの固定判定・6回答・修正条件のとりまとめ受領。今回成立。送付・担当受領・着手は未確認。
+@@ -104,12 +110,12 @@ H11の用途別記号、H13owned／追加routeの図・特定AAなど実画像
+ - 本編が判断不要部分の修正・証拠・比較資料・教材を先行する。人がビルド・Git操作・合法fixture作成・全差異の検査をする必要はない。H11〜H13の未回答を理由に全修正を止めない。
+ 
+ <a id="co-h11"></a>
+-## CO-H11：未登録の記号を用途別に判断する（比較補完待ち）
++## CO-H11：未登録記号の用途別判断（比較開始0／16・本編資料訂正待ち）
+ 
+-- 親項目：DEC-UI-01。原本登録済み28定義の同一性とSwords／HeartPulseの復元はAI側の既条件で、人の再承認不要。
++- 親項目：DEC-UI-01。原本登録30定義（既存Swords／HeartPulseを含む）の同一性・復元はAI側の既条件で、人の再承認不要。
+ - 原本bundleに定義がない要求名：ScrollText、Check、Grid2X2、Clock3、Plus、CircleCheck、Inbox、Undo2、Store、LayoutGrid、Mountain。要求名と実装の用途を一つずつ結ぶ。TriangleをMountainと同じものとして承認しない。
+ - 選択肢A（UI推奨）：要求名に対応する既存Lucide 1.8.0定義を用途別に採用。空欄／小さいfallbackから可視の記号へ変わる。B：固定原本の空欄／fallbackを維持。実画素へ近づくが、時計／check等の意味の欠落が残り、これだけでUI適合にはならない。
+-- **開始条件：当該用途・現在の原寸・候補の正確な定義path/blob・size／stroke／alpha／box・候補の暗色原寸と影響が揃い、人が同じ暗色の現在／候補を比較できること。** UIの選択肢／影響は受領済みだが、この用途別比較一式は未完で、本編の同じ修正タスクへ補完を割り当てる。新素材制作・人の原本探索を追加しない。
++- **開始条件：当該用途の原本／現在／候補の実画素・path/blob・size／stroke／alpha／box・同じ暗色の状態と影響が比較欄へ結ばれ、複数使用先はそれぞれ対応すること。** 本編0ec63342のhuman/未登録記号の用途別比較.html・candidate-icons.json・icon-use-evidence.jsonに16用途の暗色実表示／box等を提出済み。今回UIは提出資料の比較開始0／16と判定。原本欄が実画素ではなく空欄／△の説明、H11-04／06／11は別用途nodeの引用、05／13は複数使用先不足。14用途の現在／候補ベクトル一致は確認したが人の開始成立ではない。本編が行別資料を訂正し、UIが成立した用途だけ人へ提示する。Mountain候補の現在／候補node box差などを未確認のまま採用扱いにせず、TriangleとMountainを同一視しない。新素材制作・人の原本探索は追加しない。
+ - 返すもの：比較資料にある「用途ID＝A/B／具体的な既存参照」の選択。全11名や全UIの一括採用を前提にしない。判断した用途だけ完了、残りは資料／回答待ちとして分ける。
+ - とりまとめが原文・対象用途・候補参照・条件を保存し、本編が同じ記号とboxへ反映、UIが固定SHAで再判定する。
+ 
+@@ -132,7 +138,7 @@ H11の用途別記号、H13owned／追加routeの図・特定AAなど実画像
+ | Windows診断／復旧・中断／**選択可能** | 既存B16メニュー→診断／復旧の子窓。拒否／不明／busyはB19、破壊的確認はB09 | 開始画面の下64px帯へ入口を集め、同じB16子窓へ | Aはゲーム内メニュー、Bは開始画面に入口が増える。「Windows=A/B」 |
+ | 本文読了／任意本文を閉じる／**選択可能** | 既存の下64px操作帯を使い、本文360px表示域を保つ | B16共通窓footerを使い、本文の高さ変更を個別採用 | Aは操作と本文が離れる。Bは本文の可視量が減る。「本文=A/B」 |
+ | 公開予測補足／予約・手順／**選択可能** | B15既存行の書式に公開事実だけ追加、未公開を明記 | B16既存状況／行動順へ補足を移し、B15を元の行に限定 | Aは本文長が増える。Bは補足閲覧の手数が増える。「補足=A/B」。private計算は表示しない |
+-| owned lock／解除／変換見積・確定／**比較待ち** | B09元footer内へ操作／公開状態、追加変換確認をB16子窓へ | B16親子導線へ操作を集約し、B09footerは元のまま | Aは詳細の操作が増え、Bは手数が増える。ST-P08合法入力と現在／候補の実表示対が未提出で、人の開始条件未成立 |
++| owned lock／解除／変換見積・確定／**一部補完・比較待ち** | B09元footer内へ操作／公開状態、追加変換確認をB16子窓へ | B16親子導線へ操作を集約し、B09footerは元のまま | 同じ合法home状態の原本／本編暗色対は提出。変換可能全状態・候補の実入力等不足、A/B図は概念図。人の開始条件未成立 |
+ 
+ - 開始できる3routeの返答例「H13：Windows A、本文 A、補足 B」。その導線／配置だけの採用で、余白・font等の未承認差異の免除にはしない。owned・未指定routeは未回答を維持。
+ - owned比較は既存契約担当の合法入力と本編の暗色・同状態原寸が必要。本編が同じタスクで比較資料を補い、成立後にとりまとめが判断を案内する。人にST-P08の作成・通常セーブ編集を求めない。
+@@ -141,10 +147,27 @@ H11の用途別記号、H13owned／追加routeの図・特定AAなど実画像
+ <a id="co-h14"></a>
+ ## CO-H14：必要な既存契約の確認をゲームバランスへ渡す（後続）
+ 
+-- 親項目：[合法入力・既存契約確認0.2](着手指示/D04B-UI-02_合法入力と既存契約の確認.md)。既存ゲームバランス検討／20260909-design-assembly／dev_design_tmp_assemblyを継続。
+-- 開始条件：今回本編の独立可能な修正／比較資料を提出し、なお不足するR01-filler／R04-unlimited／U-V01登録長名称・ST-P08をとりまとめが確認して次の依頼文を提示したこと。今はその提出待ちで、今回の専門並列へ増やさない。
+-- 人の完了条件：提示された依頼文を一つの既存窓口へ渡すこと。既存規則の意味／合法入口をAIが確認し、本編が描画／入力を証拠化する。人の法則調査・fixture作成・ビルドなし。
+-- 送付・担当受領・回答提出と、合法実描画／UI適合は別。同じID・枝を順番に継続する。
++- 親項目：[合法入力・既存契約確認0.4](着手指示/D04B-UI-02_合法入力と既存契約の確認.md)。既存ゲームバランス検討／20260909-design-assembly／dev_design_tmp_assemblyを継続。
++- 開始条件：今回UIの具体不足R01-filler／R04-unlimited／登録長名称・ST-P08は受領済み。今回は本編の具体独立修正とH11資料訂正を先行し、その提出を受領しても残る3項目に対し、とりまとめが次開始文を提示した時。今は後続、追加専門並列へ増やさない。
++
++<a id="co-h15"></a>
++## CO-H15：新固定暗色版の再判定をUIへ渡す（人の受渡し完了）
++
++2026-10-07：UIの指示0.10受領・実施とab1b6fa0の固定判定保存を確認した。人の受渡しは完了し再送不要。今回のレビュー依頼は保存／読戻しを含め完了。 以下は渡した内容・当時の開始条件の履歴であり、今回の人の行動はH16を優先する。
++
++- 親タスク：既存UI-GODOT-REVIEW-01。WorkID 20260910-ui-readability／ui/readability-20260910を継承。[今回の一度でコピーできる開始文](引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md#start-prompt)を一つの既存窓口へ渡す。新Work・新枝は不要、H09の旧固定版とは異なる新しい暗色修正の再判定。
++- 開始条件：本編aabfefab／提出0ec63342の暗色修正・証拠を部分受領し、指示0.10が具体化したこと。今回成立。人の完了条件は一つの窓口へ渡すこと。返答は「UIへ暗色再判定を渡した」でよい。送付／担当受領／レビュー提出は別に確認する。
++- UIが暗色基準・変更影響・実画像／source-bindingの妥当性・H11資料開始成立を独立判定する。H11〜H13の人回答や合法入力を先に全て揃える必要はなく、依存項目だけ未確認として返す。人に全差異検査・UI全体の再承認・全画像hashを割り当てない。
++- 渡した後はレビュー返却を待てる。H12／H13の具体化済み3routeは個別回答可能、H11／owned／特定AAは必要資料成立後。配布・実機・試遊はその条件成立後、同じ既存担当が案内する。
++
++<a id="co-h16"></a>
++## CO-H16：今回の具体UI指摘を既存本編Codexへ返す（今開始可能）
++
++- 親タスク：D04B-UI-02。[一度でコピーできる今回開始文](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md#start-prompt)を、既存ゲーム本編実装／20260927-game-application／impl/m1-godot-application-20260927の一つのCodex窓口へ渡す。VS Code／アプリのどちらでも同じ設定を継承し、二重編集しない。
++- 開始条件：新UI固定判定の具体指摘をとりまとめが保存原本で照合・受領したこと。成立。UIの既依頼全体の保存完了と適合は別記録として維持する。旧H10や完了済み機能を再依頼するものではない。
++- 人の完了条件：今回文を一つの窓口へ渡すこと。送付／担当受領／着手／修正提出は別で、現在は未確認。返答は「本編へ今回の修正依頼を渡した」でよい。
++- 本編は17要修正IDの独立部分とH11比較資料を訂正し、固定同状態の証拠・変更影響・日本語教材・残件を保存／読戻す。人に全差異の調査・コード修正・ビルド・セーブ編集を求めない。
++- H12の2挙動、H13のWindows／本文／公開補足3routeは個別回答可能。未回答でも本編の独立作業は進める。H11／owned／特定AAは比較成立後、契約3項目はH14の後続指示、新配布・実機・試遊はその前提成立後。別Workの自動送信・起動・停止は行わない。
+ 
+ <a id="co-h02"></a>
+ ## CO-H02：修正版の最初の起動と途中再開
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\273\256\347\275\256\343\201\215\343\203\273\346\234\252\346\261\272\344\272\213\351\240\205.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\273\256\347\275\256\343\201\215\343\203\273\346\234\252\346\261\272\344\272\213\351\240\205.md"
+index 0821fd21..92c78a4f 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\273\256\347\275\256\343\201\215\343\203\273\346\234\252\346\261\272\344\272\213\351\240\205.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\344\273\256\347\275\256\343\201\215\343\203\273\346\234\252\346\261\272\344\272\213\351\240\205.md"
+@@ -1,12 +1,12 @@
+ # crossweave — 仮置き・未決事項
+ 
+-版：0.33／2026-10-06（日本時間）。対象：当面の目標M1。担当：とりまとめWork。仕様の正式採用を代行する台帳ではない。
++版：0.35／2026-10-07（日本時間）。対象：当面の目標M1。担当：とりまとめWork。仕様の正式採用を代行する台帳ではない。
+ 
+ **仮置きがあることと、何を試しているか分からないことを分ける。** 選択理由・成長・進退・持帰りが仮処理で抜けている場合は本体の優先課題にする。性能・価格・素材を全て完成させるまで試遊を待つ方式にはしない。
+ 
+-旧P5-DIR／RD-PACK-02は完了受領、旧版の起動報告あり。本編c761cbf4／8e992501は部分受領を維持。UI099d4adeの固定再判定／6回答を完了受領し、57ID＝27要修正・6判断待ち・3未確認・21当該差異解消、必要17群中2閉／15継続。未承認差異33と必要未確認を残し配布不可。今回は同じ本編Codexが判断不要部分と可能な証拠／比較資料を先行。合法入力3項目は既存契約担当へ後続、人H11〜H13は具体範囲と資料開始条件を固定。細部の再現を任意仕上げにせず、未承認差異0・必要未確認0を配布条件とする。[今回受領](引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md)／[受入基準](UI合意案の再現と受入基準.md)。旧ZIP対象外・403・CP02破損履歴は保全。
++旧P5-DIR／RD-PACK-02は完了受領、旧版の起動報告を保全。**固定暗色版のUI判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可、次の修正依頼は既存本編Codex1Work。** 新しい固定コードaabfefab／提出0ec63342への57IDは、要修正17・原本判断待ち8・未確認6・当該差異の範囲で解消26。未承認差異25、未確認ID6、必要17群中2閉／15継続。解消26は共有font・配色・全操作状態や全画面適合を認める数ではない。旧c761cbf4への27／6／3／21は履歴として保全する。 H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 成果f985a191／完了提出ab1b6fa0。payload35本文の読取・49対象path/blob（旧版14pathの保全を含む）と、最終15本文/blob・親/tree/HEADをGitHubで独立照合。 [今回受領](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)／[受入基準](UI合意案の再現と受入基準.md)。取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。
+ 
+-**2026-10-06 17:20のユーザー説明により、UI確認・承認は暗色表示に対して行われたと確定した。M1は了承済みの緑系暗色を、OS設定によらず再現する。** 明色対応・OS自動切替は今回の採用範囲・受入条件に含めない。これは既了承の提示状態の確認であり、新しい暗色デザインの採用や全UIの再承認ではない。 U-C02の了承配色・採用範囲の不足は今回の説明で解消したが、暗色の実描画／全使用先の適合証拠は未完了。新規適合判定0件。未承認差異0・必要未確認0の配布条件は、了承済み暗色のM1対象に適用する。明色の適合・画像・切替を新しい配布条件にしない。 UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は従前条件の固定判定として保全。これを暗色の全適合数へ読み替えず、色・透過・影・AA・基準画像など暗色に依存する項目と共通部品の使用先を次固定SHAで再判定する。関係のない機能証拠は再利用し、全57件を一律再実装しない。 [暗色の了承根拠・反映案・本編補足](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。暗色を未採用候補／任意仕上げへ戻さず、配色を人へ再質問しない。
++**2026-10-06 17:20のユーザー説明により、了承対象は暗色。M1は既存緑系暗色を通常OS非連動で再現する。** 明色・OS自動切替は採用範囲外、配色を人へ再質問しない。本編の通常暗色・基準19部品／37状態を維持し、UIのB03／U-C02／style-source条件訂正を受領した。全使用先の最終cascade・alpha／gradient・状態適合はV-C02等の残件であり、配色了承・通常表示実装だけで合格にしない。未承認差異0・必要未確認0は暗色のM1対象に適用。[了承根拠](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。旧57ID／画像／失敗・未実施は版別履歴へ維持。
+ 
+ 以下の旧JavaScript実装・確認済み範囲は参照として保全する。Godotへの直接コード再利用は必須でなく、規則・UI操作意図・仮入力・固定試験の意味を本編へ移して確認する。旧成功を新実装の成功にはしない。
+ 
+@@ -54,7 +54,7 @@ Aで許す追加作業は、特定の接続・操作・評価を成立させる
+ | TMP-07・P1 | 着想は仮称、属性の全体対応も未定。U-G06は基礎4心得の機能仮ラベルを継承して実装可能 | 世界観・UI・設計／CO-W01・D02・D03・U02 | 表示辞書は設計側の一箇所、効果は既存演算から生成。UIに別資源や独自効果を作らせない。正式命名を本体実装の停止条件にしない |
+ | TMP-08・P1 | V02Aは15時台にローカル制作・合成済み、公開は背景2点25e7ce9から不変 | ビジュアル／CO-V02A 0.4 | 既存成果を確保し、採用状態訂正・保存・引継ぎで区切る。回収不能を推測や再生成で埋めず、不足を明記 |
+ | TMP-09・P0実環境受入 | 基盤・本編実ノードとCI描画は受領。起動成功報告のみあり | 配布／RD-PACK-03→CO-D04C、ENV-PROOF残件 | 広い実機確認を修正版へ集約。実入力・日本語・DPI・音・性能は未確認 |
+-| TMP-10・P0 | 合意案細部の再現と独立UI適合。UI099d4adeはレビュー依頼完了・配布不可。33未承認差異・3未確認ID、必要15群継続。21解消は当該差異だけ | 今回本編Codexの判断不要修正／比較補完→必要な既存契約3項目・人H11〜H13→本編該当追補→UI固定再判定 | 未承認差異0・必要未確認0、機能／固定SHA／証拠一致。属性・scroll既条件は維持。owned／AA判断は必要比較成立後。推奨案を無断採用しない。暗色での了承はユーザー説明を根拠に確定、通常暗色をOS非連動で再現。U-C02は暗色の描画／使用先証拠待ち。明色／自動切替は現採用外 |
++| TMP-10・P0 | 固定暗色UI判定を完了受領。17要修正／8判断待ち／6未確認／26限定解消、必要群2閉／15継続。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合未完了 | 今回同じ本編の独立具体修正・H11資料訂正→必要な人H11〜H13／既存契約3項目→同じ本編依存箇所追補→UI再判定 | 暗色の未承認差異0・必要未確認0と機能／固定SHA／証拠一致。H11開始0／16・owned／AA不足を人の未回答にしない。明色／新テーマ・通常セーブ編集なし |
+ | TMP-11・P1 | D54〜D58採用・共通実装、旧U02-Bへの接続は提出済み。具体量・枚数の製品採用と実環境・人評価は別 | 設計・UIの提出を継承、後続D04・P02 | 古いD55実装中・身構未決へ戻さない。公開・演算の既存仕様を維持し、新取得方式の作業と分ける |
+ | TMP-12・実装接続解消 | 取得予定・取消・一括確定・同じ編成の出発をGodotへ接続 | 本編UI-01完了受領 | 旧UIの再承認を要求せず、本編配布物の実操作へ |
+ | TMP-13・P2 | 探索先4候補の画面サンプル。実出発はSCN-001、追加3件は仮入力 | 設計・シナリオ／CO-S02、後続UI-DEST-INT-01 | 本編複数化の具体割当後に候補・公開状態・解放・出発・帰還・保存の契約を整合。M1の今回必須作業へ自動追加しない |
+@@ -65,7 +65,7 @@ Aで許す追加作業は、特定の接続・操作・評価を成立させる
+ | TMP-18・P2 | Windows保存CIは成功、固定ActionsにNode20→24警告 | 実行基盤・配布／RD-MAINT-01 | 基盤更新時に期限・影響を確認。現成功を未成功へ戻さず、今回一括更新しない |
+ | TMP-19・要件変更により対象外 | 旧P5のDropbox2ZIP全量読戻し。実施未了の事実は履歴として保全 | 20:47の利用者指示でZIPの必要性を取り消し | 再試行・対応機能待ち・利用者の代理読戻しは要求しない。新しい受渡し条件はTMP-16のP5-DIR |
+ 
+-**試作はメモリー保持で可、M1と最終アプリでは永続化が必要。** 本編・通常保存接続・旧版配布の完了履歴を保持。UIの固定再判定は完了受領、今回は同じ本編Codexへ判断不要修正・必要証拠／比較資料を返す。R01/R04／登録長名称・ST-P08の契約適用は既存ゲームバランス、本編描画／入力は本編。H09受渡し完了、今はH10の本編への依頼とH12／H13の準備済み個別選択。H11の記号用途別比較とowned／AA資料未成立は人の作業待ちにしない。配布→H02/H03→P02のH04は未開始、案内・受領は配布、とりまとめは段階の個別判定。
++**試作はメモリー保持で可、M1と最終アプリでは永続化が必要。** 本編保存接続・旧配布完了は維持。今回の修正依頼は、同じゲーム本編実装／D04B-UI-02の指示0.11。17要修正IDのうち具体根拠があり人回答・既存契約・未取得原本に依存しない部分と、H11用途別比較資料の不足を先行する。必要な個別回答・既存契約3項目→同じ本編の依存箇所追補→UIの新固定SHAへの変更影響再判定→適合受領後RD-PACK-03→CO-D04C＋ENV／PROOF・親D04→CO-P02→CO-02／M1。各専門Workを順番に再利用し、新Work・新枝・追加並列を設けない。保存を送付・担当受領・着手にしない。 H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 とりまとめは成果受領・計画・段階の個別判定を担当する。
+ 
+ TMP-01〜05の接続基準は既存成果として保持する。方式・値・内容を全て正式採用する必要はないが、実装担当が無記録で穴を埋める状態ではCO-01を完了にしない。TMP-06〜09も担当と差替え条件を持ち、試遊結果がどの仮条件に依存したか追えるようにする。
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\345\205\250\344\275\223\350\250\210\347\224\273.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\345\205\250\344\275\223\350\250\210\347\224\273.md"
+index cd020836..1aa325bf 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\345\205\250\344\275\223\350\250\210\347\224\273.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\345\205\250\344\275\223\350\250\210\347\224\273.md"
+@@ -1,6 +1,8 @@
+ # crossweave — 全体計画
+ 
+-版：0.37／2026-10-06（日本時間）。担当：とりまとめWork `20260913-project-coordination`／`ops/project-coordination-20260913`。
++版：0.39／2026-10-07（日本時間）。担当：とりまとめWork `20260913-project-coordination`／`ops/project-coordination-20260913`。
++
++**固定暗色版のUI判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可、次の修正依頼は既存本編Codex1Work。** 新しい固定コードaabfefab／提出0ec63342への57IDは、要修正17・原本判断待ち8・未確認6・当該差異の範囲で解消26。未承認差異25、未確認ID6、必要17群中2閉／15継続。解消26は共有font・配色・全操作状態や全画面適合を認める数ではない。旧c761cbf4への27／6／3／21は履歴として保全する。 成果f985a191／完了提出ab1b6fa0。payload35本文の読取・49対象path/blob（旧版14pathの保全を含む）と、最終15本文/blob・親/tree/HEADをGitHubで独立照合。 [今回の受領と本編開始文](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
+ 
+ **当面の目標は、夜潮の排水路を題材に、準備→探索→帰還→成長・編成変更→再出発を、同じ保存データで通して遊べる小さな本体を作ること。** 一往復の試遊が既にあるため、その先の接続を優先する。これは今回委任された制作上の目標設定であり、案件・個別数値・未採用の装備方式を製品仕様に確定する判断ではない。
+ 
+@@ -26,13 +28,15 @@
+ 
+ **UIの固定再判定・6回答を099d4ade（成果d134c0ff）で完了受領。UI適合は未完了・配布不可。** 57IDは要修正27・原本判断待ち6・未確認3・当該差異解消21。未承認差異33と未確認ID3を残す。必要17群中U-RC04／UI-CI01の2証拠条件を閉じ15群継続。計画9d402925の全67path/blob、成果36path/blob・最終8path/blob、判定／回答の原本・本編参照341件／40一意参照を独立照合した。解消21を全画面の適合に拡張せず、原寸18／切出し114PNGの確認はUI担当報告として区別。[今回の受領と本編への開始文](引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md)。
+ 
++**2026-10-06夜の本編部分受領記録：固定暗色修正aabfefab／提出0ec63342を受領。全体・UI適合は未完了。** 通常暗色・用途別配色／寸法等の独立修正、11暗色mode・指定なし通常／候補4mode・関連24mode、199暗色原寸対・54ID領域／cue証拠・16用途の人比較・教材の提出を確認。計画388c69a5全73path/blob、提出ea2d9c65の2136path/blob・主要25blob、最後の記録更新7path/blob、コード12pathと固定／最終ソースの一致を照合。Windows CI37461945694はaabfefabでsuccess。CI内部artifactは担当の403で未確認、rendered-darkのsource変更／manifest失敗と版別再利用の限界を保全。UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は旧c761cbf4への固定判定として保全。この受領時点では新aabfefabの適合数は独立未判定だった。現在は冒頭の新固定判定を優先し、修正提出・CI成功自体を解消数へ転記しない。 [今回の部分受領・次の開始文](引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md)。
++
+ **合意案からの差異は未承認であり、細部を含めて再現する。** 2026-10-02のユーザー指示により、機能・大きな配置の一致だけでUI適合にしない。従来の文字組・標準スクロールバー等のエンジン差の許容と、7指摘だけの再確認方針を訂正。既了承の寸法・余白・文字・色・枠・札面・重なり・窓・状態表示の再現はM1の受入条件であり、任意の仕上げへ送らない。[UI合意案の再現と受入基準](UI合意案の再現と受入基準.md)に基づく基準・差異台帳はUI原本担当が固定・提出済み。本編はその固定入力に沿って再現し、曖昧な原本の判断だけUIへ返す。新デザイン・未採用機能・新規素材制作は追加しない。
+ 
+ 本編提出749d648fから配布元0765f158へ進んだ実行コード差分は検査用3ファイル。単発の範囲取り込みで実配布ソースと基点を揃え、配布枝全体や古い計画はマージしない。後続の配布担当は受領した本編修正だけを現在の配布枝へ統合する。
+ 
+-**今回の専門着手は既存ゲーム本編実装／Codex1Work。固定UI再判定の判断不要修正→必要な既存契約回答・人の個別判断→同じ本編の該当追補→UI再判定→RD-PACK-03→CO-D04C＋ENV／PROOF→CO-P02→CO-02／M1受入。** UIの0.6依頼・人H09は完了し、同じ開始文を再送しない。27要修正IDの判断不要部分とV-C06／V-S01／V-D03・必要15群の可能な証拠／比較資料を本編が先行する。既存属性adapterと親scroll保持、登録済み記号の復元は新承認不要。未登録記号・hover境界／preview追加・追加routeは人H11〜H13で具体範囲だけ判断し、AA／owned比較は資料成立前に人作業へしない。合法入力3項目は既存ゲームバランスへの後続依頼へ固定。本編の独立修正を契約／人の回答待ちで止めず、今回追加の専門並列・新Work／新枝・他会話の自動起動／送信はなし。今回の本編0.7の基本依頼／最新0.9補足の送付・受領・着手は未確認。すでに基本依頼を渡していれば元依頼の再送は不要。
++今回の修正依頼は、同じゲーム本編実装／D04B-UI-02の指示0.11。17要修正IDのうち具体根拠があり人回答・既存契約・未取得原本に依存しない部分と、H11用途別比較資料の不足を先行する。必要な個別回答・既存契約3項目→同じ本編の依存箇所追補→UIの新固定SHAへの変更影響再判定→適合受領後RD-PACK-03→CO-D04C＋ENV／PROOF・親D04→CO-P02→CO-02／M1。各専門Workを順番に再利用し、新Work・新枝・追加並列を設けない。保存を送付・担当受領・着手にしない。 H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 [今回の受領](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
+ 
+-**2026-10-06 17:20のユーザー説明により、UI確認・承認は暗色表示に対して行われたと確定した。M1は了承済みの緑系暗色を、OS設定によらず再現する。** 明色対応・OS自動切替は今回の採用範囲・受入条件に含めない。これは既了承の提示状態の確認であり、新しい暗色デザインの採用や全UIの再承認ではない。 本編／UI指示0.9、受入基準0.4、人0.8、配布指示0.5へ反映。通常起動・再描画を暗色へ固定するコード修正は同じ本編Codexが担当し、UI原本のB03／U-C02・light条件の基準資料の訂正案は次の同じUI再判定へ渡す。U-C02の了承配色・採用範囲の不足は今回の説明で解消したが、暗色の実描画／全使用先の適合証拠は未完了。新規適合判定0件。未承認差異0・必要未確認0の配布条件は、了承済み暗色のM1対象に適用する。明色の適合・画像・切替を新しい配布条件にしない。 UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は従前条件の固定判定として保全。これを暗色の全適合数へ読み替えず、色・透過・影・AA・基準画像など暗色に依存する項目と共通部品の使用先を次固定SHAで再判定する。関係のない機能証拠は再利用し、全57件を一律再実装しない。 今回の保存は実装反映／送付／担当受領とは別。[暗色の了承根拠・反映案・本編補足](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。出所調査0.36は今回の説明前の履歴として保全。
++**了承済み緑系暗色をM1の再現基準とし、明色・OS自動切替は現採用範囲外。** 17:20の説明を維持。通常dark／OS非連動の実装を部分受領し、今回UIのB03／U-C02／style-source条件を暗色へ訂正した成果を受領。19部品／37状態・A01〜A06は維持。cw-drawerの最終#202820、cj-shell#1d2b27など最終cascade・使用先・状態を区別し、全窓へ一律色を流用しない。全使用先の配色適合はV-C02等の残件であり、暗色了承・通常表示の確認と分ける。既了承の再承認や新しいテーマ判断はない。本編／UI指示0.11・受入0.6・人1.0・契約0.4・配布0.7。[了承根拠](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。
+ 
+ **CO-D04Cは旧版の起動報告を受領、途中再開・残項目は未確認。** 既存配布担当の原文受領責任は維持するが、広い実機確認は修正版へ集約する。利用者は追加の網羅試験をせず修正版を待てる。すでに得た結果は保存し、旧版の途中再開を本編UI修正の着手条件にしない。[再割当](引継ぎ/20261001_UI修正とCodex実行の再割当.md)。
+ 
+@@ -42,7 +46,7 @@
+ 
+ 実機確認は修正版の起動・途中再開から始め、一巡・DPI・実入力・入替・性能へ進む。ENV／PROOF・親D04は未完了、P02は未着手、M1未受入を維持。実装提出・UI適合判定・再配布・実機受入・人の試遊を分ける。
+ 
+-**利用者の役割も担当「人」のタスクとして登録する。** [人の担当タスク](人の担当タスク.md)に開始条件・操作・返すもの・終了条件・受領先を示す。H01・H05〜H09は完了。今はH10で既存本編Codexへ今回の開始文を一度渡す。H12（空白hover／preview追加）とH13のWindows／本文／公開補足3routeは個別選択可能。H11の用途別記号、H13のowned操作配置は比較補完待ち。AAは文字metrics修正後の限定原寸対まで人の作業ではない。H14は本編の独立可能修正提出後の必要な既存契約依頼。原本探索・全差異列挙・ビルド・既了承UIの再承認を人に求めず、H02〜H04は新版／実機受入の条件成立まで待てる。未回答・推奨案を採用済みにしない。
++**利用者の役割は担当「人」のタスクとして維持。** [人の担当タスク](人の担当タスク.md)で開始条件・操作・返すもの・終了条件・受領先を管理。H15はUIの依頼受領・判定提出を保存原本で確認して人の受渡しを完了。今の人タスクはH16：今回の具体修正開始文を一つの既存本編Codex窓口へ渡すこと。H11は原本実画素の比較欄不足、04／06／11の用途node誤引用、05／13の複数使用先不足があり、提出資料の比較開始は0／16。AIが資料を直しUIが用途別成立を確認してから人へ提示する。H12の2挙動とH13のWindows／本文／公開補足3routeは選択可能・回答未着、ownedは合法全状態と候補実入力不足、特定AAは役割metricsを揃えた後の限定比較待ち。H14は独立本編修正の提出受領後、残る契約3項目へ順番に渡す。H02／H03は新版案内待ち、H04は実機受入後。 人に全差異の調査・既了承UI再承認・開発環境導入・OS設定変更・セーブ初期化を求めない。
+ 
+ D04E/Aのブラウザー検証はM1主経路から外す。環境確立の目的はENV/PROOF、終了再開・整合確認の目的はRD-SAVE-02/D04へ引き継ぐ。旧実確認0件・IndexedDBコード・Actions＋Chromium案・固定入力は保全し、完了へ読み替えない。localhost:8000への再試行は不要。
+ 
+@@ -50,7 +54,7 @@ D04E/Aのブラウザー検証はM1主経路から外す。環境確立の目的
+ 
+ 全Workは[完了報告と引継ぎ規則](完了報告と引継ぎ規則.md)に従い、依頼全体の完了／未完了・残件・保存先・再開条件を保存して提示する。UI72d0eb58、CO-M1Rの完了を受領済み。旧D04Aの環境待ち記録は履歴として保持する。形式だけの再報告や完了済み検査の反復は不要。
+ 
+-取得・編成の構造と画面了承を継承。本編・通常保存・旧実行フォルダー受渡しは受領済み。UIの固定再判定依頼を完了受領し、未承認差異33・未確認ID3／必要15群を同じ本編Codexへ返す。既提出修正・限定機能・当該差異解消21を保全し、必要な変更影響だけ確認する。次は判断不要修正と可能な証拠／具体判断資料の補完。UI適合・新配布・実機表示／入力／音／DPI／性能・人の理解と面白さは未了。コード完成・CI成功をM1完成にしない。
++取得・編成の構造と暗色の画面了承を継承。本編・通常保存・旧配布は受領済み。新UI判定の具体修正を同じ本編へ返すが、過去の全修正を再作成しない。未承認差異25・必要未確認を残し、適合・新版配布・実機・人の理解と面白さは未了。取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。
+ 
+ | 調べたいこと | 管理先 |
+ |---|---|
+@@ -116,7 +120,7 @@ M1の受入では、正常な一巡に加え、保護前後の撤退、緊急脱
+ 
+ | 優先度 | 意味 | 今回の扱い |
+ |---|---|---|
+-| P0 | M1の接続・進行・保存を止める、または複数Workの前提になる | 今回は本編Codexの判断不要修正・必要証拠／判断資料の補完。具体的な既存契約と人判断は該当箇所だけ後続へ。UI適合後に配布・実機。起動・保存阻害は判明時に優先 |
++| P0 | M1の接続・進行・保存を止める、または複数Workの前提になる | 今回は同じ本編の固定UI返却の独立修正と人比較資料の訂正。必要な人回答／既存契約→本編依存箇所追補→UI適合後に配布・実機。起動・保存阻害は判明時に優先 |
+ | P1 | M1の判断・識別を成立させる、またはM2の評価に直結する | 必要な用語と短文、実表示用素材、現在の試遊観察、判断負担や反復への対処 |
+ | P2 | 後段の完成に必要だがM1を止めない | 別探索先の本格展開、全30単位の残りUI、全編の進行・素材・仕上げ |
+ | P3 | 直近の完成条件から独立した比較・設定候補 | 世界観の広い案出し、未使用素材や演出の追加比較。必要となれば昇格 |
+@@ -140,6 +144,10 @@ M1の受入では、正常な一巡に加え、保護前後の撤退、緊急脱
+ 
+ ## 更新履歴
+ 
++- 0.39（2026-10-07）：固定暗色UI判定を完了受領。57ID＝17修正／8判断待ち／6未確認／26限定解消、必要群2閉／15継続、配布不可。今回のレビュー依頼は保存／読戻しを含め完了。 H15人受渡し完了・H16本編具体修正返却を登録。H11資料開始0／16・用途誤引用を本編へ返却。計画75／判定資料22path/blob・参照268件／CSS21層・コード12pathを照合。各指示と人の依存を更新、旧取得不能／失敗・実機未完了を保全。
++
++- 0.38（2026-10-06夜）：本編aabfefab／0ec63342の独立暗色修正・証拠・人資料・教材を部分受領、計画73／成果2136path/blob・主要25blobと固定CI成功を確認。全体未完了と403／source変更失敗・版別再利用限界を保全。今回の1専門Workを同じUIの固定暗色再判定へ交代。本編指示0.10待ち、UI0.10、受入0.5・人0.9・配布0.6・合法契約0.3を整合。H10完了・H15登録、その他判断と合法入力は具体不足だけ後続。
++
+ - 0.37（2026-10-06 17:20以降）：ユーザーが確認・承認した配色は暗色と明示。既了承の緑系暗色をM1再現基準としOS非連動の通常表示へ訂正。明色と自動切替を現採用範囲から除外。本編／UI0.9・人0.8・受入0.4・配布0.5と担当外反映案を保存。旧判定は固定履歴、暗色依存の影響先は次SHAで再判定。新Work・追加並列・新しい人の配色判断なし。
+ 
+ - 0.36（2026-10-06夕方）：明暗の出所を統合試作→UI原本→U-C02→Godot OS連動へ追跡。二種類／OS連動の採用根拠未確認を明示し、追加実装・仕上げを判断不要の必須修正へ含めない。本編／UI指示0.8へ補足。既存コード・証拠／固定判定とその他の順序を保全。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\217\276\347\212\266\346\243\232\345\215\270\343\201\227.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\217\276\347\212\266\346\243\232\345\215\270\343\201\227.md"
+index fe271301..29489e3b 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\217\276\347\212\266\346\243\232\345\215\270\343\201\227.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\217\276\347\212\266\346\243\232\345\215\270\343\201\227.md"
+@@ -1,8 +1,42 @@
+ # crossweave — 全Workの現状棚卸し
+ 
+-版：0.34／2026-10-06（日本時間）。担当：`20260913-project-coordination`。GitHub上の原本と固定成果を読み、計画上の不足を整理した。ゲーム試験の新規実行は0。未保存の別Work作業コピーは変更していない。
++版：0.36／2026-10-07（日本時間）。担当：`20260913-project-coordination`。GitHub上の原本と固定成果を読み、計画上の不足を整理した。ゲーム試験の新規実行は0。未保存の別Work作業コピーは変更していない。
+ 
+-## 2026-10-06 17:20以降：了承対象は緑系暗色、通常表示と比較条件を訂正
++## 2026-10-07：新固定暗色のUI判定を受領し、本編の具体修正へ
++
++**固定暗色版のUI判定成果を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 UI適合は要修正・配布不可、次の修正依頼は既存本編Codex1Work。** 自枝開始16324a8f、最新12枝と設計／本編／配布の必要原本を照合。UIは099d4adeからab1b6fa0へ進み、本編0ec63342・配布e7722a56・設計21ddd349と他枝は変更なし。新しい保存成果で進捗を確認できるが、他会話の現在の内部実行・停止原因・未保存差分は未確認。前回添付画像の観測とGitHub原本を分ける。
++
++| 対象 | 確認・受領・残件 |
++|---|---|
++| UI提出 | 成果f985a191／完了提出ab1b6fa0。payload35本文の読取・49対象path/blob（旧版14pathの保全を含む）と、最終15本文/blob・親/tree/HEADをGitHubで独立照合。 固定コードaabfefab076252f050824640fba6d8a8dd13e8e0／提出0ec6334254db00ebc7956b4df493f3a34b98845a |
++| 判定・基準 | 新しい固定コードaabfefab／提出0ec63342への57IDは、要修正17・原本判断待ち8・未確認6・当該差異の範囲で解消26。未承認差異25、未確認ID6、必要17群中2閉／15継続。解消26は共有font・配色・全操作状態や全画面適合を認める数ではない。旧c761cbf4への27／6／3／21は履歴として保全する。 B03／U-C02／style-sourceの了承済み緑系暗色訂正を受領。19部品／37状態・原本72d0eb58・明示後継／A01〜A06を維持 |
++| 独立照合 | 暗色判定資料22本文/blobとpayload tree、計画16324a8f全75path/blob・同期実ファイル／記録、参照268件のpath/blob、コード12pathの固定／最終一致、原本CSS21層、技術取込b4340b13の設計21ddd349親を確認。とりまとめの全画像実画素再審査・新規ゲーム実行は0 |
++| 本編返却 | 17要修正IDの独立部分：役割metrics／最終cascade・配色、scrollbar3px、破線周期、財布／確認・token位置と角、探索／札／空場合成、本人帯の文字組、詳細／記録／表・窓角、本文／帰還／拠点footer透明化。既受領修正を一律再作成しない |
++| 人比較 | H11比較開始0／16。原本の実画素列、04／06／11用途node、05／13複数使用先が不足。候補採用0。H12の2挙動・H13の3routeは選択可能・未回答。owned合法全状態／候補実入力不足、AAはmetric先行 |
++| 人の受渡し | H15人受渡しは完了。H16本編への具体修正返却を登録し、送付／受領／着手未確認。H14既存契約3項目は今回独立本編提出の受領後 |
++| 取得・失敗 | 取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。 |
++| 配布・実機・試遊 | 旧PACK-02／P5-DIR完了・旧起動報告を保全。新PACK-03は適合待ちで未着手。D04C／ENV／PROOF／親D04実機未完了、P02未着手・M1未受入。旧exeはビルド元0765f158で、新暗色修正版は未納品 |
++
++[今回受領・開始文](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)／[照合JSON](引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.json)。全体／Work別0.39・未決0.35・受入0.6・人1.0・本編／UI0.11・契約0.4・配布0.7。今回は同じ本編Codexへの具体独立修正1Work、UIの次再判定／契約／配布は条件を満たしてから順番に再利用。UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 自枝通常保存とGitHub読戻しを行い、計画保存を他会話への送付／受領／着手にしない。
++
++## 過去記録・2026-10-06夜：本編の暗色修正を部分受領、次は既存UIの固定版再判定
++
++**本編の固定暗色修正aabfefab／提出0ec63342を部分受領。D04B-UI-02全体・UI適合は未完了。今回の専門着手は同じUI改善の固定暗色再判定。** 開始自枝388c69a5c2714923b139134038e6cd6de4d5aac6。最新12枝を確認し、本編のみ8e992501から0ec63342へ更新。UI099d4ade・配布e7722a56・設計21ddd349ほかは不変。GitHub保存原本・取得できた既存会話を区別し、他会話の内部実行／停止原因・未保存差分は未確認。sources/・他Work作業コピーは変更しない。
++
++| 対象 | 今回の確認・判定 |
++|---|---|
++| 本編固定版 | コードaabfefab076252f050824640fba6d8a8dd13e8e0、成果ea2d9c65cbaa4dd6d2387e8d3ea23671b9823ddc、最終提出0ec6334254db00ebc7956b4df493f3a34b98845a。指示0.9／0.7の独立修正・必要証拠・人資料・教材を部分受領。全体はUI独立判定／具体回答・合法入力待ち |
++| 保存・計画同期 | 計画388c69a5の全73path/blobと実ファイル、成果ea2d9c65の2136path/blob・主要25blobを照合。最終記録更新7path/blob、固定／最終12コードblob一致、appsはREADMEだけ後続変更。全バイナリ／全画像内容の独立読戻しとはしない |
++| 担当検査 | approved-dark-final 11mode、normal-and-human-final 4mode、human-native-corrected 1mode、related-final 24modeの成功・検査時source安定を担当記録で確認。199暗色原寸対・54ID領域・cue進行／取消・日本語教材を提出。とりまとめは新規実行0、全画像の独立適合判定0 |
++| 保存版の限界 | rendered-darkはsource_changed_during_runでmanifest失敗。19通過ケースの限定再利用とsource-binding／EOL／撮影修正を保全。全run成功・全画像最終byte一致とはしない。Windows CI37461945694は固定aabfefabでsuccessをAPI照合。CI内部artifactは担当のHTTP403で未確認、再試行／別経路なし |
++| 暗色基準 | 通常dark／OS非連動と名前空間別値をコード・記録で確認。実DOM cw-drawer最終#202820と宣言例#202820e6をcascade／用途で区別。B03／U-C02・light撮影条件の訂正案をUIへ渡す。全使用先適合は独立再判定待ち |
++| UI | UI099d4adeの57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、必要17群中2閉／15継続は旧c761cbf4への固定判定として保全。新aabfefabの適合数は独立未判定であり、修正提出・CI成功を解消数へ転記しない。 次の同じUIが新固定aabfefabを指示0.10で再判定。回答未着でも独立項目を先行し、未承認差異0・必要未確認0の配布条件を維持 |
++| 人 | H10は計画同期・受領／実施／提出の保存証拠で完了。H15の今回UI受渡しは開始可能・送付／受領未確認。H11は16用途資料を部分受領、実画素／node box／定義の開始成立をUIが確認。H12とH13の3routeは回答可能、ownedは同状態対を一部補完したが合法全状態／候補の実入力等不足 |
++| 配布・実機・試遊 | 旧PACK-02／P5-DIR・旧起動成功は維持。PACK-03は暗色UI適合待ち。D04C／ENV／PROOF／親D04実機未完了、P02未着手・M1未受入。旧exeは0765f158のまま、新暗色版納品とはしない |
++
++[受領根拠・次の開始文](引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md)／[確認JSON](引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.json)。全体／Work別0.38・未決0.34・受入0.5・人0.9・本編／UI0.10・契約0.3・配布0.6。今回の専門着手は既存UI1Work、新Work・新枝・追加並列なし。通常自枝保存／GitHub読戻しし、別会話の受領／着手は保存だけで完了にしない。
++
++## 過去記録・2026-10-06 17:20以降：了承対象は緑系暗色、通常表示と比較条件を訂正
+ 
+ **2026-10-06 17:20のユーザー説明により、UI確認・承認は暗色表示に対して行われたと確定した。M1は了承済みの緑系暗色を、OS設定によらず再現する。** 明色対応・OS自動切替は今回の採用範囲・受入条件に含めない。これは既了承の提示状態の確認であり、新しい暗色デザインの採用や全UIの再承認ではない。 開始自枝e9434b8b92772cc6fdac275ad1cb9cdc4acbbfdf。最新12枝・設計／UI／本編／配布の必要原本を参考確認し、専門HEADは前回から不変。暗色での了承は今回のユーザー説明による新たな根拠で、旧保存記録に存在したと遡及しない。[今回の反映案](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)／[根拠JSON](引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.json)。
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_Godot_UI\347\266\231\346\211\277\345\267\256\345\210\206\343\201\256\344\277\256\346\255\243.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_Godot_UI\347\266\231\346\211\277\345\267\256\345\210\206\343\201\256\344\277\256\346\255\243.md"
+index cfaabd5e..0500139e 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_Godot_UI\347\266\231\346\211\277\345\267\256\345\210\206\343\201\256\344\277\256\346\255\243.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_Godot_UI\347\266\231\346\211\277\345\267\256\345\210\206\343\201\256\344\277\256\346\255\243.md"
+@@ -1,3 +1,87 @@
++# D04B-UI-02 — 固定暗色UIの具体指摘と比較資料を修正
++
++版：0.11／2026-10-07（日本時間）。**今回の修正依頼は既存ゲーム本編実装／Codex1Work。** 新UI固定判定の具体指摘を完了受領、本編の独立修正の再開条件は成立。今回のレビュー依頼は保存／読戻しを含め完了。 UIの依頼全体完了と、ここで受領した具体指摘を分ける。過去の本編修正・通常暗色・保存接続を一律やり直さず、今回残った独立部分と比較資料を同じD04B-UI-02で追補する。[今回の受領・一度でコピーできる開始文](../引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
++
++## 設定・再開入力
++
++| 項目 | 指定 |
++|---|---|
++| Work・作業枝 | ゲーム本編実装／20260927-game-application／impl/m1-godot-application-20260927。最新0ec6334254db00ebc7956b4df493f3a34b98845a、実装aabfefab076252f050824640fba6d8a8dd13e8e0を継承。新Work・新枝なし |
++| 必須同期 | ①最新ops/project-coordination-20260913のとりまとめ配下全体を同じpathへ実同期・元SHAと全path/blobを計画同期JSONへ②dev_design_tmp_assemblyの既定技術同期（現在21ddd349）③計画一致を再照合。計画／配布枝全体をマージしない |
++| 固定参考 | UI提出ab1b6fa067877a140ac9e9c9c006c70da76e40b4、判定payload f985a1919fcfd678d41b934967b97e1d542ed2cf。原本72d0eb58・明示後継/A01〜06、基準8b535c2f/2026-10-04.1の19部品／37状態＋暗色訂正2026-10-07.1。UI枝全体は参考で一括マージしない |
++| 成果の保存／受渡し | 本編コード・必要検査・固定証拠／比較資料・日本語教材・自Work／同期記録を本Workが自枝へ通常保存／Push／GitHub読戻し。UIが新固定SHAへの適合を判定、とりまとめが受領・後続配布を指定 |
++| 直接更新 | 既存Godot/Application・必要な本編検査／Tests・アプリREADME・自Work／計画同期・既存docs/検証/本編実装/d04b-ui-02/配下の今回記録。規則／共通仕様はゲームバランス、UI原本はUI、配布は配布担当。担当外は案で返す |
++
++開始・成果前に自枝／計画／設計／UI／配布の最新HEADと未保存差分を保全。既受領PackageEvidence.cs・同.uid・UiAutomation.csの範囲同期と実配布元0765f158の関係を継承し、配布側が動いた場合だけ差分／基点を確認。通常セーブ・旧証拠・未保存差分を破棄せず、sources/は変更しない。VS Code／アプリ側のどちらか一つで継続し、他会話の送信／起動／停止・並列エージェントは行わない。
++
++読む原本はUI提出の docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/ にある README.md、判定.json、ID別判定.md、暗色基準訂正.json、必要群判定.md/json、原本判断回答.md/json、H11開始成立.md/json、owned・追加導線の返却.json、合法入力返却.json、文字比較.md、実測.json、証拠受領.json、同期最終照合.json、とりまとめ提出.mdと、親のとりまとめ引継ぎ.md／publication.json。本編の既提出recheck-fix-20261006/のsource-binding／必要群と残件／fixture-receipt／human資料・教材を併読する。旧c761判定の27／6／3／21は履歴、新判定は17／8／6／26・必要群2／15である。
++
++## 今回の具体修正
++
++以下はUI固定判定の実装担当への返却条件。原本の意味・実測根拠はUI判定.json等を優先し、推測した仕様を横断計画から増やさない。**17要修正IDのうち、人の個別回答／既存契約／未取得原本を要しない具体部分を先行する。** 既了承の再現は人に再承認を求めず、未採用の記号／hover／追加routeは未回答のまま採用しない。共有部品→代表画面→全使用先の順で変更影響を確認する。
++
++| ID | 対象 | 返却された修正条件 |
++|---|---|---|
++| V-C01 | 文字のfont・weight・行組 | 一律のbaseline=-3だけで終了せず、title/meta/heading/body/table/serifごとにline box・margin・weightを対応。寸法とwrapが一致した領域だけAA残差をDEC04へ。 |
++| V-C02 | 配色の名前空間を一本化 | cp/cw/cj/navの変数名だけでなく、最終selector・状態・使用先ごとに値を割当てる。通常・hover・selected・disabled・影・alpha・gradientを全使用先へ結ぶ。暗色採否の再質問は不要。 |
++| V-C06 | 標準スクロールバーの残存 | 同じoverflow/scroll/hoverでtrack・arrow・gutterの内側位置を修正。CSSの横6px宣言を現在Edge実測のthin10pxへ機械的に置換する判定とは分け、縦横・normal/hover/drag・端を対応。 |
++| V-P08 | 未払いの斜線・色・時計 | 破線dash/gapと角端・金茶#dbbd78を実画素へ合わせる。H11-04のnodeを札右下[666,178,18,18]等の同用途へ訂正し、人の個別採用後に反映。 |
++| V-P12 | 取得フッターと固定操作 | 同じfooter支払値・数量でtokenのline box/dash/角を合わせる。Undo2の実20px用途とH11-05のfooterを対応し、未採用記号は個別回答へ。 |
++| V-P14 | 一括確認が改行Labelへ平坦化 | 合法invalid比較で原本の早期returnと四角い警告面を再現。fundedの各行・折畳み・価格は維持。H11-11/13は確認見出しを別用途に結ぶ。 |
++| V-P15 | 取得詳細の位置・価格・修飾構造不足 | cp-location幅910の右端へtokenを戻し、角6を破線にも適用。同用途node[1362,234,18,18]等と候補を結ぶ。ownedの追加条件はDEC05/ST-P08へ。 |
++| V-E02 | 探索背景の前景色かぶせ | 最終CSSのdark alpha・layer順・cover位置を用い、探索背景と空場の合成を同状態画素で確認。既存背景を描き直さない。 |
++| V-E04 | 札面の角・線と絵面gradient | 同じ248px札面でstops・色・alpha・投影長・補間を最終CSSへ合わせる。手札/場/ghostの全使用先へ結び、単一画素総差を許容率にしない。 |
++| V-E07 | 空の場札のcaption高さ | 空場の独立background #20282050を用途別に適用し、face/captionの合成と角を合わせる。通常札gradientの流用で空場を塗らない。 |
++| V-E10 | 主体と本人のバーを横2本へ変更 | バー寸法を維持し、18/24の数値・delta16/22・space-betweenと上下位置を役割別実測で合わせる。C01との変更影響を本人帯にも返す。 |
++| V-E12 | 本人帯の幅・内容密度 | 24/10/24の行組と最下帯72を保ち、下段を原本の位置・baselineへ合わせる。補助公開情報を新配置として黙って承認しない。 |
++| V-W01 | 探索詳細の文字・表組・余白 | 18/1.6、h3 20、margin、Fact/ledger/Paragraphの行boxとwrapを用途別に合わせる。スクロールの有無が同じ内容で一致するまでAA免除しない。 |
++| V-W03 | 窓の面と影・区切り | cw窓の角9とshadow0 4px 14px #0005を最終selectorへ合わせ、W03領域を実対象窓へ対応。背景/blurの未確認は維持し、cj共通窓へ一括適用しない。 |
++| V-W06 | 記録タブ・列・区分を省略 | .cj-button通常/hover/selectedの最終値を別に適用し、表のheading/行gapとfontを対応。現在未公開の札を既知記録へ混入しない。DEC06のkeepを修正後も維持。 |
++| V-W10 | 山札・履歴・案内を単一本文へ | 表と見出しのmargin/line boxを修正し、attack/healの実itemIcon用途を同状態で提示。親子/公開値/scroll境界を変えない。 |
++| V-H02 | 本文・帰還背景のgradientを近似 | screen/stateを含む最終cascadeへ合わせてfooterを透明にし、本文自身の90degと背景0/90deg・stops/alphaを各scene/三帰還結果へ対応。背景を作り直さない。 |
++
++- fontはtitle／meta／heading／body／table／serifごとにline box／margin／wrap／実faceを対応。詳細の行位置・content高446→377とscroll消失はmetrics差で、単なるAA差として免除しない。metricを揃えた後も残る特定の領域だけ、原本／現在・環境・候補・影響を個別AA判断へ返す。新font・全UIエンジン差の一括許容はない。
++- 緑系暗色・通常OS非連動を維持し、cp／cw／cj／navの最終selector・状態・alpha／shadow／gradient／全使用先へ対応させる。宣言例#202820e6とcw-drawer最終#202820、cj-shell#1d2b27を区別し、明色・OS切替や全窓一律色は追加しない。
++- 独立修正の変更影響にD01／D02／D03等の同pointer／gesture／elapsed対応が含まれ、既存の合法入力・許可済み原本が揃う箇所は同じ固定証拠へ結ぶ。取得停止／合法入力待ちの箇所を別条件で埋めない。閲覧・preview・取消のcommand0／revision・保存・RNG不変、commit1／再送の意味を維持する。
++
++## 人比較資料の訂正と依存の分離
++
++1. **H11は提出資料の比較開始0／16。** 原本欄へ同用途・同状態の取得済み実画素とpath/blob／boxを比較列として結ぶ。空欄／△の説明だけで開始可にしない。H11-04のwallet引用を札右下へ、06の背景pending札を詳細token内Clockへ、11のfooter Storeを実見出し／確認見出しへ訂正。05のwallet＋footer、13の編成＋確認見出しは使用先を別々に対応し、全行でsize／stroke／alpha／背景／状態と用途を揃える。UIの行別不足を入力として直す。
++2. 原本登録30定義（既存Swords／HeartPulseを含む）の同一性・復元とattack／heal実itemIcon用途を維持。未登録11名／16用途は採用0のまま。現在／候補14用途のベクトル一致は人比較列の成立とは別。主体Triangle SVG64、行動順Text△12／22box、候補Mountain64／12の実画素・線幅・余白・使用先boxを区別し、一括採用しない。必要な原本の取得が不成立なら、その用途の比較を停止し別画像／新経路で代用しない。
++3. H12のroot内空白保持／160ms閉鎖とpreview入口追加、H13のWindows／本文／公開補足3routeは選択可能・回答未着。人回答を先回りせず、独立修正を進める。公開attrのadapter表示と親pane別scroll／maxへのclampの既回答は維持し、新しい判断待ちに戻さない。
++4. ownedは初期home・編成使用中／unlocked／変換不能の同状態対を再利用。変換可能・見積／確定、lock／unlock、preset使用、pending／正式所持、複合不能理由と候補A/B実入力／focus／disabled・非変更の不足を行別に記録する。既存合法入口と原本がある部分だけ補完し、概念図を実操作証拠にしない。登録長名称／ST-P08の契約不足は既存ゲームバランス3項目へ具体的な必要command／seed／隔離初期save／public条件を返す。人にfixture作成・通常セーブ編集を求めない。
++
++## 取得限界・必要証拠・保存
++
++取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。 取得停止を埋める新しい手段／経路／資料・仮定／対象・検証範囲／終了条件の変更は、理由・対象範囲・影響を提示し明示承認前に接続／取得／準備／試行も行わない。元の手順と今回独立修正の許可範囲内で進められる部分を完了し、依存箇所だけ保存して区切る。
++
++同じ公開入力・暗色・FHD／倍率・実font／face・pointer／hover等を固定し、原寸対／必要領域・nodes・public payload・操作記録とID／全使用先を対応。修正の検査時ソースSHA／path/blob・hashを固定し、source_changed_during_runの失敗や中間版／候補frameの再利用限界は版別に残す。今回の変更に適した描画／入力／保存・一巡／再開の影響範囲を検査し、無関係な既成功試験を一律反復しない。利用者の実機や全UI適合へ結果を拡張しない。
++
++新規・変更コードには丁寧な日本語コメント、読む順・処理の流れ・設計理由・失敗時の状態を教材へ記す。Godot固有／C#・.NET／本作設計を区別する。同じ実装タスク内の成果として提出する。
++
++今回追補の終了条件は、独立修正・成立する比較資料／固定証拠・変更影響検査・教材と、未了IDの具体理由／担当／再開入力を自枝へ通常保存／Pushし、GitHub上の全文・blob・親/tree/HEADを読戻してとりまとめへ提出すること。人／契約／原本待ちを全体完了にせず、D04B-UI-02全体・UI適合・配布・実機・P02／M1を個別に報告する。配布へ進む条件は未承認差異0・必要未確認0と機能／固定SHA／証拠一致である。
++
++## 過去指示：改訂0.10以前
++
++以下は提出受領時点の待ち条件と旧依頼の履歴。今回の具体再開条件は冒頭0.11を優先し、実施済み範囲・失敗／未実施と旧成果を保全する。
++
++# D04B-UI-02 — 暗色修正部分受領後の継続条件
++
++版：0.10／2026-10-06（日本時間、夜）。**固定コードaabfefab／最終提出0ec63342の独立修正・暗色証拠・人比較／教材をとりまとめが部分受領。依頼全体は未完了、現在は同じUI改善の固定暗色再判定／必要な具体回答・合法入力待ち。今回、本編へ提出済み独立修正のやり直しを依頼しない。** 本編WorkID 20260927-game-application／impl/m1-godot-application-20260927を継承。次に具体指摘・人回答・合法入力を受領した箇所だけ同じタスクで追補する。[今回受領](../引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md)／[UI再判定0.10](UI-GODOT-REVIEW-01_了承UIとの適合確認.md)。
++
++## 現在地・再開入力
++
++- 固定実装aabfefab076252f050824640fba6d8a8dd13e8e0、成果ea2d9c65cbaa4dd6d2387e8d3ea23671b9823ddc、最終0ec6334254db00ebc7956b4df493f3a34b98845a。通常dark／OS非連動・名前空間別配色／寸法等の修正、検査時source安定の後続検査・199暗色原寸対／54ID領域・cue／人資料・日本語教材を部分受領。計画388c69a5全73path/blob同期、コード12pathと最終版の一致・固定版Windows CI37461945694 successを確認。実機・UI適合の合格とはしない。
++- rendered-darkのsource変更／manifest失敗と19通過ケース限定再利用、candidate撮影補正・EOL／source-binding、CI内部artifactの担当取得403・未読戻しを保全。全run成功・全証拠最終byte一致とはしない。新しい方式・手段・代替画像／入力・検証範囲変更で不足を埋める前に、手順不成立と具体迂回策を説明し明示承認を得る。拒否済み経路の無断再試行なし。
++- H10は受領／実施／提出を確認し完了。人H11〜H13は個別判断未着。H11は16用途資料を提出しUIの開始成立確認待ち、H13ownedは一部同状態対を補完したが変換可能全状態／候補実入力等不足。登録Swords／HeartPulse、公開属性／分類、親scroll境界を新規採用判断にしない。R01-filler／R04明示null無制限／登録長名称・ST-P08の不足は既存契約3項目のまま。
++- 次の再開条件は、UIが固定aabfefabへ返した項目別具体修正／不足証拠、準備成立した用途／挙動／routeの明示回答、または既存契約の合法入口／隔離save根拠。未着の箇所は状態・再開入力を維持し、待機を埋める新しい機能・UI・素材／モードを増やさない。
++- 再開時は自枝最新HEAD・未保存差分を保全、最新計画全体の範囲実同期／元SHA・全path/blob記録→既定設計技術同期→計画再照合。既受領の配布差分3ファイルと保存接続・責任境界は継承。提出以降に配布側が動いた場合は実配布ソースとの基点／統合関係を確認し、配布枝全体や計画枝全体をマージしない。
++- 追補の終了条件は該当IDの修正・必要な固定証拠／変更影響検査・コメント／教材・残件を自枝保存／通常Push・GitHub読戻しして提出すること。独立UI再判定と未承認差異0・必要未確認0の受入条件は維持。全体完了／UI適合／新配布／実機／試遊を混同しない。
++
++## 過去指示：改訂0.9（17:20以降の記録）
++
++以下は独立修正の提出前に渡した指示。実施済み範囲・採用暗色・元依頼条件を保全するが、現在の担当と再開条件は冒頭0.10を優先する。元依頼や暗色補足の再送・全修正の再作成は不要。
++
+ # D04B-UI-02 — Godot本編のUI継承差分を修正
+ 
+ 版：0.9／2026-10-06（日本時間、17:20以降）。**UI確認・承認は暗色で行われたというユーザー説明を受領。既存本編Codexの修正タスクに、了承済み緑系暗色の再現・通常表示のOS非連動を補足する。** WorkID 20260927-game-application／impl/m1-godot-application-20260927を継承、今回の専門着手は同じ1Work。本編の判断不要修正・必要証拠・人比較補完・教材は0.7の基本単位を継承。明暗の条件は本0.9を優先し、0.8の採否未確認は説明前の履歴。[今回の根拠・補足文](../引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。計画保存は補足の送付・担当受領・実装反映ではない。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_\345\220\210\346\263\225\345\205\245\345\212\233\343\201\250\346\227\242\345\255\230\345\245\221\347\264\204\343\201\256\347\242\272\350\252\215.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_\345\220\210\346\263\225\345\205\245\345\212\233\343\201\250\346\227\242\345\255\230\345\245\221\347\264\204\343\201\256\347\242\272\350\252\215.md"
+index 9ba6effd..046b1d43 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_\345\220\210\346\263\225\345\205\245\345\212\233\343\201\250\346\227\242\345\255\230\345\245\221\347\264\204\343\201\256\347\242\272\350\252\215.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/D04B-UI-02_\345\220\210\346\263\225\345\205\245\345\212\233\343\201\250\346\227\242\345\255\230\345\245\221\347\264\204\343\201\256\347\242\272\350\252\215.md"
+@@ -1,3 +1,33 @@
++# D04B-UI-02 — 固定暗色判定後の既存合法入力3項目
++
++版：0.4／2026-10-07（日本時間）。**後続割当。新UI判定の具体不足を受領し、今回は同じ本編の独立具体修正と人比較資料訂正を先行する。** 今回独立本編提出を受領後、なお不足する3項目へH14で既存ゲームバランス検討に依頼する。送付／担当受領／着手は未確認。[今回受領](../引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
++
++- WorkID 20260909-design-assembly／dev_design_tmp_assembly（現21ddd349）、設定4項目・担当内範囲と下の0.2の3項目の必要成果を継承。本編C#／一般検査・描画／入力は本編、原本適合はUI。新Work・新枝・追加並列／新規規則・値・内容・第18群・通常セーブ編集はなし。
++- 固定参考はUIab1b6fa067877a140ac9e9c9c006c70da76e40b4のdark-recheck-20261006/合法入力返却.json・必要群判定.json・H11／owned返却、コードaabfefab／提出0ec63342のfixture-receipt／既探索／必要群と残件。新UI返却は読了し具体不足を維持、旧099d4ade等は履歴。今回のレビュー依頼は保存／読戻しを含め完了。
++- R01-fillerはbirth=filler／expiry1の未使用札が合法Rebuild／Draw／Recoverからpublic destroyedへ至るcommand・seed・隔離初期save／public ID・before/preview/after根拠。不適用なら生成／import／移行／復旧／public projectionを覆う既存不変条件。
++- R04-unlimitedは明示key:nullの無制限／欠落default2／有限値を区別したcompile・新規／import／移行／復旧／公開の合法入口とcommand・seed／隔離初期save、または全入口の不適用根拠。guard2をnullに編集して状態を捏造しない。
++- 登録長名称・U-V01／ST-P08は既登録修飾variantの生成／候補／取得／owned／pending／build／detail等の合法入口と初期save／public根拠。初期home・使用中／unlocked／変換不能の同状態対は補完済みで保全。変換可能・見積／確定、lock／unlock、preset使用、複合不能・長名の残不足だけ具体化する。本編の候補実入力／描画作成をゲームバランスへ移さない。
++- 開始／成果前の最新HEAD・未保存差分保全、最新計画全体の実同期／元SHAと全path/blob記録。根拠付き3回答、または具体未決理由・次担当／再開入力を自枝へ通常保存／Push／GitHub本文・blob・親/tree/HEAD読戻しして提出。回答依頼完了と合法描画／UI適合／親D04を別に判定する。既存契約の変更が必要なら具体案と影響を返し無断採用しない。
++- 手順不成立は対象・手段・停止地点・結果／未確認を報告。別入力／資料／経路・範囲／終了条件で埋めず、迂回策は具体範囲・影響を提示して明示承認前に準備／試行も行わない。
++
++## 過去指示：改訂0.3以前
++
++以下の旧UI返却待ち／当時の順序は履歴。現在は冒頭0.4の受領済み入力と今回独立本編の後続条件を優先し、3項目の原契約・担当境界を保つ。
++
++# D04B-UI-02 — 既存合法入力3項目の後続条件
++
++版：0.3／2026-10-06（日本時間、夜）。**今回の専門着手は既存UI改善の新固定暗色再判定。ゲームバランス検討への本依頼は後続のまま、今回UI返却で残る具体不足を確認した後に渡す。** 本編の独立暗色修正aabfefab／0ec63342は部分受領済み。R01-filler、R04の明示null無制限と欠落default2、U-V01登録長名称・ST-P08の3項目を維持し、新規規則・値・内容・第18群・一般的な本編検査は増やさない。[今回受領](../引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md)。
++
++- WorkID 20260909-design-assembly／dev_design_tmp_assemblyを継承。設定4項目・原本境界・3項目の具体成果は下の改訂0.2を継承する。固定本編参考は新aabfefab076252f050824640fba6d8a8dd13e8e0／最終0ec6334254db00ebc7956b4df493f3a34b98845aへ更新し、UI099d4adeの旧判定と新しい再判定成果を併読する。枝全体のマージ・本編統合なし。
++- ST-P08の合法home同状態対など今回補完された入力・fixture-receiptを保全し、変換可能全状態／候補の実入力等の残不足に限定する。同じ準備の全面再実施、通常セーブ編集による作為的状態、限定探索失敗だけによる全入口到達不能の推測は行わない。
++- 開始時／成果前に最新HEAD・未保存差分を保全し、最新計画全体を実同期・元SHAと全path/blobを記録する。合法入口／隔離save／既存不適用根拠を自担当内へ保存し、描画・入力・保存非破壊は本編、外観判定はUIへ返す。
++- 本依頼の送付・受領・着手は未確認。人H14は今回UI返却後にとりまとめが具体不足と依頼文を提示した時に開始する。回答／未決理由・次担当／再開入力の自枝保存・通常Push／GitHub読戻しが本依頼の終了条件で、UI適合・D04・M1の完了ではない。
++- 手順／前提が成立しない場合は対象・選択した手段・停止地点・実施済み・確認できた結果／未確認を報告し、別入力／資料・仮定・接続・範囲／終了条件変更で進めない。迂回策は具体範囲・影響を提示して明示承認前に準備／試行も行わない。
++
++## 過去指示：改訂0.2（本編独立修正提出前の記録）
++
++以下の「今回本編」「本編提出後」の順序は当時の記録。現在は冒頭0.3のUI返却後を優先し、3項目の原契約・成果・担当境界を維持する。
++
+ # D04B-UI-02 — 合法入力と既存契約の確認
+ 
+ 版：0.2／2026-10-06（日本時間）。**UI再判定099d4adeを受領し、既存契約へ返す3項目を固定。後続のゲームバランス検討への割当であり、今回の専門着手は本編Codex1Work。** 本編が独立して可能な修正・証拠・資料を先行して提出し、残る契約不足へ本書を渡す。送付・担当受領・着手は未確認。新ルール・数値・内容の採用や一般的な本編検査を割り当てる依頼ではない。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/RD-PACK-03_UI\344\277\256\346\255\243\347\211\210\343\201\256\351\205\215\345\270\203\343\201\250\345\206\215\351\226\213\347\242\272\350\252\215.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/RD-PACK-03_UI\344\277\256\346\255\243\347\211\210\343\201\256\351\205\215\345\270\203\343\201\250\345\206\215\351\226\213\347\242\272\350\252\215.md"
+index e01d1147..9ca264e2 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/RD-PACK-03_UI\344\277\256\346\255\243\347\211\210\343\201\256\351\205\215\345\270\203\343\201\250\345\206\215\351\226\213\347\242\272\350\252\215.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/RD-PACK-03_UI\344\277\256\346\255\243\347\211\210\343\201\256\351\205\215\345\270\203\343\201\250\345\206\215\351\226\213\347\242\272\350\252\215.md"
+@@ -1,8 +1,8 @@
+ # RD-PACK-03 — UI修正版の実行フォルダーと再開確認
+ 
+-版：0.5／2026-10-06。**後続割当・本編の再現修正と、合意案の機能／外観適合・必要検証の受領後に開始。今は再配布を始めない。**
++版：0.7／2026-10-07。**後続割当・本編の再現修正と、合意案の機能／外観適合・必要検証の受領後に開始。今は再配布を始めない。**
+ 
+-[UI合意案の再現と受入基準](../UI合意案の再現と受入基準.md)を適用する。基準版・全対象の差異台帳・固定実装SHAに対応したUI判定を受け、未承認差異・必要未確認0件を開始条件にする。細部の不一致をGodot差・試作・仕上げとして免除しない。実機受入は別工程。本編c761cbf4のCI37263773975成功を確認済み。旧6168d2acのフォント取得時停止は履歴として保持し、対処を再依頼しない。本編の残件追補後は最終UI判定が対象にしたソースSHAと必要な検証の一致を受領する。今回の再判定と原本判断の詳細は[部分受領書](../引継ぎ/D04B-UI-02_20261006_再現修正の部分受領と原本判断返却.md)を参照。
++[UI合意案の再現と受入基準](../UI合意案の再現と受入基準.md)を適用。暗色M1の未承認差異0・必要未確認0と機能／固定SHA／証拠一致を開始条件にする。UI固定暗色判定を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 現在は17要修正・8判断待ち・6未確認・26限定解消、必要群2閉／15継続、要修正・配布不可。今回同じ本編が具体独立修正と人比較資料を訂正し、必要回答／契約と新固定版へのUI再判定を受領してから開始する。[今回受領](../引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。旧本編aabfefab／0ec63342の部分受領・CI37461945694成功、artifact403未読戻し・rendered-dark失敗／限定再利用は保全し、UI適合・配布許可へ変換しない。旧font通信停止の再対処・旧納品／ZIP読戻しは要求しない。適合受領後も実際の最終UI対象SHA／必要検証と配布ソース・フォント／資源を固定する。
+ 
+ **配色は17:20のユーザー説明に基づく了承済み暗色。** 明色／OS自動切替は現採用範囲外。通常起動・再描画がOS設定によらず原本の緑系暗色になる本編の固定修正SHAとUI適合を受領する。旧両テーマCI成功や従前light条件のレビューを、暗色全使用先の適合に読み替えない。[了承根拠](../引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。
+ 
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/UI-GODOT-REVIEW-01_\344\272\206\346\211\277UI\343\201\250\343\201\256\351\201\251\345\220\210\347\242\272\350\252\215.md" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/UI-GODOT-REVIEW-01_\344\272\206\346\211\277UI\343\201\250\343\201\256\351\201\251\345\220\210\347\242\272\350\252\215.md"
+index 6ddbeafe..3f951a89 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/UI-GODOT-REVIEW-01_\344\272\206\346\211\277UI\343\201\250\343\201\256\351\201\251\345\220\210\347\242\272\350\252\215.md"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\343\201\250\343\202\212\343\201\276\343\201\250\343\202\201/\347\235\200\346\211\213\346\214\207\347\244\272/UI-GODOT-REVIEW-01_\344\272\206\346\211\277UI\343\201\250\343\201\256\351\201\251\345\220\210\347\242\272\350\252\215.md"
+@@ -1,3 +1,74 @@
++# UI-GODOT-REVIEW-01 — 固定暗色判定の受領と次の再判定条件
++
++版：0.11／2026-10-07（日本時間）。**固定暗色版の項目判定を完了受領。今回のレビュー依頼は保存／読戻しを含め完了。 適合は要修正・配布不可。今回は同じ本編へ具体独立修正・比較資料訂正を返し、UIの新しい調査／再判定依頼は後続とする。** UIの今回保存・読戻し残件は完了。次の再判定は本編の新固定修正・個別回答／合法入力に対応する依存IDと変更影響だけを扱う。 [受領・次条件](../引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md)。
++
++| 設定 | 現在の条件 |
++|---|---|
++| Work・枝 | UI改善／20260910-ui-readability／ui/readability-20260910、最新確認ab1b6fa067877a140ac9e9c9c006c70da76e40b4。同じWork／枝継承 |
++| 必須同期 | 再開／成果前の最新計画全体を実同期・元SHA／全path/blob記録→dev_design_tmp_assembly既定同期→計画一致再照合。本編は固定参考 |
++| 成果・担当 | UI基準・項目判定・検証／引継ぎ・自Workを同UIが自枝へ保存。本編への修正は本編、規則／契約はゲームバランス、とりまとめが成果受領・次割当 |
++| 直接更新 | UI担当内の基準訂正・固定判定／自Work／同期。了承済み原本のデザイン・本編コード・規則／保存形式・旧固定証拠の書換えはしない |
++
++コードaabfefab／提出0ec63342・原本72d0eb58と明示後継/A01〜A06・基準8b535c2f/2026-10-04.1＋暗色訂正2026-10-07.1。19部品／37状態を保つ。現在の57IDは17要修正／8原本判断待ち／6未確認／26当該差異限定解消、必要17群2閉／15継続。旧099d4adeの27／6／3／21はc761固定履歴。レビュー依頼完了／適合／配布は別で、26を画面全体合格へ拡張しない。
++
++H11の開始0／16は資料の原本画素列／用途node／複数使用先不足として本編へ返した。次の訂正資料から用途別成立を確認し、その後成立した用途の人回答だけ扱う。H12の2挙動・H13の3routeの選択可能は維持、owned合法全状態／候補実入力不足と、fontの役割metrics先行・特定AA限定比較は継続。登録30記号・公開attrのadapter／親scrollの既回答を新しい採用判断にしない。
++
++次の再判定の開始入力は本編の新固定ソースSHA／変更path/blob・同じ公開状態の対象／全使用先の暗色証拠・必要な個別回答／合法入口。本編が今回修正したID・変更影響、資料訂正／回答／合法入力の依存IDだけを再判定する。既受領基準の全再作成・無関係な検査の一律反復、新デザイン・明色／OS切替・新素材制作は追加しない。未着の部分は理由・次担当・再開入力を保存する。
++
++取得停止は原本focus／通知PNG4枚のcontent空と追加ログ1pathの404。原因や機能の不存在は未特定。承認済みのGit tree代案は固定証拠一覧だけで、内容の別経路・別画像・別入力への代用承認ではない。依存比較は未確認のまま、迂回策は対象・変わる手段／前提・範囲・影響を説明して明示承認前に準備／試行も行わない。旧PNG3件未取得・CP02破損・CI artifact403・rendered-darkのsource変更／manifest失敗と限定再利用を保全。 承認済みGit tree一覧代案を全ての内容取得失敗へ拡張せず、拒否済み同条件の無断再試行・別path／別資料の代用なし。手順不成立の影響する比較だけ停止し、独立項目は元の許可範囲で進める。
++
++次の依頼全体は項目別判定／不足理由・具体次担当／再開条件の通常自枝保存・GitHub全文/blob・親/tree/HEAD読戻しと引継ぎで完了する。UI適合・配布には暗色M1対象の未承認差異0・必要未確認0と機能／固定SHA／状態／証拠の一致が別に必要。専門原本の逆統合・他会話自動送信／起動／停止はしない。
++
++## 過去指示：改訂0.10以前
++
++以下は今回固定暗色再判定を依頼した時点の指示。今回受領済みの範囲は再実施せず、旧状態／固定版・条件を保全する。
++
++# UI-GODOT-REVIEW-01 — 新固定暗色成果の再判定
++
++版：0.10／2026-10-06（日本時間、夜）。**今回の専門着手は既存「UI改善」1Work。本編の固定暗色修正・証拠を部分受領し、新しい固定版への基準訂正・変更影響の独立再判定を依頼する。** 旧099d4adeのレビュー完了は維持し、その開始文の再送や基準の全再作成は不要。依頼全体の完了とUI適合を分ける。[受領根拠・一度でコピーできる開始文](../引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md)。
++
++## 設定・固定版
++
++| 項目 | 今回の指定 |
++|---|---|
++| WorkID・作業枝 | UI改善／20260910-ui-readability／ui/readability-20260910。最新確認099d4adeaa025e78ca069c4eca0d54d75fdf0c3b。同Work・枝を継承、新Work／新枝不要 |
++| 必須同期 | ①最新ops/project-coordination-20260913のとりまとめ配下全体を実ファイルとして範囲同期し、元SHA／全path/blobを計画同期JSONへ②dev_design_tmp_assemblyの既定技術同期。計画／採用仕様の2本が必要。同期後に計画一致を再照合、本編枝は固定参考で全枝マージなし |
++| 原本・了承 | 原本72d0eb58c7e3d04759f1ab56a939d1dff20a46b2と明示後継・A01〜A06等の既存了承、19部品／37状態を維持。17:20のユーザー説明を暗色了承の根拠として優先 |
++| 本編の固定コード | aabfefab076252f050824640fba6d8a8dd13e8e0。impl/m1-godot-application-20260927 |
++| 成果・最終提出 | ea2d9c65cbaa4dd6d2387e8d3ea23671b9823ddc／0ec6334254db00ebc7956b4df493f3a34b98845a。コード12path/blobは固定コードと最終版で一致、appsの後続差分はREADMEのみ |
++| 統合先・担当 | UI基準／項目判定・検証資料・自Workを自枝へ同UIが保存。本編への具体修正案は本編へ、とりまとめが成果受領・次割当。逆方向統合は行わない |
++| 直接更新範囲 | UI担当の既存原本基準・検証／引継ぎ・自Work／同期記録。了承済み設計そのもの・本編C#・保存形式・共通仕様・旧固定証拠の書換えなし。担当外は変更案 |
++
++開始／成果反映前に自枝・同期元の最新HEADと未保存差分を保全する。新しい並行稼働／他会話の送信・起動・停止は行わない。提出の確認と内部停止原因の推測は分ける。
++
++## 最初に照合する提出原本
++
++本編の最終提出0ec63342にある docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/ の README.md、確認入口.md、とりまとめ引継ぎ.md、UI対応表.json、必要群と残件.json、必要証拠と残件.md、results.json、comparisons.json、id-comparisons.json、source-binding.json、sources.json、code-path-blobs.json、source-readback.json、UI原本への基準訂正案.md、font-metrics-dark.json、eol-cleanup.json、candidate-capture-correction.json、fixture-receipt.json、publication.json、ci-latest-status.json、ci-readback.json、コード解説.md。これらから対応する原寸対／ID領域・cue進行／取消と、human/ 配下の未登録記号の用途別比較.html、candidate-icons.json、icon-use-evidence.json、ownedと追加導線の暗色比較.html、関連PNGを辿る。UI099d4adeの判定・原本判断回答／合法入力返却を旧固定記録として保全する。
++
++## 今回の作業・判定範囲
++
++1. **了承済み暗色の基準訂正。** 通常起動／再描画・遷移はOS非連動の緑系暗色。撮影指定だけのdarkでは足りない。本編NormalThemeIsDark・通常経路証拠を確認する。明色・OS自動切替・新設定／保存項目・新しい黒基調・全UI再承認は採用外。B03／U-C02、visual-baseline／style-sourceの撮影条件を担当内で訂正し、構造資料として使う旧lightと暗色の適合証拠を分ける。cw-drawerの宣言例#202820e6と実DOMの最終#202820、cj-shell#1d2b27をselector／cascade・用途で区別する。cj／cp／cw／navの色・alpha・影／gradient・選択／hover／無効の全使用先を対象に、単一変換表や宣言値だけで合格にしない。
++2. **新固定版の変更影響を独立判定。** 57管理ID・N01〜N03・必要17群について、暗色依存／変更影響がある状態・共通部品使用先を実画像・必要実測・機能証拠に対応づける。旧57ID＝27要修正／6判断待ち／3未確認／21当該差異解消、17群＝2閉／15継続は旧c761cbf4の判定で、新コードの合格数へ転記しない。無関係な機能証拠は条件を示して再利用し、全57件を一律再実装・旧試験の全再走にしない。V-C06のbar状態、V-S01の通知／保存文言・複数行white-space、V-D03のcue進行／取消は新証拠の実描画と公開状態／保存非破壊を確認する。既回答DEC02の公開属性／分類、DEC06親scrollの境界、登録Swords／HeartPulse復元は既条件に沿う修正で、新しい人承認にしない。
++3. **証拠の固定範囲と限界を確認。** 主担当は199暗色原寸対・54ID領域と後続検査を提出。rendered-darkのmanifestはsource_changed_during_runで失敗しており、19通過ケースの再利用はsource-bindingのpath/blob・変更内容・撮影状態の妥当性が立つ範囲のみ。approved-dark-final 11mode、normal-and-human-final 4mode、human-native-corrected 1mode、related-final 24modeは担当の検査時source安定／成功の記録。後続probe・EOL／candidate撮影修正も照合し、全画像最終byte一致・失敗run全体成功とはしない。元HTMLの同じ初期文書とautoRead後のrevision／本文差を分け、画素差の総量だけで一致判定しない。原寸と対象領域、同状態／入力・font／倍率・環境・撮影版を照合する。
++4. **CIと実機を分ける。** Windows CI37461945694は固定aabfefabでcompleted/success。担当がartifactを既定手段で取得しHTTP403となり、内部manifest／画像は未読戻し。この限界を保存し、CI成功を内部読戻し・UI適合・Windows 11の物理入力／DPI／音／GPU性能へ拡張しない。旧CI・旧PNG3件の取得不能・CP02破損の記録は保全、同条件の拒否済み取得再試行を作業化しない。
++5. **人が比較を開始できる範囲を用途別に返す。** H11は11要求名・16用途の暗色比較と候補定義／実node boxが提出済み。原本／現在／候補の実画素、候補path/blob、size／stroke／alpha／box、用途・状態が揃った行だけ開始成立と判定。TriangleとMountainを同一視しない。H11-16は現在22×22／候補12×12等の記録があるため、影響を独立確認し、資料一式を受領しただけで全用途成立にしない。候補は未採用、要求名全体／全UIの一括承認は不可。欠けた用途は具体不足・本編担当・再開入力を返す。
++6. **H12／H13と文字の限定残件。** H12のroot内空白保持か160ms閉鎖とpreview入口追加の2点、H13 Windows／本文／公開補足の3routeは選択可能・回答未着。回答を推測せず各点を保持する。ownedは合法homeの同状態暗色対を一部補完したが、変換可能な全状態／候補実入力等不足、A/B図は概念図で実入力証拠ではない。H13ownedの開始条件とST-P08／合法入力残件を具体化する。文字は上3px修正の寸法・改行／wrapを先に独立判定し、残る1px ink／AA等の特定領域だけ理由・暗色原寸対・影響・代案を示して必要なら人の判断へ。エンジン差の一括免除や全UI再承認にしない。
++7. **合法入力は既登録3項目へ整理。** R01-filler、R04の明示null無制限と欠落default2、U-V01登録長名称・ST-P08の不足は、既存契約根拠と今回補完されたfixtureを照合して残る入口／状態を返す。合法入力未着でも独立して判定できる項目は先行し、依存項目だけ未確認。新規札／数値・法則・18番目の群・通常セーブ編集・対象外根拠の推測は行わない。既存ゲームバランス検討への依頼は今回のUI返却後にとりまとめが具体化する。
++
++## 手順が成立しない場合
++
++必要な確認の対象・予定した手段・停止地点・実施済み・確認できた事実／未確認と依存する作業を報告する。取得不能な画像／入力を別資料・生成画像・仮定で代用したり、別接続／経路、検証範囲・終了条件の変更で進めたりしない。迂回策は理由・変更点・対象／範囲・影響を提示し、明示承認を得るまで接続・準備・試行も行わない。新しいAGENTS.mdの「手順不成立時の報告と迂回策の事前承認」を適用し、影響する項目を止め、元の許可範囲内の独立項目のみ継続する。画像3件の取得不能を解消済みとは書かない。
++
++## 成果・終了条件
++
++自枝の既存godot-ui-review-01/配下へ、暗色基準訂正・固定対象SHA／原本path/blob／了承根拠、項目別新判定と必要群、証拠の再利用範囲／未確認・CI限界、H11用途別開始成立／H13owned不足・必要AA比較、具体修正／合法入力／人回答の受渡し先と再開条件を保存。自Workへ今回依頼全体と各成果の状態・学習入口を記録し、日本語の通常コミット／Push・GitHub本文／コミット読戻し後にとりまとめへ提出する。主担当の修正／教材の提出を全体完了にはしない。
++
++**レビュー依頼は項目別判定・未確認理由／具体次担当まで保存・提出して完了できる。UI適合は別で、了承済み暗色M1の未承認差異0・判定に必要な未確認0、機能・固定SHA・条件・証拠の一致を必要とする。** 要修正／未回答／未確認を残す場合は新配布を開始させない。本文・原本基準・人資料の整理まで可能な範囲を完了し、回答待ちで独立判定を一括停止しない。
++
++## 過去指示：改訂0.9（17:20以降の記録）
++
++以下は本編提出前の履歴。「今回本編」「次固定版待ち」は当時の状態で、今回の担当・対象版は冒頭0.10を優先する。既了承の範囲と関係のない条件は継承する。
++
+ # UI-GODOT-REVIEW-01 — 了承UIとGodot成果の適合確認
+ 
+ 版：0.9／2026-10-06（日本時間、17:20以降）。**暗色での確認・承認というユーザー説明を受領。次の同じ本編固定SHAの再判定で、原本基準の採用配色・撮影条件を了承済み暗色へ訂正する。** WorkID 20260910-ui-readability／ui/readability-20260910継承。今回の専門着手は本編Codex1Workであり、UI099d4adeのレビュー完了受領と次固定SHA待ちは維持。新しいUI作業の自動起動・旧レビューの一律再実行なし。[根拠・原本反映案](../引継ぎ/20261006_暗色UIの了承範囲と実装基準の訂正.md)。
+diff --git "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260927-game-application.json" "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260927-game-application.json"
+index 77b9a526..1a851fe8 100644
+--- "a/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260927-game-application.json"
++++ "b/docs/\344\275\234\346\245\255\350\263\207\346\226\231/\350\250\210\347\224\273\345\220\214\346\234\237/20260927-game-application.json"
+@@ -2,7 +2,7 @@
+   "work_id": "20260927-game-application",
+   "source_work_id": "20260913-project-coordination",
+   "source_branch": "ops/project-coordination-20260913",
+-  "source_commit": "388c69a5c2714923b139134038e6cd6de4d5aac6",
++  "source_commit": "5c61d64a2b32831e3cab842064b91913993c08ab",
+   "scope": "docs/作業資料/とりまとめ/",
+   "mode": "scoped-file-sync",
+   "files": {
+@@ -10,11 +10,11 @@
+     "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md": "490fe6e4c597e01ad2bc3ef86a3ca60e9463a61c",
+     "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md": "656b33b71218e930acb8e88b17ebdfc39b66df8b",
+     "docs/作業資料/とりまとめ/Codex導入/運用検討.md": "1814ce3b385a4d1e2dfe6dff90570fce4ab20543",
+-    "docs/作業資料/とりまとめ/UI合意案の再現と受入基準.md": "71e0c08ffb2e020a3d7bec817d1857c65df5e48e",
+-    "docs/作業資料/とりまとめ/Work別実施計画.md": "f3c5ff3a6ced3ae1ecf7f7f42fd852b69bcd9e60",
+-    "docs/作業資料/とりまとめ/人の担当タスク.md": "b618a22244de21bfa0d544bb69821c563e1decf1",
+-    "docs/作業資料/とりまとめ/仮置き・未決事項.md": "0821fd214ee1241d9884236ab4a5ce22b8632ff0",
+-    "docs/作業資料/とりまとめ/全体計画.md": "cd020836f2c73c17d05a95e30ee150ac9f1bb5d5",
++    "docs/作業資料/とりまとめ/UI合意案の再現と受入基準.md": "cb878c394aacc1c5b0c9954c66765c176d752234",
++    "docs/作業資料/とりまとめ/Work別実施計画.md": "ba89b160543ead27c96f3111ce76d84e25c9122e",
++    "docs/作業資料/とりまとめ/人の担当タスク.md": "bf5a864defc21dc7a9273e0a8dfcc79224983bff",
++    "docs/作業資料/とりまとめ/仮置き・未決事項.md": "92c78a4fb0bd25d657973a059643a716c30cc466",
++    "docs/作業資料/とりまとめ/全体計画.md": "1aa325bf341b4128bdda36dce623a6a0d684b83b",
+     "docs/作業資料/とりまとめ/完了報告と引継ぎ規則.md": "f8fd676c5abea279bcf8029bc69164127579bd1b",
+     "docs/作業資料/とりまとめ/引継ぎ/20261001_UI修正とCodex実行の再割当.md": "9deb53c6c7c66c10e20594670f95d62c56dfa671",
+     "docs/作業資料/とりまとめ/引継ぎ/20261001_再割当の参照記録.json": "7ca3cc3ad53de4e6cb1cbdcad8cb4584b872bbf6",
+@@ -36,6 +36,8 @@
+     "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261002_追補受領確認.json": "6e6199b055693d7c4bfe29dc3768331435105811",
+     "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261006_再現修正の部分受領と原本判断返却.json": "15efdc75ef7e7e20b7697b978402cdead5030acb",
+     "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261006_再現修正の部分受領と原本判断返却.md": "543f52a7d994cf9d5e1528e6504d1a3fc044eae0",
++    "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.json": "30d48900f7c616976aa81f82abb7bc724b31eb7e",
++    "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261006_暗色修正の部分受領とUI再判定.md": "5a09276f7a0b1830c56dcca23a11c384c3604717",
+     "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-SAVE_20260930_受領.md": "4cd6a7787ab0dad81d402b52ed6313c23368691f",
+     "docs/作業資料/とりまとめ/引継ぎ/RD-ENV-PROOF-02_20260927_受領.md": "c4ffbb5a282efe7869c964289c107640d671cc36",
+     "docs/作業資料/とりまとめ/引継ぎ/RD-PACK-02_20260930_部分受領.md": "6ecb708493c020c51864dceddd7ff1b49ea993c0",
+@@ -48,10 +50,12 @@
+     "docs/作業資料/とりまとめ/引継ぎ/UI-GODOT-REVIEW-01_20261005_再現基準受領と本編返却.md": "df1ccefcb23afa7e212259f59cd9fff5e7303f75",
+     "docs/作業資料/とりまとめ/引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.json": "192c514d75b300abb21ffcda71b95d16b50ff5af",
+     "docs/作業資料/とりまとめ/引継ぎ/UI-GODOT-REVIEW-01_20261006_固定再判定受領と本編修正返却.md": "62a3be619b110bf72e96a7209faca8bc24bd26d0",
++    "docs/作業資料/とりまとめ/引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.json": "00896e903393eaf37e23411efb321d29222abe2d",
++    "docs/作業資料/とりまとめ/引継ぎ/UI-GODOT-REVIEW-01_20261007_暗色再判定受領と本編修正返却.md": "8dd7c92638b5468551d4c62b282344718e8e9490",
+     "docs/作業資料/とりまとめ/引継ぎ/とりまとめ再開_20261001_保存確認.json": "d7e41f020cf0dc42452b776e5fff26676fda4c5b",
+     "docs/作業資料/とりまとめ/引継ぎ/明暗モード_出所と承認範囲の調査.json": "bd7a69fd4c652d907774689a685a2ea31c46b399",
+     "docs/作業資料/とりまとめ/引継ぎ/明暗モード_出所と承認範囲の調査.md": "61b40d5d8417e0b49d18479b6b9548d7f430da2e",
+-    "docs/作業資料/とりまとめ/現状棚卸し.md": "fe271301af4e524564ddba387e40b50f6bd09171",
++    "docs/作業資料/とりまとめ/現状棚卸し.md": "29489e3bf1cd524c1a01a58ab3a294c9084e144b",
+     "docs/作業資料/とりまとめ/着手指示/CO-01A_接続データ照合.md": "81f3a0d81bb84dbfa7b20ba9fc3714817b902bab",
+     "docs/作業資料/とりまとめ/着手指示/CO-D01_設計集約.md": "868efcc390fc41dfe4f1a4b473d5f662a62eee16",
+     "docs/作業資料/とりまとめ/着手指示/CO-D02R_UI受領と公開情報追補.md": "37ebb6df0a4948315cd6c503eed9b15bdbe22649",
+@@ -71,22 +75,23 @@
+     "docs/作業資料/とりまとめ/着手指示/CO-V02A_現行UIと代表素材.md": "10b28f7fae882d582e2f61a601d5953c2fc95991",
+     "docs/作業資料/とりまとめ/着手指示/D04B-CORE-01_CSharp本編と一巡.md": "2a982b004835e7b58d2705ebdcc9112ec52b4ceb",
+     "docs/作業資料/とりまとめ/着手指示/D04B-UI-01_RD-SAVE-02B_Godot本編画面と保存接続.md": "ca34e254782e7c459aa2e7ca147dfe0893d8baab",
+-    "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md": "cfaabd5ec82d7845fb35e0bfcd2569e59729bdb3",
+-    "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_合法入力と既存契約の確認.md": "9ba6effdb0f7a8f64a8ade240727c28e0501892d",
++    "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md": "0500139ebae0287e2b93a55f25f7b36f1c96476a",
++    "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_合法入力と既存契約の確認.md": "046b1d43f1464b79616a444db84fc4f9fd27cc0a",
+     "docs/作業資料/とりまとめ/着手指示/RD-ENV-PROOF-02_Godot基盤と代表試作.md": "8a6c085e510b8397f412b3403065b1ed7456198a",
+     "docs/作業資料/とりまとめ/着手指示/RD-PACK-02_Windows本編配布.md": "6eaff3993ca8e1a374a38630261272104978ab82",
+-    "docs/作業資料/とりまとめ/着手指示/RD-PACK-03_UI修正版の配布と再開確認.md": "e01d11473515519c16822626bcaafbc3d62ad43b",
++    "docs/作業資料/とりまとめ/着手指示/RD-PACK-03_UI修正版の配布と再開確認.md": "9ca264e29a90fa6dce19a3854cbefb14d256d824",
+     "docs/作業資料/とりまとめ/着手指示/RD-SAVE-02A_本編ファイル保存と再開.md": "fc8ec210dfa9897ffa036e2baf459cdd5ca97e54",
+-    "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md": "6ddbeafedcbd3f5eff64208bb3d253a7591e0380",
++    "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md": "3f951a890f25567f3460f2c24161b4313eb810d4",
+     "docs/作業資料/とりまとめ/計画同期手順.md": "d9bd697eb21ce4633e35a69cf7cb1d152d89a2ed"
+   },
+-  "instruction_revision": "0.9",
++  "instruction_revision": "0.11",
+   "task_ids": [
+     "D04B-UI-02"
+   ],
+   "technical_source": "21ddd349b6bec69ecac6d9db288c537553dab860",
+-  "technical_status": "GitHub最新refが前回受領と同一。既定範囲の追加差分なし。既存技術取り込みを保持。",
+-  "status": "成果前の最新73path/blob実同期→技術元21ddd349更新なし再確認→計画全path/blob再照合済み。暗色了承と通常OS非連動の補足を同じ修正へ適用。",
+-  "review_source": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+-  "checked_at_utc": "2026-10-06T08:52:44.735776+00:00"
++  "technical_status": "既定技術元21ddd349から追加差分なし。受領済み規則・通常保存接続・配布3ファイルを継承。",
++  "status": "計画全path/blob実同期→既定技術同期確認→計画全件再照合済み。枝全体マージなし。",
++  "review_source": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
++  "checked_at_utc": "2026-10-07T01:13:04.347782+00:00",
++  "acquisition_method": "GitHubプラグインのref/tree/fetch_file(base64)。tree全体はtruncated=false。"
+ }
