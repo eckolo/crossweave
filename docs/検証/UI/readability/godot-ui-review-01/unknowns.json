@@ -1,0 +1,628 @@
+{
+  "items": [
+    {
+      "id": "R01-filler",
+      "title": "補充由来札の期限切れ消滅",
+      "status": "未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "合法Rebuild/Draw seed・隔離初期保存hash・public expiry1/birth=fillerの入力未着。期限切れdestroyedとpreview0/commit1/replayを同状態で確認できない。",
+      "required_evidence": [
+        "既存Rebuild→Drawの合法command列・seed・隔離初期保存hashを固定し、公開viewに補充由来札の期限1と選択外札のunused_hand_expiry.destination=destroyedが出る入口を保存。通常セーブ・規則・数値・札を改変しない。",
+        "同じUiProbeのreview-safety-fillerへ合法fixtureを供給。実Main.tscnでquick ONの設置drop後、予測が見えて実行前である全画面・消滅行拡大・command=0／revision・保存hash不変を記録。",
+        "確定1回で期限切れ札消滅・公開所持と保存更新、再送で二重実行なし。公開IDでbefore/preview/afterを結ぶ。QuickDropの汎用destination分岐だけを描画済みとしない。",
+        "適用外にするなら「既存M1契約が当該状態を禁止する」条文・SHA/path/blobと合法到達不能の不変条件を示す。探索で見つからない、fixtureがない、試作という理由は不可。"
+      ],
+      "owner": "20260909-design-assembly（既存契約の合法入口）→20260927-game-application（固定証拠）→UI改善（再判定）",
+      "reopen": "既存20260909-design-assemblyが合法command/seed/hash/入口を返す→本編が公開before/preview/after、command/revision/save/RNGを固定提出→UI再判定。通常セーブの書換え・新規数値で代用しない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "R04-unlimited",
+      "title": "明示nullの無制限guard",
+      "status": "未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "明示key:null、欠落default2、有限値を区別した生成/import/migrate/復旧/public projectionの合法状態が未着。nullを現在の通常guardへ代入して検証しない。",
+      "required_evidence": [
+        "既存content／保存移行／公開projectionのどの合法入口が明示nullを供給できるかをD04Bが固定。現在のfixtures-fixedに該当fixtureはない。値を2からnullへ書換えた通常保存を合法証拠にしない。",
+        "合法入口が成立したらreview-details-unlimitedで手札・場予測・既知記録のpublic cardにdefense_usesキーが存在し値nullであるpayloadを保存し、実画面の「制限なし」を撮影。欠落（未公開）／既定2との対照を付ける。",
+        "詳細閲覧によるDTO・乱数・保存hash不変、記録詳細に現在場加算を混ぜないことを確認。guard使用後に無制限付与が有限回数へ変わらない公開結果も結ぶ。",
+        "合法入口がないとの結論なら、既存M1内容・移行・public schemaの全入口がnullを除外する根拠をSHA/path/blob付きで提示してUIが対象外を再判定。実装中に契約を狭めて免除を作らない。"
+      ],
+      "owner": "20260909-design-assembly（既存契約の合法入口）→20260927-game-application（固定証拠）→UI改善（再判定）",
+      "reopen": "既存契約担当が合法fixtureまたは採用済み対象外根拠と全入口契約を返す→本編描画/非変更証拠→UI。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-B01",
+      "title": "固定原本PNG：home",
+      "status": "未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "固定72d0eb58の旧home PNG blob8dd3e54395fc9fbd42b6f447495114573c1a843dは未取得のまま。今回の別PNGは当該byteの取得を証明しない。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/home.png / blob 8dd3e54395fc9fbd42b6f447495114573c1a843d のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "拒否済み条件の再試行なし。同じ原本の通常取得が成立した時にhash照合して再開。新経路は明示承認が必要。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-B02",
+      "title": "固定原本PNG：story",
+      "status": "未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "旧story PNG blobd4a5e3cb290326afa0ac930c4b9a260d54afbf8cは未取得。新暗色story cropを当該旧PNGの代用にしない。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/story.png / blob d4a5e3cb290326afa0ac930c4b9a260d54afbf8c のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "同じ固定PNGの内容取得・hash照合後に再開。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-B03",
+      "title": "固定原本PNG：return",
+      "status": "未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "旧return PNG blobfb4a02002c830c813ca6bd70e440772fa684657dは未取得。三帰還を含む全原寸適合は未認定。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/return.png / blob fb4a02002c830c813ca6bd70e440772fa684657d のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "当該PNGと三帰還結果の同状態対応を許可された手順で取得可能になった時。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-C01",
+      "title": "原本の実解決font・AA・環境",
+      "status": "要修正・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "実font/ファイルhashと取得titleの補正は確認。詳細見出し・行間・content高/scroll差が残る。過去環境の未回収を免除しない。",
+      "required_evidence": [
+        "原本72dと同じ描画環境でcomputed font-family/size/weight/line-height、実際のフォント名・ファイルhash、OS、ブラウザー、DPR、ズームを採取。",
+        "Godotのfontファイルhash・テーマ値・拡大率と同じ文言を並べ、タイトル／日本語本文／数字／serif金額の拡大を提出。字形・AA差に自動許容率を設けない。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "本編が役割別metrics/wrapを先に修正。残る特定領域のAAのみ原寸・font・倍率・影響・代案を提示して人の個別判断へ。今は一括AA判断を求めない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-C02",
+      "title": "light-darkの適用範囲",
+      "status": "要修正・一部確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "了承配色は緑系暗色・通常OS非連動として確定。通常コード/probeは成立。cj-button/空場alpha/gradient/footer最終cascadeと全操作使用先が残る。",
+      "required_evidence": [
+        "原本のcolor-scheme／OS連動設定と既存M1採否契約を特定。darkが有効なら両テーマの代表三領域・探索・窓を同じ状態で撮影し全tokenを照合。",
+        "無効であるなら既存実装・契約上の根拠を示す。light画像だけでdark適合／対象外としない。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "採否の再回答は不要。本編がC02/E02/E04/E07/H02と全使用先のdark状態を修正し固定原寸で再提出。light合格を必須化しない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V01",
+      "title": "取得編成の同状態対照",
+      "status": "要修正・原本判断待ち・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "取得/編成のgeometry補完、公開attr/priceを確認。P08/P12/P14/P15、H11、owned、合法登録長名称と全状態が残る。",
+      "required_evidence": [
+        "原本の既存取得入口で札／心得それぞれ通常、pending所持／編成、移動元跡、取消、上限／残高不足、確定後、候補なし、空編成、ロック／変換を採取。各状態のpublic IDs・価格・数量・容量・本文を対応づける。",
+        "確認窓は混合／編成のみ／心得のみ、上端と下端、詳細はoffer／owned／pending、修飾展開を同じ状態に合わせて撮影。既存公開値で作れない相違は契約不足として記す。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "既存登録AO1名の合法生成/owned/未払い/編成・ST-P08を契約担当が返す。mainが同public stateで修正対を提出。新名称/18番目の群を作らない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V02",
+      "title": "探索・詳細の同状態対照",
+      "status": "要修正・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "探索/詳細の新暗色cropで位置を確認、empty/gradient/文字差を特定。R01/R04、danger同フラグと全予測状態は未確認。",
+      "required_evidence": [
+        "合法な公開状態を共通記録し、通常・主体選択・左右端手札・場・予測札・一時／固定・同時刻／本人予約を原本とGodotで撮影。本人／相手の余力・身構・会心・隠蔽・姿勢と消費期限の値を揃える。",
+        "同じ文字列・選択・scroll・pointer位置に固定。基準値と枠は変えず、fixtureの文言差を外観差として数えない。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "本編がE/W修正と合法public state/pointerのbefore/preview/cancel/commitを固定。UIは不足項目だけ再開。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V03",
+      "title": "共通窓・記録・設定の対照",
+      "status": "要修正・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "共通窓親子・記録tab/観測区分/keepは確認。cj-button/cw角9/table位置、登録itemIcon使用先、全popup/状態の描画が残る。",
+      "required_evidence": [
+        "各画面の共通メニュー、表示／操作設定、目的・状況・遊び方、本人札内訳・山札・履歴、未判明／判明記録、相手／札タブ、親→子→戻るを原本と固定Godotで撮影。",
+        "親を維持する窓、scroll保持、閉じる・戻る・pinの状態を記録。既存単画面証拠を全画面への一致としない。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "同じsourceの正しいID領域/nodesと全共通使用先を結ぶ。font修正後のpane maxへscrollをclampし、公開境界を維持。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V04",
+      "title": "開始・保存失敗・復旧の表示",
+      "status": "原本判断待ち・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "通常dark起動と実保存busyの機能補完を確認。H13 Windows routeは未回答、同文言通知原本3枚の内容は取得不能。",
+      "required_evidence": [
+        "既存Windows保存契約を保ったまま原本共通部品への対応表を固定し、隔離slotで新規／続き／読込み中／失敗／再試行／再読込みを撮影。通常保存へ故障を注入しない。",
+        "固有機能が共通部品で再現できない具体箇所が見つかった場合だけ、原本と試行画像・代案・影響を並べ判断事項へ。現時点ではUI変更承認は不要。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "H13の個別配置回答をとりまとめ経由で受領、本編が拒否/不明/busy/復旧/終了の実入力と公開・保存非破壊を提出。未読画像は許可済み取得成立時のみ再開。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "原本判断待ち・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V05",
+      "title": "本文・帰還の全結果状態",
+      "status": "要修正・原本判断待ち",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "本文/帰還階層は一部確認。H02のfooter透明化、役割metrics、三帰還の全原寸、読了routeの回答が残る。",
+      "required_evidence": [
+        "U-B01〜03の原画に加え、同じ既存本文／既読位置、踏破・撤退・緊急脱出の公開金額／内訳／次操作を固定して対照。最大幅、20px/1.7、段落gap、金額32pxと背景gradientの実像を測る。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "H02/C01修正＋H13本文個別回答。初期documentとautoRead後revisionを区別した三帰還/本文の同状態対を提出。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・原本判断待ち",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V06",
+      "title": "共通部品の全操作状態",
+      "status": "一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "通常/selected/pin/checkboxの部品補完は確認。focus原本取得不能、対象を含まないIDcrop、全hover/pressed/disabled/popupの同フラグが不足。",
+      "required_evidence": [
+        "札面・操作側・ナビ・tab・close/pin・confirm・空slotを部品単位で撮影。該当しない状態は元コードの到達不能根拠を添える。",
+        "各画面の実ノードでも代表適用を確認。カタログだけを実画面一致の代わりにしない。選択とhoverが重なる優先順位を固定。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "原本focus取得が元の許可手順で成立し、control ID/pointer/flagsを揃えた原寸へ対応した時。別部品や別フラグで代用しない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "要修正・一部未確認",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V07",
+      "title": "スクロールバーの外観・境界",
+      "status": "要修正・一部未確認",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "同offer overflow/scroll0・hoverでthumb上端3px差を確認。縦横・通常/hover/drag・端位置の全使用先は未認定。",
+      "required_evidence": [
+        "自然FHD overflow=0と、同じ実ノードの限定寸法overflow>0を分け、縦横バー通常／hover／drag、最上／最下・最左／最右を撮影。",
+        "原本側の実pixel幅・thumb／track色・角・余白と表示条件を採取し、同じ値をテーマへ。標準部品という免除は不可。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "C06の内側位置を修正し、10px実測/横6px宣言の優先関係と全overflow条件を区別して固定提出。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認（計測受領）",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-V08",
+      "title": "ホールド・ドラッグ・移動時間",
+      "status": "未確認（一部進行/取消確認）",
+      "closed": false,
+      "required_for_distribution": true,
+      "current_observation": "cue9進行/2取消を実画素で確認。原本同elapsedの環/影/mask、drag同フラグ、H12のroot境界/preview採否、物理frame時間は未確認。",
+      "required_evidence": [
+        "原本と修正Godotの短クリック、120ms直前／直後、220ms成立、移動、可／不可drop、途中取消を時刻付き連続フレームまたは動画で撮影。",
+        "取得移動200ms ease-out、減動ON/OFF、探索live-event、edge開始閾値と1論理秒の移動量を同じ倍率で記録。物理入力は後続H01のまま。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "同elapsed/同gesture原本対と公開view/save/RNGの非破壊、H12の2個別回答を受領して依存部分だけ再開。論理時間を実機適合へ拡張しない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "未確認（一部時間条件確認）",
+        "closed": false
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "U-RC04",
+      "title": "調査記録の観測区分と公開境界",
+      "status": "解消（公開区分の根拠）",
+      "closed": true,
+      "required_for_distribution": true,
+      "current_observation": "固定UiPublicProjection blob24bdf7e83c9ec1a219b05e9f27574d715473d7f0は旧c761と同一。旧17Core検査と版付きsnapshot/public区分の条件を再利用し、外観と現在未公開札を分ける。",
+      "required_evidence": [
+        "元records.jsの入力→表示区分と既存公開契約の対応をD04Bが示す。既存公開情報で成立するなら具体fieldと例payloadを固定。",
+        "不足が確定したら既存D04Bの公開projectionに必要な最小情報を明示して修正担当へ返し、既存共通契約の担当境界を守る。今回のUIレビューから共通仕様を書換えない。記録の他のタブ／親子／reward表示は待たず再現可能。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "公開境界を維持。W06の色/文字と他共有画面の全適合は別残件。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "解消（公開区分の根拠）",
+        "closed": true
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    },
+    {
+      "id": "UI-CI01",
+      "title": "固定修正版の画面CI成立",
+      "status": "解消（固定コードCI）",
+      "closed": true,
+      "required_for_distribution": true,
+      "current_observation": "GitHub run37461945694を直接読戻し、head=aabfefab・completed/successを確認。artifactの既定取得HTTP403と内部manifest/画像未読は保全。",
+      "required_evidence": [
+        "次回D04B固定修正版で既存同等画面検証を成立させ、source SHA・環境・結果・artifactを結ぶ。font取得を含む依存hashを記録。",
+        "今回の調査中に全旧スイートを再実行する必要はない。再発時は通信／取得段階とゲーム試験失敗を分離し、成立した同等経路をとりまとめへ返す。"
+      ],
+      "owner": "20260927-game-application（修正/証拠）→UI改善（独立判定）",
+      "reopen": "次固定SHAごとにCIを対応。CI成功をartifact内部読戻し/UI適合/Windows11物理入力・DPI・音・GPU性能へ拡張しない。",
+      "not_an_exception": true,
+      "previous_assessment": {
+        "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+        "status": "解消（固定版CI）",
+        "closed": true
+      },
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      }
+    }
+  ],
+  "required_count": 17,
+  "all_open": false,
+  "physical_and_playtest_are_separate": [
+    "H01",
+    "H02"
+  ],
+  "required_inventory_count": 17,
+  "remaining_required_count": 15,
+  "closed_count": 2,
+  "fixed": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_inventory_version": "2026-10-04.1",
+    "palette_correction_revision": "2026-10-07.1",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "theme": "了承済み緑系暗色・通常OS非連動",
+    "new_game_runs": 0
+  },
+  "current_recheck": "dark-recheck-20261006/必要群判定.json",
+  "policy": "2群の証拠条件を確認しても他群の外観/合法入力を代用しない。長い名称はU-V01内。"
+}

@@ -1,0 +1,124 @@
+{
+  "checked_at_utc": "2026-09-25T07:05:59.076Z",
+  "version": "two-stage-ui-5",
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "scope": "1920×1080の横並び配置、表示倍率、縮尺付きドラッグと主要操作。矩形・hit test・captureは注入。実ブラウザー描画ではない。",
+  "inline_sha256": "edd4e2b036c9d0a010f2c963dba14787186a659d02c5271a3a7629781bfded83",
+  "passed": 20,
+  "checks": [
+    {
+      "name": "1920×1080の固定盤面で候補・手元・編成を横並びにする",
+      "passed": true
+    },
+    {
+      "name": "最長25文字へ26全角文字分を確保し、352×80の共通枠へ操作を併置する（寸法計算）",
+      "passed": true
+    },
+    {
+      "name": "1024pxの会話幅では盤面を組み替えず53%の縮小率を示す",
+      "passed": true
+    },
+    {
+      "name": "縮小中のドラッグ像がポインターとの掴み位置を維持する（注入矩形）",
+      "passed": true
+    },
+    {
+      "name": "縮小中も横方向のドラッグで取得と編成を未払いで行える",
+      "passed": true
+    },
+    {
+      "name": "原寸へ切り替えても下書きと編成を保持し、1設計pxを1CSSpxで表示する",
+      "passed": true
+    },
+    {
+      "name": "原寸でも横ドラッグの取り外しと取得取消が同じ個体へ作用する",
+      "passed": true
+    },
+    {
+      "name": "詳細を開いたまま表示倍率を変更でき、最長名称を保持する",
+      "passed": true
+    },
+    {
+      "name": "取得・編成・確認・確定をボタンでも完結でき、支払いは確定時だけ",
+      "passed": true
+    },
+    {
+      "name": "候補4件・手元20種類・編成12枚を間引かず横並びへ表示する",
+      "passed": true
+    },
+    {
+      "name": "4＋20＋12が各領域と1920×1080内に収まる（寸法計算）",
+      "passed": true
+    },
+    {
+      "name": "容量超過した21種類目も保持し、移動した項目を一覧内で見せる",
+      "passed": true
+    },
+    {
+      "name": "余白パンのスクロール量も縮尺を補正する",
+      "passed": true
+    },
+    {
+      "name": "上下キーは新しい枠高と間隔に合わせて送る",
+      "passed": true
+    },
+    {
+      "name": "会話幅の変化ではゲーム配置・下書き・スクロール位置を変えない",
+      "passed": true
+    },
+    {
+      "name": "分類を戻すと一覧スクロール位置を保持する",
+      "passed": true
+    },
+    {
+      "name": "320pxの提示幅でも全体／原寸を切り替え、全項目を保持する",
+      "passed": true
+    },
+    {
+      "name": "1280pxの提示幅でも全体／原寸を切り替え、全項目を保持する",
+      "passed": true
+    },
+    {
+      "name": "1920pxの提示幅でも全体／原寸を切り替え、全項目を保持する",
+      "passed": true
+    },
+    {
+      "name": "今回の配置・縮尺・操作経路でDOM実行例外なし",
+      "passed": true
+    }
+  ],
+  "capacity_fixture": {
+    "offers": 4,
+    "reserve_kinds": 20,
+    "deck": 12,
+    "heights": {
+      "offer": {
+        "count": 4,
+        "needed_height": 348,
+        "allocated_height": 878
+      },
+      "reserve": {
+        "count": 20,
+        "needed_height": 876,
+        "allocated_height": 878
+      },
+      "build": {
+        "count": 12,
+        "needed_height": 524,
+        "allocated_height": 878
+      }
+    },
+    "source": "追加した所持品・候補は検査内だけ。共通データの有効な修飾札。本番初期配布の変更ではない。"
+  },
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・フォント実測",
+    "実ポインター・タッチ",
+    "IndexedDB",
+    "本編保存",
+    "ユーザー受入"
+  ]
+}

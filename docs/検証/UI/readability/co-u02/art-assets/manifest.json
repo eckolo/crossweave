@@ -1,0 +1,167 @@
+{
+  "version": "ui-0.14.1-temporary-art",
+  "date": "2026-09-25",
+  "scope": "仮画像のUI接続。正式デザイン・解決後再訪素材・実描画の受入ではない。",
+  "assets": [
+    {
+      "id": "night-tide",
+      "source": {
+        "repository": "eckolo/crossweave",
+        "branch": "design/visual-direction-20260912",
+        "commit": "25e7ce99bffc551e2370568b74704865c3de13e0",
+        "path": "docs/仕様案/ビジュアル・演出/素材/CO-V01/night-tide-background.png",
+        "blob_sha": "18f83bcb905f7d9cf4d87f76ec563697e474d6df",
+        "sha256": "39afc8d0831f20eae05fab0bca7d9b2ca41ce82c7944bbe518328272b1a526be",
+        "width": 1536,
+        "height": 1024
+      },
+      "derivative": {
+        "path": "art-assets/night-tide.webp",
+        "width": 1920,
+        "height": 1280,
+        "mode": "RGB",
+        "bytes": 41808,
+        "sha256": "dedb4020b02aea1baf5b6b98d3368404d9fb19e8d277ee6a60062c187314f2ca",
+        "alpha_extrema": null
+      },
+      "resample_scale": 1.25,
+      "native_fhd_detail": false,
+      "resize": "1920x1280",
+      "webp_quality": 30,
+      "webp_method": 6,
+      "presentation": {
+        "fit": "cover",
+        "position": "50% 40%",
+        "game_frame": [
+          1920,
+          1080
+        ]
+      }
+    },
+    {
+      "id": "antique-shop",
+      "source": {
+        "repository": "eckolo/crossweave",
+        "branch": "design/visual-direction-20260912",
+        "commit": "25e7ce99bffc551e2370568b74704865c3de13e0",
+        "path": "docs/仕様案/ビジュアル・演出/素材/CO-V01/antique-shop-background.png",
+        "blob_sha": "c69e54c7b29d3ab2446086668cbcd806f49b93ca",
+        "sha256": "44b8c2b5ce783363e002d07bfd4a98729d01405559cadcf5cfe14f9a7d68d6be",
+        "width": 1536,
+        "height": 1024
+      },
+      "derivative": {
+        "path": "art-assets/antique-shop.webp",
+        "width": 1920,
+        "height": 1280,
+        "mode": "RGB",
+        "bytes": 61280,
+        "sha256": "798a4e3c31373366b762efc84699db2ed5d834c01edd0076fe4684d149063fdb",
+        "alpha_extrema": null
+      },
+      "resample_scale": 1.25,
+      "native_fhd_detail": false,
+      "resize": "1920x1280",
+      "webp_quality": 30,
+      "webp_method": 6,
+      "presentation": {
+        "fit": "cover",
+        "position": "50% 50%",
+        "game_frame": [
+          1920,
+          1080
+        ]
+      }
+    },
+    {
+      "id": "diver-placeholder",
+      "source": {
+        "path": "art-assets/originals/diver-placeholder.png",
+        "width": 1586,
+        "height": 992,
+        "mode": "RGBA",
+        "bytes": 1619114,
+        "sha256": "305fdbe406a08c17776a91b0387ed58b2eafd2adaaba845672dabaaf3173f9e6",
+        "alpha_extrema": [
+          0,
+          255
+        ]
+      },
+      "generation": {
+        "tool": "built-in image_gen",
+        "transparent_background": true,
+        "prompt_path": "art-assets/diver-prompt.txt",
+        "prompt_sha256": "c85f535f10d7fd64eb2a8e7c4e85fedc0229d09a031fa5d6bd98e2061a39c8de",
+        "date": "2026-09-25"
+      },
+      "derivative": {
+        "path": "art-assets/diver-placeholder.webp",
+        "width": 640,
+        "height": 400,
+        "mode": "RGBA",
+        "bytes": 36080,
+        "sha256": "7a759a8218daa689c6f8e952478f7f7d2f3ec0122efbe9bbc314a3543659b14d",
+        "alpha_extrema": [
+          0,
+          255
+        ]
+      },
+      "resize": "640x400",
+      "webp_quality": 75,
+      "webp_method": 6,
+      "presentation": {
+        "actor_frame": [
+          320,
+          248
+        ],
+        "illustration_area": [
+          320,
+          176
+        ],
+        "fit": "contain",
+        "turn_portrait_fit": "cover",
+        "turn_portrait_position": "50% 20%",
+        "top_overflow_px": 8,
+        "caption_overlap_px_approx": 38,
+        "actor_track_top_padding_px": 8,
+        "hit_test": "frame only; illustration pointer-events:none"
+      }
+    }
+  ],
+  "temporary_bindings": {
+    "case_id": "SCN-001",
+    "actor_lookup": "actor.knowledge_key equals public knowledge_views key; use target_id",
+    "actor_artwork": {
+      "SCN-001-ACT02": "diver-placeholder"
+    },
+    "scene_background": {
+      "water_scene_ids": [
+        "SCN-001-S02",
+        "SCN-001-S02R"
+      ],
+      "water_active_actor_ids": [
+        "SCN-001-ACT01",
+        "SCN-001-ACT04"
+      ],
+      "shop_phases": [
+        "home",
+        "return"
+      ]
+    },
+    "terrain_actor_artwork": "none; passage uses mountain icon in actor and turn order",
+    "ACT04_revisit_reuse": "全面背景だけに仮使用。正式な解決後・再訪差分は後続。",
+    "unknown_or_other_case": "既存の一般背景・絵へfallback"
+  },
+  "real_browser_composite": "未確認",
+  "current_ui_version": "0.14.3",
+  "user_feedback_20260925": {
+    "diver_pose": "了承",
+    "diver_style": "背景と不一致。今回の修正対象ではない",
+    "regeneration_performed": false,
+    "next_creation": "ビジュアル担当の最新正式手順・基本②と背景③・指定作例と使用背景を参照",
+    "reference_commit": "25e7ce99bffc551e2370568b74704865c3de13e0",
+    "method_path": "docs/仕様案/ビジュアル・演出/Dの制作手順.md",
+    "method_version": "1.0",
+    "card_artwork_policy": "枠から少し出し、下側はステータス欄へ重ねる。実画像未導入のため接続時に確認"
+  }
+}

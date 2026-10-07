@@ -1,0 +1,376 @@
+{
+  "items": [
+    {
+      "id": "R01-filler",
+      "title": "補充由来札の期限切れ消滅",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "Recoverはbirth=fillerをdestroyedへ送る。再構築もfillerを生成するため契約上存在し得る。固定oracle／32分岐889合法commandで未取得だったことは適用外根拠にならない。実画面の該当状態・入力結果なし。",
+      "required_evidence": [
+        "既存Rebuild→Drawの合法command列・seed・隔離初期保存hashを固定し、公開viewに補充由来札の期限1と選択外札のunused_hand_expiry.destination=destroyedが出る入口を保存。通常セーブ・規則・数値・札を改変しない。",
+        "同じUiProbeのreview-safety-fillerへ合法fixtureを供給。実Main.tscnでquick ONの設置drop後、予測が見えて実行前である全画面・消滅行拡大・command=0／revision・保存hash不変を記録。",
+        "確定1回で期限切れ札消滅・公開所持と保存更新、再送で二重実行なし。公開IDでbefore/preview/afterを結ぶ。QuickDropの汎用destination分岐だけを描画済みとしない。",
+        "適用外にするなら「既存M1契約が当該状態を禁止する」条文・SHA/path/blobと合法到達不能の不変条件を示す。探索で見つからない、fixtureがない、試作という理由は不可。"
+      ],
+      "scope": [
+        "探索・未使用手札の期限・quick確定"
+      ],
+      "sources": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+          "blob": "d630a642801340d39688bf80317780960c449d43",
+          "locator": "Recover / Rebuild / PreviewAction unused_hand_expiry"
+        },
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "QuickDrop"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "R04-unlimited",
+      "title": "明示nullの無制限guard",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "PublicCard.WithOptionalはnullを保持し、Grantはキー欠落時だけ2を補う。従ってnullと欠落は異なる契約。固定M1内容に明示null札がないことだけでは公開境界の適用外にならない。実描画は未提出。",
+      "required_evidence": [
+        "既存content／保存移行／公開projectionのどの合法入口が明示nullを供給できるかをD04Bが固定。現在のfixtures-fixedに該当fixtureはない。値を2からnullへ書換えた通常保存を合法証拠にしない。",
+        "合法入口が成立したらreview-details-unlimitedで手札・場予測・既知記録のpublic cardにdefense_usesキーが存在し値nullであるpayloadを保存し、実画面の「制限なし」を撮影。欠落（未公開）／既定2との対照を付ける。",
+        "詳細閲覧によるDTO・乱数・保存hash不変、記録詳細に現在場加算を混ぜないことを確認。guard使用後に無制限付与が有限回数へ変わらない公開結果も結ぶ。",
+        "合法入口がないとの結論なら、既存M1内容・移行・public schemaの全入口がnullを除外する根拠をSHA/path/blob付きで提示してUIが対象外を再判定。実装中に契約を狭めて免除を作らない。"
+      ],
+      "scope": [
+        "札詳細・場・記録・guard"
+      ],
+      "sources": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+          "blob": "d630a642801340d39688bf80317780960c449d43",
+          "locator": "PublicCard / Grant / public guard default"
+        },
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "CardDetailText"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-B01",
+      "title": "固定原本PNG：home",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/home.png / blob 8dd3e54395fc9fbd42b6f447495114573c1a843d のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "scope": [
+        "home"
+      ],
+      "sources": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "docs/検証/本編実装/d04b-ui-02/reference/home.png",
+          "blob": "8dd3e54395fc9fbd42b6f447495114573c1a843d"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-B02",
+      "title": "固定原本PNG：story",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/story.png / blob d4a5e3cb290326afa0ac930c4b9a260d54afbf8c のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "scope": [
+        "story"
+      ],
+      "sources": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "docs/検証/本編実装/d04b-ui-02/reference/story.png",
+          "blob": "d4a5e3cb290326afa0ac930c4b9a260d54afbf8c"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-B03",
+      "title": "固定原本PNG：return",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required_evidence": [
+        "既存 docs/検証/本編実装/d04b-ui-02/reference/return.png / blob fb4a02002c830c813ca6bd70e440772fa684657d のPNG実体を通常の受渡しで提供。元画像そのものの変更なし。",
+        "対応する固定Godot全体画像と同じFHDで比較し、既存V-H差分に加えて画像で初めて分かる差を追加。"
+      ],
+      "scope": [
+        "return"
+      ],
+      "sources": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "docs/検証/本編実装/d04b-ui-02/reference/return.png",
+          "blob": "fb4a02002c830c813ca6bd70e440772fa684657d"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-C01",
+      "title": "原本の実解決font・AA・環境",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "CSS familyは固定したが原本capture.jsonにOS・resolved font・実窓外形がない。Notoへの代替を承認した記録もない。",
+      "required_evidence": [
+        "原本72dと同じ描画環境でcomputed font-family/size/weight/line-height、実際のフォント名・ファイルhash、OS、ブラウザー、DPR、ズームを採取。",
+        "Godotのfontファイルhash・テーマ値・拡大率と同じ文言を並べ、タイトル／日本語本文／数字／serif金額の拡大を提出。字形・AA差に自動許容率を設けない。"
+      ],
+      "scope": [
+        "全M1画面／B02"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-C02",
+      "title": "light-darkの適用範囲",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "原本CSSにlight-darkの両値がある。提出画像はlightだけ。M1でdarkを廃止する個別承認はない。",
+      "required_evidence": [
+        "原本のcolor-scheme／OS連動設定と既存M1採否契約を特定。darkが有効なら両テーマの代表三領域・探索・窓を同じ状態で撮影し全tokenを照合。",
+        "無効であるなら既存実装・契約上の根拠を示す。light画像だけでdark適合／対象外としない。"
+      ],
+      "scope": [
+        "全テーマ／B03"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V01",
+      "title": "取得編成の同状態対照",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "原本PNGは通常準備1枚。未払い・詳細・混合確認・空・ロック等の原本同状態画像が不足。Godot側は複数の追補画像があるが同一fixtureではない。",
+      "required_evidence": [
+        "原本の既存取得入口で札／心得それぞれ通常、pending所持／編成、移動元跡、取消、上限／残高不足、確定後、候補なし、空編成、ロック／変換を採取。各状態のpublic IDs・価格・数量・容量・本文を対応づける。",
+        "確認窓は混合／編成のみ／心得のみ、上端と下端、詳細はoffer／owned／pending、修飾展開を同じ状態に合わせて撮影。既存公開値で作れない相違は契約不足として記す。"
+      ],
+      "scope": [
+        "B05〜B09／ST-P*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V02",
+      "title": "探索・詳細の同状態対照",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "原本通常探索と固定Godot自然探索は主体・札・公開値が違う。共通枠の比較はできるが同状態の全画素比較はできない。",
+      "required_evidence": [
+        "合法な公開状態を共通記録し、通常・主体選択・左右端手札・場・予測札・一時／固定・同時刻／本人予約を原本とGodotで撮影。本人／相手の余力・身構・会心・隠蔽・姿勢と消費期限の値を揃える。",
+        "同じ文字列・選択・scroll・pointer位置に固定。基準値と枠は変えず、fixtureの文言差を外観差として数えない。"
+      ],
+      "scope": [
+        "B10〜B15／ST-E*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V03",
+      "title": "共通窓・記録・設定の対照",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "固定Godot追補には記録の代表例はあるが、全共通窓の原本／同状態画像がない。元構造を省いた差はコードで確定。",
+      "required_evidence": [
+        "各画面の共通メニュー、表示／操作設定、目的・状況・遊び方、本人札内訳・山札・履歴、未判明／判明記録、相手／札タブ、親→子→戻るを原本と固定Godotで撮影。",
+        "親を維持する窓、scroll保持、閉じる・戻る・pinの状態を記録。既存単画面証拠を全画面への一致としない。"
+      ],
+      "scope": [
+        "B04／B15／B16／ST-W*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V04",
+      "title": "開始・保存失敗・復旧の表示",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "固定追補の開始画面、保存中／失敗／再試行／古い応答の実画像がない。Windows固有機能に原本と一対一の画面がない部分もある。",
+      "required_evidence": [
+        "既存Windows保存契約を保ったまま原本共通部品への対応表を固定し、隔離slotで新規／続き／読込み中／失敗／再試行／再読込みを撮影。通常保存へ故障を注入しない。",
+        "固有機能が共通部品で再現できない具体箇所が見つかった場合だけ、原本と試行画像・代案・影響を並べ判断事項へ。現時点ではUI変更承認は不要。"
+      ],
+      "scope": [
+        "B04／B16／B17／B19／ST-S*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V05",
+      "title": "本文・帰還の全結果状態",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "自然踏破帰還画像はあるが撤退・緊急脱出・任意本文履歴を含む同状態対照が不足。",
+      "required_evidence": [
+        "U-B01〜03の原画に加え、同じ既存本文／既読位置、踏破・撤退・緊急脱出の公開金額／内訳／次操作を固定して対照。最大幅、20px/1.7、段落gap、金額32pxと背景gradientの実像を測る。"
+      ],
+      "scope": [
+        "B17／ST-T*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V06",
+      "title": "共通部品の全操作状態",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "各部品の通常／hover／pressed／selected／disabled／focusの全組合せ画像はない。Standard Buttonによる差はコードで特定済み。",
+      "required_evidence": [
+        "札面・操作側・ナビ・tab・close/pin・confirm・空slotを部品単位で撮影。該当しない状態は元コードの到達不能根拠を添える。",
+        "各画面の実ノードでも代表適用を確認。カタログだけを実画面一致の代わりにしない。選択とhoverが重なる優先順位を固定。"
+      ],
+      "scope": [
+        "B04／B06／B07／B10／B11／B15"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V07",
+      "title": "スクロールバーの外観・境界",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "U01は送り機能の合成入力証拠。原本のOS依存thinとGodot標準バーの寸法・色・thumb／track状態の対照がない。",
+      "required_evidence": [
+        "自然FHD overflow=0と、同じ実ノードの限定寸法overflow>0を分け、縦横バー通常／hover／drag、最上／最下・最左／最右を撮影。",
+        "原本側の実pixel幅・thumb／track色・角・余白と表示条件を採取し、同じ値をテーマへ。標準部品という免除は不可。"
+      ],
+      "scope": [
+        "B19／全一覧・全窓"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-V08",
+      "title": "ホールド・ドラッグ・移動時間",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "静止画と既存機能ログはあるがcue・元札・像・transitionの連続対照はない。",
+      "required_evidence": [
+        "原本と修正Godotの短クリック、120ms直前／直後、220ms成立、移動、可／不可drop、途中取消を時刻付き連続フレームまたは動画で撮影。",
+        "取得移動200ms ease-out、減動ON/OFF、探索live-event、edge開始閾値と1論理秒の移動量を同じ倍率で記録。物理入力は後続H01のまま。"
+      ],
+      "scope": [
+        "B18／ST-I*"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "U-RC04",
+      "title": "調査記録の観測区分と公開境界",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "原本records.jsはrun／actor等で観測を区分する。現在PublicKnowledgeはprofile/version/kind/card/cards/reward_key/labelへ絞り、run/actor/timeを渡さない。UIが現在／過去を推定して分類してはいけない。",
+      "required_evidence": [
+        "元records.jsの入力→表示区分と既存公開契約の対応をD04Bが示す。既存公開情報で成立するなら具体fieldと例payloadを固定。",
+        "不足が確定したら既存D04Bの公開projectionに必要な最小情報を明示して修正担当へ返し、既存共通契約の担当境界を守る。今回のUIレビューから共通仕様を書換えない。記録の他のタブ／親子／reward表示は待たず再現可能。"
+      ],
+      "scope": [
+        "V-W06／N02／ST-W04"
+      ],
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "evidence区分"
+        },
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+          "blob": "fb4bfceb04b436c47d1654f3398c5a543702e792",
+          "locator": "PublicKnowledge"
+        }
+      ],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    },
+    {
+      "id": "UI-CI01",
+      "title": "固定修正版の画面CI成立",
+      "status": "未確認",
+      "required_for_distribution": true,
+      "reason": "6168のUI CI37004651468はfont取得の通信切断で試験前停止。保存CIは成功。ローカル20modeの成果をCI成功へ転記しない。",
+      "required_evidence": [
+        "次回D04B固定修正版で既存同等画面検証を成立させ、source SHA・環境・結果・artifactを結ぶ。font取得を含む依存hashを記録。",
+        "今回の調査中に全旧スイートを再実行する必要はない。再発時は通信／取得段階とゲーム試験失敗を分離し、成立した同等経路をとりまとめへ返す。"
+      ],
+      "scope": [
+        "配布前の必要検証／CI"
+      ],
+      "sources": [],
+      "owner": "20260927-game-application / D04B-UI-02（証拠・修正）→ UI-GODOT-REVIEW-01（再判定）",
+      "not_an_exception": true,
+      "resolution_evidence": []
+    }
+  ],
+  "required_count": 17,
+  "all_open": true,
+  "physical_and_playtest_are_separate": [
+    "H01",
+    "H02"
+  ]
+}

@@ -1,0 +1,5 @@
+/* The ring fills once with the real hold duration; it never suggests network loading. */
+.cw-hold-cue{position:absolute;z-index:1000;display:grid;place-items:center;width:32px;height:32px;pointer-events:none;transform-origin:center;user-select:none;--cw-hold-ink:light-dark(#294e3c,#ebf2dc);--cw-hold-paper:light-dark(#faf9ef,#203027);color:var(--cw-hold-ink);filter:drop-shadow(0 1px 2px #0006)}
+.cw-hold-cue[hidden]{display:none}
+.cw-hold-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--cw-hold-ink) calc(var(--cw-hold-progress,0)*1turn),var(--cw-hold-paper) 0);mask:radial-gradient(transparent 51%,#000 54%);-webkit-mask:radial-gradient(transparent 51%,#000 54%)}
+.cw-hold-label{position:absolute;top:34px;left:50%;transform:translateX(-50%);white-space:nowrap;font:500 12px/18px system-ui,sans-serif;padding:0 4px;border-radius:3px;background:var(--cw-hold-paper);color:var(--cw-hold-ink)}

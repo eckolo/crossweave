@@ -1,0 +1,103 @@
+{
+  "version": "0.14.4",
+  "checked_at_utc": "2026-09-25T15:50:27.897Z",
+  "passed": 15,
+  "checks": [
+    {
+      "name": "敵のクリック直後に対象と詳細を同時に切り替える",
+      "passed": true
+    },
+    {
+      "name": "地形も同じ一回の操作で選択し同じ窓の内容を更新する",
+      "passed": true
+    },
+    {
+      "name": "注入したFHD配置では詳細が相手・場・手札・行動順を覆わず共通比率を保つ",
+      "passed": true
+    },
+    {
+      "name": "同じ対象の再クリックは詳細を開閉し、対象指定を解除しない",
+      "passed": true
+    },
+    {
+      "name": "敵を長く押しても進行円・詳細・対象切替は発生しない",
+      "passed": true
+    },
+    {
+      "name": "長く押してから離しても通常のクリック一回として選択する",
+      "passed": true
+    },
+    {
+      "name": "移動・取消・スクロール・別ポインター・画面離脱後に対象を誤変更しない",
+      "passed": true
+    },
+    {
+      "name": "キーボード由来のボタン起動も同じ選択・詳細経路を使う",
+      "passed": true
+    },
+    {
+      "name": "札を保ったまま敵へ切り替え、予測・操作名を更新する",
+      "passed": true
+    },
+    {
+      "name": "地形へ切り替えると関係線・予測・操作名も追従する",
+      "passed": true
+    },
+    {
+      "name": "全体／原寸切替でも選択と相手詳細を保持する",
+      "passed": true
+    },
+    {
+      "name": "詳細窓を手で閉じず選択中の敵へ実APIで行動できる",
+      "passed": true
+    },
+    {
+      "name": "札の120ms表示待ち・220msのドラッグ成立を維持する",
+      "passed": true
+    },
+    {
+      "name": "札を領域外で離した場合は出札せず取消す",
+      "passed": true
+    },
+    {
+      "name": "現行説明に敵ホールド・独立詳細ボタンの案内を残さない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "81520b8274596141217798fd3bf6c73388b0e97f7601227d2304d4ccebf854ee",
+  "placements": [
+    {
+      "target": "E1",
+      "rect": {
+        "left": 1292.5,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    },
+    {
+      "target": "V0",
+      "rect": {
+        "left": 209.50000000000006,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    }
+  ],
+  "injected": [
+    "矩形・client寸法・capture・hit test",
+    "ResizeObserver・可視通知",
+    "MouseEventによるクリック・ポインター通知"
+  ],
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント・実際の窓の重なり",
+    "実マウス・物理タッチ・実キーボード",
+    "IndexedDB・複数タブ"
+  ]
+}

@@ -1,0 +1,1581 @@
+{
+  "schema": "crossweave-visual-baseline-1",
+  "version": "2026-10-04.1",
+  "source_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+  "explicit_successor_policy": "各了承と後継の範囲をA01〜A06で限定。最新commit全体の承認ではない",
+  "approvals": [
+    {
+      "id": "A01",
+      "version": "two-stage-ui-5.1",
+      "scope": "二段階取得、札／心得、取得可能／所持／編成の横三領域、352×80共通札枠、短い操作名、1920×1080",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+        "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+        "locator": "§画面構造の了承・5.1名称修正／2026-09-25"
+      },
+      "user_record": "「UI構造としては問題無さそう」→「一旦札と心得の取得編成画面はこれでよい」",
+      "limits": "構造と合意案の継承。実機入力・永続保存の検証合格を意味しない。5.2以降を一括承認とはしない。"
+    },
+    {
+      "id": "A02",
+      "version": "UI0.14.8",
+      "scope": "探索FHD、敵クリックで選択＋詳細、共通札面、仮素材の大きさ・重なり、120ms遅延、反対端詳細、予測の場札詳細",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+        "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+        "locator": "§ユーザー指摘と対応／位置は概ね了承"
+      },
+      "user_record": "「詳細窓の位置は大体いい」「一旦画面周りは問題無さそう」",
+      "limits": "場の詳細の縦位置を新たに再設計しない。潜水服の画風は新制作時の担当条件であり、既存部品の外観差を免除しない。"
+    },
+    {
+      "id": "A03",
+      "version": "UI0.15.0",
+      "scope": "了承取得部品を帰還後の同一編成へ接続、共通メニュー／記録を右上、戻るを左上、閉じるを窓右上",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "blob": "61498e25455e468f820cd9efea57bf1a6cf8e38a",
+        "locator": "§同じ画面への統合・配置照合"
+      },
+      "user_record": "「同じ画面でよくないか」「位置を統一」「同機能との照合を必須に」",
+      "limits": "機能の統合指示を受領。新しい別管理画面や独立した購入タブを正にしない。"
+    },
+    {
+      "id": "A04",
+      "version": "UI0.15.1",
+      "scope": "取得可能の完了／候補なし空状態。同じ左欄・0件・終了表示、所持／編成の継続",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md",
+        "blob": "28e2ada2cd7afadcbd6c077ed405782a4aa969ae",
+        "locator": "§取得確定後と候補なし"
+      },
+      "user_record": "2026-09-26 14:57「よい」。自Workの同時刻了承記録",
+      "limits": "成果なし帰還でも持越し候補がある場合は空にならない。現在の公開取得群ごとに判定し、未取得の別群を消さない。"
+    },
+    {
+      "id": "A05",
+      "version": "UI0.16.0 / UI-ACQ-INT-01",
+      "scope": "D03R公開個体・取得群・予測・一括確定・保存・同編成での出発。UI0.15.1の部品を継承する接続後継",
+      "record": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+        "blob": "445bdebd351a4ce1bf3fc9b7a885f6e6226ac0a5",
+        "locator": "§接続範囲・33確認"
+      },
+      "user_record": "既存UIを維持してD03Rへ接続する依頼・成果9ca472ea。最新保存を新デザインの包括承認にしない",
+      "limits": "機能接続の契約。font、色、余白、窓の文章化などのGodot変更は承認されていない。"
+    },
+    {
+      "id": "A06",
+      "version": "M1 Windows保存契約",
+      "scope": "既存の保存・再開・失敗／復旧の機能条件。画面部品にはA01〜A05の共通表示を適用",
+      "record": {
+        "commit": "d93d0b482c13da4aa91df0d2173b87f46999a3a9",
+        "path": "docs/作業資料/とりまとめ/UI合意案の再現と受入基準.md",
+        "blob": "abc39b84877b6b2dbe9acb6c093a9e8b50a24c8b",
+        "locator": "§判断の基準・配布へ進む終了条件"
+      },
+      "user_record": "今回の固定本編の了承UI適合調査依頼",
+      "limits": "Windows固有入口にHTML原本で完全対応する画面がない場合は未確認。新機能の存在を外観承認に代えず、既存共通部品でまず再現する。"
+    }
+  ],
+  "components": [
+    {
+      "id": "B01",
+      "title": "FHD座標系",
+      "values": {
+        "logical": [
+          1920,
+          1080
+        ],
+        "external_scale": "全体の一様縮小のみ。内部再flow・密度変更なし",
+        "journey_shell_border": "1px、内側1918×1078",
+        "exploration_rows": [
+          336,
+          248,
+          314,
+          72
+        ],
+        "outer_padding": 24,
+        "row_gap": 20,
+        "game_page_scroll": false
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-shell / .cw-explore"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": "embedded .cp-shell"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "uiSpace/uiRect"
+        }
+      ],
+      "used_by": [
+        "全M1画面"
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B02",
+      "title": "書体と文字役割",
+      "values": {
+        "family": "system-ui, sans-serif（取得はsystem-ui,-apple-system,\"Noto Sans JP\",sans-serif）",
+        "strong_weight": 500,
+        "acquisition": {
+          "root": "24px/1.5",
+          "title": "20px/24px,2行",
+          "meta": "18px/20px",
+          "action": "20px",
+          "header": "24px",
+          "footer": "22px"
+        },
+        "exploration": {
+          "root": "18px/1.4",
+          "card_title": "18px/24px,2行",
+          "actor_title": "20px/28px",
+          "stats": "18px/24px",
+          "delta": "16px/22px"
+        },
+        "detail": {
+          "heading": "20px/28px",
+          "body": "18px/1.6",
+          "minor": "16px"
+        },
+        "navigation": "400 18px/24px",
+        "story": "20px/1.7",
+        "return_money": "400 32px/1.2 Georgia,serif",
+        "resolved_font": "今回提出のYu Gothic UI400/実600 face・Georgia400とファイルhashは証拠受領へ。過去未採取/AA限界を保持し、役割別metrics修正を要する。"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "font / strong / cp-piece"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "font-size / line-height"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-money"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav"
+        }
+      ],
+      "used_by": [
+        "全M1画面・全共通部品"
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B03",
+      "title": "色の名前空間",
+      "values": {
+        "acquisition_light": {
+          "ink": "#243d35",
+          "muted": "#586e63",
+          "line": "#bac9ba",
+          "paper": "#fcfcf5",
+          "active": "#315849",
+          "on_active": "#fffef5",
+          "surface": "#f1f1e8",
+          "reserve": "#e8eddf",
+          "build": "#dce6d2"
+        },
+        "exploration_light": {
+          "ink": "#263c32",
+          "line": "#acbdad",
+          "paper": "#f7f8f4",
+          "soft": "#e9eee4",
+          "selected": "#345747",
+          "on_selected": "#ffffff",
+          "danger": "#943c25"
+        },
+        "common_nav_light": {
+          "paper": "#f2f5e9",
+          "ink": "#294133",
+          "line": "#a8b9a5"
+        },
+        "dark": "採否は了承済み緑系暗色として確定。全最終selector/cascadeの実描画適合はU-C02で別判定。",
+        "adopted_palette": "green dark / normal OS-independent",
+        "light_value_status": "歴史的宣言/構造資料。了承された提示配色ではない。",
+        "acquisition_dark": {
+          "ink": "#e6ece3",
+          "muted": "#b0c0b3",
+          "line": "#52685b",
+          "paper": "#2b3d34",
+          "active": "#c6d9ba",
+          "on_active": "#193224",
+          "surface": "#1d2b27",
+          "reserve": "#26362b",
+          "build": "#213727"
+        },
+        "exploration_dark": {
+          "window_declaration": "#202820e6",
+          "paper": "#202820",
+          "ink": "#f0f3ea",
+          "line": "#697767",
+          "soft": "#303d2e",
+          "selected": "#c2d8ba",
+          "selected_ink": "#20311e",
+          "danger": "#ffc5a8",
+          "empty_slot": "#20282050"
+        },
+        "common_nav_dark": {
+          "paper": "#2b4336",
+          "ink": "#e2ebdc",
+          "line": "#5c745c"
+        }
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "#cw-acquisition-review"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": "#cw-playtable → .cw-explore"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav>button"
+        }
+      ],
+      "used_by": [
+        "全画面・札・窓"
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B04",
+      "title": "共通ナビ／戻る／閉じる",
+      "values": {
+        "records": [
+          1680,
+          4,
+          152,
+          56
+        ],
+        "menu": [
+          1840,
+          4,
+          56,
+          56
+        ],
+        "right_margin": 24,
+        "gap": 8,
+        "icon": [
+          20,
+          20
+        ],
+        "radius": 5,
+        "border": 1,
+        "back": "左上。embedded取得のmin-width96,height56,font18",
+        "close": "各窓右上。探索56×56、取得64pxヘッダー内",
+        "icons": "既存Lucide book-open/menu/arrow-left/x。Unicodeで代替しない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+          "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+          "locator": ".cw-common-nav / embedded .cp-header"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/common-navigation.js",
+          "blob": "af0835bc652851bca5507415b61a3ace8e3eac16",
+          "locator": "commonNavigationHTML"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer>header / .cj-inspect-top"
+        }
+      ],
+      "used_by": [
+        "開始前を除く全画面"
+      ],
+      "approval_ids": [
+        "A03"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B05",
+      "title": "取得三領域",
+      "values": {
+        "header_height": 64,
+        "footer_height": 64,
+        "main_padding": 16,
+        "lane_widths": [
+          376,
+          735,
+          735
+        ],
+        "lane_gap": 20,
+        "columns": [
+          1,
+          2,
+          2
+        ],
+        "heading_height": 32,
+        "heading_grid_gap": 8,
+        "grid_padding": 2,
+        "grid_gap": 8,
+        "tile": [
+          352,
+          80
+        ],
+        "header_outside_grid": true,
+        "reserve_grid": "#e8eddf、左右1pxと底4pxのinset、底角8",
+        "offer_grid": "底2px #bdb69a、全面を箱で囲まない",
+        "build_grid": "#dce6d2、1px inset #b3c4a4、角6"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "dimensions/lane"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-main/.cp-lane/.cp-lane-grid"
+        }
+      ],
+      "used_by": [
+        "札・心得取得編成"
+      ],
+      "approval_ids": [
+        "A01",
+        "A04"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B06",
+      "title": "取得札面／操作側",
+      "values": {
+        "outer": [
+          352,
+          80
+        ],
+        "border": "2px #bac9ba / build #58754a",
+        "radius": 5,
+        "grid_rows": 76,
+        "action_width": 72,
+        "action_height": 76,
+        "action_inner_offset": "2px枠内",
+        "title_padding": [
+          4,
+          8
+        ],
+        "title_rows": [
+          48,
+          20
+        ],
+        "meta_gap": 6,
+        "action_background": "取得・編成 #315849、外す #f5f7ee／文字ink",
+        "quantity": "メタ行右端",
+        "symbols": "layers/scroll-text/check/lightbulb/grid-2x2等、18px"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-piece/.cp-build/.cp-item-actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/localAction"
+        }
+      ],
+      "used_by": [
+        "取得可能／所持／編成、両分類、ドラッグ像"
+      ],
+      "approval_ids": [
+        "A01"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B07",
+      "title": "未払い・空・無効",
+      "values": {
+        "pending_border": "2px dashed #846838",
+        "pending_hatch": "135deg #faf8ed 0..8px, #f1ebd7 8..10px",
+        "pending_clock": "右6px下4px、18px時計、紙色丸背景",
+        "moved_offer": "同寸法のarrow-right中心＋底3px #c4c2ac、説明文章を加えない",
+        "empty_slot": "352×80、1px dashed、#e2e9d8、plus",
+        "empty_offer": "352×80、padding12、gap12、20px/28px、完了circle-check／候補なしinbox",
+        "disabled_opacity": 0.42,
+        "hover": "#e6eddf"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-pending/.cp-clock/.cp-empty/.cp-offer-message/.cp-button"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "card/lane/offerPhase"
+        }
+      ],
+      "used_by": [
+        "未払い／取消／不足／取得後／候補なし／空編成"
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B08",
+      "title": "取得ヘッダーとフッター",
+      "values": {
+        "tab": "64px高、borderなし、radius0、選択時active/on-active",
+        "wallet": "lightbulb＋着想＋現在、変更後はclockを含む点線枠",
+        "footer": "64px #e9eee0、上1px線、左右24px、戻すundo-2と確認する",
+        "track": "22px、未払いtokenのclock、群上限と取得完了を公開群に従って表示"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-header/.cp-footer/.cp-wallet/.cp-purchase-track"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "wallet/purchaseTrack/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeTrack"
+        }
+      ],
+      "used_by": [
+        "取得編成全状態"
+      ],
+      "approval_ids": [
+        "A01",
+        "A04",
+        "A05"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B09",
+      "title": "取得詳細／一括確認窓",
+      "values": {
+        "rect": [
+          480,
+          130,
+          960,
+          820
+        ],
+        "rows": [
+          64,
+          "remaining",
+          72
+        ],
+        "radius": 8,
+        "border": "1px #bac9ba",
+        "surface": "#f4f6ec",
+        "shadow": "0 10px 30px #0003",
+        "overlay": "#283d3555",
+        "body": "padding24、gap24、22px",
+        "facts": "label112px、gap16、value残り",
+        "location": "取得可能→所持→編成の記号、active64×48、未払いclock",
+        "balance": "中央36px、gap14、価格と支払前後",
+        "changes": "各行6px上下＋底1px、右に数量／取得先／価格",
+        "capacity": "2列、gap12",
+        "effects": "心得別summary＋条件・効果、既存の折畳み",
+        "footer": "支払額を固定表示、確定するmin160、高64、閉じるヘッダー右"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-overlay/.cp-dialog/.cp-facts/.cp-review-wallet/.cp-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "reviewBody/renderDialog"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "runtimeReviewBody/runtimeItemFacts"
+        }
+      ],
+      "used_by": [
+        "取得詳細／編成のみ／心得のみ／混合一括確認／取消／エラー"
+      ],
+      "approval_ids": [
+        "A01",
+        "A05"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B10",
+      "title": "探索の共通札面",
+      "values": {
+        "tile": [
+          248,
+          208
+        ],
+        "gap": 16,
+        "image_band": 88,
+        "caption": {
+          "height": 120,
+          "padding": 6,
+          "rows": [
+            48,
+            24,
+            28
+          ],
+          "gap": 4
+        },
+        "frame": "hand1px,radius7 / 内面radius6。場1px,radius6。選択2px shadow、linked2px inset",
+        "image_gradient": "150deg #dfe4d3 → #95b2ab",
+        "paper": "#f7f8f4",
+        "icon_symbol_size": 64,
+        "attr_badge": "1px currentColor、radius4、padding-inline4",
+        "empty": "原本の空cw-slot（実カードcaptionとは別の空表示）を維持、札面の架空本文を作らない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-hand-card/.cw-slot/.cw-illustration/.cw-attr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-card-face/.cw-face-caption"
+        }
+      ],
+      "used_by": [
+        "手札／場／予測／ドラッグ像"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B11",
+      "title": "主体と本人",
+      "values": {
+        "actor": [
+          320,
+          248
+        ],
+        "actor_gap": 24,
+        "overscan_top": 8,
+        "diver": [
+          282,
+          176
+        ],
+        "art_overlap": "絵の下がステータス帯に隠れる。新素材を描かない",
+        "terrain": "原本はMountain要求・固定bundle未登録の△fallback。Triangle SVG64は現在実装で了承原本定義ではない。H11-15/16で主体/行動順の候補を別判断。",
+        "actor_caption": "padding10, min-height116",
+        "bars": "全幅4pxを上下2段、gap2、2段目opacity.6",
+        "stats": "18px/24px、delta16px/22px",
+        "selected": "2px内側outline＋対象mark＋soft背景",
+        "unselected": "背景・枠transparent",
+        "self": "400px幅、行24/10/24、最下帯72px内"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-actor/.cw-illustration"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-actor/.cw-vital-bars/.cw-self"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": ".cw-actor[aria-pressed]/.cw-vital-bars"
+        }
+      ],
+      "used_by": [
+        "敵／地形／本人／選択／予測差分"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B12",
+      "title": "探索背景と場",
+      "values": {
+        "background": "既存night-tide素材coverと既存object-position、clip枠radius9",
+        "foreground_wash": "上45%透明→下#e8edd933",
+        "field_area": "248px高、border0、#e9eed81a、radius8",
+        "image_source": "既存仮素材のblob固定。背景画風と潜水服の新規制作判断は今回しない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": "#cw-scene-base::after"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-board"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": "#cw-scene"
+        }
+      ],
+      "used_by": [
+        "探索通常・予測・窓"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B13",
+      "title": "場予測／消費／関係線／操作",
+      "values": {
+        "forecast": "通常札面と同じ内部、破線と＋予測",
+        "state_label": "上4px右4px、paper背景、左右padding6、角3、最大幅calc(100%-8px)",
+        "consumed": "data-changed danger枠、通常札面をずらさない",
+        "relations": "stroke2、opacity.5、縦端点を結ぶcubicBezier、未表示札を突き抜けない",
+        "action": "札直下、56高、gap8、18px、padding16、内容に応じた幅。本人次回位置は既存表示部品へ",
+        "hand_life": "16px/24、今回までdanger、右端"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-field-change"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/layout/render"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.css",
+          "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+          "locator": "#cw-relations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-action-anchor"
+        }
+      ],
+      "used_by": [
+        "選択手札／予測の場／一致／消滅警告"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B14",
+      "title": "行動順",
+      "values": {
+        "strip_height": 56,
+        "button": [
+          40,
+          40
+        ],
+        "row_gap": 16,
+        "within_same_time_gap": 2,
+        "font": 18,
+        "now_font": 16,
+        "self_next": "#dfe8d8背景・底2px currentColor・次のラベル",
+        "actor_face": "diver画像をcover 50% 20%、他は既存SVG",
+        "group": "公開atごと、同時刻の内部順序を断定しない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "#cw-turn-order"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+          "blob": "263e8808358db4abd57999f8351a738a734ba388",
+          "locator": ".cw-turn-group/[data-self-next]"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+          "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+          "locator": ".cw-turn-face"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "turnFace/render"
+        }
+      ],
+      "used_by": [
+        "通常予約／予測後／同時刻／別時刻／予約詳細"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B15",
+      "title": "詳細／予測窓",
+      "values": {
+        "card": [
+          520,
+          480
+        ],
+        "actor": [
+          416,
+          384
+        ],
+        "margin": 16,
+        "horizontal": "uiSpace()内幅の左半分→右端、右半分→左端。真中は右半分",
+        "actor_top": 16,
+        "card_top": "anchor.yをbottom(本人帯上端)−margin−heightでclamp。現在の場縦位置は原本を維持",
+        "header": 64,
+        "body_padding": 16,
+        "body_font": "18px/1.6",
+        "pin": "56×56 icon、固定時active、解除で一時",
+        "paper": "cw-drawer最終：#202820、1px #697767、radius9、shadow 0 4px 14px #0005。最終層を用い、初期#202820e6/旧lightと区別。",
+        "structured_body": "ledger / effects / reservations等。単一の改行Labelへ平坦化しない",
+        "paper_declaration_history": "#f7f8f4、1px #acbdad、radius8、元のshadow"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeEdgeWindow/placeActorWindow"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-drawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "layout/renderDrawer"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-drawer"
+        }
+      ],
+      "used_by": [
+        "主体／手札／場／予測札／一時予測／固定窓"
+      ],
+      "approval_ids": [
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B16",
+      "title": "共通窓／親子／メニュー",
+      "values": {
+        "single": [
+          520,
+          480
+        ],
+        "pair": {
+          "each": [
+            520,
+            480
+          ],
+          "gap": 16,
+          "margin": 16,
+          "rule": "placeWindowの元窓を可能な限り維持、子で元を覆わない"
+        },
+        "header": 64,
+        "body_padding": 16,
+        "body_font": "18px/1.6",
+        "menu": "2列、56pxボタン、(480−144)/56=6行×2。溢れた時は既存ページ操作",
+        "records": "相手・環境／札タブ、対象名・判明状態・版本・今回を分離、3列table（札／属性／初期枚数）、直前の親を隣に残す",
+        "shared_positions": "anchorは実UI要素、上下64帯を避ける。全窓を中央固定に置き換えない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "layoutPanels"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/window-placement.js",
+          "blob": "eb09a8018a078bea3f8139f7b484bc514a10eca7",
+          "locator": "placeWindow/placeWindowPair"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "panelView"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView/recordedCards"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-inspect-*"
+        }
+      ],
+      "used_by": [
+        "メニュー／記録／本文履歴／遊び方／表示／保存案内／山札／履歴"
+      ],
+      "approval_ids": [
+        "A02",
+        "A03"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B17",
+      "title": "本文／探索先／帰還",
+      "values": {
+        "header_footer": 64,
+        "destination": "left40,bottom36,width840,gap12。見出し32pxに詳細を隣接",
+        "reading": "FHD max840×360、padding24、20px/1.7、本文だけ内部送り",
+        "read_backdrop": "0deg 紙色→transparent76%、90deg 2%紙色/38%alpha a8/76%透明。本文面の別gradientも維持",
+        "return": "左右の結果要約と本文、金額32px serif、結果items18px、余白はflow/actor/full-hd最終層で決定",
+        "start": "中心のcrossweave28px serif、開始／再開は下64px帯。Windows独自追加操作は共通部品へ割当後に証拠固定"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+          "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+          "locator": ".cj-backdrop::after/.cj-reading-scroll"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+          "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+          "locator": ".cj-result-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cj-destination-summary/.cj-reading-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+          "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+          "locator": ".cj-launch-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "hubView/returnView/sceneView"
+        }
+      ],
+      "used_by": [
+        "開始／探索先／本文／帰還／任意本文"
+      ],
+      "approval_ids": [
+        "A02",
+        "A03",
+        "A05",
+        "A06"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B18",
+      "title": "ドラッグ・ホールド・動き",
+      "values": {
+        "hold_ms": 220,
+        "cue_delay_ms": 120,
+        "cue": [
+          32,
+          32
+        ],
+        "cue_position": "通常倍率でポインタ(+20,-20)中心、画面端clamp",
+        "cue_ring": "conic-gradient進捗、radialmask51..54%、shadow0 1px 2px #0006",
+        "cue_label": "下34px、500 12px/18px、paper背景、radius3",
+        "acquisition_lift_opacity": 0.3,
+        "acquisition_ghost": "同352×80、shadow0 6px 18px #203a3540、不可opacity.75",
+        "drop": "受入先のみ allowed2px実線 / blocked1px破線、ヘッダー全幅の短い述語",
+        "verbs": [
+          "取得",
+          "取得・編成",
+          "編成",
+          "外す",
+          "取消"
+        ],
+        "edge": "取得22px内で7px/frame、探索64px内で16px/frame",
+        "hover_preview_open_ms": 180,
+        "hover_preview_close_ms": 160,
+        "movement": "取得の移動200ms ease-out。prefers-reduced-motion時は抑える"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+          "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+          "locator": ".cw-hold-*"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/hold-cue.js",
+          "blob": "6806b8ec1c5ef18b495ff2dd19b9b862b966c073",
+          "locator": "position/tick"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+          "blob": "8a250082898cd2982e40cb739ca4620c136d6a3f",
+          "locator": "dropPlan/paintDrop/scrollAtEdge"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "render animations"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "drawRelations/dragFrame/preview"
+        }
+      ],
+      "used_by": [
+        "ホールド待機／ドラッグ可否／余白送り／一時予測／動きを抑える"
+      ],
+      "approval_ids": [
+        "A01",
+        "A02"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    },
+    {
+      "id": "B19",
+      "title": "スクロール・通知・制限状態",
+      "values": {
+        "scroll": "thin、探索horizontal WebKit6px、cw-line thumb/transparent track、stable gutterは取得列",
+        "notice": "通常通知は中央top72、18px、padding8/16、紙の警告色#f2e6c8とshadow。取得runtime noticeは左右24 top76 padding16",
+        "disabled": "取得.42、探索.5、不足は原本warning色と構造",
+        "no_whole_screen_scroll": true,
+        "time_or_save_mutation": "閲覧・hover・取消・未払い操作で確定保存を変更しない"
+      },
+      "sources": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": ".cw-scroll/.cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": ".cp-runtime-notice/.cp-button:disabled"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+          "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+          "locator": ".cj-status"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/interaction/table.css",
+          "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+          "locator": ".cw-scroll/button:disabled"
+        }
+      ],
+      "used_by": [
+        "全内部一覧／長文／不足／保存失敗／古い応答／再試行"
+      ],
+      "approval_ids": [
+        "A01",
+        "A02",
+        "A05",
+        "A06"
+      ],
+      "measurement_kind": "CSS/JS最終層の指定値。画像実測はcomparison-evidence.jsonへ分離。未取得状態を計算値だけで一致とはしない。",
+      "value_context": "基準索引と寸法は維持。旧light宣言の単独hexは了承配色の期待値ではなく、今回の暗色訂正・使用先別最終cascadeを適用。全操作状態の描画一致を認定しない。"
+    }
+  ],
+  "style_source": "style-source.json",
+  "reference_images": [
+    {
+      "id": "evidence/reference/preparation.png",
+      "role": "original",
+      "source_commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+      "origin_ui_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "source_path": "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+      "blob": "a830824ea1beeb6ff0746cd26413f85db7127f40",
+      "sha256": "f986e3adb7563dc4d544923ebc1a5f48291adf5ad0a3b34934e76ab83eb797e2",
+      "size": [
+        1920,
+        1080
+      ],
+      "local_path": "evidence/reference/preparation.png",
+      "actual_image": true,
+      "viewed": "原寸の代表画像＋全53枚の連絡シートを目視。重要窓は追加拡大",
+      "scope": "固定UI原本の既存ブラウザー撮影。Godot側と公開状態・文言が完全同一とは限らない"
+    },
+    {
+      "id": "evidence/reference/exploration.png",
+      "role": "original",
+      "source_commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+      "origin_ui_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "source_path": "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+      "blob": "3e4ed5b5c9c89b2a551b53bed0b241ba76500af5",
+      "sha256": "23c9402f2e0a49a24864851d9d34bcb7c8ad4df015e3c127bba84414bb9dfa9e",
+      "size": [
+        1920,
+        1080
+      ],
+      "local_path": "evidence/reference/exploration.png",
+      "actual_image": true,
+      "viewed": "原寸の代表画像＋全53枚の連絡シートを目視。重要窓は追加拡大",
+      "scope": "固定UI原本の既存ブラウザー撮影。Godot側と公開状態・文言が完全同一とは限らない"
+    }
+  ],
+  "measurement": "comparison-evidence.json",
+  "unavailable_images": [
+    {
+      "path": "docs/検証/本編実装/d04b-ui-02/reference/home.png",
+      "blob": "8dd3e54395fc9fbd42b6f447495114573c1a843d",
+      "size": 1114167,
+      "status": "未確認",
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required": "同じ固定原本のPNG実体を通常の受渡しで取得し、同一状態・倍率のGodot画像と照合する。",
+      "owner": "D04B-UI-02で比較証拠提供／UIで再判定"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-02/reference/story.png",
+      "blob": "d4a5e3cb290326afa0ac930c4b9a260d54afbf8c",
+      "size": 1112764,
+      "status": "未確認",
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required": "同じ固定原本のPNG実体を通常の受渡しで取得し、同一状態・倍率のGodot画像と照合する。",
+      "owner": "D04B-UI-02で比較証拠提供／UIで再判定"
+    },
+    {
+      "path": "docs/検証/本編実装/d04b-ui-02/reference/return.png",
+      "blob": "fb4a02002c830c813ca6bd70e440772fa684657d",
+      "size": 1135030,
+      "status": "未確認",
+      "reason": "GitHub fetch_fileは大きなbinaryで内容なし。承認されたGit blob取得もUTF-8専用の400 INVALID_ARGUMENT。代替のlocalhost接続や制限回避なし。",
+      "required": "同じ固定原本のPNG実体を通常の受渡しで取得し、同一状態・倍率のGodot画像と照合する。",
+      "owner": "D04B-UI-02で比較証拠提供／UIで再判定"
+    }
+  ],
+  "render_environment": {
+    "reference": {
+      "source": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "engine": "154.0.4258.37",
+      "viewport": [
+        1920,
+        1250
+      ],
+      "entry": "http://127.0.0.1:8765/docs/検証/UI/readability/co-u02/review/index.html?case=",
+      "storage": "design-owned MemoryStore; original fixtures unchanged",
+      "errors": []
+    },
+    "implementation": {
+      "os": "Windows 11 build 26200",
+      "Godot": "4.7.2-stable mono",
+      "dotnet_sdk": "10.0.401",
+      "dotnet_runtime": "10.0.12",
+      "logical_size": [
+        1920,
+        1080
+      ],
+      "window_size": [
+        1920,
+        1080
+      ],
+      "scale": 1,
+      "font": "NotoSansJP.ttf wght=400",
+      "physical_input": false
+    },
+    "gaps": [
+      "ブラウザーはEdge 154.0.4258.37、viewport1920×1250、deviceScaleFactor=1。ゲーム要素PNGは1920×1080。",
+      "reference/capture.jsonにはOS・実ウィンドウ外形・resolved fontを記録していない。CSS system-uiの実解決をNoto Sans JPと推定しない。",
+      "全画面の基準画像が同一状態で揃っていないため、絶対ピクセル差率で合格を判定しない。"
+    ]
+  },
+  "zero_tolerance_policy": "未承認差異に既定許容値なし。エンジン・AA・標準部品を例外にしない。個別承認の実記録がある場合のみその差異IDへ限定する。",
+  "palette_correction": {
+    "revision": "2026-10-07.1",
+    "adoption_basis": {
+      "plan_commit": "16324a8f3e79d7caca4edbd5857d3a3d69cd6732",
+      "instruction": "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md",
+      "instruction_blob": "0cfcd3280c7a9065a97f5cab925465629eb5f578",
+      "instruction_revision": "0.10",
+      "user_explanation": "2026-10-06 17:20：ユーザーは緑系暗色のみを見て既存UIを了承。通常OS非連動。"
+    },
+    "inventory": {
+      "component_ids": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10",
+        "B11",
+        "B12",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B17",
+        "B18",
+        "B19"
+      ],
+      "count": 19,
+      "states": 37,
+      "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+      "baseline_inventory_version": "2026-10-04.1"
+    },
+    "original_commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "frozen_css_layers": [
+      {
+        "order": 1,
+        "path": "docs/検証/UI/readability/interaction/table.css",
+        "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 2,
+        "path": "docs/検証/UI/readability/co-u02/exploration.css",
+        "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 3,
+        "path": "docs/検証/UI/readability/co-u02/journey/screen.css",
+        "blob": "1f269b8902900d903bae8e174e3a75a937a7a69a",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 4,
+        "path": "docs/検証/UI/readability/co-u02/journey/viewport.css",
+        "blob": "7544e1ff67679fcfb7a1b6259e9ae9c57a763144",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 5,
+        "path": "docs/検証/UI/readability/co-u02/journey/interaction-review.css",
+        "blob": "085c8b2d019c71857aa28b6965203e79a857704a",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 6,
+        "path": "docs/検証/UI/readability/co-u02/journey/fixed-screen.css",
+        "blob": "d780db5987f64a052616f4d6226c62911e96fd89",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 7,
+        "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+        "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 8,
+        "path": "docs/検証/UI/readability/co-u02/journey/flow-review.css",
+        "blob": "49c26356784dc4cc5992a26ea6b16f4f04e21f2b",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 9,
+        "path": "docs/検証/UI/readability/co-u02/journey/actor-review.css",
+        "blob": "587e437a24f77f4fc59c9064bbf038ec0ea31fbd",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 10,
+        "path": "docs/検証/UI/readability/co-u02/journey/fit-review.css",
+        "blob": "e3a834c2abf5a2b2fdaeabbb624f51447f2fd64a",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 11,
+        "path": "docs/検証/UI/readability/co-u02/exploration-layout.css",
+        "blob": "af79514a3adbdbc49f06a03fcd9ebdc962141903",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 12,
+        "path": "docs/検証/UI/readability/co-u02/journey/save-flow.css",
+        "blob": "1cd87ae6b08f7ad4827c9e28392ac118df27f888",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 13,
+        "path": "docs/検証/UI/readability/co-u02/journey/public-info.css",
+        "blob": "8873f719370dd2685c7558fb8d05b54b09499b17",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 14,
+        "path": "docs/検証/UI/readability/co-u02/journey/economy.css",
+        "blob": "73893d649f3b8310da8ef60b48f211e87a5e8d88",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 15,
+        "path": "docs/検証/UI/readability/co-u02/journey/consistency.css",
+        "blob": "263e8808358db4abd57999f8351a738a734ba388",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 16,
+        "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+        "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 17,
+        "path": "docs/検証/UI/readability/co-u02/journey/destinations.css",
+        "blob": "b5a2522276b7ad97d98c0eafed6844d4770961b9",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 18,
+        "path": "docs/検証/UI/readability/co-u02/hold-cue.css",
+        "blob": "4f2ff388918168751fa43658caeb904083c51de3",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 19,
+        "path": "docs/検証/UI/readability/co-u02/art-assets/presentation.css",
+        "blob": "bc565104ec104c0283119166a6501c801f3bc5bd",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 20,
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+        "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      },
+      {
+        "order": 21,
+        "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+        "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2"
+      }
+    ],
+    "adopted": {
+      "normal": "green dark",
+      "operating_system_link": false,
+      "light_approval": false,
+      "new_setting": false,
+      "new_black_theme": false,
+      "new_global_ui_approval": false
+    },
+    "cascade": [
+      {
+        "use": "cp root/cards",
+        "selector": "#cw-acquisition-review",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+        "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+        "dark": {
+          "ink": "#e6ece3",
+          "muted": "#b0c0b3",
+          "line": "#52685b",
+          "paper": "#2b3d34",
+          "active": "#c6d9ba",
+          "on_active": "#193224",
+          "surface": "#1d2b27",
+          "reserve": "#26362b",
+          "build": "#213727"
+        }
+      },
+      {
+        "use": "cw base",
+        "selector": "#cw-playtable",
+        "path": "docs/検証/UI/readability/interaction/table.css",
+        "blob": "5747db140fe2ab2681e4f298a4ef296d06fec776",
+        "dark": {
+          "window_declaration": "#202820e6",
+          "paper": "#202820",
+          "ink": "#f0f3ea",
+          "line": "#697767",
+          "soft": "#303d2e",
+          "selected": "#c2d8ba",
+          "selected_ink": "#20311e",
+          "danger": "#ffc5a8",
+          "empty_slot": "#20282050"
+        }
+      },
+      {
+        "use": "cw drawer final",
+        "selector": ".cw-explore .cw-drawer,.cw-explore .cw-drawer[data-window=\"card\"]",
+        "path": "docs/検証/UI/readability/co-u02/exploration.css",
+        "blob": "519f964cd71e9c9c3f19e77af7e7a6ad62c1123f",
+        "background": "var(--cw-paper) = #202820",
+        "base_radius": 9,
+        "final_dom_reference": {
+          "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/source-representative-final/dark-repro-prediction-hand-detail.nodes.json",
+          "blob": "d160d46aba907151fab429da7889348b478d760e",
+          "rect": [
+            1383,
+            487,
+            520,
+            480
+          ],
+          "computed_background": "rgb(32,40,32)",
+          "computed_radius": "9px"
+        }
+      },
+      {
+        "use": "cj shell",
+        "selector": "#crossweave-journey .cj-shell",
+        "computed_dark": "#1d2b27",
+        "final_dom_reference": {
+          "path": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/source-representative-final/dark-repro-home-card.nodes.json",
+          "blob": "eb50e45404ede0427aea15c27da3e6fff610af28"
+        }
+      },
+      {
+        "use": "cj normal button",
+        "selector": "#crossweave-journey .cj-button",
+        "path": "docs/検証/UI/readability/co-u02/journey/screen.css",
+        "blob": "1f269b8902900d903bae8e174e3a75a937a7a69a",
+        "dark_normal": "#2b3d34",
+        "dark_hover": "#3a5043",
+        "fixed_difference": "fixed UiColor(fcfcf5) maps common cj use to #192a22; mapping by phase/one hex is insufficient."
+      },
+      {
+        "use": "nav",
+        "selector": "#crossweave-journey .cw-common-nav>button",
+        "path": "docs/検証/UI/readability/co-u02/common-navigation.css",
+        "blob": "b372e359a63ad02747d0f41500cbd6d1006b5f6b",
+        "dark": {
+          "paper": "#2b4336",
+          "ink": "#e2ebdc",
+          "line": "#5c745c"
+        },
+        "state_limit": "reference records button hover versus current normal is not a normal color mismatch."
+      },
+      {
+        "use": "footer by screen",
+        "selector": "#crossweave-journey:is([data-screen=\"return\"],[data-screen=\"hub\"],[data-screen=\"scene\"]) .cj-fixed-footer",
+        "path": "docs/検証/UI/readability/co-u02/journey/backdrop.css",
+        "blob": "5b12ccec4b6f9bdd2c47ed604dccdbef2b524f73",
+        "background": "transparent",
+        "box_shadow": "none",
+        "base_footer": "#283d2e is only the base rule, not the final rule for these states."
+      }
+    ],
+    "all_uses_policy": "原本21層の同path/blob/順序を維持。ここは判定に直接用いたselector対応。未確認の全使用先をcomputed取得済みとは書かない。light画像は構造/履歴、dark色/alpha/影/AAの一致証拠へ転用しない。",
+    "normal_dark": {
+      "code_path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs",
+      "code_blob": "8ed4077bf4b9da1824538b605fa1671aebb57dbb",
+      "locator": "NormalThemeIsDark(bool) => true; PrepareAcceptedStyle/Render",
+      "operating_system_false_and_true": "both true",
+      "actual_os_setting_changed": false,
+      "evidence": [
+        {
+          "commit": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+          "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/normal-and-human-final/repro-normal-dark-home.json",
+          "blob": "0f39ddd402c28d6a99935cf57c365a10e025b689"
+        },
+        {
+          "commit": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+          "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/normal-and-human-final/repro-normal-dark-explore.json",
+          "blob": "17bcec76b61c1fa7b330876d3147096be8491c74"
+        },
+        {
+          "commit": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+          "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/normal-and-human-final/repro-normal-dark-return.json",
+          "blob": "7a614b02e94496bf04d395b59c3ad9b7187976c0"
+        }
+      ]
+    },
+    "other_prior_correction": {
+      "B11": "要求Mountainと原本△fallbackを正確に区別。現在の主体Triangle SVG64と行動順Text△12/22box、候補Mountain SVG64/12は別描画。Triangle64を了承済み原本定義として新採用しない。"
+    }
+  },
+  "render_environment_history": {
+    "reference": {
+      "source": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "engine": "154.0.4258.37",
+      "viewport": [
+        1920,
+        1250
+      ],
+      "entry": "http://127.0.0.1:8765/docs/検証/UI/readability/co-u02/review/index.html?case=",
+      "storage": "design-owned MemoryStore; original fixtures unchanged",
+      "errors": []
+    },
+    "implementation": {
+      "os": "Windows 11 build 26200",
+      "Godot": "4.7.2-stable mono",
+      "dotnet_sdk": "10.0.401",
+      "dotnet_runtime": "10.0.12",
+      "logical_size": [
+        1920,
+        1080
+      ],
+      "window_size": [
+        1920,
+        1080
+      ],
+      "scale": 1,
+      "font": "NotoSansJP.ttf wght=400",
+      "physical_input": false
+    },
+    "gaps": [
+      "ブラウザーはEdge 154.0.4258.37、viewport1920×1250、deviceScaleFactor=1。ゲーム要素PNGは1920×1080。",
+      "reference/capture.jsonにはOS・実ウィンドウ外形・resolved fontを記録していない。CSS system-uiの実解決をNoto Sans JPと推定しない。",
+      "全画面の基準画像が同一状態で揃っていないため、絶対ピクセル差率で合格を判定しない。"
+    ]
+  },
+  "current_render_environment": {
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "theme": "緑系暗色・通常OS非連動",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "pixel_ratio": 1,
+    "source": "dark-recheck-20261006/証拠受領.json",
+    "font_scope": "提出Yu Gothic UI400/実600・Georgia400とfallback。役割metrics/AA分類は未完了。",
+    "physical_input": false,
+    "original_and_main_reruns": 0
+  }
+}
