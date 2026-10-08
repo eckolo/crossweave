@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "task_id": "CO-CX01",
+  "date_jst": "2026-10-08",
+  "coordination_work_id": "20260913-project-coordination",
+  "coordination_branch": "ops/project-coordination-20260913",
+  "request": {
+    "scope": "共通ルール適用のためのとりまとめ担当内準備・現状反映・保存・開始文提示",
+    "user_authorized_at_jst": "2026-10-08T16:52:14+09:00",
+    "cloud_report_received_at_jst": "2026-10-08T16:54:39+09:00",
+    "branch_origin_correction_at_jst": "2026-10-08T16:58:37+09:00"
+  },
+  "starting_reference_heads": {
+    "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+    "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+    "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+    "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+    "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+    "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+    "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+    "ops/project-coordination-20260913": "5c61d64a2b32831e3cab842064b91913993c08ab",
+    "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+    "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+  },
+  "github_verified": {
+    "own_start_commit": "5c61d64a2b32831e3cab842064b91913993c08ab",
+    "own_start_tree": "65d9e463471d096c2c0a1f303e4683436f8896d0",
+    "common_settings_path": "docs/作業資料/プロジェクト設定.md",
+    "common_settings_branch": "dev_design_tmp_assembly",
+    "common_settings_blob": "ae6c6a1fc843287ed64549f5c41133fb0d3eb6c7",
+    "common_settings_version": "2026-09-13",
+    "root_agents_absent_at": {
+      "coordination": "5c61d64a2b32831e3cab842064b91913993c08ab",
+      "common": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "application": "7211a605a04de36f9465fbae31979c4d6b0acf8f"
+    },
+    "root_agents_absence_scope": "確認した3枝のroot／とりまとめの全tree。Cloud内の未追跡・global・nestedは未確認。",
+    "work_branch_in_repository_branch_list": false,
+    "listed_branches_count": 12,
+    "main_plan_record_check": {
+      "source": "5c61d64a2b32831e3cab842064b91913993c08ab",
+      "count": 77,
+      "records": 77,
+      "mismatches": [],
+      "extra": [],
+      "note": "record照合。main実ファイル全77件の独立読戻しは今回未実施。"
+    },
+    "application_head": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "fixed_product_commit": "e480ef45c39c9e3398884931c3129b5500524fe3",
+    "actual_apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+    "fixed_apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+    "apps_tree_equal": true,
+    "application_code_and_new_tests_accepted": false,
+    "verification_note": "Main Work／Cloud手順／入力票を参考確認し、固定版とのapps tree一致を独立確認。新9コードの全文・全試験・新資料全体受領は今回の範囲外で未了。"
+  },
+  "cloud_user_report": {
+    "evidence_basis": "利用者から貼られたCloud報告本文。会話全文・97ファイルのZIP・実Cloud metadataの独立読戻しではない。",
+    "report_normalized_text": "**準備は不成立です。** 現在の通信方針がstate: unknownのため、ご指定の停止条件に従って通信・取得・準備を停止しました。\n\nenvironment_id: ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id: c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id: c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\nobservations_current: true\n通信方針: restricted／開始時・終了時ともunknown\n\nsnapshot.debian.orgは設定上の許可集合と起動時egress_rulesにありますが、現在のenforced状態は確認できません。配布元への通信試行は0回で、今回の403は未観測です。再開には、上記環境の適用状態がenforcedとして観測されることの確認が必要です。\n\n実repoはeckolo/crossweave、開始時checkoutは/workspace/crossweaveのwork枝、実HEADは90d7d8a88f4d8a791298588f5bc93aaae85258baでした。指定枝と基準SHAはローカルに存在せず、取得していません。固定本編のpath/blob・作業ファイル、候補9ファイル、fixture、NotoSansJP.ttfは未検証です。初期checkoutを保全し、前後のファイル・index・枝・HEAD・refsが不変であることを確認しました。\n\nOS／CPU／Python: Debian 13.6／AMD EPYC 9V74・x86_64／Python 3.12.14\nAPT: 元のsnapshot日時・3系列・署名設定を保持\n固定Godot／.NET: 未準備・hash未照合。既存Godot 4.6.3は使用せず\nnative: xauth 1:1.1.2-1.1、Mesa 25.0.7-2+deb13u1。Xvfb・glxinfoは不足\nGL／LLVMpipe: 未実行・未確認\nfont: OS書体一覧を記録。Yu Gothic UI／Georgiaは不在。本編fallbackとの比較は未了\n書込み範囲: /workspace・/tmp。HOME・CODEX_HOMEは保持\n\nrestore・build・import、UI mode、各回帰検査は開始していません。本編変更、新WorkID・枝・PR、他チャット操作、外部転送もありません。\n\n日本語報告全文: /workspace/scratch/cloud-preparation-evidence-20261008T073321Z/report-ja.txt\n証拠ZIP: /workspace/scratch/cloud-preparation-evidence-20261008T073321Z.zip\nZIPは97ファイル・71,719 bytesで、読取り検査済みです。",
+    "environment_id": "ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ",
+    "source_config_id": "c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5",
+    "source_config_version_id": "c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa",
+    "observations_current": true,
+    "network": {
+      "mode": "restricted",
+      "state_start": "unknown",
+      "state_end": "unknown",
+      "host_in_allow_set": "snapshot.debian.org",
+      "enforced_verified": false,
+      "outbound_distribution_attempts": 0,
+      "current_http_403_observed": false
+    },
+    "checkout": {
+      "repository": "eckolo/crossweave",
+      "path": "/workspace/crossweave",
+      "actual_branch": "work",
+      "actual_head": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "expected_branch_local": false,
+      "expected_commit_local": false,
+      "fetch_performed": false,
+      "source_verified": false
+    },
+    "branch_origin": {
+      "statement": "work枝はローカルマシン上のCodexエージェントが勝手に作ったもの",
+      "basis": "利用者の2026-10-08 16:58:37 JSTの明示報告",
+      "independent_creation_log_readback": false,
+      "disposition": "正式Work／作業枝へ採用せず、削除・改名・reset・強制Pushなしで保全"
+    },
+    "prepared": {
+      "fixed_godot": false,
+      "fixed_dotnet": false,
+      "xvfb": false,
+      "glxinfo": false,
+      "gl_llvmpipe_verified": false,
+      "restore": false,
+      "build": false,
+      "import": false,
+      "ui_mode": false,
+      "regression": false
+    },
+    "reported_evidence": {
+      "report_path": "/workspace/scratch/cloud-preparation-evidence-20261008T073321Z/report-ja.txt",
+      "zip_path": "/workspace/scratch/cloud-preparation-evidence-20261008T073321Z.zip",
+      "files": 97,
+      "bytes": 71719,
+      "independent_download": false,
+      "independent_readback": false
+    },
+    "assessment": "通信停止条件を維持。work枝と旧masterの基点を指定本編へ読み替えない。規則違反の発生と現在Cloudでの作成0回を区別。原因・Cloud側の許可設定操作は未特定。"
+  },
+  "status": {
+    "coordination_packet": "今回担当内の整理・反映案・開始文・保存／読戻しが完了条件",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "人CO-H17へ提示。送付／全文受領未確認",
+    "permanent_common_update": "既存運用CO-H18／C3へ提示。送付／反映未確認",
+    "application_rule_integration": "C3受領後CO-H19／C4。今は送付しない",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。"
+  },
+  "owners": {
+    "shared_project_settings": "20260909-work-routing／dev_design_tmp_assembly",
+    "root_agents_proposed_owner": "同じ共通運用担当の生成入口",
+    "coordination_packet": "20260913-project-coordination／ops/project-coordination-20260913",
+    "application_integration": "20260927-game-application／impl/m1-godot-application-20260927",
+    "cloud_environment_specialist": "20260926-runtime-delivery（基盤条件の必要な案のみ。今回新規並列実行なし）",
+    "human": [
+      "CO-H17（今Cloudへ直接貼付）",
+      "CO-H18（今既存運用へC3を受渡し）",
+      "CO-H19（C3受領後、本編窓口へC4）"
+    ]
+  },
+  "publication": {
+    "branch": "ops/project-coordination-20260913",
+    "commit_binding": "同一ファイルに自己SHAを埋めず、最終応答とGitHub履歴で実成果コミットを示す",
+    "force": false,
+    "master_main_updated": false
+  },
+  "limits": [
+    "sources/・ローカル未保存差分・他Work原本は変更しない",
+    "Cloud ZIP・ライブ会話・実enforcement・Cloud有効AGENTSの独立確認なし",
+    "正式仕様の変更なし",
+    "今回本編コード・配布物・Cloud設定操作・認証・通信試行・新ゲーム検査は0",
+    "過去の403・content空・404・tree未了・desktop停止・固定検査条件を保全"
+  ],
+  "versions": {
+    "full_and_generated_common": "20261008.1",
+    "co_cx01": "1.0",
+    "overall_plan": "0.40",
+    "work_plan": "0.40",
+    "human_tasks": "1.1",
+    "inventory": "0.37",
+    "open_items": "0.36",
+    "codex_operation": "0.4",
+    "codex_task_template": "0.3",
+    "d04b_ui02_coordination_instruction": "0.12"
+  }
+}
