@@ -112,9 +112,9 @@
   "status": {
     "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
     "co_cx01_overall": "未完了",
-    "direct_rule_handoff": "H17の1.1全文／1.0受領済み時の追補を提示。送付・全文／追補受領は未確認。",
-    "permanent_common_update": "H18/C3の1.1本文を提示。既存運用の送付・受領・原本反映は未確認。",
-    "application_rule_integration": "C3受領後CO-H19／C4。今は送付しない",
+    "direct_rule_handoff": "H17宛先は利用者指定リンクで確定。会話読取りAPI不成立により既送付・全文／追補受領・現在状態は未取得。保存済み本文を人が渡す。",
+    "permanent_common_update": "21:28指定により新規Work 20261008-codex-common-rulesへC3開始文を発行。Work・枝未作成、送付・受領・反映・範囲統合は未確認。",
+    "application_rule_integration": "新規C3 Workのdev_design_tmp_assembly統合済み成果をとりまとめが読戻し・受領した後にH19／C4を具体化。待機。",
     "cloud_network": "外部条件待ち・unknown",
     "cloud_source": "指定枝／固定本編未取得",
     "cloud_setup": "未完了",
@@ -134,10 +134,21 @@
     "application_integration": "20260927-game-application／impl/m1-godot-application-20260927",
     "cloud_environment_specialist": "20260926-runtime-delivery（基盤条件の必要な案のみ。今回新規並列実行なし）",
     "human": [
-      "CO-H17（今Cloudへ直接貼付）",
-      "CO-H18（今既存運用へC3を受渡し）",
-      "CO-H19（C3受領後、本編窓口へC4）"
-    ]
+      "CO-H17（指定Codex会話へ直接貼付）",
+      "CO-H18（新規Workへ指定文書の反映・範囲統合を依頼）",
+      "CO-H19（統合済みC3受領後、本編窓口へC4）"
+    ],
+    "c3_limited_delegate": {
+      "work_id": "20261008-codex-common-rules",
+      "name": "共通作業ルールの常設反映",
+      "branch": "ops/codex-common-rules-20261008",
+      "base_branch": "dev_design_tmp_assembly",
+      "integration_branch": "dev_design_tmp_assembly",
+      "integration_owner": "20261008-codex-common-rules",
+      "scope": "今回の指定文書だけ。共通運用全般の管理分担・設計・専門担当を保全",
+      "work_started": false,
+      "branch_created": false
+    }
   },
   "publication": {
     "branch": "ops/project-coordination-20260913",
@@ -154,15 +165,18 @@
   ],
   "versions": {
     "full_and_generated_common": "20261008.2",
-    "co_cx01": "1.1",
-    "overall_plan": "0.41",
-    "work_plan": "0.41",
-    "human_tasks": "1.2",
+    "co_cx01": "1.2",
+    "overall_plan": "0.42",
+    "work_plan": "0.42",
+    "human_tasks": "1.3",
     "inventory": "0.38",
     "open_items": "0.37",
     "codex_operation": "0.5",
     "codex_task_template": "0.4",
-    "d04b_ui02_coordination_instruction": "0.12"
+    "d04b_ui02_coordination_instruction": "0.12",
+    "cloud_handoff": "1.2",
+    "permanent_handoff": "1.2",
+    "c3_new_work_instruction": "1.0"
   },
   "versions_before_continuation": {
     "full_and_generated_common": "20261008.1",
@@ -717,5 +731,105 @@
       "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
     },
     "before_publication_heads_unchanged": true
+  },
+  "versions_before_dispatch_update": {
+    "full_and_generated_common": "20261008.2",
+    "co_cx01": "1.1",
+    "overall_plan": "0.41",
+    "work_plan": "0.41",
+    "human_tasks": "1.2",
+    "inventory": "0.38",
+    "open_items": "0.37",
+    "codex_operation": "0.5",
+    "codex_task_template": "0.4",
+    "d04b_ui02_coordination_instruction": "0.12"
+  },
+  "status_before_dispatch_update": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17の1.1全文／1.0受領済み時の追補を提示。送付・全文／追補受領は未確認。",
+    "permanent_common_update": "H18/C3の1.1本文を提示。既存運用の送付・受領・原本反映は未確認。",
+    "application_rule_integration": "C3受領後CO-H19／C4。今は送付しない",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。"
+  },
+  "dispatch_update_20261008": {
+    "user_direction_at_jst": "2026-10-08T21:28:23+09:00",
+    "base_coordination_commit": "95c0002b9e5fcc762827ae3f97d3fea8635e6533",
+    "base_coordination_parent": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+    "base_coordination_tree": "46ea84b7ff394f6b95443def26d288068a2ab6c1",
+    "h17": {
+      "uri": "codex://threads/01a11a6d-0e24-713e-b84d-002f612bc0a9?hostId=durable",
+      "thread_id": "01a11a6d-0e24-713e-b84d-002f612bc0a9",
+      "host_id": "durable",
+      "recipient_basis": "利用者の明示指定",
+      "title": null,
+      "read_thread_attempted": true,
+      "read_thread_returned_content": false,
+      "error": "Codex app tool request failed",
+      "sent": null,
+      "received": null,
+      "unknown_not_cleared": true,
+      "copy_body_unchanged": true
+    },
+    "h18": {
+      "work_id": "20261008-codex-common-rules",
+      "name": "共通作業ルールの常設反映",
+      "branch": "ops/codex-common-rules-20261008",
+      "new_work_required": true,
+      "reason": "横断計画から指定文書反映・保存・範囲統合を分離",
+      "base_reference_commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "branch_name_absent_in_checked_list": true,
+      "instruction_path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3_共通作業ルールの常設反映.md",
+      "instruction_version": "1.0",
+      "sync_order": [
+        "ops/project-coordination-20260913:docs/作業資料/とりまとめ/全体",
+        "dev_design_tmp_assembly:今回の共通運用原本"
+      ],
+      "integration_branch": "dev_design_tmp_assembly",
+      "integration_owner": "20261008-codex-common-rules",
+      "old_c3_preserved_as_history": true,
+      "work_created": false,
+      "branch_created": false,
+      "sent": null,
+      "received": null,
+      "original_updated": false,
+      "integrated": false
+    },
+    "h19": {
+      "waiting_for": "新規C3 Workの統合済み40桁成果コミット・全対象path/blobをとりまとめが読戻し・受領すること",
+      "sent": false
+    },
+    "terminology_policy": "用語・管理番号の定義と実際の会話名／リンクを別途示す。担当IDを会話の所在と同一視しない。",
+    "history_scope": "旧continuationと過去のpublicationは保存時点の記録として保全。現在の宛先・割当は本dispatch_updateを優先。",
+    "reference_heads": {
+      "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+      "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+      "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+      "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "ops/project-coordination-20260913": "95c0002b9e5fcc762827ae3f97d3fea8635e6533",
+      "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+      "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+    },
+    "publication": {
+      "scope": "自Work設定とdocs/作業資料/とりまとめ/のみ",
+      "force": false,
+      "self_sha_binding": "最終応答とGitHub履歴",
+      "readback_status": "保存後の全変更本文/blob・親/tree/HEADを最終応答とGitHub履歴で確認。本文内で未実施を成功扱いしない"
+    }
   }
 }
