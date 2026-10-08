@@ -110,7 +110,7 @@
     "assessment": "通信停止条件を維持。work枝と旧masterの基点を指定本編へ読み替えない。規則違反の発生と現在Cloudでの作成0回を区別。原因・Cloud側の許可設定操作は未特定。"
   },
   "status": {
-    "coordination_packet": "停止前16変更の独立保存照合は完了。今回追補は通常保存・全変更読戻し中。確認後C1完了を記録する。",
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
     "co_cx01_overall": "未完了",
     "direct_rule_handoff": "H17の1.1全文／1.0受領済み時の追補を提示。送付・全文／追補受領は未確認。",
     "permanent_common_update": "H18/C3の1.1本文を提示。既存運用の送付・受領・原本反映は未確認。",
@@ -544,11 +544,155 @@
       "cloud_error_same_cause_claimed": false
     },
     "publication": {
-      "status": "追補保存・全変更読戻しが未完了。終了前に実値を記録する。",
+      "status": "C1追補を同枝へ通常FF保存し、15変更全文/blob・親/tree/HEADの読戻しは全一致。完了記録コミットの最終読戻しと自己SHAは最終応答／GitHub履歴。",
       "force": false,
       "scope": "自Work設定とdocs/作業資料/とりまとめ/のみ",
       "self_sha_binding": "本ファイルの自己SHAは最終応答とGitHub履歴で示す",
-      "payload_commit": null
+      "payload_commit": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+      "payload_parent": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+      "payload_tree": "14b63d8aa3971bac731cc099aabca02b29f016a1",
+      "head_after_payload": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+      "payload_readback": {
+        "commit": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+        "parent": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+        "tree": "14b63d8aa3971bac731cc099aabca02b29f016a1",
+        "head": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+        "tree_objects_verified": 62,
+        "scope_only": true,
+        "all_changes_exact": true,
+        "other_heads_unchanged": true,
+        "files": [
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+            "blob": "0d4fe65b7bd470a68f5da186e94dcff6ab8aa0da",
+            "bytes": 29432,
+            "calculated_blob": "0d4fe65b7bd470a68f5da186e94dcff6ab8aa0da",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md",
+            "blob": "04b71540894b64a5cb6c6290e99d2a43309d6af5",
+            "bytes": 25339,
+            "calculated_blob": "04b71540894b64a5cb6c6290e99d2a43309d6af5",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+            "blob": "58e12d343f067dc078379a6126ff669ae082a11c",
+            "bytes": 33995,
+            "calculated_blob": "58e12d343f067dc078379a6126ff669ae082a11c",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+            "blob": "4200bc4f127c47ca233d5a887b49cf1177490a19",
+            "bytes": 10392,
+            "calculated_blob": "4200bc4f127c47ca233d5a887b49cf1177490a19",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/Work/20260913-project-coordination.md",
+            "blob": "d01848939a25aa41b2f8f1e2d24ff3be962ef601",
+            "bytes": 144510,
+            "calculated_blob": "d01848939a25aa41b2f8f1e2d24ff3be962ef601",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/全体計画.md",
+            "blob": "ea81989cdcaff8e93dd58c95ebb26365dfd0f576",
+            "bytes": 46851,
+            "calculated_blob": "ea81989cdcaff8e93dd58c95ebb26365dfd0f576",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+            "blob": "e4d65009d859a2b08a15882047487755c2d38adc",
+            "bytes": 61055,
+            "calculated_blob": "e4d65009d859a2b08a15882047487755c2d38adc",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+            "blob": "854be4a60aa5b40236f25c235132c4d3f08a0a00",
+            "bytes": 37270,
+            "calculated_blob": "854be4a60aa5b40236f25c235132c4d3f08a0a00",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+            "blob": "0ccd5fd5d55742f18c766f981505c77f293997a5",
+            "bytes": 8387,
+            "calculated_blob": "0ccd5fd5d55742f18c766f981505c77f293997a5",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/現状棚卸し.md",
+            "blob": "a7f54eea30ef6926303725fef3a8769ea8d06fdb",
+            "bytes": 123529,
+            "calculated_blob": "a7f54eea30ef6926303725fef3a8769ea8d06fdb",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+            "blob": "0aa13304cec99bf32630c525ae5be440a6ad8d9e",
+            "bytes": 20181,
+            "calculated_blob": "0aa13304cec99bf32630c525ae5be440a6ad8d9e",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/運用検討.md",
+            "blob": "8bbbb0963f30fee18c43b4ef1d9da45807ccf24f",
+            "bytes": 31423,
+            "calculated_blob": "8bbbb0963f30fee18c43b4ef1d9da45807ccf24f",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md",
+            "blob": "d1ed3d2286dd756b0754bb4c2a818b0d9b94d122",
+            "bytes": 15560,
+            "calculated_blob": "d1ed3d2286dd756b0754bb4c2a818b0d9b94d122",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+            "blob": "61d77abe1c8dd73aa96d6c00b409d92171af79a6",
+            "bytes": 7312,
+            "calculated_blob": "61d77abe1c8dd73aa96d6c00b409d92171af79a6",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+            "blob": "60f3b0c81c48b8704ccc20562b59e70a678d9221",
+            "bytes": 29816,
+            "calculated_blob": "60f3b0c81c48b8704ccc20562b59e70a678d9221",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          }
+        ]
+      },
+      "c1_owner_scope_complete": true,
+      "closure_direct_update_paths": [
+        "docs/作業資料/Work/20260913-project-coordination.md",
+        "docs/作業資料/とりまとめ/全体計画.md",
+        "docs/作業資料/とりまとめ/Work別実施計画.md",
+        "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+        "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+        "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json"
+      ]
     },
     "tasks": {
       "h17": "現在のCloudへ1.1全文を一度。旧1.0送付／受領の根拠があれば追補だけ。送付／受領未確認。",
