@@ -1,0 +1,61 @@
+# Work設定：20261008-codex-common-rules — 共通作業ルールの常設反映
+
+今回の依頼全体：未完了。現在の状態：進行中。
+親タスク：CO-CX01 C3。人の受け渡し番号：H18。
+開始指示をこの会話で受領した。共通原本反映・自枝保存・範囲統合・読戻し・提出までが今回の依頼であり、途中登録だけで完了にしない。
+
+## 開始設定（2026-10-08、日本時間）
+
+| 項目 | 設定 |
+|---|---|
+| WorkID・目的 | `20261008-codex-common-rules`。保存済み共通運用規則1.1／20261008.2とAGENTS反映案を常設原本へ反映する。全文・過去成果は作り直さない |
+| 1. 作業ブランチ | `ops/codex-common-rules-20261008`。開始時最新の設計集約HEAD `21ddd349b6bec69ecac6d9db288c537553dab860`から新設 |
+| 2. 必須同期元・順序 | ① `ops/project-coordination-20260913`の`docs/作業資料/とりまとめ/`全体 → ② `dev_design_tmp_assembly`の今回の共通運用原本 |
+| 2系統の理由 | 最新の割当と反映先原本を揃えるため。計画は範囲実同期、原本は開始分岐と本文照合。元枝全体はマージしない |
+| 3. 成果の統合先・担当 | `dev_design_tmp_assembly`へ今回の許可範囲だけを本Workが範囲統合。最新HEADを親に通常の非force更新を行う。とりまとめによる成果受領は別 |
+| 4. 共通文書担当と直接更新 | `docs/作業資料/プロジェクト設定.md`の現行本文・改訂記録、root `AGENTS.md`、本Work設定、計画同期コピー、自Work同期JSON、`Work分担.md`の自Work登録行だけ |
+| 担当の維持 | 共通運用全般は`20260909-work-routing`／設計集約枝、計画原本は`20260913-project-coordination`／計画枝。今回の限定委任で管理分担・設計・専門担当を変更しない |
+| 更新対象外 | 他Workの割当・設定、`sources/`、ゲームコード、UI原本、固定入力、通常セーブ、配布物、Cloud環境設定、master/main、公開範囲 |
+| 固定提出／最新計画 | `f7fb2773fe82045dfe23bb3f5d9d21c6243be542`。開始時の計画HEADと固定提出が一致。計画・Work別計画0.42、C3指示1.0、親指示・常設引継ぎ1.2 |
+| 開始時の自枝HEAD | `21ddd349b6bec69ecac6d9db288c537553dab860`。GitHubで新設直後のrefを読戻し、分岐元と一致 |
+| 原本確認後の再照合 | 計画HEAD `f7fb2773fe82045dfe23bb3f5d9d21c6243be542`、設計集約HEAD `21ddd349b6bec69ecac6d9db288c537553dab860`を再取得。開始値と同一 |
+| 計画同期記録 | `docs/作業資料/計画同期/20261008-codex-common-rules.json`。最新全85ファイルのpath/blobと元40桁SHA、対象subtreeを記録して実ファイル同期 |
+| 設定・引継ぎ保存先 | 作業枝の`docs/作業資料/Work/20261008-codex-common-rules.md`。登録索引の集約先は`dev_design_tmp_assembly:docs/作業資料/Work分担.md` |
+| 検証・試遊 | ゲーム試験はなし。本文・生成元・変更範囲・Git保存読戻しを確認する。Cloud準備・検査は再開しない |
+
+## 出所と受領
+
+固定提出と開始時最新計画の6資料を受領した。旧C3「既存Work・枝で継続」は履歴とし、今回の新規Work指定を優先する。
+
+| 生成元・指示／参照path | 元コミット | blob |
+|---|---|---|
+| docs/作業資料/とりまとめ/着手指示/CO-CX01_C3_共通作業ルールの常設反映.md | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | ba0c295c219965ead6ca75026a852f575fd9ceae |
+| docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | 96f2d2e351b548656443785cc34984049a3305f4 |
+| docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | 9beca7fb234d06b28e6735d23942dcb99e751bd6 |
+| docs/作業資料/とりまとめ/Codex導入/共通運用規則.md | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | 0d4fe65b7bd470a68f5da186e94dcff6ab8aa0da |
+| docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | 04b71540894b64a5cb6c6290e99d2a43309d6af5 |
+| docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json | f7fb2773fe82045dfe23bb3f5d9d21c6243be542 | 9d1cce6f7e22afb51df3b77edfb8581284015e3d |
+| docs/作業資料/プロジェクト設定.md（反映前原本） | 21ddd349b6bec69ecac6d9db288c537553dab860 | ae6c6a1fc843287ed64549f5c41133fb0d3eb6c7 |
+| docs/作業資料/Work/20260909-work-routing.md（既存管理担当） | 21ddd349b6bec69ecac6d9db288c537553dab860 | 0a856f2e1433cff9faa2678c2a27d41cd050626d |
+
+共通指示の全文は24,120 bytes、AGENTS反映案は25,339 bytes（UTF-8）。両者の共通本文は完全一致、元blobを本文から独立再計算して一致確認した。元の手順不成立・迂回策規定全文と2026-10-08のGitHub取得試行の補足を両方維持する。
+README全文と基本設計0.59・要検討事項の担当確認に必要な冒頭、最新計画の現在割当と完了報告／引継ぎ規則1.5、計画同期手順1.9を読んだ。ゲーム仕様・旧成果の再実施は追加しない。
+
+## 実作業の窓口と保全
+
+- 実作業窓口：同じGitHubプラグイン。repoは`eckolo/crossweave`、期待refと実refを個別取得して一致確認した。既存ローカル作業コピー、他Workの枝やコピーは転用しない。
+- 指定同名枝は開始時のGit matching-refsで一致なし。その後指定の設計集約コミットから新設し、refを読戻した。API側の本Work開始時に既存差分はない。
+- ローカルcheckout・index・refs・未保存差分・global／未追跡AGENTSは未観測。端末起動は2回とも、コマンド実行前に`helper_unknown_error: setup refresh had errors`で失敗。非対話モードの最小コマンドでも同じ結果であり、起動側のsetup処理が原因候補。内部の確定原因は未確認。
+- 同じホストのファイル確認APIは実行承認が必要だが承認方針neverのため実行されなかった。権限・通信・認証・Cloud設定は変更しない。既存ローカル差分は操作せず保全し、ローカル不明を「差分なし」「読込済み」としない。
+- GitHubの最新ref・固定SHAの本文・全recursive treeの取得は成立した。今回のGitHub保存・統合は当初から許可された範囲で進め、ローカル実読込確認は未確認として別記する。
+- 設計集約の全tree 907要素はtruncated=false。root／nested `AGENTS.md`・`AGENTS.override.md`の追跡ファイルは0件。ローカル・Cloudのglobal、未追跡、設定されたfallback・上限等の不存在は未確認。
+- Git保存とCodexの自動読込は別。今回の直接指示の受領とAPIによる全文読了を、常設AGENTSの開始時自動読込や全窓口適用の確認へ拡大しない。
+
+## 今回の終了条件と後続
+
+1. Work登録と計画85ファイルの実同期、全path/blob記録。
+2. 原本の現行本文を保存済み共通全文へ反映し、既存履歴・無関係の節を保全。root AGENTSは保存済み反映案から生成し、完全一致を確認。
+3. 自枝と統合先の成果40桁SHA、全変更本文/blob、親/tree/HEADの読戻し。更新範囲外のpath/blobの不変を確認。
+4. 本Workのとりまとめ引継ぎを保存・提示し、原本と生成版の一致、実読込の確認範囲、未確認・残件・次担当／再開条件を区別。
+
+とりまとめ`20260913-project-coordination`がC3成果を読戻し・受領するまでH19／C4は待機。H17の受領結果を待つ必要はないが、Cloud通信unknown・source・準備／検査停止を解除しない。別会話への送信・起動・停止はしない。

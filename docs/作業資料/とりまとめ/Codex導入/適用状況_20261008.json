@@ -1,0 +1,918 @@
+{
+  "schema_version": 1,
+  "task_id": "CO-CX01",
+  "date_jst": "2026-10-08",
+  "coordination_work_id": "20260913-project-coordination",
+  "coordination_branch": "ops/project-coordination-20260913",
+  "request": {
+    "scope": "共通ルール適用のためのとりまとめ担当内準備・現状反映・保存・開始文提示",
+    "user_authorized_at_jst": "2026-10-08T16:52:14+09:00",
+    "cloud_report_received_at_jst": "2026-10-08T16:54:39+09:00",
+    "branch_origin_correction_at_jst": "2026-10-08T16:58:37+09:00"
+  },
+  "starting_reference_heads": {
+    "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+    "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+    "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+    "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+    "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+    "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+    "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+    "ops/project-coordination-20260913": "5c61d64a2b32831e3cab842064b91913993c08ab",
+    "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+    "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+  },
+  "github_verified": {
+    "own_start_commit": "5c61d64a2b32831e3cab842064b91913993c08ab",
+    "own_start_tree": "65d9e463471d096c2c0a1f303e4683436f8896d0",
+    "common_settings_path": "docs/作業資料/プロジェクト設定.md",
+    "common_settings_branch": "dev_design_tmp_assembly",
+    "common_settings_blob": "ae6c6a1fc843287ed64549f5c41133fb0d3eb6c7",
+    "common_settings_version": "2026-09-13",
+    "root_agents_absent_at": {
+      "coordination": "5c61d64a2b32831e3cab842064b91913993c08ab",
+      "common": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "application": "7211a605a04de36f9465fbae31979c4d6b0acf8f"
+    },
+    "root_agents_absence_scope": "確認した3枝のroot／とりまとめの全tree。Cloud内の未追跡・global・nestedは未確認。",
+    "work_branch_in_repository_branch_list": false,
+    "listed_branches_count": 12,
+    "main_plan_record_check": {
+      "source": "5c61d64a2b32831e3cab842064b91913993c08ab",
+      "count": 77,
+      "records": 77,
+      "mismatches": [],
+      "extra": [],
+      "note": "record照合。main実ファイル全77件の独立読戻しは今回未実施。"
+    },
+    "application_head": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "fixed_product_commit": "e480ef45c39c9e3398884931c3129b5500524fe3",
+    "actual_apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+    "fixed_apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+    "apps_tree_equal": true,
+    "application_code_and_new_tests_accepted": false,
+    "verification_note": "Main Work／Cloud手順／入力票を参考確認し、固定版とのapps tree一致を独立確認。新9コードの全文・全試験・新資料全体受領は今回の範囲外で未了。"
+  },
+  "cloud_user_report": {
+    "evidence_basis": "利用者から貼られたCloud報告本文。会話全文・97ファイルのZIP・実Cloud metadataの独立読戻しではない。",
+    "report_normalized_text": "**準備は不成立です。** 現在の通信方針がstate: unknownのため、ご指定の停止条件に従って通信・取得・準備を停止しました。\n\nenvironment_id: ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id: c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id: c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\nobservations_current: true\n通信方針: restricted／開始時・終了時ともunknown\n\nsnapshot.debian.orgは設定上の許可集合と起動時egress_rulesにありますが、現在のenforced状態は確認できません。配布元への通信試行は0回で、今回の403は未観測です。再開には、上記環境の適用状態がenforcedとして観測されることの確認が必要です。\n\n実repoはeckolo/crossweave、開始時checkoutは/workspace/crossweaveのwork枝、実HEADは90d7d8a88f4d8a791298588f5bc93aaae85258baでした。指定枝と基準SHAはローカルに存在せず、取得していません。固定本編のpath/blob・作業ファイル、候補9ファイル、fixture、NotoSansJP.ttfは未検証です。初期checkoutを保全し、前後のファイル・index・枝・HEAD・refsが不変であることを確認しました。\n\nOS／CPU／Python: Debian 13.6／AMD EPYC 9V74・x86_64／Python 3.12.14\nAPT: 元のsnapshot日時・3系列・署名設定を保持\n固定Godot／.NET: 未準備・hash未照合。既存Godot 4.6.3は使用せず\nnative: xauth 1:1.1.2-1.1、Mesa 25.0.7-2+deb13u1。Xvfb・glxinfoは不足\nGL／LLVMpipe: 未実行・未確認\nfont: OS書体一覧を記録。Yu Gothic UI／Georgiaは不在。本編fallbackとの比較は未了\n書込み範囲: /workspace・/tmp。HOME・CODEX_HOMEは保持\n\nrestore・build・import、UI mode、各回帰検査は開始していません。本編変更、新WorkID・枝・PR、他チャット操作、外部転送もありません。\n\n日本語報告全文: /workspace/scratch/cloud-preparation-evidence-20261008T073321Z/report-ja.txt\n証拠ZIP: /workspace/scratch/cloud-preparation-evidence-20261008T073321Z.zip\nZIPは97ファイル・71,719 bytesで、読取り検査済みです。",
+    "environment_id": "ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ",
+    "source_config_id": "c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5",
+    "source_config_version_id": "c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa",
+    "observations_current": true,
+    "network": {
+      "mode": "restricted",
+      "state_start": "unknown",
+      "state_end": "unknown",
+      "host_in_allow_set": "snapshot.debian.org",
+      "enforced_verified": false,
+      "outbound_distribution_attempts": 0,
+      "current_http_403_observed": false
+    },
+    "checkout": {
+      "repository": "eckolo/crossweave",
+      "path": "/workspace/crossweave",
+      "actual_branch": "work",
+      "actual_head": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "expected_branch_local": false,
+      "expected_commit_local": false,
+      "fetch_performed": false,
+      "source_verified": false
+    },
+    "branch_origin": {
+      "statement": "work枝はローカルマシン上のCodexエージェントが勝手に作ったもの",
+      "basis": "利用者の2026-10-08 16:58:37 JSTの明示報告",
+      "independent_creation_log_readback": false,
+      "disposition": "正式Work／作業枝へ採用せず、削除・改名・reset・強制Pushなしで保全"
+    },
+    "prepared": {
+      "fixed_godot": false,
+      "fixed_dotnet": false,
+      "xvfb": false,
+      "glxinfo": false,
+      "gl_llvmpipe_verified": false,
+      "restore": false,
+      "build": false,
+      "import": false,
+      "ui_mode": false,
+      "regression": false
+    },
+    "reported_evidence": {
+      "report_path": "/workspace/scratch/cloud-preparation-evidence-20261008T073321Z/report-ja.txt",
+      "zip_path": "/workspace/scratch/cloud-preparation-evidence-20261008T073321Z.zip",
+      "files": 97,
+      "bytes": 71719,
+      "independent_download": false,
+      "independent_readback": false
+    },
+    "assessment": "通信停止条件を維持。work枝と旧masterの基点を指定本編へ読み替えない。規則違反の発生と現在Cloudでの作成0回を区別。原因・Cloud側の許可設定操作は未特定。"
+  },
+  "status": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17宛先は利用者指定リンクで確定。会話読取りAPI不成立により既送付・全文／追補受領・現在状態は未取得。保存済み本文を人が渡す。",
+    "permanent_common_update": "21:28指定により新規Work 20261008-codex-common-rulesへC3開始文を発行。Work・枝未作成、送付・受領・反映・範囲統合は未確認。",
+    "application_rule_integration": "新規C3 Workのdev_design_tmp_assembly統合済み成果をとりまとめが読戻し・受領した後にH19／C4を具体化。待機。",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。"
+  },
+  "owners": {
+    "shared_project_settings": "20260909-work-routing／dev_design_tmp_assembly",
+    "root_agents_proposed_owner": "同じ共通運用担当の生成入口",
+    "coordination_packet": "20260913-project-coordination／ops/project-coordination-20260913",
+    "application_integration": "20260927-game-application／impl/m1-godot-application-20260927",
+    "cloud_environment_specialist": "20260926-runtime-delivery（基盤条件の必要な案のみ。今回新規並列実行なし）",
+    "human": [
+      "CO-H17（指定Codex会話へ直接貼付）",
+      "CO-H18（新規Workへ指定文書の反映・範囲統合を依頼）",
+      "CO-H19（統合済みC3受領後、本編窓口へC4）"
+    ],
+    "c3_limited_delegate": {
+      "work_id": "20261008-codex-common-rules",
+      "name": "共通作業ルールの常設反映",
+      "branch": "ops/codex-common-rules-20261008",
+      "base_branch": "dev_design_tmp_assembly",
+      "integration_branch": "dev_design_tmp_assembly",
+      "integration_owner": "20261008-codex-common-rules",
+      "scope": "今回の指定文書だけ。共通運用全般の管理分担・設計・専門担当を保全",
+      "work_started": false,
+      "branch_created": false
+    }
+  },
+  "publication": {
+    "branch": "ops/project-coordination-20260913",
+    "commit_binding": "同一ファイルに自己SHAを埋めず、最終応答とGitHub履歴で実成果コミットを示す",
+    "force": false,
+    "master_main_updated": false
+  },
+  "limits": [
+    "sources/・ローカル未保存差分・他Work原本は変更しない",
+    "Cloud ZIP・ライブ会話・実enforcement・Cloud有効AGENTSの独立確認なし",
+    "正式仕様の変更なし",
+    "今回本編コード・配布物・Cloud設定操作・認証・通信試行・新ゲーム検査は0",
+    "過去の403・content空・404・tree未了・desktop停止・固定検査条件を保全"
+  ],
+  "versions": {
+    "full_and_generated_common": "20261008.2",
+    "co_cx01": "1.2",
+    "overall_plan": "0.42",
+    "work_plan": "0.42",
+    "human_tasks": "1.3",
+    "inventory": "0.38",
+    "open_items": "0.37",
+    "codex_operation": "0.5",
+    "codex_task_template": "0.4",
+    "d04b_ui02_coordination_instruction": "0.12",
+    "cloud_handoff": "1.2",
+    "permanent_handoff": "1.2",
+    "c3_new_work_instruction": "1.0"
+  },
+  "versions_before_continuation": {
+    "full_and_generated_common": "20261008.1",
+    "co_cx01": "1.0",
+    "overall_plan": "0.40",
+    "work_plan": "0.40",
+    "human_tasks": "1.1",
+    "inventory": "0.37",
+    "open_items": "0.36",
+    "codex_operation": "0.4",
+    "codex_task_template": "0.3",
+    "d04b_ui02_coordination_instruction": "0.12"
+  },
+  "status_before_continuation": {
+    "coordination_packet": "今回担当内の整理・反映案・開始文・保存／読戻しが完了条件",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "人CO-H17へ提示。送付／全文受領未確認",
+    "permanent_common_update": "既存運用CO-H18／C3へ提示。送付／反映未確認",
+    "application_rule_integration": "C3受領後CO-H19／C4。今は送付しない",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。"
+  },
+  "continuation": {
+    "date_jst": "2026-10-08",
+    "request_basis": "利用者が2026-10-08 19:49 JSTに提示した同一Work引き継ぎ指示",
+    "work_id": "20260913-project-coordination",
+    "branch": "ops/project-coordination-20260913",
+    "new_formal_work": false,
+    "new_branch": false,
+    "required_sync_sources": [],
+    "original_publication": {
+      "sha": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+      "parent": "5c61d64a2b32831e3cab842064b91913993c08ab",
+      "tree": "c7aca705194e7c32835f1d384bf3040e1c9551f9",
+      "message": "Codex共通規則の全文受渡しとCloud開始条件・人タスクを整理",
+      "date_jst": "2026-10-08T17:40:20+09:00",
+      "branch_head_at_start": true
+    },
+    "independent_original_readback": {
+      "result": "全変更16全文/blob・親/root tree/HEADと親差分一致",
+      "body_method": "固定SHA path本文とfetch_blob全文の完全一致、UTF-8 Git blob SHA-1の独立再計算",
+      "tree_method": "Git recursive treeの全直接要素からroot・各subtreeを再計算。無関係blobの内容再取得をしたものではない。",
+      "recursive_truncated": false,
+      "tree_objects_verified": 124,
+      "changed_blobs": [
+        {
+          "path": "docs/作業資料/Work/20260913-project-coordination.md",
+          "old": "94034adf151cbe779bbc6c93fa93c8dbfb473b37",
+          "new": "2e0d88929a796a960ef0baf9df9ab9812ca24b97",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md",
+          "old": null,
+          "new": "e370f785c268f21a66b34850f8f3b7b5f835e3c8",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md",
+          "old": "490fe6e4c597e01ad2bc3ef86a3ca60e9463a61c",
+          "new": "9251bccd298f88f379ce3c902b83dd05a0c066ce",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+          "old": null,
+          "new": "4ac1a88222a827a049d7511c943e8a1e4ba26d44",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md",
+          "old": "656b33b71218e930acb8e88b17ebdfc39b66df8b",
+          "new": "e72826c4a8e034bb43c190d50177734cf1e93fb2",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+          "old": null,
+          "new": "7fe36da4a80e2a59200ddc1763be7e77239dbe52",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+          "old": null,
+          "new": "6284db92bd9b0d70653a34b635869a7d7d74f7d3",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/運用検討.md",
+          "old": "1814ce3b385a4d1e2dfe6dff90570fce4ab20543",
+          "new": "aa1219be7da0bb2ee8dba4f45ff7f09b5a3d1885",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+          "old": null,
+          "new": "13b2f7ec28aab51016d143c4a15c18a5965df21c",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+          "old": "ba89b160543ead27c96f3111ce76d84e25c9122e",
+          "new": "47fe93b95e37ef40731a821c14481b506914e21b",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+          "old": "bf5a864defc21dc7a9273e0a8dfcc79224983bff",
+          "new": "b9b047caddee2a13f82f473913f11b09d53c99eb",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+          "old": "92c78a4fb0bd25d657973a059643a716c30cc466",
+          "new": "b5152416d296555bb655ccb3fa010ac3a83104fb",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/全体計画.md",
+          "old": "1aa325bf341b4128bdda36dce623a6a0d684b83b",
+          "new": "f1b4a77157c13a1d73906e8874cc279b3c51543e",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/現状棚卸し.md",
+          "old": "29489e3bf1cd524c1a01a58ab3a294c9084e144b",
+          "new": "e0174f918cdc78204d45c68836678373e66a6174",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+          "old": null,
+          "new": "32618d9b3f340e60fed285495a7a03a6203133ed",
+          "mode": "100644"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+          "old": "0500139ebae0287e2b93a55f25f7b36f1c96476a",
+          "new": "fb5782eef5f2567bb885469c433795883a763644",
+          "mode": "100644"
+        }
+      ],
+      "files": [
+        {
+          "path": "docs/作業資料/Work/20260913-project-coordination.md",
+          "blob": "2e0d88929a796a960ef0baf9df9ab9812ca24b97",
+          "bytes": 140736,
+          "calculated_blob": "2e0d88929a796a960ef0baf9df9ab9812ca24b97",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md",
+          "blob": "e370f785c268f21a66b34850f8f3b7b5f835e3c8",
+          "bytes": 23611,
+          "calculated_blob": "e370f785c268f21a66b34850f8f3b7b5f835e3c8",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md",
+          "blob": "9251bccd298f88f379ce3c902b83dd05a0c066ce",
+          "bytes": 7019,
+          "calculated_blob": "9251bccd298f88f379ce3c902b83dd05a0c066ce",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+          "blob": "4ac1a88222a827a049d7511c943e8a1e4ba26d44",
+          "bytes": 29101,
+          "calculated_blob": "4ac1a88222a827a049d7511c943e8a1e4ba26d44",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md",
+          "blob": "e72826c4a8e034bb43c190d50177734cf1e93fb2",
+          "bytes": 14921,
+          "calculated_blob": "e72826c4a8e034bb43c190d50177734cf1e93fb2",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+          "blob": "7fe36da4a80e2a59200ddc1763be7e77239dbe52",
+          "bytes": 26020,
+          "calculated_blob": "7fe36da4a80e2a59200ddc1763be7e77239dbe52",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+          "blob": "6284db92bd9b0d70653a34b635869a7d7d74f7d3",
+          "bytes": 9189,
+          "calculated_blob": "6284db92bd9b0d70653a34b635869a7d7d74f7d3",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/運用検討.md",
+          "blob": "aa1219be7da0bb2ee8dba4f45ff7f09b5a3d1885",
+          "bytes": 30784,
+          "calculated_blob": "aa1219be7da0bb2ee8dba4f45ff7f09b5a3d1885",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+          "blob": "13b2f7ec28aab51016d143c4a15c18a5965df21c",
+          "bytes": 10699,
+          "calculated_blob": "13b2f7ec28aab51016d143c4a15c18a5965df21c",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+          "blob": "47fe93b95e37ef40731a821c14481b506914e21b",
+          "bytes": 59889,
+          "calculated_blob": "47fe93b95e37ef40731a821c14481b506914e21b",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+          "blob": "b9b047caddee2a13f82f473913f11b09d53c99eb",
+          "bytes": 36416,
+          "calculated_blob": "b9b047caddee2a13f82f473913f11b09d53c99eb",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+          "blob": "b5152416d296555bb655ccb3fa010ac3a83104fb",
+          "bytes": 19463,
+          "calculated_blob": "b5152416d296555bb655ccb3fa010ac3a83104fb",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/全体計画.md",
+          "blob": "f1b4a77157c13a1d73906e8874cc279b3c51543e",
+          "bytes": 45376,
+          "calculated_blob": "f1b4a77157c13a1d73906e8874cc279b3c51543e",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/現状棚卸し.md",
+          "blob": "e0174f918cdc78204d45c68836678373e66a6174",
+          "bytes": 122811,
+          "calculated_blob": "e0174f918cdc78204d45c68836678373e66a6174",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+          "blob": "32618d9b3f340e60fed285495a7a03a6203133ed",
+          "bytes": 7004,
+          "calculated_blob": "32618d9b3f340e60fed285495a7a03a6203133ed",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+          "blob": "fb5782eef5f2567bb885469c433795883a763644",
+          "bytes": 69368,
+          "calculated_blob": "fb5782eef5f2567bb885469c433795883a763644",
+          "hash_match": true,
+          "path_content_match": true,
+          "path_comparison_mode": "exact-utf8-text"
+        }
+      ],
+      "scope_only": true,
+      "previous_agent_final_readback_verified": false,
+      "previous_conversation_final_submission_verified": false
+    },
+    "starting_reference_heads": {
+      "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+      "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+      "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+      "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "ops/project-coordination-20260913": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+      "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+      "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+    },
+    "permanent_original_reference": {
+      "commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "tree": "faff3ea0abdd1d9d3d846fa54c9872b8cc17f659",
+      "settings_blob": "ae6c6a1fc843287ed64549f5c41133fb0d3eb6c7",
+      "root_agents_present": false,
+      "owners_checked": true,
+      "index_change_needed": false
+    },
+    "application_reference": {
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "tree": "678268718b176be7a2cce16710e8063838db65f7",
+      "apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+      "root_agents_present": false,
+      "accepts_new_code_or_tests": false
+    },
+    "acquisition_addendum": {
+      "common_rules_version": "20261008.2",
+      "allowed": "同じGitHubプラグイン・同じ対象の読み取りAPI切替、一覧照合、必要なページ送り。仕様を確認して進め、逐一承認不要。",
+      "excluded": [
+        "GitHub画面のWebブラウザー閲覧",
+        "取得障害診断のための更新API",
+        "別サービス・別認証経路",
+        "別資料・固定入力での代用",
+        "必要な確認・完了条件の省略",
+        "Cloudのunknown解除・source切替・依存導入"
+      ],
+      "previous_failure_basis": "引き継ぎ資料に示された個別branch取得のinvalid repository path。今回再現試行なし。",
+      "cause": "内部原因未確定",
+      "successful_method": "GET /repos/eckolo/crossweave/branches?per_page=100。name完全一致でcommit.sha取得、一覧12件。",
+      "rationale": "同じ接続で一覧と固定SHA本文取得が成立している事実が成算の根拠。不存在・認証失敗・全体障害を示さない。",
+      "out_of_scope_proposals_require": [
+        "観測結果",
+        "原因候補と根拠",
+        "未確定点",
+        "変更手段・対象・条件",
+        "成算がある理由",
+        "影響範囲",
+        "実施済み・停止作業"
+      ],
+      "cause_candidates": [
+        {
+          "candidate": "個別ブランチ取得URLのrepository path検証・解釈の不整合",
+          "basis": "invalid repository pathのエラーと、同repo・接続で一覧／固定SHA本文は成立",
+          "confirmed": false
+        }
+      ]
+    },
+    "common_rules_consistency": {
+      "original_full_text_preserved": true,
+      "common_bytes": 24120,
+      "generated_agents_bytes": 25339,
+      "common_agents_cloud_identical": true,
+      "permanent_root_or_settings_modified_here": false,
+      "effective_cloud_agents_verified": false
+    },
+    "local_limits": {
+      "exec_failed_before_command": true,
+      "error": "helper_unknown_error: setup refresh had errors",
+      "old_unsaved_changes": "未取得・不明",
+      "current_unsaved_changes": "未取得・不明",
+      "not_proven_absent_or_saved": true,
+      "sources_modified": false,
+      "other_work_copies_modified": false,
+      "cloud_error_same_cause_claimed": false
+    },
+    "publication": {
+      "status": "C1追補を同枝へ通常FF保存し、15変更全文/blob・親/tree/HEADの読戻しは全一致。完了記録コミットの最終読戻しと自己SHAは最終応答／GitHub履歴。",
+      "force": false,
+      "scope": "自Work設定とdocs/作業資料/とりまとめ/のみ",
+      "self_sha_binding": "本ファイルの自己SHAは最終応答とGitHub履歴で示す",
+      "payload_commit": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+      "payload_parent": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+      "payload_tree": "14b63d8aa3971bac731cc099aabca02b29f016a1",
+      "head_after_payload": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+      "payload_readback": {
+        "commit": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+        "parent": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+        "tree": "14b63d8aa3971bac731cc099aabca02b29f016a1",
+        "head": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+        "tree_objects_verified": 62,
+        "scope_only": true,
+        "all_changes_exact": true,
+        "other_heads_unchanged": true,
+        "files": [
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+            "blob": "0d4fe65b7bd470a68f5da186e94dcff6ab8aa0da",
+            "bytes": 29432,
+            "calculated_blob": "0d4fe65b7bd470a68f5da186e94dcff6ab8aa0da",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md",
+            "blob": "04b71540894b64a5cb6c6290e99d2a43309d6af5",
+            "bytes": 25339,
+            "calculated_blob": "04b71540894b64a5cb6c6290e99d2a43309d6af5",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+            "blob": "58e12d343f067dc078379a6126ff669ae082a11c",
+            "bytes": 33995,
+            "calculated_blob": "58e12d343f067dc078379a6126ff669ae082a11c",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+            "blob": "4200bc4f127c47ca233d5a887b49cf1177490a19",
+            "bytes": 10392,
+            "calculated_blob": "4200bc4f127c47ca233d5a887b49cf1177490a19",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/Work/20260913-project-coordination.md",
+            "blob": "d01848939a25aa41b2f8f1e2d24ff3be962ef601",
+            "bytes": 144510,
+            "calculated_blob": "d01848939a25aa41b2f8f1e2d24ff3be962ef601",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/全体計画.md",
+            "blob": "ea81989cdcaff8e93dd58c95ebb26365dfd0f576",
+            "bytes": 46851,
+            "calculated_blob": "ea81989cdcaff8e93dd58c95ebb26365dfd0f576",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+            "blob": "e4d65009d859a2b08a15882047487755c2d38adc",
+            "bytes": 61055,
+            "calculated_blob": "e4d65009d859a2b08a15882047487755c2d38adc",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+            "blob": "854be4a60aa5b40236f25c235132c4d3f08a0a00",
+            "bytes": 37270,
+            "calculated_blob": "854be4a60aa5b40236f25c235132c4d3f08a0a00",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+            "blob": "0ccd5fd5d55742f18c766f981505c77f293997a5",
+            "bytes": 8387,
+            "calculated_blob": "0ccd5fd5d55742f18c766f981505c77f293997a5",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/現状棚卸し.md",
+            "blob": "a7f54eea30ef6926303725fef3a8769ea8d06fdb",
+            "bytes": 123529,
+            "calculated_blob": "a7f54eea30ef6926303725fef3a8769ea8d06fdb",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+            "blob": "0aa13304cec99bf32630c525ae5be440a6ad8d9e",
+            "bytes": 20181,
+            "calculated_blob": "0aa13304cec99bf32630c525ae5be440a6ad8d9e",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/運用検討.md",
+            "blob": "8bbbb0963f30fee18c43b4ef1d9da45807ccf24f",
+            "bytes": 31423,
+            "calculated_blob": "8bbbb0963f30fee18c43b4ef1d9da45807ccf24f",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md",
+            "blob": "d1ed3d2286dd756b0754bb4c2a818b0d9b94d122",
+            "bytes": 15560,
+            "calculated_blob": "d1ed3d2286dd756b0754bb4c2a818b0d9b94d122",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+            "blob": "61d77abe1c8dd73aa96d6c00b409d92171af79a6",
+            "bytes": 7312,
+            "calculated_blob": "61d77abe1c8dd73aa96d6c00b409d92171af79a6",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+            "blob": "60f3b0c81c48b8704ccc20562b59e70a678d9221",
+            "bytes": 29816,
+            "calculated_blob": "60f3b0c81c48b8704ccc20562b59e70a678d9221",
+            "exact_body_match": true,
+            "blob_hash_match": true
+          }
+        ]
+      },
+      "c1_owner_scope_complete": true,
+      "closure_direct_update_paths": [
+        "docs/作業資料/Work/20260913-project-coordination.md",
+        "docs/作業資料/とりまとめ/全体計画.md",
+        "docs/作業資料/とりまとめ/Work別実施計画.md",
+        "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+        "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+        "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json"
+      ]
+    },
+    "tasks": {
+      "h17": "現在のCloudへ1.1全文を一度。旧1.0送付／受領の根拠があれば追補だけ。送付／受領未確認。",
+      "h18": "既存運用20260909-work-routingへ1.1 C3。送付／受領／反映未確認。",
+      "h19": "C3成果の40桁SHA・対象path/blobをとりまとめが読戻し受領後に具体化。それまで待機。",
+      "h16": "完了・再送不要"
+    },
+    "automatic_other_conversation_actions": 0,
+    "new_game_tests": 0,
+    "before_publication_reference_heads": {
+      "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+      "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+      "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+      "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "ops/project-coordination-20260913": "9e5c1170eb6b253c0f955572c00043f6baee2125",
+      "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+      "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+    },
+    "before_publication_heads_unchanged": true
+  },
+  "versions_before_dispatch_update": {
+    "full_and_generated_common": "20261008.2",
+    "co_cx01": "1.1",
+    "overall_plan": "0.41",
+    "work_plan": "0.41",
+    "human_tasks": "1.2",
+    "inventory": "0.38",
+    "open_items": "0.37",
+    "codex_operation": "0.5",
+    "codex_task_template": "0.4",
+    "d04b_ui02_coordination_instruction": "0.12"
+  },
+  "status_before_dispatch_update": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17の1.1全文／1.0受領済み時の追補を提示。送付・全文／追補受領は未確認。",
+    "permanent_common_update": "H18/C3の1.1本文を提示。既存運用の送付・受領・原本反映は未確認。",
+    "application_rule_integration": "C3受領後CO-H19／C4。今は送付しない",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。"
+  },
+  "dispatch_update_20261008": {
+    "user_direction_at_jst": "2026-10-08T21:28:23+09:00",
+    "base_coordination_commit": "95c0002b9e5fcc762827ae3f97d3fea8635e6533",
+    "base_coordination_parent": "5e640cb9d2a6cdab40069c0e95641b26ce712ebb",
+    "base_coordination_tree": "46ea84b7ff394f6b95443def26d288068a2ab6c1",
+    "h17": {
+      "uri": "codex://threads/01a11a6d-0e24-713e-b84d-002f612bc0a9?hostId=durable",
+      "thread_id": "01a11a6d-0e24-713e-b84d-002f612bc0a9",
+      "host_id": "durable",
+      "recipient_basis": "利用者の明示指定",
+      "title": null,
+      "read_thread_attempted": true,
+      "read_thread_returned_content": false,
+      "error": "Codex app tool request failed",
+      "sent": null,
+      "received": null,
+      "unknown_not_cleared": true,
+      "copy_body_unchanged": true
+    },
+    "h18": {
+      "work_id": "20261008-codex-common-rules",
+      "name": "共通作業ルールの常設反映",
+      "branch": "ops/codex-common-rules-20261008",
+      "new_work_required": true,
+      "reason": "横断計画から指定文書反映・保存・範囲統合を分離",
+      "base_reference_commit": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "branch_name_absent_in_checked_list": true,
+      "instruction_path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3_共通作業ルールの常設反映.md",
+      "instruction_version": "1.0",
+      "sync_order": [
+        "ops/project-coordination-20260913:docs/作業資料/とりまとめ/全体",
+        "dev_design_tmp_assembly:今回の共通運用原本"
+      ],
+      "integration_branch": "dev_design_tmp_assembly",
+      "integration_owner": "20261008-codex-common-rules",
+      "old_c3_preserved_as_history": true,
+      "work_created": false,
+      "branch_created": false,
+      "sent": null,
+      "received": null,
+      "original_updated": false,
+      "integrated": false
+    },
+    "h19": {
+      "waiting_for": "新規C3 Workの統合済み40桁成果コミット・全対象path/blobをとりまとめが読戻し・受領すること",
+      "sent": false
+    },
+    "terminology_policy": "用語・管理番号の定義と実際の会話名／リンクを別途示す。担当IDを会話の所在と同一視しない。",
+    "history_scope": "旧continuationと過去のpublicationは保存時点の記録として保全。現在の宛先・割当は本dispatch_updateを優先。",
+    "reference_heads": {
+      "design/runtime-delivery-20260926": "0ef1689599b0dbeaf89646322811bbb7a39cac93",
+      "design/scenario-content-20260912": "c7a9a8d45856d504cb3db5c4183cbbb3463e982c",
+      "design/visual-direction-20260912": "25e7ce99bffc551e2370568b74704865c3de13e0",
+      "design/worldbuilding-20260910": "b99b00bd5c031c291f74ee7abdb2aac4a2963929",
+      "dev_design_tmp_assembly": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "impl/m1-godot-application-20260927": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "impl/m1-windows-package-20260930": "e7722a56b6a47064614209f0a70c49162f5990a9",
+      "maintenance/stash-conflict-audit-20260909": "eaa174557781f434176d794192f20f47e357b157",
+      "master": "90d7d8a88f4d8a791298588f5bc93aaae85258ba",
+      "ops/project-coordination-20260913": "95c0002b9e5fcc762827ae3f97d3fea8635e6533",
+      "playtest/terrain-build-z-20260909": "a0ff589142f74500be4ccc4a02ffab78293f9fa3",
+      "ui/readability-20260910": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+    },
+    "publication": {
+      "scope": "自Work設定とdocs/作業資料/とりまとめ/のみ",
+      "force": false,
+      "self_sha_binding": "最終応答とGitHub履歴",
+      "readback_status": "追補10本文/blobと親/tree/HEADは全一致。読戻し記録を含む後続コミットの最終確認は最終応答とGitHub履歴。自己SHAの循環記載はしない。",
+      "payload_commit": "3ae7b3ea63511ec9ba36ddc5e348b2f3a54c1d21",
+      "payload_parent": "95c0002b9e5fcc762827ae3f97d3fea8635e6533",
+      "payload_tree": "48330b96555b0ca2da344b203e981863c5e7b6bc",
+      "payload_head_after_publish": "3ae7b3ea63511ec9ba36ddc5e348b2f3a54c1d21",
+      "payload_readback": {
+        "tree_objects_verified": 62,
+        "all_changed_bodies_and_blobs_verified": true,
+        "files": [
+          {
+            "path": "docs/作業資料/とりまとめ/全体計画.md",
+            "blob": "25d84e670e7a878e5d09455c642c4181dadcbef0",
+            "bytes": 49067,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+            "blob": "1fb6ac8f9c15573c94da32f9e141fe4485044cae",
+            "bytes": 63461,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+            "blob": "9beca7fb234d06b28e6735d23942dcb99e751bd6",
+            "bytes": 20017,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3_共通作業ルールの常設反映.md",
+            "blob": "ba0c295c219965ead6ca75026a852f575fd9ceae",
+            "bytes": 8345,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+            "blob": "591147d9f8b5e260ad0586a72d4a3416a16bc308",
+            "bytes": 35138,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+            "blob": "490c082708d4f31c58a424b5e767d60dfdb1e714",
+            "bytes": 40316,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+            "blob": "96f2d2e351b548656443785cc34984049a3305f4",
+            "bytes": 10698,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/Work/20260913-project-coordination.md",
+            "blob": "fdbced0b90376f0c5dcd737135de9e67f6f1308b",
+            "bytes": 147245,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+            "blob": "a32521828f7ca689157a05adac5ab3521160c4c4",
+            "bytes": 10496,
+            "exact_body": true,
+            "independent_blob_hash": true
+          },
+          {
+            "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+            "blob": "a1dc943ac2d0fcbfd081964c7e2d486575d46662",
+            "bytes": 42793,
+            "exact_body": true,
+            "independent_blob_hash": true
+          }
+        ],
+        "scope_only": true,
+        "other_heads_unchanged": true,
+        "cloud_copy_body_unchanged": true
+      }
+    }
+  }
+}

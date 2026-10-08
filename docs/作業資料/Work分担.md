@@ -50,6 +50,7 @@ WorkID：AIが採番する作業の識別子（ChatGPT内部IDではない）
 | `20260913-project-coordination` | 全Workのマイルストーン・優先度・依存関係・目標別実施計画と計画必須同期を管轄 | `ops/project-coordination-20260913` | [作業設定（とりまとめブランチ）](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/Work/20260913-project-coordination.md)・[全体計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/全体計画.md)・[Work別実施計画](https://github.com/eckolo/crossweave/blob/ops/project-coordination-20260913/docs/作業資料/とりまとめ/Work別実施計画.md) |
 | `20260926-runtime-delivery` | 実行基盤・配布設計。今回はRD-PACK-02のWindows本編配布・更新・確認・保管。旧基盤枝は保全 | `impl/m1-windows-package-20260930` | [作業設定（本編配布ブランチ）](https://github.com/eckolo/crossweave/blob/impl/m1-windows-package-20260930/docs/作業資料/Work/20260926-runtime-delivery.md) |
 | `20260927-game-application` | ゲーム本編実装。D04B-CORE-01の純C#状態・規則・一巡・DTO境界 | `impl/m1-godot-application-20260927` | [作業設定（本編ブランチ）](https://github.com/eckolo/crossweave/blob/impl/m1-godot-application-20260927/docs/作業資料/Work/20260927-game-application.md) |
+| `20261008-codex-common-rules` | CO-CX01 C3／H18：保存済み共通運用規則の設定原本・root AGENTS反映、今回の指定文書だけの設計集約への範囲統合。共通運用全般の既存担当は維持 | `ops/codex-common-rules-20261008` | [作業設定（共通規則反映ブランチ）](https://github.com/eckolo/crossweave/blob/ops/codex-common-rules-20261008/docs/作業資料/Work/20261008-codex-common-rules.md) |
 
 設計検討・試遊という役割自体は下記の既存分担を維持する。別Workの個別設定を作成・開始済みと推定しない。共通の基本設計・仕様案・要検討事項・統合検討・試験条件・共通エンジンへの統合は設計検討Workが担当し、試遊Workは原記録の担当を維持する。
 
