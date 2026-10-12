@@ -1,3 +1,73 @@
+# ゲームバランス検討：D04B-UI-02 合法入力と既存契約の確認
+
+2026-10-12／WorkID `20260909-design-assembly`。今回の回答依頼全体（改訂0.5・3項目）：**完了**／現在の状態：**根拠付き回答・具体未解決をとりまとめへ引継ぎ**。合法実入力・本編検査・UI適合・D04・M1は未完了。
+
+## 今回の開始設定（D04B-UI-02・H14）
+
+- 目的・完了条件：R01-filler、R04-unlimited、U-V01登録長名称／ST-P08を既存仕様・APIから回答。項目別commit/path/blob、合法操作・seed条件、期待公開値、既存入力hashと未実行レシピ、未解決の次担当を整理し、通常保存・非force更新・本文/blob・親/tree/HEAD読戻し・引継ぎ・具体値入り報告プロンプトまでを今回範囲とする。
+- 作業枝：`dev_design_tmp_assembly`。成果集約先・担当：同枝／本Work。新Work・枝なし。
+- 必須同期元：`ops/project-coordination-20260913`の`docs/作業資料/とりまとめ/`全体1本。計画91fe0ac1ff1555d0d87dca0bec49ced4a45a8460／全体・Work別0.44、指示0.5。全87path/blobは自Work同期JSONに記録。作業枝の同scope treeは既に一致、全本文を同パスへ実同期し、追加コピー差分なしと照合。
+- 直接更新：自Work、同期JSON、計画コピー、担当内回答資料のみ。共通ルール担当のAGENTS・プロジェクト設定・自Work、他Work設定、本編C#、UI原本、通常save、固定入力は直接編集しない。
+- 確認開始HEAD：5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4／tree a04e9882eb56968bb8f24c3d61c50260f6c24100。GitHubプラグインで正式refを確認。ローカル編集コピーに.git／ローカル枝はなく、未保存の旧作業差分は見つからなかった。GitHub保存済みD03R・D04AのWork全文を保全した。
+- 固定参考：UI ab1b6fa067877a140ac9e9c9c006c70da76e40b4のdark-recheck-20261006の合法入力／owned返却。本編7211a605a04de36f9465fbae31979c4d6b0acf8fのdark-return返却・公開票。候補a01c5c2762de1cfce602f4547818b29dc3d13e10は保存済み、必要描画・機能検査は未完了。旧判定で置換しない。
+- 規則受領：開始HEADのroot AGENTS.md（20261008.3／blob bb6d62596c036a2391ce5395293efa3de4b0dcc4）・現行プロジェクト設定、計画同期手順2.0・完了報告1.6を受領。この会話の指示確認と、停止中Cloudでの常設読込・通信enforced確認を混同しない。
+- 手順記録：前回、GitHubプラグイン原則を適用せず便宜的な直接cloneを試し、URL呼出し許可拒否の403で失敗した。利用者の指摘を受け、原則のプラグインに戻る作業は既に許可範囲で追加確認不要と訂正。今回の原本取得・通常保存は同プラグイン。新サービス・認証・外部ブラウザー・Cloud設定の変更なし。
+- 共通作業ルールWorkとの今回2Work分担を継承。成果反映前に設計集約と計画の最新refを再取得し、並行変更を現在tree上に保全する。本編検査とCO-D04A実IndexedDBは今回再開しない。
+
+<a id="d04b-legal-handoff"></a>
+
+## とりまとめへの引継ぎ（D04B-UI-02・合法入力回答0.5）
+
+- 今回の回答依頼全体：**完了**。3項目の根拠付き回答と具体未解決を通常保存・非force反映。成果9本文/blob＋計画87本文/blob、親/tree/HEADを読戻し一致。成果コミット `e178b4a13fc35fc49bac3870ebcceb0881f46779`／tree `6b89bc7284d40dc5c08de805ab1b9dec63c349d9`／親 `5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4`。後続の同枝文書コミットでこの引継ぎ・報告全文・読戻し記録を保存し、実SHAは応答で提示する。合法実入力／描画／UI適合／D04／M1は未完了。
+- 成果入口：[回答README](../../検証/接続条件/d04b-ui-02-legal-20261012/README.md)。項目別の40桁commit/path/blob・公開期待値・合法APIレシピ、86原本のhash、既存生成済み4入力の正確なhash、未実行手順と不足・次担当を保存。
+- R01：Rebuild不足分と生存札総数からfiller生成条件、Drawで期限1、未使用期限切れRecoverのdestroyedを確認。正規到達seed／完全command prefix／before-action DTO/hash・同public idは未取得。JS正式公開のbirth省略とC#公開の保持を区別。対象外にはしない。
+- R04：カードdefense_uses:nullの無制限、欠落default2、有限・効果なしguard:null・有限mixedの集計uses:nullを区別。全生成／compile／import／移行／復旧／公開入口を記録。現M1新規contentにnull札生成元なし、正規無制限保存の実入力未取得。C# effect key欠落検査差は静的に本編へ返す。全入口禁止とはしない。
+- U-V01/ST-P08：17/25文字の既登録3修飾名は登録・compile可能だが現SCN tierIの通常候補は最大1修飾。既存funded DTO（資金1200／20owned／PS01:borrowed候補400／seed履歴0〜3）から取得・pending・見積50・確定・lock／usage複合・saved draftの未実行レシピを返す。3修飾正規保存と、保存presetがnamed presetかsaved draftかの原本対応は未取得。
+- 次担当：本編20260927-game-applicationが既存停止条件解消後に探索・fixture生成・実入力／保存非破壊／描画を固定。UI20260910-ui-readabilityととりまとめ20260913-project-coordinationがpreset原本と適用範囲を具体化し、原本適合・採用判断は既存担当へ返す。
+- 今回のゲームcommand／探索／新fixture／C# build-test／描画／通常保存変更は0。CO-D04A実ブラウザーは外部条件待ちを保持し今回再開0。本編候補a01の保存、build記録と機能0・描画未実施・保全台帳1本文未取得を区別。
+- 保存前再取得：design 5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4、plan 91fe0ac1ff1555d0d87dca0bec49ced4a45a8460、開始から変化なし。古いtree／ファイルで共通ルールWork等を上書きしない。共通規則・プロジェクト設定・他Workの編集なし。
+- とりまとめ／本編／UIの今回成果受領：未確認。自Work保存と本応答での提示のみ。外部メッセージ送信・別Work起動はしていない。
+
+### とりまとめへの報告プロンプト
+
+```text
+Chat「とりまとめ」の既存Work（20260913-project-coordination／ops/project-coordination-20260913）で、以下の担当提出を受領・読戻ししてください。
+
+repo：eckolo/crossweave
+提出元：ゲームバランス検討
+WorkID：20260909-design-assembly
+作業枝・成果集約先：dev_design_tmp_assembly
+対象：D04B-UI-02「合法入力と既存契約の確認」改訂0.5／H14
+固定指示・同期元コミット：91fe0ac1ff1555d0d87dca0bec49ced4a45a8460
+回答成果コミット：e178b4a13fc35fc49bac3870ebcceb0881f46779
+成果tree：6b89bc7284d40dc5c08de805ab1b9dec63c349d9
+親：5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4
+回答資料：docs/検証/接続条件/d04b-ui-02-legal-20261012/README.md
+自Work引継ぎ・本報告全文：docs/作業資料/Work/20260909-design-assembly.md の「とりまとめへの引継ぎ（D04B-UI-02・合法入力回答0.5）」
+保存・読戻し記録：docs/検証/接続条件/d04b-ui-02-legal-20261012/publication.json と github-readback.json
+
+今回の回答依頼全体は完了です。3項目の原本根拠・公開期待値・合法API手順案と具体未解決を保存し、GitHubプラグインの通常日本語コミット・非force更新で反映しました。成果9本文/blobと計画87本文/blob、親/tree/当時HEADを読み戻して一致。後続の同枝文書コミットに引継ぎ・本報告・読戻し記録を保存しています。受領時は同枝の最新HEADと後続文書本文/blobも確認してください。計画全87path/blobは自Work同期JSONに記録し同pathへ実同期。AGENTS・共通設定・他Work記録の変更はありません。
+
+R01-filler：need=max(0,minimum−poolからの取得数)、basic=min(need,max(0,32−非destroyed札総数))、filler_count=need−basic。Drawでlife/remaining1、別札playの末に未使用fillerをRecoverしてdestroyed、previewの同idはdestination=destroyed。JS正式handはbirthを省略しdetailsの回収規則で結び、C#はbirthを保持します。正規到達seed・完全command prefix・before-action DTO/hash・同public idは未取得。対象外にはしません。
+
+R04-unlimited：カードdefense_uses明示nullは無制限、欠落は一致付与default2、有限値は減算。guard自体nullは効果なし、集計guard.uses:nullは有限mixedでも生じるため無制限と同一視しません。生成／compile／import／移行／復旧／公開の各入口を回答。現M1新規contentにnull札生成元はなく、正規無制限カード／保存の実入力は未取得。全入口null禁止にはしません。C# effect key欠落と明示nullの検査差は静的事項として本編へ返し、修正・実検査済みとはしません。
+
+U-V01／ST-P08：登録370組と17/25文字の既存3修飾名は有効な登録・compile対象ですが、現SCNの通常offerはtierIのみで最大1修飾です。通常生成の3修飾到達と全歴史保存の禁止を区別します。既存repro-acquisition-funded.json（固定本編7211a605a04de36f9465fbae31979c4d6b0acf8f、blob df4dd24867f35c5f003b7a7e264315d0b86d9671、SHA256 fb99a7af9e3c5f551175aef56ec0c45a245f3d42e36df2ea251088a334879e28）は資金1200・20owned・PS01:borrowed候補400・receipt seed0〜3を保持しています。取得／pending／見積50／変換確定／lock／使用中と複合不能理由／saved draftの未実行レシピを返しました。3修飾の正規既存保存と「保存preset」がnamed presetかsaved draftかの原本対応は未取得です。
+
+次担当と必要入力：
+・本編20260927-game-application：既存source／通信／準備停止条件が解消した後、R01の合法到達DTO/hash・seed・全列、R04の正規null由来、既存fundedを用いる各ST-P08の固定public payloadを生成し、before/preview/after・保存/RNG非破壊・一回確定/再送・実描画を確認。
+・UI20260910-ui-readability／とりまとめ：保存presetの原本commit/path/blob・意図・Core参照解除条件とsaved draftの対応を具体化。3修飾の正規既存保存があれば未改変byteと来歴を受け渡す。
+・現在の通常進行に3修飾名やnull札を必須とする場合は、既存生成制約との不足を別の採用判断へ。仕様を変更せず不足維持、合法既存保存受領、別途版付きcontent/tier変更の選択肢と影響を回答票に記録。今回の新しい札・数値・名称・仕様の採用はありません。
+
+合法実入力・全ST-P08・本編検査・UI適合・親D04・M1は未完了です。本編候補a01c5c2762de1cfce602f4547818b29dc3d13e10の9コード保存と、機能検査0・描画未実施・保全台帳1本文未取得を分けて維持してください。今回のゲーム実行・機械的探索・fixture生成・C#検査・描画・通常save編集・Cloud環境変更は0。CO-D04A実IndexedDB／再読込／実2タブはERR_BLOCKED_BY_CLIENTによる外部条件待ちを保全し、今回は再開していません。
+
+最新UI ab1b6fa067877a140ac9e9c9c006c70da76e40b4 dark-recheckと本編7211 dark-returnを使用し、旧recheck判定で置き換えていません。今回の回答作業の完了を、必要群の解消・UI適合・配布合格に読み替えないでください。とりまとめ／本編／UIの成果受領はまだ確認していません。本報告の受領後、既存担当の計画・残件・必要入力へ反映してください。
+```
+
+---
+
+以下は以前の成果・未完了の固定記録。今回の3回答の状態と区別する。
+
 # ゲームバランス検討：CO-D04A 実保存確認
 
 2026-09-26／WorkID `20260909-design-assembly`。今回の依頼全体（CO-D04A A1〜A4）：**未完了**／現在の状態：**外部条件待ち**。
