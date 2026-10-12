@@ -1,3 +1,29 @@
+# D04B-UI-02 — 既存契約回答の受領と本編の必要入力
+
+版：0.14／2026-10-12（日本時間）。既存本編20260927-game-application／impl/m1-godot-application-20260927。
+H14の回答作業0.5は完了・とりまとめ受領済み。**本編の新規検査は既存source／通信／準備停止が解消するまで開始しない。本編実入力・UI適合・D04B-UI-02全体は未完了。**
+
+固定回答e178b4a13fc35fc49bac3870ebcceb0881f46779／後続ee6a62af128f4aff4233f1c9e057103299cc9bf9、回答入口docs/検証/接続条件/d04b-ui-02-legal-20261012/README.md、各項目MDとanswers.json／inputs.json。受領元はdocs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261012_既存契約回答の受領.mdと同名JSON。
+
+- R01は正規Rebuild/Draw後の未使用fillerについて、到達seed/index・完全command prefix・before-action DTO/hash・同public id・別合法choiceを生成・固定する必要がある。生成条件need−basicとJS/C#正式公開の差は回答資料を使う。
+- R04は正規来歴のカードdefense_uses明示nullと、raw effect／guard集計mixedを分ける。guard自体nullを無制限へ読み替えない。C# effect key欠落と明示nullの検査差は静的返却で、未修正・未実検査。採用済み契約と対象fieldへ対応付けてから必要な確認を行う。
+- U-V01/ST-P08は既存未改変fundedを受領してhash確認し、各状態のfresh handles／固定public payloadとbefore/preview/afterを作る必要がある。資金1200・20owned・PS01:borrowed候補400の既存入力は12文字の1修飾例で、17/25文字・3修飾の実描画の代わりではない。121commandは既存帰還祖先からの履歴で、新規Createからの完全列ではない。
+- 見積・確定・lock／unlock・pending／正式owned・確定編成とsaved draft参照・複合不能理由を区別し、一回確定／再送、revision・保存・RNG非破壊を確認する。本件でこれらを実行済みにしない。
+- 保存presetの原本対応、正規3修飾保存の来歴、raw／集計表示の意図はUI／とりまとめの必要入力。新content/tier・null生成元・通常save注入・named preset APIを自動追加しない。
+
+固定main参考7211a605・a01候補保存・従来のproduct／fixtureを保全し、検査の固定版を無断差替えしない。必要な入力・環境がそろった項目だけ、次の開始文と正式受領後に担当内で進める。取得・保存・読戻しは既存GitHubプラグインの許可範囲を使い、直接clone等を取得障害の代替として無断追加しない。本件の次依頼送付・本編の再受領・実行は未確認。
+
+
+## 2026-10-12：Cloud直接規則受領の報告受領、準備停止維持
+
+Cloud準備窓口の20261008.3全文読了・停止依存の報告を[受領原本](../Codex導入/Cloud規則直接受領_20261012.md)へ保存。新Git成果の提出なし。GitHub7211とe480のapps参照treeは一致、通常暗色home固定byte/hashも一致したがCloud内の取得／検査ではない。最後のCloud実観測は10月8日work／90d7、restricted/state=unknown。現在有効状態・正式source・AGENTS読込み・準備／検査は未了、今回受領は明示再開ではない。
+
+とりまとめはC3A1.1の記録・既存成果提出とUI-CONTRACT-01の原本回答を発行する。本編C4の文書受領は全C3A成果の別受領後、Cloudのsource取得は有効状態確認と明示再開後。条件成立前の本編・Cloud再実行を依頼しない。a01候補9コード保存、機能検査0・描画未実施・台帳1本文未取得は維持する。
+
+## 過去指示：0.12以前
+
+以下は当時の開始文・停止・失敗の記録。現在のH14回答と必要入力は冒頭0.13を優先し、本編の未了・UI合意・旧試験・環境停止は保全する。
+
 # D04B-UI-02 — 現在の候補保存・必要検査の停止と共通規則の受渡し
 
 版：0.12／2026-10-08（日本時間）。既存ゲーム本編実装20260927-game-application／impl/m1-godot-application-20260927を継承。
