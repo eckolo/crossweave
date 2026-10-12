@@ -1,0 +1,1840 @@
+{
+  "schema": "crossweave-ui-godot-review-2",
+  "task": "UI-GODOT-REVIEW-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "reviewed_at_utc": "2026-10-04",
+  "request_status": "完了（基準・判定・引継ぎの保存提出。UI適合は未達）",
+  "current_state": "完了・とりまとめへ引継ぎ（作成済み・受領未確認）",
+  "inputs": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "implementation": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+    "submission": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+    "coordination": "d93d0b482c13da4aa91df0d2173b87f46999a3a9",
+    "design": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "baseline_version": "2026-10-04.1"
+  },
+  "sync": "sync-20261004.json",
+  "preservation": "history/20261001/ と preserved-ui-html.json",
+  "methods": "source-audit.json",
+  "items": [
+    {
+      "id": "P01",
+      "title": "三領域・共通取得枠",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png"
+      ],
+      "result": "取得可能／所持／編成を横に並べ、札／心得を同じ352×80の部品で操作する。内部スクロール。ドラッグ送りの不足はI03。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "取得可能／所持／編成を横に並べ、札／心得を同じ352×80の部品で操作する。内部スクロール。ドラッグ送りの不足はI03。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P02",
+      "title": "所持の同性能集約",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png"
+      ],
+      "result": "blueprint・未払い・ロック・変換可否の同じ個体だけ数量へ集約。移動は代表の公開ID1個体。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "blueprint・未払い・ロック・変換可否の同じ個体だけ数量へ集約。移動は代表の公開ID1個体。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P03",
+      "title": "未払いと取得上限",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-pending-unpaid.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "result": "破線・時計・元位置の取得予定印、取消と確定前の保存不変は継承。帰還群上限後の追加取得を止める制御が欠ける。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R07"
+      ],
+      "functional_status": "適合",
+      "functional_result": "CanStageがgroup_id/group_limitを共有し、行・詳細・dropで同群の2個目を遮断。案・予測・保存不変、別群可、取消で再取得可を確認。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P04",
+      "title": "空状態と編成枠",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/empty-states.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "候補の有無と購入済みの公開状態を分け、取得完了／候補なし、札組空枠、心得の枠消費を表示。両方の空状態の全画素比較ではなく分岐コードと取得経路を照合。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "候補の有無と購入済みの公開状態を分け、取得完了／候補なし、札組空枠、心得の枠消費を表示。両方の空状態の全画素比較ではなく分岐コードと取得経路を照合。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P05",
+      "title": "一括確認・取消",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition-preparation-review.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "960×820と閉じる／確定位置、無効案の保持と確定遮断は継承。確認内容の差分・取得先などが省略。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R02"
+      ],
+      "functional_status": "適合",
+      "functional_result": "混合／編成のみ／心得のみの価格・取得先・数量前後・札12枚・容量・変更心得条件効果を公開previewから表示。取消保存不変、1回支払、再送不重複。改行Labelへ平坦化した外観はV-P14で要修正。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P06",
+      "title": "正式所持・ロック・変換",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "同一公開個体IDのquote、ロック禁止・解除・変換・再出発の保存済み入力記録をコードと照合。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "同一公開個体IDのquote、ロック禁止・解除・変換・再出発の保存済み入力記録をコードと照合。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "P07",
+      "title": "編集中の往復と出発遮断",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "Plan・分類・内部スクロールを保持。back-and-return-preserve-tab-planとDraftDirtyによる出発遮断を確認。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "Plan・分類・内部スクロールを保持。back-and-return-preserve-tab-planとDraftDirtyによる出発遮断を確認。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "L01",
+      "title": "1920×1080の基本配置",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/full-hd.md",
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "論理FHDと実1920×1080の既存描画を確認。4行・行間20・外周24、全体縦送りなし。通常初期窓は1280×720 overrideで同じ論理面を縮小。DPI受入はH01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "論理FHDと実1920×1080の既存描画を確認。4行・行間20・外周24、全体縦送りなし。通常初期窓は1280×720 overrideで同じ論理面を縮小。DPI受入はH01。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "L02",
+      "title": "共通ナビの位置",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js",
+        "docs/検証/UI/readability/co-u02/common-navigation.css"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-home.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png"
+      ],
+      "result": "記録1680,4・メニュー1840,4を探索先／編成／本文／探索／帰還で共通化。各sceneの座標assertと画像が対応する。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "記録1680,4・メニュー1840,4を探索先／編成／本文／探索／帰還で共通化。各sceneの座標assertと画像が対応する。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "L03",
+      "title": "窓の閉じる・戻る・共通メニュー",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-menu.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "閉じる右上・親へ戻る左上。520×480内の送りと固定／一時、取得確認の主操作位置を継承。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "閉じる右上・親へ戻る左上。520×480内の送りと固定／一時、取得確認の主操作位置を継承。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E01",
+      "title": "手札・場・予測・ドラッグの共通札面",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png"
+      ],
+      "result": "同じMakeTileの248×208、絵88／本文120、名称・効果・属性・期限の区画を使用。詳細の情報欠落はC01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "同じMakeTileの248×208、絵88／本文120、名称・効果・属性・期限の区画を使用。詳細の情報欠落はC01。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E02",
+      "title": "場の値と予測の区別",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png"
+      ],
+      "result": "field_power／field_hit、選択する札に応じた身構／攪乱、予測の破線・札名外の印を継承。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "field_power／field_hit、選択する札に応じた身構／攪乱、予測の破線・札名外の印を継承。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E03",
+      "title": "主体と本人の状態表示",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/reference/exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png"
+      ],
+      "result": "地形△、潜水服の282×176・上8px・字幕との重なり、本人下帯は継承。本人バーと本人／相手の予測差分が不足。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R03"
+      ],
+      "functional_status": "適合",
+      "functional_result": "設置／攻撃／guard／回復／defense_supportの公開cost、余力・身構・会心・隠蔽の前後、攻撃前姿勢と解除、未使用札の期限／回収先を照合。非公開の倍率は捏造しない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E04",
+      "title": "相手クリック選択・詳細",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/select-details.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png"
+      ],
+      "result": "SelectActorで対象と詳細を更新し、選択手札を維持。相手に旧ホールド入口はない。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "SelectActorで対象と詳細を更新し、選択手札を維持。相手に旧ホールド入口はない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E05",
+      "title": "行動順と本人次回予約",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/action-forecast.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "既知の詳細入口欠落は修正済み。本人・今、同時刻のまとまり、本人の位置予測は未継承。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R05"
+      ],
+      "functional_status": "適合",
+      "functional_result": "公開atでまとまり、同時刻の内部順を断定せず、本人次回2〜3番／3番を表示。閲覧で保存不変。badgeや余白はV-E15の別差分。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "E06",
+      "title": "対象・場との関係線",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/card-frames.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-exploration.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-settings.png"
+      ],
+      "result": "矩形の端から結び、文字領域を通る旧中心線を使わない。公開選択だけを用い、設定で非表示にできる。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "矩形の端から結び、文字領域を通る旧中心線を使わない。公開選択だけを用い、設定で非表示にできる。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "D01",
+      "title": "選択元と反対端の詳細",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/edge-details.md",
+        "docs/検証/UI/readability/co-u02/window-placement.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-order-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "中央960の左右で反対端16へ。主体416×384 y16、札520×480。再クリック／外クリック閉じと隣接選択をコード・入力記録で照合。縦位置の微調整はX01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "中央960の左右で反対端16へ。主体416×384 y16、札520×480。再クリック／外クリック閉じと隣接選択をコード・入力記録で照合。縦位置の微調整はX01。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "D02",
+      "title": "予測の場札から詳細",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "予測札は明示クリックで詳細。DTO不変、自動詳細OFFでも表示、古い予測消失時の閉鎖を既存assertとコードで照合。手札・対象を変更しない。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "予測札は明示クリックで詳細。DTO不変、自動詳細OFFでも表示、古い予測消失時の閉鎖を既存assertとコードで照合。手札・対象を変更しない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "D03",
+      "title": "一時予測と固定",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "180msで一時予測、離れて160msで閉じるコード。クリック固定・固定後の保持に保存済み入力証拠あり。固定詳細をホバーで置換しない点は原本preview(false)も同じで指摘しない。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "180msで一時予測、離れて160msで閉じるコード。クリック固定・固定後の保持に保存済み入力証拠あり。固定詳細をホバーで置換しない点は原本preview(false)も同じで指摘しない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "I01",
+      "title": "掴んだ点を保つドラッグ像",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-preparation-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-drag.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "compact／hand両方のoffsetと同寸法assert、画像が対応。既知の中心へ飛ぶ差は修正済み。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "compact／hand両方のoffsetと同寸法assert、画像が対応。既知の中心へ飛ぶ差は修正済み。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "I02",
+      "title": "ホールド表示・操作名",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md",
+        "docs/検証/UI/readability/co-u02/journey/select-details.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "result": "120ms前にリングを描かず、設定150/220/320ms。手札の表示はActionLabelを行動ボタンと共有。合成短クリックと260ms保持の記録あり。120ms境界を実物理マウスで計測した意味ではない。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "120ms前にリングを描かず、設定150/220/320ms。手札の表示はActionLabelを行動ボタンと共有。合成短クリックと260ms保持の記録あり。120ms境界を実物理マウスで計測した意味ではない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "I03",
+      "title": "送り・ドロップ可否・取消",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js",
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "札上の送り・Esc／右クリック／focus喪失／多重touch／ホイール取消の証拠はある。端送り先と受入可否表示は後退。余白起点のマウス送りはU01へ分離。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R06"
+      ],
+      "functional_status": "適合",
+      "functional_result": "取得先scroll99・元0、場90の限定寸法、領域外で停止・取消不変、pending取消可／正式所持取消不可。Paintとreleaseが同じDropPlanを使用。枠と文言はV-D01、速度はV-D04へ。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "I04",
+      "title": "ドロップ後の安全な確定条件",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "一致・quick OFFを確認待ちにする分岐はあるが、doomed／fillerの期限切れ消滅が即実行抑止から漏れる。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R01"
+      ],
+      "functional_status": "未確認",
+      "functional_result": "consume／doomedは実drop後も予測で待ちDTO・保存不変。明示確定1回・再送不重複。quick安全設置は即時、OFFと一致は待機。別プロセス再開の全DTO・次結果を保持。fillerだけ必要未確認。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "未確認",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "T01",
+      "title": "独立した本文画面",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/journey/view.js",
+        "docs/検証/UI/readability/co-u02/journey/full-hd.css"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-story.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural.json"
+      ],
+      "result": "独立読み画面、左下840×360・明色背景、右下進む、任意詳細の読了を継承。原本story.pngは今回取得できず、原本コード／後継文書とGodot実描画を照合。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "独立読み画面、左下840×360・明色背景、右下進む、任意詳細の読了を継承。原本story.pngは今回取得できず、原本コード／後継文書とGodot実描画を照合。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "T02",
+      "title": "帰還から同じ編成へ",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/unified-navigation.md",
+        "docs/検証/UI/readability/co-u02/journey/view.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-return-clear.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-return-preparation.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "拠点背景・精算と本文・右下進むから探索先の同じ編成へ。再挑戦はメニュー内。原本return/home.png未取得の限界は別記。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "拠点背景・精算と本文・右下進むから探索先の同じ編成へ。再挑戦はメニュー内。原本return/home.png未取得の限界は別記。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "T03",
+      "title": "心得の条件・効果・枠",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+        "docs/検証/UI/readability/co-u02/journey/interaction-review.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-passive-details.png",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json"
+      ],
+      "result": "心得の詳細ではtrigger_text／effect_text／equipment_costを日本語表示。確認窓への継承不足はP05。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "心得の詳細ではtrigger_text／effect_text／equipment_costを日本語表示。確認窓への継承不足はP05。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "T04",
+      "title": "調査記録の親子と札詳細",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/interaction-review.md",
+        "docs/検証/UI/readability/co-u02/common-navigation.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-knowledge.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-catalogue.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "公開された記録だけ、親子間16、観測札／基本構成から札詳細へ入り親へ戻る。札の条件表示不足はC01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "要修正",
+      "functional_result": "基本構成から札詳細へ辿れる機能証拠は保存。ただし親paneは消え、原本のタブ・分類もない。初回の「親子継承」の総合適合は訂正。N02／V-W06・07。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "要修正",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "T05",
+      "title": "本人の札内訳・履歴",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-deck.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-action-history.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "持込・山札・手札の公開集計と詳細、action_history・本文履歴へ接続。閲覧DTO不変。詳細の条件不足はC01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "持込・山札・手札の公開集計と詳細、action_history・本文履歴へ接続。閲覧DTO不変。詳細の条件不足はC01。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "S01",
+      "title": "保存・一巡・別プロセス再開",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/AppEntry.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/resume.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/legal-acquisition.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/failure.json",
+        "docs/検証/本編実装/d04b-ui-02/after-final/unknown.json",
+        "docs/検証/本編実装/d04b-ui-02/results.json"
+      ],
+      "result": "同じMain.tscn→FileGameSession。既存一巡・再開のDTO／次結果一致、二重精算防止・保存失敗／成否不明の記録を固定ソースと照合。今回の新規実行0。配布版と通常セーブの実機受入はH01。",
+      "scope": "M1・了承UI",
+      "historical_status": "適合",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "適合",
+      "functional_result": "同じMain.tscn→FileGameSession。既存一巡・再開のDTO／次結果一致、二重精算防止・保存失敗／成否不明の記録を固定ソースと照合。今回の新規実行0。配布版と通常セーブの実機受入はH01。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "C01",
+      "title": "札詳細の判断材料（対応表の補完）",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/card-properties.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-hand-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-forecast-detail.png",
+        "docs/検証/本編実装/d04b-ui-02/final-display/natural-known-card.png"
+      ],
+      "result": "E01の枠一致だけで札の全情報継承とはしない。場寄与・持続・付与条件・消滅性質が不足。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R04"
+      ],
+      "functional_status": "未確認",
+      "functional_result": "既定防御2、付与先の本人除外・重ね付け、場への加算と個体性能の分離、消費／doomedの説明、既知記録に現在場を混ぜないことを確認。明示nullの無制限guardは未描画。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "未確認",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "C02",
+      "title": "行動予測の判断材料（対応表の補完）",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/action-forecast.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance-prediction.png"
+      ],
+      "result": "D03の開閉一致だけで予測内容を合格にしない。期限切れ・間隔・防御等の変化が不足。",
+      "scope": "M1・了承UI",
+      "historical_status": "要修正",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "R03"
+      ],
+      "functional_status": "適合",
+      "functional_result": "設置／攻撃／guard／回復／defense_supportの公開cost、余力・身構・会心・隠蔽の前後、攻撃前姿勢と解除、未使用札の期限／回収先を照合。非公開の倍率は捏造しない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "U01",
+      "title": "余白を押して始める一覧送り",
+      "original": [
+        "docs/検証/UI/readability/co-u02/exploration.js",
+        "docs/検証/UI/readability/co-u02/acquisition-preview/gestures.js"
+      ],
+      "implementation": [
+        "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+        "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+        "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs"
+      ],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json",
+        "docs/検証/本編実装/d04b-ui-02/final-presentation/inheritance.json"
+      ],
+      "result": "原本は空白からのpanを明示実装。Godotの固有gesture開始はCardTileのみで、保存済みswipe-no-commitも札起点。ScrollContainer任せの余白入力にスクロール位置が動く実証はない。標準Controlの挙動を推測して適合／故障にしない。",
+      "scope": "M1・了承UIの入力",
+      "historical_status": "未確認",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [
+        "U01"
+      ],
+      "functional_status": "適合",
+      "functional_result": "初回の実ノード失敗を履歴に保存し、修正後取得0→140、手札／場0→180。自然FHD overflow0とは別に同じ実ノードを限定寸法へ狭めた合成InputEvent。物理ドラッグ成功とはしない。",
+      "visual_status": "要修正／全対象台帳へ",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "適合",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "H01",
+      "title": "物理入力・DPI・複数画面・音・GPU・配布版の実機再開",
+      "original": [],
+      "implementation": [],
+      "evidence": [
+        "docs/検証/本編実装/d04b-ui-02/確認結果.md",
+        "docs/検証/本編実装/d04b-ui-02/after-final/interaction.json"
+      ],
+      "result": "合成InputEventの合格と区別する。修正版RD-PACK-03の版・案内を受領後に既存票で確認。今回のレビュー未実装残件ではない。",
+      "scope": "後続CO-D04C / CO-H02・CO-H03",
+      "historical_status": "未確認",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "未確認",
+      "functional_result": "合成InputEventの合格と区別する。修正版RD-PACK-03の版・案内を受領後に既存票で確認。今回のレビュー未実装残件ではない。",
+      "visual_status": "後続・別軸",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "未確認",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "H02",
+      "title": "理解しやすさ・操作感・面白さの人の試遊",
+      "original": [],
+      "implementation": [],
+      "evidence": [],
+      "result": "D04と必要修正の受領後。機械件数・静止画・今回の項目適合を人の受入へ転記しない。",
+      "scope": "後続CO-P02 / CO-H04",
+      "historical_status": "未確認",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "未確認",
+      "functional_result": "D04と必要修正の受領後。機械件数・静止画・今回の項目適合を人の受入へ転記しない。",
+      "visual_status": "後続・別軸",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "未確認",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "X01",
+      "title": "画風・新規札絵・演出・場詳細の縦微調整",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/art-overlap.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "仮潜水服の姿勢了承／描き方不適合、未納品の札画像、演出仕上げ、場詳細の微調整は既存後続。新しい好みをM1阻害にしない。",
+      "scope": "今回範囲外",
+      "historical_status": "根拠付き対象外",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "根拠付き対象外",
+      "functional_result": "対象外は新規の画風・新素材・未採用の追加演出・場詳細縦位置の新デザインだけ。原本に既にある重なり、枠、窓位置、動きの再現差はVで要修正。",
+      "visual_status": "根拠付き対象外",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "根拠付き対象外",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "X02",
+      "title": "クリック／ホールドの未採用統一案",
+      "original": [
+        "docs/検証/UI/readability/co-u02/journey/interaction-proposal.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "未採用提案。現行のクリック選択・詳細とホールド出札を照合し、全操作を再設計しない。",
+      "scope": "今回範囲外",
+      "historical_status": "根拠付き対象外",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "根拠付き対象外",
+      "functional_result": "未採用提案。現行のクリック選択・詳細とホールド出札を照合し、全操作を再設計しない。",
+      "visual_status": "根拠付き対象外",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "根拠付き対象外",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "X03",
+      "title": "複数探索先の本編化・全画面30単位",
+      "original": [
+        "docs/検証/UI/readability/co-u02/README.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "UI-DEST-INT-01／M2と別割当。今回のM1単一探索先を不適合にしない。",
+      "scope": "今回範囲外",
+      "historical_status": "根拠付き対象外",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "根拠付き対象外",
+      "functional_result": "UI-DEST-INT-01／M2と別割当。今回のM1単一探索先を不適合にしない。",
+      "visual_status": "根拠付き対象外",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "根拠付き対象外",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    },
+    {
+      "id": "X04",
+      "title": "HTML原本の再受入・IndexedDB検査の再実施",
+      "original": [
+        "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md"
+      ],
+      "implementation": [],
+      "evidence": [
+        "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md"
+      ],
+      "result": "今回は固定原本を比較入力として読む。HTML原本の実マウス／タッチ・IndexedDB等の旧未確認をGodot証拠で合格にせず、全再実行も要求しない。",
+      "scope": "今回範囲外",
+      "historical_status": "根拠付き対象外",
+      "historical_evidence_commit": "8ccc652f575f94601477a066bb0ae0133dc45559",
+      "recheck_ids": [],
+      "functional_status": "根拠付き対象外",
+      "functional_result": "今回は固定原本を比較入力として読む。HTML原本の実マウス／タッチ・IndexedDB等の旧未確認をGodot証拠で合格にせず、全再実行も要求しない。",
+      "visual_status": "根拠付き対象外",
+      "hardware_status": "未確認／H01",
+      "playtest_status": "未確認／H02",
+      "status": "根拠付き対象外",
+      "owner": "D04B-UI-02（必要修正）／UI（判定）"
+    }
+  ],
+  "rechecks": [
+    {
+      "id": "R01",
+      "title": "危険なドロップの即確定を止める",
+      "status": "未確認",
+      "confirmed_scope": "consume／doomedは実drop後も予測で待ちDTO・保存不変。明示確定1回・再送不重複。quick安全設置は即時、OFFと一致は待機。別プロセス再開の全DTO・次結果を保持。fillerだけ必要未確認。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "QuickDrop"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-details/review-safety-consume.json",
+          "blob": "775af9e130d8d506b5d6b828173535bcb10e0cf4",
+          "mode": "review-safety-consume",
+          "checks": 9,
+          "check_ids": [
+            "opened-one-session",
+            "R04-public-destruction-property-P_initial_0011",
+            "R01-drop-waits-with-dto-file-unchanged",
+            "R01-loss-warning",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R01-one-play-one-revision",
+            "R01-resend-no-second-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 36024,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-details/review-safety-doomed.json",
+          "blob": "624a031316cace8ef577d2c56c91c876cecd5be9",
+          "mode": "review-safety-doomed",
+          "checks": 9,
+          "check_ids": [
+            "opened-one-session",
+            "R04-public-destruction-property-E1_initial_0034",
+            "R01-drop-waits-with-dto-file-unchanged",
+            "R01-loss-warning",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R01-one-play-one-revision",
+            "R01-resend-no-second-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 29612,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-resume.json",
+          "blob": "39485962fc421a3df4761ab95cbde1728142e0cd",
+          "mode": "review-resume",
+          "checks": 6,
+          "check_ids": [
+            "opened-one-session",
+            "separate-process-exact-resume",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "rng-next-result-equal"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 17636,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-safety-matched.json",
+          "blob": "452790b6304f241c98bc678505bd547709f53866",
+          "mode": "review-safety-matched",
+          "checks": 8,
+          "check_ids": [
+            "opened-one-session",
+            "R01-drop-waits-with-dto-file-unchanged",
+            "R01-loss-warning",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R01-one-play-one-revision",
+            "R01-resend-no-second-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 12356,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-safety-off.json",
+          "blob": "9020609c5db2ee0c0a281f31db0783e3bc1c45d9",
+          "mode": "review-safety-off",
+          "checks": 8,
+          "check_ids": [
+            "opened-one-session",
+            "R01-drop-waits-with-dto-file-unchanged",
+            "R01-loss-warning",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R01-one-play-one-revision",
+            "R01-resend-no-second-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 42360,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-safety-quick.json",
+          "blob": "16b535aeead9f8a2c08fd1a996aa75c4af6979a8",
+          "mode": "review-safety-quick",
+          "checks": 6,
+          "check_ids": [
+            "opened-one-session",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R01-one-play-one-revision",
+            "R01-resend-no-second-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 2996,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [
+        "R01-filler"
+      ],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R02",
+      "title": "取得・編成の確認内容と一括確定",
+      "status": "適合",
+      "confirmed_scope": "混合／編成のみ／心得のみの価格・取得先・数量前後・札12枚・容量・変更心得条件効果を公開previewから表示。取消保存不変、1回支払、再送不重複。改行Labelへ平坦化した外観はV-P14で要修正。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "PreparationSummary"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-caption/review-preparation.json",
+          "blob": "defd538e4a5344ae08acda13f51100eaf71a5c64",
+          "mode": "review-preparation",
+          "checks": 22,
+          "check_ids": [
+            "opened-one-session",
+            "disabled-取得-choice-1",
+            "R07-row-button-keeps-plan-comparison",
+            "disabled-detail-stage",
+            "R07-detail-keeps-plan",
+            "R07-drag-keeps-plan-dto-file",
+            "R07-other-group-enabled",
+            "R07-cancel-reenables-group",
+            "R07-reselection-in-same-group",
+            "edited-plan-content",
+            "R02-mixed-individual-price-destination",
+            "R02-mixed-quantity-capacity-passive",
+            "R02-cancel-is-readonly",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R02-R07-replay-one-payment",
+            "edited-plan-content",
+            "R02-composition-only-difference",
+            "edited-plan-content",
+            "R02-passive-only-trigger-effect-capacity",
+            "R02-only-edits-cancel-no-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 3276,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R03",
+      "title": "行動予測と本人・相手の判断材料",
+      "status": "適合",
+      "confirmed_scope": "設置／攻撃／guard／回復／defense_supportの公開cost、余力・身構・会心・隠蔽の前後、攻撃前姿勢と解除、未使用札の期限／回収先を照合。非公開の倍率は捏造しない。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "PredictionSummary / ActorVitals"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-records/review-prediction-defense_support.json",
+          "blob": "8983c2c905e17d07b406d35a584fef26eb79900d",
+          "mode": "review-prediction-defense_support",
+          "checks": 10,
+          "check_ids": [
+            "opened-one-session",
+            "R04-field-contribution-separated",
+            "R04-grant-target-restack-visible",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-V1-guard",
+            "R03-visible-V1-evasion",
+            "R03-expiry-destination-visible-P_initial_0011",
+            "R03-expiry-destination-visible-V0_initial_0015",
+            "R04-record-has-no-current-field-addition",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 16484,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-records/review-prediction-guard.json",
+          "blob": "e3e42b523d3cfa5a7923edda030d982fe58f0bfe",
+          "mode": "review-prediction-guard",
+          "checks": 11,
+          "check_ids": [
+            "opened-one-session",
+            "R04-field-contribution-separated",
+            "R04-defense-uses-visible",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-P-crit",
+            "R03-visible-P-guard",
+            "R03-visible-P-evasion",
+            "R03-expiry-destination-visible-P_initial_0005",
+            "R03-expiry-destination-visible-P_initial_0008",
+            "R04-record-has-no-current-field-addition",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 36180,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-prediction-attack.json",
+          "blob": "3a3a295836c0d36287e6c35defedc136d60d1942",
+          "mode": "review-prediction-attack",
+          "checks": 8,
+          "check_ids": [
+            "opened-one-session",
+            "R04-field-contribution-separated",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-P-crit",
+            "R03-visible-V0-hp",
+            "R03-pre-reset-strike-visible",
+            "R03-expiry-destination-visible-P_initial_0007",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 17320,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-prediction-heal.json",
+          "blob": "88b3151f0bea0557f878481641a7285c0582447e",
+          "mode": "review-prediction-heal",
+          "checks": 9,
+          "check_ids": [
+            "opened-one-session",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-P-hp",
+            "R03-visible-P-crit",
+            "R03-visible-P-guard",
+            "R03-visible-P-evasion",
+            "R03-expiry-destination-visible-V0_initial_0017",
+            "R03-expiry-destination-visible-E1_initial_0032",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 40068,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-first/review-prediction-place.json",
+          "blob": "f9f95ecbf4357168b061a6b3aa08b4761942de51",
+          "mode": "review-prediction-place",
+          "checks": 5,
+          "check_ids": [
+            "opened-one-session",
+            "R03-action-cost-and-public-unknown",
+            "R03-expiry-destination-visible-P_initial_0012",
+            "R03-expiry-destination-visible-P_initial_0003",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 38240,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R04",
+      "title": "札詳細と記録の性能表示",
+      "status": "未確認",
+      "confirmed_scope": "既定防御2、付与先の本人除外・重ね付け、場への加算と個体性能の分離、消費／doomedの説明、既知記録に現在場を混ぜないことを確認。明示nullの無制限guardは未描画。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "CardDetailText"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-records/review-prediction-defense_support.json",
+          "blob": "8983c2c905e17d07b406d35a584fef26eb79900d",
+          "mode": "review-prediction-defense_support",
+          "checks": 10,
+          "check_ids": [
+            "opened-one-session",
+            "R04-field-contribution-separated",
+            "R04-grant-target-restack-visible",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-V1-guard",
+            "R03-visible-V1-evasion",
+            "R03-expiry-destination-visible-P_initial_0011",
+            "R03-expiry-destination-visible-V0_initial_0015",
+            "R04-record-has-no-current-field-addition",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 16484,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-records/review-prediction-guard.json",
+          "blob": "e3e42b523d3cfa5a7923edda030d982fe58f0bfe",
+          "mode": "review-prediction-guard",
+          "checks": 11,
+          "check_ids": [
+            "opened-one-session",
+            "R04-field-contribution-separated",
+            "R04-defense-uses-visible",
+            "R03-action-cost-and-public-unknown",
+            "R03-visible-P-crit",
+            "R03-visible-P-guard",
+            "R03-visible-P-evasion",
+            "R03-expiry-destination-visible-P_initial_0005",
+            "R03-expiry-destination-visible-P_initial_0008",
+            "R04-record-has-no-current-field-addition",
+            "R03-R04-reading-preserves-dto-rng-file"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 36180,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [
+        "R04-unlimited"
+      ],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R05",
+      "title": "同時刻の順序と本人次回",
+      "status": "適合",
+      "confirmed_scope": "公開atでまとまり、同時刻の内部順を断定せず、本人次回2〜3番／3番を表示。閲覧で保存不変。badgeや余白はV-E15の別差分。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "OrderStrip / ReservationSummary"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-second/review-order-different.json",
+          "blob": "80c4869bc1fbe781326e4598b6771885607c5ac8",
+          "mode": "review-order-different",
+          "checks": 5,
+          "check_ids": [
+            "opened-one-session",
+            "R05-public-position-range",
+            "R05-existing-detail-readonly",
+            "R05-now-next-grouping",
+            "R05-no-execution"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 42000,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-second/review-order-tie.json",
+          "blob": "4054b2e0e5388decd46f444624dfe7ece53aa3cb",
+          "mode": "review-order-tie",
+          "checks": 5,
+          "check_ids": [
+            "opened-one-session",
+            "R05-public-position-range",
+            "R05-existing-detail-readonly",
+            "R05-now-next-grouping",
+            "R05-no-execution"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 39624,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R06",
+      "title": "端送り・ドロップ可否",
+      "status": "適合",
+      "confirmed_scope": "取得先scroll99・元0、場90の限定寸法、領域外で停止・取消不変、pending取消可／正式所持取消不可。Paintとreleaseが同じDropPlanを使用。枠と文言はV-D01、速度はV-D04へ。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs",
+          "blob": "5a4eb0f97423929d8b90f17d90b3cd78534e8d0e",
+          "locator": "DropPlan / PaintDropTargets"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-caption/review-destination-field.json",
+          "blob": "5bf98ce0083242332c7484f125a483ed8b773dfd",
+          "mode": "review-destination-field",
+          "checks": 4,
+          "check_ids": [
+            "opened-one-session",
+            "R06-field-destination-only",
+            "R06-field-outside-stops",
+            "R06-field-cancel-no-dto-save"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 24392,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-caption/review-destination.json",
+          "blob": "af793d4e219a77249212930bbdd63157e47fb4b7",
+          "mode": "review-destination",
+          "checks": 8,
+          "check_ids": [
+            "opened-one-session",
+            "R06-destination-only-edge-scroll",
+            "R06-outside-stops-scroll",
+            "R06-cancel-plan-dto-file-unchanged",
+            "R06-pending-cancel-allowed",
+            "R06-pending-escape-keeps-plan",
+            "R06-owned-cancel-denied",
+            "R06-denied-release-keeps-plan-dto"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 13148,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "R07",
+      "title": "公開取得群の上限を全入口で守る",
+      "status": "適合",
+      "confirmed_scope": "CanStageがgroup_id/group_limitを共有し、行・詳細・dropで同群の2個目を遮断。案・予測・保存不変、別群可、取消で再取得可を確認。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+          "blob": "856d0e7f6f50419515849c604a115afe350b52ef",
+          "locator": "CanStage / Stage"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/final-caption/review-preparation.json",
+          "blob": "defd538e4a5344ae08acda13f51100eaf71a5c64",
+          "mode": "review-preparation",
+          "checks": 22,
+          "check_ids": [
+            "opened-one-session",
+            "disabled-取得-choice-1",
+            "R07-row-button-keeps-plan-comparison",
+            "disabled-detail-stage",
+            "R07-detail-keeps-plan",
+            "R07-drag-keeps-plan-dto-file",
+            "R07-other-group-enabled",
+            "R07-cancel-reenables-group",
+            "R07-reselection-in-same-group",
+            "edited-plan-content",
+            "R02-mixed-individual-price-destination",
+            "R02-mixed-quantity-capacity-passive",
+            "R02-cancel-is-readonly",
+            "command-committed-0",
+            "intent-0",
+            "core-file-view-equal-0",
+            "R02-R07-replay-one-payment",
+            "edited-plan-content",
+            "R02-composition-only-difference",
+            "edited-plan-content",
+            "R02-passive-only-trigger-effect-capacity",
+            "R02-only-edits-cancel-no-save"
+          ],
+          "commands": 1,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 3276,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    },
+    {
+      "id": "U01",
+      "title": "余白起点の一覧送り",
+      "status": "適合",
+      "confirmed_scope": "初回の実ノード失敗を履歴に保存し、修正後取得0→140、手札／場0→180。自然FHD overflow0とは別に同じ実ノードを限定寸法へ狭めた合成InputEvent。物理ドラッグ成功とはしない。",
+      "implementation": [
+        {
+          "commit": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+          "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+          "blob": "aed3f9ca40af7ef716fc9b1c083878908456fa79",
+          "locator": "_Input / BeginScroll"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-third/review-scroll-field.json",
+          "blob": "c362fa80d314aaf10c5b6648e0aac7d804daf5a4",
+          "mode": "review-scroll-field",
+          "checks": 4,
+          "check_ids": [
+            "opened-one-session",
+            "U01-no-execution",
+            "U01-blank-start-scroll",
+            "U01-cancel-no-execution"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 40900,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-third/review-scroll-hand.json",
+          "blob": "ade943df3a5af257971e1d7e465ec80b44d547e9",
+          "mode": "review-scroll-hand",
+          "checks": 4,
+          "check_ids": [
+            "opened-one-session",
+            "U01-no-execution",
+            "U01-blank-start-scroll",
+            "U01-cancel-no-execution"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 22256,
+          "physical_input": false
+        },
+        {
+          "path": "docs/検証/本編実装/d04b-ui-02/review-20261002/targeted-third/review-scroll-prep.json",
+          "blob": "aa63d5b6765e35ceacbed5284f1a80600cf17e2e",
+          "mode": "review-scroll-prep",
+          "checks": 4,
+          "check_ids": [
+            "opened-one-session",
+            "U01-no-execution",
+            "U01-blank-start-scroll",
+            "U01-cancel-no-execution"
+          ],
+          "commands": 0,
+          "status": "passed",
+          "logical_viewport": "(1920, 1080)",
+          "actual_window": "(1920, 1080)",
+          "process_id": 25068,
+          "physical_input": false
+        }
+      ],
+      "required_unknowns": [],
+      "visual_judgment": "別判定。visual-diff.jsonの該当部品が要修正",
+      "physical_input": "未確認／後続H01",
+      "owner": "D04B-UI-02",
+      "new_execution": false
+    }
+  ],
+  "additional_function_findings": [
+    {
+      "id": "N01",
+      "status": "要修正",
+      "title": "取得詳細の価格・所在・修飾構造",
+      "difference_ids": [
+        "V-P15"
+      ],
+      "fix": "既存public offer.price_unitsと現在lane・pendingを原本詳細の位置／価格行へ。元修飾説明を折畳みに戻す。"
+    },
+    {
+      "id": "N02",
+      "status": "要修正",
+      "title": "記録のタブ・分類・親子",
+      "difference_ids": [
+        "V-W06",
+        "V-W07"
+      ],
+      "fix": "元recordsPanelViewのタブ／表／獲得記録／親を維持。観測区分の公開根拠不足はU-RC04へ。"
+    },
+    {
+      "id": "N03",
+      "status": "要修正",
+      "title": "表示設定の動きを抑える",
+      "difference_ids": [
+        "V-W09",
+        "V-D05"
+      ],
+      "fix": "原本表示設定と減動の描画経路を継承し、共通部品として通常と対照。"
+    }
+  ],
+  "visual_differences": "visual-diff.json",
+  "required_unknowns": "unknowns.json",
+  "screen_state_inventory": "screen-states.json",
+  "summary": {
+    "original_item_count": 38,
+    "original_function_status_counts": {
+      "適合": 29,
+      "未確認": 4,
+      "要修正": 1,
+      "根拠付き対象外": 4
+    },
+    "R01_R07_U01": {
+      "未確認": 2,
+      "適合": 6
+    },
+    "M1_state_groups": 37,
+    "baseline_components": 19,
+    "unapproved_visual_differences": 57,
+    "individually_approved_exceptions": 0,
+    "required_unknown_groups": 17,
+    "UI_conformant": false,
+    "distribution_allowed": false,
+    "distribution_decision": "RD-PACK-03へ進めない",
+    "gate": "未承認差異0・必要未確認0、固定SHAと環境・証拠対応、変更影響の機能確認成立の全条件。H01/H02は別工程。"
+  },
+  "withdrawn_exemption": "初回のHTML/Godot文字組・標準スクロールバーを描画部品差として許容した判断を撤回。元23機能適合は証拠を保存し、外観の適合へ流用しない。T04親子の誤った包括適合も訂正。",
+  "human_tasks": {
+    "CO_H07": "今回の開始文を受領・実施。人の送付作業を完了としてとりまとめへ返す",
+    "user_judgment_required": false,
+    "current_playtest_required": false,
+    "later": [
+      "H01／CO-H02・H03：新版配布後の実機・DPI・保存再開",
+      "H02／CO-H04：D04受入と試遊条件固定後"
+    ],
+    "handoff_received_by_coordination": false
+  },
+  "boundaries": {
+    "main_code_changed": false,
+    "common_spec_changed": false,
+    "plan_original_changed": false,
+    "UI_redesigned": false,
+    "new_assets_created": false,
+    "other_work_started_or_sent": false,
+    "physical_input_tested": false,
+    "old_all_suites_rerun": false
+  },
+  "publication": "publication.json（通常保存・Push・全変更path/blobと本文読戻しの実績）",
+  "request_remaining_tasks": [],
+  "completion_record": {
+    "date_jst": "2026-10-05",
+    "artifact_commit": "8f5cb467471fd460f802c7ee5a497c6b50186c10",
+    "resumption": "resumption-20261005.json",
+    "old_environment_available": false,
+    "old_uncommitted_changes_confirmed": null,
+    "old_unpushed_commits_confirmed": null,
+    "CP02_usable": false,
+    "CP02_findings_still_supported_by_valid_raw_pair": true,
+    "recreated_images": 0,
+    "new_game_test_executions": 0,
+    "coordination_received": false,
+    "completed_on_jst": "2026-10-05",
+    "published_and_readback_commit": "e664e26659dbcef10ada55f7c227459bf791c6e6",
+    "published_and_readback_tree": "c3849f0512e95c38e7ab56038aace238b71fe7df",
+    "readback_utc": "2026-10-04T16:07:11.393Z",
+    "full_text_and_blobs_match": 10
+  }
+}

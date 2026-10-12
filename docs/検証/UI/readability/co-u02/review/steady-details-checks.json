@@ -1,0 +1,113 @@
+{
+  "version": "0.14.5",
+  "checked_at_utc": "2026-09-25T16:32:10.127Z",
+  "passed": 11,
+  "checks": [
+    {
+      "name": "左半分は右脇・右半分は左脇へ16px空けて出す",
+      "passed": true
+    },
+    {
+      "name": "相手の高さや縦位置が違っても窓の縦位置・寸法を変えない",
+      "passed": true
+    },
+    {
+      "name": "隣の相手を避けても指定した左右と共通の高さを保つ",
+      "passed": true
+    },
+    {
+      "name": "左右の画面端でも窓と選択対象を保ち、縦へ逃がさない",
+      "passed": true
+    },
+    {
+      "name": "相手が過密でも選択元を隠さず同じ高さへ収める",
+      "passed": true
+    },
+    {
+      "name": "実UIの敵・地形を往復しても同じ対象は同じ位置へ開く",
+      "passed": true
+    },
+    {
+      "name": "全体／原寸・表示幅の変更で論理座標が飛ばない",
+      "passed": true
+    },
+    {
+      "name": "予測・予約の応答後にも相手詳細の縦横位置を変えない",
+      "passed": true
+    },
+    {
+      "name": "対象切替は詳細・予測へ反映し、窓の移動を横方向だけにする",
+      "passed": true
+    },
+    {
+      "name": "同じ位置の詳細から窓を閉じず選択対象へ実行できる",
+      "passed": true
+    },
+    {
+      "name": "変更経路に外部通信・実行例外がない",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "inline_sha256": "7debe6bb6e63388c9729e44bf90fa091c905be6ac431f0e3f1d404dd0b6e0b4c",
+  "placements": [
+    {
+      "target": "V0",
+      "rect": {
+        "left": 1307,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    },
+    {
+      "target": "E1",
+      "rect": {
+        "left": 195,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    },
+    {
+      "target": "V0",
+      "rect": {
+        "left": 1307,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    },
+    {
+      "target": "E1",
+      "rect": {
+        "left": 195,
+        "top": 16,
+        "width": 416,
+        "height": 384
+      }
+    }
+  ],
+  "rule": {
+    "top": 16,
+    "width": 416,
+    "height": 384,
+    "gap": 16,
+    "side": "left-half target opens right; right-half target opens left; horizontal neighbor/edge correction only"
+  },
+  "injected": [
+    "矩形・client寸法・capture・hit test",
+    "ResizeObserver・可視通知",
+    "MouseEventによるクリック・ポインター通知"
+  ],
+  "crowded_case": "選択対象と画面内への収まりを確認。左右空間が無い場合の他の相手との非重複は保証しない",
+  "old_suites_rerun": false,
+  "unverified": [
+    "実ブラウザー描画・実フォント・実際の窓の重なり",
+    "実マウス・物理タッチ・実キーボード",
+    "IndexedDB・複数タブ"
+  ]
+}

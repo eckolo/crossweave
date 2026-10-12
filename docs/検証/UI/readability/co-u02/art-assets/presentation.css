@@ -1,0 +1,15 @@
+#crossweave-journey[data-display="fhd"] #cw-scene-base[data-artwork]{background-size:cover;background-repeat:no-repeat}
+#crossweave-journey[data-display="fhd"] #cw-scene-base[data-artwork]::after{content:"";display:block;position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,light-dark(#e8edd933,#182a2755))}
+#crossweave-journey[data-display="fhd"] .cj-backdrop[data-artwork]{padding:0;background-size:cover;background-repeat:no-repeat}
+#crossweave-journey[data-display="fhd"] .cj-backdrop[data-artwork]>div{display:none}
+#crossweave-journey[data-display="fhd"] .cw-actor{overflow:visible}
+/* Eight pixels of paint overscan fit the actor track's reserved top margin. */
+#crossweave-journey[data-display="fhd"] .cw-actor .cw-illustration[data-artwork]{inset:-8px 0 auto;height:176px;padding:0;background:transparent}
+#crossweave-journey[data-display="fhd"] .cw-actor .cw-illustration[data-artwork] img{object-fit:contain;object-position:center;width:100%;height:100%}
+#crossweave-journey[data-display="fhd"] .cw-actor .cw-illustration[data-artwork]+.cw-face-caption{background:var(--cw-paper)}
+#crossweave-journey[data-display="fhd"] .cw-actor[aria-pressed="true"] .cw-illustration[data-artwork]+.cw-face-caption{background:var(--cw-soft)}
+#crossweave-journey[data-display="fhd"] .cw-actor .cw-illustration[data-terrain]{inset:0 0 auto;height:108px;padding:0;align-items:center;background:none}
+#crossweave-journey[data-display="fhd"] .cw-actor .cw-illustration[data-terrain]>.lucide{width:64px;height:64px;stroke-width:1.5}
+#crossweave-journey[data-display="fhd"] .cw-turn-face img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+/* Forecast and placed cards share the same face. State marks do not move its rows. */
+#crossweave-journey[data-display="fhd"] #cw-field>.cw-slot .cw-field-change{position:absolute;top:4px;right:4px;z-index:2;margin:0;padding:0 6px;background:var(--cw-paper);border-radius:3px;max-width:calc(100% - 8px)}

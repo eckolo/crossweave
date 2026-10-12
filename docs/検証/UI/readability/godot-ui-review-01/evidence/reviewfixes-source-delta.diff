@@ -1,0 +1,19 @@
+--- tested before caption
++++ 6168 fixed product
+@@ -141,7 +141,15 @@
+         foreach(var (rect,zone) in dropZones)
+         {
+             var status=DropPlan(gestureRow,gestureZone,zone);bool over=rect.HasPoint(pointer);var color=new Color(status.allowed?"315849":"a43827");
+-            surface.DrawRect(rect,color,false,over?4:2);if(over)surface.DrawString(font,rect.Position+new Vector2(14,30),(status.allowed?"✓ ":"× ")+status.text,fontSize:20,modulate:color);
++            surface.DrawRect(rect,color,false,over?4:2);
++            if(over)
++            {
++                // 操作中の可否が列見出しと重ならないよう、同じ位置へ不透明な札色を敷く。
++                string caption=(status.allowed?"✓ ":"× ")+status.text;
++                float width=Math.Min(rect.Size.X-20,font.GetStringSize(caption,fontSize:20).X+16);
++                surface.DrawRect(new(rect.Position+new Vector2(8,6),new(width,36)),new Color("fcfcf5"));
++                surface.DrawString(font,rect.Position+new Vector2(14,30),caption,fontSize:20,modulate:color);
++            }
+         }
+     }
+     internal void BlankPointerDown(ScrollContainer scroll,Vector2 point)

@@ -1,0 +1,156 @@
+{
+  "checked_at_utc": "2026-09-24T17:34:03.809Z",
+  "version": "two-stage-ui-4",
+  "environment": {
+    "node": "v24.19.0",
+    "dom": "JSDOM 26.1.0"
+  },
+  "scope": "横長の共通枠、一覧容量、配置変更後の主要操作。矩形・hit test・captureを注入したDOM検査と寸法計算。",
+  "inline_sha256": "50fa02edb096e11cd9b4470f1d26a1435fd6527694fa6ed533bb9d8d00a5eea5",
+  "passed": 16,
+  "checks": [
+    {
+      "name": "最長25文字を縮字せず2行へ置き、44pxの操作を横へ並べて212×48pxに収める",
+      "passed": true
+    },
+    {
+      "name": "3領域を画面幅を使う横長の段として配置する",
+      "passed": true
+    },
+    {
+      "name": "初期の候補・手元7種類・編成12枚が一度に入る設計容量を持つ",
+      "passed": true
+    },
+    {
+      "name": "一覧は右端の主要操作1つにし、取消は詳細から引き続き使える",
+      "passed": true
+    },
+    {
+      "name": "段をまたぐドラッグでも取得と編成を未払いで反映する",
+      "passed": true
+    },
+    {
+      "name": "段の変更後も外す・棚へ戻して取消が同じ個体へ作用する",
+      "passed": true
+    },
+    {
+      "name": "最長名称の心得を全文保持し、同じ横長枠を使う",
+      "passed": true
+    },
+    {
+      "name": "候補4件・手元20種類・編成12枚の実DOMを間引かず表示する",
+      "passed": true
+    },
+    {
+      "name": "標準1024pxで4＋20＋12を領域内に収め、16:9の高さも越えない（寸法計算）",
+      "passed": true
+    },
+    {
+      "name": "容量を越える取得は切り捨てず、増えた行まで縦方向に移動する",
+      "passed": true
+    },
+    {
+      "name": "余白ドラッグで行の続きへ連続スクロールできる",
+      "passed": true
+    },
+    {
+      "name": "上下キーも新しい行間に合わせて一覧を送る",
+      "passed": true
+    },
+    {
+      "name": "分類切替でも縦スクロール位置を保持する",
+      "passed": true
+    },
+    {
+      "name": "320pxの狭幅でも札寸法を変えず、全項目と操作経路を保持する（DOM）",
+      "passed": true
+    },
+    {
+      "name": "736pxの狭幅でも札寸法を変えず、全項目と操作経路を保持する（DOM）",
+      "passed": true
+    },
+    {
+      "name": "今回の配置・操作経路のDOM実行例外なし",
+      "passed": true
+    }
+  ],
+  "capacity_fixture": {
+    "offers": 4,
+    "reserve_kinds": 20,
+    "deck": 12,
+    "source": "共通データの有効な修飾札から確認用の所持品を追加。経済・本番初期所持の変更ではない。",
+    "heights": {
+      "offer": {
+        "count": 4,
+        "needed_height": 52,
+        "allocated_height": 52
+      },
+      "reserve": {
+        "count": 20,
+        "needed_height": 252,
+        "allocated_height": 266
+      },
+      "build": {
+        "count": 12,
+        "needed_height": 152,
+        "allocated_height": 152
+      }
+    }
+  },
+  "capacities": [
+    {
+      "width": 736,
+      "columns": 3,
+      "visible": {
+        "offer": 6,
+        "reserve": 3,
+        "build": 9
+      },
+      "orientation": "rows"
+    },
+    {
+      "width": 880,
+      "columns": 3,
+      "visible": {
+        "offer": 6,
+        "reserve": 3,
+        "build": 12
+      },
+      "orientation": "rows"
+    },
+    {
+      "width": 1024,
+      "columns": 4,
+      "visible": {
+        "offer": 4,
+        "reserve": 20,
+        "build": 12
+      },
+      "orientation": "rows"
+    },
+    {
+      "width": 1280,
+      "columns": 5,
+      "visible": {
+        "offer": 5,
+        "reserve": 40,
+        "build": 15
+      },
+      "orientation": "rows"
+    }
+  ],
+  "old_suites_rerun": false,
+  "retained_results": [
+    "checks.json: v1, 24",
+    "structure-checks.json: v2, 21",
+    "drag-checks.json: v3, 36"
+  ],
+  "unverified": [
+    "実ブラウザー描画・文字の収まり",
+    "実ポインター・タッチ",
+    "IndexedDB",
+    "本編保存",
+    "長期プレイ時の所持数分布",
+    "ユーザー受入"
+  ]
+}

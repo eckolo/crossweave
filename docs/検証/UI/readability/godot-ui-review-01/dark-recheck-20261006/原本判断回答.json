@@ -1,0 +1,525 @@
+{
+  "schema": "crossweave-ui-original-decisions/1",
+  "fixed": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_inventory_version": "2026-10-04.1",
+    "palette_correction_revision": "2026-10-07.1",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "theme": "了承済み緑系暗色・通常OS非連動",
+    "new_game_runs": 0
+  },
+  "request_source": "docs/検証/本編実装/d04b-ui-02/reproduction-20261005/原本判断への返却.json",
+  "items": [
+    {
+      "id": "DEC-UI-01",
+      "status": "登録30定義一致を確認／11要求名・16用途は個別採用未決",
+      "difference_ids": [
+        "V-P01",
+        "V-P07",
+        "V-P08",
+        "V-P10",
+        "V-P11",
+        "V-P12",
+        "V-P14",
+        "V-P15",
+        "V-E05",
+        "V-E15"
+      ],
+      "answer": "原本subsetの登録30定義と現在対応30は静的ベクトル比較で完全一致。Swords/HeartPulse復元は新承認不要。14用途は現在と候補定義が同じ、Mountain2用途は異なる。H11資料の原本欄は実画素ではなく空欄/△表記であり、wrong-use nodeと使用先不足があるため全16用途の開始成立は認定しない。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/lucide.js",
+          "blob": "70c1c25b45cf457ad789db212d8b2efce1b598d4",
+          "locator": "icons登録30件。icon-audit.jsonに抽出した全ベクトル"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/build-icons.cjs",
+          "blob": "364adab1c4c2cd2052be47f2a9b55bf0bc80fab9",
+          "locator": "names/subset生成"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/vendor/lucide-source.json",
+          "blob": "afe0952ad8b1a467dd12c1454c9831396c3f56d3",
+          "locator": "既存Lucide 1.8.0の由来"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "header/metadata/clock/purchaseTrackの要求名"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "actorIcon/terrain Mountainとfallback△"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "itemIcon: attack→swords、heal→heart-pulse"
+        }
+      ],
+      "expected": "登録済み定義と実itemIconの使用先を維持。未登録は用途単位で原本/現在/候補の実画素・path/blob・size/stroke/alpha/box・状態を揃える。主体Triangle SVG64と行動順Text△12/22boxをMountainへ一括同一視しない。",
+      "unresolved": "H11原本実画素の比較列、H11-04/06/11の用途node誤引用、05/13の複数使用先、Mountainの原本実画素と使用先box対応が不足。候補は全16未採用。",
+      "comparison": "H11開始成立.json、記号ベクトル照合.json、提出human比較HTMLと固定暗色原寸を参照。受領したことを採用にしない。",
+      "options": [
+        {
+          "id": "A",
+          "label": "要求名に対応する既存Lucide 1.8.0定義を個別指定",
+          "recommended": true,
+          "impact": "チェック/未払い/空枠/領域/terrainの意味を可視にできる。固定原本の空欄/fallbackから変わる用途は個別採用。参照path/blobと用途別boxを本編へ返す。"
+        },
+        {
+          "id": "B",
+          "label": "固定bundleの空欄/fallbackをそのまま維持",
+          "impact": "実画素の再現には近づくが、既了承の時計/check等の説明と意味の可視化は満たさない。UI適合を自動認定できない。"
+        }
+      ],
+      "human_decision": "未登録の各用途をA/Bまたは既存別原本の正確な参照で指定。まとめて全UIを承認し直さない。",
+      "implementation_condition": "H11開始成立.jsonの行別不足を整える。登録Swords/HeartPulseは同じ定義で実attack/healを確認。未登録の採用回答後のみ、指定された用途/boxへ反映。",
+      "reopen": "本編が行別資料を修正→UIが開始成立を確認→とりまとめが用途別人回答を登録→本編の固定修正対→UI。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    },
+    {
+      "id": "DEC-UI-02",
+      "status": "回答確定・固定暗色版でpublic attrの表示補完を確認",
+      "difference_ids": [
+        "V-P07"
+      ],
+      "answer": "public detail.attrを表示adapterで読む既回答を維持。原本のattribute参照不具合による空欄の再現を要求しない。固定暗色対でA/C/D等と数量を確認。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+          "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+          "locator": "公開catalogue/detailのattr"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+          "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+          "locator": "metadataがattributeを参照"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/README.md",
+          "blob": "464e58885cb2b2d10af8b973796f2bc3d89db298",
+          "locator": "共通札の属性/数量メタ行"
+        }
+      ],
+      "expected": "表示adapter内だけでattribute:=detail.attr。欠落は既存の未公開/不明表示、値の推測はしない。",
+      "implementation_condition": "DTO/規則/保存名を変えず公開attrだけを読む。未知値は推測せず元の未公開/不明表示。全owned/長名称等の合法状態は別残件。",
+      "unresolved": null,
+      "human_decision": "不要。既了承の公開属性表示の復元。",
+      "reopen": "本編は現attr表示を保持し、他差異を限定修正。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    },
+    {
+      "id": "DEC-UI-03",
+      "status": "2点の個別人回答待ち（H12）",
+      "difference_ids": [
+        "V-E11",
+        "V-W04"
+      ],
+      "answer": "元のroot内空白保持/root外160ms閉鎖と、現在のroot内空白160ms閉鎖を区別。preview追加180ms hover入口も独立した第2判断。位置W04の成立を寿命/入口の採用へ読み替えない。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/exploration.js",
+          "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+          "locator": "pointerover/pointerout/leaveTimer/drawers"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/field-forecast-details.md",
+          "blob": "e00a99ea5a014994adb09c6418438b14e3c08ede",
+          "locator": "予測詳細・反対端・hover設計"
+        }
+      ],
+      "expected": "pin/clickは維持、単なるhoverはcommand/revision/保存不変。開くdelay180、閉じるdelay160の適用境界とpreview入口を明示する。",
+      "comparison": "既存H12資料/指示0.10を維持。A=root内保持、B=root内空白も160ms閉鎖。preview追加は別yes/no。",
+      "transition_table": [
+        {
+          "input": "useへ入る",
+          "source": "180ms後表示",
+          "godot": "180ms後表示"
+        },
+        {
+          "input": "表示窓内へ移る",
+          "source": "保持",
+          "godot": "保持"
+        },
+        {
+          "input": "root内空白へ移る",
+          "source": "leaveTimer解除・保持",
+          "godot": "160ms後閉じる"
+        },
+        {
+          "input": "root外へ出る",
+          "source": "160ms後閉じる",
+          "godot": "160ms後閉じる"
+        },
+        {
+          "input": "previewへ入る",
+          "source": "追加hover入口なし",
+          "godot": "追加hover入口あり"
+        },
+        {
+          "input": "pin/click固定",
+          "source": "自動閉鎖を抑制",
+          "godot": "自動閉鎖を抑制"
+        }
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "固定原本のroot境界を維持",
+          "recommended": true,
+          "impact": "root内空白で保持しroot外160ms。追加preview hoverを除き、既了承のuse入口を再現。残留窓は原本どおり。"
+        },
+        {
+          "id": "B",
+          "label": "窓外160ms閉鎖を個別採用",
+          "impact": "空白移動で窓が消える。原本と異なる操作を採用する判断が必要。preview入口追加はさらに別に可否を選ぶ。"
+        }
+      ],
+      "unresolved": "H12のroot境界とpreview追加の2回答が未着。ユーザー回答を推測しない。",
+      "human_decision": "root内空白の保持/160ms閉鎖と、preview入口追加の可否を個別指定。",
+      "implementation_condition": "回答が不要な位置・描画は進められる。境界/入口だけは個別指定後に修正。hover/cancel/pinはcommand0・revision/save/RNG不変を維持。",
+      "reopen": "とりまとめがH12-1/H12-2を個別記録し、主担当が同pointer/cancel/pin/hoverの固定証拠を返す。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    },
+    {
+      "id": "DEC-UI-04",
+      "status": "取得title補正確認／役割metrics修正継続・AAのみの許容採用は未決",
+      "difference_ids": [
+        "V-C01"
+      ],
+      "answer": "取得title上端3pxの差は解消。残る高さ1pxは特定領域のink/AA差候補として返す。一方詳細の行・見出し位置4/6/17px、content高/scroll、表top10〜12pxの差をAAとして免除しない。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "system-ui/strong500と用途別line box"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/full-hd.css",
+          "blob": "526f1d81790c8be582f4c7133c20bd258b9d1478",
+          "locator": "本文20/34など"
+        }
+      ],
+      "expected": "同じdark/public text/pointer、1920×1080・倍率/DPR1、実font face/file hash、size/weight/line-height・line box・baseline・wrapを役割別に対応。",
+      "measurements": [
+        {
+          "region": "V-P04取得札名",
+          "threshold": "RGBいずれか<180（字面位置の補助測定。許容差基準ではない）",
+          "reference": [
+            12,
+            10,
+            39,
+            19
+          ],
+          "godot": [
+            12,
+            13,
+            38,
+            18
+          ]
+        },
+        {
+          "region": "V-H02本文先頭行",
+          "reference": [
+            25,
+            6,
+            633,
+            20
+          ],
+          "godot": [
+            25,
+            9,
+            632,
+            19
+          ]
+        }
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "同metricを再現し、残る特定AA差だけ個別許容候補へ",
+          "impact": "詳細の読める量/scrollは修正を維持。許容しても当該文字領域・描画条件のみ。"
+        },
+        {
+          "id": "B",
+          "label": "特定領域の差も許容しない",
+          "impact": "新font/規則/素材へ変更する承認ではなく、同font条件の描画再調整が必要。"
+        }
+      ],
+      "unresolved": "詳細/tableのmetric差が残る。取得titleのink高さ1pxをAAだけの差と断定する独立根拠は未成立。過去環境未回収は未確認として保持。",
+      "human_decision": "現在は全UI AA許容の人作業を求めない。役割metricsとAAのみの切分けが成立した特定領域だけ、原寸/差/影響/代案を提示する。",
+      "implementation_condition": "C01/W01/W10/E10/E12の行組・位置・wrapを修正し、その役割だけの残差を返す。",
+      "reopen": "主担当の役割metrics修正版→UIの限定AA分類→必要な特定領域のみ人の個別判断。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "comparison": "文字比較.md／実測.json。title領域[420,127,502,154]相当とIDcropの当該文字を限定比較候補とする。全UI許容は選択肢にしない。"
+    },
+    {
+      "id": "DEC-UI-05",
+      "status": "H13の3route回答待ち／owned開始条件は一部不足",
+      "difference_ids": [
+        "V-P12",
+        "V-P13",
+        "V-P15",
+        "V-W01",
+        "V-W02",
+        "V-W08",
+        "V-W10",
+        "V-H04",
+        "V-H05",
+        "V-S01"
+      ],
+      "answer": "既存取得窓/共通窓の幾何・機能条件を維持。Windows/本文/公開補足の追加routeはH13の3個別回答を待つ。ownedのA/Bは概念図であり、合法home同状態対だけで変換可能・lock・preset/pendingの全状態や候補実入力を確認済みにしない。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/acquisition-preview/structure.css",
+          "blob": "697a882d79c5f9770f15174e6b35e9e1bc2ea007",
+          "locator": "cp-dialog/header/body/actions"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+          "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+          "locator": "既存共通窓・メニュー・記録"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "開始/本文/帰還の既存route"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/prose-layout.js",
+          "blob": "7b71047efe595f921286448a363e4fce14e37e2f",
+          "locator": "reading本文領域"
+        }
+      ],
+      "expected": "保存拒否/不明/busy/復旧/読了/見積/lock/convertの意味を削除せず、既存部品と追加配置を分ける。",
+      "route_choices": [
+        {
+          "route": "取得pending/confirmation/detailsの元footer",
+          "baseline": "B09 cp-dialog、960×820/64/24/72、actions flex:1 gap4",
+          "status": "採用判断不要の再現修正",
+          "current": "160px固定・左寄せ/primary差",
+          "recommended": "原本の均等幅footerへ戻す",
+          "alternative": null,
+          "impact": "既存取得機能は維持。V-P13修正と追加route採用を混同しない。"
+        },
+        {
+          "route": "owned lock/解除/変換見積・確定",
+          "baseline": "B09取得詳細、B16共通子窓",
+          "status": "個別配置判断の候補・合法ST-P08比較補完までAI準備待ち",
+          "current": "取得詳細footerに複数の新操作・状態が入る。固定A06owned入口には同じ窓がない。",
+          "recommended": "A：B09の元footer寸法内で操作・既存公開状態を対応し、追加変換確認をB16子窓へ",
+          "alternative": "B：B16の既存親子導線へlock/変換操作をまとめ、B09footerは元操作のまま",
+          "impact": "Aは詳細内に操作が増える。Bは操作までの手数が増える。どちらもlock拒否・見積・確定・重送防止を維持。ST-P08合法fixtureが必要。",
+          "human_start_condition": "合法owned fixtureの受領と現配置の原寸/比較を補完してから案内。登録名やコードだけで実描画を確認済みにしない。"
+        },
+        {
+          "route": "Windows保存/診断/復旧・中断",
+          "baseline": "B16 menu/common window、B09 blocking確認、B19 status",
+          "status": "個別配置判断待ち",
+          "current": "開始/メニュー/本文へWindows固有操作と診断が追加",
+          "recommended": "A：B16既存menuから診断/復旧の子窓、拒否/不明/busyはB19、破壊的確認だけB09",
+          "alternative": "B：開始画面の下64px帯へ入口を集め、同じB16子窓を開く",
+          "impact": "Aはゲーム内メニュー、Bは開始で入口が増える。未保存・拒否・不明・worker待機を隠さず、強制初期化で代用しない。"
+        },
+        {
+          "route": "本文の読了・任意本文を閉じる",
+          "baseline": "B17 reading20/34 padding24、B16共通窓",
+          "status": "個別配置判断待ち",
+          "current": "新button/footerが本文360px表示域へ影響",
+          "recommended": "A：既存下64px操作帯へ読了/閉じるを対応し、本文の元表示域を保つ",
+          "alternative": "B：B16共通窓の既存footer操作へ対応し、本文の高さ変更を個別採用",
+          "impact": "Aは操作と本文が離れる。Bは元本文の可視量が減る。読了のcommand/保存・任意本文の非変更をそれぞれ維持。"
+        },
+        {
+          "route": "予測の未公開補足/予約・手順情報",
+          "baseline": "B15 ledger body、B16既存状況/行動順",
+          "status": "個別配置判断待ち",
+          "current": "原本の詳細本文へ追加行/sectionが入る",
+          "recommended": "A：B15の既存行と同じ書式で公開事実だけを配置し、未公開は明記",
+          "alternative": "B：B16の既存状況/行動順へ補足を置き、B15は元の行に限定",
+          "impact": "Aは本文長が増える。Bは補足閲覧の手数が増える。未公開計算式/現在のprivate情報を表示せず、R01の必要警告を削除しない。"
+        }
+      ],
+      "unresolved": "H13-Windows/本文/公開補足の3回答未着。ownedは初期所持かつ編成使用中で変換不能の一状態。変換可能・lock/preset/pending/複合理由、候補A/B実操作/非破壊が不足。",
+      "human_decision": "各routeのA/Bと必要な限定条件を個別指定。原本footer再現など判断不要の修正は待たず本編へ。 ownedの合法ST-P08は未取得のため、そのrouteはAI側の比較補完待ち。既存契約担当の入力と本編の原寸が届くまで人の開始条件を満たした扱いにしない。",
+      "implementation_condition": "既回答の部品修正は先行。追加配置は該当個別回答後に表示だけ移す。規則/保存形式/公開境界/既存Windows機能は変更しない。",
+      "reopen": "とりまとめの3回答＋既存契約の合法owned全状態→本編の候補実入力/固定証拠→UI。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+      "comparison": "owned・追加導線の返却.json／提出human/ownedと追加導線の暗色比較.html。owned候補A/Bは概念比較で実入力を代用しない。"
+    },
+    {
+      "id": "DEC-UI-06",
+      "status": "回答確定・keep/clamp条件を維持",
+      "difference_ids": [
+        "V-W07"
+      ],
+      "answer": "既存の親選択/scroll保持を正とする。原本の597→0等のリセット不具合は採用値にしない。現在の親/右子構造・scrollPositions保持を確認。",
+      "evidence": [
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/records.js",
+          "blob": "ea11b45e9ed543ba282fc2a26bcc52e0b48c1e94",
+          "locator": "recordsPanelView・直前の親/選択"
+        },
+        {
+          "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+          "path": "docs/検証/UI/readability/co-u02/journey/view.js",
+          "blob": "545ef955a851397c0c1e91b4be23bee0bae50c3b",
+          "locator": "scrollMemory保存と復元"
+        }
+      ],
+      "expected": "paneごとの自身のscrollを0..新maxへclampし、親選択と左右導線を維持。画素修正後のmaxも再計算。",
+      "comparison": {
+        "reference": {
+          "parent_scroll": 597,
+          "beside": 0,
+          "returned": 0,
+          "content_height": 1011,
+          "page": 414
+        },
+        "godot": {
+          "parent_scroll": 598,
+          "beside": 598,
+          "returned": 598,
+          "content_height": 1012,
+          "page": 414
+        },
+        "interpretation": "原本実描画の0は保存/復元の既存条件を満たさない。本編keepは機能条件を満たす。高さ1pxと行のgap/文字差は別の外観残件。"
+      },
+      "implementation_condition": "W06/C01修正後もkeep/clampとcommand0・revision/save/RNG不変を確認。固定597/598等の機械許容値を作らない。",
+      "unresolved": null,
+      "human_decision": "不要。新しい操作仕様を作らず、既存の保持条件を適用。",
+      "reopen": "本編はkeepを維持し、他ID修正後のlight/dark親子/戻りを非変更記録付きで限定確認。",
+      "fixed": {
+        "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+        "baseline_inventory_version": "2026-10-04.1",
+        "palette_correction_revision": "2026-10-07.1",
+        "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+        "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+        "implementation_branch": "impl/m1-godot-application-20260927",
+        "viewport": [
+          1920,
+          1080
+        ],
+        "theme": "了承済み緑系暗色・通常OS非連動",
+        "new_game_runs": 0
+      },
+      "previous_answer_commit": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b"
+    }
+  ],
+  "answered": 6,
+  "definitive": [
+    "DEC-UI-02",
+    "DEC-UI-06"
+  ],
+  "individual_adoption_pending": [
+    "DEC-UI-01",
+    "DEC-UI-03",
+    "DEC-UI-05"
+  ],
+  "metrics_before_aa_decision": true,
+  "other_work_messages_sent": false,
+  "not_an_exception": true
+}
