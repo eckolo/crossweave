@@ -930,3 +930,73 @@ H17の一度の送付・持帰りは完了受領。次は共通作業ルール�
 通信unknownの診断・現在適用状態を確証する具体手段／窓口は未特定。今回とりまとめにenvironment_statusは公開されておらず、現在実測なし。Cloudで前回実在・利用したという報告と区別。追加Edit／Republish・全internet許可・新経路の試行を依頼せず、通信有効状態＋明示再開→正式sourceと固定入力→固定準備→人Publish／既存最小検査という停止を維持する。
 
 保存・読戻しの固定SHAと貼付用全文・とりまとめ報告文は、固定成果を読戻した後の最終提出へ追記する。今回他担当枝・本編コード・通常save・UI原本・Cloud設定変更、ゲーム／検査／描画、他会話自動送信／起動／停止0。
+
+
+### 今回の固定成果・読戻し完了
+
+固定成果f443dfb7197635c5f510de23d42719cd31601a16、単独親34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1、root tree9b64331972beb996de9caf4eada0d74cb8a0989e、12変更本文/path/blobと独立Git hash・62tree object再計算・HEAD一致。対象外不変・削除0、計画全92path。最終記録自身のSHAは応答・Git履歴へ別記する。
+
+### 次の既存Workへそのまま渡す全文
+
+Chat「共通作業ルールの常設反映」：
+
+```text
+指示元：Chat「とりまとめ」／ops/project-coordination-20260913
+指示資料の固定提出コミット：f443dfb7197635c5f510de23d42719cd31601a16
+
+Chat「共通作業ルールの常設反映」の既存Workを継続してください。
+repo：eckolo/crossweave
+WorkID：20261008-codex-common-rules
+作業枝：ops/codex-common-rules-20261008
+対象：CO-CX01 C3A 改訂1.1。新Work・新枝は不要です。
+指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md
+受領原本：docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.md と同名JSON。
+
+Cloud準備窓口の全文20261008.3読了・適用する行動・停止維持の報告を、とりまとめが受領しました。H17の全文再貼付は不要です。この受領原文を自Workへ取り込み、直接受領・Git原本反映・本編文書受領・Cloud常設読込み・通信／準備を別々に記録してください。
+
+開始時と保存前に最新HEADを確認し、①とりまとめ配下全体の実同期と全path/blob記録→②dev_design_tmp_assemblyの指定原本確認→計画再照合を行ってください。
+既存文書成果3eb8b7d4647cddec5463fd7ffe5e8258fa423550／統合1a5b0ce52d07de7cfb749ff6ef68a7cee04b6fbe、後続提出4311f0220dda5124d70db568496bb835110a9898の保存記録を保全し、作り直さず今回受領記録を追補してください。統合先最新にはH14回答があるため、相手の対象外変更を保全する文書範囲更新だけです。
+
+終了条件は、受領原文・段階別状態・停止依存／次担当を自Workへ保存し、通常日本語コミット・非force範囲統合・必要本文/blob・親/tree/HEADの読戻しを行い、具体SHA/path/blob入りの「とりまとめへの報告プロンプト」全文を返すことです。追加依頼C3A全体の完了はその指示範囲から判定し、後続の常設読込みと環境準備を含めて完了としないでください。
+Cloud通信・取得・準備・検査・本編編集・環境設定変更は再開しません。本人への再貼付・Edit／Republish要求や他会話の自動操作も行いません。
+```
+
+Chat「UI改善」：
+
+```text
+指示元：Chat「とりまとめ」／ops/project-coordination-20260913
+指示資料の固定提出コミット：f443dfb7197635c5f510de23d42719cd31601a16
+
+Chat「UI改善」の既存Workを継続してください。
+repo：eckolo/crossweave
+WorkID：20260910-ui-readability
+作業枝：ui/readability-20260910
+対象：D04B-UI-02-UI-CONTRACT-01 改訂1.0。新Work・新枝は不要です。
+指示書：docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md
+
+①最新とりまとめ配下全体を実同期し全path/blobを自Work同期JSONへ→②dev_design_tmp_assemblyの既定技術同期→計画再照合を行ってください。最新UI ab1b6fa067877a140ac9e9c9c006c70da76e40b4 dark-recheckと本編7211a605a04de36f9465fbae31979c4d6b0acf8f dark-returnを継承します。
+H14固定回答e178b4a13fc35fc49bac3870ebcceb0881f46779／後続ee6a62af128f4aff4233f1c9e057103299cc9bf9はとりまとめ受領済みです。入口はdocs/検証/接続条件/d04b-ui-02-legal-20261012/README.mdです。
+
+今回は原本対応の回答に限定します。
+1. 「保存preset」の原本commit/path/blob・節・意図を特定し、named preset／saved draft／確定編成のどれを指すかを対応表へ。Coreの参照解除条件とST-P08のlock／使用中の表示を結び、対応不明は根拠と必要回答を返してください。
+2. R04の表示をカードdefense_uses、raw effects[].uses、集計guard.uses、効果なしguard:nullへ分け、明示null／欠落／有限／有限mixedの各原本・公開field・表示先を対応付けてください。
+3. 正規既存3修飾保存が既にあれば未改変byte・来歴・hashを示してください。なければ調べた範囲と必要入力を返し、保存注入やfixture生成で補いません。
+
+終了条件は、自Workと専用回答資料へ原本対応表・具体未解決・本編の必要入力を保存し、自枝の通常日本語コミット・非force更新と本文/blob・親/tree/HEAD読戻し、具体値入りの「とりまとめへの報告プロンプト」全文提示までです。
+新仕様・named preset API・content/tier・通常save・本編コードは変更しません。描画・ゲーム検査・57ID／17群の全再判定は開始せず、今回回答をUI適合やM1完了へ読み替えません。
+```
+
+### とりまとめへの報告プロンプト
+
+本Chatで受領・反映まで完了しており、本Chatへの再貼付は不要。保存する必須報告本文は以下。最終応答にも同文を提示する。
+
+```text
+Chat「とりまとめ」の既存Work20260913-project-coordination／ops/project-coordination-20260913の受領・次指示発行報告です。
+repo：eckolo/crossweave。今回の依頼全体：完了。Cloud準備窓口の共通規則全文20261008.3直接受領報告を受領し、計画・停止依存・次担当へ反映しました。
+固定成果：f443dfb7197635c5f510de23d42719cd31601a16。親34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1、tree9b64331972beb996de9caf4eada0d74cb8a0989e。変更12本文のpath/blob・独立Git hash、親/tree/HEAD、対象外不変・削除0を読戻し確認。
+受領原本：docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.md と同名JSON。Cloud新Git成果の提出はなく、原文は利用者経由の報告として保存しました。
+確認済み：GitHub正式本編HEAD7211a605a04de36f9465fbae31979c4d6b0acf8fと基準e480ef45c39c9e3398884931c3129b5500524fe3のapps tree一致、通常暗色homeの元byte/blob/SHA256一致。必要22本文のGit hash、うち12原本のpath/blob全文一致。Cloud内の取得・実行結果ではありません。
+H17の直接規則受領・人の報告持帰りは完了。Cloud内AGENTS常設配置／有効読込み、現在enforced、正式source、固定runtime/native、最小検査は未完了・外部条件待ち。最後のCloud観測は2026-10-08で、現在実測と証拠ZIPの再検証はありません。
+次指示：Chat「共通作業ルールの常設反映」へC3A1.1の受領原文追補・既存成果提出、Chat「UI改善」へUI-CONTRACT-01 1.0のpreset／表示field／正規既存3修飾保存の原本対応。H18/H20で一度ずつ渡し、担当の報告プロンプトをこのChatへ返します。H19/C4は全C3A成果の別受領後。送付・担当受領・実施は未確認です。
+通信・取得・準備・本編編集・検査／描画・通常save・Cloud設定変更、他会話自動操作は0。a01候補9コードと機能検査0・実描画未実施・台帳1本文未取得、UI適合・配布・親D04・M1未了を維持してください。
+```
