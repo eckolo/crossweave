@@ -2142,8 +2142,111 @@
   },
   "publication": {
     "mode": "通常日本語・単独親・非force・expected_sha付き自枝更新",
-    "status": "保存準備。固定成果の読戻し後に結果を追記",
-    "self_reference": "最終SHAは応答・Git履歴へ別記"
+    "status": "固定成果の12本文/blob・親/tree/HEADと対象外保全を独立読戻し済み",
+    "self_reference": "最終SHAは応答・Git履歴へ別記",
+    "fixed_result": {
+      "sha": "4e5ca667a4d5d1d128b2d4a11012b69982f84910",
+      "tree": "01bb0ff2394f9591f7aff0a5b7ea6cb200fe6c79",
+      "parent": "877f74612de7209d2f6a247eb50c10bbcbd63359",
+      "head": "4e5ca667a4d5d1d128b2d4a11012b69982f84910",
+      "files": [
+        {
+          "path": "docs/作業資料/とりまとめ/全体計画.md",
+          "blob": "e057fe0e2f9bf00934fd978f89ca7bf3c3a114f3",
+          "bytes": 71742,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+          "blob": "9253234832413b9bf1d783a2648b740fd8ee1eaf",
+          "bytes": 86223,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+          "blob": "e84afaa8c27a78fbc24489953ef8de9589f9f1c7",
+          "bytes": 64145,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+          "blob": "7261420ed613779bbad3fd01664c45f0f2625317",
+          "bytes": 27684,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+          "blob": "bc38096ad4ca9f41a045aeec2fa207a5fa58dcd4",
+          "bytes": 167238,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md",
+          "blob": "c89b6c2a16fb8f86729fc30d7c78c41fc745c5f8",
+          "bytes": 21790,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+          "blob": "76b10732523e0c9c2063a7fb79b9ce2afe1858be",
+          "bytes": 14048,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+          "blob": "a05d5d3ae2a4feda84d0a8641c3d00a1b30eac77",
+          "bytes": 29148,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C4_本編への共通作業ルール取込.md",
+          "blob": "95d323feee5ccc7172378598fb13788988def1ea",
+          "bytes": 7128,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C3A受領と本編への規則取込_20261013.md",
+          "blob": "06ba7c8c1a52a2f5337ab15ba18d3bc0c6f58a6d",
+          "bytes": 8726,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C3A受領と本編への規則取込_20261013.json",
+          "blob": "2fd9d77031caed1d1b3ac199a5dc37b3c5b93788",
+          "bytes": 99125,
+          "path_match": true,
+          "blob_match": true
+        },
+        {
+          "path": "docs/作業資料/Work/20260913-project-coordination.md",
+          "blob": "1295a168de83a439017953cacbb9bc4c9914425e",
+          "bytes": 208525,
+          "path_match": true,
+          "blob_match": true
+        }
+      ],
+      "tree_check": {
+        "tree": "01bb0ff2394f9591f7aff0a5b7ea6cb200fe6c79",
+        "count": 62,
+        "match": true
+      },
+      "changes": 12,
+      "new_paths": 3,
+      "deletions": 0,
+      "scope_only": true,
+      "plan_file_count": 95
+    },
+    "final_record_sha": "自己参照を避け応答・Git履歴へ別記"
   },
   "concurrent_ui_reference": {
     "previous_head": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
@@ -2155,5 +2258,10 @@
     "work_blob": "dc743f8ce32e821d64517f7eb698a2fb15c8929e",
     "submission_receipt": false,
     "fixed_review_base_unchanged": true
-  }
+  },
+  "final_dispatch_prompts": {
+    "main_rule_import": "Chat「ゲーム本編実装」の既存Workを、通常のGit保存を担当する元の窓口で継続してください。\n\n目的：共通作業ルールを本編リポジトリへ取り込み、後続のCodex Cloudへ同じ規則を渡せる保存版をそろえることです。\n求める成果物：2文書の反映版、取込元・反映先の版とファイル一覧、本編コードが変わっていない確認結果を含む受領報告書。\n終了条件：指定文書を本編枝へ通常保存し、本文/blob・親/tree/HEAD・コード不変を読戻して、具体値入りの「とりまとめへの報告プロンプト」全文を返すことです。\n\nrepo：eckolo/crossweave\nWorkID：20260927-game-application\n作業枝：impl/m1-godot-application-20260927\n指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C4_本編への共通作業ルール取込.md（改訂1.0、参照ID CO-CX01 C4）。\n受領済み文書の固定元：1f78864d53e7569164bd111f89ee00747bd13546\n取込対象：\n・AGENTS.md（Codex用の作業ルール指示ファイル）／blob bb6d62596c036a2391ce5395293efa3de4b0dcc4\n・docs/作業資料/プロジェクト設定.md（共通設定本文）／blob 8205accd0e961564884f9ac9e6a6f2ca83344c4a\n\n開始時と保存前に最新HEAD・未保存差分を確認・保全し、①最新とりまとめ配下全体を実同期して全path/blob・実件数・元root/scope tree・計画版を記録→②dev_design_tmp_assemblyの必要差分確認→計画再照合を行ってください。現行設定全文を読んで比較し、指定の2本文を生成し直さず文書範囲だけ受領します。既存に相違があれば保全して具体差分を返し、古い全文で上書きしません。\n更新は2文書、自Work受領記録・同期JSON、計画同期コピーだけです。設計枝の全体マージは行わず、apps tree、固定fixture、コード、素材、toolchain、通常save、旧証拠を保全してください。今回の参考本編HEADは7211a605a04de36f9465fbae31979c4d6b0acf8f、apps treeはe36f745d4715bbbf99a0a952462ead58c30b60acです。\n通常の日本語コミット・非force更新で保存・読戻ししてください。Cloudの読取り専用準備窓口へGit書込みを追加する依頼ではありません。Cloudの通信・source取得・環境準備・ビルド・ゲーム検査・描画は停止を維持し、AGENTSのGit保存を常設読込みや技術的強制の確認済みとしないでください。\n新Work・新枝・PR・並列コード編集・他会話自動操作は追加しません。\n\n指示元：Chat「とりまとめ」／ops/project-coordination-20260913\n指示資料の固定提出コミット：4e5ca667a4d5d1d128b2d4a11012b69982f84910",
+    "metadata_correction": "Chat「共通作業ルールの常設反映」の既存Workで、計画の同期台帳を実ファイル数と取込元の保存版に一致させる訂正追補をお願いします。\n\n目的：後続担当が、どの計画を何件取り込んだかを正確に追跡できるようにすることです。\n求める成果物：訂正した同期JSON、訂正前後の4値と保存・範囲統合・読戻し結果を示す短い報告。\n終了条件：自枝と設計集約枝へ文書範囲で保存・読戻しし、「とりまとめへの報告プロンプト」全文を返すことです。\n\nrepo：eckolo/crossweave\nWorkID：20261008-codex-common-rules\n作業枝：ops/codex-common-rules-20261008\n指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md（改訂1.3）。\n対象：docs/作業資料/計画同期/20261008-codex-common-rules.json\n\nとりまとめは規則反映・Cloud直接受領記録・92計画本文の実コピーを受領済みです。本文や規則を作り直さず、次の旧値を訂正してください。\nsource_commit=877f74612de7209d2f6a247eb50c10bbcbd63359に対して、\nfile_count：87→92\nsource_root_tree：6c33cfa92c4c516107d711366284df59dba11c63→0b89cb096535d61a4ca961ee68645dafb06c9b55\nscope_tree：bfa08ad8f3193d27645d58ff2673bee8d0494581→d9b1a62b6b886ee322bd1adeacc2d7a0ba82ecd3\nwork_plan_version：0.44→0.47\nfilesの全92path/blobは一致済みです。\n\n旧受領版の訂正を履歴に保全したうえで、最新計画の必須同期を行う場合は、source_commit・root/scope tree・file_count・files・全計画版を同じ取得版へそろえ、自己参照SHAを埋めません。自Workと同期JSON、計画コピーだけを通常日本語コミット・非force範囲反映し、H14や他担当変更を保全してください。\nこの記録訂正は、本編へ渡す確認済みAGENTS／設定本文の不一致ではありません。Cloud通信・取得・準備・検査・環境変更、本人への全文再貼付・他会話自動操作は行いません。新Work・枝は不要です。\n\n指示元：Chat「とりまとめ」／ops/project-coordination-20260913\n指示資料の固定提出コミット：4e5ca667a4d5d1d128b2d4a11012b69982f84910"
+  },
+  "own_coordination_report_prompt": "Chat「とりまとめ」／20260913-project-coordination／ops/project-coordination-20260913の受領報告です。\nrepo：eckolo/crossweave。今回の受領・計画反映・次指示発行依頼は完了です。\n共通ルール担当の最新自枝cea33f6f0f1c5638a1bf48703d226def95186cac／設計集約1f78864d53e7569164bd111f89ee00747bd13546の規則文書・直接受領記録・92計画本文実コピーを受領。固定／後続／統合の本文/path/blob・独立Git hash、親/tree、対象外保全を照合しました。\n同期JSONの件数・元root tree・scope tree・Work別計画版に旧値が残り、4属性の訂正追補を残しています。files全92と実コピーは正しく、本編に渡すAGENTS／共通設定の2本文は独立受領済みです。\n次担当：Chat「ゲーム本編実装」で共通ルールの2文書を本編枝へ取り込み、元／先版・コード不変・保存読戻しの報告を提出。Chat「共通作業ルールの常設反映」で同期台帳4属性を訂正。既存UIの対応表作成は継続し、今回再依頼しません。\n固定保存成果：4e5ca667a4d5d1d128b2d4a11012b69982f84910。12変更本文/blob・単独親/tree/HEAD・対象外不変・削除0を読戻し確認。\n引継ぎ原本：docs/作業資料/とりまとめ/Codex導入/C3A受領と本編への規則取込_20261013.md と同名JSON、自Workの2026-10-13引継ぎ節。\nH17とH18の提出持帰りは完了。H19の本編文書取込と訂正追補は指示発行・送付／担当受領未確認。Cloud常設読込み・現在enforced・source・準備／検査・親CO-CX01・UI適合・配布・実機・試遊・M1未了を維持し、停止を解除していません。"
 }
