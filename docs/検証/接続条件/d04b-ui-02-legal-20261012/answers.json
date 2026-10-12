@@ -1,0 +1,67 @@
+{
+  "schema": "CW-D04B-UI02-source-answers-1",
+  "task": "D04B-UI-02 合法入力と既存契約の確認",
+  "revision": "0.5",
+  "work": "20260909-design-assembly",
+  "branch": "dev_design_tmp_assembly",
+  "instruction_commit": "91fe0ac1ff1555d0d87dca0bec49ced4a45a8460",
+  "answer_preparation_complete": true,
+  "publication_readback_complete": false,
+  "game_execution_count": 0,
+  "generated_fixtures_count": 0,
+  "render_count": 0,
+  "csharp_changes": 0,
+  "items": [
+    {
+      "id": "R01-filler",
+      "answer": "R01-filler.md",
+      "contract_answered": true,
+      "actual_reachability_confirmed": false,
+      "excluded": false,
+      "next_owner": "20260927-game-application",
+      "missing": [
+        "未使用fillerの正規Rebuild/Draw後の隔離DTO/hash",
+        "seed/index・完全command prefix・同public id・別合法choice"
+      ],
+      "resume": "既存source/通信/環境停止条件解消後の本編fixture探索・生成・実検査"
+    },
+    {
+      "id": "R04-unlimited",
+      "answer": "R04-unlimited.md",
+      "contract_answered": true,
+      "actual_null_card_confirmed": false,
+      "excluded": false,
+      "next_owner": "20260927-game-application / 20260910-ui-readability",
+      "missing": [
+        "正規来歴のdefense_uses明示nullカード/未改変DTO・seed・command列",
+        "card詳細nullとeffect/集計mixedの対象field確認"
+      ],
+      "static_difference": "C# effect key欠落はnull相当としてValidate。JSはexactkeys拒否。未実検査・未修正",
+      "resume": "既存合法入力受領・停止条件解消後の本編実検査"
+    },
+    {
+      "id": "U-V01-registered-long-names/ST-P08",
+      "answer": "U-V01-ST-P08.md",
+      "contract_answered": true,
+      "three_affix_new_campaign_path": "現SCN tierIのみでは0/1修飾候補のみ生成",
+      "all_existing_save_paths_excluded": false,
+      "existing_reusable_input": "repro-acquisition-funded.json / inputs.json",
+      "state_recipes_executed": false,
+      "next_owner": "本編20260927-game-application、UI20260910-ui-readability、とりまとめ20260913-project-coordination",
+      "missing": [
+        "保存preset原本とsaved draftの採用済み対応",
+        "3修飾の正規既存保存・来歴または現通常生成制約との適用範囲判断",
+        "各ST-P08の本編DTO/hash/public payload実証"
+      ],
+      "resume": "原本受領・本編停止条件解消"
+    }
+  ],
+  "parent_status": {
+    "legitimate_actual_inputs_complete": false,
+    "ui_conformance_complete": false,
+    "D04_complete": false,
+    "M1_complete": false,
+    "CO_D04A": "外部条件待ち・再開なし"
+  },
+  "coordination_received": false
+}

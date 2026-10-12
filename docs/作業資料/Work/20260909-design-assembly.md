@@ -1,3 +1,37 @@
+# ゲームバランス検討：D04B-UI-02 合法入力と既存契約の確認
+
+2026-10-12／WorkID `20260909-design-assembly`。今回の回答依頼全体（改訂0.5・3項目）：**未完了（保存・読戻し中）**／現在の状態：**3回答作成済み**。
+
+## 今回の開始設定（D04B-UI-02・H14）
+
+- 目的・完了条件：R01-filler、R04-unlimited、U-V01登録長名称／ST-P08を既存仕様・APIから回答。項目別commit/path/blob、合法操作・seed条件、期待公開値、既存入力hashと未実行レシピ、未解決の次担当を整理し、通常保存・非force更新・本文/blob・親/tree/HEAD読戻し・引継ぎ・具体値入り報告プロンプトまでを今回範囲とする。
+- 作業枝：`dev_design_tmp_assembly`。成果集約先・担当：同枝／本Work。新Work・枝なし。
+- 必須同期元：`ops/project-coordination-20260913`の`docs/作業資料/とりまとめ/`全体1本。計画91fe0ac1ff1555d0d87dca0bec49ced4a45a8460／全体・Work別0.44、指示0.5。全87path/blobは自Work同期JSONに記録。作業枝の同scope treeは既に一致、全本文を同パスへ実同期し、追加コピー差分なしと照合。
+- 直接更新：自Work、同期JSON、計画コピー、担当内回答資料のみ。共通ルール担当のAGENTS・プロジェクト設定・自Work、他Work設定、本編C#、UI原本、通常save、固定入力は直接編集しない。
+- 確認開始HEAD：5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4／tree a04e9882eb56968bb8f24c3d61c50260f6c24100。GitHubプラグインで正式refを確認。ローカル編集コピーに.git／ローカル枝はなく、未保存の旧作業差分は見つからなかった。GitHub保存済みD03R・D04AのWork全文を保全した。
+- 固定参考：UI ab1b6fa067877a140ac9e9c9c006c70da76e40b4のdark-recheck-20261006の合法入力／owned返却。本編7211a605a04de36f9465fbae31979c4d6b0acf8fのdark-return返却・公開票。候補a01c5c2762de1cfce602f4547818b29dc3d13e10は保存済み、必要描画・機能検査は未完了。旧判定で置換しない。
+- 規則受領：開始HEADのroot AGENTS.md（20261008.3／blob bb6d62596c036a2391ce5395293efa3de4b0dcc4）・現行プロジェクト設定、計画同期手順2.0・完了報告1.6を受領。この会話の指示確認と、停止中Cloudでの常設読込・通信enforced確認を混同しない。
+- 手順記録：前回、GitHubプラグイン原則を適用せず便宜的な直接cloneを試し、URL呼出し許可拒否の403で失敗した。利用者の指摘を受け、原則のプラグインに戻る作業は既に許可範囲で追加確認不要と訂正。今回の原本取得・通常保存は同プラグイン。新サービス・認証・外部ブラウザー・Cloud設定の変更なし。
+- 共通作業ルールWorkとの今回2Work分担を継承。成果反映前に設計集約と計画の最新refを再取得し、並行変更を現在tree上に保全する。本編検査とCO-D04A実IndexedDBは今回再開しない。
+
+<a id="d04b-legal-handoff"></a>
+
+## とりまとめへの引継ぎ（D04B-UI-02・合法入力回答0.5）
+
+- 今回の回答依頼：3項目の根拠付き回答と具体未解決を作成済み。通常保存・全変更本文/blob・親/tree/HEADの読戻し・固定成果SHA入り報告プロンプトの保存を残す。合法実入力／描画／UI適合／D04／M1は未完了。
+- 成果入口：[回答README](../../検証/接続条件/d04b-ui-02-legal-20261012/README.md)。項目別の40桁commit/path/blob・公開期待値・合法APIレシピ、86原本のhash、既存生成済み4入力の正確なhash、未実行手順と不足・次担当を保存。
+- R01：Rebuild不足分と生存札総数からfiller生成条件、Drawで期限1、未使用期限切れRecoverのdestroyedを確認。正規到達seed／完全command prefix／before-action DTO/hash・同public idは未取得。JS正式公開のbirth省略とC#公開の保持を区別。対象外にはしない。
+- R04：カードdefense_uses:nullの無制限、欠落default2、有限・効果なしguard:null・有限mixedの集計uses:nullを区別。全生成／compile／import／移行／復旧／公開入口を記録。現M1新規contentにnull札生成元なし、正規無制限保存の実入力未取得。C# effect key欠落検査差は静的に本編へ返す。全入口禁止とはしない。
+- U-V01/ST-P08：17/25文字の既登録3修飾名は登録・compile可能だが現SCN tierIの通常候補は最大1修飾。既存funded DTO（資金1200／20owned／PS01:borrowed候補400／seed履歴0〜3）から取得・pending・見積50・確定・lock／usage複合・saved draftの未実行レシピを返す。3修飾正規保存と、保存presetがnamed presetかsaved draftかの原本対応は未取得。
+- 次担当：本編20260927-game-applicationが既存停止条件解消後に探索・fixture生成・実入力／保存非破壊／描画を固定。UI20260910-ui-readabilityととりまとめ20260913-project-coordinationがpreset原本と適用範囲を具体化し、原本適合・採用判断は既存担当へ返す。
+- 今回のゲームcommand／探索／新fixture／C# build-test／描画／通常保存変更は0。CO-D04A実ブラウザーは外部条件待ちを保持し今回再開0。本編候補a01の保存、build記録と機能0・描画未実施・保全台帳1本文未取得を区別。
+- 保存前再取得：design 5737f9ebff48b5e5bde1ed1fb90e59dc0fcbc7d4、plan 91fe0ac1ff1555d0d87dca0bec49ced4a45a8460、開始から変化なし。古いtree／ファイルで共通ルールWork等を上書きしない。共通規則・プロジェクト設定・他Workの編集なし。
+- とりまとめ／本編／UIの今回成果受領：未確認。自Work保存と本応答での提示のみ。外部メッセージ送信・別Work起動はしていない。
+
+---
+
+以下は以前の成果・未完了の固定記録。今回の3回答の状態と区別する。
+
 # ゲームバランス検討：CO-D04A 実保存確認
 
 2026-09-26／WorkID `20260909-design-assembly`。今回の依頼全体（CO-D04A A1〜A4）：**未完了**／現在の状態：**外部条件待ち**。
