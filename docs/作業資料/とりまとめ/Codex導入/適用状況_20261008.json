@@ -112,10 +112,10 @@
   "status": {
     "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
     "co_cx01_overall": "未完了",
-    "direct_rule_handoff": "H17の利用者指定リンクは確定。read_threadは今回も同じ宛先で失敗、既送付／直接全文受領・実指示未取得。新版全文または既受領時の追補を用意。",
-    "permanent_common_update": "前回C3の本文20261008.2は完了・とりまとめ受領済み。今回20261008.3の原本追補・範囲統合は同じWorkへ追加指示を発行、未送付／未受領。",
-    "application_rule_integration": "旧C3は受領済み。今回20261008.3原本の統合成果受領後にH19／C4の元40桁SHA/path/blobと実送付先を具体化する。",
-    "cloud_network": "外部条件待ち・unknown",
+    "direct_rule_handoff": "H17：20261008.3の読了・適用行動・停止維持の報告を利用者経由で受領。人の貼付・持帰り完了、再送不要。",
+    "permanent_common_update": "20261008.3の既存保存はcommon Work4311と引継ぎ原本で参考確認。全C3A固定・後続成果のとりまとめ受領は別。C3A1.1で今回直接受領原文を記録・提出。",
+    "application_rule_integration": "H19／C4：今回全C3A成果のとりまとめ受領後に、具体SHA/path/blobの本編文書受領指示を提示。未着手。",
+    "cloud_network": "未完了・外部条件待ち。最後の2026-10-08観測state=unknown。今回現在の実測なし。",
     "cloud_source": "指定枝／固定本編未取得",
     "cloud_setup": "未完了",
     "cloud_minimum_test": "未実行",
@@ -126,10 +126,11 @@
     "human_playtest": "未着手",
     "m1": "未受入",
     "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。",
-    "cloud_rules_direct_receipt": "未確認。ユーザー報告と実受領証拠を別記する。",
-    "cloud_agents_effective": "未確認。Git保存・直接貼付・常設AGENTS有効読込は別。",
+    "cloud_rules_direct_receipt": "完了・とりまとめ受領済み。相手窓口の申告を出所付きで保存。実会話・有効指示の独立読戻しではない。",
+    "cloud_agents_effective": "未完了・未確認。正式source不成立、常設配置／版／global・override・nested・fallback・容量は今回実測なし。",
     "work_completion_report_prompt": "必須化：完了報告規則1.6・同期2.0・テンプレート0.5・共通本文20261008.3へ反映。各Workの受領／実提出と今回原本反映は未確認。",
-    "current_user_request": "追加依頼全体は未完了。今回原本追補とCloud適用証拠の受領待ち。とりまとめ担当内は前回C3受領・規則と指示の追補・保存読戻し。"
+    "current_user_request": "今回のCloud規則報告受領・照合・計画反映と次タスク指示発行は担当内完了。保存読戻し後に確定報告。Cloud準備全体と後続適用は未完了。",
+    "next_active_work_instructions": "共通作業ルールの保存版・Cloud受領状況の引継ぎ報告書を作成する依頼（共通作業ルールの常設反映）、保存編成・札の変更制限・防御回数表示の対応表を作成する依頼（UI改善）。送付・受領・実施は未確認。"
   },
   "owners": {
     "shared_project_settings": "20260909-work-routing／dev_design_tmp_assembly",
@@ -2247,5 +2248,503 @@
     "cloud_setup_pause_preserved": true,
     "automatically_messaged_threads": false,
     "publication": "通常・非force自枝更新。今回保存のSHAは応答とGitHub履歴へ別記する。"
+  },
+  "status_before_direct_receipt_20261012": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17の利用者指定リンクは確定。read_threadは今回も同じ宛先で失敗、既送付／直接全文受領・実指示未取得。新版全文または既受領時の追補を用意。",
+    "permanent_common_update": "前回C3の本文20261008.2は完了・とりまとめ受領済み。今回20261008.3の原本追補・範囲統合は同じWorkへ追加指示を発行、未送付／未受領。",
+    "application_rule_integration": "旧C3は受領済み。今回20261008.3原本の統合成果受領後にH19／C4の元40桁SHA/path/blobと実送付先を具体化する。",
+    "cloud_network": "外部条件待ち・unknown",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。",
+    "cloud_rules_direct_receipt": "未確認。ユーザー報告と実受領証拠を別記する。",
+    "cloud_agents_effective": "未確認。Git保存・直接貼付・常設AGENTS有効読込は別。",
+    "work_completion_report_prompt": "必須化：完了報告規則1.6・同期2.0・テンプレート0.5・共通本文20261008.3へ反映。各Workの受領／実提出と今回原本反映は未確認。",
+    "current_user_request": "追加依頼全体は未完了。今回原本追補とCloud適用証拠の受領待ち。とりまとめ担当内は前回C3受領・規則と指示の追補・保存読戻し。"
+  },
+  "cloud_direct_receipt_20261012": {
+    "receipt_path": "docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.md",
+    "receipt_json": "docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.json",
+    "report_hash": {
+      "bytes": 8929,
+      "sha256": "238a99272450a9d73aa4308a635f5574785aec6d82cd3935c3523be309a69695"
+    },
+    "accepted_scopes": [
+      {
+        "scope": "20261008.3の直接受領・停止条件整理",
+        "status": "完了・とりまとめ受領済み",
+        "basis": "利用者が本Chatへ貼ったCloud窓口の報告原文。Cloud窓口の読了・行動は報告によるもので実会話の独立読戻しではない"
+      },
+      {
+        "scope": "H17の人の受渡し・持帰り",
+        "status": "完了",
+        "basis": "当該版の根拠付き受領報告が本とりまとめChatへ提出された。再貼付不要"
+      },
+      {
+        "scope": "Cloudからの新Git成果",
+        "status": "今回提出なし",
+        "basis": "40桁成果SHA・Git原本path・最終提出HEADは未提出。90d7は初期実観測、7211は既存本編参考"
+      },
+      {
+        "scope": "共通規則20261008.3のGit常設原本",
+        "status": "既存担当の保存記録を参考確認。今回の全C3A成果受領は別",
+        "basis": "common Work最新4311、設計集約最新ee6。原本／AGENTSの既存保存とCloud配置・読込みを分ける"
+      },
+      {
+        "scope": "Cloud内の常設配置・有効読込み",
+        "status": "未完了・未確認",
+        "basis": "正式source未成立、global/override/nested/fallback/容量・現在AGENTSは未確認"
+      },
+      {
+        "scope": "Cloud通信・source・runtime/native準備・最小検査",
+        "status": "未完了・外部条件待ち／停止維持",
+        "basis": "最後の実観測は2026-10-08。現在enforcedの証拠とunknownの診断機能・具体窓口がない"
+      }
+    ],
+    "dependencies": [
+      {
+        "id": "network-effective",
+        "owner": "Cloud提供側の観測・適用担当（具体窓口・操作は未特定）",
+        "required": "対象environment/source_config_versionの現在適用状態を確証する情報とunknownの理由を分ける実在手段",
+        "gate": "現在の有効状態確認と明示的な再開指示",
+        "prohibited_substitute": "Edit/Republish・全internet許可・別API/サービス・同条件の成功待ち反復を要求・実施しない"
+      },
+      {
+        "id": "source-checkout",
+        "owner": "同本編Cloud準備窓口",
+        "required": "初期checkoutの保全、指定既存枝と固定本編・候補・fixture・fontの照合",
+        "gate": "network-effective成立＋明示再開。現在は取得停止"
+      },
+      {
+        "id": "runtime-native",
+        "owner": "同本編Cloud準備窓口",
+        "required": "固定Godot4.7.2/SDK10.0.401/runtime10.0.12、NuGet cache、Xvfb/glxinfo、許可書込み範囲に適合するnativeの具体手段",
+        "gate": "source/fixture/font成立＋既存の限定許可。現在未準備"
+      },
+      {
+        "id": "minimum-test",
+        "owner": "本編Cloud準備窓口／本編保存窓口、人の環境保存・Publish",
+        "required": "準備検算、明示検査引継ぎ、通常暗色home固定入力のPNG/nodesと既存proof入口最小回帰",
+        "gate": "準備成立後の既存手順。現在未着手"
+      },
+      {
+        "id": "c3a-and-c4",
+        "owner": "共通作業ルールの常設反映→とりまとめ→本編保存窓口",
+        "required": "今回直接受領記録をC3Aへ追補提出、固定原本文書の受領後にC4の具体SHA/path/blob",
+        "gate": "H19は全C3A成果のとりまとめ読戻し・受領待ち。Cloudの読取り専用を広げない"
+      }
+    ],
+    "heads_at_receipt": [
+      {
+        "label": "ops/project-coordination-20260913",
+        "sha": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1"
+      },
+      {
+        "label": "impl/m1-godot-application-20260927",
+        "sha": "7211a605a04de36f9465fbae31979c4d6b0acf8f"
+      },
+      {
+        "label": "ops/codex-common-rules-20261008",
+        "sha": "4311f0220dda5124d70db568496bb835110a9898"
+      },
+      {
+        "label": "dev_design_tmp_assembly",
+        "sha": "ee6a62af128f4aff4233f1c9e057103299cc9bf9"
+      },
+      {
+        "label": "ui/readability-20260910",
+        "sha": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4"
+      },
+      {
+        "label": "expected-main",
+        "sha": "e480ef45c39c9e3398884931c3129b5500524fe3"
+      },
+      {
+        "label": "candidate-code",
+        "sha": "a01c5c2762de1cfce602f4547818b29dc3d13e10"
+      }
+    ],
+    "github_verified_source_bodies": [
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/完了報告と引継ぎ規則.md",
+        "blob": "cbadc1e3d029f519499e32b75e091853aa0c4210",
+        "bytes": 18696,
+        "computed": "cbadc1e3d029f519499e32b75e091853aa0c4210",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+        "blob": "2cba34f16c73d528263bfbc3068d0f82a8e27083",
+        "bytes": 34843,
+        "computed": "2cba34f16c73d528263bfbc3068d0f82a8e27083",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md",
+        "blob": "0647199037c195c471ede45007179a368da84122",
+        "bytes": 10430,
+        "computed": "0647199037c195c471ede45007179a368da84122",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/Codex導入/C3受領とCloud適用追補_20261008.md",
+        "blob": "12fa259c0d31c9526158cf154612623fdbe802c2",
+        "bytes": 12786,
+        "computed": "12fa259c0d31c9526158cf154612623fdbe802c2",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/全体計画.md",
+        "blob": "18ec9c91e06f3e7d0dae41e72501fb3547ba7abc",
+        "bytes": 62204,
+        "computed": "18ec9c91e06f3e7d0dae41e72501fb3547ba7abc",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+        "blob": "2c94e2cfe57c51c3fcb5f0020d53bf6c2c897555",
+        "bytes": 76711,
+        "computed": "2c94e2cfe57c51c3fcb5f0020d53bf6c2c897555",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+        "blob": "2dbfc15e7c1d70d567e4e1ac078ba08f7b6c4440",
+        "bytes": 55657,
+        "computed": "2dbfc15e7c1d70d567e4e1ac078ba08f7b6c4440",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+        "blob": "eca69a912f69ef3db6fa07da91abf2747f89996d",
+        "bytes": 24807,
+        "computed": "eca69a912f69ef3db6fa07da91abf2747f89996d",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/Work/20260913-project-coordination.md",
+        "blob": "762497ddf573c4121c5b7c34f9922f789c349ef2",
+        "bytes": 185059,
+        "computed": "762497ddf573c4121c5b7c34f9922f789c349ef2",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+        "blob": "3b739303dca8810cb94522ce1a5cc1400970e141",
+        "bytes": 111716,
+        "computed": "3b739303dca8810cb94522ce1a5cc1400970e141",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/作業資料/Work/20260927-game-application.md",
+        "blob": "6dde22524bfdcae8bb92e6f50e6555f9064bec79",
+        "bytes": 28405,
+        "computed": "6dde22524bfdcae8bb92e6f50e6555f9064bec79",
+        "match": true
+      },
+      {
+        "ref": "4311f0220dda5124d70db568496bb835110a9898",
+        "path": "docs/作業資料/Work/20261008-codex-common-rules.md",
+        "blob": "d7ee6faf0160e9e1efd0a1c4c5859cfc363b5612",
+        "bytes": 39979,
+        "computed": "d7ee6faf0160e9e1efd0a1c4c5859cfc363b5612",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+        "blob": "1429d651e543aa898993a7a6617b6ef6289ad9be",
+        "bytes": 53211,
+        "computed": "1429d651e543aa898993a7a6617b6ef6289ad9be",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md",
+        "blob": "d644cca829599e404d8434eec70af5b2186aadc6",
+        "bytes": 46052,
+        "computed": "d644cca829599e404d8434eec70af5b2186aadc6",
+        "match": true
+      },
+      {
+        "ref": "34d22ff0499a5aa8c7aa312f9b5ce922965dd1d1",
+        "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+        "blob": "3ba00068961acc968de5bf77b7d45a3e2d47a5c3",
+        "bytes": 72334,
+        "computed": "3ba00068961acc968de5bf77b7d45a3e2d47a5c3",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/cloud-handoff-20261008/手動引継ぎ手順.md",
+        "blob": "7e7d6b533e84ced17d50d178a1a70c80053dc484",
+        "bytes": 6933,
+        "computed": "7e7d6b533e84ced17d50d178a1a70c80053dc484",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/cloud-handoff-20261008/環境準備プロンプト.md",
+        "blob": "c68545092c145cb47d5e786031a8325f83e633c9",
+        "bytes": 5115,
+        "computed": "c68545092c145cb47d5e786031a8325f83e633c9",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/cloud-handoff-20261008/検査引継ぎプロンプト.md",
+        "blob": "1ff5393e4df2d69921ddc4455ed1b8d32a46272d",
+        "bytes": 12563,
+        "computed": "1ff5393e4df2d69921ddc4455ed1b8d32a46272d",
+        "match": true
+      },
+      {
+        "ref": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+        "path": "docs/作業資料/Work/20260910-ui-readability.md",
+        "blob": "e841a9e664c3bba4971f27bf54e509ff34b2c1af",
+        "bytes": 224837,
+        "computed": "e841a9e664c3bba4971f27bf54e509ff34b2c1af",
+        "match": true
+      },
+      {
+        "ref": "e178b4a13fc35fc49bac3870ebcceb0881f46779",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/README.md",
+        "blob": "550230feba6fd413c64651f543b9967ded2bba24",
+        "bytes": 3407,
+        "computed": "550230feba6fd413c64651f543b9967ded2bba24",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/fixtures/repro-normal-dark-home.json",
+        "blob": "27e15baafc8f31f25c99ebbe2dd719688b1f049d",
+        "bytes": 113930,
+        "computed": "27e15baafc8f31f25c99ebbe2dd719688b1f049d",
+        "match": true
+      },
+      {
+        "ref": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/packaging/toolchain.lock.json",
+        "blob": "a690cc5f2d91b2653aded0d592bea61f7a57c944",
+        "bytes": 2218,
+        "computed": "a690cc5f2d91b2653aded0d592bea61f7a57c944",
+        "match": true
+      }
+    ],
+    "github_verified_blob_reads": [
+      {
+        "blob": "cbadc1e3d029f519499e32b75e091853aa0c4210",
+        "bytes": 18696,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "0647199037c195c471ede45007179a368da84122",
+        "bytes": 10430,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "3b739303dca8810cb94522ce1a5cc1400970e141",
+        "bytes": 111716,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "6dde22524bfdcae8bb92e6f50e6555f9064bec79",
+        "bytes": 28405,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "d7ee6faf0160e9e1efd0a1c4c5859cfc363b5612",
+        "bytes": 39979,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "7e7d6b533e84ced17d50d178a1a70c80053dc484",
+        "bytes": 6933,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "c68545092c145cb47d5e786031a8325f83e633c9",
+        "bytes": 5115,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "1ff5393e4df2d69921ddc4455ed1b8d32a46272d",
+        "bytes": 12563,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "e841a9e664c3bba4971f27bf54e509ff34b2c1af",
+        "bytes": 224837,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "550230feba6fd413c64651f543b9967ded2bba24",
+        "bytes": 3407,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "27e15baafc8f31f25c99ebbe2dd719688b1f049d",
+        "bytes": 113930,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      },
+      {
+        "blob": "a690cc5f2d91b2653aded0d592bea61f7a57c944",
+        "bytes": 2218,
+        "pathBodyEqualsBlob": true,
+        "hashMatch": true
+      }
+    ],
+    "fixture": {
+      "blob": "27e15baafc8f31f25c99ebbe2dd719688b1f049d",
+      "bytes": 113930,
+      "sha256": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+      "expected": "e8e4a1ecadec220aa26507346d1b40f4baafa315eb5c503074e885f432999e7c",
+      "match": true
+    },
+    "network_current_measured": false,
+    "environment_status_in_receiver_tools": false,
+    "next_task_instructions": [
+      {
+        "chat": "共通作業ルールの常設反映",
+        "work_id": "20261008-codex-common-rules",
+        "branch": "ops/codex-common-rules-20261008",
+        "task": "CO-CX01 C3A",
+        "instruction_version": "1.2",
+        "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md",
+        "state": "指示発行。送付・担当受領・実施は未確認",
+        "prompt": "Chat「共通作業ルールの常設反映」の既存Workを継続してください。\n\n今回の作業：作業ルールの保存・Cloud受領状況をまとめ、本編への引継ぎ資料を提出する。\n目的：本編側へ同じ作業ルールを取り込めるよう、保存したルールの版、Cloudが受け取った内容、未確認事項を一つの報告にそろえる。\n求める成果物：作業ルール本文・Codex向け指示ファイルの保存版一覧と、Cloudの受領内容・未確認事項・次担当をまとめた引継ぎ報告書。既存報告書へ今回の受領記録を追記してください。\n終了条件：既存資料へ今回の受領記録を追記し、自枝保存・設計集約枝への文書だけの反映・保存内容の読戻し後、とりまとめへ報告全文を提出する。\n\nrepo：eckolo/crossweave\nWorkID：20261008-codex-common-rules\n作業枝：ops/codex-common-rules-20261008\n参照ID・版：CO-CX01 C3A／改訂1.2。\n指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md\n今回受け取る報告：docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.md と同名JSON。\n\n開始・保存前に最新HEADを確認し、①とりまとめ配下全体を実同期して全path/blobを記録→②dev_design_tmp_assemblyの指定資料確認→計画再照合を行ってください。既存の文書成果と他担当の変更を保全し、指定文書の範囲だけを通常日本語コミット・非force更新してください。\nCloudは規則全文20261008.3を直接受領したという報告がとりまとめへ届いています。規則の保存、直接受領、本編への取り込み、Cloud内での常設読込み、環境準備を分けて記録してください。前回資料の作り直しや規則全文の再貼付は不要です。\n具体的な保存版と資料の所在・読戻し結果を記入した「とりまとめへの報告プロンプト」を保存し、全文を返してください。新Work・枝を作らず、Cloud通信・取得・準備・検査・本編編集・環境設定変更・他会話自動操作は再開しません。",
+        "display_name": "作業ルールの保存・Cloud受領状況をまとめ、本編への引継ぎ資料を提出する",
+        "purpose": "本編側へ同じ作業ルールを取り込めるよう、保存したルールの版、Cloudが受け取った内容、未確認事項を一つの報告にそろえる。",
+        "deliverables": [
+          "作業ルール本文とCodex向け指示ファイルを保存したGitHubの版・所在一覧（既存報告書内）。",
+          "Cloudが規則全文を受領した記録、常設読込みの未確認事項、次担当をまとめた引継ぎ報告書。"
+        ],
+        "completion_condition": "既存資料へ今回の受領記録を追記し、自枝保存・設計集約枝への文書だけの反映・保存内容の読戻し後、とりまとめへ報告全文を提出する。"
+      },
+      {
+        "chat": "UI改善",
+        "work_id": "20260910-ui-readability",
+        "branch": "ui/readability-20260910",
+        "task": "D04B-UI-02-UI-CONTRACT-01",
+        "instruction_version": "1.1",
+        "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md",
+        "state": "指示発行。送付・担当受領・実施は未確認",
+        "prompt": "Chat「UI改善」の既存Workを継続してください。\n\n今回の作業：保存編成・札の変更制限・防御回数表示を確認し、実装用の対応表を作る。\n目的：保存した編成で使う札の変更・変換条件と、防御回数や長い札名の表示を、実装担当が既存の決定資料に沿って扱えるようにする。\n求める成果物：\n1. 「保存した編成」が名前付きの編成・編集途中の下書き・確定編成のどれかと、札が使用中になる／解除される条件の対応表。\n2. 防御回数が有限・無制限・効果なし等の場合に、どのデータ項目をどの表示へ使うかの対応表。\n3. 長い札名の表示確認に使える既存セーブの来歴、または不足する入力の一覧。\n終了条件：決定資料の出典と具体的な未解決・必要入力を付け、自枝へ保存して読戻し、とりまとめへ報告全文を提出する。\n\nrepo：eckolo/crossweave\nWorkID：20260910-ui-readability\n作業枝：ui/readability-20260910\n参照ID・版：D04B-UI-02-UI-CONTRACT-01／改訂1.1。\n指示書：docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md\n\n①とりまとめ配下全体を実同期して全path/blobを記録→②dev_design_tmp_assemblyの既定技術同期→計画再照合を行ってください。現行UI・本編・既存仕様の固定版と詳しいデータ項目は指示書を使います。根拠にした決定資料の版・path/blob・節を示し、対応が不明な所は必要な回答と担当を返してください。\n既存の3修飾付き長名称の正規セーブがあれば、元byte・hash・来歴をそのまま示します。未取得は未取得とし、セーブ注入・fixture生成で補いません。\n「とりまとめへの報告プロンプト」を保存し、具体的な保存版・所在・読戻し結果を記入した全文を返してください。新Work・枝を作らず、ゲーム仕様・本編コード・通常saveは変更しません。ゲーム実行・描画・全項目の適合再判定は開始しません。",
+        "display_name": "保存編成・札の変更制限・防御回数表示を確認し、実装用の対応表を作る",
+        "purpose": "保存した編成で使う札の変更・変換条件と、防御回数や長い札名の表示を、実装担当が既存の決定資料に沿って扱えるようにする。",
+        "deliverables": [
+          "保存編成の種類と、札が使用中になる条件・参照が外れる条件の対応表。",
+          "有限・無制限・効果なし等の防御状態と、表示に使うデータ項目・画面の対応表。",
+          "長い札名の表示確認に使える既存セーブの来歴、または不足する入力の一覧。"
+        ],
+        "completion_condition": "決定資料の出典と具体的な未解決・必要入力を付け、自枝へ保存して読戻し、とりまとめへ報告全文を提出する。"
+      }
+    ],
+    "operations": {
+      "cloud_network": 0,
+      "source_fetch_in_cloud": 0,
+      "setup": 0,
+      "restore_build_import": 0,
+      "game_test": 0,
+      "fixture_generation": 0,
+      "render": 0,
+      "normal_save_edit": 0,
+      "cloud_environment_change": 0,
+      "other_chat_send_start_stop": 0,
+      "new_work_or_branch": 0
+    }
+  },
+  "status_before_task_description_revision_20261012": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17：20261008.3の読了・適用行動・停止維持の報告を利用者経由で受領。人の貼付・持帰り完了、再送不要。",
+    "permanent_common_update": "20261008.3の既存保存はcommon Work4311と引継ぎ原本で参考確認。全C3A固定・後続成果のとりまとめ受領は別。C3A1.1で今回直接受領原文を記録・提出。",
+    "application_rule_integration": "H19／C4：今回全C3A成果のとりまとめ受領後に、具体SHA/path/blobの本編文書受領指示を提示。未着手。",
+    "cloud_network": "未完了・外部条件待ち。最後の2026-10-08観測state=unknown。今回現在の実測なし。",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "要修正・配布不可、前固定aabfefabの判定を履歴／継承",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。",
+    "cloud_rules_direct_receipt": "完了・とりまとめ受領済み。相手窓口の申告を出所付きで保存。実会話・有効指示の独立読戻しではない。",
+    "cloud_agents_effective": "未完了・未確認。正式source不成立、常設配置／版／global・override・nested・fallback・容量は今回実測なし。",
+    "work_completion_report_prompt": "必須化：完了報告規則1.6・同期2.0・テンプレート0.5・共通本文20261008.3へ反映。各Workの受領／実提出と今回原本反映は未確認。",
+    "current_user_request": "今回のCloud規則報告受領・照合・計画反映と次タスク指示発行は担当内完了。保存読戻し後に確定報告。Cloud準備全体と後続適用は未完了。",
+    "next_active_work_instructions": "共通作業ルールの常設反映C3A1.1とUI改善UI-CONTRACT-01 1.0を発行。送付・受領・実施は未確認。"
+  },
+  "task_description_revision_20261012": {
+    "task_definitions": [
+      {
+        "chat": "共通作業ルールの常設反映",
+        "work_id": "20261008-codex-common-rules",
+        "branch": "ops/codex-common-rules-20261008",
+        "task_id": "CO-CX01 C3A",
+        "version": "1.2",
+        "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md",
+        "title": "作業ルールの保存・Cloud受領状況をまとめ、本編への引継ぎ資料を提出する",
+        "purpose": "本編側へ同じ作業ルールを取り込めるよう、保存したルールの版、Cloudが受け取った内容、未確認事項を一つの報告にそろえる。",
+        "deliverables": [
+          "作業ルール本文とCodex向け指示ファイルを保存したGitHubの版・所在一覧（既存報告書内）。",
+          "Cloudが規則全文を受領した記録、常設読込みの未確認事項、次担当をまとめた引継ぎ報告書。"
+        ],
+        "completion": "既存資料へ今回の受領記録を追記し、自枝保存・設計集約枝への文書だけの反映・保存内容の読戻し後、とりまとめへ報告全文を提出する。"
+      },
+      {
+        "chat": "UI改善",
+        "work_id": "20260910-ui-readability",
+        "branch": "ui/readability-20260910",
+        "task_id": "D04B-UI-02-UI-CONTRACT-01",
+        "version": "1.1",
+        "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md",
+        "title": "保存編成・札の変更制限・防御回数表示を確認し、実装用の対応表を作る",
+        "purpose": "保存した編成で使う札の変更・変換条件と、防御回数や長い札名の表示を、実装担当が既存の決定資料に沿って扱えるようにする。",
+        "deliverables": [
+          "保存編成の種類と、札が使用中になる条件・参照が外れる条件の対応表。",
+          "有限・無制限・効果なし等の防御状態と、表示に使うデータ項目・画面の対応表。",
+          "長い札名の表示確認に使える既存セーブの来歴、または不足する入力の一覧。"
+        ],
+        "completion": "決定資料の出典と具体的な未解決・必要入力を付け、自枝へ保存して読戻し、とりまとめへ報告全文を提出する。"
+      }
+    ],
+    "task_display_format": "作業名→目的→求める成果物→終了条件→担当Chat→参照ID・版・SHA/path",
+    "base_head": "d8675cb9922225055db0c84674e05d1cc659c684",
+    "scope_change": false,
+    "source_receipt_and_stop_conditions_preserved": true
   }
 }
