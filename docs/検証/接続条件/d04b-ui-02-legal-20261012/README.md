@@ -1,6 +1,6 @@
 # D04B-UI-02 合法入力と既存契約の先行回答
 
-版1／2026-10-12。WorkID 20260909-design-assembly／dev_design_tmp_assembly。固定指示91fe0ac1ff1555d0d87dca0bec49ced4a45a8460・改訂0.5を受領。**3項目の根拠付き回答と未解決の必要入力を作成済み。GitHub保存・読戻し・自Work引継ぎの完了はpublication.jsonおよび自Workの最終記録で確定する。合法実入力／UI適合／D04／M1の完了ではない。**
+版1／2026-10-12。WorkID 20260909-design-assembly／dev_design_tmp_assembly。固定指示91fe0ac1ff1555d0d87dca0bec49ced4a45a8460・改訂0.5を受領。**3項目の根拠付き回答と未解決の必要入力を作成済み。GitHub保存・読戻しを終え、回答依頼は完了。成果コミット `e178b4a13fc35fc49bac3870ebcceb0881f46779`、全9変更本文/blobと計画87本文/blob、親/tree/HEAD一致を[publication.json](publication.json)・[github-readback.json](github-readback.json)に記録。自Work引継ぎ・本報告は後続の同枝文書コミットで保存する。合法実入力／UI適合／D04／M1の完了ではない。**
 
 | 項目 | 回答 | 残る実入力・確認 |
 |---|---|---|
