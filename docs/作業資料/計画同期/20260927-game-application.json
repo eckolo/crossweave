@@ -633,13 +633,14 @@
       }
     ],
     "root_tree": "ca07da2bb661a180000f119734d0e06d396bb6d6",
-    "status": "previously checked at 09741d50 after initial 95-file sync; reconfirmation follows current 97-file sync",
+    "status": "checked again after latest 97-file plan sync; same 09741d50; fixed two documents unchanged",
     "imported_paths": [
       "AGENTS.md",
       "docs/作業資料/プロジェクト設定.md"
     ],
     "other_changed_paths_imported": false,
-    "code_import_permitted": false
+    "code_import_permitted": false,
+    "checked_after_plan_sync_commit": "2f81995fe559e1d28b4d98c38d1ce913b01de403"
   },
   "document_receipt": {
     "fixed_source_commit": "1f78864d53e7569164bd111f89ee00747bd13546",
@@ -670,7 +671,9 @@
         "full_content_match": true
       }
     },
-    "status": "two pinned blobs already saved in 2007d6e0 and fully read back; unaffected by plan advance"
+    "status": "exact source bytes and blobs saved and read back; downstream Cloud loading unverified",
+    "initial_save_commit": "2007d6e01de07054143442d7194316b8ed5e88b3",
+    "fixed_delivery_commit": "2f81995fe559e1d28b4d98c38d1ce913b01de403"
   },
   "start": {
     "formal_head": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
@@ -706,7 +709,7 @@
     "global_override_nested_fallback_capacity": "not verified for downstream Cloud",
     "direct_receipt_h17": "reported received by coordination in plan; not a new observation in this window"
   },
-  "status": "開始時95件同期と固定2本文の保存読戻しは完了。最終保存前に計画e3cde2cb（0.49／97件／C4宛先説明1.1）を検出し全件実同期する。97件同期後の技術再確認・計画照合・最終報告は未完了。",
+  "status": "開始時計画95件同期→技術確認→固定2本文2007d6e0保存読戻し→保存前更新を検出して最新計画0.49／97件を2f81995fへ実同期→技術09741d50再確認→97path/blob再照合済み。固定成果2f81995fの全文/blob・単独親/tree/HEAD・保全28要素不変を読戻し、C4文書受領完了。Cloud停止・常設読込み未確認は維持。",
   "pre_save_checks": [
     {
       "phase": "plan_sync",
@@ -721,7 +724,8 @@
       "plan_head_expected": "ab53216494edc830796389641fb5c29c23244053",
       "technical_head_expected": "09741d506d08b4c6bb1d57048ea594f89141effc",
       "local_checkout": "still absent; past local changes unobserved",
-      "staged_source_hashes": "fixed document blobs verified; only document/ledger edits created"
+      "staged_source_hashes": "fixed document blobs verified; only document/ledger edits created",
+      "expected_heads_matched": true
     },
     {
       "phase": "latest_plan_resync",
@@ -729,21 +733,34 @@
       "plan_head_expected": "e3cde2cbe7be523444f08e7984add30270f825cf",
       "technical_head_expected": "09741d506d08b4c6bb1d57048ea594f89141effc",
       "local_checkout": "absent; historical unsaved buffers unobserved",
-      "scope": "plan subtree, own Work, own sync JSON only"
+      "scope": "plan subtree, own Work, own sync JSON only",
+      "app_head": "2007d6e01de07054143442d7194316b8ed5e88b3",
+      "plan_head": "e3cde2cbe7be523444f08e7984add30270f825cf",
+      "technical_head": "09741d506d08b4c6bb1d57048ea594f89141effc",
+      "expected_heads_matched": true
+    },
+    {
+      "phase": "final_report",
+      "app_head_expected": "2f81995fe559e1d28b4d98c38d1ce913b01de403",
+      "plan_head_expected": "e3cde2cbe7be523444f08e7984add30270f825cf",
+      "technical_head_expected": "09741d506d08b4c6bb1d57048ea594f89141effc",
+      "local_checkout": "absent; historical unsaved buffers unobserved",
+      "current_staging": "own Work receipt and sync JSON only; exact plan and two documents unchanged"
     }
   ],
   "technical_source": "09741d506d08b4c6bb1d57048ea594f89141effc",
   "technical_status": "前回21ddd349から10コミット・93文書pathを確認。コード差分なし。指定固定元1f78864dと最新技術枝の2本文/blobは同一。今回の受領は指定2文書のみ。",
   "plan_recheck_after_technical": {
-    "source_commit": "ab53216494edc830796389641fb5c29c23244053",
-    "source_scope_tree": "590d40c4d80321fa56093bb0b228bff2e9f1d4a9",
-    "destination_scope_tree": "590d40c4d80321fa56093bb0b228bff2e9f1d4a9",
-    "actual_blob_count": 95,
+    "source_commit": "e3cde2cbe7be523444f08e7984add30270f825cf",
+    "source_root_tree": "8ba903d533c2b5896bd5a587dfdb9520ca104e1c",
+    "source_scope_tree": "faad15cf06314885cfa36e2e4849f820ce92ead2",
+    "destination_scope_tree": "faad15cf06314885cfa36e2e4849f820ce92ead2",
+    "actual_blob_count": 97,
     "all_path_blob_match": true,
-    "plan_version": "0.48",
-    "work_plan_version": "0.48",
+    "plan_version": "0.49",
+    "work_plan_version": "0.49",
     "truncated": false,
-    "applies_to": "historical initial 95-file synchronization; latest 97-file recheck pending"
+    "after_technical_head": "09741d506d08b4c6bb1d57048ea594f89141effc"
   },
   "stages": [
     {
@@ -931,10 +948,185 @@
     },
     {
       "name": "latest_plan_resync",
-      "status": "saving; readback and technical reconfirmation pending",
-      "source_commit": "e3cde2cbe7be523444f08e7984add30270f825cf",
-      "file_count": 97,
-      "scope_tree": "faad15cf06314885cfa36e2e4849f820ce92ead2"
+      "commit": "2f81995fe559e1d28b4d98c38d1ce913b01de403",
+      "parent": "2007d6e01de07054143442d7194316b8ed5e88b3",
+      "tree": "cbda485afaabf8a3256aca2a2240c345faeff15b",
+      "head": "2f81995fe559e1d28b4d98c38d1ce913b01de403",
+      "files": [
+        {
+          "path": "AGENTS.md",
+          "blob": "bb6d62596c036a2391ce5395293efa3de4b0dcc4",
+          "body_match": true
+        },
+        {
+          "path": "docs/作業資料/プロジェクト設定.md",
+          "blob": "8205accd0e961564884f9ac9e6a6f2ca83344c4a",
+          "body_match": true
+        },
+        {
+          "path": "docs/作業資料/Work/20260927-game-application.md",
+          "blob": "c83b6d32e5784b200fc7dbe78faa4c2c4dadbc0e",
+          "body_match": true
+        },
+        {
+          "path": "docs/作業資料/計画同期/20260927-game-application.json",
+          "blob": "4dcd4ad4483b27d444ed6902e57d95fd1eb67304",
+          "body_match": true
+        }
+      ],
+      "full_body_match": true,
+      "total_changed_paths": 37,
+      "deleted": 0,
+      "changed_paths": [
+        {
+          "path": "AGENTS.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/Work/20260927-game-application.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/AGENTS_反映案.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C1照合と受渡し_20261008.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C3A受領と本編への規則取込_20261013.json",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C3A受領と本編への規則取込_20261013.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/C3受領とCloud適用追補_20261008.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/CO-CX00_開発環境と受渡し準備.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/Cloud継続指示.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.json",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/Cloud規則直接受領_20261012.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/タスク依頼書テンプレート.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/共通運用規則.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/同期台帳訂正の受領_20261019.json",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/同期台帳訂正の受領_20261019.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/常設反映の引継ぎ.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/運用検討.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Codex導入/適用状況_20261008.json",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/Work別実施計画.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/人の担当タスク.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/仮置き・未決事項.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/全体計画.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/完了報告と引継ぎ規則.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261012_既存契約回答の受領.json",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/引継ぎ/D04B-UI-02_20261012_既存契約回答の受領.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/現状棚卸し.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3A_Cloud適用確認と報告文の必須化.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C3_共通作業ルールの常設反映.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C4_本編への共通作業ルール取込.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_Codex共通規則の適用.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_Godot_UI継承差分の修正.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md",
+          "status": "added"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_合法入力と既存契約の確認.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/着手指示/UI-GODOT-REVIEW-01_了承UIとの適合確認.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/とりまとめ/計画同期手順.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/プロジェクト設定.md",
+          "status": "modified"
+        },
+        {
+          "path": "docs/作業資料/計画同期/20260927-game-application.json",
+          "status": "modified"
+        }
+      ]
     }
   ],
   "plan_sync_history": [
@@ -1086,5 +1278,219 @@
     },
     "scope_changes": 12,
     "out_of_scope_coordination_work_not_copied": true
+  },
+  "plan_recheck_history": [
+    {
+      "source_commit": "ab53216494edc830796389641fb5c29c23244053",
+      "source_scope_tree": "590d40c4d80321fa56093bb0b228bff2e9f1d4a9",
+      "destination_scope_tree": "590d40c4d80321fa56093bb0b228bff2e9f1d4a9",
+      "actual_blob_count": 95,
+      "all_path_blob_match": true,
+      "plan_version": "0.48",
+      "work_plan_version": "0.48",
+      "truncated": false,
+      "applies_to": "historical initial 95-file synchronization; latest 97-file recheck pending"
+    }
+  ],
+  "protected_readback": {
+    "entries": [
+      {
+        "scope": "root",
+        "path": ".github",
+        "sha": "f42531b7af72a53ccfc7f59fb932b0481c2dfee1",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": ".gitignore",
+        "sha": "3aa38722adf5cdc1eae47e0095ce1589545b236d",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": "README.md",
+        "sha": "48d1bad372c73cad125135c010385e7d9ef66bea",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": "apps",
+        "sha": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": "scripts",
+        "sha": "50357d9f983eddfe0614584991ce2c1ad842dff2",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": "src",
+        "sha": "a3a8f7a6299db7900d917412f2970ea380f9a6a7",
+        "unchanged": true
+      },
+      {
+        "scope": "root",
+        "path": "test",
+        "sha": "70ba18c71527f8e96b77fc132d0c8825fc7f1240",
+        "unchanged": true
+      },
+      {
+        "scope": "docs",
+        "path": "仕様案",
+        "sha": "99881e3b24c5dc68d746c5df78d955d39f1a99fd",
+        "unchanged": true
+      },
+      {
+        "scope": "docs",
+        "path": "原案",
+        "sha": "ede98d2ba4bc15f32a4eecf30727b4cfaf15cb05",
+        "unchanged": true
+      },
+      {
+        "scope": "docs",
+        "path": "検証",
+        "sha": "ecef1b478a798b846aeebefcd7845fafffb42572",
+        "unchanged": true
+      },
+      {
+        "scope": "docs",
+        "path": "確定仕様",
+        "sha": "6894d3ec1fe3de04c56677ecfb0a8b921c36a0e4",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "README記録.md",
+        "sha": "37b409ac7f06a93d27a1bdc978657f9662fb1b40",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "Work分担.md",
+        "sha": "5632a604cd299a326c2be9cb3f682149b9016037",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "カード探索ゲーム_統合検討.md",
+        "sha": "67f0678b904003a4b0c387b87473e64eb2915f2b",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "カード探索ゲーム_要検討事項.md",
+        "sha": "c0540b7223d3517fbae6c10cd64f80a742bd9447",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "コミット",
+        "sha": "71e2f1676b5b33c934bebeef4493f44a21d98814",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "世界観",
+        "sha": "04c2b269fabf84949d8fb764d8e8b4e6e4774738",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "実行基盤・配布",
+        "sha": "fedd61fe6c4cf2c39f8a4a64a0c1dee014f2918e",
+        "unchanged": true
+      },
+      {
+        "scope": "material",
+        "path": "引継ぎ",
+        "sha": "294b88c5e33b5c2989eb1f57bece3ab6dceee45c",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260909-design-assembly.md",
+        "sha": "cfb120354d62e45c950706395d9bfe46e5b1c1e3",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260909-design-assembly_D58以前.md",
+        "sha": "62fb0cd4c3b8f7cff0516cc6b05387677b3638bb",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260909-playtest-terrain-build-z.md",
+        "sha": "95a16f62a0e579b2cd1f6a9f39ff5fec1da3fdc4",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260909-work-routing.md",
+        "sha": "0a856f2e1433cff9faa2678c2a27d41cd050626d",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260910-worldbuilding.md",
+        "sha": "e942dbafaa16493d7a965e8af0dcee9544799444",
+        "unchanged": true
+      },
+      {
+        "scope": "work",
+        "path": "20260926-runtime-delivery.md",
+        "sha": "1f6e2c93fe267c16671cae918d7c83e782e7b235",
+        "unchanged": true
+      },
+      {
+        "scope": "sync",
+        "path": "20260909-design-assembly.json",
+        "sha": "f6d4b28e29bfe7bee727e767c0e103eafaeabb5e",
+        "unchanged": true
+      },
+      {
+        "scope": "sync",
+        "path": "20260909-work-routing.json",
+        "sha": "4d6da0dce523ecc0846098800c066b85a7f5ad24",
+        "unchanged": true
+      },
+      {
+        "scope": "sync",
+        "path": "20260926-runtime-delivery.json",
+        "sha": "818698376e7f9921ed225c3932df4ca7b9f74b81",
+        "unchanged": true
+      }
+    ],
+    "entry_count": 28,
+    "all_unchanged": true,
+    "tree_objects_recalculated": 5,
+    "tree_hash_mismatches": [],
+    "apps_tree": "e36f745d4715bbbf99a0a952462ead58c30b60ac",
+    "normal_save_operations": 0,
+    "build_game_test_render_operations": 0,
+    "old_evidence_docs_tree": "ecef1b478a798b846aeebefcd7845fafffb42572"
+  },
+  "completion": {
+    "request": "CO-CX01 C4 requested1.0 / destination-clarification1.1",
+    "request_whole": "completed",
+    "current": "completed; coordination handoff prepared; receipt unconfirmed",
+    "fixed_delivery_commit": "2f81995fe559e1d28b4d98c38d1ce913b01de403",
+    "document_commit": "2007d6e01de07054143442d7194316b8ed5e88b3",
+    "handoff_path": "docs/作業資料/Work/20260927-game-application.md#coordination-handoff-c4",
+    "remaining_in_request": [],
+    "self_reference_policy": "Final report HEAD is reported separately after readback; no recursively embedded self SHA.",
+    "unobserved": [
+      "past local unsaved buffers after checkout pruning",
+      "downstream Cloud global/override/nested/fallback/priority/capacity/automatic loading/enforcement"
+    ],
+    "subsequent_cloud": [
+      "current effective instruction/state confirmation and explicit restart",
+      "specified source verification",
+      "fixed runtime/native",
+      "existing minimum tests under separately satisfied conditions"
+    ],
+    "other_work_automatic_actions": false
   }
 }
