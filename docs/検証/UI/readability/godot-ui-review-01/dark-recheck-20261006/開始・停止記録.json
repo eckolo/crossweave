@@ -1,0 +1,143 @@
+{
+  "schema": "crossweave.ui.dark-recheck.start-and-stop.v1",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "task": "UI-GODOT-REVIEW-01",
+  "instruction_version": "0.10",
+  "request_overall": "未完了",
+  "current_state": "判断待ち（証拠一覧の取得手順変更の事前承認）",
+  "ui_start": "099d4adeaa025e78ca069c4eca0d54d75fdf0c3b",
+  "fixed_code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+  "fixed_submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+  "plan_source": "16324a8f3e79d7caca4edbd5857d3a3d69cd6732",
+  "plan_version": "0.38",
+  "plan_path_count": 75,
+  "plan_changed_count": 18,
+  "plan_removed_count": 0,
+  "technical_source": "21ddd349b6bec69ecac6d9db288c537553dab860",
+  "technical_status": "既定21ddd349取込済みを確認・追加変更0。計画75path/blob再照合一致。",
+  "preservation": "保全.json",
+  "failure": {
+    "target": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/",
+    "ref": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "tool": "GitHub github_fetch",
+    "endpoint": "https://api.github.com/repos/eckolo/crossweave/contents/docs/%E6%A4%9C%E8%A8%BC/%E6%9C%AC%E7%B7%A8%E5%AE%9F%E8%A3%85/d04b-ui-02/recheck-fix-20261006/?ref=0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "result": "isError=false、Action completed、contentは空文字。JSON一覧を取得できなかった。",
+    "cause": "未確認",
+    "nonexistence": "この結果から断定しない",
+    "stopped": [
+      "一覧に依存する新証拠の収集",
+      "新暗色版の57ID/N/17群・H11/owned/文字・cascadeの独立判定"
+    ],
+    "alternative_executed": false
+  },
+  "proposal": {
+    "status": "未実施・明示承認待ち",
+    "method": "同じGitHub連携のGit tree APIで固定提出コミットのtreeを階層ごとに取得する",
+    "steps": [
+      "0ec6334254db00ebc7956b4df493f3a34b98845aのcommit/treeとdocs→検証→本編実装→d04b-ui-02→recheck-fix-20261006の各treeを読む",
+      "対象配下のpath/blob一覧を取得し、既存github_fetch_fileで指示0.10の文書・台帳・索引、対応原寸/領域/nodes/人資料を固定refから個別取得する",
+      "取得できない資料は未確認として止め、さらに別の迂回は新たな明示承認を得る"
+    ],
+    "difference": "contents APIによるディレクトリ一覧から、Gitデータのtree APIによる一覧取得へ切替。別資料・入力・仮定で代用しない。",
+    "reason": "選択したcontentsディレクトリAPIが本文を返さず、必要証拠の一覧を照合できないため",
+    "scope": {
+      "repository": "eckolo/crossweave",
+      "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+      "target": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/",
+      "original_sources": "指示書と証拠索引が指定する固定原本と固定コードのpath/blob"
+    },
+    "impact": "固定SHA・対象・基準・終了条件を維持。外部接続や新画像生成・ゲームコード/規則/保存形式変更なし。tree取得・代替経路の試行/準備は承認前に実行しない。"
+  },
+  "prior_review": "099d4adeの旧c761cbf4判定完了は維持。旧57ID/17群の数を新aabfefabの合格へ転記しない。",
+  "new_dark_approval": "了承済み緑系暗色・通常表示OS非連動。基準訂正の依頼を受領したが、今回の基準/cascade・項目判定はまだ保存していない。",
+  "new_UI_conformity": "未判定",
+  "distribution_allowed": false,
+  "human_tasks": {
+    "CO_H15": "今回の依頼文を受領し、保全/同期に着手。人の送付は完了としてとりまとめへ返す。",
+    "CO_H11": "16用途の開始成立は独立未判定",
+    "CO_H12": "計画は選択可能・回答未着。回答を推測しない。",
+    "CO_H13": "3routeは計画上選択可能・回答未着。ownedの資料不足はまだ独立判定していない。"
+  },
+  "remaining": [
+    "B03/U-C02/style-source撮影条件とcascadeの暗色基準訂正",
+    "新固定版57ID/N01〜03/17群の変更影響判定と証拠対応",
+    "H11の16用途の実画素・候補定義/box開始成立、H13ownedと文字の不足判定",
+    "具体修正/必要回答・次担当/再開条件の最終提出"
+  ],
+  "no_new_work_or_branch": true,
+  "no_alternative_executed": true,
+  "new_game_runs": 0,
+  "coordination_handoff": "受領・停止報告を自枝へ保存。最終レビュー提出は未了、受領未確認。",
+  "checked_at_utc": "2026-10-06T14:42:52.918Z",
+  "technical": {
+    "head": "21ddd349b6bec69ecac6d9db288c537553dab860",
+    "previous_same_head": true,
+    "integration_commit": "b4340b1309b281093d440d94524e27baf15c9341",
+    "integration_parent_verified": true,
+    "new_changes": 0,
+    "documents": [
+      {
+        "path": "README.md",
+        "blob": "48d1bad372c73cad125135c010385e7d9ef66bea"
+      },
+      {
+        "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+        "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670"
+      },
+      {
+        "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+        "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447"
+      },
+      {
+        "path": "docs/検証/接続条件/co-d03r/README.md",
+        "blob": "651a29aa0c66665ce2a875c49972911e6e741448"
+      }
+    ]
+  },
+  "matched_after_technical": true,
+  "completed_setup": [
+    "依頼受領・4設定継承",
+    "211既存ファイル/132PNG保全・最新版25path一致",
+    "計画0.38/指示0.10の全75path/blob実同期",
+    "既定技術同期の最新取込確認・追加変更0",
+    "技術確認後の計画再照合一致",
+    "同期/受領・停止報告の通常保存・6本文読戻し"
+  ],
+  "setup_checkpoint": {
+    "commit": "b9d83faeb3eca7f352df7fb4127cb9e27a2c03bf",
+    "tree": "a4463dceb44805b25d7ac9742d6f137f445bf267",
+    "content_readbacks": [
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/開始・停止記録.json",
+        "blob": "8ed0749a08de2ac4a9b6c9a7f814fa878ee6d54a",
+        "content_exact": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/保全.json",
+        "blob": "5d808758e08914230beb5e86c12c77fd3796f68d",
+        "content_exact": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/README.md",
+        "blob": "fbb70728c2ebe662a38bc8a22670ae1329648f17",
+        "content_exact": true
+      },
+      {
+        "path": "docs/作業資料/計画同期/20260910-ui-readability.json",
+        "blob": "59cf6d77927d18bc8ffaa8e9f7331ebcf950d7e9",
+        "content_exact": true
+      },
+      {
+        "path": "docs/作業資料/Work/20260910-ui-readability.md",
+        "blob": "ec2ea9ee649b8de09eff2983819171d7ddf614f1",
+        "content_exact": true
+      },
+      {
+        "path": "docs/検証/UI/readability/godot-ui-review-01/README.md",
+        "blob": "0db19c5c3501a1a2af36f20d1d64166e246c31a0",
+        "content_exact": true
+      }
+    ]
+  }
+}

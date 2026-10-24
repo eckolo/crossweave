@@ -1,0 +1,892 @@
+{
+  "schema": "crossweave-ui-public-field-contract-reply/1",
+  "task": "D04B-UI-02-UI-CONTRACT-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "instruction_requested_revision": "1.1",
+  "instruction_applied_revision": "1.1",
+  "request_status": "完了・とりまとめ受領待ち",
+  "request_complete": true,
+  "reply_preparation_complete": true,
+  "fixed": {
+    "approved_ui": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+    "main": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "H14": "e178b4a13fc35fc49bac3870ebcceb0881f46779",
+    "H14_followup": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+    "instruction_fixed": "f443dfb7197635c5f510de23d42719cd31601a16",
+    "instruction_requested_revision": "1.0",
+    "instruction_current_revision": "1.1"
+  },
+  "preset_correspondence": [
+    {
+      "id": "P01",
+      "term": "旧返却の「保存preset」",
+      "classification": "採用対象の対応未確定",
+      "source": [
+        "S28"
+      ],
+      "locator": "missing_states「保存presetで使用中」",
+      "intent": "過去返却の不足状態名。named presetの仕様・API・保存先を指定した採用根拠ではない。",
+      "public_fields": [],
+      "mapping": "この語だけをnamed preset要件にしない。原本の保存済み案／確定編成とは別に、元の表記意図を照会する。",
+      "missing": "独立したnamed presetを要求するなら、既存採用commit/path/blob・節・名称/ID・保存/適用/解除先が必要。",
+      "source_sections": [
+        {
+          "id": "S28",
+          "section": "missing_states「保存presetで使用中」"
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "term": "保存済みの編成案（saved draft）",
+      "classification": "原本対応を特定",
+      "source": [
+        "S23",
+        "S31",
+        "S06",
+        "S07",
+        "S30"
+      ],
+      "locator": "ui-handoff「公開情報」「確認と一括確定」／runtime-connection「戻す」／draftPane・controls／execute save_draft",
+      "intent": "確定編成を変えず単一の編集案を保存する。現行二段階UIの通常画面内編集にはsave_draft不要。旧/互換の「選択を保存」はsave_draft。",
+      "public_fields": [
+        "JS display_data.draft.plan/dirty/valid/errors",
+        "C# view.draft.plan/dirty/valid/errors",
+        "home.owned[].references: saved_draft_deck/saved_draft_equipment"
+      ],
+      "mapping": "複数の名前付き編成保存とは同義にしない。保存済み案だけの参照もitem_in_useへ対応。",
+      "missing": null,
+      "source_sections": [
+        {
+          "id": "S23",
+          "section": "「公開情報」「確認と一括確定」"
+        },
+        {
+          "id": "S31",
+          "section": "「公開情報からの接続」表の一括確定・戻す・出発"
+        },
+        {
+          "id": "S06",
+          "section": "ui-handoff「公開情報」「確認と一括確定」／runtime-connection「戻す」／draftPane・controls／execute save_draft"
+        },
+        {
+          "id": "S07",
+          "section": "ui-handoff「公開情報」「確認と一括確定」／runtime-connection「戻す」／draftPane・controls／execute save_draft"
+        },
+        {
+          "id": "S30",
+          "section": "executeのsave_draft・discard_draft・commit_preparation（75–88行）"
+        }
+      ]
+    },
+    {
+      "id": "P03",
+      "term": "確定編成",
+      "classification": "原本対応を特定",
+      "source": [
+        "S23",
+        "S31",
+        "S10",
+        "S01",
+        "S15",
+        "S17"
+      ],
+      "locator": "current home・commit_preparation／references・Usage／GameApplication.Execute commit_preparation",
+      "intent": "取得・支払・編成を一括確定し、次の出発で使う現在の編成。",
+      "public_fields": [
+        "JS display_data.home.deck/equipment",
+        "C# view.home.deck.composition/equipment.entries",
+        "home.owned[].selected/location",
+        "references: confirmed_deck/equipment"
+      ],
+      "mapping": "「確認→確定する」はcommit_preparation。成功時に現在編成を更新しdraftもその編成へ戻す。local previewを確定へ読み替えない。",
+      "missing": null,
+      "source_sections": [
+        {
+          "id": "S23",
+          "section": "「公開情報」「確認と一括確定」"
+        },
+        {
+          "id": "S31",
+          "section": "「公開情報からの接続」表の一括確定・戻す・出発"
+        },
+        {
+          "id": "S10",
+          "section": "current home・commit_preparation／references・Usage／GameApplication.Execute commit_preparation"
+        },
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "term": "named preset",
+      "classification": "確認した原本に採用元・bindingを特定できない",
+      "source": [
+        "S23",
+        "S31",
+        "S30",
+        "S15",
+        "S17",
+        "S28"
+      ],
+      "locator": "preparation2のplan／全Execute分岐／Usageの参照種別／返却語",
+      "intent": "名前/IDを持つ複数の保存編成等の別概念。今回の既存公開契約の単一draft・確定編成では提供を確認できない。",
+      "public_fields": [],
+      "mapping": "現在の共有契約だけでnamed preset APIを新設しない。全UI・全過去採用での不存在は断定しない。",
+      "missing": "別のUI専用機構なら、保存原本・採用節・公開field・使用中/解除の対応を既存UI/とりまとめへ返す。",
+      "source_sections": [
+        {
+          "id": "S23",
+          "section": "「公開情報」「確認と一括確定」"
+        },
+        {
+          "id": "S31",
+          "section": "「公開情報からの接続」表の一括確定・戻す・出発"
+        },
+        {
+          "id": "S30",
+          "section": "executeのsave_draft・discard_draft・commit_preparation（75–88行）"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S28",
+          "section": "missing_states「保存presetで使用中」"
+        }
+      ]
+    }
+  ],
+  "usage_conditions": [
+    {
+      "id": "U01",
+      "state": "確定編成で使用",
+      "fields": "selected=true、location=composition、referencesにconfirmed_deck/equipment",
+      "rule": "確定編成から対象を外した合法planをcommit_preparation。成功時にdraftも新確定編成へ戻り、全参照から対象が消えることを確認。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "U02",
+      "state": "保存済み案だけで使用",
+      "fields": "selected=falseでもsaved_draft_deck/equipmentがreferencesにある。conversion_reasonsにitem_in_use",
+      "rule": "確定編成に対象がなければdiscard_draftでその参照を解除、または対象を含まない別の合法案をsave_draft。selectedだけで変換可能としない。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "U03",
+      "state": "確定編成＋保存済み案の両方",
+      "fields": "confirmed_deck/equipmentとsaved_draft_*が共存",
+      "rule": "discard_draftだけでは確定編成の対象参照が残る。対象を含まない編成の確定が必要。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "U04",
+      "state": "lock／複合不能理由",
+      "fields": "locked=true、conversion_reasonsのitem_lockedとitem_in_useは独立。初期札はinitial_grant_not_convertibleもあり得る",
+      "rule": "set_item_lock(false)はlockだけ解除。refs解除・初期配布制約・phase制約を消さない。conversion_availableと全reasonsを読む。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "U05",
+      "state": "画面内の未保存編集／preview／pending",
+      "fields": "未確定plan・pending=true/read_onlyの予測個体。正式ownedとは別",
+      "rule": "local edit/PreviewPreparationは保存済み参照を書き換えない。予測中の表示を正式所持のlock/変換・参照解除成功に使わない。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "U06",
+      "state": "失敗・stale・busy・非home",
+      "fields": "capabilities／revision/view_token、refusal、原本の未確定案",
+      "rule": "成功した正式command後のfresh Inspectで判断。保存失敗では旧確定/参照を保持し、return未ackや探索中の拒否を正常変換へ扱わない。",
+      "source": [
+        "S01",
+        "S15",
+        "S17",
+        "S29",
+        "S21"
+      ],
+      "source_sections": [
+        {
+          "id": "S01",
+          "section": "itemUsage／quote・convert／lock・使用中の独立した拒否条件"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S17",
+          "section": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal"
+        },
+        {
+          "id": "S29",
+          "section": "ViewData.Explainのitem_in_use・item_locked"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    }
+  ],
+  "usage_sources": [
+    "S01",
+    "S15",
+    "S17",
+    "S29",
+    "S21"
+  ],
+  "defense_correspondence": [
+    {
+      "id": "R04-C-null",
+      "object": "カード",
+      "state": "defense_uses keyあり・明示null",
+      "original": "cardDetailがprimary.defense_usesへnullを保持。cardPropertiesは「防御の回数：制限なし」、effectRowsは「持続：回数制限なし」。",
+      "fields": "JS details[id].primary.defense_uses、C# hand/field/own_deck・home row.details.defense_uses",
+      "display": "札/取得/所持/記録の該当詳細。Actor集計値をここへ流用しない。",
+      "source": [
+        "S05",
+        "S11",
+        "S16",
+        "S21"
+      ],
+      "input": "正規来歴の明示null札/DTO・同public idは未取得。通常save注入で補わない。",
+      "source_sections": [
+        {
+          "id": "S05",
+          "section": "cardDetail：primaryへのdefense_uses・defense_grant保持"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-C-missing",
+      "object": "カード",
+      "state": "defense_uses key欠落・kind=guard",
+      "original": "Playは既定2。JSのoptional projectionは欠落を省略し、原本cardPropertiesには持続行が出ない。",
+      "fields": "C# Preparation.Viewのhome details・Expedition.CardViewのhand/field/own_deckは表示用コピーだけ2補完。PublicCard→knowledgeは欠落を省略する。",
+      "display": "公開fieldが2なら有限2回として読む。欠落領域をnull/制限なしにせず、根拠なしに全領域へ2を足さない。7211の欠落詳細は「未公開」。原本の行省略との差は今回描画判定しない。",
+      "source": [
+        "S05",
+        "S11",
+        "S15",
+        "S16",
+        "S21"
+      ],
+      "input": "公開領域別のkey有無・同idを本編へ要求。原本の欠落と補完された公開2を区別する。",
+      "source_sections": [
+        {
+          "id": "S05",
+          "section": "cardDetail：primaryへのdefense_uses・defense_grant保持"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S15",
+          "section": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-C-finite",
+      "object": "カード",
+      "state": "defense_usesに正整数n",
+      "original": "primaryへnを保持、原本はn回。",
+      "fields": "card defense_uses／支援札は別のdefense_grant.uses",
+      "display": "札詳細のn回。defense_grant.usesは支援付与の指定で、Actor全効果の集計usesではない。",
+      "source": [
+        "S05",
+        "S11",
+        "S21"
+      ],
+      "input": "既存有限対照を使用。個別効果/集計の現在残り回数とカードの付与回数を同一視しない。",
+      "source_sections": [
+        {
+          "id": "S05",
+          "section": "cardDetail：primaryへのdefense_uses・defense_grant保持"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-E-null",
+      "object": "raw個別効果",
+      "state": "effects[].uses keyあり・明示null",
+      "original": "validateEffectが許容。spendDefenseでは減らさず、本人一致/受け手退出では解除。",
+      "fields": "private defense_effects[].uses→public actor.defense.effects[].uses",
+      "display": "主体詳細「防御の内訳」の当該leafを回数制限なし。存続永久とは言わない。",
+      "source": [
+        "S03",
+        "S12",
+        "S16",
+        "S21"
+      ],
+      "input": "合法由来の無制限leafと攻撃前後・解除条件の実入力は未検査。カードnullの代替証拠にしない。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-E-missing",
+      "object": "raw個別効果",
+      "state": "effects[].uses key欠落",
+      "original": "JS exact5key検査で拒否。C# Validateはkey欠落をnull相当に扱う静的差がH14で指摘済み。",
+      "fields": "raw usesのkey有無とvalueを別確認",
+      "display": "7211のActorFactsはkey欠落を「未公開」。無制限へ読み替えない。",
+      "source": [
+        "S03",
+        "S21",
+        "S16"
+      ],
+      "input": "既存C#検査差の修正・受理実検査は本編担当。今回は通常保存を加工して欠落caseを作らない。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        }
+      ]
+    },
+    {
+      "id": "R04-E-finite",
+      "object": "raw個別効果",
+      "state": "usesに正整数n",
+      "original": "合法一致攻撃解決後に各有限効果を1回消費、0で除去。",
+      "fields": "actor.defense.effects[].uses",
+      "display": "主体詳細のそのleafをn回。",
+      "source": [
+        "S03",
+        "S12",
+        "S16",
+        "S21"
+      ],
+      "input": "同source_actor_id/effect_kindのbefore/preview/after。本人一致/退出・張り直しとの混同を避ける。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-A-uniform",
+      "object": "集計",
+      "state": "全leafが同じ有限n",
+      "original": "guardView.uses=n、durationの同一有限群はuniform。",
+      "fields": "actor.guard.uses＋JS defense.duration.guard/evasion＋C#公開effectsから既存ActorFacts.Duration",
+      "display": "原本の該当身構/攪乱群は×n。",
+      "source": [
+        "S03",
+        "S11",
+        "S12",
+        "S16",
+        "S21"
+      ],
+      "input": "aggregateとleafを同じactor・同状態で受領。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-A-finite-mixed",
+      "object": "集計",
+      "state": "全leafは有限だが回数が異なる",
+      "original": "guard.uses=nullでもunlimited=false、duration.all.status=mixed。例2回/1回は原本分岐の説明で、生成fixtureではない。",
+      "fields": "actor.guard.uses=nullだけでは不十分。raw effectsとguard/evasion別durationを読む",
+      "display": "該当群で回数が混在する場合は「混在」、個別行は各n回。身構/攪乱の各群が均一なら各群は×nで、all混在を両群に決め打ちしない。",
+      "source": [
+        "S03",
+        "S11",
+        "S12",
+        "S16",
+        "S21"
+      ],
+      "input": "有限mixedの合法leaf配列・同actorのpublic payload。nullを制限なしと誤表示しないことは静的に対応、実描画未確認。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-A-unlimited",
+      "object": "集計",
+      "state": "該当群の全leafが無制限",
+      "original": "guard.uses=null、duration status=unlimited。",
+      "fields": "JS durationのunlimited/status、C# uses key存在を確認した公開leaf",
+      "display": "原本の該当身構/攪乱群は∞、leafは回数制限なし。",
+      "source": [
+        "S03",
+        "S11",
+        "S12",
+        "S21"
+      ],
+      "input": "正規の無制限保存/公開値が必要。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-A-mixed-null-finite",
+      "object": "集計",
+      "state": "無制限leaf＋有限leaf",
+      "original": "guard.uses=null、duration.all.status=mixed。",
+      "fields": "公開leaf・成分別のduration",
+      "display": "該当混在群は「混在」、leafを制限なし／n回へ分離。null一つで全体∞にしない。",
+      "source": [
+        "S03",
+        "S11",
+        "S12",
+        "S21"
+      ],
+      "input": "同public状態のleaf・成分別対象。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    },
+    {
+      "id": "R04-A-empty",
+      "object": "効果なし",
+      "state": "guard自体null、effects=[]",
+      "original": "guardViewは効果0件ならnull。空durationはemptyで表示文字なし。",
+      "fields": "actor.guard=null、defense.effects=[]、合計guard/evasion=0",
+      "display": "主体欄の合計は0。防御の内訳/持続行を出さず、∞/回数制限なしとしない。",
+      "source": [
+        "S03",
+        "S11",
+        "S12",
+        "S16",
+        "S21"
+      ],
+      "input": "無効果対照のpublic payload。guard自体nullとguard.uses:nullの位置を分ける。",
+      "source_sections": [
+        {
+          "id": "S03",
+          "section": "validateEffect／spendDefense／duration／defenseView／guardView"
+        },
+        {
+          "id": "S11",
+          "section": "effectRows／cardProperties／defenseDuration"
+        },
+        {
+          "id": "S12",
+          "section": "cardDetails／windowContentのactor詳細「防御の内訳」"
+        },
+        {
+          "id": "S16",
+          "section": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate"
+        },
+        {
+          "id": "S21",
+          "section": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）"
+        }
+      ]
+    }
+  ],
+  "existing_three_affix_save": {
+    "searched_artifact_files": 19,
+    "unique_decoded_contents": 15,
+    "normal_three_affix_input_found": false,
+    "all_context_registered_three_affix_keys": 0,
+    "known_inventory_max_affixes": 1,
+    "source": "save-inspection.json",
+    "not_global_nonexistence_proof": true,
+    "H14_four_inputs_metadata_reused": true,
+    "no_substitution": true
+  },
+  "unresolved_and_required_input": [
+    {
+      "id": "Q-PRESET-01",
+      "owner": "UI原本20260910-ui-readability／とりまとめ20260913-project-coordination",
+      "issue": "旧返却「保存preset」が別のnamed presetを意図したか、採用元を特定できない。",
+      "needed": "namedを別条件として維持する場合だけ、既存採用commit/path/blob・節、保存名/ID・画面/保存先・適用/参照解除の原本を返す。現行共有saved draft/確定編成は既回答で再承認不要。",
+      "next": "今回の対応表を受領し、原本にある保存済み案の入力を先行。未特定namedを新API要求やUI合格へ変換しない。"
+    },
+    {
+      "id": "IN-ST-P08",
+      "owner": "本編20260927-game-application",
+      "issue": "lock／saved draftだけの使用／確定編成／両方／解除後・複合理由の実入力は未実検査。",
+      "needed": "未改変の合法開始DTO/hash・seed/command列・fresh handles、before/preview/afterのselected/locked/references/conversion_available/reasons、保存/RNG非破壊。",
+      "next": "既存source／通信／環境停止条件を解消し明示再開した後、既存APIで固定入力を提出。今回実行0。"
+    },
+    {
+      "id": "IN-R04-CARD-NULL",
+      "owner": "本編20260927-game-application／既存契約20260909-design-assembly",
+      "issue": "defense_uses明示nullの正規カード/保存未取得。effect nullやmixedをカードnullへ代用できない。",
+      "needed": "未改変byte・旧新schema/engine/content版・commit/path/blob/SHA256・生成/取得来歴・同public card id/field key有無。",
+      "next": "既存保存が供給された項目だけ、本編停止解除後にfresh C# Inspectと実表示を取得。通常save注入・content/tier変更なし。"
+    },
+    {
+      "id": "IN-R04-EFFECTS",
+      "owner": "本編20260927-game-application",
+      "issue": "有限均一／有限mixed／無制限／混在／効果なしの同状態公開値・実描画未検査。",
+      "needed": "actor id、raw effects[].usesのkey有無・source_actor_id/effect_kind、guard/uses、既存各群集計とbefore/preview/after。C# key欠落検査差は別に扱う。",
+      "next": "既存原本の集計/個別表示の対応を使い、合法状態の固定証拠を必要分だけ返す。今回全面再判定なし。"
+    },
+    {
+      "id": "IN-3-AFFIX",
+      "owner": "とりまとめ20260913-project-coordination／既存契約20260909-design-assembly→本編20260927-game-application",
+      "issue": "19既存保存/15内容に3修飾入力なし。全歴史保存の不存在は証明していない。",
+      "needed": "正規既存3修飾保存の未改変byte・来歴・元版・commit/path/blob/SHA256・完全command prefix/seed、対象variantの同id/name。未提供なら既存登録計測と現SCN tierI制約の適用範囲を根拠付きで返す。",
+      "next": "未取得を維持。登録名370組/最大25字、1修飾保存や概念図を代用しない。新save/fixture・tier変更は今回未実施。"
+    }
+  ],
+  "sources": "sources.json",
+  "publication": "publication.json",
+  "review_request_is_not_UI_conformance": true,
+  "UI_conformant": false,
+  "M1_complete": false,
+  "distribution_allowed": false,
+  "boundaries": {
+    "new_specs": 0,
+    "named_preset_API": 0,
+    "content_or_tier_changes": 0,
+    "normal_save_changes": 0,
+    "main_code_changes": 0,
+    "game_commands": 0,
+    "fixture_generation": 0,
+    "rendering": 0,
+    "build_or_game_tests": 0,
+    "full_57_ID_17_group_recheck": 0,
+    "other_work_start_or_messages": 0
+  },
+  "request_remaining_tasks": [],
+  "original_request_revision": "1.0",
+  "current_instruction": {
+    "source_commit": "7b0f16d15c6605a74e5cdfda443b1abe6538265e",
+    "path": "docs/作業資料/とりまとめ/着手指示/D04B-UI-02_UI原本と公開項目の対応.md",
+    "blob": "33b9546ac4c01b44be2e819242303a930b8dd3ff",
+    "revision": "1.1"
+  },
+  "answer_complete": true,
+  "source_section_index": {
+    "S01": "itemUsage／quote・convert／lock・使用中の独立した拒否条件",
+    "S03": "validateEffect／spendDefense／duration／defenseView／guardView",
+    "S04": "card optional fields／defenseViewを使う公開射影",
+    "S05": "cardDetail：primaryへのdefense_uses・defense_grant保持",
+    "S11": "effectRows／cardProperties／defenseDuration",
+    "S12": "cardDetails／windowContentのactor詳細「防御の内訳」",
+    "S14": "name-metricsのcard322・passive48／登録最大文字数の計測",
+    "S15": "Preparation.Draft／Usage（168行以降）／Quote／Viewのowned・references・details補完",
+    "S16": "Expedition.PublicCard（183行）／Guard（351行）／Play／ActorView・CardView（695行以降）／Validate",
+    "S17": "GameApplication.Executeのsave_draft・discard_draft・commit_preparation・set_item_lock／View／Refusal",
+    "S21": "CardFacts・PreparationDetailFacts／ActorFacts（215–239行、Durationと個別leaf）",
+    "S23": "「公開情報」「確認と一括確定」",
+    "S28": "missing_states「保存presetで使用中」",
+    "S29": "ViewData.Explainのitem_in_use・item_locked",
+    "S30": "executeのsave_draft・discard_draft・commit_preparation（75–88行）",
+    "S31": "「公開情報からの接続」表の一括確定・戻す・出発",
+    "S40": "「別々に扱う値」「生成・compileから公開までの全対象入口」「不足・次担当・未採用の選択肢」",
+    "S41": "「登録と通常生成の関係」「候補→pending→取得→編成→詳細」「ST-P08合法レシピ」「保存presetの不足」"
+  },
+  "synchronization": {
+    "plan_source": "7b0f16d15c6605a74e5cdfda443b1abe6538265e",
+    "plan_root_tree": "147834301bc95edc38fb4d793337eb2b9912f7b9",
+    "plan_scope_tree": "11451e02a3dc0aa3bb9a1607838961e1ee5718a3",
+    "plan_files": 98,
+    "plan_commit": "70d96bc49e24302c7cd2d35d6fdb48c0bbc3a082",
+    "technical_source": "09741d506d08b4c6bb1d57048ea594f89141effc",
+    "technical_commit": "190daaa928d2af4021b75bab6473fcd487dc0bf7",
+    "plan_version": "0.50",
+    "fixed_inputs_unchanged": true
+  },
+  "resumed_20261024": {
+    "recovered_from_local_draft": true,
+    "source_path_blob_matches": 44,
+    "existing_save_path_blob_matches": 19,
+    "recovered_save_byte_hash_matches": 19,
+    "preservation_manifest_sha256": "644ff150f3409454aeb2631efff229befa3e7635586fbbcc83ab90f497012fa0",
+    "old_environment_other_unsaved_state": "不明"
+  },
+  "fixed_answer_commit": "2a01b62cea13521883ddc944d8e8396742479761",
+  "fixed_answer_tree": "53374a4029a7e213be53463808d91bfaf5b09f00",
+  "readback": "GitHub読戻し.json",
+  "report_prompt": "とりまとめへの報告プロンプト.md",
+  "coordination_received": false
+}

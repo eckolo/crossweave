@@ -1,0 +1,82 @@
+{
+  "ui": {
+    "id": 37004651468,
+    "head_sha": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+    "status": "completed",
+    "conclusion": "failure",
+    "html_url": "https://github.com/eckolo/crossweave/actions/runs/37004651468"
+  },
+  "save": {
+    "id": 37004651566,
+    "head_sha": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/eckolo/crossweave/actions/runs/37004651566"
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 110829967743,
+        "name": "windows-application",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 37004651468,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Real Godot nodes, files, restart and regression",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 3
+          },
+          {
+            "name": "Attempt rendered screenshots through the same application",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 4
+          },
+          {
+            "name": "Retain exact-code evidence",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 5
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          }
+        ]
+      }
+    ]
+  },
+  "failure_excerpt": [
+    "2026-10-02T12:06:07.5366863Z Downloading NotoSansJP.ttf\r",
+    "2026-10-02T12:06:07.6595181Z ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host\r",
+    "2026-10-02T12:06:07.6601278Z     shutil.copy2(bootstrap.acquire(bootstrap.LOCK['assets']['font'], cache), ROOT / 'Godot/Assets/NotoSansJP.ttf')\r",
+    "2026-10-02T12:06:07.6622865Z urllib.error.URLError: <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>\r",
+    "2026-10-02T12:06:07.8510183Z ##[error]Process completed with exit code 1.\r",
+    "2026-10-02T12:06:07.8705425Z   if-no-files-found: error\r",
+    "2026-10-02T12:06:08.0313740Z ##[error]No files were found with the provided path: apps/crossweave-godot/artifacts/d04b-ui-save-01-windows/. No artifacts will be uploaded.\r"
+  ],
+  "classification": "UI CIはフォント取得中のWinError10054。試験前停止・画面artifactなし。保存CI成功とローカル提出レンダーを区別。ゲーム検査不合格・UI合格のどちらにも変換しない。"
+}

@@ -1,0 +1,8 @@
+// Encoding-only copies of design-owned, unmodified natural saves.
+const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto');
+const repo=path.resolve(__dirname,'../../../../../..'),out=path.join(__dirname,'fixtures');fs.mkdirSync(out,{recursive:true});
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const origin='docs/検証/接続条件/co-d03',manifest=JSON.parse(fs.readFileSync(path.join(repo,origin,'save-manifest.json')));
+const sources=[{id:'offers-home',path:'test/runtime/d03-natural-home.json.br.b64',sha256_encoded:'d1258c8b87b3de5dffb8cc6a8f16b66f62210a9deb95e3c6e19c2f290a79eae2'},...manifest.files.map(f=>({...f,id:f.path.split('.')[0].replaceAll('_','-'),path:origin+'/'+f.path}))];
+const records=sources.map(item=>{const encoded=fs.readFileSync(path.join(repo,item.path));if(sha(encoded)!==item.sha256_encoded)throw Error('source hash '+item.id);const raw=zlib.brotliDecompressSync(Buffer.from(encoded.toString().trim(),'base64'));if(item.sha256_decoded&&sha(raw)!==item.sha256_decoded)throw Error('decoded hash '+item.id);const gzip=zlib.gzipSync(raw,{level:9});const file=item.id+'.save.json.gz';fs.writeFileSync(path.join(out,file),gzip);return {id:item.id,path:file,source:item.path,source_sha256:sha(encoded),raw_sha256:sha(raw),raw_bytes:raw.length,gzip_sha256:sha(gzip),gzip_bytes:gzip.length};});
+fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify({source_commit:'7671dedf32e725c9ee98e3bd5a829876cbd31746',transform:'Brotli/base64 → gzip only; decompressed bytes unchanged',records},null,2)+'\n');console.log(records.map(r=>({id:r.id,bytes:r.gzip_bytes})));

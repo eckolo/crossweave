@@ -1,0 +1,99 @@
+{
+  "schema": "crossweave.ui.legal-input-return.v1",
+  "fixed": {
+    "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_commit": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_version": "2026-10-04.1",
+    "plan": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+    "design": "21ddd349b6bec69ecac6d9db288c537553dab860"
+  },
+  "recipient": "20260909-design-assembly / dev_design_tmp_assembly（既存契約の合法到達入口）",
+  "evidence_owner": "20260927-game-application / D04B-UI-02",
+  "recheck_owner": "UI改善 / UI-GODOT-REVIEW-01",
+  "not_new_work": true,
+  "no_rules_save_or_content_change": true,
+  "items": [
+    {
+      "id": "R01-filler",
+      "status": "未確認を維持",
+      "question": "通常の既存契約の生成/再構築/Draw/Recoverから、補充由来で期限1の未使用札がquick previewにdestroyedとして出る合法入口を示す。",
+      "return_required": [
+        "開始の隔離初期saveのcommit/path/blob/SHA256とseed",
+        "既存APIの合法command列と期待public ID/birth/期限/unused_hand_expiry.destination",
+        "本編が実Main.tscnでquick ONのpreviewを撮る再現入口",
+        "非到達なら生成/移行/import/復旧/public projectionを含めた全入口禁止の契約条文と不変条件"
+      ],
+      "forbidden_shortcuts": [
+        "通常saveを編集してbirth=fillerへ変更",
+        "期限・札・規則の仮改変",
+        "探索で未発見だから適用外"
+      ]
+    },
+    {
+      "id": "R04-unlimited",
+      "status": "未確認を維持",
+      "question": "guardの明示nullが既存契約で合法にpublic viewへ出る生成/compile/creation/import/migrate/復旧経路を示す。欠落時default2、有限値、明示nullを区別する。",
+      "return_required": [
+        "合法入力/seed/隔離初期save hashと既存command列",
+        "public guardのnullを保持する入口・有限/欠落との差",
+        "複数回使用のbefore/preview/afterと表示する無制限表現の既存期待値",
+        "非到達なら全入口の禁止条文、DTO/projection不変条件とSHA/path/blob"
+      ],
+      "forbidden_shortcuts": [
+        "guard=2を通常save編集でnullへ置換",
+        "固定contentに無いことだけで適用外",
+        "保存schemaや規則を変更してfixtureを成立させる"
+      ]
+    },
+    {
+      "id": "U-V01-registered-long-names",
+      "within_group": "U-V01",
+      "state_ids": [
+        "ST-P01",
+        "ST-P08"
+      ],
+      "difference_ids": [
+        "V-C01",
+        "V-P04",
+        "V-P15"
+      ],
+      "status": "合法状態未取得・未確認を維持",
+      "question": "原本name-metricsの登録済み組合せを通常契約からpublic catalogue/offer/ownedへ出す合法入口を示す。組合せ登録と現在campaignでの合法所持は分ける。",
+      "registered_examples": [
+        {
+          "public_prototype_id": "AO1:card:nt_pressure:frail:heavy:precise",
+          "name": "短命な・重い・精密な・潮底の踏み足",
+          "source_measured_length": 17
+        },
+        {
+          "public_prototype_id": "AO1:passive:PS01:borrowed:focused_B:sluggish",
+          "name": "借り技の・B属性に専心する・鈍重な・守りからの設置",
+          "source_measured_length": 25
+        }
+      ],
+      "source_file": {
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/name-metrics.json",
+        "blob": "b072e70fc6ab9558e03e93b111d0303ecf0d5975"
+      },
+      "source_limit": "現在登録370組（札322/心得48）の最大25文字。将来一般の最大長を正式に定める契約ではない。",
+      "layout_expected": "取得枠352×80/2px、名称20px/24×2・領域260×48、右操作72×76。長い名称を省略・縮小して成功にしない。",
+      "return_required": [
+        "登録prototype→合法生成/offer/取得/所持のcommand/seed/初期save hash",
+        "public ID/nameの全文と長さを同じ公開viewで固定",
+        "offer/owned/pending/build/detail/ghost、札は探索手札と記録snapshotの入口対応",
+        "既存契約上出せない組合せなら登録表と生成禁止の関係を全入口の根拠で示す"
+      ],
+      "forbidden_shortcuts": [
+        "prototype文言を新しく作る",
+        "通常save/public viewへ長いnameを直接注入",
+        "小さい文字/ellipsisで文字を消す",
+        "新Workや新第18群の作成"
+      ]
+    }
+  ],
+  "main_resumption": "合法入力を受領した項目から固定入力を別版として保存し、実画面/原寸/nodes・preview command0・確定1回/重送・revision/保存/RNGを返す。他の修正と可能なUI判定は継続。",
+  "sent": false
+}

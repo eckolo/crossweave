@@ -1,0 +1,149 @@
+{
+  "schema": "crossweave.ui.review.current.v2",
+  "task": "UI-GODOT-REVIEW-01",
+  "work_id": "20260910-ui-readability",
+  "branch": "ui/readability-20260910",
+  "reviewed_at_utc": "2026-10-06T02:54:18.442Z",
+  "request_status": "完了",
+  "current_state": "完了・とりまとめへ引継ぎ（作成済み・受領未確認）",
+  "fixed": {
+    "code": "c761cbf4950a750b5b337e1bc9926528b87be54a",
+    "submission": "8e992501a8b4ac633ee78d6f41e66a2de431bdb2",
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_commit": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_version": "2026-10-04.1",
+    "plan": "9d4029252ce8977478a3c1dffbaaa210af32f299",
+    "design": "21ddd349b6bec69ecac6d9db288c537553dab860"
+  },
+  "summary": {
+    "original_difference_ids": 57,
+    "resolved_difference_ids": 21,
+    "repair_difference_ids": 27,
+    "original_decision_pending_ids": 6,
+    "unknown_difference_ids": 3,
+    "unresolved_difference_ids": 36,
+    "unapproved_visual_differences": 33,
+    "required_group_inventory": 17,
+    "required_unknown_groups": 15,
+    "closed_required_groups": 2,
+    "baseline_components": 19,
+    "M1_state_groups": 37,
+    "UI_conformant": false,
+    "distribution_allowed": false
+  },
+  "visual_differences": "visual-diff.json",
+  "required_unknowns": "unknowns.json",
+  "additional_function_findings": [
+    {
+      "id": "N01",
+      "title": "取得詳細の所在・価格・修飾",
+      "status": "一部修正・残件あり",
+      "difference_ids": [
+        "V-P15",
+        "V-P13"
+      ],
+      "observation": "公開価格・所在・折畳みは復元。時計boxとfooter、owned追加機能の配置が残る。",
+      "decision_ids": [
+        "DEC-UI-01",
+        "DEC-UI-05"
+      ]
+    },
+    {
+      "id": "N02",
+      "title": "調査記録の分類・親子・公開区分",
+      "status": "機能修正確認・外観残件あり",
+      "difference_ids": [
+        "V-W06",
+        "V-W07"
+      ],
+      "observation": "タブ/分類と親・scroll保持、最小公開区分を確認。リストgap8と文字は残る。",
+      "required_groups": [
+        "U-RC04"
+      ]
+    },
+    {
+      "id": "N03",
+      "title": "減動設定",
+      "status": "当該機能の修正確認",
+      "difference_ids": [
+        "V-W09",
+        "V-D05"
+      ],
+      "observation": "元checkboxを復元し、保存済み通常200ms／抑制0のsequenceと固定コードを照合。全popup状態の外観を包括認定しない。"
+    }
+  ],
+  "original_decisions": "recheck-20261006/原本判断回答.json",
+  "legal_inputs": "recheck-20261006/合法入力返却.json",
+  "screen_state_inventory": "screen-states.json",
+  "baseline": {
+    "commit": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "version": "2026-10-04.1",
+    "components": 19,
+    "state_groups": 37,
+    "unchanged": true
+  },
+  "historical_review": {
+    "path": "history/20261004/review.json",
+    "fixed_implementation": {
+      "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "implementation": "6168d2ac7ad66d8e707c51f2f3d7bf14fa123531",
+      "submission": "0a4142cae97c0d6e3a56a943ad2e3cbe76ac5dc6",
+      "coordination": "d93d0b482c13da4aa91df0d2173b87f46999a3a9",
+      "design": "21ddd349b6bec69ecac6d9db288c537553dab860",
+      "baseline_version": "2026-10-04.1"
+    },
+    "summary": {
+      "original_item_count": 38,
+      "original_function_status_counts": {
+        "適合": 29,
+        "未確認": 4,
+        "要修正": 1,
+        "根拠付き対象外": 4
+      },
+      "R01_R07_U01": {
+        "未確認": 2,
+        "適合": 6
+      },
+      "M1_state_groups": 37,
+      "baseline_components": 19,
+      "unapproved_visual_differences": 57,
+      "individually_approved_exceptions": 0,
+      "required_unknown_groups": 17,
+      "UI_conformant": false,
+      "distribution_allowed": false,
+      "distribution_decision": "RD-PACK-03へ進めない",
+      "gate": "未承認差異0・必要未確認0、固定SHAと環境・証拠対応、変更影響の機能確認成立の全条件。H01/H02は別工程。"
+    },
+    "note": "旧38機能項目・R01〜R07/U01判定を保全。旧機能適合を今回外観の包括適合へ流用しない。"
+  },
+  "preservation": "recheck-20261006/resumption-20261006.json",
+  "sync": "recheck-20261006/同期最終照合.json",
+  "new_game_runs": 0,
+  "boundaries": [
+    "本編コード・規則・保存形式の直接変更なし",
+    "合意案変更は個別判断へ",
+    "他Work起動・送信なし",
+    "公開済み履歴の改変・強制Pushなし"
+  ],
+  "request_remaining_tasks": [],
+  "human_tasks": {
+    "CO_H09": "今回の送付を受領・着手した。とりまとめへ人送付完了の反映を返す。",
+    "CO_H02_H03": "新版の配布条件成立後の実機/物理入力/DPI",
+    "CO_H04": "本編受入条件成立後の試遊",
+    "proposed_individual_decisions": [
+      "DEC-UI-01未登録記号用途別",
+      "DEC-UI-03root境界/preview入口",
+      "DEC-UI-05追加route別"
+    ],
+    "DEC_UI_04": "metrics修正後の残差比較資料待ち。今の人の作業ではない。"
+  },
+  "publication": "publication.json",
+  "completion_record": {
+    "artifact_commit": "d134c0ffe53978602daafaa9f83a3b71a9716314",
+    "artifact_tree": "e740f67c5b1bbee7000d5a5dd4df3cc657f85392",
+    "readback": "recheck-20261006/GitHub読戻し.json",
+    "normal_save_verified": true,
+    "UI_conformant": false,
+    "distribution_allowed": false
+  }
+}

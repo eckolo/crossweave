@@ -1,0 +1,906 @@
+{
+  "schema": "crossweave-ui-contract-sources/1",
+  "fixed": {
+    "approved_ui": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "ui_review": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+    "main": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+    "H14": "e178b4a13fc35fc49bac3870ebcceb0881f46779",
+    "H14_followup": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+    "instruction_fixed": "f443dfb7197635c5f510de23d42719cd31601a16",
+    "instruction_requested_revision": "1.0",
+    "instruction_current_revision": "1.1"
+  },
+  "source_count": 44,
+  "sources": [
+    {
+      "id": "S01",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/items.mjs",
+      "blob": "8204d3716685513e109dec03883b38447aecd0e4",
+      "bytes": 5117,
+      "sha256": "1eb465d4491f99e8a8c26eb1d5d867926cf245f9744214d1f964c8764fe159cd",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S02",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/preparation.mjs",
+      "blob": "a30d764e6288efcfa6021351a4d8fa5772902845",
+      "bytes": 7532,
+      "sha256": "17643768ecc85e61d9ae9dbf0c9a1bd8b38c06cd36cdc70130f77807cb8103aa",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S03",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/defense.mjs",
+      "blob": "4cb9c5fd368eb72c5b0b10c48b97183fa2286639",
+      "bytes": 4045,
+      "sha256": "fe6fe9557a424c353037e3b848b05066ef03f47872ecc049b2e0772645492598",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S04",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/information.mjs",
+      "blob": "5f7b910ed9e16cf48850bdb2c84f93cdcabfff96",
+      "bytes": 6874,
+      "sha256": "448c6d3f5aa38e9a0f51e550213fab01524c750ee577f535f517517f2faa3e84",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S05",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/item-details.mjs",
+      "blob": "3fe875134b7f0eea8c9a189ce2ad0ca0b598f0e9",
+      "bytes": 3625,
+      "sha256": "90b8f41504087756082d83b2ca8336c27bf4086fd812bec480027e9ce82107a6",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S06",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/preparation-render.js",
+      "blob": "b27933142509d1829043737efb6600e6c8843020",
+      "bytes": 18540,
+      "sha256": "830696c01e60b318116dce8407c6f34f9179af74881ca369ba97979b68f27fa2",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S07",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/preparation.template.js",
+      "blob": "c9dfc2b391903ea74935dfd6cdac43bd5c58d4cb",
+      "bytes": 11447,
+      "sha256": "c2a903c0e6f06cc75a0d97a4f10d06129c3e94a49cb161c91faf8eeee1027f94",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S08",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/session.js",
+      "blob": "1355055f2527298dff1eeb0fb4212379cbe94904",
+      "bytes": 14956,
+      "sha256": "1c6cc2ae51c9074ccd2bda03cd9d5baffcc8fe58e7a959e5ce806cffcf28cf59",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S09",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+      "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+      "bytes": 18348,
+      "sha256": "933eed685eac2fdfdb13957eb32bf102763d3aabb3a600f5638b2ca05801dd0a",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S10",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+      "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+      "bytes": 8712,
+      "sha256": "8757b369f655570fac492e081f72d6ea4bc1d3dea5ac3e0842ba9b23fac25f64",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S11",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/card-properties.js",
+      "blob": "023b38bbfc7b0103224b4153940f861f4c62460b",
+      "bytes": 2866,
+      "sha256": "a15a6222137552ba7c0503d4f6695cc2f24bb90a24cacfcd6a4737cbd48742d7",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S12",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/exploration.js",
+      "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+      "bytes": 45664,
+      "sha256": "cbe9daf149f6ea91be68304be9c5dc0e27ca35ee56bd2b35830b5801f4ee5706",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S13",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+      "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+      "bytes": 29452,
+      "sha256": "aaeb38e8a2943ecc86d51d3892ccd3f8808b7c394f28a690747f27af456b2bf9",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S14",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/name-metrics.json",
+      "blob": "b072e70fc6ab9558e03e93b111d0303ecf0d5975",
+      "bytes": 2149,
+      "sha256": "e7a244d34b05544d1463e22488913d9d58017dde11d5b140e679c240384f7c71",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S15",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+      "blob": "2218254bb49ceb7aa4fc70225361c2e606131c47",
+      "bytes": 24453,
+      "sha256": "d4326c8b2ac90cdbe19529b8550bdda89ca1ab79c1982e9b35b05652754bdedf",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S16",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+      "blob": "d630a642801340d39688bf80317780960c449d43",
+      "bytes": 39514,
+      "sha256": "e5ee30ccaad493efeb444b62f44a513ef1fca69ff2897e3d38c858ee58f104e7",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S17",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+      "blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848",
+      "bytes": 30282,
+      "sha256": "fa4c428fea0d2f5ac39b4b8007cd055a5ae160bfad77e56937d6a5b8733fa88e",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S18",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+      "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+      "bytes": 3949,
+      "sha256": "4bd8f53292d83785ae23ee2067696b532ed2a516485b8c2e34026310f90a206d",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S19",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+      "blob": "851d3a6f9fc43e7df7c9657edd24c9725b10cafa",
+      "bytes": 16448,
+      "sha256": "6bf9a69544c3c93606aafcf7ff11650fa6dd769c3359c7cce7427b327530300f",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S20",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+      "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814",
+      "bytes": 33057,
+      "sha256": "8e42d7b8b5c1d13628f767f8e8a1019b0e21ef3a14419f1e352fb9ea2cc6b294",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S21",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+      "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb",
+      "bytes": 61577,
+      "sha256": "b2e47b0b98a76491c629f5ea1e583a7fe23ea6289213edf748912a38e9fa4161",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S22",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/接続条件/co-d03r/README.md",
+      "blob": "651a29aa0c66665ce2a875c49972911e6e741448",
+      "bytes": 3732,
+      "sha256": "554c2c9d5ce6df39a13987e862b9db1628ac024be64a9a2e18d99f04833e2438",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S23",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/接続条件/co-d03r/ui-handoff.md",
+      "blob": "5a10d7e52b4c05fa67c15cdfafa80125684b5dc8",
+      "bytes": 8199,
+      "sha256": "58650ff24b742a209a22640a61a88dddcb420e22979a2826ce6561b5246cf57d",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S24",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/接続条件/co-d03r/save-manifest.json",
+      "blob": "90c9761dd30b3c700184d1096e4dfaafe81ea211",
+      "bytes": 1710,
+      "sha256": "d8ed6c1f00edc52398b104a28ebc6d7fc110ef8f2fb21dc94a61f3fc95e2cee6",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S25",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/接続条件/co-d03/save-manifest.json",
+      "blob": "a8f7ae07354033542e59aa2b8b2b09c3eee8eaff",
+      "bytes": 1949,
+      "sha256": "f9ac7d4c6e2e049e6d241aebedca0f12a0d03c9654ecaace3fcdada486ee6da3",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S26",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/接続条件/co-d02/saves/manifest.json",
+      "blob": "31f9d7475462a615fac13be63732355b3cb58d46",
+      "bytes": 2710,
+      "sha256": "c5eea02b5622146f21c396a01e3b92cb0facc601f6f70d79b2ede14d2a937864",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S27",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/review/README.md",
+      "blob": "4727b231d94eedd2b96dd7b9ec07b617b56d6277",
+      "bytes": 20979,
+      "sha256": "77398d8dd6800071a945ea9db7d629da80c8cb7902f786bbd313345b4890c399",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S28",
+      "commit": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/owned・追加導線の返却.json",
+      "blob": "431bfdbdfa0eab359019288237d9359a93993886",
+      "bytes": 3699,
+      "sha256": "b3265a8043b1922240353139dd401a517ac85cc85f0fa2ad1a662228f0d04010",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S29",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "apps/crossweave-godot/Godot/Application/ViewData.cs",
+      "blob": "5f672ce60850e92a78ba4cec2dc9c7245da4f1bf",
+      "bytes": 4234,
+      "sha256": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S30",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "src/runtime/campaign.mjs",
+      "blob": "e98bd047168e1a175f1c2485885e57e7e31b8b74",
+      "bytes": 15314,
+      "sha256": "28c9bad95d9826ad9c285e978148acd53c4e65fa95a889c9c1ed3c455e29dd16",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S31",
+      "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+      "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+      "blob": "445bdebd351a4ce1bf3fc9b7a885f6e6226ac0a5",
+      "bytes": 6901,
+      "sha256": "d4a584887dc6ffe9721fe8d0dee6b016d20da37bbae74e959b1c6da0d1ae4f26",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S32",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/README.md",
+      "blob": "2d0db91963b41dc243e58bc6830bbe5ddd4269ba",
+      "bytes": 3583,
+      "sha256": "aedc6f68af762803a422738269ee70bd65e49797ddbb886d800793b145701eca",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S33",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/合法入力への返却.json",
+      "blob": "f344b247005a57e87b2fff23241520e812da16ef",
+      "bytes": 6472,
+      "sha256": "4b2cb43e88039c1d5d13688356d84c915a61e9c0eea594b46a8dd855cc4356f6",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S34",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/ownedと候補の未確認.json",
+      "blob": "949b690027d7d46dd3aae4e9dd4e7f8b4cec341f",
+      "bytes": 4091,
+      "sha256": "c60f50ff4c581bb4fb564e79c7df1db8c1ee24d96ba1d8e8a157f60044157446",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S35",
+      "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+      "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/fixed-input-receipt.json",
+      "blob": "ff143cd285641790974f9dec8c036b463937844b",
+      "bytes": 9939,
+      "sha256": "8f3221761322a1c65923fa1125ed21068e64bcc0e6329c6a0aebc19fea6f72e3",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S36",
+      "commit": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+      "path": "docs/検証/UI/readability/godot-ui-review-01/screen-states.json",
+      "blob": "b84c8e56b7fa94dab06a99bc320c9ce67586562e",
+      "bytes": 53702,
+      "sha256": "4008e6f6d15cc87d84dd8c7cd33790a9caffe5e9331058bf5104110bce549110",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S37",
+      "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+      "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+      "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670",
+      "bytes": 125856,
+      "sha256": "c93fcb01896a4be1956d09570e960da9f694edee5983664f230655fce907dd7c",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S38",
+      "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+      "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+      "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447",
+      "bytes": 176446,
+      "sha256": "e23c1cadb1f95bdce447a0ad4ec2a67aa6acbdd4e321046518560fdfbf78fe53",
+      "content_read": true,
+      "original_ui_same_blob": true,
+      "H14_fixed_followup_same_blob": false
+    },
+    {
+      "id": "S39",
+      "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/README.md",
+      "blob": "8d9f5718d5763ecdbc9e2955554c5bfce0904a21",
+      "bytes": 3656,
+      "sha256": "7b51daf857e64598631757dbc3a4df03c302a028e3950a9ba93ed1f728020af5",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    },
+    {
+      "id": "S40",
+      "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/R04-unlimited.md",
+      "blob": "9c8e99cf57e7ca092223da188bf4963fd6578754",
+      "bytes": 9825,
+      "sha256": "2d198f0d368cc2e41b10f49ff7dec851b43aade56b7ee209d02308af60e4911d",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    },
+    {
+      "id": "S41",
+      "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/U-V01-ST-P08.md",
+      "blob": "4390313429a698ba84b681939da92c5a83e5536b",
+      "bytes": 16806,
+      "sha256": "d0ecc92ae732965e820ae585eb4c1ed11f3e1dd205fb00948199a7ffcdda8e5a",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    },
+    {
+      "id": "S42",
+      "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/answers.json",
+      "blob": "70e4b0e6cf2c474f2d3c0643cae899e261b77432",
+      "bytes": 2822,
+      "sha256": "9f2d2935900467f08e370289f0e54237322cb624b2af7cad8b7d8bbd74bdcb86",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    },
+    {
+      "id": "S43",
+      "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/evidence.json",
+      "blob": "87411b4e065ded2122aa73544fccc0ac88dce4b1",
+      "bytes": 36657,
+      "sha256": "672fc8cb152943505530e4fee344774175fa4e952b6a6ce72593a4fc2866a29b",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    },
+    {
+      "id": "S44",
+      "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+      "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/inputs.json",
+      "blob": "6ffb4fa115bd69ad7d9bb5b524b24b7ebfb6554e",
+      "bytes": 8905,
+      "sha256": "31219fba0ad010fe8daaf5f31734ee2c46f5cf1d5ba8a4fb2e29799abdfa00f8",
+      "content_read": true,
+      "original_ui_same_blob": false,
+      "H14_fixed_followup_same_blob": true
+    }
+  ],
+  "text_blob_mismatches": 0,
+  "existing_saved_bytes": "save-inspection.json",
+  "same_plugin_trial": {
+    "failed_path": "apps/crossweave-godot/Godot/Application/UiViewData.cs",
+    "failure": "404",
+    "resolved_path": "apps/crossweave-godot/Godot/Application/ViewData.cs",
+    "resolved_blob": "5f672ce60850e92a78ba4cec2dc9c7245da4f1bf",
+    "scope_unchanged": true,
+    "other_route_used": false
+  },
+  "limits": [
+    "固定原本の読解と既存byteの静的確認。ゲーム・描画・Restore受理実検査ではない。",
+    "旧返却語のnamed preset採用元と正規3修飾保存は未特定/未取得。限定検索を不存在や対象外へ拡張しない。",
+    "旧PNG取得不能・CP02・artifact403・本編/Cloud停止は継承。今回未再試行。"
+  ],
+  "resume_20261024": {
+    "checked_at_utc": "2026-10-24T01:29:35.707Z",
+    "fixed_path_blob_checks": [
+      {
+        "id": "S01",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/items.mjs",
+        "blob": "8204d3716685513e109dec03883b38447aecd0e4",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S02",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/preparation.mjs",
+        "blob": "a30d764e6288efcfa6021351a4d8fa5772902845",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S03",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/defense.mjs",
+        "blob": "4cb9c5fd368eb72c5b0b10c48b97183fa2286639",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S04",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/information.mjs",
+        "blob": "5f7b910ed9e16cf48850bdb2c84f93cdcabfff96",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S05",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/item-details.mjs",
+        "blob": "3fe875134b7f0eea8c9a189ce2ad0ca0b598f0e9",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S06",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/preparation-render.js",
+        "blob": "b27933142509d1829043737efb6600e6c8843020",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S07",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/preparation.template.js",
+        "blob": "c9dfc2b391903ea74935dfd6cdac43bd5c58d4cb",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S08",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/session.js",
+        "blob": "1355055f2527298dff1eeb0fb4212379cbe94904",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S09",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/layout.js",
+        "blob": "bf0487fa5e456d64a336a6312e8a68af38a8a7fb",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S10",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime.js",
+        "blob": "e5ec3ee26b45f0549919b125d8060069ea47a962",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S11",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/card-properties.js",
+        "blob": "023b38bbfc7b0103224b4153940f861f4c62460b",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S12",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/exploration.js",
+        "blob": "c135e48c82177e59df45976dbe31373b84b7638c",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S13",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/journey/panels.js",
+        "blob": "b3a57e285d3649548b7037ea3651418ae3e6b977",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S14",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/name-metrics.json",
+        "blob": "b072e70fc6ab9558e03e93b111d0303ecf0d5975",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S15",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Core/Application/Preparation.cs",
+        "blob": "2218254bb49ceb7aa4fc70225361c2e606131c47",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S16",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Core/Application/Expedition.cs",
+        "blob": "d630a642801340d39688bf80317780960c449d43",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S17",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Core/Application/GameApplication.cs",
+        "blob": "5ce5cd165851e3d5c8cbcf96a969e36ba49d7848",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S18",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Core/Application/UiPublicProjection.cs",
+        "blob": "24bdf7e83c9ec1a219b05e9f27574d715473d7f0",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S19",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs",
+        "blob": "851d3a6f9fc43e7df7c9657edd24c9725b10cafa",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S20",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+        "blob": "8218fc3557f5aa9b26e7b8045c3ef1bec37ee814",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S21",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+        "blob": "c54b5beef2509e4df34b1cb8798cf88fa6dd42fb",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S22",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/接続条件/co-d03r/README.md",
+        "blob": "651a29aa0c66665ce2a875c49972911e6e741448",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S23",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/接続条件/co-d03r/ui-handoff.md",
+        "blob": "5a10d7e52b4c05fa67c15cdfafa80125684b5dc8",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S24",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/接続条件/co-d03r/save-manifest.json",
+        "blob": "90c9761dd30b3c700184d1096e4dfaafe81ea211",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S25",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/接続条件/co-d03/save-manifest.json",
+        "blob": "a8f7ae07354033542e59aa2b8b2b09c3eee8eaff",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S26",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/接続条件/co-d02/saves/manifest.json",
+        "blob": "31f9d7475462a615fac13be63732355b3cb58d46",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S27",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/review/README.md",
+        "blob": "4727b231d94eedd2b96dd7b9ec07b617b56d6277",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S28",
+        "commit": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+        "path": "docs/検証/UI/readability/godot-ui-review-01/dark-recheck-20261006/owned・追加導線の返却.json",
+        "blob": "431bfdbdfa0eab359019288237d9359a93993886",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S29",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "apps/crossweave-godot/Godot/Application/ViewData.cs",
+        "blob": "5f672ce60850e92a78ba4cec2dc9c7245da4f1bf",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S30",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "src/runtime/campaign.mjs",
+        "blob": "e98bd047168e1a175f1c2485885e57e7e31b8b74",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S31",
+        "commit": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+        "path": "docs/検証/UI/readability/co-u02/acquisition-preview/runtime-connection.md",
+        "blob": "445bdebd351a4ce1bf3fc9b7a885f6e6226ac0a5",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S32",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/README.md",
+        "blob": "2d0db91963b41dc243e58bc6830bbe5ddd4269ba",
+        "matched": true,
+        "method": "fixed commit/path fetch_file and recomputed Git blob"
+      },
+      {
+        "id": "S33",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/合法入力への返却.json",
+        "blob": "f344b247005a57e87b2fff23241520e812da16ef",
+        "matched": true,
+        "method": "fixed commit/path fetch_file and recomputed Git blob"
+      },
+      {
+        "id": "S34",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/ownedと候補の未確認.json",
+        "blob": "949b690027d7d46dd3aae4e9dd4e7f8b4cec341f",
+        "matched": true,
+        "method": "fixed commit/path fetch_file and recomputed Git blob"
+      },
+      {
+        "id": "S35",
+        "commit": "7211a605a04de36f9465fbae31979c4d6b0acf8f",
+        "path": "docs/検証/本編実装/d04b-ui-02/dark-return-20261007/fixed-input-receipt.json",
+        "blob": "ff143cd285641790974f9dec8c036b463937844b",
+        "matched": true,
+        "method": "fixed commit/path fetch_file and recomputed Git blob"
+      },
+      {
+        "id": "S36",
+        "commit": "ab1b6fa067877a140ac9e9c9c006c70da76e40b4",
+        "path": "docs/検証/UI/readability/godot-ui-review-01/screen-states.json",
+        "blob": "b84c8e56b7fa94dab06a99bc320c9ce67586562e",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S37",
+        "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+        "path": "docs/確定仕様/カード探索ゲーム_基本設計.md",
+        "blob": "34adda7df72ce11896dbb12c0e60d8f04ebe7670",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S38",
+        "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+        "path": "docs/作業資料/カード探索ゲーム_要検討事項.md",
+        "blob": "c0540b7223d3517fbae6c10cd64f80a742bd9447",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S39",
+        "commit": "ee6a62af128f4aff4233f1c9e057103299cc9bf9",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/README.md",
+        "blob": "8d9f5718d5763ecdbc9e2955554c5bfce0904a21",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S40",
+        "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/R04-unlimited.md",
+        "blob": "9c8e99cf57e7ca092223da188bf4963fd6578754",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S41",
+        "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/U-V01-ST-P08.md",
+        "blob": "4390313429a698ba84b681939da92c5a83e5536b",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S42",
+        "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/answers.json",
+        "blob": "70e4b0e6cf2c474f2d3c0643cae899e261b77432",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S43",
+        "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/evidence.json",
+        "blob": "87411b4e065ded2122aa73544fccc0ac88dce4b1",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      },
+      {
+        "id": "S44",
+        "commit": "1f78864d53e7569164bd111f89ee00747bd13546",
+        "path": "docs/検証/接続条件/d04b-ui-02-legal-20261012/inputs.json",
+        "blob": "6ffb4fa115bd69ad7d9bb5b524b24b7ebfb6554e",
+        "matched": true,
+        "method": "Git tree at fixed commit"
+      }
+    ],
+    "source_count": 44,
+    "existing_save_paths_and_blobs_matched": 19,
+    "recovered_save_raw_hashes": {
+      "count": 19,
+      "mismatches": []
+    },
+    "body_retrieved_and_rehashed_ids": [
+      "S01",
+      "S03",
+      "S04",
+      "S05",
+      "S11",
+      "S12",
+      "S14",
+      "S15",
+      "S16",
+      "S17",
+      "S21",
+      "S23",
+      "S28",
+      "S30",
+      "S31",
+      "S32",
+      "S33",
+      "S34",
+      "S35",
+      "S37",
+      "S38",
+      "S39",
+      "S40",
+      "S41"
+    ],
+    "previous_static_reads": "各source.content_readは回収した2026-10-13記録。今回の固定path/blob再照合と区別する。",
+    "main_tree_attempts": "本編全体/大きなdocs再帰treeはTransport closed。固定Core/Godotはapps subtree、dark-return4文書は同じプラグインの固定commit/path個別取得と本文blob再計算で照合。別サービス/ブラウザー/権限変更なし。"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "fixed": {
+    "original": "72d0eb58c7e3d04759f1ab56a939d1dff20a46b2",
+    "baseline_anchor": "8b535c2f17d3bd6f83030e98527cf97ab281e557",
+    "baseline_inventory_version": "2026-10-04.1",
+    "palette_correction_revision": "2026-10-07.1",
+    "code": "aabfefab076252f050824640fba6d8a8dd13e8e0",
+    "submission": "0ec6334254db00ebc7956b4df493f3a34b98845a",
+    "implementation_branch": "impl/m1-godot-application-20260927",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "theme": "了承済み緑系暗色・通常OS非連動",
+    "new_game_runs": 0
+  },
+  "legal_complement": {
+    "fixture": "repro-owned-review aliases repro-home same bytes",
+    "state": "初期所持・編成使用中・unlocked・convert不能",
+    "pair": "owned-ST-P08-dark",
+    "reference_png": {
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/source-notice-owned-final/dark-repro-owned-review-owned-unlocked.png",
+      "blob": "ed957cd0dcbbe11f281a90b77caf95dda1824f0f"
+    },
+    "current_png": {
+      "path": "docs/検証/本編実装/d04b-ui-02/recheck-fix-20261006/approved-dark-final/repro-owned-review-owned-unlocked.png",
+      "blob": "da26db25d2410b9b099a4e640fd5fbe21120669e"
+    },
+    "actual_difference": "元の全幅外すに対し、外す/lock/convert3操作と状態説明追加。機能意味と配置採用は別。"
+  },
+  "missing_states": [
+    "変換可能な正式owned/見積と確定",
+    "lock/unlock",
+    "保存presetで使用中",
+    "pending/正式所持の区別",
+    "複合変換不能理由",
+    "候補A/Bの実操作・focus・disabled・保存/RNG非破壊",
+    "既存登録長名称をこれらST-P08状態へ出す合法入口"
+  ],
+  "candidate_comparison": "A/B図は概念図。実入力/候補画素の確認を代用しない。現在はownedの人比較開始を全状態成立にしない。",
+  "questions": [
+    {
+      "id": "H12-1",
+      "status": "選択可能・人回答未着",
+      "question": "root内空白では元の保持を維持するか、現在の160ms閉鎖を採用するか。",
+      "options": [
+        "A:root内保持/root外160ms",
+        "B:root内空白も160ms"
+      ],
+      "impact": "窓の寿命のみ。command/save/RNGの意味は変えない。"
+    },
+    {
+      "id": "H12-2",
+      "status": "選択可能・人回答未着",
+      "question": "previewにも180ms hover入口を加えるか。",
+      "options": [
+        "A:元の入口を維持",
+        "B:preview入口も追加"
+      ],
+      "impact": "入口追加の採用。root境界の判断とは別。"
+    },
+    {
+      "id": "H13-Windows",
+      "status": "選択可能・人回答未着",
+      "question": "Windows保存/診断/復旧/終了の追加route配置を既存比較の個別指定へ。",
+      "impact": "機能削除/保存形式変更を承認した扱いにしない。"
+    },
+    {
+      "id": "H13-本文",
+      "status": "選択可能・人回答未着",
+      "question": "本文完了操作の追加配置を個別指定へ。",
+      "impact": "可視通知/receipt/読了の契約を維持。"
+    },
+    {
+      "id": "H13-公開補足",
+      "status": "選択可能・人回答未着",
+      "question": "予測公開補足の追加配置を個別指定へ。",
+      "impact": "既知記録/未公開情報の境界を維持。"
+    }
+  ],
+  "owner_chain": [
+    "既存契約20260909-design-assembly：合法入力",
+    "本編20260927-game-application：候補実入力/固定描画/非破壊",
+    "UI20260910-ui-readability：限定再判定",
+    "とりまとめ20260913-project-coordination：人の個別回答/次割当"
+  ],
+  "new_rules_content_or_save_change": false
+}
