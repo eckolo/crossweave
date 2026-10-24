@@ -129,13 +129,13 @@
     "cloud_rules_direct_receipt": "完了・とりまとめ受領済み。相手窓口の申告を出所付きで保存。実会話・有効指示の独立読戻しではない。",
     "cloud_agents_effective": "未確認。今回Cloud実測なし。Git保存・直接受領を有効な常設読込みへ読み替えない。",
     "work_completion_report_prompt": "報告全文の保存・応答提示を完了報告規則1.7と共通本文20261008.3で必須化済み。共通ルール担当の原本反映と今回報告を受領。各Cloudでの有効な常設読込み・全担当での実施は別の確認事項。",
-    "current_user_request": "既存Work名への統一と、現在地・次の作業・後続条件の説明を訂正。前回答の即時送付案内は保留。",
-    "next_active_work_instructions": "次の候補はゲーム本編実装の検査環境停止理由と必要根拠の一度の確認。その後の準備・機能描画・UI適合・配布・実機・試遊は別段階。今回は利用者への新しい送付操作を求めない。",
+    "current_user_request": "今回の依頼範囲は指示文の作成・保存・提示。C5改訂1.3の本文を完成し、計画0.53・人タスク1.14へ反映。実送付・担当受領・着手・結果受領は別で未確認。",
+    "next_active_work_instructions": "C5改訂1.3の観測・不足報告タスク。設定変更・取得・準備・ゲーム検査・停止解除は含まない。",
     "c3a_submission": "規則文書・直接受領記録・同期台帳4属性訂正まで完了・受領済み。最新取得版ab532164の95件・0.48と旧92件履歴に一致。",
     "h18": "同期台帳訂正の提出を今回とりまとめが受領。人の受渡しは完了。再貼付・検算不要。",
     "h19": "本編Git保存報告の原本を読戻し受領済み。再送不要。",
     "h20": "UIの新原本回答をGit保存原本から完了受領。本人の再貼付・再送不要。",
-    "h21": "即時送付案内を保留。担当Workはゲーム本編実装。以前の送付・担当受領・着手・返答は未確認のまま保全し、重複送付・再観測を追加しない。",
+    "h21": "指示全文を作成・提示。実送付・担当受領・着手・返答は未確認。既報告なら再観測しない。",
     "ui_original_contract_reply": "D04B-UI-02-UI-CONTRACT-01改訂1.1は完了受領。固定2a01b62c／最終36e13494、13固定・15最終本文/blobと計画98path/blobが一致。依頼内残件なし。"
   },
   "owners": {
@@ -180,10 +180,10 @@
   "versions": {
     "full_and_generated_common": "20261008.3",
     "co_cx01": "1.7",
-    "overall_plan": "0.52",
-    "work_plan": "0.52",
-    "human_tasks": "1.13",
-    "inventory": "0.42",
+    "overall_plan": "0.53",
+    "work_plan": "0.53",
+    "human_tasks": "1.14",
+    "inventory": "0.43",
     "open_items": "0.44",
     "codex_operation": "0.5",
     "codex_task_template": "0.5",
@@ -196,7 +196,7 @@
     "c3a_followup_instruction": "1.4",
     "c3_receipt_report": "1.1",
     "c4_instruction": "1.2",
-    "c5_instruction": "1.2",
+    "c5_instruction": "1.3",
     "ui_contract_instruction": "1.2"
   },
   "versions_before_continuation": {
@@ -3325,7 +3325,7 @@
       }
     }
   },
-  "current_status_source": "task_explanation_20261024（最新）",
+  "current_status_source": "c5_instruction_issue_20261024（最新）",
   "status_before_resume_readback_20261024": {
     "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
     "co_cx01_overall": "未完了",
@@ -3750,13 +3750,13 @@
   },
   "c5_instruction_20261024": {
     "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C5_Cloud通信状態と再開条件の確認.md",
-    "version": "1.2",
-    "recipient": "ゲーム本編実装／Codex Cloud側の既存準備窓口",
+    "version": "1.3",
+    "recipient": "ゲーム本編実装／Codex Cloud側の既存準備会話",
     "work_id": "20260927-game-application",
     "human_handoff": "CO-H21",
-    "scope": "既存機能での観測と具体不足の報告だけ",
-    "state": "以前の指示発行は履歴として保全。前回答の即時送付要求は保留。送付・受領・着手・返答の事実は未確認。",
-    "prompt": "Codex Cloud側の既存「本編準備」会話（01a11a6d-0e24-713e-b84d-002f612bc0a9）で、通信設定の現在状態と、検査を再開する判断に足りない根拠を確認してください。ChatGPT側のGit保存窓口とは別です。\n\n目的：正式本編の取得と固定ツール準備を再開できるか判断するため、許可設定が実際に有効か、分からない場合は何の情報が不足しているかを確認することです。\n求める成果物：対象環境・設定版、使った観測機能と時刻、返された実値、確認できたこと／できないこと、解消に使える実在機能・窓口の有無を記した短い報告。\n終了条件：今回確認できる観測と具体的な不足を根拠付きで整理し、とりまとめへ貼り付ける報告全文を返してください。unknownや機能未提供という結果もそのまま返します。通信問題やCloud準備全体を解消済みにする条件ではありません。\n\nrepo：eckolo/crossweave\n既存WorkID：20260927-game-application（既存継続。新Work・新枝なし）\n正式枝：impl/m1-godot-application-20260927\n参照：CO-CX01 C5 改訂1.1\n指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C5_Cloud通信状態と再開条件の確認.md\n\n既に同じC5を受領し報告済みの場合は観測を繰り返さず、その報告全文を返してください。未報告の場合だけ今回の範囲を行ってください。\n\n最後に報告された対象：\nenvironment_id：ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\n最後の実観測は2026-10-08のrestricted・state=unknownです。現在の実測と区別してください。\n\nまず、その環境・設定版が現在の会話で観測可能か、既存ツールの説明と対象IDを確認してください。以前使えたと報告されたenvironment_statusが現在も提供され、対象を指定できる場合だけ、現在状態を1回読みます。有効状態の確証になるかは実際のAPIの説明と返された証拠で判断し、許可リストやobservations_current=trueだけでenforcedへ変えません。\nunknownの理由や適用状態を調べる読取り機能が実際に提供されていれば、その説明と範囲を確認して必要な観測を行ってください。機能がない・理由が返らない場合は、その不足と必要な提供側情報を特定します。画面・API名・相談先を推測して案内しません。元環境へ到達できなければ、別IDの環境を代用しません。同じ確認を成功まで反復しません。\n\nとりまとめは本編の文書取込を読戻し受領しました。期待する本編提出HEADは027a7b4b87a0018f46130fb2d3200bcb6ef5fc6a、AGENTS blobはbb6d62596c036a2391ce5395293efa3de4b0dcc4、共通設定blobは8205accd0e961564884f9ac9e6a6f2ca83344c4aです。これはGit側の期待入力で、Cloudで取得・常設読込みを確認した値ではありません。\n\n今回追加するのは観測と報告だけです。Git計画同期・source取得、配布元への通信試行、設定変更・Edit／Republish・別環境作成、runtime/native準備、build/import、ゲーム検査・描画、本編編集は開始しません。有効状態の確証が得られても、準備・検査は明示的な再開指示を待ちます。正式枝と実work枝を区別し、switch・reset・削除等は行いません。\n規則全文20261008.3は直接受領済みなので再貼付しません。観測は応答本文と既存の許可済み証拠保存方式で返し、repoへ新規保存しません。Git同期・Cloud常設読込みの未了を報告に残してください。\n本人の設定操作・Git操作・検算は求めず、報告全文を既存Chat「とりまとめ」／20260913-project-coordinationへ持ち帰れる形で提示してください。新Work・枝・他会話の自動操作は行いません。",
+    "scope": "既存対象環境に対する、提供されている読取り機能の範囲での観測と具体不足の一度の報告",
+    "state": "利用者の指示文作成依頼を受領。指示作成・保存・提示と実送付を区別。送付・受領・着手・返答は未確認。",
+    "prompt": "「ゲーム本編実装」の既存Workを継続し、検査環境が停止している理由と、準備再開の判断に足りない情報を確認してください。\n対象はCodex Cloud側の既存「本編準備」会話です。新しいWork・枝・環境は作りません。\n\n目的：\n最新UI修正候補の検査を再開する前に、使用する環境の通信設定が実際に有効か、確認できないなら何の根拠が不足しているかを明らかにすることです。\n\n求める成果物：\n対象環境・設定版、観測日時、使用した読取り機能、返された実値、確認できたこと／できないこと、不足情報をまとめた報告書を応答本文で返してください。\n\n終了条件：\n今回可能な確認を一度行い、結果と具体的な不足を報告するところまでです。unknown・観測機能なし・元環境に到達できないという結果でも、根拠と不足を整理すれば今回の報告単位を終えられます。問題解消まで確認を反復しません。\n環境準備全体の完了や、ゲーム検査の再開とは分けてください。\n\n対象：\nrepo：eckolo/crossweave\nWork名：ゲーム本編実装\nWorkID：20260927-game-application\n正式作業枝：impl/m1-godot-application-20260927\n既存会話ID：01a11a6d-0e24-713e-b84d-002f612bc0a9\n指示：CO-CX01 C5 改訂1.3\n\n最後に報告された観測対象：\nenvironment_id：ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\n最後の実観測は2026-10-08のrestricted・state=unknownです。現在の状態として流用しないでください。\n\n進め方：\n1. 同じC5の確認・報告が既に完了していれば再観測せず、その報告全文を返してください。\n2. 現在提供されている読取り機能の説明を確認し、上記の環境・設定版を観測できるか判断してください。対象を確認できる機能がある場合だけ、現在状態を一度取得してください。\n3. 許可リスト、observations_current=true、過去の観測や通信応答だけで、現在の設定が有効に適用されていると判断しないでください。\n4. unknownの理由や適用状態を追加で確認できる実在の読取り機能があれば、必要な範囲で使ってください。機能がない・理由が返らない場合は、どの情報が不足し、何を確認できれば準備再開を判断できるかを具体化してください。API・画面・相談先は推測で作らず、別IDの環境で代用しないでください。\n\n今回の範囲：\n観測と報告だけです。Git取得・計画同期、本編やツールのダウンロード、配布元への通信試行、設定変更、Edit／Republish、別環境作成、依存導入、build/import、ゲーム検査・描画、本編・通常セーブ・Git枝の変更は行いません。\n通信設定の有効状態が確認できても、準備・検査は明示的な再開指示を待ってください。通常Git保存を担当するChatGPT側の窓口への作業依頼でもありません。\n\n報告：\n今回の確認・報告タスクの完了／未完了と、環境準備全体の状態を分けてください。対象ID・実値・確認限界・不足情報・次に必要なことを具体値付きで示し、Chat「開発計画とりまとめ」／20260913-project-coordinationへそのまま貼れる報告全文を返してください。\n保存は応答本文と既存の許可済み証拠保存方式に限り、repoへ新規保存しません。利用者へ設定変更・Git操作・検算を求めず、他会話への自動送信・起動・停止も行いません。",
     "source_fetch_resumed": false,
     "cloud_setup_resumed": false,
     "game_tests_resumed": false,
@@ -3774,8 +3774,8 @@
     ],
     "no_duplicate_dispatch": true,
     "scope_unchanged_from": "1.0",
-    "dispatch_notice": "保留。現在地・作業順・担当・終了条件の説明を先行。既送付・既報告の有無は未確認で、重複送付・再観測は追加しない。",
-    "prepared_prompt_revision": "1.1（保存済み参考。今回再提示・再送指示なし）"
+    "dispatch_notice": "今回、担当へ渡す指示全文を提示する。自動送信なし。既に同じ報告があれば再送・再観測しない。",
+    "prepared_prompt_revision": "1.3"
   },
   "status_before_ui_receipt_20261024": {
     "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
@@ -3999,5 +3999,79 @@
     "received_ui_result_unchanged": true,
     "game_and_environment_stops_unchanged": true,
     "user_dispatch_required_now": false
+  },
+  "status_before_c5_instruction_20261024": {
+    "coordination_packet": "C1担当内完了。停止前16変更・追補15変更の全本文/blob、親/tree/HEADと担当範囲をGitHub独立読戻し確認。完了提出記録を追記。",
+    "co_cx01_overall": "未完了",
+    "direct_rule_handoff": "H17完了。8929-byte保存原文とSHA256を照合。再貼付不要、Cloud実会話の独立読取りではない。",
+    "permanent_common_update": "20261008.3の保存・自枝／設計集約反映を独立読戻し受領済み。",
+    "application_rule_integration": "C4完了・とりまとめ受領済み。固定2f81995f／最新027a7b4b、2原本・97計画・単独親・対象外保全を独立照合。ChatGPT側担当の依頼内残件なし。",
+    "cloud_network": "未完了・外部条件待ち。最後の2026-10-08観測state=unknown。今回現在の実測なし。",
+    "cloud_source": "指定枝／固定本編未取得",
+    "cloud_setup": "未完了",
+    "cloud_minimum_test": "未実行",
+    "d04b_ui02": "未完了",
+    "ui_fit": "固定レビューab1b6fa0の要修正・配布不可を維持。原本回答の完了受領と合法入力／描画／UI適合は別。5件は必要入力・担当・再開条件を受領台帳へ。",
+    "new_package": "未着手",
+    "physical_acceptance": "未完了",
+    "human_playtest": "未着手",
+    "m1": "未受入",
+    "h16": "本編Workの指示0.11受領・a01候補保存／7211手順提出で人の受渡し完了。今回候補全体のとりまとめ受領は別。",
+    "cloud_rules_direct_receipt": "完了・とりまとめ受領済み。相手窓口の申告を出所付きで保存。実会話・有効指示の独立読戻しではない。",
+    "cloud_agents_effective": "未確認。今回Cloud実測なし。Git保存・直接受領を有効な常設読込みへ読み替えない。",
+    "work_completion_report_prompt": "報告全文の保存・応答提示を完了報告規則1.7と共通本文20261008.3で必須化済み。共通ルール担当の原本反映と今回報告を受領。各Cloudでの有効な常設読込み・全担当での実施は別の確認事項。",
+    "current_user_request": "既存Work名への統一と、現在地・次の作業・後続条件の説明を訂正。前回答の即時送付案内は保留。",
+    "next_active_work_instructions": "次の候補はゲーム本編実装の検査環境停止理由と必要根拠の一度の確認。その後の準備・機能描画・UI適合・配布・実機・試遊は別段階。今回は利用者への新しい送付操作を求めない。",
+    "c3a_submission": "規則文書・直接受領記録・同期台帳4属性訂正まで完了・受領済み。最新取得版ab532164の95件・0.48と旧92件履歴に一致。",
+    "h18": "同期台帳訂正の提出を今回とりまとめが受領。人の受渡しは完了。再貼付・検算不要。",
+    "h19": "本編Git保存報告の原本を読戻し受領済み。再送不要。",
+    "h20": "UIの新原本回答をGit保存原本から完了受領。本人の再貼付・再送不要。",
+    "h21": "即時送付案内を保留。担当Workはゲーム本編実装。以前の送付・担当受領・着手・返答は未確認のまま保全し、重複送付・再観測を追加しない。",
+    "ui_original_contract_reply": "D04B-UI-02-UI-CONTRACT-01改訂1.1は完了受領。固定2a01b62c／最終36e13494、13固定・15最終本文/blobと計画98path/blobが一致。依頼内残件なし。"
+  },
+  "c5_instruction_before_current_issue_20261024": {
+    "path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C5_Cloud通信状態と再開条件の確認.md",
+    "version": "1.2",
+    "recipient": "ゲーム本編実装／Codex Cloud側の既存準備窓口",
+    "work_id": "20260927-game-application",
+    "human_handoff": "CO-H21",
+    "scope": "既存機能での観測と具体不足の報告だけ",
+    "state": "以前の指示発行は履歴として保全。前回答の即時送付要求は保留。送付・受領・着手・返答の事実は未確認。",
+    "prompt": "Codex Cloud側の既存「本編準備」会話（01a11a6d-0e24-713e-b84d-002f612bc0a9）で、通信設定の現在状態と、検査を再開する判断に足りない根拠を確認してください。ChatGPT側のGit保存窓口とは別です。\n\n目的：正式本編の取得と固定ツール準備を再開できるか判断するため、許可設定が実際に有効か、分からない場合は何の情報が不足しているかを確認することです。\n求める成果物：対象環境・設定版、使った観測機能と時刻、返された実値、確認できたこと／できないこと、解消に使える実在機能・窓口の有無を記した短い報告。\n終了条件：今回確認できる観測と具体的な不足を根拠付きで整理し、とりまとめへ貼り付ける報告全文を返してください。unknownや機能未提供という結果もそのまま返します。通信問題やCloud準備全体を解消済みにする条件ではありません。\n\nrepo：eckolo/crossweave\n既存WorkID：20260927-game-application（既存継続。新Work・新枝なし）\n正式枝：impl/m1-godot-application-20260927\n参照：CO-CX01 C5 改訂1.1\n指示書：docs/作業資料/とりまとめ/着手指示/CO-CX01_C5_Cloud通信状態と再開条件の確認.md\n\n既に同じC5を受領し報告済みの場合は観測を繰り返さず、その報告全文を返してください。未報告の場合だけ今回の範囲を行ってください。\n\n最後に報告された対象：\nenvironment_id：ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\n最後の実観測は2026-10-08のrestricted・state=unknownです。現在の実測と区別してください。\n\nまず、その環境・設定版が現在の会話で観測可能か、既存ツールの説明と対象IDを確認してください。以前使えたと報告されたenvironment_statusが現在も提供され、対象を指定できる場合だけ、現在状態を1回読みます。有効状態の確証になるかは実際のAPIの説明と返された証拠で判断し、許可リストやobservations_current=trueだけでenforcedへ変えません。\nunknownの理由や適用状態を調べる読取り機能が実際に提供されていれば、その説明と範囲を確認して必要な観測を行ってください。機能がない・理由が返らない場合は、その不足と必要な提供側情報を特定します。画面・API名・相談先を推測して案内しません。元環境へ到達できなければ、別IDの環境を代用しません。同じ確認を成功まで反復しません。\n\nとりまとめは本編の文書取込を読戻し受領しました。期待する本編提出HEADは027a7b4b87a0018f46130fb2d3200bcb6ef5fc6a、AGENTS blobはbb6d62596c036a2391ce5395293efa3de4b0dcc4、共通設定blobは8205accd0e961564884f9ac9e6a6f2ca83344c4aです。これはGit側の期待入力で、Cloudで取得・常設読込みを確認した値ではありません。\n\n今回追加するのは観測と報告だけです。Git計画同期・source取得、配布元への通信試行、設定変更・Edit／Republish・別環境作成、runtime/native準備、build/import、ゲーム検査・描画、本編編集は開始しません。有効状態の確証が得られても、準備・検査は明示的な再開指示を待ちます。正式枝と実work枝を区別し、switch・reset・削除等は行いません。\n規則全文20261008.3は直接受領済みなので再貼付しません。観測は応答本文と既存の許可済み証拠保存方式で返し、repoへ新規保存しません。Git同期・Cloud常設読込みの未了を報告に残してください。\n本人の設定操作・Git操作・検算は求めず、報告全文を既存Chat「とりまとめ」／20260913-project-coordinationへ持ち帰れる形で提示してください。新Work・枝・他会話の自動操作は行いません。",
+    "source_fetch_resumed": false,
+    "cloud_setup_resumed": false,
+    "game_tests_resumed": false,
+    "read_attempts": [
+      {
+        "operation": "read_thread",
+        "thread_id": "01a11a6d-0e24-713e-b84d-002f612bc0a9",
+        "host_id": "durable",
+        "result": "Codex app tool request failed"
+      },
+      {
+        "operation": "list_threads",
+        "result": "Codex app tool request failed"
+      }
+    ],
+    "no_duplicate_dispatch": true,
+    "scope_unchanged_from": "1.0",
+    "dispatch_notice": "保留。現在地・作業順・担当・終了条件の説明を先行。既送付・既報告の有無は未確認で、重複送付・再観測は追加しない。",
+    "prepared_prompt_revision": "1.1（保存済み参考。今回再提示・再送指示なし）"
+  },
+  "c5_instruction_issue_20261024": {
+    "user_request": "状況は理解した。次にやるべきタスクを任せるべき相手への指示文を書いて",
+    "base_commit": "0f2a401a1f53bf1b153e4492141183c0bec2ce52",
+    "prompt_path": "docs/作業資料/とりまとめ/着手指示/CO-CX01_C5_Cloud通信状態と再開条件の確認.md",
+    "prompt_revision": "1.3",
+    "prompt": "「ゲーム本編実装」の既存Workを継続し、検査環境が停止している理由と、準備再開の判断に足りない情報を確認してください。\n対象はCodex Cloud側の既存「本編準備」会話です。新しいWork・枝・環境は作りません。\n\n目的：\n最新UI修正候補の検査を再開する前に、使用する環境の通信設定が実際に有効か、確認できないなら何の根拠が不足しているかを明らかにすることです。\n\n求める成果物：\n対象環境・設定版、観測日時、使用した読取り機能、返された実値、確認できたこと／できないこと、不足情報をまとめた報告書を応答本文で返してください。\n\n終了条件：\n今回可能な確認を一度行い、結果と具体的な不足を報告するところまでです。unknown・観測機能なし・元環境に到達できないという結果でも、根拠と不足を整理すれば今回の報告単位を終えられます。問題解消まで確認を反復しません。\n環境準備全体の完了や、ゲーム検査の再開とは分けてください。\n\n対象：\nrepo：eckolo/crossweave\nWork名：ゲーム本編実装\nWorkID：20260927-game-application\n正式作業枝：impl/m1-godot-application-20260927\n既存会話ID：01a11a6d-0e24-713e-b84d-002f612bc0a9\n指示：CO-CX01 C5 改訂1.3\n\n最後に報告された観測対象：\nenvironment_id：ccarenv_b64_Y2NhcmVudl9mODYzNWViNDVjMTg4MTkxYjAzNDI0MDM0MzY4MGRkOQ\nsource_config_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfg_6abe69472cc48190b16fdd5487d998c5\nsource_config_version_id：c7f73931-9e01-4af6-9f80-1ba80559c0e0~cecfgver_6ac740b785b08190b9c979b77c246eaa\n最後の実観測は2026-10-08のrestricted・state=unknownです。現在の状態として流用しないでください。\n\n進め方：\n1. 同じC5の確認・報告が既に完了していれば再観測せず、その報告全文を返してください。\n2. 現在提供されている読取り機能の説明を確認し、上記の環境・設定版を観測できるか判断してください。対象を確認できる機能がある場合だけ、現在状態を一度取得してください。\n3. 許可リスト、observations_current=true、過去の観測や通信応答だけで、現在の設定が有効に適用されていると判断しないでください。\n4. unknownの理由や適用状態を追加で確認できる実在の読取り機能があれば、必要な範囲で使ってください。機能がない・理由が返らない場合は、どの情報が不足し、何を確認できれば準備再開を判断できるかを具体化してください。API・画面・相談先は推測で作らず、別IDの環境で代用しないでください。\n\n今回の範囲：\n観測と報告だけです。Git取得・計画同期、本編やツールのダウンロード、配布元への通信試行、設定変更、Edit／Republish、別環境作成、依存導入、build/import、ゲーム検査・描画、本編・通常セーブ・Git枝の変更は行いません。\n通信設定の有効状態が確認できても、準備・検査は明示的な再開指示を待ってください。通常Git保存を担当するChatGPT側の窓口への作業依頼でもありません。\n\n報告：\n今回の確認・報告タスクの完了／未完了と、環境準備全体の状態を分けてください。対象ID・実値・確認限界・不足情報・次に必要なことを具体値付きで示し、Chat「開発計画とりまとめ」／20260913-project-coordinationへそのまま貼れる報告全文を返してください。\n保存は応答本文と既存の許可済み証拠保存方式に限り、repoへ新規保存しません。利用者へ設定変更・Git操作・検算を求めず、他会話への自動送信・起動・停止も行いません。",
+    "scope": "今回の終了条件は、元の対象環境で現在提供される読取り機能による確認を一度行い、実値または具体不足の報告全文を返すこと。unknown・機能未提供・元環境に到達不能でも根拠と不足を整理して報告単位を終えられる。設定変更・取得・準備・build/import・ゲーム検査／描画・停止解除は含まない。通信有効でも明示再開待ち。",
+    "automatic_dispatch": false,
+    "sent": "未確認",
+    "received": "未確認",
+    "started": "未確認",
+    "reply": "未確認",
+    "game_and_environment_stops_preserved": true,
+    "request_complete": true,
+    "completion_scope": "指示文の作成・保存・応答提示だけ。実送付・C5観測・問題解消は別。"
   }
 }
