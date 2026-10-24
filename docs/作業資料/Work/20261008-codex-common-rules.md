@@ -1,6 +1,6 @@
 # Work設定：20261008-codex-common-rules — 共通作業ルールの常設反映
 
-今回の追加依頼全体：完了。現在の状態：完了・とりまとめへ引継ぎ。対象：CO-CX01 C3A／指示1.1（最新説明1.2も受領）。最新は[直接受領記録追補](#c3a-receipt-20261013)。旧未着記録は履歴として保全。
+今回の依頼全体：完了。現在の状態：完了・とりまとめへ引継ぎ。対象：CO-CX01 C3A 改訂1.3の同期台帳訂正追補。最新は[訂正追補の読戻し・報告](#c3a-ledger-result-20261019)。従前の記録は当時の履歴として保全。
 最新記録は[C3Aのとりまとめへの引継ぎ](#coordination-handoff-c3a)。前回C3はとりまとめ受領済みで、旧成果は作り直さない。
 
 ## 2026-10-12 C3Aの開始設定
@@ -370,4 +370,87 @@ Cloud原文の実観測は/workspace/crossweave、work枝、90d7d8a88f4d8a791298
 通信有効状態はCloud提供側の観測・適用担当が、現在状態とunknown理由を確認する実在手段を特定する必要があります（具体窓口／操作は未確認）。現在状態確認＋明示再開→Cloud窓口の指定source照合→固定Godot 4.7.2／SDK10.0.401／runtime10.0.12とnative準備→既存手順の最小検査の依存を維持。
 今回Cloud通信・取得・準備・検査・本編編集・環境変更・他会話自動操作は0。H14回答等の対象外変更を保全し、全枝マージ・追加親・force・履歴改変はなし。本人への再貼付・Edit／Republish要求なし。
 本編UI適合・新版配布・Windows11実機・人の試遊・M1・仕様正式採用は今回の完了へ含めません。
+```
+
+<a id="c3a-ledger-correction-20261019"></a>
+## C3A：同期台帳訂正追補の開始設定（2026-10-19、日本時間）
+
+以下は開始時記録。依頼全体の最新状態と読戻し結果は後段へ追補する。
+目的は計画の取込版と実ファイル数を一致させ、後続担当が受領を追跡できるようにすること。既存規則本文・AGENTS・Cloud受領原文は再生成しない。
+
+| 項目 | 継承・今回設定 |
+|---|---|
+| 正式Work・作業枝 | 20261008-codex-common-rules／ops/codex-common-rules-20261008を継承。新Work・新枝なし |
+| 必須同期元と順序 | ①ops/project-coordination-20260913のとりまとめ配下全体→②dev_design_tmp_assemblyの指定共通原本確認→計画再照合。最新の指示と原本確認の2系統が必要 |
+| 統合先・担当 | dev_design_tmp_assemblyへ本Workが文書範囲だけを通常・非force反映 |
+| 共通文書担当／直接更新 | 計画原本はとりまとめ、共通運用は20260909-work-routing。今回の直接更新は自Work設定・自Work同期JSON・計画の実同期コピーのみ。他Work・H14・コード等は保全 |
+
+指示固定提出4e5ca667a4d5d1d128b2d4a11012b69982f84910の改訂1.3を受領。最新計画の同指示blob c89b6c2a16fb8f86729fc30d7c78c41fc745c5f8と一致。
+開始時・保存前にGitHubプラグインで自枝cea33f6f0f1c5638a1bf48703d226def95186cac、計画ab53216494edc830796389641fb5c29c23244053、設計集約1f78864d53e7569164bd111f89ee00747bd13546を確認。実作業対象はこのGitHub repo・refs。ローカル／Cloudの実checkout・未保存差分は今回未観測で、操作・転用なし。sources/変更なし。
+
+### 旧受領版の4値訂正
+
+source_commit=877f74612de7209d2f6a247eb50c10bbcbd63359のfiles全92path/blobと両枝の実コピーは一致。対象JSON blob cded223092810f34c766b4f2165716deede864eaで以下の旧値残存を確認。前回の私の更新でsource_commit・files更新時に4属性の更新が漏れた。本文不一致ではない。
+
+| 属性 | 訂正前 | 訂正後（旧受領版877f7461） |
+|---|---|---|
+| file_count | 87 | 92 |
+| source_root_tree | 6c33cfa92c4c516107d711366284df59dba11c63 | 0b89cb096535d61a4ca961ee68645dafb06c9b55 |
+| scope_tree | bfa08ad8f3193d27645d58ff2673bee8d0494581 | d9b1a62b6b886ee322bd1adeacc2d7a0ba82ecd3 |
+| work_plan_version | 0.44 | 0.47 |
+
+同期JSONのmetadata_correctionsへ旧新値・出所・旧record blobを保存し、previous_receiptsへ訂正した92件の受領版を全path/blob付きで残す。過去の受領記録・成果は履歴で保持し、旧値を現行の正値として残さない。
+
+### 最新計画の実同期
+
+現行欄は単一の取得版ab53216494edc830796389641fb5c29c23244053、root 10d905ced78af5bd43c2f05c436c3ebbf65b159a、scope 590d40c4d80321fa56093bb0b228bff2e9f1d4a9、全95件、全体計画／Work別計画0.48にそろえる。差分は追加3・更新8・削除0。document_versionsも同じ取得版の本文・blobで記録。計画元を追加親にせず、範囲外を取り込まない。自分の保存SHAを同期JSONに埋めない。
+最新計画は前回文書・直接受領・92コピーを受領済みとして台帳訂正を指示。本編C4は別担当・別依存で、今回の訂正によって停止解除や完了へ読み替えない。Cloud通信・取得・準備・検査・環境変更・全文再貼付・他会話自動操作は0。
+
+<a id="c3a-ledger-result-20261019"></a>
+## 同期台帳訂正追補：とりまとめへの引継ぎ・読戻し結果（2026-10-19）
+
+今回の依頼全体：完了。現在の状態：完了・とりまとめへ引継ぎ。本追補のとりまとめ受領は未確認。
+旧版4値を訂正履歴へ保存し、最新計画95件を同一コミットの件数・root／scope tree・files・全体／Work別計画版と一致させた。自枝・設計集約の固定成果は下の報告へ具体値を記した。両枝の変更13本文・blob、95path/blob、scope、親・tree・HEADを読み戻して一致した。H14を含む対象外blob／mode不変、削除0を全tree比較で確認した。計画元・作業枝を統合先の追加親にはしていない。
+計画同期保存→設計集約の原本3本文（AGENTS／設定／索引）確認→計画再照合を実施。原本AGENTSは生成案全文とblobが一致、設定本文・索引も不変。既存Cloud直接受領記録は保全し、本編C4入力2本文を作り直していない。
+同期JSONの現行source_commit・source_root_tree・scope_tree・file_count・files・plan_version・work_plan_version・document_versionsは同一取得版。metadata_correctionsに旧4値・正値と旧blob、previous_receipts末尾に訂正した旧受領92path/blobを保存し、現在95件と履歴92件を混同しない。記録保存先の自己参照SHAは追加していない。
+確認したHEADは自枝8efa493a2b705ae560837101e3e8aeb242cd7ae8・計画ab53216494edc830796389641fb5c29c23244053・統合先52cf27be453d4e35d5549ce17be46c00546ac0f7。この短報の後続保存はWork記録1本文だけとし、最終SHAとblobは応答へ別記する。同期JSON・計画コピーは短報保存時に再変更しない。
+
+### とりまとめへの報告プロンプト
+
+```text
+Chat「とりまとめ」／20260913-project-coordination／ops/project-coordination-20260913へ、同期台帳訂正の受領を依頼します。
+repo：eckolo/crossweave
+報告元：共通作業ルールの常設反映／20261008-codex-common-rules／ops/codex-common-rules-20261008。
+依頼：CO-CX01 C3A 改訂1.3。指示固定提出4e5ca667a4d5d1d128b2d4a11012b69982f84910。
+今回の依頼全体：完了。現在の状態：完了・とりまとめへ引継ぎ（今回追補の受領は未確認）。
+
+旧受領版877f74612de7209d2f6a247eb50c10bbcbd63359の訂正：
+file_count：87→92
+source_root_tree：6c33cfa92c4c516107d711366284df59dba11c63→0b89cb096535d61a4ca961ee68645dafb06c9b55
+scope_tree：bfa08ad8f3193d27645d58ff2673bee8d0494581→d9b1a62b6b886ee322bd1adeacc2d7a0ba82ecd3
+work_plan_version：0.44→0.47
+旧92path/blob・実コピーは一致し、4属性だけが旧値でした。metadata_correctionsへ旧新値と旧record blobを保存し、previous_receiptsへ訂正済みの92件を全path/blob付きで保全しました。
+
+現行台帳は最新計画ab53216494edc830796389641fb5c29c23244053へ実同期：
+source_root_tree=10d905ced78af5bd43c2f05c436c3ebbf65b159a
+scope_tree=590d40c4d80321fa56093bb0b228bff2e9f1d4a9
+file_count=95、files全95件、plan_version=0.48、work_plan_version=0.48。document_versionsも同じ取得版の本文/blobから記録しました。
+更新は計画3追加・8更新、同期JSON・自Work記録の計13文書。規則本文の再作成なし。
+
+読戻し済み固定成果：
+自枝8efa493a2b705ae560837101e3e8aeb242cd7ae8
+単独親cea33f6f0f1c5638a1bf48703d226def95186cac／tree394e0a97a62ac529adb52f0bed8b801741e55f8b。
+設計集約dev_design_tmp_assembly：52cf27be453d4e35d5549ce17be46c00546ac0f7
+単独親1f78864d53e7569164bd111f89ee00747bd13546／treea66395279b8b5c4ee4629b5ea7345f38fbbd8b9f。
+対象：docs/作業資料/計画同期/20261008-codex-common-rules.json
+同期JSON blob：fbf6bb2cfb36312f1a7fda4e7a0f92e278a37467（両枝一致）。
+短報・本報告全文：docs/作業資料/Work/20261008-codex-common-rules.md の「同期台帳訂正追補」および「とりまとめへの報告プロンプト」。
+報告追加後の最終提出HEADとWork blobは担当最終応答へ別記します。同期JSONへ自分の保存SHAを埋めず、固定成果SHAを用いて循環記載を避けています。
+
+確認済み：両枝の変更13本文・blob、計画全95path/blobとscope tree、親/tree/HEAD。文書範囲の通常・非force反映、対象外変更・削除0。H14・他Work記録・コードを保全。
+AGENTS blob bb6d62596c036a2391ce5395293efa3de4b0dcc4、設定本文blob 8205accd0e961564884f9ac9e6a6f2ca83344c4aは不変で、本編へ渡す2本文の不一致ではありません。
+未確認：実Cloud常設読込み・現在通信有効状態・準備成立。本件では通信・取得・準備・検査・環境変更、全文再貼付・他会話自動操作を行っていません。既存停止を維持します。
+
+依頼内残件：なし。次担当はChat「とりまとめ」。最新HEADと固定提出版・同期JSON・必要本文/blob・保存履歴を照合し、今回の台帳訂正を受領できた範囲と計画反映を報告してください。C4の本編文書取込・後続Cloud確認は別担当／別依存として維持してください。
+人が返すもの：本報告全文を既存Chat「とりまとめ」へ渡す以外の追加操作・再貼付・検算は不要です。UI適合・配布・Windows実機・人試遊・M1の完了判定は変更しません。
 ```
