@@ -1,0 +1,26 @@
+{
+  "checked_at_utc": "2026-11-04T16:17:17.420457+00:00",
+  "initial_run_scenarios": 15,
+  "initial_clean_process_exits": 14,
+  "initial_scenario_assertions_passed": 15,
+  "initial_assertions_count": 105,
+  "initial_nonzero_exit": {
+    "scenario": "outside",
+    "returncode": -6,
+    "input_assertions": 8,
+    "input_assertions_status": "passed",
+    "observation": "Godot Mono finalize unsafe reference errors and FATAL !rc_owner after UI exit; root cause unconfirmed"
+  },
+  "same_source_outside_repeat": {
+    "returncode": 0,
+    "status": "passed",
+    "checks": 8,
+    "same_source_runtime": true
+  },
+  "source_and_runtime_changed_during_check": [],
+  "conclusion": "Input correctness checks passed across all scenarios. Initial integrated batch is not clean because one process aborted at teardown; identical single-case rerun passed. Preserve the intermittent exit issue as unresolved.",
+  "limits": [
+    "Linux headless Godot nodes with frame-separated synthetic input, not OS mouse or Windows 11 acceptance",
+    "No product, test source, or build changes during the check"
+  ]
+}

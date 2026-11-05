@@ -39,7 +39,7 @@ internal sealed partial class UiAutomation
         SavePath = ProjectSettings.GlobalizePath("user://proofs/d04b-ui-save-01/" + slot + "/m1.json");
         CampaignId = "D04B-" + mode;
         Directory.CreateDirectory(output);
-        if ((mode.StartsWith("review-", StringComparison.Ordinal) && mode is not "review-fixtures" and not "review-resume")||mode.StartsWith("repro-",StringComparison.Ordinal))
+        if ((mode.StartsWith("review-", StringComparison.Ordinal) && mode is not "review-fixtures" and not "review-resume")||mode.StartsWith("repro-",StringComparison.Ordinal)||mode=="target-retention")
             LoadReviewFixture(fixture ?? throw new ArgumentException("Review check requires a fixed fixture"));
         if (mode is "natural" or "withdraw-before" or "withdraw-protected" or "defeat" or "withdraw-unprotected" or "legal-acquisition")
         {
@@ -84,7 +84,7 @@ internal sealed partial class UiAutomation
         string slot = Value("--ui-slot=") ?? "", output = Value("--ui-output=") ?? "";
         if (!Regex.IsMatch(slot, "^[a-z0-9][a-z0-9-]{7,95}$") || !System.IO.Path.IsPathFullyQualified(output))
             throw new ArgumentException("--ui-check requires a dedicated --ui-slot and absolute --ui-output");
-        if (!new[] { "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume", "repro-home", "repro-story", "repro-explore", "repro-prediction", "repro-motion-home", "repro-motion-explore", "repro-return-clear", "repro-return-withdrawal", "repro-return-defeat", "repro-shared-preparation", "repro-shared-story", "repro-shared-return-clear", "repro-shared-return-withdrawal", "repro-shared-return-defeat", "repro-acquisition-affix", "repro-acquisition-funded", "repro-acquisition-complete", "repro-revisit-home", "repro-component-extra", "repro-bars-prep", "repro-bars-hand", "repro-bars-field", "repro-edges-prep", "repro-edges-hand", "repro-edges-field" }.Contains(mode)&&!ReviewModes.Contains(mode))
+        if (!new[] { "target-retention", "natural", "withdraw-before", "withdraw-protected", "defeat", "withdraw-unprotected", "legal-acquisition", "interaction", "inheritance", "resume", "failure", "unknown", "busy-close", "in-use", "corrupt", "future", "package-checkpoint", "package-resume", "repro-home", "repro-story", "repro-explore", "repro-prediction", "repro-motion-home", "repro-motion-explore", "repro-return-clear", "repro-return-withdrawal", "repro-return-defeat", "repro-shared-preparation", "repro-shared-story", "repro-shared-return-clear", "repro-shared-return-withdrawal", "repro-shared-return-defeat", "repro-acquisition-affix", "repro-acquisition-funded", "repro-acquisition-complete", "repro-revisit-home", "repro-component-extra", "repro-bars-prep", "repro-bars-hand", "repro-bars-field", "repro-edges-prep", "repro-edges-hand", "repro-edges-field" }.Contains(mode)&&!ReviewModes.Contains(mode)&&!mode.StartsWith("review-click-",StringComparison.Ordinal))
             // 追加の合法状態境界も同じ検査窓口へ限定する。
             if (mode is not "repro-hover" and not "repro-preparation-boundaries" and not "repro-record-memory" and not "repro-checkbox-states" and not "repro-fixed-metrics" and not "repro-notice" and not "repro-saving" and not "repro-owned-review" and not "repro-mountain-review"&&!mode.StartsWith("repro-normal-dark",StringComparison.Ordinal)) throw new ArgumentException("Unknown isolated UI check");
         string? fixture = Value("--ui-fixture=");
@@ -440,6 +440,7 @@ internal sealed partial class UiAutomation
         try
         {
             await Frame(3);
+            if (mode == "target-retention") { await Click("open"); await TargetProbe(); screen.GetTree().Quit(); return; }
             await Capture("start");
             if (mode == "in-use")
             {
@@ -457,7 +458,8 @@ internal sealed partial class UiAutomation
             {
                 await Click(screen.Controls["open"] is Button { Disabled: false } ? "open" : "new");
                 Check("opened-one-session", screen.Session is not null && screen.Screen != "start");
-                if (mode.StartsWith("repro-",StringComparison.Ordinal))await Reproduction();
+                if (mode.StartsWith("review-click-",StringComparison.Ordinal))await ClickRegression();
+                else if (mode.StartsWith("repro-",StringComparison.Ordinal))await Reproduction();
                 else if (mode == "review-fixtures") await GenerateReviewFixtures();
                 else if (mode.StartsWith("review-scroll-",StringComparison.Ordinal)) await ReviewScroll();
                 else if (mode.StartsWith("review-safety-",StringComparison.Ordinal)) await ReviewSafety();

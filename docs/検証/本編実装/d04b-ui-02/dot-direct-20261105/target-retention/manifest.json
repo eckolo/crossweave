@@ -1,0 +1,70 @@
+{
+  "source_commit": "027a7b4b87a0018f46130fb2d3200bcb6ef5fc6a",
+  "plan_commit": "48c43dc0c745bc066e1196fa532e48fd94466f6b",
+  "ui_reference_commit": "36e13494367e21bb2776fc7317ed9149d0336c82",
+  "scope": "isolated target-retention fix, not final integrated build",
+  "node_version": "v24.22.1",
+  "files": {
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": {
+      "sha256": "d6bdf20c4fa64db1669fdaa31dd297ace865596e1095bc26fe95e89d97408290",
+      "git_blob": "ddd58c73d7be11afb7e03c9c2d6391cd6849b456"
+    },
+    "apps/crossweave-godot/Godot/Application/UiAutomation.TargetProbe.cs": {
+      "sha256": "184fa4cbfbad17b358ff15eb30ec1ce3121f49f601ecbbeba2621c776fe0d8c6",
+      "git_blob": "99aa64626fc771c85779793917eb1a8f5585a67e"
+    },
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": {
+      "sha256": "8d4f3b1accdc3f060075742f70a10b11dc4b71ec107e7e99a51d27bb6aa50041",
+      "git_blob": "54da107128dbfe228bb72d7ad5b501396b37cb70"
+    },
+    "apps/crossweave-godot/UiProbe/generate-target-fixtures.mjs": {
+      "sha256": "c9a2e0e52dfbf5c33cf3b5aa6899cb75263f0c14d449b44ff6b86a732a0ee1fb",
+      "git_blob": "d9b3d0e5a9e3d4d58cf2645140cb8fc21a6fc781"
+    },
+    "apps/crossweave-godot/Tests/Fixtures/application-oracle.json.br": {
+      "sha256": "590e2be5259591a9c3faf5eeb8cc978f480f504c195c4288337d813302a586ec",
+      "git_blob": "5aa8ff0b8f87735f9ce09f6674bd493f4b3dddd6"
+    }
+  },
+  "fixture_source": {
+    "record": "natural",
+    "steps": {
+      "place": 1,
+      "guard": 2,
+      "heal": 11
+    },
+    "generated_sha256": {
+      "place": "8113ddf6bfcae078043dd948b8def47eb585ac49c4f699204011588cf8d52b74",
+      "guard": "4d2e6302d4ab341fef18e7561deb2e7ff4c09d8fce4146f06532970002dced7b",
+      "heal": "9d200833b8e28d37fd8ca38e203fca20f537498ed1531a3a7e65efbc29a4814e"
+    },
+    "generator_byte_equivalence": true
+  },
+  "results": {
+    "place": {
+      "status": "passed",
+      "checks": 33,
+      "error": null
+    },
+    "guard": {
+      "status": "passed",
+      "checks": 29,
+      "error": null
+    },
+    "heal": {
+      "status": "passed",
+      "checks": 25,
+      "error": null
+    },
+    "control": {
+      "status": "failed",
+      "checks": 3,
+      "error": "System.IO.InvalidDataException: target-retained-before-preview-E1-P_initial_0001: null"
+    }
+  },
+  "limits": [
+    "headless synthetic InputEvent, not physical mouse or Windows acceptance",
+    "departure and zero-candidate checks use public-view projection, not game combat",
+    "no GitHub write by this worker"
+  ]
+}

@@ -386,7 +386,7 @@ public partial class GameScreen
     }
     private CheckBox Setting(Control parent, string id, string value, Rect2 rect, bool enabled, Action<bool> changed, bool browserInput = false, bool journeyInput = false)
     {
-        var box = new CheckBox { Text = browserInput || journeyInput ? "" : value, AccessibilityName=value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box;
+        var box = new CheckBox { Text = browserInput || journeyInput ? "" : value, AccessibilityName=value, Position = rect.Position, Size = rect.Size, ButtonPressed = enabled, FocusMode = FocusModeEnum.All }; parent.AddChild(box); Controls[id] = box; RetainButtonThroughRelease(box);
         box.AddThemeFontSizeOverride("font_size", 18); box.AddThemeConstantOverride("h_separation", 10);
         // 原本の20px inputとaccent-colorを実CheckBoxへ与える。標準テーマの
         // 大きいチェック絵を残さず、既存Check SVGと同じ四角面で構成する。

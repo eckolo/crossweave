@@ -68,7 +68,7 @@ public partial class GameScreen : Control
         // 現在の原本と同じOS書体を選ぶ。同梱NotoはOSに書体がない環境のfallback。
         PrepareAcceptedStyle();
         BuildTheme();
-        GetViewport().SizeChanged += CancelGesture;
+        GetViewport().SizeChanged += () => { CancelGesture(); CancelButtonHold(); };
         // 通常パスを解決するのはGodot側だけ。検査引数は専用領域との組合せが必須。
         SavePath = ProjectSettings.GlobalizePath("user://saves/local/m1.json");
         Automation = UiAutomation.FromArguments(this, OS.GetCmdlineUserArgs());
@@ -229,7 +229,7 @@ public partial class GameScreen : Control
     public override void _Notification(int what)
     {
         if (what == NotificationWMCloseRequest) AskClose();
-        if (what == NotificationWMWindowFocusOut) { CancelGesture(); QueueRedraw(); }
+        if (what == NotificationWMWindowFocusOut) { CancelGesture(); CancelButtonHold(); QueueRedraw(); }
     }
 
     public override void _ExitTree()
@@ -251,7 +251,9 @@ public partial class GameScreen : Control
         TrackPreviewHover();
         if (gesture.Mode != GestureMode.Idle) AutoScroll();
         RecordVisibleParagraphs();
-        if (renderNeeded) { renderNeeded = false; Render(); }
+        // 窓の開閉が予約されても、押下中のButtonは解放まで同じノードを保つ。
+        // 札のドラッグはButtonではないため、従来どおり毎フレーム更新する。
+        if (renderNeeded && !HoldingButton) { renderNeeded = false; Render(); }
         UpdateDragGhost();
         UpdateLiveEvents();
         UpdateHoldCue();

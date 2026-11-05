@@ -1,0 +1,161 @@
+{
+  "base_commit": "027a7b4b87a0018f46130fb2d3200bcb6ef5fc6a",
+  "official_input": {
+    "fixture_path": "docs/検証/本編実装/d04b-ui-02/input-fix-20261105/fixtures/attack-natural-step1.json",
+    "sha256": "8113ddf6bfcae078043dd948b8def47eb585ac49c4f699204011588cf8d52b74",
+    "source_blob": "5aa8ff0b8f87735f9ce09f6674bd493f4b3dddd6",
+    "source_record": "natural",
+    "source_step": 1,
+    "adjustment": "schema and engine_version labels only, following existing C# review fixture adaptation"
+  },
+  "checks": [
+    {
+      "file": "baseline-observed-failure.json",
+      "status": "failed",
+      "assertions": 2,
+      "mode": "review-click-prediction"
+    },
+    {
+      "file": "interaction.json",
+      "status": "passed",
+      "assertions": 20,
+      "mode": "interaction"
+    },
+    {
+      "file": "resume.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "resume"
+    },
+    {
+      "file": "review-click-detail.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-detail"
+    },
+    {
+      "file": "review-click-double.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-double"
+    },
+    {
+      "file": "review-click-escape.json",
+      "status": "passed",
+      "assertions": 8,
+      "mode": "review-click-escape"
+    },
+    {
+      "file": "review-click-focus.json",
+      "status": "passed",
+      "assertions": 8,
+      "mode": "review-click-focus"
+    },
+    {
+      "file": "review-click-hover.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-hover"
+    },
+    {
+      "file": "review-click-keyboard.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-keyboard"
+    },
+    {
+      "file": "review-click-navigation.json",
+      "status": "passed",
+      "assertions": 5,
+      "mode": "review-click-navigation"
+    },
+    {
+      "file": "review-click-no-modal-long.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-no-modal-long"
+    },
+    {
+      "file": "review-click-no-modal.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-no-modal"
+    },
+    {
+      "file": "review-click-outside.json",
+      "status": "passed",
+      "assertions": 8,
+      "mode": "review-click-outside"
+    },
+    {
+      "file": "review-click-prediction-long.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-prediction-long"
+    },
+    {
+      "file": "review-click-prediction.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-prediction"
+    },
+    {
+      "file": "review-click-preview.json",
+      "status": "passed",
+      "assertions": 5,
+      "mode": "review-click-preview"
+    },
+    {
+      "file": "review-click-reenter.json",
+      "status": "passed",
+      "assertions": 7,
+      "mode": "review-click-reenter"
+    },
+    {
+      "file": "review-click-right.json",
+      "status": "passed",
+      "assertions": 8,
+      "mode": "review-click-right"
+    }
+  ],
+  "limits": [
+    "Linux headless Godot nodes and synthetic frame-separated inputs, not OS mouse",
+    "Not Windows 11 physical, formal UI acceptance, distribution, or M1 completion",
+    "Existing xUnit package dependencies absent, .NET aggregate tests not run"
+  ],
+  "runner_final": "15/15 passed, dedicated new slots, shared target-retention test entry compiled",
+  "code_sha256": {
+    "apps/crossweave-godot/Godot/Application/AcceptedSystemFont.cs": "ddd0a875239cb51e15adaf72c12d48f8dbc4c7508981dcaa51e65c6cdf2e7ddc",
+    "apps/crossweave-godot/Godot/Application/AppEntry.cs": "2faeb07eca33174bc748d703d29c6c8e91388ac314518bd91e07c860b1882d34",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedFlow.cs": "ab506d0e9c1485be3bf966eed83910edca42d04be0052c26f2a92c9b01a7815b",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedStyle.cs": "d5e53baba1bb14ee394d4b3931b5111d240eee27bc86244593de4fc455a20401",
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs": "b152134b0fab6324490c30730d9f923c1b05b09f3850f03429442b3d77a0d068",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ButtonInput.cs": "3e5d0f6b8955ed48c5704b9e5ec62bf7629823ee0bfbcd65aeed524d2f7dd266",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Components.cs": "063ccdfe59f2ce3199e3cf6dd8a2b2466d8d012cab08d09260898358d26c4ae4",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs": "1f488391599a7650be4cf4a41fccb363332ea3251b67f61cd47f14e22815bd38",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs": "685e141b4020d739d0cbe9a1009231696c80074ba6303d704dc4dc2730a817ce",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Preparation.cs": "6bf9a69544c3c93606aafcf7ff11650fa6dd769c3359c7cce7427b327530300f",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFigures.cs": "f836f406d64bfd15da9f52dd5545d08be9f9e4e78b6f893c996986bd519836a5",
+    "apps/crossweave-godot/Godot/Application/GameScreen.ReviewFixes.cs": "0ece33a05d0885561c8cad0e3dc8bf7848c313df4e5f5e922c85783952d48b63",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs": "7ba084c3b7279d84b54aceeb8aa30d5d004d1d1ead28389d893140058e7df9bb",
+    "apps/crossweave-godot/Godot/Application/PackageEvidence.cs": "7b94c079a74b874469c3317b0f9d5ff977f5136989a2be9adaa58496e47b1665",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.ClickRegression.cs": "6b768a744c67e1fa8f2bf43b2d50fa05a29a05c44fb4c5acb15130500918c8b0",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.FixedRecheck.cs": "57d5cc098e51a9f399740fe46060dc43c6766ec82040446573e4fe8ce94174e1",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Inheritance.cs": "934570a0713d73652f19b0cbfaaa8740f630bfdbc97a11e913992abddee7c109",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Reproduction.cs": "ff79a05ddaa9a1fed3be72970d5c4fbe18d6cfe96ec66907e93a63f99d99152a",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.Review.cs": "d7e901d2b877890f842e182a117a43c2f572324b595e3f6925fe006d620616a8",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.TargetProbe.cs": "184fa4cbfbad17b358ff15eb30ec1ce3121f49f601ecbbeba2621c776fe0d8c6",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs": "8eda115848c87939bb9ec6e21f5d32176b4c113bf73436d9aa4e6a853c9fddf4",
+    "apps/crossweave-godot/Godot/Application/ViewData.cs": "7fd6f0f10eb28b3797f55d7040545c9507ba0f3082fbdaff8ba656b5fc0adbf6"
+  },
+  "unchanged_core_infrastructure_toolchain": true,
+  "changed_existing_app_source_files": [
+    "apps/crossweave-godot/Godot/Application/GameScreen.AcceptedWindows.cs",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Exploration.cs",
+    "apps/crossweave-godot/Godot/Application/GameScreen.Layout.cs",
+    "apps/crossweave-godot/Godot/Application/GameScreen.cs",
+    "apps/crossweave-godot/Godot/Application/UiAutomation.cs",
+    "apps/crossweave-godot/README.md"
+  ],
+  "source_comparison_note": "Source files compared to the synchronized fixed base; generated bin, obj and .godot paths excluded from this source comparison and from patch."
+}

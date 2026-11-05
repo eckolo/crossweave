@@ -62,7 +62,7 @@ public partial class GameScreen
             FocusMode = FocusModeEnum.All, MouseDefaultCursorShape = CursorShape.PointingHand, ClipText = true };
         // 本文が見える通常ボタンには、原本に無いGodotの標準tooltipを重ねない。
         // 行動順などの追加公開説明は使用先が明示的にTooltipTextを与える。
-        parent.AddChild(button); Controls[id] = button;
+        parent.AddChild(button); Controls[id] = button; RetainButtonThroughRelease(button);
         bool primary=id.StartsWith("取得-")||id.StartsWith("編成-")||id is "depart" or "continue" or "ack" or "review" or "commit" or "play";
         bool explorationButton=Exploring&&!journeyWindowStyle;
         string normalPaper=ColorScope=="cj"?"fcfcf5":Paper;

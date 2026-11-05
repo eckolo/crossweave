@@ -248,14 +248,14 @@ public partial class GameScreen
         if(input is InputEventScreenTouch touch)
         {
             if(touch.Pressed)touchPointers.Add(touch.Index);else touchPointers.Remove(touch.Index);
-            if(touchPointers.Count>1||touch.Canceled){CancelGesture();GetViewport().SetInputAsHandled();return;}
+            if(touchPointers.Count>1||touch.Canceled){CancelGesture();CancelButtonHold();GetViewport().SetInputAsHandled();return;}
         }
         if (input is InputEventKey key && key.Pressed && key.Keycode == Key.Escape)
-        { CancelGesture(); if (!Blocked) CloseModal(); renderNeeded = true; GetViewport().SetInputAsHandled(); return; }
+        { CancelGesture(); CancelButtonHold(); if (!Blocked) CloseModal(); renderNeeded = true; GetViewport().SetInputAsHandled(); return; }
         if (input is InputEventKey full && full.Pressed && full.Keycode == Key.F11)
-        { DisplayServer.WindowSetMode(DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen ? DisplayServer.WindowMode.Windowed : DisplayServer.WindowMode.Fullscreen); CancelGesture(); return; }
+        { DisplayServer.WindowSetMode(DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen ? DisplayServer.WindowMode.Windowed : DisplayServer.WindowMode.Fullscreen); CancelGesture(); CancelButtonHold(); return; }
         if (input is InputEventMouseButton right && right.Pressed && right.ButtonIndex == MouseButton.Right)
-        { CancelGesture(); if (!Blocked) CloseModal(); renderNeeded = true; GetViewport().SetInputAsHandled(); return; }
+        { CancelGesture(); CancelButtonHold(); if (!Blocked) CloseModal(); renderNeeded = true; GetViewport().SetInputAsHandled(); return; }
         if (input is InputEventMouseButton outside && outside.Pressed && Modal is "detail" or "prediction" && Controls.TryGetValue("detail-panel", out var panel) && !panel.GetGlobalRect().HasPoint(outside.Position)
             && !Controls.Any(c=>(c.Value is CardTile||c.Key.StartsWith("actor-")||c.Key.StartsWith("order-")||c.Key=="preview")&&c.Value.GetGlobalRect().HasPoint(outside.Position)))
         { Modal = ""; renderNeeded = true; } // 外クリックは窓を閉じ、隣の札の入力はそのまま通す。
@@ -310,10 +310,11 @@ public partial class GameScreen
     private void SelectHand(JsonObject row)
     {
         selectedCard=row.Text("id");
-        var legal=View.Obj("exploration").Arr("legal_actions").Rows().Where(r=>r.Text("card_id")==selectedCard).ToArray();
-        // 公開された合法対象からだけ選ぶ。別の札へ移っても有効な対象を保持する。
-        if(!legal.Any(r=>r.Text("target")==selectedTarget))
-            selectedTarget=legal.FirstOrDefault(r=>View.Obj("exploration").Obj("actors").Obj(r.Text("target")).Text("purpose")=="passage")?.Text("target")??legal.FirstOrDefault()?.Text("target")??"";
+        // 本作のUI選択対象と、今回の行動が要求するtargetは別の状態として扱う。
+        // 設置・身構・回復はtarget:nullでも、直前の有効な相手は選択したままにする。
+        // ここで対象を空にすると、後段の通路優先処理で利用者の選択を失ってしまう。
+        // 保持と離脱時の選び直しはRefreshAction内のRetainPublicTargetへ一本化し、
+        // 実際に送るtarget:null／相手IDは公開合法候補を選ぶChoiceに任せる。
         RefreshAction();
         if(detailKind=="forecast"&&!actionPreview.Obj("field_after").Any(r=>r.Value.Text("id")==detailId)){Modal="";detailKey="";}
     }
